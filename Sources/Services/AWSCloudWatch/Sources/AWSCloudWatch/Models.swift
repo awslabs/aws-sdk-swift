@@ -98,6 +98,36 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes {
 
+    /// Represents an individual contributor to a multi-timeseries alarm, containing information about a specific time series and its contribution to the alarm's state.
+    public struct AlarmContributor: Swift.Sendable {
+        /// A map of attributes that describe the contributor, such as metric dimensions and other identifying characteristics.
+        /// This member is required.
+        public var contributorAttributes: [Swift.String: Swift.String]?
+        /// The unique identifier for this alarm contributor.
+        /// This member is required.
+        public var contributorId: Swift.String?
+        /// An explanation for the contributor's current state, providing context about why it is in its current condition.
+        /// This member is required.
+        public var stateReason: Swift.String?
+        /// The timestamp when the contributor last transitioned to its current state.
+        public var stateTransitionedTimestamp: Foundation.Date?
+
+        public init(
+            contributorAttributes: [Swift.String: Swift.String]? = nil,
+            contributorId: Swift.String? = nil,
+            stateReason: Swift.String? = nil,
+            stateTransitionedTimestamp: Foundation.Date? = nil
+        ) {
+            self.contributorAttributes = contributorAttributes
+            self.contributorId = contributorId
+            self.stateReason = stateReason
+            self.stateTransitionedTimestamp = stateTransitionedTimestamp
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
     public enum AlarmType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compositealarm
         case metricalarm
@@ -129,6 +159,8 @@ extension CloudWatchClientTypes {
 
     public enum HistoryItemType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case action
+        case alarmcontributoraction
+        case alarmcontributorstateupdate
         case configurationupdate
         case stateupdate
         case sdkUnknown(Swift.String)
@@ -136,6 +168,8 @@ extension CloudWatchClientTypes {
         public static var allCases: [HistoryItemType] {
             return [
                 .action,
+                .alarmcontributoraction,
+                .alarmcontributorstateupdate,
                 .configurationupdate,
                 .stateupdate
             ]
@@ -149,6 +183,8 @@ extension CloudWatchClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .action: return "Action"
+            case .alarmcontributoraction: return "AlarmContributorAction"
+            case .alarmcontributorstateupdate: return "AlarmContributorStateUpdate"
             case .configurationupdate: return "ConfigurationUpdate"
             case .stateupdate: return "StateUpdate"
             case let .sdkUnknown(s): return s
@@ -161,6 +197,10 @@ extension CloudWatchClientTypes {
 
     /// Represents the history of a specific alarm.
     public struct AlarmHistoryItem: Swift.Sendable {
+        /// A map of attributes that describe the alarm contributor associated with this history item, providing context about the contributor's characteristics at the time of the event.
+        public var alarmContributorAttributes: [Swift.String: Swift.String]?
+        /// The unique identifier of the alarm contributor associated with this history item, if applicable.
+        public var alarmContributorId: Swift.String?
         /// The descriptive name for the alarm.
         public var alarmName: Swift.String?
         /// The type of alarm, either metric alarm or composite alarm.
@@ -175,6 +215,8 @@ extension CloudWatchClientTypes {
         public var timestamp: Foundation.Date?
 
         public init(
+            alarmContributorAttributes: [Swift.String: Swift.String]? = nil,
+            alarmContributorId: Swift.String? = nil,
             alarmName: Swift.String? = nil,
             alarmType: CloudWatchClientTypes.AlarmType? = nil,
             historyData: Swift.String? = nil,
@@ -182,6 +224,8 @@ extension CloudWatchClientTypes {
             historySummary: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
         ) {
+            self.alarmContributorAttributes = alarmContributorAttributes
+            self.alarmContributorId = alarmContributorId
             self.alarmName = alarmName
             self.alarmType = alarmType
             self.historyData = historyData
@@ -1311,6 +1355,38 @@ public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
+public struct DescribeAlarmContributorsInput: Swift.Sendable {
+    /// The name of the alarm for which to retrieve contributor information.
+    /// This member is required.
+    public var alarmName: Swift.String?
+    /// The token returned by a previous call to indicate that there is more data available.
+    public var nextToken: Swift.String?
+
+    public init(
+        alarmName: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.alarmName = alarmName
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeAlarmContributorsOutput: Swift.Sendable {
+    /// A list of alarm contributors that provide details about the individual time series contributing to the alarm's state.
+    /// This member is required.
+    public var alarmContributors: [CloudWatchClientTypes.AlarmContributor]?
+    /// The token that marks the start of the next batch of returned results.
+    public var nextToken: Swift.String?
+
+    public init(
+        alarmContributors: [CloudWatchClientTypes.AlarmContributor]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.alarmContributors = alarmContributors
+        self.nextToken = nextToken
+    }
+}
+
 extension CloudWatchClientTypes {
 
     public enum ScanBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -1341,6 +1417,8 @@ extension CloudWatchClientTypes {
 }
 
 public struct DescribeAlarmHistoryInput: Swift.Sendable {
+    /// The unique identifier of a specific alarm contributor to filter the alarm history results.
+    public var alarmContributorId: Swift.String?
     /// The name of the alarm.
     public var alarmName: Swift.String?
     /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned.
@@ -1359,6 +1437,7 @@ public struct DescribeAlarmHistoryInput: Swift.Sendable {
     public var startDate: Foundation.Date?
 
     public init(
+        alarmContributorId: Swift.String? = nil,
         alarmName: Swift.String? = nil,
         alarmTypes: [CloudWatchClientTypes.AlarmType]? = nil,
         endDate: Foundation.Date? = nil,
@@ -1368,6 +1447,7 @@ public struct DescribeAlarmHistoryInput: Swift.Sendable {
         scanBy: CloudWatchClientTypes.ScanBy? = nil,
         startDate: Foundation.Date? = nil
     ) {
+        self.alarmContributorId = alarmContributorId
         self.alarmName = alarmName
         self.alarmTypes = alarmTypes
         self.endDate = endDate
@@ -3230,7 +3310,7 @@ public struct PutDashboardOutput: Swift.Sendable {
 }
 
 public struct PutInsightRuleInput: Swift.Sendable {
-    /// Specify true to have this rule evalute log events after they have been transformed by [Log transformation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html). If you specify true, then the log events in log groups that have transformers will be evaluated by Contributor Insights after being transformed. Log groups that don't have transformers will still have their original log events evaluated by Contributor Insights. The default is false If a log group has a transformer, and transformation fails for some log events, those log events won't be evaluated by Contributor Insights. For information about investigating log transformation failures, see [Transformation metrics and errors](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Transformation-Errors-Metrics.html).
+    /// Specify true to have this rule evaluate log events after they have been transformed by [Log transformation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html). If you specify true, then the log events in log groups that have transformers will be evaluated by Contributor Insights after being transformed. Log groups that don't have transformers will still have their original log events evaluated by Contributor Insights. The default is false If a log group has a transformer, and transformation fails for some log events, those log events won't be evaluated by Contributor Insights. For information about investigating log transformation failures, see [Transformation metrics and errors](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Transformation-Errors-Metrics.html).
     public var applyOnTransformedLogs: Swift.Bool?
     /// The definition of the rule, as a JSON object. For details on the valid syntax, see [Contributor Insights Rule Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights-RuleSyntax.html).
     /// This member is required.
@@ -3834,6 +3914,13 @@ extension DeleteMetricStreamInput {
     }
 }
 
+extension DescribeAlarmContributorsInput {
+
+    static func urlPathProvider(_ value: DescribeAlarmContributorsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeAlarmHistoryInput {
 
     static func urlPathProvider(_ value: DescribeAlarmHistoryInput) -> Swift.String? {
@@ -4120,10 +4207,22 @@ extension DeleteMetricStreamInput {
     }
 }
 
+extension DescribeAlarmContributorsInput {
+
+    static func write(value: DescribeAlarmContributorsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AlarmName"].write(value.alarmName)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeAlarmContributors")
+        try writer["Version"].write("2010-08-01")
+    }
+}
+
 extension DescribeAlarmHistoryInput {
 
     static func write(value: DescribeAlarmHistoryInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AlarmContributorId"].write(value.alarmContributorId)
         try writer["AlarmName"].write(value.alarmName)
         try writer["AlarmTypes"].writeList(value.alarmTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudWatchClientTypes.AlarmType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EndDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -4607,6 +4706,19 @@ extension DeleteMetricStreamOutput {
     }
 }
 
+extension DescribeAlarmContributorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAlarmContributorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DescribeAlarmContributorsResult"]
+        var value = DescribeAlarmContributorsOutput()
+        value.alarmContributors = try reader["AlarmContributors"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.AlarmContributor.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeAlarmHistoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAlarmHistoryOutput {
@@ -5049,6 +5161,21 @@ enum DeleteMetricStreamOutputError {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameter": return try MissingRequiredParameterException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeAlarmContributorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5765,17 +5892,32 @@ extension CloudWatchClientTypes.PartialFailure {
     }
 }
 
+extension CloudWatchClientTypes.AlarmContributor {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.AlarmContributor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.AlarmContributor()
+        value.contributorId = try reader["ContributorId"].readIfPresent() ?? ""
+        value.contributorAttributes = try reader["ContributorAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.stateReason = try reader["StateReason"].readIfPresent() ?? ""
+        value.stateTransitionedTimestamp = try reader["StateTransitionedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension CloudWatchClientTypes.AlarmHistoryItem {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.AlarmHistoryItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchClientTypes.AlarmHistoryItem()
         value.alarmName = try reader["AlarmName"].readIfPresent()
+        value.alarmContributorId = try reader["AlarmContributorId"].readIfPresent()
         value.alarmType = try reader["AlarmType"].readIfPresent()
         value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.historyItemType = try reader["HistoryItemType"].readIfPresent()
         value.historySummary = try reader["HistorySummary"].readIfPresent()
         value.historyData = try reader["HistoryData"].readIfPresent()
+        value.alarmContributorAttributes = try reader["AlarmContributorAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

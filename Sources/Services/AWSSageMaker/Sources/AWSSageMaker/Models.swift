@@ -4880,6 +4880,7 @@ extension SageMakerClientTypes {
         case mlP4d24xlarge
         case mlP5en48xlarge
         case mlP548xlarge
+        case mlP6B20048xlarge
         case mlR512xlarge
         case mlR516xlarge
         case mlR524xlarge
@@ -5046,6 +5047,7 @@ extension SageMakerClientTypes {
                 .mlP4d24xlarge,
                 .mlP5en48xlarge,
                 .mlP548xlarge,
+                .mlP6B20048xlarge,
                 .mlR512xlarge,
                 .mlR516xlarge,
                 .mlR524xlarge,
@@ -5218,6 +5220,7 @@ extension SageMakerClientTypes {
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR512xlarge: return "ml.r5.12xlarge"
             case .mlR516xlarge: return "ml.r5.16xlarge"
             case .mlR524xlarge: return "ml.r5.24xlarge"
@@ -17141,6 +17144,35 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum IPAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IPAddressType] {
+            return [
+                .dualstack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "dualstack"
+            case .ipv4: return "ipv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// A collection of settings that configure the RStudioServerPro Domain-level app.
     public struct RStudioServerProDomainSettings: Swift.Sendable {
         /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
@@ -17240,6 +17272,8 @@ extension SageMakerClientTypes {
         public var dockerSettings: SageMakerClientTypes.DockerSettings?
         /// The configuration for attaching a SageMaker AI user profile name to the execution role as a [sts:SourceIdentity key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html).
         public var executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig?
+        /// The IP address type for the domain. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. When you specify dualstack, the subnet must support IPv6 CIDR blocks. If not specified, defaults to ipv4.
+        public var ipAddressType: SageMakerClientTypes.IPAddressType?
         /// A collection of settings that configure the RStudioServerPro Domain-level app.
         public var rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings?
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
@@ -17253,6 +17287,7 @@ extension SageMakerClientTypes {
             amazonQSettings: SageMakerClientTypes.AmazonQSettings? = nil,
             dockerSettings: SageMakerClientTypes.DockerSettings? = nil,
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
+            ipAddressType: SageMakerClientTypes.IPAddressType? = nil,
             rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings? = nil,
             securityGroupIds: [Swift.String]? = nil,
             trustedIdentityPropagationSettings: SageMakerClientTypes.TrustedIdentityPropagationSettings? = nil,
@@ -17261,6 +17296,7 @@ extension SageMakerClientTypes {
             self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
+            self.ipAddressType = ipAddressType
             self.rStudioServerProDomainSettings = rStudioServerProDomainSettings
             self.securityGroupIds = securityGroupIds
             self.trustedIdentityPropagationSettings = trustedIdentityPropagationSettings
@@ -24740,35 +24776,6 @@ extension SageMakerClientTypes {
             minimumInstanceMetadataServiceVersion: Swift.String? = nil
         ) {
             self.minimumInstanceMetadataServiceVersion = minimumInstanceMetadataServiceVersion
-        }
-    }
-}
-
-extension SageMakerClientTypes {
-
-    public enum IPAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case dualstack
-        case ipv4
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [IPAddressType] {
-            return [
-                .dualstack,
-                .ipv4
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .dualstack: return "dualstack"
-            case .ipv4: return "ipv4"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -39367,6 +39374,8 @@ extension SageMakerClientTypes {
         public var dockerSettings: SageMakerClientTypes.DockerSettings?
         /// The configuration for attaching a SageMaker AI user profile name to the execution role as a [sts:SourceIdentity key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html). This configuration can only be modified if there are no apps in the InService or Pending state.
         public var executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig?
+        /// The IP address type for the domain. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. When you specify dualstack, the subnet must support IPv6 CIDR blocks.
+        public var ipAddressType: SageMakerClientTypes.IPAddressType?
         /// A collection of RStudioServerPro Domain-level app settings to update. A single RStudioServerPro application is created for a domain.
         public var rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate?
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
@@ -39380,6 +39389,7 @@ extension SageMakerClientTypes {
             amazonQSettings: SageMakerClientTypes.AmazonQSettings? = nil,
             dockerSettings: SageMakerClientTypes.DockerSettings? = nil,
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
+            ipAddressType: SageMakerClientTypes.IPAddressType? = nil,
             rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate? = nil,
             securityGroupIds: [Swift.String]? = nil,
             trustedIdentityPropagationSettings: SageMakerClientTypes.TrustedIdentityPropagationSettings? = nil,
@@ -39388,6 +39398,7 @@ extension SageMakerClientTypes {
             self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
+            self.ipAddressType = ipAddressType
             self.rStudioServerProDomainSettingsForUpdate = rStudioServerProDomainSettingsForUpdate
             self.securityGroupIds = securityGroupIds
             self.trustedIdentityPropagationSettings = trustedIdentityPropagationSettings
@@ -75754,6 +75765,7 @@ extension SageMakerClientTypes.DomainSettings {
         try writer["AmazonQSettings"].write(value.amazonQSettings, with: SageMakerClientTypes.AmazonQSettings.write(value:to:))
         try writer["DockerSettings"].write(value.dockerSettings, with: SageMakerClientTypes.DockerSettings.write(value:to:))
         try writer["ExecutionRoleIdentityConfig"].write(value.executionRoleIdentityConfig)
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["RStudioServerProDomainSettings"].write(value.rStudioServerProDomainSettings, with: SageMakerClientTypes.RStudioServerProDomainSettings.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TrustedIdentityPropagationSettings"].write(value.trustedIdentityPropagationSettings, with: SageMakerClientTypes.TrustedIdentityPropagationSettings.write(value:to:))
@@ -75770,6 +75782,7 @@ extension SageMakerClientTypes.DomainSettings {
         value.dockerSettings = try reader["DockerSettings"].readIfPresent(with: SageMakerClientTypes.DockerSettings.read(from:))
         value.amazonQSettings = try reader["AmazonQSettings"].readIfPresent(with: SageMakerClientTypes.AmazonQSettings.read(from:))
         value.unifiedStudioSettings = try reader["UnifiedStudioSettings"].readIfPresent(with: SageMakerClientTypes.UnifiedStudioSettings.read(from:))
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         return value
     }
 }
@@ -83690,6 +83703,7 @@ extension SageMakerClientTypes.DomainSettingsForUpdate {
         try writer["AmazonQSettings"].write(value.amazonQSettings, with: SageMakerClientTypes.AmazonQSettings.write(value:to:))
         try writer["DockerSettings"].write(value.dockerSettings, with: SageMakerClientTypes.DockerSettings.write(value:to:))
         try writer["ExecutionRoleIdentityConfig"].write(value.executionRoleIdentityConfig)
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["RStudioServerProDomainSettingsForUpdate"].write(value.rStudioServerProDomainSettingsForUpdate, with: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TrustedIdentityPropagationSettings"].write(value.trustedIdentityPropagationSettings, with: SageMakerClientTypes.TrustedIdentityPropagationSettings.write(value:to:))

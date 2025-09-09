@@ -47,6 +47,11 @@ public struct DeleteEnvironmentActionOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteEnvironmentBlueprintOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteEnvironmentOutput: Swift.Sendable {
 
     public init() { }
@@ -7698,6 +7703,8 @@ extension DataZoneClientTypes {
         public var isEditable: Swift.Bool?
         /// Specifies whether the custom parameter is optional.
         public var isOptional: Swift.Bool?
+        /// Specifies whether a parameter value can be updated after creation.
+        public var isUpdateSupported: Swift.Bool?
         /// The key name of the parameter.
         /// This member is required.
         public var keyName: Swift.String?
@@ -7708,6 +7715,7 @@ extension DataZoneClientTypes {
             fieldType: Swift.String? = nil,
             isEditable: Swift.Bool? = nil,
             isOptional: Swift.Bool? = nil,
+            isUpdateSupported: Swift.Bool? = nil,
             keyName: Swift.String? = nil
         ) {
             self.defaultValue = defaultValue
@@ -7715,6 +7723,7 @@ extension DataZoneClientTypes {
             self.fieldType = fieldType
             self.isEditable = isEditable
             self.isOptional = isOptional
+            self.isUpdateSupported = isUpdateSupported
             self.keyName = keyName
         }
     }
@@ -7722,7 +7731,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.CustomParameter: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CustomParameter(defaultValue: \(Swift.String(describing: defaultValue)), fieldType: \(Swift.String(describing: fieldType)), isEditable: \(Swift.String(describing: isEditable)), isOptional: \(Swift.String(describing: isOptional)), keyName: \(Swift.String(describing: keyName)), description: \"CONTENT_REDACTED\")"}
+        "CustomParameter(defaultValue: \(Swift.String(describing: defaultValue)), fieldType: \(Swift.String(describing: fieldType)), isEditable: \(Swift.String(describing: isEditable)), isOptional: \(Swift.String(describing: isOptional)), isUpdateSupported: \(Swift.String(describing: isUpdateSupported)), keyName: \(Swift.String(describing: keyName)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateEnvironmentOutput: Swift.Sendable {
@@ -7895,6 +7904,97 @@ public struct CreateEnvironmentActionOutput: Swift.Sendable {
         self.name = name
         self.parameters = parameters
     }
+}
+
+public struct CreateEnvironmentBlueprintInput: Swift.Sendable {
+    /// The description of the Amazon DataZone blueprint.
+    public var description: Swift.String?
+    /// The identifier of the domain in which this blueprint is created.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The name of this Amazon DataZone blueprint.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The provisioning properties of this Amazon DataZone blueprint.
+    /// This member is required.
+    public var provisioningProperties: DataZoneClientTypes.ProvisioningProperties?
+    /// The user parameters of this Amazon DataZone blueprint.
+    public var userParameters: [DataZoneClientTypes.CustomParameter]?
+
+    public init(
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        provisioningProperties: DataZoneClientTypes.ProvisioningProperties? = nil,
+        userParameters: [DataZoneClientTypes.CustomParameter]? = nil
+    ) {
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.name = name
+        self.provisioningProperties = provisioningProperties
+        self.userParameters = userParameters
+    }
+}
+
+extension CreateEnvironmentBlueprintInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateEnvironmentBlueprintInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), name: \(Swift.String(describing: name)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateEnvironmentBlueprintOutput: Swift.Sendable {
+    /// The timestamp at which the environment blueprint was created.
+    public var createdAt: Foundation.Date?
+    /// The deployment properties of this Amazon DataZone blueprint.
+    public var deploymentProperties: DataZoneClientTypes.DeploymentProperties?
+    /// The description of this Amazon DataZone blueprint.
+    public var description: Swift.String?
+    /// The glossary terms attached to this Amazon DataZone blueprint.
+    public var glossaryTerms: [Swift.String]?
+    /// The ID of this Amazon DataZone blueprint.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of this Amazon DataZone blueprint.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The provider of this Amazon DataZone blueprint.
+    /// This member is required.
+    public var provider: Swift.String?
+    /// The provisioning properties of this Amazon DataZone blueprint.
+    /// This member is required.
+    public var provisioningProperties: DataZoneClientTypes.ProvisioningProperties?
+    /// The timestamp of when this blueprint was updated.
+    public var updatedAt: Foundation.Date?
+    /// The user parameters of this Amazon DataZone blueprint.
+    public var userParameters: [DataZoneClientTypes.CustomParameter]?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        deploymentProperties: DataZoneClientTypes.DeploymentProperties? = nil,
+        description: Swift.String? = nil,
+        glossaryTerms: [Swift.String]? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        provider: Swift.String? = nil,
+        provisioningProperties: DataZoneClientTypes.ProvisioningProperties? = nil,
+        updatedAt: Foundation.Date? = nil,
+        userParameters: [DataZoneClientTypes.CustomParameter]? = nil
+    ) {
+        self.createdAt = createdAt
+        self.deploymentProperties = deploymentProperties
+        self.description = description
+        self.glossaryTerms = glossaryTerms
+        self.id = id
+        self.name = name
+        self.provider = provider
+        self.provisioningProperties = provisioningProperties
+        self.updatedAt = updatedAt
+        self.userParameters = userParameters
+    }
+}
+
+extension CreateEnvironmentBlueprintOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateEnvironmentBlueprintOutput(createdAt: \(Swift.String(describing: createdAt)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), provider: \(Swift.String(describing: provider)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateEnvironmentProfileInput: Swift.Sendable {
@@ -12141,6 +12241,23 @@ public struct DeleteEnvironmentActionInput: Swift.Sendable {
     }
 }
 
+public struct DeleteEnvironmentBlueprintInput: Swift.Sendable {
+    /// The ID of the Amazon DataZone domain in which the blueprint is deleted.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the blueprint that is deleted.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
 public struct DeleteEnvironmentProfileInput: Swift.Sendable {
     /// The ID of the Amazon DataZone domain in which the environment profile is deleted.
     /// This member is required.
@@ -13220,6 +13337,8 @@ public struct PutEnvironmentBlueprintConfigurationInput: Swift.Sendable {
     public var environmentBlueprintIdentifier: Swift.String?
     /// The environment role permissions boundary.
     public var environmentRolePermissionBoundary: Swift.String?
+    /// Region-agnostic environment blueprint parameters.
+    public var globalParameters: [Swift.String: Swift.String]?
     /// The ARN of the manage access role.
     public var manageAccessRoleArn: Swift.String?
     /// The provisioning configuration of a blueprint.
@@ -13234,6 +13353,7 @@ public struct PutEnvironmentBlueprintConfigurationInput: Swift.Sendable {
         enabledRegions: [Swift.String]? = nil,
         environmentBlueprintIdentifier: Swift.String? = nil,
         environmentRolePermissionBoundary: Swift.String? = nil,
+        globalParameters: [Swift.String: Swift.String]? = nil,
         manageAccessRoleArn: Swift.String? = nil,
         provisioningConfigurations: [DataZoneClientTypes.ProvisioningConfiguration]? = nil,
         provisioningRoleArn: Swift.String? = nil,
@@ -13243,6 +13363,7 @@ public struct PutEnvironmentBlueprintConfigurationInput: Swift.Sendable {
         self.enabledRegions = enabledRegions
         self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
         self.environmentRolePermissionBoundary = environmentRolePermissionBoundary
+        self.globalParameters = globalParameters
         self.manageAccessRoleArn = manageAccessRoleArn
         self.provisioningConfigurations = provisioningConfigurations
         self.provisioningRoleArn = provisioningRoleArn
@@ -17871,7 +17992,7 @@ extension DataZoneClientTypes {
         /// The identifier of the target of the subscription grant.
         /// This member is required.
         public var subscriptionTargetId: Swift.String?
-        /// The timestampf of when the subscription grant was updated.
+        /// The timestamp of when the subscription grant was updated.
         /// This member is required.
         public var updatedAt: Foundation.Date?
         /// The Amazon DataZone user who updated the subscription grant.
@@ -20896,6 +21017,91 @@ public struct UpdateEnvironmentActionOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateEnvironmentBlueprintInput: Swift.Sendable {
+    /// The description to be updated as part of the UpdateEnvironmentBlueprint action.
+    public var description: Swift.String?
+    /// The identifier of the Amazon DataZone domain in which an environment blueprint is to be updated.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The identifier of the environment blueprint to be updated.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The provisioning properties to be updated as part of the UpdateEnvironmentBlueprint action.
+    public var provisioningProperties: DataZoneClientTypes.ProvisioningProperties?
+    /// The user parameters to be updated as part of the UpdateEnvironmentBlueprint action.
+    public var userParameters: [DataZoneClientTypes.CustomParameter]?
+
+    public init(
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        provisioningProperties: DataZoneClientTypes.ProvisioningProperties? = nil,
+        userParameters: [DataZoneClientTypes.CustomParameter]? = nil
+    ) {
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+        self.provisioningProperties = provisioningProperties
+        self.userParameters = userParameters
+    }
+}
+
+public struct UpdateEnvironmentBlueprintOutput: Swift.Sendable {
+    /// The timestamp of when the environment blueprint was created.
+    public var createdAt: Foundation.Date?
+    /// The deployment properties to be updated as part of the UpdateEnvironmentBlueprint action.
+    public var deploymentProperties: DataZoneClientTypes.DeploymentProperties?
+    /// The description to be updated as part of the UpdateEnvironmentBlueprint action.
+    public var description: Swift.String?
+    /// The glossary terms to be updated as part of the UpdateEnvironmentBlueprint action.
+    public var glossaryTerms: [Swift.String]?
+    /// The identifier of the blueprint to be updated.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name to be updated as part of the UpdateEnvironmentBlueprint action.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The provider of the blueprint to be udpated.
+    /// This member is required.
+    public var provider: Swift.String?
+    /// The provisioning properties to be updated as part of the UpdateEnvironmentBlueprint action.
+    /// This member is required.
+    public var provisioningProperties: DataZoneClientTypes.ProvisioningProperties?
+    /// The timestamp of when the blueprint was updated.
+    public var updatedAt: Foundation.Date?
+    /// The user parameters to be updated as part of the UpdateEnvironmentBlueprint action.
+    public var userParameters: [DataZoneClientTypes.CustomParameter]?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        deploymentProperties: DataZoneClientTypes.DeploymentProperties? = nil,
+        description: Swift.String? = nil,
+        glossaryTerms: [Swift.String]? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        provider: Swift.String? = nil,
+        provisioningProperties: DataZoneClientTypes.ProvisioningProperties? = nil,
+        updatedAt: Foundation.Date? = nil,
+        userParameters: [DataZoneClientTypes.CustomParameter]? = nil
+    ) {
+        self.createdAt = createdAt
+        self.deploymentProperties = deploymentProperties
+        self.description = description
+        self.glossaryTerms = glossaryTerms
+        self.id = id
+        self.name = name
+        self.provider = provider
+        self.provisioningProperties = provisioningProperties
+        self.updatedAt = updatedAt
+        self.userParameters = userParameters
+    }
+}
+
+extension UpdateEnvironmentBlueprintOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateEnvironmentBlueprintOutput(createdAt: \(Swift.String(describing: createdAt)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), provider: \(Swift.String(describing: provider)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\")"}
+}
+
 public struct UpdateEnvironmentProfileInput: Swift.Sendable {
     /// The Amazon Web Services account in which a specified environment profile is to be udpated.
     public var awsAccountId: Swift.String?
@@ -22388,6 +22594,16 @@ extension CreateEnvironmentActionInput {
     }
 }
 
+extension CreateEnvironmentBlueprintInput {
+
+    static func urlPathProvider(_ value: CreateEnvironmentBlueprintInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/environment-blueprints"
+    }
+}
+
 extension CreateEnvironmentProfileInput {
 
     static func urlPathProvider(_ value: CreateEnvironmentProfileInput) -> Swift.String? {
@@ -22709,6 +22925,19 @@ extension DeleteEnvironmentActionInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/environments/\(environmentIdentifier.urlPercentEncoding())/actions/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteEnvironmentBlueprintInput {
+
+    static func urlPathProvider(_ value: DeleteEnvironmentBlueprintInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/environment-blueprints/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -25193,6 +25422,19 @@ extension UpdateEnvironmentActionInput {
     }
 }
 
+extension UpdateEnvironmentBlueprintInput {
+
+    static func urlPathProvider(_ value: UpdateEnvironmentBlueprintInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/environment-blueprints/\(identifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateEnvironmentProfileInput {
 
     static func urlPathProvider(_ value: UpdateEnvironmentProfileInput) -> Swift.String? {
@@ -25568,6 +25810,17 @@ extension CreateEnvironmentActionInput {
     }
 }
 
+extension CreateEnvironmentBlueprintInput {
+
+    static func write(value: CreateEnvironmentBlueprintInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["provisioningProperties"].write(value.provisioningProperties, with: DataZoneClientTypes.ProvisioningProperties.write(value:to:))
+        try writer["userParameters"].writeList(value.userParameters, memberWritingClosure: DataZoneClientTypes.CustomParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateEnvironmentProfileInput {
 
     static func write(value: CreateEnvironmentProfileInput?, to writer: SmithyJSON.Writer) throws {
@@ -25778,6 +26031,7 @@ extension PutEnvironmentBlueprintConfigurationInput {
         guard let value else { return }
         try writer["enabledRegions"].writeList(value.enabledRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["environmentRolePermissionBoundary"].write(value.environmentRolePermissionBoundary)
+        try writer["globalParameters"].writeMap(value.globalParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["manageAccessRoleArn"].write(value.manageAccessRoleArn)
         try writer["provisioningConfigurations"].writeList(value.provisioningConfigurations, memberWritingClosure: DataZoneClientTypes.ProvisioningConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["provisioningRoleArn"].write(value.provisioningRoleArn)
@@ -26013,6 +26267,16 @@ extension UpdateEnvironmentActionInput {
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["parameters"].write(value.parameters, with: DataZoneClientTypes.ActionParameters.write(value:to:))
+    }
+}
+
+extension UpdateEnvironmentBlueprintInput {
+
+    static func write(value: UpdateEnvironmentBlueprintInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["provisioningProperties"].write(value.provisioningProperties, with: DataZoneClientTypes.ProvisioningProperties.write(value:to:))
+        try writer["userParameters"].writeList(value.userParameters, memberWritingClosure: DataZoneClientTypes.CustomParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -26565,6 +26829,27 @@ extension CreateEnvironmentActionOutput {
     }
 }
 
+extension CreateEnvironmentBlueprintOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEnvironmentBlueprintOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateEnvironmentBlueprintOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.deploymentProperties = try reader["deploymentProperties"].readIfPresent(with: DataZoneClientTypes.DeploymentProperties.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? ""
+        value.provisioningProperties = try reader["provisioningProperties"].readIfPresent(with: DataZoneClientTypes.ProvisioningProperties.read(from:))
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.userParameters = try reader["userParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CustomParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension CreateEnvironmentProfileOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEnvironmentProfileOutput {
@@ -26947,6 +27232,13 @@ extension DeleteEnvironmentActionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEnvironmentActionOutput {
         return DeleteEnvironmentActionOutput()
+    }
+}
+
+extension DeleteEnvironmentBlueprintOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEnvironmentBlueprintOutput {
+        return DeleteEnvironmentBlueprintOutput()
     }
 }
 
@@ -28743,6 +29035,27 @@ extension UpdateEnvironmentActionOutput {
     }
 }
 
+extension UpdateEnvironmentBlueprintOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEnvironmentBlueprintOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateEnvironmentBlueprintOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.deploymentProperties = try reader["deploymentProperties"].readIfPresent(with: DataZoneClientTypes.DeploymentProperties.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? ""
+        value.provisioningProperties = try reader["provisioningProperties"].readIfPresent(with: DataZoneClientTypes.ProvisioningProperties.read(from:))
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.userParameters = try reader["userParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CustomParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension UpdateEnvironmentProfileOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEnvironmentProfileOutput {
@@ -29415,6 +29728,27 @@ enum CreateEnvironmentActionOutputError {
     }
 }
 
+enum CreateEnvironmentBlueprintOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateEnvironmentProfileOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -29894,6 +30228,26 @@ enum DeleteEnvironmentOutputError {
 }
 
 enum DeleteEnvironmentActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteEnvironmentBlueprintOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -32001,6 +32355,27 @@ enum UpdateEnvironmentActionOutputError {
     }
 }
 
+enum UpdateEnvironmentBlueprintOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateEnvironmentProfileOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33711,6 +34086,17 @@ extension DataZoneClientTypes.ConfigurableActionParameter {
 
 extension DataZoneClientTypes.CustomParameter {
 
+    static func write(value: DataZoneClientTypes.CustomParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultValue"].write(value.defaultValue)
+        try writer["description"].write(value.description)
+        try writer["fieldType"].write(value.fieldType)
+        try writer["isEditable"].write(value.isEditable)
+        try writer["isOptional"].write(value.isOptional)
+        try writer["isUpdateSupported"].write(value.isUpdateSupported)
+        try writer["keyName"].write(value.keyName)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CustomParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.CustomParameter()
@@ -33720,6 +34106,7 @@ extension DataZoneClientTypes.CustomParameter {
         value.defaultValue = try reader["defaultValue"].readIfPresent()
         value.isEditable = try reader["isEditable"].readIfPresent()
         value.isOptional = try reader["isOptional"].readIfPresent()
+        value.isUpdateSupported = try reader["isUpdateSupported"].readIfPresent()
         return value
     }
 }
@@ -33758,6 +34145,16 @@ extension DataZoneClientTypes.EnvironmentError {
 
 extension DataZoneClientTypes.ProvisioningProperties {
 
+    static func write(value: DataZoneClientTypes.ProvisioningProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cloudformation(cloudformation):
+                try writer["cloudFormation"].write(cloudformation, with: DataZoneClientTypes.CloudFormationProperties.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProvisioningProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
@@ -33771,6 +34168,11 @@ extension DataZoneClientTypes.ProvisioningProperties {
 }
 
 extension DataZoneClientTypes.CloudFormationProperties {
+
+    static func write(value: DataZoneClientTypes.CloudFormationProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["templateUrl"].write(value.templateUrl)
+    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CloudFormationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

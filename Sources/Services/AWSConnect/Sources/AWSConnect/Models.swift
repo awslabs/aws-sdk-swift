@@ -5344,6 +5344,21 @@ public struct CreatePersistentContactAssociationOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Amazon Connect admin website.
+    public struct InputPredefinedAttributeConfiguration: Swift.Sendable {
+        /// When this parameter is set to true, Amazon Connect enforces strict validation on the specific values, if the values are predefined in attributes. The contact will store only valid and predefined values for the predefined attribute key.
+        public var enableValueValidationOnAssociation: Swift.Bool
+
+        public init(
+            enableValueValidationOnAssociation: Swift.Bool = false
+        ) {
+            self.enableValueValidationOnAssociation = enableValueValidationOnAssociation
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information about values of a predefined attribute.
     public enum PredefinedAttributeValues: Swift.Sendable {
         /// Predefined attribute values of type string list.
@@ -5353,23 +5368,30 @@ extension ConnectClientTypes {
 }
 
 public struct CreatePredefinedAttributeInput: Swift.Sendable {
+    /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Amazon Connect admin website.
+    public var attributeConfiguration: ConnectClientTypes.InputPredefinedAttributeConfiguration?
     /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the predefined attribute.
     /// This member is required.
     public var name: Swift.String?
+    /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Amazon Connect admin website.
+    public var purposes: [Swift.String]?
     /// The values of the predefined attribute.
-    /// This member is required.
     public var values: ConnectClientTypes.PredefinedAttributeValues?
 
     public init(
+        attributeConfiguration: ConnectClientTypes.InputPredefinedAttributeConfiguration? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
+        purposes: [Swift.String]? = nil,
         values: ConnectClientTypes.PredefinedAttributeValues? = nil
     ) {
+        self.attributeConfiguration = attributeConfiguration
         self.instanceId = instanceId
         self.name = name
+        self.purposes = purposes
         self.values = values
     }
 }
@@ -11289,26 +11311,53 @@ public struct DescribePredefinedAttributeInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Amazon Connect admin website.
+    public struct PredefinedAttributeConfiguration: Swift.Sendable {
+        /// When this parameter is set to true, Amazon Connect enforces strict validation on the specific values, if the values are predefined in attributes. The contact will store only valid and predefined values for teh predefined attribute key.
+        public var enableValueValidationOnAssociation: Swift.Bool
+        /// A boolean flag used to indicate whether a predefined attribute should be displayed in the Amazon Connect admin website.
+        public var isReadOnly: Swift.Bool
+
+        public init(
+            enableValueValidationOnAssociation: Swift.Bool = false,
+            isReadOnly: Swift.Bool = false
+        ) {
+            self.enableValueValidationOnAssociation = enableValueValidationOnAssociation
+            self.isReadOnly = isReadOnly
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information about a predefined attribute.
     public struct PredefinedAttribute: Swift.Sendable {
+        /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Amazon Connect admin website.
+        public var attributeConfiguration: ConnectClientTypes.PredefinedAttributeConfiguration?
         /// Last modified region.
         public var lastModifiedRegion: Swift.String?
         /// Last modified time.
         public var lastModifiedTime: Foundation.Date?
         /// The name of the predefined attribute.
         public var name: Swift.String?
+        /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Amazon Connect admin website.
+        public var purposes: [Swift.String]?
         /// The values of the predefined attribute.
         public var values: ConnectClientTypes.PredefinedAttributeValues?
 
         public init(
+            attributeConfiguration: ConnectClientTypes.PredefinedAttributeConfiguration? = nil,
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            purposes: [Swift.String]? = nil,
             values: ConnectClientTypes.PredefinedAttributeValues? = nil
         ) {
+            self.attributeConfiguration = attributeConfiguration
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
+            self.purposes = purposes
             self.values = values
         }
     }
@@ -19661,6 +19710,11 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConnectClientTypes.ContactSearchSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ContactSearchSummary(agentInfo: \(Swift.String(describing: agentInfo)), arn: \(Swift.String(describing: arn)), channel: \(Swift.String(describing: channel)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), queueInfo: \(Swift.String(describing: queueInfo)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \"CONTENT_REDACTED\")"}
+}
+
 public struct SearchContactsOutput: Swift.Sendable {
     /// Information about the contacts.
     /// This member is required.
@@ -23455,22 +23509,30 @@ public struct UpdatePhoneNumberMetadataInput: Swift.Sendable {
 }
 
 public struct UpdatePredefinedAttributeInput: Swift.Sendable {
+    /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Amazon Connect admin website.
+    public var attributeConfiguration: ConnectClientTypes.InputPredefinedAttributeConfiguration?
     /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the predefined attribute.
     /// This member is required.
     public var name: Swift.String?
+    /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Amazon Connect admin website.
+    public var purposes: [Swift.String]?
     /// The values of the predefined attribute.
     public var values: ConnectClientTypes.PredefinedAttributeValues?
 
     public init(
+        attributeConfiguration: ConnectClientTypes.InputPredefinedAttributeConfiguration? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
+        purposes: [Swift.String]? = nil,
         values: ConnectClientTypes.PredefinedAttributeValues? = nil
     ) {
+        self.attributeConfiguration = attributeConfiguration
         self.instanceId = instanceId
         self.name = name
+        self.purposes = purposes
         self.values = values
     }
 }
@@ -24324,29 +24386,6 @@ public struct UpdateViewMetadataOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string.
-    public struct SegmentAttributeValue: Swift.Sendable {
-        /// The value of a segment attribute.
-        public var valueInteger: Swift.Int?
-        /// The value of a segment attribute.
-        public var valueMap: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-        /// The value of a segment attribute.
-        public var valueString: Swift.String?
-
-        public init(
-            valueInteger: Swift.Int? = nil,
-            valueMap: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
-            valueString: Swift.String? = nil
-        ) {
-            self.valueInteger = valueInteger
-            self.valueMap = valueMap
-            self.valueString = valueString
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
     /// Information about an item from an evaluation form. The item must be either a section or a question.
     public indirect enum EvaluationFormItem: Swift.Sendable {
         /// The information of the section.
@@ -24846,6 +24885,37 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string.
+    public struct SegmentAttributeValue: Swift.Sendable {
+        /// The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes.
+        public var valueArn: Swift.String?
+        /// The value of a segment attribute.
+        public var valueInteger: Swift.Int?
+        /// The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes.
+        public var valueList: [ConnectClientTypes.SegmentAttributeValue]?
+        /// The value of a segment attribute.
+        public var valueMap: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+        /// The value of a segment attribute.
+        public var valueString: Swift.String?
+
+        public init(
+            valueArn: Swift.String? = nil,
+            valueInteger: Swift.Int? = nil,
+            valueList: [ConnectClientTypes.SegmentAttributeValue]? = nil,
+            valueMap: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+            valueString: Swift.String? = nil
+        ) {
+            self.valueArn = valueArn
+            self.valueInteger = valueInteger
+            self.valueList = valueList
+            self.valueMap = valueMap
+            self.valueString = valueString
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// The search criteria to be used to return userHierarchyGroup.
     public struct UserHierarchyGroupSearchCriteria: Swift.Sendable {
         /// A list of conditions which would be applied together with an AND condition.
@@ -24898,86 +24968,6 @@ extension ConnectClientTypes {
     }
 }
 
-public struct CreateContactInput: Swift.Sendable {
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
-    public var attributes: [Swift.String: Swift.String]?
-    /// The channel for the contact. The CHAT channel is not supported. The following information is incorrect. We're working to correct it.
-    /// This member is required.
-    public var channel: ConnectClientTypes.Channel?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
-    public var clientToken: Swift.String?
-    /// A description of the contact.
-    public var description: Swift.String?
-    /// Number of minutes the contact will be active for before expiring
-    public var expiryDurationInMinutes: Swift.Int?
-    /// Initial state of the contact when it's created. Only TASK channel contacts can be initiated with COMPLETED state.
-    public var initiateAs: ConnectClientTypes.InitiateAs?
-    /// Indicates how the contact was initiated. CreateContact only supports the following initiation methods. Valid values by channel are:
-    ///
-    /// * For VOICE: TRANSFER and the subtype connect:ExternalAudio
-    ///
-    /// * For EMAIL: OUTBOUND | AGENT_REPLY | FLOW
-    ///
-    /// * For TASK: API
-    ///
-    ///
-    /// The other channels listed below are incorrect. We're working to correct this information.
-    /// This member is required.
-    public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// The name of a the contact.
-    public var name: Swift.String?
-    /// The ID of the previous contact when creating a transfer contact. This value can be provided only for external audio contacts. For more information, see [Integrate Amazon Connect Contact Lens with external voice systems](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
-    public var previousContactId: Swift.String?
-    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL | ATTACHMENT.
-    public var references: [Swift.String: ConnectClientTypes.Reference]?
-    /// The identifier of the contact in this instance of Amazon Connect.
-    public var relatedContactId: Swift.String?
-    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.
-    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-    /// User details for the contact UserInfo is required when creating an EMAIL contact with OUTBOUND and AGENT_REPLY contact initiation methods.
-    public var userInfo: ConnectClientTypes.UserInfo?
-
-    public init(
-        attributes: [Swift.String: Swift.String]? = nil,
-        channel: ConnectClientTypes.Channel? = nil,
-        clientToken: Swift.String? = nil,
-        description: Swift.String? = nil,
-        expiryDurationInMinutes: Swift.Int? = nil,
-        initiateAs: ConnectClientTypes.InitiateAs? = nil,
-        initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
-        instanceId: Swift.String? = nil,
-        name: Swift.String? = nil,
-        previousContactId: Swift.String? = nil,
-        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
-        relatedContactId: Swift.String? = nil,
-        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
-        userInfo: ConnectClientTypes.UserInfo? = nil
-    ) {
-        self.attributes = attributes
-        self.channel = channel
-        self.clientToken = clientToken
-        self.description = description
-        self.expiryDurationInMinutes = expiryDurationInMinutes
-        self.initiateAs = initiateAs
-        self.initiationMethod = initiationMethod
-        self.instanceId = instanceId
-        self.name = name
-        self.previousContactId = previousContactId
-        self.references = references
-        self.relatedContactId = relatedContactId
-        self.segmentAttributes = segmentAttributes
-        self.userInfo = userInfo
-    }
-}
-
-extension CreateContactInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateContactInput(attributes: \(Swift.String(describing: attributes)), channel: \(Swift.String(describing: channel)), clientToken: \(Swift.String(describing: clientToken)), expiryDurationInMinutes: \(Swift.String(describing: expiryDurationInMinutes)), initiateAs: \(Swift.String(describing: initiateAs)), initiationMethod: \(Swift.String(describing: initiationMethod)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), userInfo: \(Swift.String(describing: userInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
-}
-
 public struct CreateEvaluationFormInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
@@ -25010,344 +25000,6 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
         self.scoringStrategy = scoringStrategy
         self.title = title
     }
-}
-
-public struct StartChatContactInput: Swift.Sendable {
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
-    public var attributes: [Swift.String: Swift.String]?
-    /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
-    public var chatDurationInMinutes: Swift.Int?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
-    public var clientToken: Swift.String?
-    /// The identifier of the flow for initiating the chat. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
-    /// This member is required.
-    public var contactFlowId: Swift.String?
-    /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
-    public var customerId: Swift.String?
-    /// The initial message to be sent to the newly created chat.
-    public var initialMessage: ConnectClientTypes.ChatMessage?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// Information identifying the participant.
-    /// This member is required.
-    public var participantDetails: ConnectClientTypes.ParticipantDetails?
-    /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
-    public var persistentChat: ConnectClientTypes.PersistentChat?
-    /// The unique identifier for an Amazon Connect contact. This identifier is related to the chat starting. You cannot provide data for both RelatedContactId and PersistentChat.
-    public var relatedContactId: Swift.String?
-    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. The types application/vnd.amazonaws.connect.message.interactive and application/vnd.amazonaws.connect.message.interactive.response must be present in the SupportedMessagingContentTypes field of this API in order to set SegmentAttributes as { "connect:Subtype": {"valueString" : "connect:Guide" }}.
-    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-    /// The supported chat message content types. Supported types are text/plain, text/markdown, application/json, application/vnd.amazonaws.connect.message.interactive, and application/vnd.amazonaws.connect.message.interactive.response. Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain: [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]. The type application/vnd.amazonaws.connect.message.interactive is required to use the [Show view](https://docs.aws.amazon.com/connect/latest/adminguide/show-view-block.html) flow block.
-    public var supportedMessagingContentTypes: [Swift.String]?
-
-    public init(
-        attributes: [Swift.String: Swift.String]? = nil,
-        chatDurationInMinutes: Swift.Int? = nil,
-        clientToken: Swift.String? = nil,
-        contactFlowId: Swift.String? = nil,
-        customerId: Swift.String? = nil,
-        initialMessage: ConnectClientTypes.ChatMessage? = nil,
-        instanceId: Swift.String? = nil,
-        participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
-        persistentChat: ConnectClientTypes.PersistentChat? = nil,
-        relatedContactId: Swift.String? = nil,
-        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
-        supportedMessagingContentTypes: [Swift.String]? = nil
-    ) {
-        self.attributes = attributes
-        self.chatDurationInMinutes = chatDurationInMinutes
-        self.clientToken = clientToken
-        self.contactFlowId = contactFlowId
-        self.customerId = customerId
-        self.initialMessage = initialMessage
-        self.instanceId = instanceId
-        self.participantDetails = participantDetails
-        self.persistentChat = persistentChat
-        self.relatedContactId = relatedContactId
-        self.segmentAttributes = segmentAttributes
-        self.supportedMessagingContentTypes = supportedMessagingContentTypes
-    }
-}
-
-extension StartChatContactInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "StartChatContactInput(attributes: \(Swift.String(describing: attributes)), chatDurationInMinutes: \(Swift.String(describing: chatDurationInMinutes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), initialMessage: \(Swift.String(describing: initialMessage)), instanceId: \(Swift.String(describing: instanceId)), participantDetails: \(Swift.String(describing: participantDetails)), persistentChat: \(Swift.String(describing: persistentChat)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), supportedMessagingContentTypes: \(Swift.String(describing: supportedMessagingContentTypes)), customerId: \"CONTENT_REDACTED\")"}
-}
-
-public struct StartEmailContactInput: Swift.Sendable {
-    /// The additional recipients address of the email.
-    public var additionalRecipients: ConnectClientTypes.InboundAdditionalRecipients?
-    /// List of S3 presigned URLs of email attachments and their file name.
-    public var attachments: [ConnectClientTypes.EmailAttachment]?
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
-    public var attributes: [Swift.String: Swift.String]?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
-    public var clientToken: Swift.String?
-    /// The identifier of the flow for initiating the emails. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
-    public var contactFlowId: Swift.String?
-    /// A description of the email contact.
-    public var description: Swift.String?
-    /// The email address associated with the Amazon Connect instance.
-    /// This member is required.
-    public var destinationEmailAddress: Swift.String?
-    /// The email message body to be sent to the newly created email.
-    /// This member is required.
-    public var emailMessage: ConnectClientTypes.InboundEmailContent?
-    /// The email address of the customer.
-    /// This member is required.
-    public var fromEmailAddress: ConnectClientTypes.EmailAddressInfo?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// The name of a email that is shown to an agent in the Contact Control Panel (CCP).
-    public var name: Swift.String?
-    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Emails can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE. EMAIL | EMAIL_MESSAGE |ATTACHMENT are not a supported reference type during email creation.
-    public var references: [Swift.String: ConnectClientTypes.Reference]?
-    /// The contactId that is related to this contact. Linking emails together by using RelatedContactID copies over contact attributes from the related email contact to the new email contact. All updates to user-defined attributes in the new email contact are limited to the individual contact ID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
-    public var relatedContactId: Swift.String?
-    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger":135}}}}.
-    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-
-    public init(
-        additionalRecipients: ConnectClientTypes.InboundAdditionalRecipients? = nil,
-        attachments: [ConnectClientTypes.EmailAttachment]? = nil,
-        attributes: [Swift.String: Swift.String]? = nil,
-        clientToken: Swift.String? = nil,
-        contactFlowId: Swift.String? = nil,
-        description: Swift.String? = nil,
-        destinationEmailAddress: Swift.String? = nil,
-        emailMessage: ConnectClientTypes.InboundEmailContent? = nil,
-        fromEmailAddress: ConnectClientTypes.EmailAddressInfo? = nil,
-        instanceId: Swift.String? = nil,
-        name: Swift.String? = nil,
-        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
-        relatedContactId: Swift.String? = nil,
-        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil
-    ) {
-        self.additionalRecipients = additionalRecipients
-        self.attachments = attachments
-        self.attributes = attributes
-        self.clientToken = clientToken
-        self.contactFlowId = contactFlowId
-        self.description = description
-        self.destinationEmailAddress = destinationEmailAddress
-        self.emailMessage = emailMessage
-        self.fromEmailAddress = fromEmailAddress
-        self.instanceId = instanceId
-        self.name = name
-        self.references = references
-        self.relatedContactId = relatedContactId
-        self.segmentAttributes = segmentAttributes
-    }
-}
-
-extension StartEmailContactInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "StartEmailContactInput(additionalRecipients: \(Swift.String(describing: additionalRecipients)), attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), emailMessage: \(Swift.String(describing: emailMessage)), fromEmailAddress: \(Swift.String(describing: fromEmailAddress)), instanceId: \(Swift.String(describing: instanceId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), attachments: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", destinationEmailAddress: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
-}
-
-public struct StartOutboundChatContactInput: Swift.Sendable {
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes.
-    public var attributes: [Swift.String: Swift.String]?
-    /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
-    public var chatDurationInMinutes: Swift.Int?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
-    public var clientToken: Swift.String?
-    /// The identifier of the flow for the call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:
-    ///
-    /// * arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/123ec456-a007-89c0-1234-xxxxxxxxxxxx
-    /// This member is required.
-    public var contactFlowId: Swift.String?
-    /// Information about the endpoint.
-    /// This member is required.
-    public var destinationEndpoint: ConnectClientTypes.Endpoint?
-    /// A chat message.
-    public var initialSystemMessage: ConnectClientTypes.ChatMessage?
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// The customer's details.
-    public var participantDetails: ConnectClientTypes.ParticipantDetails?
-    /// The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
-    public var relatedContactId: Swift.String?
-    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows.
-    ///
-    /// * Attribute keys can include only alphanumeric, -, and _.
-    ///
-    /// * This field can be used to show channel subtype, such as connect:Guide and connect:SMS.
-    /// This member is required.
-    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-    /// Information about the endpoint.
-    /// This member is required.
-    public var sourceEndpoint: ConnectClientTypes.Endpoint?
-    /// The supported chat message content types. Supported types are:
-    ///
-    /// * text/plain
-    ///
-    /// * text/markdown
-    ///
-    /// * application/json, application/vnd.amazonaws.connect.message.interactive
-    ///
-    /// * application/vnd.amazonaws.connect.message.interactive.response
-    ///
-    ///
-    /// Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain:
-    ///
-    /// * [text/plain, text/markdown, application/json]
-    ///
-    /// * [text/markdown, text/plain]
-    ///
-    /// * [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]
-    public var supportedMessagingContentTypes: [Swift.String]?
-
-    public init(
-        attributes: [Swift.String: Swift.String]? = nil,
-        chatDurationInMinutes: Swift.Int? = nil,
-        clientToken: Swift.String? = nil,
-        contactFlowId: Swift.String? = nil,
-        destinationEndpoint: ConnectClientTypes.Endpoint? = nil,
-        initialSystemMessage: ConnectClientTypes.ChatMessage? = nil,
-        instanceId: Swift.String? = nil,
-        participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
-        relatedContactId: Swift.String? = nil,
-        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
-        sourceEndpoint: ConnectClientTypes.Endpoint? = nil,
-        supportedMessagingContentTypes: [Swift.String]? = nil
-    ) {
-        self.attributes = attributes
-        self.chatDurationInMinutes = chatDurationInMinutes
-        self.clientToken = clientToken
-        self.contactFlowId = contactFlowId
-        self.destinationEndpoint = destinationEndpoint
-        self.initialSystemMessage = initialSystemMessage
-        self.instanceId = instanceId
-        self.participantDetails = participantDetails
-        self.relatedContactId = relatedContactId
-        self.segmentAttributes = segmentAttributes
-        self.sourceEndpoint = sourceEndpoint
-        self.supportedMessagingContentTypes = supportedMessagingContentTypes
-    }
-}
-
-public struct StartTaskContactInput: Swift.Sendable {
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
-    public var attributes: [Swift.String: Swift.String]?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
-    public var clientToken: Swift.String?
-    /// The identifier of the flow for initiating the tasks. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
-    public var contactFlowId: Swift.String?
-    /// A description of the task that is shown to an agent in the Contact Control Panel (CCP).
-    public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// The name of a task that is shown to an agent in the Contact Control Panel (CCP).
-    /// This member is required.
-    public var name: Swift.String?
-    /// The identifier of the previous chat, voice, or task contact. Any updates to user-defined attributes to task contacts linked using the same PreviousContactID will affect every contact in the chain. There can be a maximum of 12 linked task contacts in a chain.
-    public var previousContactId: Swift.String?
-    /// The identifier for the quick connect. Tasks that are created by using QuickConnectId will use the flow that is defined on agent or queue quick connect. For more information about quick connects, see [Create quick connects](https://docs.aws.amazon.com/connect/latest/adminguide/quick-connects.html).
-    public var quickConnectId: Swift.String?
-    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during task creation.
-    public var references: [Swift.String: ConnectClientTypes.Reference]?
-    /// The contactId that is [related](https://docs.aws.amazon.com/connect/latest/adminguide/tasks.html#linked-tasks) to this contact. Linking tasks together by using RelatedContactID copies over contact attributes from the related task contact to the new task contact. All updates to user-defined attributes in the new task contact are limited to the individual contact ID, unlike what happens when tasks are linked by using PreviousContactID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
-    public var relatedContactId: Swift.String?
-    /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
-    public var scheduledTime: Foundation.Date?
-    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Contact Expiry as a duration in minutes and set a UserId for the User who created a task. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}. To set the created by user, a valid AgentResourceId must be supplied, with SegmentAttributes like { "connect:CreatedByUser" { "ValueString": "arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/agent/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}}}.
-    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-    /// A unique identifier for the task template. For more information about task templates, see [Create task templates](https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html) in the Amazon Connect Administrator Guide.
-    public var taskTemplateId: Swift.String?
-
-    public init(
-        attributes: [Swift.String: Swift.String]? = nil,
-        clientToken: Swift.String? = nil,
-        contactFlowId: Swift.String? = nil,
-        description: Swift.String? = nil,
-        instanceId: Swift.String? = nil,
-        name: Swift.String? = nil,
-        previousContactId: Swift.String? = nil,
-        quickConnectId: Swift.String? = nil,
-        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
-        relatedContactId: Swift.String? = nil,
-        scheduledTime: Foundation.Date? = nil,
-        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
-        taskTemplateId: Swift.String? = nil
-    ) {
-        self.attributes = attributes
-        self.clientToken = clientToken
-        self.contactFlowId = contactFlowId
-        self.description = description
-        self.instanceId = instanceId
-        self.name = name
-        self.previousContactId = previousContactId
-        self.quickConnectId = quickConnectId
-        self.references = references
-        self.relatedContactId = relatedContactId
-        self.scheduledTime = scheduledTime
-        self.segmentAttributes = segmentAttributes
-        self.taskTemplateId = taskTemplateId
-    }
-}
-
-extension StartTaskContactInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "StartTaskContactInput(attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), quickConnectId: \(Swift.String(describing: quickConnectId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), scheduledTime: \(Swift.String(describing: scheduledTime)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), taskTemplateId: \(Swift.String(describing: taskTemplateId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
-}
-
-public struct UpdateContactInput: Swift.Sendable {
-    /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with your contact center.
-    /// This member is required.
-    public var contactId: Swift.String?
-    /// The endpoint of the customer for which the contact was initiated. For external audio contacts, this is usually the end customer's phone number. This value can only be updated for external audio contacts. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
-    public var customerEndpoint: ConnectClientTypes.Endpoint?
-    /// The description of the contact.
-    public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// The name of the contact.
-    public var name: Swift.String?
-    /// Information about the queue associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
-    public var queueInfo: ConnectClientTypes.QueueInfoInput?
-    /// Well-formed data on contact, shown to agents on Contact Control Panel (CCP).
-    public var references: [Swift.String: ConnectClientTypes.Reference]?
-    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. Currently Contact Expiry is the only segment attribute which can be updated by using the UpdateContact API.
-    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-    /// External system endpoint for the contact was initiated. For external audio contacts, this is the phone number of the external system such as the contact center. This value can only be updated for external audio contacts. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
-    public var systemEndpoint: ConnectClientTypes.Endpoint?
-    /// Information about the agent associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
-    public var userInfo: ConnectClientTypes.UserInfo?
-
-    public init(
-        contactId: Swift.String? = nil,
-        customerEndpoint: ConnectClientTypes.Endpoint? = nil,
-        description: Swift.String? = nil,
-        instanceId: Swift.String? = nil,
-        name: Swift.String? = nil,
-        queueInfo: ConnectClientTypes.QueueInfoInput? = nil,
-        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
-        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
-        systemEndpoint: ConnectClientTypes.Endpoint? = nil,
-        userInfo: ConnectClientTypes.UserInfo? = nil
-    ) {
-        self.contactId = contactId
-        self.customerEndpoint = customerEndpoint
-        self.description = description
-        self.instanceId = instanceId
-        self.name = name
-        self.queueInfo = queueInfo
-        self.references = references
-        self.segmentAttributes = segmentAttributes
-        self.systemEndpoint = systemEndpoint
-        self.userInfo = userInfo
-    }
-}
-
-extension UpdateContactInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "UpdateContactInput(contactId: \(Swift.String(describing: contactId)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), instanceId: \(Swift.String(describing: instanceId)), queueInfo: \(Swift.String(describing: queueInfo)), references: \(Swift.String(describing: references)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), userInfo: \(Swift.String(describing: userInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateEvaluationFormInput: Swift.Sendable {
@@ -25855,6 +25507,424 @@ public struct SearchUsersInput: Swift.Sendable {
         self.searchCriteria = searchCriteria
         self.searchFilter = searchFilter
     }
+}
+
+public struct CreateContactInput: Swift.Sendable {
+    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    public var attributes: [Swift.String: Swift.String]?
+    /// The channel for the contact. The CHAT channel is not supported. The following information is incorrect. We're working to correct it.
+    /// This member is required.
+    public var channel: ConnectClientTypes.Channel?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// A description of the contact.
+    public var description: Swift.String?
+    /// Number of minutes the contact will be active for before expiring
+    public var expiryDurationInMinutes: Swift.Int?
+    /// Initial state of the contact when it's created. Only TASK channel contacts can be initiated with COMPLETED state.
+    public var initiateAs: ConnectClientTypes.InitiateAs?
+    /// Indicates how the contact was initiated. CreateContact only supports the following initiation methods. Valid values by channel are:
+    ///
+    /// * For VOICE: TRANSFER and the subtype connect:ExternalAudio
+    ///
+    /// * For EMAIL: OUTBOUND | AGENT_REPLY | FLOW
+    ///
+    /// * For TASK: API
+    ///
+    ///
+    /// The other channels listed below are incorrect. We're working to correct this information.
+    /// This member is required.
+    public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of a the contact.
+    public var name: Swift.String?
+    /// The ID of the previous contact when creating a transfer contact. This value can be provided only for external audio contacts. For more information, see [Integrate Amazon Connect Contact Lens with external voice systems](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    public var previousContactId: Swift.String?
+    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL | ATTACHMENT.
+    public var references: [Swift.String: ConnectClientTypes.Reference]?
+    /// The identifier of the contact in this instance of Amazon Connect.
+    public var relatedContactId: Swift.String?
+    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+    /// User details for the contact UserInfo is required when creating an EMAIL contact with OUTBOUND and AGENT_REPLY contact initiation methods.
+    public var userInfo: ConnectClientTypes.UserInfo?
+
+    public init(
+        attributes: [Swift.String: Swift.String]? = nil,
+        channel: ConnectClientTypes.Channel? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        expiryDurationInMinutes: Swift.Int? = nil,
+        initiateAs: ConnectClientTypes.InitiateAs? = nil,
+        initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        previousContactId: Swift.String? = nil,
+        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
+        relatedContactId: Swift.String? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+        userInfo: ConnectClientTypes.UserInfo? = nil
+    ) {
+        self.attributes = attributes
+        self.channel = channel
+        self.clientToken = clientToken
+        self.description = description
+        self.expiryDurationInMinutes = expiryDurationInMinutes
+        self.initiateAs = initiateAs
+        self.initiationMethod = initiationMethod
+        self.instanceId = instanceId
+        self.name = name
+        self.previousContactId = previousContactId
+        self.references = references
+        self.relatedContactId = relatedContactId
+        self.segmentAttributes = segmentAttributes
+        self.userInfo = userInfo
+    }
+}
+
+extension CreateContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateContactInput(attributes: \(Swift.String(describing: attributes)), channel: \(Swift.String(describing: channel)), clientToken: \(Swift.String(describing: clientToken)), expiryDurationInMinutes: \(Swift.String(describing: expiryDurationInMinutes)), initiateAs: \(Swift.String(describing: initiateAs)), initiationMethod: \(Swift.String(describing: initiationMethod)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), userInfo: \(Swift.String(describing: userInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartChatContactInput: Swift.Sendable {
+    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    public var attributes: [Swift.String: Swift.String]?
+    /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
+    public var chatDurationInMinutes: Swift.Int?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The identifier of the flow for initiating the chat. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    /// This member is required.
+    public var contactFlowId: Swift.String?
+    /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
+    public var customerId: Swift.String?
+    /// The initial message to be sent to the newly created chat.
+    public var initialMessage: ConnectClientTypes.ChatMessage?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Information identifying the participant.
+    /// This member is required.
+    public var participantDetails: ConnectClientTypes.ParticipantDetails?
+    /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
+    public var persistentChat: ConnectClientTypes.PersistentChat?
+    /// The unique identifier for an Amazon Connect contact. This identifier is related to the chat starting. You cannot provide data for both RelatedContactId and PersistentChat.
+    public var relatedContactId: Swift.String?
+    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. The types application/vnd.amazonaws.connect.message.interactive and application/vnd.amazonaws.connect.message.interactive.response must be present in the SupportedMessagingContentTypes field of this API in order to set SegmentAttributes as { "connect:Subtype": {"valueString" : "connect:Guide" }}.
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+    /// The supported chat message content types. Supported types are text/plain, text/markdown, application/json, application/vnd.amazonaws.connect.message.interactive, and application/vnd.amazonaws.connect.message.interactive.response. Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain: [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]. The type application/vnd.amazonaws.connect.message.interactive is required to use the [Show view](https://docs.aws.amazon.com/connect/latest/adminguide/show-view-block.html) flow block.
+    public var supportedMessagingContentTypes: [Swift.String]?
+
+    public init(
+        attributes: [Swift.String: Swift.String]? = nil,
+        chatDurationInMinutes: Swift.Int? = nil,
+        clientToken: Swift.String? = nil,
+        contactFlowId: Swift.String? = nil,
+        customerId: Swift.String? = nil,
+        initialMessage: ConnectClientTypes.ChatMessage? = nil,
+        instanceId: Swift.String? = nil,
+        participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
+        persistentChat: ConnectClientTypes.PersistentChat? = nil,
+        relatedContactId: Swift.String? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+        supportedMessagingContentTypes: [Swift.String]? = nil
+    ) {
+        self.attributes = attributes
+        self.chatDurationInMinutes = chatDurationInMinutes
+        self.clientToken = clientToken
+        self.contactFlowId = contactFlowId
+        self.customerId = customerId
+        self.initialMessage = initialMessage
+        self.instanceId = instanceId
+        self.participantDetails = participantDetails
+        self.persistentChat = persistentChat
+        self.relatedContactId = relatedContactId
+        self.segmentAttributes = segmentAttributes
+        self.supportedMessagingContentTypes = supportedMessagingContentTypes
+    }
+}
+
+extension StartChatContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartChatContactInput(attributes: \(Swift.String(describing: attributes)), chatDurationInMinutes: \(Swift.String(describing: chatDurationInMinutes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), initialMessage: \(Swift.String(describing: initialMessage)), instanceId: \(Swift.String(describing: instanceId)), participantDetails: \(Swift.String(describing: participantDetails)), persistentChat: \(Swift.String(describing: persistentChat)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), supportedMessagingContentTypes: \(Swift.String(describing: supportedMessagingContentTypes)), customerId: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartEmailContactInput: Swift.Sendable {
+    /// The additional recipients address of the email.
+    public var additionalRecipients: ConnectClientTypes.InboundAdditionalRecipients?
+    /// List of S3 presigned URLs of email attachments and their file name.
+    public var attachments: [ConnectClientTypes.EmailAttachment]?
+    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    public var attributes: [Swift.String: Swift.String]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The identifier of the flow for initiating the emails. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    public var contactFlowId: Swift.String?
+    /// A description of the email contact.
+    public var description: Swift.String?
+    /// The email address associated with the Amazon Connect instance.
+    /// This member is required.
+    public var destinationEmailAddress: Swift.String?
+    /// The email message body to be sent to the newly created email.
+    /// This member is required.
+    public var emailMessage: ConnectClientTypes.InboundEmailContent?
+    /// The email address of the customer.
+    /// This member is required.
+    public var fromEmailAddress: ConnectClientTypes.EmailAddressInfo?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of a email that is shown to an agent in the Contact Control Panel (CCP).
+    public var name: Swift.String?
+    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Emails can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE. EMAIL | EMAIL_MESSAGE |ATTACHMENT are not a supported reference type during email creation.
+    public var references: [Swift.String: ConnectClientTypes.Reference]?
+    /// The contactId that is related to this contact. Linking emails together by using RelatedContactID copies over contact attributes from the related email contact to the new email contact. All updates to user-defined attributes in the new email contact are limited to the individual contact ID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
+    public var relatedContactId: Swift.String?
+    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger":135}}}}.
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+
+    public init(
+        additionalRecipients: ConnectClientTypes.InboundAdditionalRecipients? = nil,
+        attachments: [ConnectClientTypes.EmailAttachment]? = nil,
+        attributes: [Swift.String: Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        contactFlowId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        destinationEmailAddress: Swift.String? = nil,
+        emailMessage: ConnectClientTypes.InboundEmailContent? = nil,
+        fromEmailAddress: ConnectClientTypes.EmailAddressInfo? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
+        relatedContactId: Swift.String? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil
+    ) {
+        self.additionalRecipients = additionalRecipients
+        self.attachments = attachments
+        self.attributes = attributes
+        self.clientToken = clientToken
+        self.contactFlowId = contactFlowId
+        self.description = description
+        self.destinationEmailAddress = destinationEmailAddress
+        self.emailMessage = emailMessage
+        self.fromEmailAddress = fromEmailAddress
+        self.instanceId = instanceId
+        self.name = name
+        self.references = references
+        self.relatedContactId = relatedContactId
+        self.segmentAttributes = segmentAttributes
+    }
+}
+
+extension StartEmailContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartEmailContactInput(additionalRecipients: \(Swift.String(describing: additionalRecipients)), attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), emailMessage: \(Swift.String(describing: emailMessage)), fromEmailAddress: \(Swift.String(describing: fromEmailAddress)), instanceId: \(Swift.String(describing: instanceId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), attachments: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", destinationEmailAddress: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartOutboundChatContactInput: Swift.Sendable {
+    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes.
+    public var attributes: [Swift.String: Swift.String]?
+    /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
+    public var chatDurationInMinutes: Swift.Int?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
+    public var clientToken: Swift.String?
+    /// The identifier of the flow for the call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:
+    ///
+    /// * arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/123ec456-a007-89c0-1234-xxxxxxxxxxxx
+    /// This member is required.
+    public var contactFlowId: Swift.String?
+    /// Information about the endpoint.
+    /// This member is required.
+    public var destinationEndpoint: ConnectClientTypes.Endpoint?
+    /// A chat message.
+    public var initialSystemMessage: ConnectClientTypes.ChatMessage?
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The customer's details.
+    public var participantDetails: ConnectClientTypes.ParticipantDetails?
+    /// The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
+    public var relatedContactId: Swift.String?
+    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows.
+    ///
+    /// * Attribute keys can include only alphanumeric, -, and _.
+    ///
+    /// * This field can be used to show channel subtype, such as connect:Guide and connect:SMS.
+    /// This member is required.
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+    /// Information about the endpoint.
+    /// This member is required.
+    public var sourceEndpoint: ConnectClientTypes.Endpoint?
+    /// The supported chat message content types. Supported types are:
+    ///
+    /// * text/plain
+    ///
+    /// * text/markdown
+    ///
+    /// * application/json, application/vnd.amazonaws.connect.message.interactive
+    ///
+    /// * application/vnd.amazonaws.connect.message.interactive.response
+    ///
+    ///
+    /// Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain:
+    ///
+    /// * [text/plain, text/markdown, application/json]
+    ///
+    /// * [text/markdown, text/plain]
+    ///
+    /// * [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]
+    public var supportedMessagingContentTypes: [Swift.String]?
+
+    public init(
+        attributes: [Swift.String: Swift.String]? = nil,
+        chatDurationInMinutes: Swift.Int? = nil,
+        clientToken: Swift.String? = nil,
+        contactFlowId: Swift.String? = nil,
+        destinationEndpoint: ConnectClientTypes.Endpoint? = nil,
+        initialSystemMessage: ConnectClientTypes.ChatMessage? = nil,
+        instanceId: Swift.String? = nil,
+        participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
+        relatedContactId: Swift.String? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+        sourceEndpoint: ConnectClientTypes.Endpoint? = nil,
+        supportedMessagingContentTypes: [Swift.String]? = nil
+    ) {
+        self.attributes = attributes
+        self.chatDurationInMinutes = chatDurationInMinutes
+        self.clientToken = clientToken
+        self.contactFlowId = contactFlowId
+        self.destinationEndpoint = destinationEndpoint
+        self.initialSystemMessage = initialSystemMessage
+        self.instanceId = instanceId
+        self.participantDetails = participantDetails
+        self.relatedContactId = relatedContactId
+        self.segmentAttributes = segmentAttributes
+        self.sourceEndpoint = sourceEndpoint
+        self.supportedMessagingContentTypes = supportedMessagingContentTypes
+    }
+}
+
+public struct StartTaskContactInput: Swift.Sendable {
+    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    public var attributes: [Swift.String: Swift.String]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The identifier of the flow for initiating the tasks. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    public var contactFlowId: Swift.String?
+    /// A description of the task that is shown to an agent in the Contact Control Panel (CCP).
+    public var description: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of a task that is shown to an agent in the Contact Control Panel (CCP).
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier of the previous chat, voice, or task contact. Any updates to user-defined attributes to task contacts linked using the same PreviousContactID will affect every contact in the chain. There can be a maximum of 12 linked task contacts in a chain.
+    public var previousContactId: Swift.String?
+    /// The identifier for the quick connect. Tasks that are created by using QuickConnectId will use the flow that is defined on agent or queue quick connect. For more information about quick connects, see [Create quick connects](https://docs.aws.amazon.com/connect/latest/adminguide/quick-connects.html).
+    public var quickConnectId: Swift.String?
+    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during task creation.
+    public var references: [Swift.String: ConnectClientTypes.Reference]?
+    /// The contactId that is [related](https://docs.aws.amazon.com/connect/latest/adminguide/tasks.html#linked-tasks) to this contact. Linking tasks together by using RelatedContactID copies over contact attributes from the related task contact to the new task contact. All updates to user-defined attributes in the new task contact are limited to the individual contact ID, unlike what happens when tasks are linked by using PreviousContactID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
+    public var relatedContactId: Swift.String?
+    /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
+    public var scheduledTime: Foundation.Date?
+    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Contact Expiry as a duration in minutes and set a UserId for the User who created a task. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}. To set the created by user, a valid AgentResourceId must be supplied, with SegmentAttributes like { "connect:CreatedByUser" { "ValueString": "arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/agent/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}}}.
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+    /// A unique identifier for the task template. For more information about task templates, see [Create task templates](https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html) in the Amazon Connect Administrator Guide.
+    public var taskTemplateId: Swift.String?
+
+    public init(
+        attributes: [Swift.String: Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        contactFlowId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        previousContactId: Swift.String? = nil,
+        quickConnectId: Swift.String? = nil,
+        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
+        relatedContactId: Swift.String? = nil,
+        scheduledTime: Foundation.Date? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+        taskTemplateId: Swift.String? = nil
+    ) {
+        self.attributes = attributes
+        self.clientToken = clientToken
+        self.contactFlowId = contactFlowId
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.previousContactId = previousContactId
+        self.quickConnectId = quickConnectId
+        self.references = references
+        self.relatedContactId = relatedContactId
+        self.scheduledTime = scheduledTime
+        self.segmentAttributes = segmentAttributes
+        self.taskTemplateId = taskTemplateId
+    }
+}
+
+extension StartTaskContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartTaskContactInput(attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), quickConnectId: \(Swift.String(describing: quickConnectId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), scheduledTime: \(Swift.String(describing: scheduledTime)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), taskTemplateId: \(Swift.String(describing: taskTemplateId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateContactInput: Swift.Sendable {
+    /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with your contact center.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The endpoint of the customer for which the contact was initiated. For external audio contacts, this is usually the end customer's phone number. This value can only be updated for external audio contacts. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    public var customerEndpoint: ConnectClientTypes.Endpoint?
+    /// The description of the contact.
+    public var description: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the contact.
+    public var name: Swift.String?
+    /// Information about the queue associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    public var queueInfo: ConnectClientTypes.QueueInfoInput?
+    /// Well-formed data on contact, shown to agents on Contact Control Panel (CCP).
+    public var references: [Swift.String: ConnectClientTypes.Reference]?
+    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. Contact Expiry, and user-defined attributes (String - String) that are defined in predefined attributes, can be updated by using the UpdateContact API.
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+    /// External system endpoint for the contact was initiated. For external audio contacts, this is the phone number of the external system such as the contact center. This value can only be updated for external audio contacts. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    public var systemEndpoint: ConnectClientTypes.Endpoint?
+    /// Information about the agent associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    public var userInfo: ConnectClientTypes.UserInfo?
+
+    public init(
+        contactId: Swift.String? = nil,
+        customerEndpoint: ConnectClientTypes.Endpoint? = nil,
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        queueInfo: ConnectClientTypes.QueueInfoInput? = nil,
+        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+        systemEndpoint: ConnectClientTypes.Endpoint? = nil,
+        userInfo: ConnectClientTypes.UserInfo? = nil
+    ) {
+        self.contactId = contactId
+        self.customerEndpoint = customerEndpoint
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.queueInfo = queueInfo
+        self.references = references
+        self.segmentAttributes = segmentAttributes
+        self.systemEndpoint = systemEndpoint
+        self.userInfo = userInfo
+    }
+}
+
+extension UpdateContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateContactInput(contactId: \(Swift.String(describing: contactId)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), instanceId: \(Swift.String(describing: instanceId)), queueInfo: \(Swift.String(describing: queueInfo)), references: \(Swift.String(describing: references)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), userInfo: \(Swift.String(describing: userInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes {
@@ -30753,7 +30823,9 @@ extension CreatePredefinedAttributeInput {
 
     static func write(value: CreatePredefinedAttributeInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AttributeConfiguration"].write(value.attributeConfiguration, with: ConnectClientTypes.InputPredefinedAttributeConfiguration.write(value:to:))
         try writer["Name"].write(value.name)
+        try writer["Purposes"].writeList(value.purposes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Values"].write(value.values, with: ConnectClientTypes.PredefinedAttributeValues.write(value:to:))
     }
 }
@@ -31920,6 +31992,8 @@ extension UpdatePredefinedAttributeInput {
 
     static func write(value: UpdatePredefinedAttributeInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AttributeConfiguration"].write(value.attributeConfiguration, with: ConnectClientTypes.InputPredefinedAttributeConfiguration.write(value:to:))
+        try writer["Purposes"].writeList(value.purposes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Values"].write(value.values, with: ConnectClientTypes.PredefinedAttributeValues.write(value:to:))
     }
 }
@@ -41116,7 +41190,9 @@ extension ConnectClientTypes.SegmentAttributeValue {
 
     static func write(value: ConnectClientTypes.SegmentAttributeValue?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ValueArn"].write(value.valueArn)
         try writer["ValueInteger"].write(value.valueInteger)
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: ConnectClientTypes.SegmentAttributeValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ValueMap"].writeMap(value.valueMap, valueWritingClosure: ConnectClientTypes.SegmentAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ValueString"].write(value.valueString)
     }
@@ -41127,6 +41203,8 @@ extension ConnectClientTypes.SegmentAttributeValue {
         value.valueString = try reader["ValueString"].readIfPresent()
         value.valueMap = try reader["ValueMap"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.SegmentAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.valueInteger = try reader["ValueInteger"].readIfPresent()
+        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.SegmentAttributeValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.valueArn = try reader["ValueArn"].readIfPresent()
         return value
     }
 }
@@ -42341,8 +42419,21 @@ extension ConnectClientTypes.PredefinedAttribute {
         var value = ConnectClientTypes.PredefinedAttribute()
         value.name = try reader["Name"].readIfPresent()
         value.values = try reader["Values"].readIfPresent(with: ConnectClientTypes.PredefinedAttributeValues.read(from:))
+        value.purposes = try reader["Purposes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attributeConfiguration = try reader["AttributeConfiguration"].readIfPresent(with: ConnectClientTypes.PredefinedAttributeConfiguration.read(from:))
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.PredefinedAttributeConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PredefinedAttributeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.PredefinedAttributeConfiguration()
+        value.enableValueValidationOnAssociation = try reader["EnableValueValidationOnAssociation"].readIfPresent() ?? false
+        value.isReadOnly = try reader["IsReadOnly"].readIfPresent() ?? false
         return value
     }
 }
@@ -44927,6 +45018,14 @@ extension ConnectClientTypes.ParticipantDetailsToAdd {
         try writer["DisplayName"].write(value.displayName)
         try writer["ParticipantCapabilities"].write(value.participantCapabilities, with: ConnectClientTypes.ParticipantCapabilities.write(value:to:))
         try writer["ParticipantRole"].write(value.participantRole)
+    }
+}
+
+extension ConnectClientTypes.InputPredefinedAttributeConfiguration {
+
+    static func write(value: ConnectClientTypes.InputPredefinedAttributeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableValueValidationOnAssociation"].write(value.enableValueValidationOnAssociation)
     }
 }
 

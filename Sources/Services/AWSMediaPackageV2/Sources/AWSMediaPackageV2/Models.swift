@@ -99,11 +99,13 @@ extension MediaPackageV2ClientTypes {
 
     public enum AdMarkerHls: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case daterange
+        case scte35Enhanced
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AdMarkerHls] {
             return [
-                .daterange
+                .daterange,
+                .scte35Enhanced
             ]
         }
 
@@ -115,6 +117,7 @@ extension MediaPackageV2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .daterange: return "DATERANGE"
+            case .scte35Enhanced: return "SCTE35_ENHANCED"
             case let .sdkUnknown(s): return s
             }
         }

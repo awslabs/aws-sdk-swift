@@ -883,6 +883,44 @@ extension OrganizationsClientTypes {
 
 extension OrganizationsClientTypes {
 
+    public enum AccountState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case closed
+        case pendingActivation
+        case pendingClosure
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccountState] {
+            return [
+                .active,
+                .closed,
+                .pendingActivation,
+                .pendingClosure,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .closed: return "CLOSED"
+            case .pendingActivation: return "PENDING_ACTIVATION"
+            case .pendingClosure: return "PENDING_CLOSURE"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OrganizationsClientTypes {
+
     public enum AccountStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case pendingClosure
@@ -929,7 +967,9 @@ extension OrganizationsClientTypes {
         public var joinedTimestamp: Foundation.Date?
         /// The friendly name of the account. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public var name: Swift.String?
-        /// The status of the account in the organization.
+        /// Each state represents a specific phase in the account lifecycle. Use this information to manage account access, automate workflows, or trigger actions based on account state changes. For more information about account states and their implications, see [Monitor the state of your Amazon Web Services accounts ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_account_state.html) in the Organizations User Guide.
+        public var state: OrganizationsClientTypes.AccountState?
+        /// The status of the account in the organization. The Status parameter in the Account object will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
         public var status: OrganizationsClientTypes.AccountStatus?
 
         public init(
@@ -939,6 +979,7 @@ extension OrganizationsClientTypes {
             joinedMethod: OrganizationsClientTypes.AccountJoinedMethod? = nil,
             joinedTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            state: OrganizationsClientTypes.AccountState? = nil,
             status: OrganizationsClientTypes.AccountStatus? = nil
         ) {
             self.arn = arn
@@ -947,6 +988,7 @@ extension OrganizationsClientTypes {
             self.joinedMethod = joinedMethod
             self.joinedTimestamp = joinedTimestamp
             self.name = name
+            self.state = state
             self.status = status
         }
     }
@@ -954,7 +996,7 @@ extension OrganizationsClientTypes {
 
 extension OrganizationsClientTypes.Account: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Account(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), joinedMethod: \(Swift.String(describing: joinedMethod)), joinedTimestamp: \(Swift.String(describing: joinedTimestamp)), status: \(Swift.String(describing: status)), email: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Account(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), joinedMethod: \(Swift.String(describing: joinedMethod)), joinedTimestamp: \(Swift.String(describing: joinedTimestamp)), state: \(Swift.String(describing: state)), status: \(Swift.String(describing: status)), email: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 /// You attempted to close an account that is already closed.
@@ -2605,7 +2647,7 @@ public struct DescribeAccountInput: Swift.Sendable {
 }
 
 public struct DescribeAccountOutput: Swift.Sendable {
-    /// A structure that contains information about the requested account.
+    /// A structure that contains information about the requested account. The Status parameter in the API response will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
     public var account: OrganizationsClientTypes.Account?
 
     public init(
@@ -3232,7 +3274,7 @@ public struct ListAccountsInput: Swift.Sendable {
 }
 
 public struct ListAccountsOutput: Swift.Sendable {
-    /// A list of objects in the organization.
+    /// A list of objects in the organization. The Status parameter in the API response will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
     public var accounts: [OrganizationsClientTypes.Account]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
@@ -3267,7 +3309,7 @@ public struct ListAccountsForParentInput: Swift.Sendable {
 }
 
 public struct ListAccountsForParentOutput: Swift.Sendable {
-    /// A list of the accounts in the specified root or OU.
+    /// A list of the accounts in the specified root or OU. The Status parameter in the API response will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
     public var accounts: [OrganizationsClientTypes.Account]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
@@ -8227,6 +8269,7 @@ extension OrganizationsClientTypes.Account {
         value.email = try reader["Email"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
         value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
         value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
