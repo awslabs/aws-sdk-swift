@@ -79,7 +79,7 @@ public struct ConfigFileReader {
                         let key = components[0].trimmingCharacters(in: .whitespaces)
                         let value = components[1].trimmingCharacters(in: .whitespaces)
                         sections[currentName]?.keys[key] = value
-                        print("  Added key and value '\(key)' = '\(value)' to section '\(currentName)'")
+                        print("  Added key and value '\(key)' = '\(value)' to subsection '\(currentName)'")
                     }
                 }
             default:
