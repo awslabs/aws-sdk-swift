@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NetworkFlowMonitorClient: ClientRuntime.Client {
     public static let clientName = "NetworkFlowMonitorClient"
-    public static let version = "1.5.38"
+    public static let version = "1.5.40"
     let client: ClientRuntime.SdkHttpClient
     let config: NetworkFlowMonitorClient.NetworkFlowMonitorClientConfiguration
     let serviceName = "NetworkFlowMonitor"
@@ -372,7 +372,7 @@ extension NetworkFlowMonitorClient {
 extension NetworkFlowMonitorClient {
     /// Performs the `CreateMonitor` operation on the `NetworkFlowMonitor` service.
     ///
-    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicators (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
+    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicator (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
     ///
     /// - Parameter CreateMonitorInput : [no documentation found]
     ///
@@ -445,7 +445,13 @@ extension NetworkFlowMonitorClient {
 
     /// Performs the `CreateScope` operation on the `NetworkFlowMonitor` service.
     ///
-    /// Create a scope of resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend. This call returns a scope ID to identify the scope. When you create a scope, you enable permissions for Network Flow Monitor. The scope is set to the resources for the Amazon Web Services that enables the feature.
+    /// In Network Flow Monitor, you specify a scope for the service to generate metrics for. By using the scope, Network Flow Monitor can generate a topology of all the resources to measure performance metrics for. When you create a scope, you enable permissions for Network Flow Monitor. A scope is a Region-account pair or multiple Region-account pairs. Network Flow Monitor uses your scope to determine all the resources (the topology) where Network Flow Monitor will gather network flow performance metrics for you. To provide performance metrics, Network Flow Monitor uses the data that is sent by the Network Flow Monitor agents you install on the resources. To define the Region-account pairs for your scope, the Network Flow Monitor API uses the following constucts, which allow for future flexibility in defining scopes:
+    ///
+    /// * Targets, which are arrays of targetResources.
+    ///
+    /// * Target resources, which are Region-targetIdentifier pairs.
+    ///
+    /// * Target identifiers, made up of a targetID (currently always an account ID) and a targetType (currently always an account).
     ///
     /// - Parameter CreateScopeInput : [no documentation found]
     ///
@@ -528,6 +534,7 @@ extension NetworkFlowMonitorClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The requested resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The request specifies a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.

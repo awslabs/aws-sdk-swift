@@ -26,6 +26,70 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
+/// A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Describes the error encountered.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The ID of the resource that could not be found.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the resource that is associated with the error.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+/// The operation couldn't be performed because the service is throttling requests. This exception is thrown when there are too many requests accepted concurrently from the service endpoint.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Describes the error encountered.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The seconds to wait to retry.
+        public internal(set) var retryAfterSeconds: Swift.Int? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        retryAfterSeconds: Swift.Int? = nil
+    ) {
+        self.properties.message = message
+        self.properties.retryAfterSeconds = retryAfterSeconds
+    }
+}
+
 extension EvsClientTypes {
 
     /// Stores information about a field passed inside a request that resulted in an exception.
@@ -113,6 +177,163 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
+    }
+}
+
+public struct AssociateEipToVlanInput: Swift.Sendable {
+    /// The Elastic IP address allocation ID.
+    /// This member is required.
+    public var allocationId: Swift.String?
+    /// This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// A unique ID for the environment containing the VLAN that the Elastic IP address associates with.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The name of the VLAN. hcx is the only accepted VLAN name at this time.
+    /// This member is required.
+    public var vlanName: Swift.String?
+
+    public init(
+        allocationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        vlanName: Swift.String? = nil
+    ) {
+        self.allocationId = allocationId
+        self.clientToken = clientToken
+        self.environmentId = environmentId
+        self.vlanName = vlanName
+    }
+}
+
+extension EvsClientTypes {
+
+    /// An Elastic IP address association with the elastic network interface in the VLAN subnet.
+    public struct EipAssociation: Swift.Sendable {
+        /// The Elastic IP address allocation ID.
+        public var allocationId: Swift.String?
+        /// A unique ID for the elastic IP address association with the VLAN subnet.
+        public var associationId: Swift.String?
+        /// The Elastic IP address.
+        public var ipAddress: Swift.String?
+
+        public init(
+            allocationId: Swift.String? = nil,
+            associationId: Swift.String? = nil,
+            ipAddress: Swift.String? = nil
+        ) {
+            self.allocationId = allocationId
+            self.associationId = associationId
+            self.ipAddress = ipAddress
+        }
+    }
+}
+
+extension EvsClientTypes {
+
+    public enum VlanState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case createFailed
+        case creating
+        case deleted
+        case deleting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VlanState] {
+            return [
+                .created,
+                .createFailed,
+                .creating,
+                .deleted,
+                .deleting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EvsClientTypes {
+
+    /// The VLANs that Amazon EVS creates during environment creation.
+    public struct Vlan: Swift.Sendable {
+        /// The availability zone of the VLAN.
+        public var availabilityZone: Swift.String?
+        /// The CIDR block of the VLAN. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
+        public var cidr: Swift.String?
+        /// The date and time that the VLAN was created.
+        public var createdAt: Foundation.Date?
+        /// An array of Elastic IP address associations.
+        public var eipAssociations: [EvsClientTypes.EipAssociation]?
+        /// The VMware VCF traffic type that is carried over the VLAN. For example, a VLAN with a functionName of hcx is being used to carry VMware HCX traffic.
+        public var functionName: Swift.String?
+        /// Determines if the VLAN that Amazon EVS provisions is public or private.
+        public var isPublic: Swift.Bool?
+        /// The date and time that the VLAN was modified.
+        public var modifiedAt: Foundation.Date?
+        /// A unique ID for a network access control list.
+        public var networkAclId: Swift.String?
+        /// The state details of the VLAN.
+        public var stateDetails: Swift.String?
+        /// The unique ID of the VLAN subnet.
+        public var subnetId: Swift.String?
+        /// The unique ID of the VLAN.
+        public var vlanId: Swift.Int?
+        /// The state of the VLAN.
+        public var vlanState: EvsClientTypes.VlanState?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            cidr: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            eipAssociations: [EvsClientTypes.EipAssociation]? = nil,
+            functionName: Swift.String? = nil,
+            isPublic: Swift.Bool? = nil,
+            modifiedAt: Foundation.Date? = nil,
+            networkAclId: Swift.String? = nil,
+            stateDetails: Swift.String? = nil,
+            subnetId: Swift.String? = nil,
+            vlanId: Swift.Int? = nil,
+            vlanState: EvsClientTypes.VlanState? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.cidr = cidr
+            self.createdAt = createdAt
+            self.eipAssociations = eipAssociations
+            self.functionName = functionName
+            self.isPublic = isPublic
+            self.modifiedAt = modifiedAt
+            self.networkAclId = networkAclId
+            self.stateDetails = stateDetails
+            self.subnetId = subnetId
+            self.vlanId = vlanId
+            self.vlanState = vlanState
+        }
+    }
+}
+
+public struct AssociateEipToVlanOutput: Swift.Sendable {
+    /// The VLANs that Amazon EVS creates during environment creation.
+    public var vlan: EvsClientTypes.Vlan?
+
+    public init(
+        vlan: EvsClientTypes.Vlan? = nil
+    ) {
+        self.vlan = vlan
     }
 }
 
@@ -221,9 +442,19 @@ extension EvsClientTypes {
         /// An additional VLAN subnet that can be used to extend VCF capabilities once configured. For example, you can configure an expansion VLAN subnet to use NSX Federation for centralized management and synchronization of multiple NSX deployments across different locations.
         /// This member is required.
         public var expansionVlan2: EvsClientTypes.InitialVlanInfo?
-        /// The HCX VLAN subnet. This VLAN subnet allows the HCX Interconnnect (IX) and HCX Network Extension (NE) to reach their peers and enable HCX Service Mesh creation.
+        /// The HCX VLAN subnet. This VLAN subnet allows the HCX Interconnnect (IX) and HCX Network Extension (NE) to reach their peers and enable HCX Service Mesh creation. If you plan to use a public HCX VLAN subnet, the following requirements must be met:
+        ///
+        /// * Must have a /28 netmask and be allocated from the IPAM public pool. Required for HCX internet access configuration.
+        ///
+        /// * The HCX public VLAN CIDR block must be added to the VPC as a secondary CIDR block.
+        ///
+        /// * Must have at least three Elastic IP addresses to be allocated from the public IPAM pool for HCX components.
         /// This member is required.
         public var hcx: EvsClientTypes.InitialVlanInfo?
+        /// A unique ID for a network access control list that the HCX VLAN uses. Required when isHcxPublic is set to true.
+        public var hcxNetworkAclId: Swift.String?
+        /// Determines if the HCX VLAN that Amazon EVS provisions is public or private.
+        public var isHcxPublic: Swift.Bool
         /// The NSX uplink VLAN subnet. This VLAN subnet allows connectivity to the NSX overlay network.
         /// This member is required.
         public var nsxUplink: EvsClientTypes.InitialVlanInfo?
@@ -248,6 +479,8 @@ extension EvsClientTypes {
             expansionVlan1: EvsClientTypes.InitialVlanInfo? = nil,
             expansionVlan2: EvsClientTypes.InitialVlanInfo? = nil,
             hcx: EvsClientTypes.InitialVlanInfo? = nil,
+            hcxNetworkAclId: Swift.String? = nil,
+            isHcxPublic: Swift.Bool = false,
             nsxUplink: EvsClientTypes.InitialVlanInfo? = nil,
             vMotion: EvsClientTypes.InitialVlanInfo? = nil,
             vSan: EvsClientTypes.InitialVlanInfo? = nil,
@@ -259,6 +492,8 @@ extension EvsClientTypes {
             self.expansionVlan1 = expansionVlan1
             self.expansionVlan2 = expansionVlan2
             self.hcx = hcx
+            self.hcxNetworkAclId = hcxNetworkAclId
+            self.isHcxPublic = isHcxPublic
             self.nsxUplink = nsxUplink
             self.vMotion = vMotion
             self.vSan = vSan
@@ -726,35 +961,6 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
     }
 }
 
-/// The CreateEnvironmentHost operation couldn't be performed because the service is throttling requests. This exception is thrown when the CreateEnvironmentHost request exceeds concurrency of 1 transaction per second (TPS).
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Describes the error encountered.
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The seconds to wait to retry.
-        public internal(set) var retryAfterSeconds: Swift.Int? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { true }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        retryAfterSeconds: Swift.Int? = nil
-    ) {
-        self.properties.message = message
-        self.properties.retryAfterSeconds = retryAfterSeconds
-    }
-}
-
 public struct CreateEnvironmentHostInput: Swift.Sendable {
     /// This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the host creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
@@ -952,41 +1158,6 @@ public struct CreateEnvironmentHostOutput: Swift.Sendable {
     }
 }
 
-/// A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Describes the error encountered.
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The ID of the resource that could not be found.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource that is associated with the error.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-    }
-}
-
 public struct DeleteEnvironmentInput: Swift.Sendable {
     /// This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment deletion request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
@@ -1047,6 +1218,43 @@ public struct DeleteEnvironmentHostOutput: Swift.Sendable {
     ) {
         self.environmentSummary = environmentSummary
         self.host = host
+    }
+}
+
+public struct DisassociateEipFromVlanInput: Swift.Sendable {
+    /// A unique ID for the Elastic IP address association.
+    /// This member is required.
+    public var associationId: Swift.String?
+    /// This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// A unique ID for the environment containing the VLAN that the Elastic IP address disassociates from.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The name of the VLAN. hcx is the only accepted VLAN name at this time.
+    /// This member is required.
+    public var vlanName: Swift.String?
+
+    public init(
+        associationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        vlanName: Swift.String? = nil
+    ) {
+        self.associationId = associationId
+        self.clientToken = clientToken
+        self.environmentId = environmentId
+        self.vlanName = vlanName
+    }
+}
+
+public struct DisassociateEipFromVlanOutput: Swift.Sendable {
+    /// The VLANs that Amazon EVS creates during environment creation.
+    public var vlan: EvsClientTypes.Vlan?
+
+    public init(
+        vlan: EvsClientTypes.Vlan? = nil
+    ) {
+        self.vlan = vlan
     }
 }
 
@@ -1159,91 +1367,6 @@ public struct ListEnvironmentVlansInput: Swift.Sendable {
         self.environmentId = environmentId
         self.maxResults = maxResults
         self.nextToken = nextToken
-    }
-}
-
-extension EvsClientTypes {
-
-    public enum VlanState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case created
-        case createFailed
-        case creating
-        case deleted
-        case deleting
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [VlanState] {
-            return [
-                .created,
-                .createFailed,
-                .creating,
-                .deleted,
-                .deleting
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .created: return "CREATED"
-            case .createFailed: return "CREATE_FAILED"
-            case .creating: return "CREATING"
-            case .deleted: return "DELETED"
-            case .deleting: return "DELETING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EvsClientTypes {
-
-    /// The VLANs that Amazon EVS creates during environment creation.
-    public struct Vlan: Swift.Sendable {
-        /// The availability zone of the VLAN.
-        public var availabilityZone: Swift.String?
-        /// The CIDR block of the VLAN. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
-        public var cidr: Swift.String?
-        /// The date and time that the VLAN was created.
-        public var createdAt: Foundation.Date?
-        /// The VMware VCF traffic type that is carried over the VLAN. For example, a VLAN with a functionName of hcx is being used to carry VMware HCX traffic.
-        public var functionName: Swift.String?
-        /// The date and time that the VLAN was modified.
-        public var modifiedAt: Foundation.Date?
-        /// The state details of the VLAN.
-        public var stateDetails: Swift.String?
-        /// The unique ID of the VLAN subnet.
-        public var subnetId: Swift.String?
-        /// The unique ID of the VLAN.
-        public var vlanId: Swift.Int?
-        /// The state of the VLAN.
-        public var vlanState: EvsClientTypes.VlanState?
-
-        public init(
-            availabilityZone: Swift.String? = nil,
-            cidr: Swift.String? = nil,
-            createdAt: Foundation.Date? = nil,
-            functionName: Swift.String? = nil,
-            modifiedAt: Foundation.Date? = nil,
-            stateDetails: Swift.String? = nil,
-            subnetId: Swift.String? = nil,
-            vlanId: Swift.Int? = nil,
-            vlanState: EvsClientTypes.VlanState? = nil
-        ) {
-            self.availabilityZone = availabilityZone
-            self.cidr = cidr
-            self.createdAt = createdAt
-            self.functionName = functionName
-            self.modifiedAt = modifiedAt
-            self.stateDetails = stateDetails
-            self.subnetId = subnetId
-            self.vlanId = vlanId
-            self.vlanState = vlanState
-        }
     }
 }
 
@@ -1404,6 +1527,13 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension AssociateEipToVlanInput {
+
+    static func urlPathProvider(_ value: AssociateEipToVlanInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateEnvironmentInput {
 
     static func urlPathProvider(_ value: CreateEnvironmentInput) -> Swift.String? {
@@ -1428,6 +1558,13 @@ extension DeleteEnvironmentInput {
 extension DeleteEnvironmentHostInput {
 
     static func urlPathProvider(_ value: DeleteEnvironmentHostInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DisassociateEipFromVlanInput {
+
+    static func urlPathProvider(_ value: DisassociateEipFromVlanInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1481,6 +1618,17 @@ extension UntagResourceInput {
     }
 }
 
+extension AssociateEipToVlanInput {
+
+    static func write(value: AssociateEipToVlanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allocationId"].write(value.allocationId)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["environmentId"].write(value.environmentId)
+        try writer["vlanName"].write(value.vlanName)
+    }
+}
+
 extension CreateEnvironmentInput {
 
     static func write(value: CreateEnvironmentInput?, to writer: SmithyJSON.Writer) throws {
@@ -1529,6 +1677,17 @@ extension DeleteEnvironmentHostInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["environmentId"].write(value.environmentId)
         try writer["hostName"].write(value.hostName)
+    }
+}
+
+extension DisassociateEipFromVlanInput {
+
+    static func write(value: DisassociateEipFromVlanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["associationId"].write(value.associationId)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["environmentId"].write(value.environmentId)
+        try writer["vlanName"].write(value.vlanName)
     }
 }
 
@@ -1596,6 +1755,18 @@ extension UntagResourceInput {
     }
 }
 
+extension AssociateEipToVlanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateEipToVlanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateEipToVlanOutput()
+        value.vlan = try reader["vlan"].readIfPresent(with: EvsClientTypes.Vlan.read(from:))
+        return value
+    }
+}
+
 extension CreateEnvironmentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEnvironmentOutput {
@@ -1642,6 +1813,18 @@ extension DeleteEnvironmentHostOutput {
         var value = DeleteEnvironmentHostOutput()
         value.environmentSummary = try reader["environmentSummary"].readIfPresent(with: EvsClientTypes.EnvironmentSummary.read(from:))
         value.host = try reader["host"].readIfPresent(with: EvsClientTypes.Host.read(from:))
+        return value
+    }
+}
+
+extension DisassociateEipFromVlanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateEipFromVlanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateEipFromVlanOutput()
+        value.vlan = try reader["vlan"].readIfPresent(with: EvsClientTypes.Vlan.read(from:))
         return value
     }
 }
@@ -1723,6 +1906,22 @@ extension UntagResourceOutput {
     }
 }
 
+enum AssociateEipToVlanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateEnvironmentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1776,6 +1975,22 @@ enum DeleteEnvironmentHostOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateEipFromVlanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -1887,14 +2102,14 @@ enum UntagResourceOutputError {
     }
 }
 
-extension ValidationException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: EvsClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1919,14 +2134,14 @@ extension ThrottlingException {
     }
 }
 
-extension ResourceNotFoundException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: EvsClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1969,6 +2184,39 @@ extension TooManyTagsException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension EvsClientTypes.Vlan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.Vlan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.Vlan()
+        value.vlanId = try reader["vlanId"].readIfPresent()
+        value.cidr = try reader["cidr"].readIfPresent()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.functionName = try reader["functionName"].readIfPresent()
+        value.subnetId = try reader["subnetId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vlanState = try reader["vlanState"].readIfPresent()
+        value.stateDetails = try reader["stateDetails"].readIfPresent()
+        value.eipAssociations = try reader["eipAssociations"].readListIfPresent(memberReadingClosure: EvsClientTypes.EipAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isPublic = try reader["isPublic"].readIfPresent()
+        value.networkAclId = try reader["networkAclId"].readIfPresent()
+        return value
+    }
+}
+
+extension EvsClientTypes.EipAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.EipAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.EipAssociation()
+        value.associationId = try reader["associationId"].readIfPresent()
+        value.allocationId = try reader["allocationId"].readIfPresent()
+        value.ipAddress = try reader["ipAddress"].readIfPresent()
         return value
     }
 }
@@ -2150,24 +2398,6 @@ extension EvsClientTypes.NetworkInterface {
     }
 }
 
-extension EvsClientTypes.Vlan {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.Vlan {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvsClientTypes.Vlan()
-        value.vlanId = try reader["vlanId"].readIfPresent()
-        value.cidr = try reader["cidr"].readIfPresent()
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
-        value.functionName = try reader["functionName"].readIfPresent()
-        value.subnetId = try reader["subnetId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.vlanState = try reader["vlanState"].readIfPresent()
-        value.stateDetails = try reader["stateDetails"].readIfPresent()
-        return value
-    }
-}
-
 extension EvsClientTypes.ValidationExceptionField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.ValidationExceptionField {
@@ -2187,6 +2417,8 @@ extension EvsClientTypes.InitialVlans {
         try writer["expansionVlan1"].write(value.expansionVlan1, with: EvsClientTypes.InitialVlanInfo.write(value:to:))
         try writer["expansionVlan2"].write(value.expansionVlan2, with: EvsClientTypes.InitialVlanInfo.write(value:to:))
         try writer["hcx"].write(value.hcx, with: EvsClientTypes.InitialVlanInfo.write(value:to:))
+        try writer["hcxNetworkAclId"].write(value.hcxNetworkAclId)
+        try writer["isHcxPublic"].write(value.isHcxPublic)
         try writer["nsxUplink"].write(value.nsxUplink, with: EvsClientTypes.InitialVlanInfo.write(value:to:))
         try writer["vMotion"].write(value.vMotion, with: EvsClientTypes.InitialVlanInfo.write(value:to:))
         try writer["vSan"].write(value.vSan, with: EvsClientTypes.InitialVlanInfo.write(value:to:))

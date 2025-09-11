@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QuickSightClient: ClientRuntime.Client {
     public static let clientName = "QuickSightClient"
-    public static let version = "1.5.38"
+    public static let version = "1.5.40"
     let client: ClientRuntime.SdkHttpClient
     let config: QuickSightClient.QuickSightClientConfiguration
     let serviceName = "QuickSight"
@@ -583,7 +583,7 @@ extension QuickSightClient {
 
     /// Performs the `CreateAccountCustomization` operation on the `QuickSight` service.
     ///
-    /// Creates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon QuickSight by removing Amazon QuickSight sample assets and videos for all new users, see [Customizing Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/customizing-quicksight.html) in the Amazon QuickSight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the [DescribeThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeThemePermissions.html) API operation. To share the theme, grant permissions by using the [UpdateThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateThemePermissions.html) API operation.
+    /// Creates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize QuickSight by removing QuickSight sample assets and videos for all new users, see [Customizing QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/customizing-quicksight.html) in the Amazon QuickSight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the [DescribeThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeThemePermissions.html) API operation. To share the theme, grant permissions by using the [UpdateThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateThemePermissions.html) API operation.
     ///
     /// - Parameter CreateAccountCustomizationInput : [no documentation found]
     ///
@@ -658,7 +658,7 @@ extension QuickSightClient {
 
     /// Performs the `CreateAccountSubscription` operation on the `QuickSight` service.
     ///
-    /// Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see [Sign up for Amazon Web Services](https://docs.aws.amazon.com/quicksight/latest/user/setting-up-aws-sign-up.html) in the Amazon QuickSight User Guide. The person who signs up for Amazon QuickSight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see [IAM Policy Examples for Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/iam-policy-examples.html) in the Amazon QuickSight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon QuickSight, see [Passing IAM roles to Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html#security-create-iam-role) in the Amazon QuickSight User Guide. You can't set default resource access on the new account from the Amazon QuickSight API. Instead, add default resource access from the Amazon QuickSight console. For more information about setting default resource access to Amazon Web Services services, see [Setting default resource access to Amazon Web Services services](https://docs.aws.amazon.com/quicksight/latest/user/scoping-policies-defaults.html) in the Amazon QuickSight User Guide.
+    /// Creates an QuickSight account, or subscribes to QuickSight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see [Sign up for Amazon Web Services](https://docs.aws.amazon.com/quicksight/latest/user/setting-up-aws-sign-up.html) in the Amazon QuickSight User Guide. The person who signs up for QuickSight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see [IAM Policy Examples for QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/iam-policy-examples.html) in the QuickSight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to QuickSight, see [Passing IAM roles to QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html#security-create-iam-role) in the QuickSight User Guide. You can't set default resource access on the new account from the QuickSight API. Instead, add default resource access from the QuickSight console. For more information about setting default resource access to Amazon Web Services services, see [Setting default resource access to Amazon Web Services services](https://docs.aws.amazon.com/quicksight/latest/user/scoping-policies-defaults.html) in the QuickSight User Guide.
     ///
     /// - Parameter CreateAccountSubscriptionInput : [no documentation found]
     ///
@@ -749,7 +749,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createAnalysis(input: CreateAnalysisInput) async throws -> CreateAnalysisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -807,7 +807,7 @@ extension QuickSightClient {
 
     /// Performs the `CreateBrand` operation on the `QuickSight` service.
     ///
-    /// Creates an Amazon QuickSight brand.
+    /// Creates an QuickSight brand.
     ///
     /// - Parameter CreateBrandInput : [no documentation found]
     ///
@@ -955,7 +955,7 @@ extension QuickSightClient {
 
     /// Performs the `CreateDashboard` operation on the `QuickSight` service.
     ///
-    /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
+    /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. A dashboard is an entity in QuickSight that identifies QuickSight reports, created from analyses. You can share QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
     ///
     /// - Parameter CreateDashboardInput : [no documentation found]
     ///
@@ -971,7 +971,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createDashboard(input: CreateDashboardInput) async throws -> CreateDashboardOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1046,7 +1046,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createDataSet(input: CreateDataSetInput) async throws -> CreateDataSetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1115,7 +1115,7 @@ extension QuickSightClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
-    /// - `CustomerManagedKeyUnavailableException` : The customer managed key that is registered to your Amazon QuickSight account is unavailable.
+    /// - `CustomerManagedKeyUnavailableException` : The customer managed key that is registered to your QuickSight account is unavailable.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
@@ -1196,7 +1196,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createFolder(input: CreateFolderInput) async throws -> CreateFolderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1270,7 +1270,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createFolderMembership(input: CreateFolderMembershipInput) async throws -> CreateFolderMembershipOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -1325,7 +1325,7 @@ extension QuickSightClient {
 
     /// Performs the `CreateGroup` operation on the `QuickSight` service.
     ///
-    /// Use the CreateGroup operation to create a group in Amazon QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is arn:aws:quicksight:::group/default/ . The response is a group object.
+    /// Use the CreateGroup operation to create a group in QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is arn:aws:quicksight:::group/default/ . The response is a group object.
     ///
     /// - Parameter CreateGroupInput : The request object for this operation.
     ///
@@ -1616,7 +1616,7 @@ extension QuickSightClient {
 
     /// Performs the `CreateNamespace` operation on the `QuickSight` service.
     ///
-    /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the Amazon QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web ServicesSupport.
+    /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
     ///
     /// - Parameter CreateNamespaceInput : [no documentation found]
     ///
@@ -1766,7 +1766,7 @@ extension QuickSightClient {
 
     /// Performs the `CreateRoleMembership` operation on the `QuickSight` service.
     ///
-    /// Use CreateRoleMembership to add an existing Amazon QuickSight group to an existing role.
+    /// Use CreateRoleMembership to add an existing QuickSight group to an existing role.
     ///
     /// - Parameter CreateRoleMembershipInput : [no documentation found]
     ///
@@ -1836,7 +1836,7 @@ extension QuickSightClient {
 
     /// Performs the `CreateTemplate` operation on the `QuickSight` service.
     ///
-    /// Creates a template either from a TemplateDefinition or from an existing Amazon QuickSight analysis or template. You can use the resulting template to create additional dashboards, templates, or analyses. A template is an entity in Amazon QuickSight that encapsulates the metadata required to create an analysis and that you can use to create s dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template.
+    /// Creates a template either from a TemplateDefinition or from an existing QuickSight analysis or template. You can use the resulting template to create additional dashboards, templates, or analyses. A template is an entity in QuickSight that encapsulates the metadata required to create an analysis and that you can use to create s dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template.
     ///
     /// - Parameter CreateTemplateInput : [no documentation found]
     ///
@@ -1853,7 +1853,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1926,7 +1926,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createTemplateAlias(input: CreateTemplateAliasInput) async throws -> CreateTemplateAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2000,7 +2000,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createTheme(input: CreateThemeInput) async throws -> CreateThemeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2074,7 +2074,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createThemeAlias(input: CreateThemeAliasInput) async throws -> CreateThemeAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2296,7 +2296,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createVPCConnection(input: CreateVPCConnectionInput) async throws -> CreateVPCConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2352,9 +2352,77 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteAccountCustomPermission` operation on the `QuickSight` service.
+    ///
+    /// Unapplies a custom permissions profile from an account.
+    ///
+    /// - Parameter DeleteAccountCustomPermissionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAccountCustomPermissionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func deleteAccountCustomPermission(input: DeleteAccountCustomPermissionInput) async throws -> DeleteAccountCustomPermissionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAccountCustomPermission")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccountCustomPermissionInput, DeleteAccountCustomPermissionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccountCustomPermissionInput, DeleteAccountCustomPermissionOutput>(DeleteAccountCustomPermissionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccountCustomPermissionInput, DeleteAccountCustomPermissionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountCustomPermissionOutput>(DeleteAccountCustomPermissionOutput.httpOutput(from:), DeleteAccountCustomPermissionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountCustomPermissionInput, DeleteAccountCustomPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountCustomPermissionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAccountCustomPermissionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAccountCustomPermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAccountCustomPermissionInput, DeleteAccountCustomPermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAccountCustomPermissionInput, DeleteAccountCustomPermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAccountCustomPermissionInput, DeleteAccountCustomPermissionOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAccountCustomPermission")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteAccountCustomization` operation on the `QuickSight` service.
     ///
-    /// Deletes all Amazon QuickSight customizations in this Amazon Web Services Region for the specified Amazon Web Services account and Amazon QuickSight namespace.
+    /// Deletes all Amazon QuickSight customizations in this Amazon Web Services Region for the specified Amazon Web Services account and QuickSight namespace.
     ///
     /// - Parameter DeleteAccountCustomizationInput : [no documentation found]
     ///
@@ -2427,7 +2495,7 @@ extension QuickSightClient {
 
     /// Performs the `DeleteAccountSubscription` operation on the `QuickSight` service.
     ///
-    /// Use the DeleteAccountSubscription operation to delete an Amazon QuickSight account. This operation will result in an error message if you have configured your account termination protection settings to True. To change this setting and delete your account, call the UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter to False, then make another call to the DeleteAccountSubscription API.
+    /// Use the DeleteAccountSubscription operation to delete an QuickSight account. This operation will result in an error message if you have configured your account termination protection settings to True. To change this setting and delete your account, call the UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter to False, then make another call to the DeleteAccountSubscription API.
     ///
     /// - Parameter DeleteAccountSubscriptionInput : [no documentation found]
     ///
@@ -2497,7 +2565,7 @@ extension QuickSightClient {
 
     /// Performs the `DeleteAnalysis` operation on the `QuickSight` service.
     ///
-    /// Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon QuickSight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon QuickSight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the Amazon QuickSight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
+    /// Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. QuickSight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, QuickSight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the QuickSight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
     ///
     /// - Parameter DeleteAnalysisInput : [no documentation found]
     ///
@@ -2511,7 +2579,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteAnalysis(input: DeleteAnalysisInput) async throws -> DeleteAnalysisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2567,7 +2635,7 @@ extension QuickSightClient {
 
     /// Performs the `DeleteBrand` operation on the `QuickSight` service.
     ///
-    /// Deletes an Amazon QuickSight brand.
+    /// Deletes an QuickSight brand.
     ///
     /// - Parameter DeleteBrandInput : [no documentation found]
     ///
@@ -2791,7 +2859,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteDashboard(input: DeleteDashboardInput) async throws -> DeleteDashboardOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3053,7 +3121,7 @@ extension QuickSightClient {
 
     /// Performs the `DeleteDefaultQBusinessApplication` operation on the `QuickSight` service.
     ///
-    /// Deletes a linked Amazon Q Business application from an Amazon QuickSight account
+    /// Deletes a linked Amazon Q Business application from an QuickSight account
     ///
     /// - Parameter DeleteDefaultQBusinessApplicationInput : [no documentation found]
     ///
@@ -3138,7 +3206,7 @@ extension QuickSightClient {
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteFolder(input: DeleteFolderInput) async throws -> DeleteFolderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3207,7 +3275,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteFolderMembership(input: DeleteFolderMembershipInput) async throws -> DeleteFolderMembershipOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3472,7 +3540,7 @@ extension QuickSightClient {
 
     /// Performs the `DeleteIdentityPropagationConfig` operation on the `QuickSight` service.
     ///
-    /// Deletes all access scopes and authorized targets that are associated with a service from the Amazon QuickSight IAM Identity Center application. This operation is only supported for Amazon QuickSight accounts that use IAM Identity Center.
+    /// Deletes all access scopes and authorized targets that are associated with a service from the QuickSight IAM Identity Center application. This operation is only supported for QuickSight accounts that use IAM Identity Center.
     ///
     /// - Parameter DeleteIdentityPropagationConfigInput : [no documentation found]
     ///
@@ -3834,7 +3902,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3903,7 +3971,7 @@ extension QuickSightClient {
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteTemplateAlias(input: DeleteTemplateAliasInput) async throws -> DeleteTemplateAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3973,7 +4041,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteTheme(input: DeleteThemeInput) async throws -> DeleteThemeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -4043,7 +4111,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteThemeAlias(input: DeleteThemeAliasInput) async throws -> DeleteThemeAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -4464,7 +4532,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteVPCConnection(input: DeleteVPCConnectionInput) async throws -> DeleteVPCConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -4517,13 +4585,81 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeAccountCustomPermission` operation on the `QuickSight` service.
+    ///
+    /// Describes the custom permissions profile that is applied to an account.
+    ///
+    /// - Parameter DescribeAccountCustomPermissionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAccountCustomPermissionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func describeAccountCustomPermission(input: DescribeAccountCustomPermissionInput) async throws -> DescribeAccountCustomPermissionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAccountCustomPermission")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeAccountCustomPermissionInput, DescribeAccountCustomPermissionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAccountCustomPermissionInput, DescribeAccountCustomPermissionOutput>(DescribeAccountCustomPermissionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccountCustomPermissionInput, DescribeAccountCustomPermissionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountCustomPermissionOutput>(DescribeAccountCustomPermissionOutput.httpOutput(from:), DescribeAccountCustomPermissionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountCustomPermissionInput, DescribeAccountCustomPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountCustomPermissionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAccountCustomPermissionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountCustomPermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccountCustomPermissionInput, DescribeAccountCustomPermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAccountCustomPermissionInput, DescribeAccountCustomPermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountCustomPermissionInput, DescribeAccountCustomPermissionOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAccountCustomPermission")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeAccountCustomization` operation on the `QuickSight` service.
     ///
-    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Amazon QuickSight namespace in an Amazon Web Services Region. The Amazon QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.
+    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon QuickSight namespace in an Amazon Web Services Region. The QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.
     ///
-    /// * Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you subscribe to Amazon QuickSight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use Amazon QuickSight in any supported Amazon Web Services Region.
+    /// * Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you subscribe to QuickSight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use QuickSight in any supported Amazon Web Services Region.
     ///
-    /// * Amazon Web Services Region - In each Amazon Web Services Region where you sign in to Amazon QuickSight at least once, Amazon QuickSight acts as a separate instance of the same service. If you have a user directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have access to Amazon QuickSight in any Amazon Web Services Region, unless they are constrained to a namespace. To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the CLI, you can use one of the following options:
+    /// * Amazon Web Services Region - In each Amazon Web Services Region where you sign in to QuickSight at least once, QuickSight acts as a separate instance of the same service. If you have a user directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have access to QuickSight in any Amazon Web Services Region, unless they are constrained to a namespace. To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the CLI, you can use one of the following options:
     ///
     /// * Use [command line options](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-options.html).
     ///
@@ -4536,7 +4672,7 @@ extension QuickSightClient {
     ///
     /// * Namespace - A QuickSight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same Amazon Web Services account and Amazon Web Services Region.
     ///
-    /// * Applied customizations - Within an Amazon Web Services Region, a set of Amazon QuickSight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account. All settings are isolated to a single Amazon Web Services Region. To apply them in other Amazon Web Services Regions, run the CreateAccountCustomization command in each Amazon Web Services Region where you want to apply the same customizations.
+    /// * Applied customizations - Within an Amazon Web Services Region, a set of QuickSight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account. All settings are isolated to a single Amazon Web Services Region. To apply them in other Amazon Web Services Regions, run the CreateAccountCustomization command in each Amazon Web Services Region where you want to apply the same customizations.
     ///
     /// - Parameter DescribeAccountCustomizationInput : [no documentation found]
     ///
@@ -4606,7 +4742,7 @@ extension QuickSightClient {
 
     /// Performs the `DescribeAccountSettings` operation on the `QuickSight` service.
     ///
-    /// Describes the settings that were used when your Amazon QuickSight subscription was first created in this Amazon Web Services account.
+    /// Describes the settings that were used when your QuickSight subscription was first created in this Amazon Web Services account.
     ///
     /// - Parameter DescribeAccountSettingsInput : [no documentation found]
     ///
@@ -4675,7 +4811,7 @@ extension QuickSightClient {
 
     /// Performs the `DescribeAccountSubscription` operation on the `QuickSight` service.
     ///
-    /// Use the DescribeAccountSubscription operation to receive a description of an Amazon QuickSight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
+    /// Use the DescribeAccountSubscription operation to receive a description of an QuickSight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
     ///
     /// - Parameter DescribeAccountSubscriptionInput : [no documentation found]
     ///
@@ -4758,7 +4894,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeAnalysis(input: DescribeAnalysisInput) async throws -> DescribeAnalysisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4829,7 +4965,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeAnalysisDefinition(input: DescribeAnalysisDefinitionInput) async throws -> DescribeAnalysisDefinitionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4897,7 +5033,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeAnalysisPermissions(input: DescribeAnalysisPermissionsInput) async throws -> DescribeAnalysisPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4963,7 +5099,7 @@ extension QuickSightClient {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeAssetBundleExportJob(input: DescribeAssetBundleExportJobInput) async throws -> DescribeAssetBundleExportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5029,7 +5165,7 @@ extension QuickSightClient {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeAssetBundleImportJob(input: DescribeAssetBundleImportJobInput) async throws -> DescribeAssetBundleImportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5376,7 +5512,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeDashboard(input: DescribeDashboardInput) async throws -> DescribeDashboardOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5448,7 +5584,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeDashboardDefinition(input: DescribeDashboardDefinitionInput) async throws -> DescribeDashboardDefinitionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5517,7 +5653,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeDashboardPermissions(input: DescribeDashboardPermissionsInput) async throws -> DescribeDashboardPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5585,7 +5721,7 @@ extension QuickSightClient {
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeDashboardSnapshotJob(input: DescribeDashboardSnapshotJobInput) async throws -> DescribeDashboardSnapshotJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5655,7 +5791,7 @@ extension QuickSightClient {
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeDashboardSnapshotJobResult(input: DescribeDashboardSnapshotJobResultInput) async throws -> DescribeDashboardSnapshotJobResultOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6121,7 +6257,7 @@ extension QuickSightClient {
 
     /// Performs the `DescribeDefaultQBusinessApplication` operation on the `QuickSight` service.
     ///
-    /// Describes a Amazon Q Business application that is linked to an Amazon QuickSight account.
+    /// Describes a Amazon Q Business application that is linked to an QuickSight account.
     ///
     /// - Parameter DescribeDefaultQBusinessApplicationInput : [no documentation found]
     ///
@@ -6204,7 +6340,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeFolder(input: DescribeFolderInput) async throws -> DescribeFolderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6274,7 +6410,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeFolderPermissions(input: DescribeFolderPermissionsInput) async throws -> DescribeFolderPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6345,7 +6481,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeFolderResolvedPermissions(input: DescribeFolderResolvedPermissionsInput) async throws -> DescribeFolderResolvedPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6747,7 +6883,7 @@ extension QuickSightClient {
 
     /// Performs the `DescribeKeyRegistration` operation on the `QuickSight` service.
     ///
-    /// Describes all customer managed key registrations in a Amazon QuickSight account.
+    /// Describes all customer managed key registrations in a QuickSight account.
     ///
     /// - Parameter DescribeKeyRegistrationInput : [no documentation found]
     ///
@@ -6953,7 +7089,7 @@ extension QuickSightClient {
 
     /// Performs the `DescribeQuickSightQSearchConfiguration` operation on the `QuickSight` service.
     ///
-    /// Describes the state of a Amazon QuickSight Q Search configuration.
+    /// Describes the state of a QuickSight Q Search configuration.
     ///
     /// - Parameter DescribeQuickSightQSearchConfigurationInput : [no documentation found]
     ///
@@ -7177,7 +7313,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeTemplate(input: DescribeTemplateInput) async throws -> DescribeTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7245,7 +7381,7 @@ extension QuickSightClient {
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeTemplateAlias(input: DescribeTemplateAliasInput) async throws -> DescribeTemplateAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7316,7 +7452,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeTemplateDefinition(input: DescribeTemplateDefinitionInput) async throws -> DescribeTemplateDefinitionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7386,7 +7522,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeTemplatePermissions(input: DescribeTemplatePermissionsInput) async throws -> DescribeTemplatePermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7456,7 +7592,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeTheme(input: DescribeThemeInput) async throws -> DescribeThemeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7526,7 +7662,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeThemeAlias(input: DescribeThemeAliasInput) async throws -> DescribeThemeAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7595,7 +7731,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeThemePermissions(input: DescribeThemePermissionsInput) async throws -> DescribeThemePermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8009,7 +8145,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeVPCConnection(input: DescribeVPCConnectionInput) async throws -> DescribeVPCConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8088,8 +8224,8 @@ extension QuickSightClient {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `SessionLifetimeInMinutesInvalidException` : The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to QuickSight. You can do this on the Manage QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func generateEmbedUrlForAnonymousUser(input: GenerateEmbedUrlForAnonymousUserInput) async throws -> GenerateEmbedUrlForAnonymousUserOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8172,8 +8308,8 @@ extension QuickSightClient {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `SessionLifetimeInMinutesInvalidException` : The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to QuickSight. You can do this on the Manage QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func generateEmbedUrlForRegisteredUser(input: GenerateEmbedUrlForRegisteredUserInput) async throws -> GenerateEmbedUrlForRegisteredUserOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8231,7 +8367,7 @@ extension QuickSightClient {
 
     /// Performs the `GenerateEmbedUrlForRegisteredUserWithIdentity` operation on the `QuickSight` service.
     ///
-    /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user that is registered in an Amazon QuickSight account that uses IAM Identity Center for authentication. This API requires [identity-enhanced IAM Role sessions](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-overview.html#types-identity-enhanced-iam-role-sessions) for the authenticated user that the API call is being made for. This API uses [trusted identity propagation](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation.html) to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have [trusted Identity Propagation enabled for Amazon QuickSight](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-using-customermanagedapps-specify-trusted-apps.html) with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions.
+    /// Generates an embed URL that you can use to embed an QuickSight experience in your website. This action can be used for any type of user that is registered in an QuickSight account that uses IAM Identity Center for authentication. This API requires [identity-enhanced IAM Role sessions](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-overview.html#types-identity-enhanced-iam-role-sessions) for the authenticated user that the API call is being made for. This API uses [trusted identity propagation](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation.html) to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have [trusted Identity Propagation enabled for QuickSight](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-using-customermanagedapps-specify-trusted-apps.html) with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant QuickSight resource and permissions.
     ///
     /// - Parameter GenerateEmbedUrlForRegisteredUserWithIdentityInput : [no documentation found]
     ///
@@ -8247,8 +8383,8 @@ extension QuickSightClient {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `SessionLifetimeInMinutesInvalidException` : The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to QuickSight. You can do this on the Manage QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func generateEmbedUrlForRegisteredUserWithIdentity(input: GenerateEmbedUrlForRegisteredUserWithIdentityInput) async throws -> GenerateEmbedUrlForRegisteredUserWithIdentityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8306,7 +8442,7 @@ extension QuickSightClient {
 
     /// Performs the `GetDashboardEmbedUrl` operation on the `QuickSight` service.
     ///
-    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon QuickSight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions. Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:
+    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an QuickSight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions. Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:
     ///
     /// * They must be used together.
     ///
@@ -8314,7 +8450,7 @@ extension QuickSightClient {
     ///
     /// * They are valid for 5 minutes after you run this command.
     ///
-    /// * You are charged only when the URL is used or there is interaction with Amazon QuickSight.
+    /// * You are charged only when the URL is used or there is interaction with QuickSight.
     ///
     /// * The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You can use the optional SessionLifetimeInMinutes parameter to customize session duration.
     ///
@@ -8338,8 +8474,8 @@ extension QuickSightClient {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `SessionLifetimeInMinutesInvalidException` : The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to QuickSight. You can do this on the Manage QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func getDashboardEmbedUrl(input: GetDashboardEmbedUrlInput) async throws -> GetDashboardEmbedUrlOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8395,7 +8531,7 @@ extension QuickSightClient {
 
     /// Performs the `GetSessionEmbedUrl` operation on the `QuickSight` service.
     ///
-    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon QuickSight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) API operation. Use [RegisterUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_RegisterUser.html) API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:
+    /// Generates a session URL and authorization code that you can use to embed the Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded QuickSight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) API operation. Use [RegisterUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_RegisterUser.html) API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:
     ///
     /// * [Embedding Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html)
     ///
@@ -8416,7 +8552,7 @@ extension QuickSightClient {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `SessionLifetimeInMinutesInvalidException` : The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func getSessionEmbedUrl(input: GetSessionEmbedUrlInput) async throws -> GetSessionEmbedUrlOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8484,7 +8620,7 @@ extension QuickSightClient {
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listAnalyses(input: ListAnalysesInput) async throws -> ListAnalysesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8553,7 +8689,7 @@ extension QuickSightClient {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listAssetBundleExportJobs(input: ListAssetBundleExportJobsInput) async throws -> ListAssetBundleExportJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8622,7 +8758,7 @@ extension QuickSightClient {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listAssetBundleImportJobs(input: ListAssetBundleImportJobsInput) async throws -> ListAssetBundleImportJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8678,7 +8814,7 @@ extension QuickSightClient {
 
     /// Performs the `ListBrands` operation on the `QuickSight` service.
     ///
-    /// Lists all brands in an Amazon QuickSight account.
+    /// Lists all brands in an QuickSight account.
     ///
     /// - Parameter ListBrandsInput : [no documentation found]
     ///
@@ -8817,7 +8953,7 @@ extension QuickSightClient {
 
     /// Performs the `ListDashboardVersions` operation on the `QuickSight` service.
     ///
-    /// Lists all the versions of the dashboards in the Amazon QuickSight subscription.
+    /// Lists all the versions of the dashboards in the QuickSight subscription.
     ///
     /// - Parameter ListDashboardVersionsInput : [no documentation found]
     ///
@@ -8831,7 +8967,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listDashboardVersions(input: ListDashboardVersionsInput) async throws -> ListDashboardVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8899,7 +9035,7 @@ extension QuickSightClient {
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listDashboards(input: ListDashboardsInput) async throws -> ListDashboardsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -9108,7 +9244,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listFolderMembers(input: ListFolderMembersInput) async throws -> ListFolderMembersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -9179,7 +9315,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listFolders(input: ListFoldersInput) async throws -> ListFoldersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -9250,7 +9386,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listFoldersForResource(input: ListFoldersForResourceInput) async throws -> ListFoldersForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -9591,7 +9727,7 @@ extension QuickSightClient {
 
     /// Performs the `ListIdentityPropagationConfigs` operation on the `QuickSight` service.
     ///
-    /// Lists all services and authorized targets that the Amazon QuickSight IAM Identity Center application can access. This operation is only supported for Amazon QuickSight accounts that use IAM Identity Center.
+    /// Lists all services and authorized targets that the QuickSight IAM Identity Center application can access. This operation is only supported for QuickSight accounts that use IAM Identity Center.
     ///
     /// - Parameter ListIdentityPropagationConfigsInput : [no documentation found]
     ///
@@ -10026,7 +10162,7 @@ extension QuickSightClient {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listTemplateAliases(input: ListTemplateAliasesInput) async throws -> ListTemplateAliasesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -10096,7 +10232,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listTemplateVersions(input: ListTemplateVersionsInput) async throws -> ListTemplateVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -10166,7 +10302,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -10237,7 +10373,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listThemeAliases(input: ListThemeAliasesInput) async throws -> ListThemeAliasesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -10308,7 +10444,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listThemeVersions(input: ListThemeVersionsInput) async throws -> ListThemeVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -10379,7 +10515,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listThemes(input: ListThemesInput) async throws -> ListThemesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -10800,7 +10936,7 @@ extension QuickSightClient {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listVPCConnections(input: ListVPCConnectionsInput) async throws -> ListVPCConnectionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -10856,7 +10992,7 @@ extension QuickSightClient {
 
     /// Performs the `PredictQAResults` operation on the `QuickSight` service.
     ///
-    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses [trusted identity propagation](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation.html) to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have [trusted Identity Propagation enabled for Amazon QuickSight](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-using-customermanagedapps-specify-trusted-apps.html) with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see [UpdateQuickSightQSearchConfiguration](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateQuickSightQSearchConfiguration.html).
+    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses [trusted identity propagation](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation.html) to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have [trusted Identity Propagation enabled for QuickSight](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-using-customermanagedapps-specify-trusted-apps.html) with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant QuickSight resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see [UpdateQuickSightQSearchConfiguration](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateQuickSightQSearchConfiguration.html).
     ///
     /// - Parameter PredictQAResultsInput : [no documentation found]
     ///
@@ -11000,7 +11136,7 @@ extension QuickSightClient {
 
     /// Performs the `RegisterUser` operation on the `QuickSight` service.
     ///
-    /// Creates an Amazon QuickSight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Amazon QuickSight API, Amazon QuickSight generates a registration URL. The user accesses this registration URL to create their account. Amazon QuickSight doesn't send a registration email to users who are registered from the Amazon QuickSight API. If you want new users to receive a registration email, then add those users in the Amazon QuickSight console. For more information on registering a new user in the Amazon QuickSight console, see [ Inviting users to access Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/managing-users.html#inviting-users).
+    /// Creates an Amazon QuickSight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the QuickSight API, QuickSight generates a registration URL. The user accesses this registration URL to create their account. QuickSight doesn't send a registration email to users who are registered from the QuickSight API. If you want new users to receive a registration email, then add those users in the QuickSight console. For more information on registering a new user in the QuickSight console, see [ Inviting users to access QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/managing-users.html#inviting-users).
     ///
     /// - Parameter RegisterUserInput : [no documentation found]
     ///
@@ -11091,7 +11227,7 @@ extension QuickSightClient {
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func restoreAnalysis(input: RestoreAnalysisInput) async throws -> RestoreAnalysisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11161,7 +11297,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func searchAnalyses(input: SearchAnalysesInput) async throws -> SearchAnalysesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11233,7 +11369,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func searchDashboards(input: SearchDashboardsInput) async throws -> SearchDashboardsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11451,7 +11587,7 @@ extension QuickSightClient {
     /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func searchFolders(input: SearchFoldersInput) async throws -> SearchFoldersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11509,7 +11645,7 @@ extension QuickSightClient {
 
     /// Performs the `SearchGroups` operation on the `QuickSight` service.
     ///
-    /// Use the SearchGroups operation to search groups in a specified Amazon QuickSight namespace using the supplied filters.
+    /// Use the SearchGroups operation to search groups in a specified QuickSight namespace using the supplied filters.
     ///
     /// - Parameter SearchGroupsInput : [no documentation found]
     ///
@@ -11584,7 +11720,7 @@ extension QuickSightClient {
 
     /// Performs the `SearchTopics` operation on the `QuickSight` service.
     ///
-    /// Searches for any Q topic that exists in an Amazon QuickSight account.
+    /// Searches for any Q topic that exists in an QuickSight account.
     ///
     /// - Parameter SearchTopicsInput : [no documentation found]
     ///
@@ -11598,7 +11734,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func searchTopics(input: SearchTopicsInput) async throws -> SearchTopicsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11656,7 +11792,7 @@ extension QuickSightClient {
 
     /// Performs the `StartAssetBundleExportJob` operation on the `QuickSight` service.
     ///
-    /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon QuickSight account can run up to 5 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
+    /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each QuickSight account can run up to 5 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
     ///
     /// - Parameter StartAssetBundleExportJobInput : [no documentation found]
     ///
@@ -11671,7 +11807,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func startAssetBundleExportJob(input: StartAssetBundleExportJobInput) async throws -> StartAssetBundleExportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11729,7 +11865,7 @@ extension QuickSightClient {
 
     /// Performs the `StartAssetBundleImportJob` operation on the `QuickSight` service.
     ///
-    /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon QuickSight assets into an Amazon QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon QuickSight account. Each Amazon QuickSight account can run up to 5 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
+    /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified QuickSight assets into an QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your QuickSight account. Each QuickSight account can run up to 5 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
     ///
     /// - Parameter StartAssetBundleImportJobInput : [no documentation found]
     ///
@@ -11744,7 +11880,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func startAssetBundleImportJob(input: StartAssetBundleImportJobInput) async throws -> StartAssetBundleImportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11811,14 +11947,14 @@ extension QuickSightClient {
     /// * 5 CSVs from table or pivot table visuals
     ///
     ///
-    /// The status of a submitted job can be polled with the DescribeDashboardSnapshotJob API. When you call the DescribeDashboardSnapshotJob API, check the JobStatus field in the response. Once the job reaches a COMPLETED or FAILED status, use the DescribeDashboardSnapshotJobResult API to obtain the URLs for the generated files. If the job fails, the DescribeDashboardSnapshotJobResult API returns detailed information about the error that occurred. StartDashboardSnapshotJob API throttling Amazon QuickSight utilizes API throttling to create a more consistent user experience within a time span for customers when they call the StartDashboardSnapshotJob. By default, 12 jobs can run simlutaneously in one Amazon Web Services account and users can submit up 10 API requests per second before an account is throttled. If an overwhelming number of API requests are made by the same user in a short period of time, Amazon QuickSight throttles the API calls to maintin an optimal experience and reliability for all Amazon QuickSight users. Common throttling scenarios The following list provides information about the most commin throttling scenarios that can occur.
+    /// The status of a submitted job can be polled with the DescribeDashboardSnapshotJob API. When you call the DescribeDashboardSnapshotJob API, check the JobStatus field in the response. Once the job reaches a COMPLETED or FAILED status, use the DescribeDashboardSnapshotJobResult API to obtain the URLs for the generated files. If the job fails, the DescribeDashboardSnapshotJobResult API returns detailed information about the error that occurred. StartDashboardSnapshotJob API throttling QuickSight utilizes API throttling to create a more consistent user experience within a time span for customers when they call the StartDashboardSnapshotJob. By default, 12 jobs can run simlutaneously in one Amazon Web Services account and users can submit up 10 API requests per second before an account is throttled. If an overwhelming number of API requests are made by the same user in a short period of time, QuickSight throttles the API calls to maintin an optimal experience and reliability for all QuickSight users. Common throttling scenarios The following list provides information about the most commin throttling scenarios that can occur.
     ///
     /// * A large number of SnapshotExport API jobs are running simultaneously on an Amazon Web Services account. When a new StartDashboardSnapshotJob is created and there are already 12 jobs with the RUNNING status, the new job request fails and returns a LimitExceededException error. Wait for a current job to comlpete before you resubmit the new job.
     ///
-    /// * A large number of API requests are submitted on an Amazon Web Services account. When a user makes more than 10 API calls to the Amazon QuickSight API in one second, a ThrottlingException is returned.
+    /// * A large number of API requests are submitted on an Amazon Web Services account. When a user makes more than 10 API calls to the QuickSight API in one second, a ThrottlingException is returned.
     ///
     ///
-    /// If your use case requires a higher throttling limit, contact your account admin or [Amazon Web ServicesSupport](http://aws.amazon.com/contact-us/) to explore options to tailor a more optimal expereince for your account. Best practices to handle throttling If your use case projects high levels of API traffic, try to reduce the degree of frequency and parallelism of API calls as much as you can to avoid throttling. You can also perform a timing test to calculate an estimate for the total processing time of your projected load that stays within the throttling limits of the Amazon QuickSight APIs. For example, if your projected traffic is 100 snapshot jobs before 12:00 PM per day, start 12 jobs in parallel and measure the amount of time it takes to proccess all 12 jobs. Once you obtain the result, multiply the duration by 9, for example (12 minutes * 9 = 108 minutes). Use the new result to determine the latest time at which the jobs need to be started to meet your target deadline. The time that it takes to process a job can be impacted by the following factors:
+    /// If your use case requires a higher throttling limit, contact your account admin or [Amazon Web ServicesSupport](http://aws.amazon.com/contact-us/) to explore options to tailor a more optimal expereince for your account. Best practices to handle throttling If your use case projects high levels of API traffic, try to reduce the degree of frequency and parallelism of API calls as much as you can to avoid throttling. You can also perform a timing test to calculate an estimate for the total processing time of your projected load that stays within the throttling limits of the QuickSight APIs. For example, if your projected traffic is 100 snapshot jobs before 12:00 PM per day, start 12 jobs in parallel and measure the amount of time it takes to proccess all 12 jobs. Once you obtain the result, multiply the duration by 9, for example (12 minutes * 9 = 108 minutes). Use the new result to determine the latest time at which the jobs need to be started to meet your target deadline. The time that it takes to process a job can be impacted by the following factors:
     ///
     /// * The dataset type (Direct Query or SPICE).
     ///
@@ -11848,8 +11984,8 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to QuickSight. You can do this on the Manage QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func startDashboardSnapshotJob(input: StartDashboardSnapshotJobInput) async throws -> StartDashboardSnapshotJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11907,7 +12043,7 @@ extension QuickSightClient {
 
     /// Performs the `StartDashboardSnapshotJobSchedule` operation on the `QuickSight` service.
     ///
-    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email. Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see [Scheduling and sending Amazon QuickSight reports by email](https://docs.aws.amazon.com/quicksight/latest/user/sending-reports.html) and [Configuring email report settings for a Amazon QuickSight dashboard](https://docs.aws.amazon.com/quicksight/latest/user/email-reports-from-dashboard.html) in the Amazon QuickSight User Guide.
+    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email. Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see [Scheduling and sending QuickSight reports by email](https://docs.aws.amazon.com/quicksight/latest/user/sending-reports.html) and [Configuring email report settings for a QuickSight dashboard](https://docs.aws.amazon.com/quicksight/latest/user/email-reports-from-dashboard.html) in the Amazon QuickSight User Guide.
     ///
     /// - Parameter StartDashboardSnapshotJobScheduleInput : [no documentation found]
     ///
@@ -11922,7 +12058,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func startDashboardSnapshotJobSchedule(input: StartDashboardSnapshotJobScheduleInput) async throws -> StartDashboardSnapshotJobScheduleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11977,11 +12113,11 @@ extension QuickSightClient {
 
     /// Performs the `TagResource` operation on the `QuickSight` service.
     ///
-    /// Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data set, data source, dashboard, template, topic, and user. Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for the following:
+    /// Assigns one or more tags (key-value pairs) to the specified QuickSight resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. QuickSight supports tagging on data set, data source, dashboard, template, topic, and user. Tagging for QuickSight works in a similar way to tagging for other Amazon Web Services services, except for the following:
     ///
-    /// * Tags are used to track costs for users in Amazon QuickSight. You can't tag other resources that Amazon QuickSight costs are based on, such as storage capacoty (SPICE), session usage, alert consumption, or reporting units.
+    /// * Tags are used to track costs for users in QuickSight. You can't tag other resources that QuickSight costs are based on, such as storage capacoty (SPICE), session usage, alert consumption, or reporting units.
     ///
-    /// * Amazon QuickSight doesn't currently support the tag editor for Resource Groups.
+    /// * QuickSight doesn't currently support the tag editor for Resource Groups.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -12120,9 +12256,80 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateAccountCustomPermission` operation on the `QuickSight` service.
+    ///
+    /// Applies a custom permissions profile to an account.
+    ///
+    /// - Parameter UpdateAccountCustomPermissionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAccountCustomPermissionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func updateAccountCustomPermission(input: UpdateAccountCustomPermissionInput) async throws -> UpdateAccountCustomPermissionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAccountCustomPermission")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>(UpdateAccountCustomPermissionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAccountCustomPermissionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountCustomPermissionOutput>(UpdateAccountCustomPermissionOutput.httpOutput(from:), UpdateAccountCustomPermissionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountCustomPermissionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAccountCustomPermissionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAccountCustomPermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAccountCustomPermission")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateAccountCustomization` operation on the `QuickSight` service.
     ///
-    /// Updates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Amazon QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
+    /// Updates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
     ///
     /// - Parameter UpdateAccountCustomizationInput : [no documentation found]
     ///
@@ -12283,7 +12490,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateAnalysis(input: UpdateAnalysisInput) async throws -> UpdateAnalysisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -12356,7 +12563,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateAnalysisPermissions(input: UpdateAnalysisPermissionsInput) async throws -> UpdateAnalysisPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -12414,7 +12621,7 @@ extension QuickSightClient {
 
     /// Performs the `UpdateApplicationWithTokenExchangeGrant` operation on the `QuickSight` service.
     ///
-    /// Updates an Amazon QuickSight application with a token exchange grant. This operation only supports Amazon QuickSight applications that are registered with IAM Identity Center.
+    /// Updates an QuickSight application with a token exchange grant. This operation only supports QuickSight applications that are registered with IAM Identity Center.
     ///
     /// - Parameter UpdateApplicationWithTokenExchangeGrantInput : [no documentation found]
     ///
@@ -12790,7 +12997,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateDashboard(input: UpdateDashboardInput) async throws -> UpdateDashboardOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -12863,7 +13070,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateDashboardLinks(input: UpdateDashboardLinksInput) async throws -> UpdateDashboardLinksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -12936,7 +13143,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateDashboardPermissions(input: UpdateDashboardPermissionsInput) async throws -> UpdateDashboardPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -13008,7 +13215,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateDashboardPublishedVersion(input: UpdateDashboardPublishedVersionInput) async throws -> UpdateDashboardPublishedVersionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -13151,7 +13358,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateDataSet(input: UpdateDataSetInput) async throws -> UpdateDataSetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -13292,7 +13499,7 @@ extension QuickSightClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
-    /// - `CustomerManagedKeyUnavailableException` : The customer managed key that is registered to your Amazon QuickSight account is unavailable.
+    /// - `CustomerManagedKeyUnavailableException` : The customer managed key that is registered to your QuickSight account is unavailable.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -13426,7 +13633,7 @@ extension QuickSightClient {
 
     /// Performs the `UpdateDefaultQBusinessApplication` operation on the `QuickSight` service.
     ///
-    /// Updates a Amazon Q Business application that is linked to a Amazon QuickSight account.
+    /// Updates a Amazon Q Business application that is linked to a QuickSight account.
     ///
     /// - Parameter UpdateDefaultQBusinessApplicationInput : [no documentation found]
     ///
@@ -13515,7 +13722,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateFolder(input: UpdateFolderInput) async throws -> UpdateFolderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -13588,7 +13795,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateFolderPermissions(input: UpdateFolderPermissionsInput) async throws -> UpdateFolderPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -13792,7 +13999,7 @@ extension QuickSightClient {
 
     /// Performs the `UpdateIdentityPropagationConfig` operation on the `QuickSight` service.
     ///
-    /// Adds or updates services and authorized targets to configure what the Amazon QuickSight IAM Identity Center application can access. This operation is only supported for Amazon QuickSight accounts using IAM Identity Center
+    /// Adds or updates services and authorized targets to configure what the QuickSight IAM Identity Center application can access. This operation is only supported for QuickSight accounts using IAM Identity Center
     ///
     /// - Parameter UpdateIdentityPropagationConfigInput : [no documentation found]
     ///
@@ -13935,7 +14142,7 @@ extension QuickSightClient {
 
     /// Performs the `UpdateKeyRegistration` operation on the `QuickSight` service.
     ///
-    /// Updates a customer managed key in a Amazon QuickSight account.
+    /// Updates a customer managed key in a QuickSight account.
     ///
     /// - Parameter UpdateKeyRegistrationInput : [no documentation found]
     ///
@@ -14005,7 +14212,7 @@ extension QuickSightClient {
 
     /// Performs the `UpdatePublicSharingSettings` operation on the `QuickSight` service.
     ///
-    /// Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon QuickSight dashboard. To use this operation, turn on session capacity pricing for your Amazon QuickSight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon QuickSight, see [Using Amazon QuickSight with IAM](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html) in the Amazon QuickSight User Guide.
+    /// Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an QuickSight dashboard. To use this operation, turn on session capacity pricing for your QuickSight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with QuickSight, see [Using QuickSight with IAM](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html) in the QuickSight User Guide.
     ///
     /// - Parameter UpdatePublicSharingSettingsInput : [no documentation found]
     ///
@@ -14019,7 +14226,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
+    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to QuickSight. You can do this on the Manage QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
     public func updatePublicSharingSettings(input: UpdatePublicSharingSettingsInput) async throws -> UpdatePublicSharingSettingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -14150,7 +14357,7 @@ extension QuickSightClient {
 
     /// Performs the `UpdateQuickSightQSearchConfiguration` operation on the `QuickSight` service.
     ///
-    /// Updates the state of a Amazon QuickSight Q Search configuration.
+    /// Updates the state of a QuickSight Q Search configuration.
     ///
     /// - Parameter UpdateQuickSightQSearchConfigurationInput : [no documentation found]
     ///
@@ -14368,7 +14575,7 @@ extension QuickSightClient {
 
     /// Performs the `UpdateSPICECapacityConfiguration` operation on the `QuickSight` service.
     ///
-    /// Updates the SPICE capacity configuration for a Amazon QuickSight account.
+    /// Updates the SPICE capacity configuration for a QuickSight account.
     ///
     /// - Parameter UpdateSPICECapacityConfigurationInput : [no documentation found]
     ///
@@ -14455,7 +14662,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -14526,7 +14733,7 @@ extension QuickSightClient {
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateTemplateAlias(input: UpdateTemplateAliasInput) async throws -> UpdateTemplateAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -14599,7 +14806,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateTemplatePermissions(input: UpdateTemplatePermissionsInput) async throws -> UpdateTemplatePermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -14673,7 +14880,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateTheme(input: UpdateThemeInput) async throws -> UpdateThemeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -14746,7 +14953,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateThemeAlias(input: UpdateThemeAliasInput) async throws -> UpdateThemeAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -14861,7 +15068,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateThemePermissions(input: UpdateThemePermissionsInput) async throws -> UpdateThemePermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -15009,7 +15216,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateTopicPermissions(input: UpdateTopicPermissionsInput) async throws -> UpdateTopicPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -15304,7 +15511,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateVPCConnection(input: UpdateVPCConnectionInput) async throws -> UpdateVPCConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)

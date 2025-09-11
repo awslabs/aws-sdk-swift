@@ -10333,11 +10333,15 @@ extension DataZoneClientTypes {
     public struct IamUserProfileDetails: Swift.Sendable {
         /// The ARN of an IAM user profile in Amazon DataZone.
         public var arn: Swift.String?
+        /// Principal ID of the IAM user.
+        public var principalId: Swift.String?
 
         public init(
-            arn: Swift.String? = nil
+            arn: Swift.String? = nil,
+            principalId: Swift.String? = nil
         ) {
             self.arn = arn
+            self.principalId = principalId
         }
     }
 }
@@ -34719,6 +34723,7 @@ extension DataZoneClientTypes.IamUserProfileDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.IamUserProfileDetails()
         value.arn = try reader["arn"].readIfPresent()
+        value.principalId = try reader["principalId"].readIfPresent()
         return value
     }
 }
