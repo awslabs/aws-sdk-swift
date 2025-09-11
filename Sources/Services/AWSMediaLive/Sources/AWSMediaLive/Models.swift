@@ -10347,10 +10347,109 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Hls Auto Select
+    public enum HlsAutoSelect: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case no
+        case omit
+        case yes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HlsAutoSelect] {
+            return [
+                .no,
+                .omit,
+                .yes
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .no: return "NO"
+            case .omit: return "OMIT"
+            case .yes: return "YES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Hls Default
+    public enum HlsDefault: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case no
+        case omit
+        case yes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HlsDefault] {
+            return [
+                .no,
+                .omit,
+                .yes
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .no: return "NO"
+            case .omit: return "OMIT"
+            case .yes: return "YES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Media Package V2 Destination Settings
+    public struct MediaPackageV2DestinationSettings: Swift.Sendable {
+        /// Applies only to an output that contains audio. If you want to put several audio encodes into one audio rendition group, decide on a name (ID) for the group. Then in every audio output that you want to belong to that group, enter that ID in this field. Note that this information is part of the HLS specification (not the CMAF specification), but if you include it then MediaPackage will include it in the manifest it creates for the video player.
+        public var audioGroupId: Swift.String?
+        /// Applies only to an output that contains video, and only if you want to associate one or more audio groups to this video. In this field you assign the groups that you create (in the Group ID fields in the various audio outputs). Enter one group ID, or enter a comma-separated list of group IDs. Note that this information is part of the HLS specification (not the CMAF specification), but if you include it then MediaPackage will include it in the manifest it creates for the video player.
+        public var audioRenditionSets: Swift.String?
+        /// Specifies whether MediaPackage should set this output as the auto-select rendition in the HLS manifest. YES means this must be the auto-select. NO means this should never be the auto-select. OMIT means MediaPackage decides what to set on this rendition. When you consider all the renditions, follow these guidelines. You can set zero or one renditions to YES. You can set zero or more renditions to NO, but you can't set all renditions to NO. You can set zero, some, or all to OMIT.
+        public var hlsAutoSelect: MediaLiveClientTypes.HlsAutoSelect?
+        /// Specifies whether MediaPackage should set this output as the default rendition in the HLS manifest. YES means this must be the default. NO means this should never be the default. OMIT means MediaPackage decides what to set on this rendition. When you consider all the renditions, follow these guidelines. You can set zero or one renditions to YES. You can set zero or more renditions to NO, but you can't set all renditions to NO. You can set zero, some, or all to OMIT.
+        public var hlsDefault: MediaLiveClientTypes.HlsDefault?
+
+        public init(
+            audioGroupId: Swift.String? = nil,
+            audioRenditionSets: Swift.String? = nil,
+            hlsAutoSelect: MediaLiveClientTypes.HlsAutoSelect? = nil,
+            hlsDefault: MediaLiveClientTypes.HlsDefault? = nil
+        ) {
+            self.audioGroupId = audioGroupId
+            self.audioRenditionSets = audioRenditionSets
+            self.hlsAutoSelect = hlsAutoSelect
+            self.hlsDefault = hlsDefault
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Media Package Output Settings
     public struct MediaPackageOutputSettings: Swift.Sendable {
+        /// Optional settings for MediaPackage V2 destinations
+        public var mediaPackageV2DestinationSettings: MediaLiveClientTypes.MediaPackageV2DestinationSettings?
 
-        public init() { }
+        public init(
+            mediaPackageV2DestinationSettings: MediaLiveClientTypes.MediaPackageV2DestinationSettings? = nil
+        ) {
+            self.mediaPackageV2DestinationSettings = mediaPackageV2DestinationSettings
+        }
     }
 }
 
@@ -12423,16 +12522,35 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Media Package V2 Group Settings
+    public struct MediaPackageV2GroupSettings: Swift.Sendable {
+        /// Mapping of up to 4 caption channels to caption languages.
+        public var captionLanguageMappings: [MediaLiveClientTypes.CaptionLanguageMapping]?
+
+        public init(
+            captionLanguageMappings: [MediaLiveClientTypes.CaptionLanguageMapping]? = nil
+        ) {
+            self.captionLanguageMappings = captionLanguageMappings
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Media Package Group Settings
     public struct MediaPackageGroupSettings: Swift.Sendable {
         /// MediaPackage channel destination.
         /// This member is required.
         public var destination: MediaLiveClientTypes.OutputLocationRef?
+        /// Parameters that apply only if the destination parameter (for the output group) specifies a channelGroup and channelName. Use of these two paramters indicates that the output group is for MediaPackage V2 (CMAF Ingest).
+        public var mediapackageV2GroupSettings: MediaLiveClientTypes.MediaPackageV2GroupSettings?
 
         public init(
-            destination: MediaLiveClientTypes.OutputLocationRef? = nil
+            destination: MediaLiveClientTypes.OutputLocationRef? = nil,
+            mediapackageV2GroupSettings: MediaLiveClientTypes.MediaPackageV2GroupSettings? = nil
         ) {
             self.destination = destination
+            self.mediapackageV2GroupSettings = mediapackageV2GroupSettings
         }
     }
 }
@@ -16614,7 +16732,7 @@ extension MediaLiveClientTypes {
 
     /// H264 Settings
     public struct H264Settings: Swift.Sendable {
-        /// Enables or disables adaptive quantization, which is a technique MediaLive can apply to video on a frame-by-frame basis to produce more compression without losing quality. There are three types of adaptive quantization: flicker, spatial, and temporal. Set the field in one of these ways: Set to Auto. Recommended. For each type of AQ, MediaLive will determine if AQ is needed, and if so, the appropriate strength. Set a strength (a value other than Auto or Disable). This strength will apply to any of the AQ fields that you choose to enable. Set to Disabled to disable all types of adaptive quantization.
+        /// Enables or disables adaptive quantization (AQ), which is a technique MediaLive can apply to video on a frame-by-frame basis to produce more compression without losing quality. There are three types of adaptive quantization: spatial, temporal, and flicker. We recommend that you set the field to Auto. For more information about all the options, see the topic about video adaptive quantization in the MediaLive user guide.
         public var adaptiveQuantization: MediaLiveClientTypes.H264AdaptiveQuantization?
         /// Indicates that AFD values will be written into the output stream. If afdSignaling is "auto", the system will try to preserve the input AFD value (in cases where multiple AFD values are valid). If set to "fixed", the AFD value will be the value configured in the fixedAfd parameter.
         public var afdSignaling: MediaLiveClientTypes.AfdSignaling?
@@ -16634,7 +16752,7 @@ extension MediaLiveClientTypes {
         public var filterSettings: MediaLiveClientTypes.H264FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
         public var fixedAfd: MediaLiveClientTypes.FixedAfd?
-        /// Flicker AQ makes adjustments within each frame to reduce flicker or 'pop' on I-frames. The value to enter in this field depends on the value in the Adaptive quantization field: If you have set the Adaptive quantization field to Auto, MediaLive ignores any value in this field. MediaLive will determine if flicker AQ is appropriate and will apply the appropriate strength. If you have set the Adaptive quantization field to a strength, you can set this field to Enabled or Disabled. Enabled: MediaLive will apply flicker AQ using the specified strength. Disabled: MediaLive won't apply flicker AQ. If you have set the Adaptive quantization to Disabled, MediaLive ignores any value in this field and doesn't apply flicker AQ.
+        /// Flicker AQ makes adjustments within each frame to reduce flicker or 'pop' on I-frames. The value to enter in this field depends on the value in the Adaptive quantization field. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
         public var flickerAq: MediaLiveClientTypes.H264FlickerAq?
         /// This setting applies only when scan type is "interlaced." It controls whether coding is performed on a field basis or on a frame basis. (When the video is progressive, the coding is always performed on a frame basis.) enabled: Force MediaLive to code on a field basis, so that odd and even sets of fields are coded separately. disabled: Code the two sets of fields separately (on a field basis) or together (on a frame basis using PAFF), depending on what is most appropriate for the content.
         public var forceFieldPictures: MediaLiveClientTypes.H264ForceFieldPictures?
@@ -16702,13 +16820,13 @@ extension MediaLiveClientTypes {
         public var slices: Swift.Int?
         /// Softness. Selects quantizer matrix, larger values reduce high-frequency content in the encoded image. If not set to zero, must be greater than 15.
         public var softness: Swift.Int?
-        /// Spatial AQ makes adjustments within each frame based on spatial variation of content complexity. The value to enter in this field depends on the value in the Adaptive quantization field: If you have set the Adaptive quantization field to Auto, MediaLive ignores any value in this field. MediaLive will determine if spatial AQ is appropriate and will apply the appropriate strength. If you have set the Adaptive quantization field to a strength, you can set this field to Enabled or Disabled. Enabled: MediaLive will apply spatial AQ using the specified strength. Disabled: MediaLive won't apply spatial AQ. If you have set the Adaptive quantization to Disabled, MediaLive ignores any value in this field and doesn't apply spatial AQ.
+        /// Spatial AQ makes adjustments within each frame based on spatial variation of content complexity. The value to enter in this field depends on the value in the Adaptive quantization field. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
         public var spatialAq: MediaLiveClientTypes.H264SpatialAq?
         /// If set to fixed, use gopNumBFrames B-frames per sub-GOP. If set to dynamic, optimize the number of B-frames used for each sub-GOP to improve visual quality.
         public var subgopLength: MediaLiveClientTypes.H264SubGopLength?
         /// Produces a bitstream compliant with SMPTE RP-2027.
         public var syntax: MediaLiveClientTypes.H264Syntax?
-        /// Temporal makes adjustments within each frame based on temporal variation of content complexity. The value to enter in this field depends on the value in the Adaptive quantization field: If you have set the Adaptive quantization field to Auto, MediaLive ignores any value in this field. MediaLive will determine if temporal AQ is appropriate and will apply the appropriate strength. If you have set the Adaptive quantization field to a strength, you can set this field to Enabled or Disabled. Enabled: MediaLive will apply temporal AQ using the specified strength. Disabled: MediaLive won't apply temporal AQ. If you have set the Adaptive quantization to Disabled, MediaLive ignores any value in this field and doesn't apply temporal AQ.
+        /// Temporal makes adjustments within each frame based on variations in content complexity over time. The value to enter in this field depends on the value in the Adaptive quantization field. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
         public var temporalAq: MediaLiveClientTypes.H264TemporalAq?
         /// Timecode burn-in settings
         public var timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings?
@@ -17471,7 +17589,7 @@ extension MediaLiveClientTypes {
 
     /// H265 Settings
     public struct H265Settings: Swift.Sendable {
-        /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
+        /// Enables or disables adaptive quantization (AQ), which is a technique MediaLive can apply to video on a frame-by-frame basis to produce more compression without losing quality. There are three types of adaptive quantization: spatial, temporal, and flicker. Flicker is the only type that you can customize. We recommend that you set the field to Auto. For more information about all the options, see the topic about video adaptive quantization in the MediaLive user guide.
         public var adaptiveQuantization: MediaLiveClientTypes.H265AdaptiveQuantization?
         /// Indicates that AFD values will be written into the output stream. If afdSignaling is "auto", the system will try to preserve the input AFD value (in cases where multiple AFD values are valid). If set to "fixed", the AFD value will be the value configured in the fixedAfd parameter.
         public var afdSignaling: MediaLiveClientTypes.AfdSignaling?
@@ -17491,7 +17609,7 @@ extension MediaLiveClientTypes {
         public var filterSettings: MediaLiveClientTypes.H265FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
         public var fixedAfd: MediaLiveClientTypes.FixedAfd?
-        /// If set to enabled, adjust quantization within each frame to reduce flicker or 'pop' on I-frames.
+        /// Flicker AQ makes adjustments within each frame to reduce flicker or 'pop' on I-frames. The value to enter in this field depends on the value in the Adaptive quantization field. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
         public var flickerAq: MediaLiveClientTypes.H265FlickerAq?
         /// Framerate denominator.
         /// This member is required.
@@ -35819,13 +35937,36 @@ extension MediaLiveClientTypes.MsSmoothOutputSettings {
 extension MediaLiveClientTypes.MediaPackageOutputSettings {
 
     static func write(value: MediaLiveClientTypes.MediaPackageOutputSettings?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["mediaPackageV2DestinationSettings"].write(value.mediaPackageV2DestinationSettings, with: MediaLiveClientTypes.MediaPackageV2DestinationSettings.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageOutputSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MediaLiveClientTypes.MediaPackageOutputSettings()
+        var value = MediaLiveClientTypes.MediaPackageOutputSettings()
+        value.mediaPackageV2DestinationSettings = try reader["mediaPackageV2DestinationSettings"].readIfPresent(with: MediaLiveClientTypes.MediaPackageV2DestinationSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.MediaPackageV2DestinationSettings {
+
+    static func write(value: MediaLiveClientTypes.MediaPackageV2DestinationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioGroupId"].write(value.audioGroupId)
+        try writer["audioRenditionSets"].write(value.audioRenditionSets)
+        try writer["hlsAutoSelect"].write(value.hlsAutoSelect)
+        try writer["hlsDefault"].write(value.hlsDefault)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageV2DestinationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MediaPackageV2DestinationSettings()
+        value.audioGroupId = try reader["audioGroupId"].readIfPresent()
+        value.audioRenditionSets = try reader["audioRenditionSets"].readIfPresent()
+        value.hlsAutoSelect = try reader["hlsAutoSelect"].readIfPresent()
+        value.hlsDefault = try reader["hlsDefault"].readIfPresent()
+        return value
     }
 }
 
@@ -36300,12 +36441,48 @@ extension MediaLiveClientTypes.MediaPackageGroupSettings {
     static func write(value: MediaLiveClientTypes.MediaPackageGroupSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["destination"].write(value.destination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
+        try writer["mediapackageV2GroupSettings"].write(value.mediapackageV2GroupSettings, with: MediaLiveClientTypes.MediaPackageV2GroupSettings.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageGroupSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.MediaPackageGroupSettings()
         value.destination = try reader["destination"].readIfPresent(with: MediaLiveClientTypes.OutputLocationRef.read(from:))
+        value.mediapackageV2GroupSettings = try reader["mediapackageV2GroupSettings"].readIfPresent(with: MediaLiveClientTypes.MediaPackageV2GroupSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.MediaPackageV2GroupSettings {
+
+    static func write(value: MediaLiveClientTypes.MediaPackageV2GroupSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["captionLanguageMappings"].writeList(value.captionLanguageMappings, memberWritingClosure: MediaLiveClientTypes.CaptionLanguageMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageV2GroupSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MediaPackageV2GroupSettings()
+        value.captionLanguageMappings = try reader["captionLanguageMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.CaptionLanguageMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.CaptionLanguageMapping {
+
+    static func write(value: MediaLiveClientTypes.CaptionLanguageMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["captionChannel"].write(value.captionChannel)
+        try writer["languageCode"].write(value.languageCode)
+        try writer["languageDescription"].write(value.languageDescription)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CaptionLanguageMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.CaptionLanguageMapping()
+        value.captionChannel = try reader["captionChannel"].readIfPresent() ?? 0
+        value.languageCode = try reader["languageCode"].readIfPresent() ?? ""
+        value.languageDescription = try reader["languageDescription"].readIfPresent() ?? ""
         return value
     }
 }
@@ -36569,25 +36746,6 @@ extension MediaLiveClientTypes.HlsAkamaiSettings {
         value.restartDelay = try reader["restartDelay"].readIfPresent()
         value.salt = try reader["salt"].readIfPresent()
         value.token = try reader["token"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaLiveClientTypes.CaptionLanguageMapping {
-
-    static func write(value: MediaLiveClientTypes.CaptionLanguageMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["captionChannel"].write(value.captionChannel)
-        try writer["languageCode"].write(value.languageCode)
-        try writer["languageDescription"].write(value.languageDescription)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CaptionLanguageMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaLiveClientTypes.CaptionLanguageMapping()
-        value.captionChannel = try reader["captionChannel"].readIfPresent() ?? 0
-        value.languageCode = try reader["languageCode"].readIfPresent() ?? ""
-        value.languageDescription = try reader["languageDescription"].readIfPresent() ?? ""
         return value
     }
 }

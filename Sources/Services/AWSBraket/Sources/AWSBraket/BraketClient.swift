@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BraketClient: ClientRuntime.Client {
     public static let clientName = "BraketClient"
-    public static let version = "1.5.39"
+    public static let version = "1.5.40"
     let client: ClientRuntime.SdkHttpClient
     let config: BraketClient.BraketClientConfiguration
     let serviceName = "Braket"

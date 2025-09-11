@@ -7632,6 +7632,35 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
+    public enum DefaultAuthScheme: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iamAuth
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DefaultAuthScheme] {
+            return [
+                .iamAuth,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iamAuth: return "IAM_AUTH"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     public enum EndpointNetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dual
         case ipv4
@@ -7725,13 +7754,14 @@ extension RDSClientTypes {
 
 public struct CreateDBProxyInput: Swift.Sendable {
     /// The authorization mechanism that the proxy uses.
-    /// This member is required.
     public var auth: [RDSClientTypes.UserAuthConfig]?
     /// The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
     /// This member is required.
     public var dbProxyName: Swift.String?
     /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
     public var debugLogging: Swift.Bool?
+    /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database. Valid values are NONE and IAM_AUTH. When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database. If you don't specify DefaultAuthScheme or specify this parameter as NONE, you must specify the Auth option.
+    public var defaultAuthScheme: RDSClientTypes.DefaultAuthScheme?
     /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
     ///
     /// * IPV4 - The proxy endpoint supports IPv4 only.
@@ -7782,6 +7812,7 @@ public struct CreateDBProxyInput: Swift.Sendable {
         auth: [RDSClientTypes.UserAuthConfig]? = nil,
         dbProxyName: Swift.String? = nil,
         debugLogging: Swift.Bool? = nil,
+        defaultAuthScheme: RDSClientTypes.DefaultAuthScheme? = nil,
         endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
         engineFamily: RDSClientTypes.EngineFamily? = nil,
         idleClientTimeout: Swift.Int? = nil,
@@ -7795,6 +7826,7 @@ public struct CreateDBProxyInput: Swift.Sendable {
         self.auth = auth
         self.dbProxyName = dbProxyName
         self.debugLogging = debugLogging
+        self.defaultAuthScheme = defaultAuthScheme
         self.endpointNetworkType = endpointNetworkType
         self.engineFamily = engineFamily
         self.idleClientTimeout = idleClientTimeout
@@ -7906,6 +7938,8 @@ extension RDSClientTypes {
         public var dbProxyName: Swift.String?
         /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
         public var debugLogging: Swift.Bool?
+        /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database. Valid values are NONE and IAM_AUTH. When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database.
+        public var defaultAuthScheme: Swift.String?
         /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public var endpoint: Swift.String?
         /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
@@ -7947,6 +7981,7 @@ extension RDSClientTypes {
             dbProxyArn: Swift.String? = nil,
             dbProxyName: Swift.String? = nil,
             debugLogging: Swift.Bool? = nil,
+            defaultAuthScheme: Swift.String? = nil,
             endpoint: Swift.String? = nil,
             endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
             engineFamily: Swift.String? = nil,
@@ -7965,6 +8000,7 @@ extension RDSClientTypes {
             self.dbProxyArn = dbProxyArn
             self.dbProxyName = dbProxyName
             self.debugLogging = debugLogging
+            self.defaultAuthScheme = defaultAuthScheme
             self.endpoint = endpoint
             self.endpointNetworkType = endpointNetworkType
             self.engineFamily = engineFamily
@@ -18083,6 +18119,8 @@ public struct ModifyDBProxyInput: Swift.Sendable {
     public var dbProxyName: Swift.String?
     /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
     public var debugLogging: Swift.Bool?
+    /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database. Valid values are NONE and IAM_AUTH. When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database.
+    public var defaultAuthScheme: RDSClientTypes.DefaultAuthScheme?
     /// The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database.
     public var idleClientTimeout: Swift.Int?
     /// The new identifier for the DBProxy. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
@@ -18098,6 +18136,7 @@ public struct ModifyDBProxyInput: Swift.Sendable {
         auth: [RDSClientTypes.UserAuthConfig]? = nil,
         dbProxyName: Swift.String? = nil,
         debugLogging: Swift.Bool? = nil,
+        defaultAuthScheme: RDSClientTypes.DefaultAuthScheme? = nil,
         idleClientTimeout: Swift.Int? = nil,
         newDBProxyName: Swift.String? = nil,
         requireTLS: Swift.Bool? = nil,
@@ -18107,6 +18146,7 @@ public struct ModifyDBProxyInput: Swift.Sendable {
         self.auth = auth
         self.dbProxyName = dbProxyName
         self.debugLogging = debugLogging
+        self.defaultAuthScheme = defaultAuthScheme
         self.idleClientTimeout = idleClientTimeout
         self.newDBProxyName = newDBProxyName
         self.requireTLS = requireTLS
@@ -23506,6 +23546,7 @@ extension CreateDBProxyInput {
         try writer["Auth"].writeList(value.auth, memberWritingClosure: RDSClientTypes.UserAuthConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DBProxyName"].write(value.dbProxyName)
         try writer["DebugLogging"].write(value.debugLogging)
+        try writer["DefaultAuthScheme"].write(value.defaultAuthScheme)
         try writer["EndpointNetworkType"].write(value.endpointNetworkType)
         try writer["EngineFamily"].write(value.engineFamily)
         try writer["IdleClientTimeout"].write(value.idleClientTimeout)
@@ -24852,6 +24893,7 @@ extension ModifyDBProxyInput {
         try writer["Auth"].writeList(value.auth, memberWritingClosure: RDSClientTypes.UserAuthConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DBProxyName"].write(value.dbProxyName)
         try writer["DebugLogging"].write(value.debugLogging)
+        try writer["DefaultAuthScheme"].write(value.defaultAuthScheme)
         try writer["IdleClientTimeout"].write(value.idleClientTimeout)
         try writer["NewDBProxyName"].write(value.newDBProxyName)
         try writer["RequireTLS"].write(value.requireTLS)
@@ -33443,6 +33485,7 @@ extension RDSClientTypes.DBProxy {
         value.vpcId = try reader["VpcId"].readIfPresent()
         value.vpcSecurityGroupIds = try reader["VpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcSubnetIds = try reader["VpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultAuthScheme = try reader["DefaultAuthScheme"].readIfPresent()
         value.auth = try reader["Auth"].readListIfPresent(memberReadingClosure: RDSClientTypes.UserAuthConfigInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()

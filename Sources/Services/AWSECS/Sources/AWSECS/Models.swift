@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -1300,6 +1301,8 @@ extension ECSClientTypes {
 
     /// A deployment lifecycle hook runs custom logic at specific stages of the deployment process. Currently, you can use Lambda functions as hook targets. For more information, see [Lifecycle hooks for Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-lifecycle-hooks.html) in the Amazon Elastic Container Service Developer Guide.
     public struct DeploymentLifecycleHook: Swift.Sendable {
+        /// Use this field to specify custom parameters that Amazon ECS will pass to your hook target invocations (such as a Lambda function).
+        public var hookDetails: Smithy.Document?
         /// The Amazon Resource Name (ARN) of the hook target. Currently, only Lambda function ARNs are supported. You must provide this parameter when configuring a deployment lifecycle hook.
         public var hookTargetArn: Swift.String?
         /// The lifecycle stages at which to run the hook. Choose from these valid values:
@@ -1325,10 +1328,12 @@ extension ECSClientTypes {
         public var roleArn: Swift.String?
 
         public init(
+            hookDetails: Smithy.Document? = nil,
             hookTargetArn: Swift.String? = nil,
             lifecycleStages: [ECSClientTypes.DeploymentLifecycleHookStage]? = nil,
             roleArn: Swift.String? = nil
         ) {
+            self.hookDetails = hookDetails
             self.hookTargetArn = hookTargetArn
             self.lifecycleStages = lifecycleStages
             self.roleArn = roleArn
@@ -2374,7 +2379,7 @@ extension ECSClientTypes {
 public struct CreateServiceInput: Swift.Sendable {
     /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:
     ///
-    /// * For create service requests, when when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to to ENABLED.
+    /// * For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.
     ///
     /// * For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
     public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
@@ -2905,7 +2910,7 @@ extension ECSClientTypes {
     public struct Service: Swift.Sendable {
         /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:
         ///
-        /// * For create service requests, when when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to to ENABLED.
+        /// * For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.
         ///
         /// * For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
         public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
@@ -4633,7 +4638,7 @@ extension ECSClientTypes {
         public var mountPoints: [ECSClientTypes.MountPoint]?
         /// The name of a container. If you're linking multiple containers together in a task definition, the name of one container can be entered in the links of another container to connect the containers. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. This parameter maps to name in the docker container create command and the --name option to docker run.
         public var name: Swift.String?
-        /// The list of port mappings for the container. Port mappings allow containers to access ports on the host container instance to send or receive traffic. For task definitions that use the awsvpc network mode, only specify the containerPort. The hostPort can be left blank or it must be the same value as the containerPort. Port mappings on Windows use the NetNAT gateway address rather than localhost. There's no loopback for port mappings on Windows, so you can't access a container's mapped port from the host itself. This parameter maps to PortBindings in the the docker container create command and the --publish option to docker run. If the network mode of a task definition is set to none, then you can't specify port mappings. If the network mode of a task definition is set to host, then host ports must either be undefined or they must match the container port in the port mapping. After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the Network Bindings section of a container description for a selected task in the Amazon ECS console. The assignments are also visible in the networkBindings section [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) responses.
+        /// The list of port mappings for the container. Port mappings allow containers to access ports on the host container instance to send or receive traffic. For task definitions that use the awsvpc network mode, only specify the containerPort. The hostPort can be left blank or it must be the same value as the containerPort. Port mappings on Windows use the NetNAT gateway address rather than localhost. There's no loopback for port mappings on Windows, so you can't access a container's mapped port from the host itself. This parameter maps to PortBindings in the docker container create command and the --publish option to docker run. If the network mode of a task definition is set to none, then you can't specify port mappings. If the network mode of a task definition is set to host, then host ports must either be undefined or they must match the container port in the port mapping. After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the Network Bindings section of a container description for a selected task in the Amazon ECS console. The assignments are also visible in the networkBindings section [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) responses.
         public var portMappings: [ECSClientTypes.PortMapping]?
         /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user). This parameter maps to Privileged in the docker container create command and the --privileged option to docker run This parameter is not supported for Windows containers or tasks run on Fargate.
         public var privileged: Swift.Bool?
@@ -9199,7 +9204,7 @@ public struct RunTaskInput: Swift.Sendable {
     /// The family and revision (family:revision) or full ARN of the task definition to run. If a revision isn't specified, the latest ACTIVE revision is used. The full ARN value must match the value that you specified as the Resource of the principal's permissions policy. When you specify a task definition, you must either specify a specific revision, or all revisions in the ARN. To specify a specific revision, include the revision number in the ARN. For example, to specify revision 2, use arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:2. To specify all revisions, use the wildcard (*) in the ARN. For example, to specify all revisions, use arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:*. For more information, see [Policy Resources for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-resources) in the Amazon Elastic Container Service Developer Guide.
     /// This member is required.
     public var taskDefinition: Swift.String?
-    /// The details of the volume that was configuredAtLaunch. You can configure the size, volumeType, IOPS, throughput, snapshot and encryption in in [TaskManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition.
+    /// The details of the volume that was configuredAtLaunch. You can configure the size, volumeType, IOPS, throughput, snapshot and encryption in [TaskManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition.
     public var volumeConfigurations: [ECSClientTypes.TaskVolumeConfiguration]?
 
     public init(
@@ -9972,7 +9977,7 @@ public struct UpdateContainerInstancesStateOutput: Swift.Sendable {
 public struct UpdateServiceInput: Swift.Sendable {
     /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:
     ///
-    /// * For create service requests, when when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to to ENABLED.
+    /// * For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.
     ///
     /// * For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
     ///
@@ -14400,6 +14405,7 @@ extension ECSClientTypes.DeploymentLifecycleHook {
 
     static func write(value: ECSClientTypes.DeploymentLifecycleHook?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["hookDetails"].write(value.hookDetails)
         try writer["hookTargetArn"].write(value.hookTargetArn)
         try writer["lifecycleStages"].writeList(value.lifecycleStages, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.DeploymentLifecycleHookStage>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
@@ -14411,6 +14417,7 @@ extension ECSClientTypes.DeploymentLifecycleHook {
         value.hookTargetArn = try reader["hookTargetArn"].readIfPresent()
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.lifecycleStages = try reader["lifecycleStages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ECSClientTypes.DeploymentLifecycleHookStage>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hookDetails = try reader["hookDetails"].readIfPresent()
         return value
     }
 }
