@@ -35,7 +35,7 @@ public struct ConfigFileReader {
         
         var sections = [String: ConfigFileSection]()
         var currentSectionName: String? // Keep track of current section name
-        var currentSubsectionName: String? // Keep track of current subsection name
+        var currentPropertyName: String? // Keep track of current subsection name
         let profileSection = try! NSRegularExpression(pattern: "profile", options: .caseInsensitive) // Regex pattern to match any line containing "profile"
         
         for line in arrayConfigData{
@@ -54,17 +54,19 @@ public struct ConfigFileReader {
                     currentSectionName = profileName
                     let section = ConfigFileSection(name: "profile")
                     sections[profileName] = section
-                    print("Found profile: \(profileName)") // For demonstration
+                    print("Found new profile: \(profileName)") // For demonstration
                 }
             case _ where currentSectionName != nil && line.contains("="):
-                //Identify new subsection
+                //Identify new Property
                 if line.contains("nested"){
-                    let subSectionName = String(line)
-                    currentSubsectionName = subSectionName
-                    print("Found subsection: \(String(describing: currentSubsectionName))") // For demonstration
+                    let PropertyName = String(line)
+                    currentPropertyName = PropertyName
+                    let section = ConfigFileSection(name: "undefined-property")
+                    sections[PropertyName] = section
+                    print("Found new Property: \(String(describing: currentPropertyName))") // For demonstration
                 }
                 
-                // This case handles key-value pairs within a section/subsection
+                // This case handles key-value pairs within a section
                 if !line.hasPrefix(" ") && !line.hasPrefix("\t"){
                     let components = line.split(separator: "=", maxSplits: 1).map(String.init)
                     if components.count == 2, let currentName = currentSectionName {
@@ -75,11 +77,11 @@ public struct ConfigFileReader {
                     }
                 } else {
                     let components = line.split(separator: "=", maxSplits: 1).map(String.init)
-                    if components.count == 2, let currentName = currentSubsectionName {
+                    if components.count == 2, let currentName = currentPropertyName {
                         let key = components[0].trimmingCharacters(in: .whitespaces)
                         let value = components[1].trimmingCharacters(in: .whitespaces)
                         sections[currentName]?.keys[key] = value
-                        print("  Added key and value '\(key)' = '\(value)' to subsection '\(currentName)'")
+                        print("  Added sub-property key and value '\(key)' = '\(value)' to property '\(currentName)'")
                     }
                 }
             default:
