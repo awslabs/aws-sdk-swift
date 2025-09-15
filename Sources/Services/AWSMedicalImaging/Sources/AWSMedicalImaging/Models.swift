@@ -351,6 +351,9 @@ extension MedicalImagingClientTypes {
         case created
         case deleted
         case deleting
+        case imported
+        case importing
+        case importFailed
         case updated
         case updateFailed
         case updating
@@ -365,6 +368,9 @@ extension MedicalImagingClientTypes {
                 .created,
                 .deleted,
                 .deleting,
+                .imported,
+                .importing,
+                .importFailed,
                 .updated,
                 .updateFailed,
                 .updating
@@ -385,6 +391,9 @@ extension MedicalImagingClientTypes {
             case .created: return "CREATED"
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
+            case .imported: return "IMPORTED"
+            case .importing: return "IMPORTING"
+            case .importFailed: return "IMPORT_FAILED"
             case .updated: return "UPDATED"
             case .updateFailed: return "UPDATE_FAILED"
             case .updating: return "UPDATING"
@@ -506,6 +515,8 @@ public struct CreateDatastoreInput: Swift.Sendable {
     public var datastoreName: Swift.String?
     /// The Amazon Resource Name (ARN) assigned to the Key Management Service (KMS) key for accessing encrypted data.
     public var kmsKeyArn: Swift.String?
+    /// The ARN of the authorizer's Lambda function.
+    public var lambdaAuthorizerArn: Swift.String?
     /// The tags provided when creating a data store.
     public var tags: [Swift.String: Swift.String]?
 
@@ -513,11 +524,13 @@ public struct CreateDatastoreInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         datastoreName: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
+        lambdaAuthorizerArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.datastoreName = datastoreName
         self.kmsKeyArn = kmsKeyArn
+        self.lambdaAuthorizerArn = lambdaAuthorizerArn
         self.tags = tags
     }
 }
@@ -637,6 +650,8 @@ extension MedicalImagingClientTypes {
         public var datastoreStatus: MedicalImagingClientTypes.DatastoreStatus?
         /// The Amazon Resource Name (ARN) assigned to the Key Management Service (KMS) key for accessing encrypted data.
         public var kmsKeyArn: Swift.String?
+        /// The ARN of the authorizer's Lambda function.
+        public var lambdaAuthorizerArn: Swift.String?
         /// The timestamp when the data store was last updated.
         public var updatedAt: Foundation.Date?
 
@@ -647,6 +662,7 @@ extension MedicalImagingClientTypes {
             datastoreName: Swift.String? = nil,
             datastoreStatus: MedicalImagingClientTypes.DatastoreStatus? = nil,
             kmsKeyArn: Swift.String? = nil,
+            lambdaAuthorizerArn: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.createdAt = createdAt
@@ -655,6 +671,7 @@ extension MedicalImagingClientTypes {
             self.datastoreName = datastoreName
             self.datastoreStatus = datastoreStatus
             self.kmsKeyArn = kmsKeyArn
+            self.lambdaAuthorizerArn = lambdaAuthorizerArn
             self.updatedAt = updatedAt
         }
     }
@@ -2300,6 +2317,7 @@ extension CreateDatastoreInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["datastoreName"].write(value.datastoreName)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["lambdaAuthorizerArn"].write(value.lambdaAuthorizerArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2636,6 +2654,7 @@ enum CreateDatastoreOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3076,6 +3095,7 @@ extension MedicalImagingClientTypes.DatastoreProperties {
         value.datastoreName = try reader["datastoreName"].readIfPresent() ?? ""
         value.datastoreStatus = try reader["datastoreStatus"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.lambdaAuthorizerArn = try reader["lambdaAuthorizerArn"].readIfPresent()
         value.datastoreArn = try reader["datastoreArn"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)

@@ -2147,6 +2147,85 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
+    /// A filter that returns objects that are encrypted by dual-layer server-side encryption with Amazon Web Services Key Management Service (KMS) keys (DSSE-KMS). You can further refine your filtering by optionally providing a KMS Key ARN to create an object list of DSSE-KMS objects with that specific KMS Key ARN.
+    public struct DSSEKMSFilter: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for the filter to return objects that are encrypted by the specified key. For best performance, we recommend using the KMSKeyArn filter in conjunction with other object metadata filters, like MatchAnyPrefix, CreatedAfter, or MatchAnyStorageClass. You must provide the full KMS Key ARN. You can't use an alias name or alias ARN. For more information, see [ KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Amazon Web Services Key Management Service Developer Guide.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A filter that returns objects that aren't server-side encrypted.
+    public struct NotSSEFilter: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A filter that returns objects that are encrypted by server-side encryption with customer-provided keys (SSE-C).
+    public struct SSECFilter: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A filter that returns objects that are encrypted by server-side encryption with Amazon Web Services KMS (SSE-KMS).
+    public struct SSEKMSFilter: Swift.Sendable {
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Amazon Web Services Key Management Service (Amazon Web Services KMS) keys (SSE-KMS). If specified, will filter SSE-KMS encrypted objects by S3 Bucket Key status. For more information, see [Reducing the cost of SSE-KMS with Amazon S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html) in the Amazon S3 User Guide.
+        public var bucketKeyEnabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for the filter to return objects that are encrypted by the specified key. For best performance, we recommend using the KMSKeyArn filter in conjunction with other object metadata filters, like MatchAnyPrefix, CreatedAfter, or MatchAnyStorageClass. You must provide the full KMS Key ARN. You can't use an alias name or alias ARN. For more information, see [ KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Amazon Web Services Key Management Service Developer Guide.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            bucketKeyEnabled: Swift.Bool? = false,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.bucketKeyEnabled = bucketKeyEnabled
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A filter that returns objects that are encrypted by server-side encryption with Amazon S3 managed keys (SSE-S3).
+    public struct SSES3Filter: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// An optional filter for the S3JobManifestGenerator that identifies the subset of objects by encryption type. This filter is used to create an object list for S3 Batch Operations jobs. If provided, this filter will generate an object list that only includes objects with the specified encryption type.
+    public enum ObjectEncryptionFilter: Swift.Sendable {
+        /// Filters for objects that are encrypted by server-side encryption with Amazon S3 managed keys (SSE-S3).
+        case sses3(S3ControlClientTypes.SSES3Filter)
+        /// Filters for objects that are encrypted by server-side encryption with Amazon Web Services Key Management Service (KMS) keys (SSE-KMS).
+        case ssekms(S3ControlClientTypes.SSEKMSFilter)
+        /// Filters for objects that are encrypted by dual-layer server-side encryption with Amazon Web Services Key Management Service (KMS) keys (DSSE-KMS).
+        case dssekms(S3ControlClientTypes.DSSEKMSFilter)
+        /// Filters for objects that are encrypted by server-side encryption with customer-provided keys (SSE-C).
+        case ssec(S3ControlClientTypes.SSECFilter)
+        /// Filters for objects that are not encrypted by server-side encryption.
+        case notsse(S3ControlClientTypes.NotSSEFilter)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension S3ControlClientTypes {
+
     public enum S3StorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case glacier
@@ -2236,6 +2315,8 @@ extension S3ControlClientTypes {
         public var eligibleForReplication: Swift.Bool?
         /// If provided, the generated manifest includes only source bucket objects whose object keys match the string constraints specified for MatchAnyPrefix, MatchAnySuffix, and MatchAnySubstring.
         public var keyNameConstraint: S3ControlClientTypes.KeyNameConstraint?
+        /// If provided, the generated object list includes only source bucket objects with the indicated server-side encryption type (SSE-S3, SSE-KMS, DSSE-KMS, SSE-C, or NOT-SSE). If you select SSE-KMS or DSSE-KMS, you can optionally further filter your results by specifying a specific KMS Key ARN. If you select SSE-KMS, you can also optionally further filter your results by Bucket Key enabled status.
+        public var matchAnyObjectEncryption: [S3ControlClientTypes.ObjectEncryptionFilter]?
         /// If provided, the generated manifest includes only source bucket objects that are stored with the specified storage class.
         public var matchAnyStorageClass: [S3ControlClientTypes.S3StorageClass]?
         /// If provided, the generated manifest includes only source bucket objects that have one of the specified Replication statuses.
@@ -2250,6 +2331,7 @@ extension S3ControlClientTypes {
             createdBefore: Foundation.Date? = nil,
             eligibleForReplication: Swift.Bool? = false,
             keyNameConstraint: S3ControlClientTypes.KeyNameConstraint? = nil,
+            matchAnyObjectEncryption: [S3ControlClientTypes.ObjectEncryptionFilter]? = nil,
             matchAnyStorageClass: [S3ControlClientTypes.S3StorageClass]? = nil,
             objectReplicationStatuses: [S3ControlClientTypes.ReplicationStatus]? = nil,
             objectSizeGreaterThanBytes: Swift.Int? = 0,
@@ -2259,6 +2341,7 @@ extension S3ControlClientTypes {
             self.createdBefore = createdBefore
             self.eligibleForReplication = eligibleForReplication
             self.keyNameConstraint = keyNameConstraint
+            self.matchAnyObjectEncryption = matchAnyObjectEncryption
             self.matchAnyStorageClass = matchAnyStorageClass
             self.objectReplicationStatuses = objectReplicationStatuses
             self.objectSizeGreaterThanBytes = objectSizeGreaterThanBytes
@@ -5139,7 +5222,7 @@ extension S3ControlClientTypes {
         public var id: Swift.String?
         /// The noncurrent version expiration of the lifecycle rule.
         public var noncurrentVersionExpiration: S3ControlClientTypes.NoncurrentVersionExpiration?
-        /// Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime. This is not supported by Amazon S3 on Outposts buckets.
+        /// Specifies the transition rule for the lifecycle rule that describes when non-current objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime. This is not supported by Amazon S3 on Outposts buckets.
         public var noncurrentVersionTransitions: [S3ControlClientTypes.NoncurrentVersionTransition]?
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
         /// This member is required.
@@ -13582,6 +13665,7 @@ extension S3ControlClientTypes.JobManifestGeneratorFilter {
         try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["EligibleForReplication"].write(value.eligibleForReplication)
         try writer["KeyNameConstraint"].write(value.keyNameConstraint, with: S3ControlClientTypes.KeyNameConstraint.write(value:to:))
+        try writer["MatchAnyObjectEncryption"].writeList(value.matchAnyObjectEncryption, memberWritingClosure: S3ControlClientTypes.ObjectEncryptionFilter.write(value:to:), memberNodeInfo: "ObjectEncryption", isFlattened: false)
         try writer["MatchAnyStorageClass"].writeList(value.matchAnyStorageClass, memberWritingClosure: SmithyReadWrite.WritingClosureBox<S3ControlClientTypes.S3StorageClass>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ObjectReplicationStatuses"].writeList(value.objectReplicationStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<S3ControlClientTypes.ReplicationStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ObjectSizeGreaterThanBytes"].write(value.objectSizeGreaterThanBytes)
@@ -13599,7 +13683,119 @@ extension S3ControlClientTypes.JobManifestGeneratorFilter {
         value.objectSizeGreaterThanBytes = try reader["ObjectSizeGreaterThanBytes"].readIfPresent()
         value.objectSizeLessThanBytes = try reader["ObjectSizeLessThanBytes"].readIfPresent()
         value.matchAnyStorageClass = try reader["MatchAnyStorageClass"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<S3ControlClientTypes.S3StorageClass>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchAnyObjectEncryption = try reader["MatchAnyObjectEncryption"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ObjectEncryptionFilter.read(from:), memberNodeInfo: "ObjectEncryption", isFlattened: false)
         return value
+    }
+}
+
+extension S3ControlClientTypes.ObjectEncryptionFilter {
+
+    static func write(value: S3ControlClientTypes.ObjectEncryptionFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .dssekms(dssekms):
+                try writer["DSSE-KMS"].write(dssekms, with: S3ControlClientTypes.DSSEKMSFilter.write(value:to:))
+            case let .notsse(notsse):
+                try writer["NOT-SSE"].write(notsse, with: S3ControlClientTypes.NotSSEFilter.write(value:to:))
+            case let .ssec(ssec):
+                try writer["SSE-C"].write(ssec, with: S3ControlClientTypes.SSECFilter.write(value:to:))
+            case let .ssekms(ssekms):
+                try writer["SSE-KMS"].write(ssekms, with: S3ControlClientTypes.SSEKMSFilter.write(value:to:))
+            case let .sses3(sses3):
+                try writer["SSE-S3"].write(sses3, with: S3ControlClientTypes.SSES3Filter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ObjectEncryptionFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "SSES3":
+                return .sses3(try reader["SSE-S3"].read(with: S3ControlClientTypes.SSES3Filter.read(from:)))
+            case "SSEKMS":
+                return .ssekms(try reader["SSE-KMS"].read(with: S3ControlClientTypes.SSEKMSFilter.read(from:)))
+            case "DSSEKMS":
+                return .dssekms(try reader["DSSE-KMS"].read(with: S3ControlClientTypes.DSSEKMSFilter.read(from:)))
+            case "SSEC":
+                return .ssec(try reader["SSE-C"].read(with: S3ControlClientTypes.SSECFilter.read(from:)))
+            case "NOTSSE":
+                return .notsse(try reader["NOT-SSE"].read(with: S3ControlClientTypes.NotSSEFilter.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension S3ControlClientTypes.NotSSEFilter {
+
+    static func write(value: S3ControlClientTypes.NotSSEFilter?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.NotSSEFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ControlClientTypes.NotSSEFilter()
+    }
+}
+
+extension S3ControlClientTypes.SSECFilter {
+
+    static func write(value: S3ControlClientTypes.SSECFilter?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSECFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ControlClientTypes.SSECFilter()
+    }
+}
+
+extension S3ControlClientTypes.DSSEKMSFilter {
+
+    static func write(value: S3ControlClientTypes.DSSEKMSFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.DSSEKMSFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.DSSEKMSFilter()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension S3ControlClientTypes.SSEKMSFilter {
+
+    static func write(value: S3ControlClientTypes.SSEKMSFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["BucketKeyEnabled"].write(value.bucketKeyEnabled)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSEKMSFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.SSEKMSFilter()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        value.bucketKeyEnabled = try reader["BucketKeyEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension S3ControlClientTypes.SSES3Filter {
+
+    static func write(value: S3ControlClientTypes.SSES3Filter?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSES3Filter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ControlClientTypes.SSES3Filter()
     }
 }
 
