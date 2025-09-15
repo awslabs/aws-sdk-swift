@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ObservabilityAdminClient: ClientRuntime.Client {
     public static let clientName = "ObservabilityAdminClient"
-    public static let version = "1.5.40"
+    public static let version = "1.5.42"
     let client: ClientRuntime.SdkHttpClient
     let config: ObservabilityAdminClient.ObservabilityAdminClientConfiguration
     let serviceName = "ObservabilityAdmin"
@@ -367,6 +367,78 @@ extension ObservabilityAdminClient {
 }
 
 extension ObservabilityAdminClient {
+    /// Performs the `CreateCentralizationRuleForOrganization` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Creates a centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// - Parameter CreateCentralizationRuleForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCentralizationRuleForOrganizationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `ConflictException` : The requested operation conflicts with the current state of the specified resource or with another request.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The requested operation would exceed the allowed quota for the specified resource type.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func createCentralizationRuleForOrganization(input: CreateCentralizationRuleForOrganizationInput) async throws -> CreateCentralizationRuleForOrganizationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCentralizationRuleForOrganization")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>(CreateCentralizationRuleForOrganizationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCentralizationRuleForOrganizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCentralizationRuleForOrganizationOutput>(CreateCentralizationRuleForOrganizationOutput.httpOutput(from:), CreateCentralizationRuleForOrganizationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCentralizationRuleForOrganizationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCentralizationRuleForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCentralizationRuleForOrganization")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateTelemetryRule` operation on the `ObservabilityAdmin` service.
     ///
     /// Creates a telemetry rule that defines how telemetry should be configured for Amazon Web Services resources in your account. The rule specifies which resources should have telemetry enabled and how that telemetry data should be collected based on resource type, telemetry type, and selection criteria.
@@ -511,6 +583,77 @@ extension ObservabilityAdminClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteCentralizationRuleForOrganization` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Deletes an organization-wide centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// - Parameter DeleteCentralizationRuleForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCentralizationRuleForOrganizationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource (such as a telemetry rule) could not be found.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func deleteCentralizationRuleForOrganization(input: DeleteCentralizationRuleForOrganizationInput) async throws -> DeleteCentralizationRuleForOrganizationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCentralizationRuleForOrganization")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>(DeleteCentralizationRuleForOrganizationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCentralizationRuleForOrganizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCentralizationRuleForOrganizationOutput>(DeleteCentralizationRuleForOrganizationOutput.httpOutput(from:), DeleteCentralizationRuleForOrganizationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCentralizationRuleForOrganizationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCentralizationRuleForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCentralizationRuleForOrganization")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteTelemetryRule` operation on the `ObservabilityAdmin` service.
     ///
     /// Deletes a telemetry rule from your account. Any telemetry configurations previously created by the rule will remain but no new resources will be configured by this rule.
@@ -641,6 +784,77 @@ extension ObservabilityAdminClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTelemetryRuleForOrganization")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetCentralizationRuleForOrganization` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Retrieves the details of a specific organization centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// - Parameter GetCentralizationRuleForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `GetCentralizationRuleForOrganizationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource (such as a telemetry rule) could not be found.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func getCentralizationRuleForOrganization(input: GetCentralizationRuleForOrganizationInput) async throws -> GetCentralizationRuleForOrganizationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCentralizationRuleForOrganization")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>(GetCentralizationRuleForOrganizationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCentralizationRuleForOrganizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCentralizationRuleForOrganizationOutput>(GetCentralizationRuleForOrganizationOutput.httpOutput(from:), GetCentralizationRuleForOrganizationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCentralizationRuleForOrganizationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCentralizationRuleForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCentralizationRuleForOrganization")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -916,6 +1130,76 @@ extension ObservabilityAdminClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTelemetryRuleForOrganization")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListCentralizationRulesForOrganization` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// - Parameter ListCentralizationRulesForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `ListCentralizationRulesForOrganizationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func listCentralizationRulesForOrganization(input: ListCentralizationRulesForOrganizationInput) async throws -> ListCentralizationRulesForOrganizationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCentralizationRulesForOrganization")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>(ListCentralizationRulesForOrganizationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCentralizationRulesForOrganizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCentralizationRulesForOrganizationOutput>(ListCentralizationRulesForOrganizationOutput.httpOutput(from:), ListCentralizationRulesForOrganizationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCentralizationRulesForOrganizationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCentralizationRulesForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCentralizationRulesForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCentralizationRulesForOrganization")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1678,6 +1962,78 @@ extension ObservabilityAdminClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateCentralizationRuleForOrganization` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// - Parameter UpdateCentralizationRuleForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCentralizationRuleForOrganizationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource (such as a telemetry rule) could not be found.
+    /// - `ServiceQuotaExceededException` : The requested operation would exceed the allowed quota for the specified resource type.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func updateCentralizationRuleForOrganization(input: UpdateCentralizationRuleForOrganizationInput) async throws -> UpdateCentralizationRuleForOrganizationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCentralizationRuleForOrganization")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>(UpdateCentralizationRuleForOrganizationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCentralizationRuleForOrganizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCentralizationRuleForOrganizationOutput>(UpdateCentralizationRuleForOrganizationOutput.httpOutput(from:), UpdateCentralizationRuleForOrganizationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCentralizationRuleForOrganizationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCentralizationRuleForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCentralizationRuleForOrganization")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
