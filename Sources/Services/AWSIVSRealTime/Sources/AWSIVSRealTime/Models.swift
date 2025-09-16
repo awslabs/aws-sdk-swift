@@ -1617,6 +1617,8 @@ extension IVSRealTimeClientTypes {
         public var gridGap: Swift.Int
         /// Determines whether to omit participants with stopped video in the composition. Default: false.
         public var omitStoppedVideo: Swift.Bool
+        /// Attribute name in [ParticipantTokenConfiguration] identifying the participant ordering key. Participants with participantOrderAttribute set to "" or not specified are ordered based on their arrival time into the stage.
+        public var participantOrderAttribute: Swift.String?
         /// Sets the non-featured participant display mode, to control the aspect ratio of video tiles. VIDEO is 16:9, SQUARE is 1:1, and PORTRAIT is 3:4. Default: VIDEO.
         public var videoAspectRatio: IVSRealTimeClientTypes.VideoAspectRatio?
         /// Defines how video content fits within the participant tile: FILL (stretched), COVER (cropped), or CONTAIN (letterboxed). When not set, videoFillMode defaults to COVER fill mode for participants in the grid and to CONTAIN fill mode for featured participants.
@@ -1626,12 +1628,14 @@ extension IVSRealTimeClientTypes {
             featuredParticipantAttribute: Swift.String? = nil,
             gridGap: Swift.Int = 0,
             omitStoppedVideo: Swift.Bool = false,
+            participantOrderAttribute: Swift.String? = nil,
             videoAspectRatio: IVSRealTimeClientTypes.VideoAspectRatio? = nil,
             videoFillMode: IVSRealTimeClientTypes.VideoFillMode? = nil
         ) {
             self.featuredParticipantAttribute = featuredParticipantAttribute
             self.gridGap = gridGap
             self.omitStoppedVideo = omitStoppedVideo
+            self.participantOrderAttribute = participantOrderAttribute
             self.videoAspectRatio = videoAspectRatio
             self.videoFillMode = videoFillMode
         }
@@ -1712,6 +1716,8 @@ extension IVSRealTimeClientTypes {
         public var gridGap: Swift.Int
         /// Determines whether to omit participants with stopped video in the composition. Default: false.
         public var omitStoppedVideo: Swift.Bool
+        /// Attribute name in [ParticipantTokenConfiguration] identifying the participant ordering key. Participants with participantOrderAttribute set to "" or not specified are ordered based on their arrival time into the stage.
+        public var participantOrderAttribute: Swift.String?
         /// Defines PiP behavior when all participants have left: STATIC (maintains original position/size) or DYNAMIC (expands to full composition). Default: STATIC.
         public var pipBehavior: IVSRealTimeClientTypes.PipBehavior?
         /// Specifies the height of the PiP window in pixels. When this is not set explicitly, pipHeight’s value will be based on the size of the composition and the aspect ratio of the participant’s video.
@@ -1731,6 +1737,7 @@ extension IVSRealTimeClientTypes {
             featuredParticipantAttribute: Swift.String? = nil,
             gridGap: Swift.Int = 0,
             omitStoppedVideo: Swift.Bool = false,
+            participantOrderAttribute: Swift.String? = nil,
             pipBehavior: IVSRealTimeClientTypes.PipBehavior? = nil,
             pipHeight: Swift.Int? = nil,
             pipOffset: Swift.Int = 0,
@@ -1742,6 +1749,7 @@ extension IVSRealTimeClientTypes {
             self.featuredParticipantAttribute = featuredParticipantAttribute
             self.gridGap = gridGap
             self.omitStoppedVideo = omitStoppedVideo
+            self.participantOrderAttribute = participantOrderAttribute
             self.pipBehavior = pipBehavior
             self.pipHeight = pipHeight
             self.pipOffset = pipOffset
@@ -2833,7 +2841,7 @@ extension IVSRealTimeClientTypes {
         public var participantId: Swift.String?
         /// Unique identifier for the remote participant. For a subscribe event, this is the publisher. For a publish or join event, this is null. This is assigned by IVS.
         public var remoteParticipantId: Swift.String?
-        /// If true, this indicates the participantId is a replicated participant. If this is a subscribe event, then this flag refers to remoteParticipantId.
+        /// If true, this indicates the participantId is a replicated participant. If this is a subscribe event, then this flag refers to remoteParticipantId. Default: false.
         public var replica: Swift.Bool
 
         public init(
@@ -3053,7 +3061,7 @@ extension IVSRealTimeClientTypes {
         public var replicationType: IVSRealTimeClientTypes.ReplicationType?
         /// ID of the session within the source stage, if replicationType is REPLICA.
         public var sourceSessionId: Swift.String?
-        /// ARN of the stage from which this participant is replicated.
+        /// Source stage ARN from which this participant is replicated, if replicationType is REPLICA.
         public var sourceStageArn: Swift.String?
         /// Whether the participant is connected to or disconnected from the stage.
         public var state: IVSRealTimeClientTypes.ParticipantState?
@@ -6073,6 +6081,7 @@ extension IVSRealTimeClientTypes.PipConfiguration {
         try writer["featuredParticipantAttribute"].write(value.featuredParticipantAttribute)
         try writer["gridGap"].write(value.gridGap)
         try writer["omitStoppedVideo"].write(value.omitStoppedVideo)
+        try writer["participantOrderAttribute"].write(value.participantOrderAttribute)
         try writer["pipBehavior"].write(value.pipBehavior)
         try writer["pipHeight"].write(value.pipHeight)
         try writer["pipOffset"].write(value.pipOffset)
@@ -6095,6 +6104,7 @@ extension IVSRealTimeClientTypes.PipConfiguration {
         value.pipPosition = try reader["pipPosition"].readIfPresent()
         value.pipWidth = try reader["pipWidth"].readIfPresent()
         value.pipHeight = try reader["pipHeight"].readIfPresent()
+        value.participantOrderAttribute = try reader["participantOrderAttribute"].readIfPresent()
         return value
     }
 }
@@ -6106,6 +6116,7 @@ extension IVSRealTimeClientTypes.GridConfiguration {
         try writer["featuredParticipantAttribute"].write(value.featuredParticipantAttribute)
         try writer["gridGap"].write(value.gridGap)
         try writer["omitStoppedVideo"].write(value.omitStoppedVideo)
+        try writer["participantOrderAttribute"].write(value.participantOrderAttribute)
         try writer["videoAspectRatio"].write(value.videoAspectRatio)
         try writer["videoFillMode"].write(value.videoFillMode)
     }
@@ -6118,6 +6129,7 @@ extension IVSRealTimeClientTypes.GridConfiguration {
         value.videoAspectRatio = try reader["videoAspectRatio"].readIfPresent()
         value.videoFillMode = try reader["videoFillMode"].readIfPresent()
         value.gridGap = try reader["gridGap"].readIfPresent() ?? 0
+        value.participantOrderAttribute = try reader["participantOrderAttribute"].readIfPresent()
         return value
     }
 }

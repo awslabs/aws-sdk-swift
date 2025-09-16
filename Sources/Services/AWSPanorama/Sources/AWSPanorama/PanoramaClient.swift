@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PanoramaClient: ClientRuntime.Client {
     public static let clientName = "PanoramaClient"
-    public static let version = "1.5.42"
+    public static let version = "1.5.43"
     let client: ClientRuntime.SdkHttpClient
     let config: PanoramaClient.PanoramaClientConfiguration
     let serviceName = "Panorama"

@@ -372,7 +372,7 @@ public struct CreatePipelineInput: Swift.Sendable {
     /// The name of the OpenSearch Ingestion pipeline to create. Pipeline names are unique across the pipelines owned by an account within an Amazon Web Services Region.
     /// This member is required.
     public var pipelineName: Swift.String?
-    /// The Amazon Resource Name (ARN) of an IAM role that provides the required permissions for a pipeline to read from the source and write to the sink. For more information, see [Setting up roles and users in Amazon OpenSearch Ingestion](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline-security-overview.html).
+    /// The Amazon Resource Name (ARN) of the IAM role that grants the pipeline permission to access Amazon Web Services resources.
     public var pipelineRoleArn: Swift.String?
     /// List of tags to add to the pipeline upon creation.
     public var tags: [OSISClientTypes.Tag]?
@@ -587,7 +587,7 @@ extension OSISClientTypes {
         public var pipelineConfigurationBody: Swift.String?
         /// The name of the pipeline.
         public var pipelineName: Swift.String?
-        /// The Amazon Resource Name (ARN) of the IAM role that provides the required permissions for a pipeline to read from the source and write to the sink.
+        /// The Amazon Resource Name (ARN) of the IAM role that the pipeline uses to access AWS resources.
         public var pipelineRoleArn: Swift.String?
         /// A list of VPC endpoints that OpenSearch Ingestion has created to other Amazon Web Services services.
         public var serviceVpcEndpoints: [OSISClientTypes.ServiceVpcEndpoint]?
@@ -657,6 +657,106 @@ public struct CreatePipelineOutput: Swift.Sendable {
     }
 }
 
+extension OSISClientTypes {
+
+    /// Configuration settings for the VPC endpoint, specifying network access controls.
+    public struct PipelineEndpointVpcOptions: Swift.Sendable {
+        /// A list of security group IDs that control network access to the pipeline endpoint.
+        public var securityGroupIds: [Swift.String]?
+        /// A list of subnet IDs where the pipeline endpoint network interfaces are created.
+        public var subnetIds: [Swift.String]?
+
+        public init(
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil
+        ) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+    }
+}
+
+public struct CreatePipelineEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the pipeline to create the endpoint for.
+    /// This member is required.
+    public var pipelineArn: Swift.String?
+    /// Container for the VPC configuration for the pipeline endpoint, including subnet IDs and security group IDs.
+    /// This member is required.
+    public var vpcOptions: OSISClientTypes.PipelineEndpointVpcOptions?
+
+    public init(
+        pipelineArn: Swift.String? = nil,
+        vpcOptions: OSISClientTypes.PipelineEndpointVpcOptions? = nil
+    ) {
+        self.pipelineArn = pipelineArn
+        self.vpcOptions = vpcOptions
+    }
+}
+
+extension OSISClientTypes {
+
+    public enum PipelineEndpointStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case deleting
+        case revoked
+        case revoking
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PipelineEndpointStatus] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deleting,
+                .revoked,
+                .revoking
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .revoked: return "REVOKED"
+            case .revoking: return "REVOKING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePipelineEndpointOutput: Swift.Sendable {
+    /// The unique identifier of the pipeline endpoint.
+    public var endpointId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the pipeline associated with the endpoint.
+    public var pipelineArn: Swift.String?
+    /// The current status of the pipeline endpoint.
+    public var status: OSISClientTypes.PipelineEndpointStatus?
+    /// The ID of the VPC where the pipeline endpoint was created.
+    public var vpcId: Swift.String?
+
+    public init(
+        endpointId: Swift.String? = nil,
+        pipelineArn: Swift.String? = nil,
+        status: OSISClientTypes.PipelineEndpointStatus? = nil,
+        vpcId: Swift.String? = nil
+    ) {
+        self.endpointId = endpointId
+        self.pipelineArn = pipelineArn
+        self.status = status
+        self.vpcId = vpcId
+    }
+}
+
 /// The client attempted to remove a resource that is currently in use.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -693,6 +793,40 @@ public struct DeletePipelineInput: Swift.Sendable {
 }
 
 public struct DeletePipelineOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeletePipelineEndpointInput: Swift.Sendable {
+    /// The unique identifier of the pipeline endpoint to delete.
+    /// This member is required.
+    public var endpointId: Swift.String?
+
+    public init(
+        endpointId: Swift.String? = nil
+    ) {
+        self.endpointId = endpointId
+    }
+}
+
+public struct DeletePipelineEndpointOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteResourcePolicyInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource from which to delete the policy.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct DeleteResourcePolicyOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -933,6 +1067,33 @@ public struct GetPipelineChangeProgressOutput: Swift.Sendable {
     }
 }
 
+public struct GetResourcePolicyInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource for which to retrieve the policy.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct GetResourcePolicyOutput: Swift.Sendable {
+    /// The resource-based policy document in JSON format.
+    public var policy: Swift.String?
+    /// The Amazon Resource Name (ARN) of the resource.
+    public var resourceArn: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.policy = policy
+        self.resourceArn = resourceArn
+    }
+}
+
 /// An invalid pagination token provided in the request.
 public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1000,6 +1161,128 @@ public struct ListPipelineBlueprintsOutput: Swift.Sendable {
         blueprints: [OSISClientTypes.PipelineBlueprintSummary]? = nil
     ) {
         self.blueprints = blueprints
+    }
+}
+
+public struct ListPipelineEndpointConnectionsInput: Swift.Sendable {
+    /// The maximum number of pipeline endpoint connections to return in the response.
+    public var maxResults: Swift.Int?
+    /// If your initial ListPipelineEndpointConnections operation returns a nextToken, you can include the returned nextToken in subsequent ListPipelineEndpointConnections operations, which returns results in the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension OSISClientTypes {
+
+    /// Represents a connection to a pipeline endpoint, containing details about the endpoint association.
+    public struct PipelineEndpointConnection: Swift.Sendable {
+        /// The unique identifier of the endpoint in the connection.
+        public var endpointId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the pipeline in the endpoint connection.
+        public var pipelineArn: Swift.String?
+        /// The current status of the pipeline endpoint connection.
+        public var status: OSISClientTypes.PipelineEndpointStatus?
+        /// The Amazon Web Services account ID that owns the VPC endpoint used in this connection.
+        public var vpcEndpointOwner: Swift.String?
+
+        public init(
+            endpointId: Swift.String? = nil,
+            pipelineArn: Swift.String? = nil,
+            status: OSISClientTypes.PipelineEndpointStatus? = nil,
+            vpcEndpointOwner: Swift.String? = nil
+        ) {
+            self.endpointId = endpointId
+            self.pipelineArn = pipelineArn
+            self.status = status
+            self.vpcEndpointOwner = vpcEndpointOwner
+        }
+    }
+}
+
+public struct ListPipelineEndpointConnectionsOutput: Swift.Sendable {
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+    /// A list of pipeline endpoint connections.
+    public var pipelineEndpointConnections: [OSISClientTypes.PipelineEndpointConnection]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        pipelineEndpointConnections: [OSISClientTypes.PipelineEndpointConnection]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.pipelineEndpointConnections = pipelineEndpointConnections
+    }
+}
+
+public struct ListPipelineEndpointsInput: Swift.Sendable {
+    /// The maximum number of pipeline endpoints to return in the response.
+    public var maxResults: Swift.Int?
+    /// If your initial ListPipelineEndpoints operation returns a NextToken, you can include the returned NextToken in subsequent ListPipelineEndpoints operations, which returns results in the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension OSISClientTypes {
+
+    /// Represents a VPC endpoint for an OpenSearch Ingestion pipeline, enabling private connectivity between your VPC and the pipeline.
+    public struct PipelineEndpoint: Swift.Sendable {
+        /// The unique identifier for the pipeline endpoint.
+        public var endpointId: Swift.String?
+        /// The URL used to ingest data to the pipeline through the VPC endpoint.
+        public var ingestEndpointUrl: Swift.String?
+        /// The Amazon Resource Name (ARN) of the pipeline associated with this endpoint.
+        public var pipelineArn: Swift.String?
+        /// The current status of the pipeline endpoint.
+        public var status: OSISClientTypes.PipelineEndpointStatus?
+        /// The ID of the VPC where the pipeline endpoint is created.
+        public var vpcId: Swift.String?
+        /// Configuration options for the VPC endpoint, including subnet and security group settings.
+        public var vpcOptions: OSISClientTypes.PipelineEndpointVpcOptions?
+
+        public init(
+            endpointId: Swift.String? = nil,
+            ingestEndpointUrl: Swift.String? = nil,
+            pipelineArn: Swift.String? = nil,
+            status: OSISClientTypes.PipelineEndpointStatus? = nil,
+            vpcId: Swift.String? = nil,
+            vpcOptions: OSISClientTypes.PipelineEndpointVpcOptions? = nil
+        ) {
+            self.endpointId = endpointId
+            self.ingestEndpointUrl = ingestEndpointUrl
+            self.pipelineArn = pipelineArn
+            self.status = status
+            self.vpcId = vpcId
+            self.vpcOptions = vpcOptions
+        }
+    }
+}
+
+public struct ListPipelineEndpointsOutput: Swift.Sendable {
+    /// When NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+    /// A list of pipeline endpoints.
+    public var pipelineEndpoints: [OSISClientTypes.PipelineEndpoint]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        pipelineEndpoints: [OSISClientTypes.PipelineEndpoint]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.pipelineEndpoints = pipelineEndpoints
     }
 }
 
@@ -1104,6 +1387,66 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         tags: [OSISClientTypes.Tag]? = nil
     ) {
         self.tags = tags
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Sendable {
+    /// The resource-based policy document in JSON format.
+    /// This member is required.
+    public var policy: Swift.String?
+    /// The Amazon Resource Name (ARN) of the resource to attach the policy to.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.policy = policy
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct PutResourcePolicyOutput: Swift.Sendable {
+    /// The resource-based policy document that was attached to the resource.
+    public var policy: Swift.String?
+    /// The Amazon Resource Name (ARN) of the resource.
+    public var resourceArn: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.policy = policy
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct RevokePipelineEndpointConnectionsInput: Swift.Sendable {
+    /// A list of endpoint IDs for which to revoke access to the pipeline.
+    /// This member is required.
+    public var endpointIds: [Swift.String]?
+    /// The Amazon Resource Name (ARN) of the pipeline from which to revoke endpoint connections.
+    /// This member is required.
+    public var pipelineArn: Swift.String?
+
+    public init(
+        endpointIds: [Swift.String]? = nil,
+        pipelineArn: Swift.String? = nil
+    ) {
+        self.endpointIds = endpointIds
+        self.pipelineArn = pipelineArn
+    }
+}
+
+public struct RevokePipelineEndpointConnectionsOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the pipeline from which endpoint connections were revoked.
+    public var pipelineArn: Swift.String?
+
+    public init(
+        pipelineArn: Swift.String? = nil
+    ) {
+        self.pipelineArn = pipelineArn
     }
 }
 
@@ -1213,7 +1556,7 @@ public struct UpdatePipelineInput: Swift.Sendable {
     /// The name of the pipeline to update.
     /// This member is required.
     public var pipelineName: Swift.String?
-    /// The Amazon Resource Name (ARN) of an IAM role that provides the required permissions for a pipeline to read from the source and write to the sink. For more information, see [Setting up roles and users in Amazon OpenSearch Ingestion](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline-security-overview.html).
+    /// The Amazon Resource Name (ARN) of the IAM role that grants the pipeline permission to access Amazon Web Services resources.
     public var pipelineRoleArn: Swift.String?
 
     public init(
@@ -1297,6 +1640,13 @@ extension CreatePipelineInput {
     }
 }
 
+extension CreatePipelineEndpointInput {
+
+    static func urlPathProvider(_ value: CreatePipelineEndpointInput) -> Swift.String? {
+        return "/2022-01-01/osis/createPipelineEndpoint"
+    }
+}
+
 extension DeletePipelineInput {
 
     static func urlPathProvider(_ value: DeletePipelineInput) -> Swift.String? {
@@ -1304,6 +1654,26 @@ extension DeletePipelineInput {
             return nil
         }
         return "/2022-01-01/osis/deletePipeline/\(pipelineName.urlPercentEncoding())"
+    }
+}
+
+extension DeletePipelineEndpointInput {
+
+    static func urlPathProvider(_ value: DeletePipelineEndpointInput) -> Swift.String? {
+        guard let endpointId = value.endpointId else {
+            return nil
+        }
+        return "/2022-01-01/osis/deletePipelineEndpoint/\(endpointId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/2022-01-01/osis/resourcePolicy/\(resourceArn.urlPercentEncoding())"
     }
 }
 
@@ -1349,10 +1719,66 @@ extension GetPipelineChangeProgressInput {
     }
 }
 
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/2022-01-01/osis/resourcePolicy/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
 extension ListPipelineBlueprintsInput {
 
     static func urlPathProvider(_ value: ListPipelineBlueprintsInput) -> Swift.String? {
         return "/2022-01-01/osis/listPipelineBlueprints"
+    }
+}
+
+extension ListPipelineEndpointConnectionsInput {
+
+    static func urlPathProvider(_ value: ListPipelineEndpointConnectionsInput) -> Swift.String? {
+        return "/2022-01-01/osis/listPipelineEndpointConnections"
+    }
+}
+
+extension ListPipelineEndpointConnectionsInput {
+
+    static func queryItemProvider(_ value: ListPipelineEndpointConnectionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListPipelineEndpointsInput {
+
+    static func urlPathProvider(_ value: ListPipelineEndpointsInput) -> Swift.String? {
+        return "/2022-01-01/osis/listPipelineEndpoints"
+    }
+}
+
+extension ListPipelineEndpointsInput {
+
+    static func queryItemProvider(_ value: ListPipelineEndpointsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
@@ -1397,6 +1823,23 @@ extension ListTagsForResourceInput {
         let arnQueryItem = Smithy.URIQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
         items.append(arnQueryItem)
         return items
+    }
+}
+
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/2022-01-01/osis/resourcePolicy/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension RevokePipelineEndpointConnectionsInput {
+
+    static func urlPathProvider(_ value: RevokePipelineEndpointConnectionsInput) -> Swift.String? {
+        return "/2022-01-01/osis/revokePipelineEndpointConnections"
     }
 }
 
@@ -1496,6 +1939,32 @@ extension CreatePipelineInput {
     }
 }
 
+extension CreatePipelineEndpointInput {
+
+    static func write(value: CreatePipelineEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PipelineArn"].write(value.pipelineArn)
+        try writer["VpcOptions"].write(value.vpcOptions, with: OSISClientTypes.PipelineEndpointVpcOptions.write(value:to:))
+    }
+}
+
+extension PutResourcePolicyInput {
+
+    static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Policy"].write(value.policy)
+    }
+}
+
+extension RevokePipelineEndpointConnectionsInput {
+
+    static func write(value: RevokePipelineEndpointConnectionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndpointIds"].writeList(value.endpointIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PipelineArn"].write(value.pipelineArn)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -1546,10 +2015,39 @@ extension CreatePipelineOutput {
     }
 }
 
+extension CreatePipelineEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePipelineEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePipelineEndpointOutput()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.pipelineArn = try reader["PipelineArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        return value
+    }
+}
+
 extension DeletePipelineOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePipelineOutput {
         return DeletePipelineOutput()
+    }
+}
+
+extension DeletePipelineEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePipelineEndpointOutput {
+        return DeletePipelineEndpointOutput()
+    }
+}
+
+extension DeleteResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourcePolicyOutput {
+        return DeleteResourcePolicyOutput()
     }
 }
 
@@ -1590,6 +2088,19 @@ extension GetPipelineChangeProgressOutput {
     }
 }
 
+extension GetResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourcePolicyOutput()
+        value.policy = try reader["Policy"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        return value
+    }
+}
+
 extension ListPipelineBlueprintsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPipelineBlueprintsOutput {
@@ -1598,6 +2109,32 @@ extension ListPipelineBlueprintsOutput {
         let reader = responseReader
         var value = ListPipelineBlueprintsOutput()
         value.blueprints = try reader["Blueprints"].readListIfPresent(memberReadingClosure: OSISClientTypes.PipelineBlueprintSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListPipelineEndpointConnectionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPipelineEndpointConnectionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPipelineEndpointConnectionsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.pipelineEndpointConnections = try reader["PipelineEndpointConnections"].readListIfPresent(memberReadingClosure: OSISClientTypes.PipelineEndpointConnection.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListPipelineEndpointsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPipelineEndpointsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPipelineEndpointsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.pipelineEndpoints = try reader["PipelineEndpoints"].readListIfPresent(memberReadingClosure: OSISClientTypes.PipelineEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -1623,6 +2160,31 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: OSISClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PutResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutResourcePolicyOutput()
+        value.policy = try reader["Policy"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension RevokePipelineEndpointConnectionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RevokePipelineEndpointConnectionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RevokePipelineEndpointConnectionsOutput()
+        value.pipelineArn = try reader["PipelineArn"].readIfPresent()
         return value
     }
 }
@@ -1710,6 +2272,25 @@ enum CreatePipelineOutputError {
     }
 }
 
+enum CreatePipelineEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeletePipelineOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1722,6 +2303,42 @@ enum DeletePipelineOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePipelineEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1783,6 +2400,25 @@ enum GetPipelineChangeProgressOutputError {
     }
 }
 
+enum GetResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListPipelineBlueprintsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1795,6 +2431,42 @@ enum ListPipelineBlueprintsOutputError {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "InvalidPaginationTokenException": return try InvalidPaginationTokenException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPipelineEndpointConnectionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPipelineEndpointsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -1831,6 +2503,43 @@ enum ListTagsForResourceOutputError {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RevokePipelineEndpointConnectionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2305,6 +3014,51 @@ extension OSISClientTypes.PipelineBlueprintSummary {
         value.displayDescription = try reader["DisplayDescription"].readIfPresent()
         value.service = try reader["Service"].readIfPresent()
         value.useCase = try reader["UseCase"].readIfPresent()
+        return value
+    }
+}
+
+extension OSISClientTypes.PipelineEndpointConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineEndpointConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.PipelineEndpointConnection()
+        value.pipelineArn = try reader["PipelineArn"].readIfPresent()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.vpcEndpointOwner = try reader["VpcEndpointOwner"].readIfPresent()
+        return value
+    }
+}
+
+extension OSISClientTypes.PipelineEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.PipelineEndpoint()
+        value.pipelineArn = try reader["PipelineArn"].readIfPresent()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.vpcOptions = try reader["VpcOptions"].readIfPresent(with: OSISClientTypes.PipelineEndpointVpcOptions.read(from:))
+        value.ingestEndpointUrl = try reader["IngestEndpointUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension OSISClientTypes.PipelineEndpointVpcOptions {
+
+    static func write(value: OSISClientTypes.PipelineEndpointVpcOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.PipelineEndpointVpcOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OSISClientTypes.PipelineEndpointVpcOptions()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
