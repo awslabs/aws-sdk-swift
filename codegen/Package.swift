@@ -97,10 +97,10 @@ private var protocolTestTargets: [Target] {
         .init(name: "Waiters", sourcePath: "\(baseDirLocal)/Waiters", testPath: "../codegen/protocol-test-codegen-local/Tests"),
         .init(name: "StringArrayEndpointParam", sourcePath: "\(baseDirLocal)/StringArrayEndpointParam"),
         .init(name: "RPCV2CBORTestSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor"),
-        .init(name: "Performance", sourcePath: "\(baseDirLocal)/Performance", testPath: "../codegen/protocol-test-codegen-local/Tests"),
         .init(name: "RPCV2CBORTestQueryCompatSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor-query-compat"),
         .init(name: "RPCV2CBORTestNonQueryCompatSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor-non-query-compat"),
         .init(name: "AWSJson1_0TestQueryCompatSDK", sourcePath: "\(baseDir)/aws-json-10-query-compat"),
+        .init(name: "Performance", sourcePath: "\(baseDirLocal)/Performance", testPath: "../codegen/protocol-test-codegen-local/Tests"),
     ]
     return protocolTests.flatMap { protocolTest in
         let target = Target.target(
