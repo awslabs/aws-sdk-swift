@@ -69,6 +69,7 @@ jobs:
           xcrun simctl list > /dev/null
           sudo xcodebuild -downloadPlatform iOS
           sudo xcodebuild -runFirstLaunch
+          xcrun simctl create "iPhone 17" "iPhone 17"
           xcrun simctl list
       - name: Install tvOS 26 sim if needed
         if: ${{ contains(matrix.xcode, '26') && contains(matrix.destination, 'platform=tvOS Simulator') }}
