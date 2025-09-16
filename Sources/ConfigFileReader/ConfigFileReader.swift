@@ -35,53 +35,48 @@ public struct ConfigFileReader {
         
         var sections = [String: ConfigFileSection]()
         var currentSectionName: String? // Keep track of current section name
-        var currentPropertyName: String? // Keep track of current subsection name
+        var currentSubsectionName: String? // Keep track of current subsection name
         let profileSection = try! NSRegularExpression(pattern: "profile", options: .caseInsensitive) // Regex pattern to match any line containing "profile"
         
         for line in arrayConfigData{
             switch line{
             case "[default]":
-                let profileName = "default"
-                currentSectionName = profileName
-                let section = ConfigFileSection(name: "default")
-                sections[profileName] = section
+                let sectionName = "default"
+                let section = ConfigFileSection(name: sectionName)
+                sections[sectionName] = section
+                currentSectionName = sectionName
                 // Use a 'where' clause with regex matching
             case _ where profileSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
                 // Extract the profile name using another regex or string manipulation
                 if let range = line.range(of: "\\[profile\\s(.+?)\\]", options: .regularExpression),
                    let profileNameRange = line.range(of: "\\s(.+?)\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
-                    let profileName = String(line[profileNameRange].dropFirst().dropLast()) // Remove space and ']'
-                    currentSectionName = profileName
-                    let section = ConfigFileSection(name: "profile")
-                    sections[profileName] = section
-                    print("Found new profile: \(profileName)") // For demonstration
+                    let sectionName = String(line[profileNameRange].dropFirst().dropLast()) // Remove space and ']'
+                    let section = ConfigFileSection(name: sectionName)
+                    sections[sectionName] = section
+                    currentSectionName = sectionName
+                    print("Found new profile: \(sectionName)") // For demonstration
                 }
             case _ where currentSectionName != nil && line.contains("="):
-                //Identify new Property
-                if line.contains("nested"){
-                    let PropertyName = String(line)
-                    currentPropertyName = PropertyName
-                    let section = ConfigFileSection(name: "undefined-property")
-                    sections[PropertyName] = section
-                    print("Found new Property: \(String(describing: currentPropertyName))") // For demonstration
-                }
-                
-                // This case handles key-value pairs within a section
-                if !line.hasPrefix(" ") && !line.hasPrefix("\t"){
-                    let components = line.split(separator: "=", maxSplits: 1).map(String.init)
-                    if components.count == 2, let currentName = currentSectionName {
-                        let key = components[0].trimmingCharacters(in: .whitespaces)
-                        let value = components[1].trimmingCharacters(in: .whitespaces)
-                        sections[currentName]?.keys[key] = value
-                        print("  Added key and value '\(key)' = '\(value)' to section '\(currentName)'")
-                    }
-                } else {
-                    let components = line.split(separator: "=", maxSplits: 1).map(String.init)
-                    if components.count == 2, let currentName = currentPropertyName {
-                        let key = components[0].trimmingCharacters(in: .whitespaces)
-                        let value = components[1].trimmingCharacters(in: .whitespaces)
-                        sections[currentName]?.keys[key] = value
-                        print("  Added sub-property key and value '\(key)' = '\(value)' to property '\(currentName)'")
+                //Identify properties under section
+                let sectionHeader = currentSectionName
+                let subSectionHeader = currentSubsectionName
+                let components = line.split(separator: "=", maxSplits: 1).map(String.init)
+                if components.count == 1{
+                    let subSectionName = String(components[0])
+                    let subSection = ConfigFileSection(name: subSectionName)
+                    sections[subSectionName] = subSection
+                    currentSubsectionName = subSectionName
+                    print("Found new subsection: \(subSectionName), added under section: \(currentSectionName!)") // For demonstration
+                } else if components.count == 2{
+                    // This handles properties key-value pairs within a section
+                    let key = components[0].trimmingCharacters(in: .whitespaces)
+                    let value = components[1].trimmingCharacters(in: .whitespaces)
+                    if !line.hasPrefix(" ") && !line.hasPrefix("\t"){
+                        sections[sectionHeader!]?.keys[key] = value
+                        print("  Added key and value '\(key)' = '\(value)' to section '\(String(describing: sectionHeader))'")
+                        } else {
+                            sections[subSectionHeader!]?.keys[key] = value
+                            print("  Added sub-property key and value '\(key)' = '\(value)' to subsection '\(String(describing: subSectionHeader))'")
                     }
                 }
             default:
@@ -118,7 +113,7 @@ struct ConfigFile: FileBasedConfiguration {
 
 struct ConfigFileSection: FileBasedConfigurationSection {
     let name: String
-    var keys: [String: String] = ["":""]
+    var keys: [String: String] = [:]
     var properties: [String: String] = [:]
     
     func property(for name: FileBasedConfigurationKey) -> FileBasedConfigurationProperty? {
