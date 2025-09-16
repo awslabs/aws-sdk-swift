@@ -76,12 +76,6 @@ jobs:
           xcrun simctl list > /dev/null
           sudo xcodebuild -downloadPlatform tvOS
           sudo xcodebuild -runFirstLaunch
-          cd aws-sdk-swift
-          set -o pipefail && \
-          NSUnbufferedIO=YES xcodebuild \
-            -scheme aws-sdk-swift-Package \
-            -showdestinations \
-            test 2>&1
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v4
         with:
@@ -91,6 +85,14 @@ jobs:
         with:
           AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
+      - name: Show destinations
+        run: |
+          cd aws-sdk-swift
+          set -o pipefail && \
+          NSUnbufferedIO=YES xcodebuild \
+            -scheme aws-sdk-swift-Package \
+            -showdestinations \
+            test 2>&1
       - name: Cache Gradle
         uses: actions/cache@v4
         with:
