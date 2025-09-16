@@ -36,21 +36,22 @@ public struct ConfigFileReader {
         var sections = [String: ConfigFileSection]()
         var currentSectionName: String? // Keep track of current section name
         var currentSubsectionName: String? // Keep track of current subsection name
-        let profileSection = try! NSRegularExpression(pattern: "profile", options: .caseInsensitive) // Regex pattern to match any line containing "profile"
+        let profileSection = try! NSRegularExpression(pattern: "\\[(?:default|profile\\s(.+?))\\]", options: .caseInsensitive) // Regex pattern to match any line containing "profile"
         
         for line in arrayConfigData{
             switch line{
-            case "[default]":
-                let sectionName = "default"
-                let section = ConfigFileSection(name: sectionName)
-                sections[sectionName] = section
-                currentSectionName = sectionName
                 // Use a 'where' clause with regex matching
             case _ where profileSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
                 // Extract the profile name using another regex or string manipulation
                 if let range = line.range(of: "\\[profile\\s(.+?)\\]", options: .regularExpression),
                    let profileNameRange = line.range(of: "\\s(.+?)\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
                     let sectionName = String(line[profileNameRange].dropFirst().dropLast()) // Remove space and ']'
+                    let section = ConfigFileSection(name: sectionName)
+                    sections[sectionName] = section
+                    currentSectionName = sectionName
+                    print("Found new profile: \(sectionName)") // For demonstration
+                } else{
+                    let sectionName = "default"
                     let section = ConfigFileSection(name: sectionName)
                     sections[sectionName] = section
                     currentSectionName = sectionName
@@ -62,7 +63,7 @@ public struct ConfigFileReader {
                 let subSectionHeader = currentSubsectionName
                 let components = line.split(separator: "=", maxSplits: 1).map(String.init)
                 if components.count == 1{
-                    let subSectionName = String(components[0])
+                    let subSectionName = String(components[0].trimmingCharacters(in: .whitespaces))
                     let subSection = ConfigFileSection(name: subSectionName)
                     sections[subSectionName] = subSection
                     currentSubsectionName = subSectionName
@@ -72,11 +73,11 @@ public struct ConfigFileReader {
                     let key = components[0].trimmingCharacters(in: .whitespaces)
                     let value = components[1].trimmingCharacters(in: .whitespaces)
                     if !line.hasPrefix(" ") && !line.hasPrefix("\t"){
-                        sections[sectionHeader!]?.keys[key] = value
+                        sections[sectionHeader!]?.properties[key] = value
                         print("  Added key and value '\(key)' = '\(value)' to section '\(String(describing: sectionHeader))'")
                         } else {
-                            sections[subSectionHeader!]?.keys[key] = value
-                            print("  Added sub-property key and value '\(key)' = '\(value)' to subsection '\(String(describing: subSectionHeader))'")
+                            sections[sectionHeader!]?.subproperties[subSectionHeader!]?[key] = value
+                        print("  Added sub-property key and value '\(key)' = '\(value)' to subsection '\(String(describing: subSectionHeader))'")
                     }
                 }
             default:
@@ -113,15 +114,16 @@ struct ConfigFile: FileBasedConfiguration {
 
 struct ConfigFileSection: FileBasedConfigurationSection {
     let name: String
-    var keys: [String: String] = [:]
+    var subproperties: [String: [String: String]] = [:]
     var properties: [String: String] = [:]
     
     func property(for name: FileBasedConfigurationKey) -> FileBasedConfigurationProperty? {
-        if let value = keys[name.rawValue]{
+        if let value = properties[name.rawValue]{
             return .string(value)
-        }else {
-            return nil
+        }else if let value = properties[name.rawValue] {
+            return .string(value)
         }
+        return nil
     }
 }
 struct Config: FileBasedConfigurationSectionProviding {
