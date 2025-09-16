@@ -6,6 +6,7 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.customization.RulesBasedAuthSchemeResolverGenerator
+import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKEventStreamsAuthTypes
 import software.amazon.smithy.codegen.core.Symbol
@@ -19,19 +20,26 @@ import software.amazon.smithy.swift.codegen.integration.DefaultHTTPProtocolCusto
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
+import software.amazon.smithy.swift.codegen.integration.SmokeTestGenerator
 import software.amazon.smithy.swift.codegen.model.isInputEventStream
 import software.amazon.smithy.swift.codegen.model.isOutputEventStream
 
 abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations() {
-
-    override fun renderContextAttributes(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, serviceShape: ServiceShape, op: OperationShape) {
+    override fun renderContextAttributes(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        serviceShape: ServiceShape,
+        op: OperationShape,
+    ) {
         // FIXME handle indentation properly or do swift formatting after the fact
         val config = AWSServiceConfig(writer, ctx)
         if (config.serviceSpecificConfigProperties().any { it.memberName == "accountIdEndpointMode" }) {
             writer.write("  .withAccountIDEndpointMode(value: config.accountIdEndpointMode)")
         }
-        writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4")
         writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4a")
+        if (ctx.service.isS3) {
+            writer.write("  .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: \$S)", "aws.auth#sigv4-s3express")
+        }
         writer.write("  .withRegion(value: config.region)")
         writer.write("  .withRequestChecksumCalculation(value: config.requestChecksumCalculation)")
         writer.write("  .withResponseChecksumValidation(value: config.responseChecksumValidation)")
@@ -40,12 +48,15 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
             writer.write("  .withSigningName(value: \$S)", signingName)
             writer.write("  .withSigningRegion(value: config.signingRegion)")
         }
+        if (ctx.service.isS3) {
+            writer.write("  .withClientConfig(value: config)") // this is used in S3 Express
+        }
     }
 
     override fun renderEventStreamAttributes(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        op: OperationShape
+        op: OperationShape,
     ) {
         if (op.isInputEventStream(ctx.model) && op.isOutputEventStream(ctx.model)) {
             writer.write("\$N(context: context)", AWSSDKEventStreamsAuthTypes.setupBidirectionalStreaming)
@@ -67,12 +78,14 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
     override fun serviceClient(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        serviceConfig: ServiceConfig
-    ): HttpProtocolServiceClient {
-        return AWSHttpProtocolServiceClient(ctx, writer, serviceConfig)
-    }
+        serviceConfig: ServiceConfig,
+    ): HttpProtocolServiceClient = AWSHttpProtocolServiceClient(ctx, writer, serviceConfig)
 
     override val endpointMiddlewareSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSEndpointResolverMiddleware
 
     override val unknownServiceErrorSymbol: Symbol = AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
+
+    override val queryCompatibleUtilsSymbol: Symbol = AWSClientRuntimeTypes.AWSQuery.AWSQueryCompatibleUtils
+
+    override fun smokeTestGenerator(ctx: ProtocolGenerator.GenerationContext): SmokeTestGenerator = AWSSmokeTestGenerator(ctx)
 }

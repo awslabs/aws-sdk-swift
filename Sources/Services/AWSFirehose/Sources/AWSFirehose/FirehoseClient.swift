@@ -10,6 +10,7 @@
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
 import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
+import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
@@ -39,7 +40,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -58,14 +59,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FirehoseClient: ClientRuntime.Client {
     public static let clientName = "FirehoseClient"
-    public static let version = "1.2.13"
+    public static let version = "1.5.43"
     let client: ClientRuntime.SdkHttpClient
     let config: FirehoseClient.FirehoseClientConfiguration
     let serviceName = "Firehose"
@@ -109,11 +110,12 @@ extension FirehoseClient {
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        internal let logger: Smithy.LogAgent
+        public let logger: Smithy.LogAgent
 
         private init(
             _ useFIPS: Swift.Bool?,
@@ -136,6 +138,7 @@ extension FirehoseClient {
             _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
             _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
             _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemePreference: [String]?,
             _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
             _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
             _ interceptorProviders: [ClientRuntime.InterceptorProvider],
@@ -161,6 +164,7 @@ extension FirehoseClient {
             self.httpClientEngine = httpClientEngine
             self.httpClientConfiguration = httpClientConfiguration
             self.authSchemes = authSchemes
+            self.authSchemePreference = authSchemePreference
             self.authSchemeResolver = authSchemeResolver
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
             self.interceptorProviders = interceptorProviders
@@ -189,6 +193,7 @@ extension FirehoseClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -198,7 +203,7 @@ extension FirehoseClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -212,9 +217,10 @@ extension FirehoseClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultFirehoseAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -243,6 +249,7 @@ extension FirehoseClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -252,7 +259,7 @@ extension FirehoseClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -266,9 +273,10 @@ extension FirehoseClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultFirehoseAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -298,6 +306,7 @@ extension FirehoseClient {
                 httpClientEngine: nil,
                 httpClientConfiguration: nil,
                 authSchemes: nil,
+                authSchemePreference: nil,
                 authSchemeResolver: nil,
                 bearerTokenIdentityResolver: nil,
                 interceptorProviders: nil,
@@ -310,7 +319,7 @@ extension FirehoseClient {
                 nil,
                 nil,
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
+                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 nil,
                 try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
@@ -327,6 +336,7 @@ extension FirehoseClient {
                 AWSClientConfigDefaultsProvider.httpClientEngine(),
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                nil,
                 DefaultFirehoseAuthSchemeResolver(),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
@@ -360,7 +370,7 @@ extension FirehoseClient {
 extension FirehoseClient {
     /// Performs the `CreateDeliveryStream` operation on the `Firehose` service.
     ///
-    /// Creates a Firehose stream. By default, you can create up to 50 Firehose streams per Amazon Web Services Region. This is an asynchronous operation that immediately returns. The initial status of the Firehose stream is CREATING. After the Firehose stream is created, its status is ACTIVE and it now accepts data. If the Firehose stream creation fails, the status transitions to CREATING_FAILED. Attempts to send data to a delivery stream that is not in the ACTIVE state cause an exception. To check the state of a Firehose stream, use [DescribeDeliveryStream]. If the status of a Firehose stream is CREATING_FAILED, this status doesn't change, and you can't invoke CreateDeliveryStream again on it. However, you can invoke the [DeleteDeliveryStream] operation to delete it. A Firehose stream can be configured to receive records directly from providers using [PutRecord] or [PutRecordBatch], or it can be configured to use an existing Kinesis stream as its source. To specify a Kinesis data stream as input, set the DeliveryStreamType parameter to KinesisStreamAsSource, and provide the Kinesis stream Amazon Resource Name (ARN) and role ARN in the KinesisStreamSourceConfiguration parameter. To create a Firehose stream with server-side encryption (SSE) enabled, include [DeliveryStreamEncryptionConfigurationInput] in your request. This is optional. You can also invoke [StartDeliveryStreamEncryption] to turn on SSE for an existing Firehose stream that doesn't have SSE enabled. A Firehose stream is configured with a single destination, such as Amazon Simple Storage Service (Amazon S3), Amazon Redshift, Amazon OpenSearch Service, Amazon OpenSearch Serverless, Splunk, and any custom HTTP endpoint or HTTP endpoints owned by or supported by third-party service providers, including Datadog, Dynatrace, LogicMonitor, MongoDB, New Relic, and Sumo Logic. You must specify only one of the following destination configuration parameters: ExtendedS3DestinationConfiguration, S3DestinationConfiguration, ElasticsearchDestinationConfiguration, RedshiftDestinationConfiguration, or SplunkDestinationConfiguration. When you specify S3DestinationConfiguration, you can also provide the following optional values: BufferingHints, EncryptionConfiguration, and CompressionFormat. By default, if no BufferingHints value is provided, Firehose buffers data up to 5 MB or for 5 minutes, whichever condition is satisfied first. BufferingHints is a hint, so there are some cases where the service cannot adhere to these conditions strictly. For example, record boundaries might be such that the size is a little over or under the configured buffering size. By default, no encryption is performed. We strongly recommend that you enable encryption to ensure secure data storage in Amazon S3. A few notes about Amazon Redshift as a destination:
+    /// Creates a Firehose stream. By default, you can create up to 5,000 Firehose streams per Amazon Web Services Region. This is an asynchronous operation that immediately returns. The initial status of the Firehose stream is CREATING. After the Firehose stream is created, its status is ACTIVE and it now accepts data. If the Firehose stream creation fails, the status transitions to CREATING_FAILED. Attempts to send data to a delivery stream that is not in the ACTIVE state cause an exception. To check the state of a Firehose stream, use [DescribeDeliveryStream]. If the status of a Firehose stream is CREATING_FAILED, this status doesn't change, and you can't invoke CreateDeliveryStream again on it. However, you can invoke the [DeleteDeliveryStream] operation to delete it. A Firehose stream can be configured to receive records directly from providers using [PutRecord] or [PutRecordBatch], or it can be configured to use an existing Kinesis stream as its source. To specify a Kinesis data stream as input, set the DeliveryStreamType parameter to KinesisStreamAsSource, and provide the Kinesis stream Amazon Resource Name (ARN) and role ARN in the KinesisStreamSourceConfiguration parameter. To create a Firehose stream with server-side encryption (SSE) enabled, include [DeliveryStreamEncryptionConfigurationInput] in your request. This is optional. You can also invoke [StartDeliveryStreamEncryption] to turn on SSE for an existing Firehose stream that doesn't have SSE enabled. A Firehose stream is configured with a single destination, such as Amazon Simple Storage Service (Amazon S3), Amazon Redshift, Amazon OpenSearch Service, Amazon OpenSearch Serverless, Splunk, and any custom HTTP endpoint or HTTP endpoints owned by or supported by third-party service providers, including Datadog, Dynatrace, LogicMonitor, MongoDB, New Relic, and Sumo Logic. You must specify only one of the following destination configuration parameters: ExtendedS3DestinationConfiguration, S3DestinationConfiguration, ElasticsearchDestinationConfiguration, RedshiftDestinationConfiguration, or SplunkDestinationConfiguration. When you specify S3DestinationConfiguration, you can also provide the following optional values: BufferingHints, EncryptionConfiguration, and CompressionFormat. By default, if no BufferingHints value is provided, Firehose buffers data up to 5 MB or for 5 minutes, whichever condition is satisfied first. BufferingHints is a hint, so there are some cases where the service cannot adhere to these conditions strictly. For example, record boundaries might be such that the size is a little over or under the configured buffering size. By default, no encryption is performed. We strongly recommend that you enable encryption to ensure secure data storage in Amazon S3. A few notes about Amazon Redshift as a destination:
     ///
     /// * An Amazon Redshift destination requires an S3 bucket as intermediate location. Firehose first delivers data to Amazon S3 and then uses COPY syntax to load data into an Amazon Redshift table. This is specified in the RedshiftDestinationConfiguration.S3Configuration parameter.
     ///
@@ -387,15 +397,8 @@ extension FirehoseClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createDeliveryStream")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -463,15 +466,8 @@ extension FirehoseClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteDeliveryStream")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -538,15 +534,8 @@ extension FirehoseClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeDeliveryStream")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -608,15 +597,8 @@ extension FirehoseClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listDeliveryStreams")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -685,15 +667,8 @@ extension FirehoseClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listTagsForDeliveryStream")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -764,15 +739,8 @@ extension FirehoseClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putRecord")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -843,15 +811,8 @@ extension FirehoseClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putRecordBatch")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -922,15 +883,8 @@ extension FirehoseClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "startDeliveryStreamEncryption")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1000,15 +954,8 @@ extension FirehoseClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "stopDeliveryStreamEncryption")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1078,15 +1025,8 @@ extension FirehoseClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "tagDeliveryStream")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1156,15 +1096,8 @@ extension FirehoseClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "untagDeliveryStream")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1234,15 +1167,8 @@ extension FirehoseClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateDestination")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1291,5 +1217,4 @@ extension FirehoseClient {
             .build()
         return try await op.execute(input: input)
     }
-
 }

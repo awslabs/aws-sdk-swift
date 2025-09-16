@@ -11,6 +11,7 @@ import Foundation
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
 import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
+import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
@@ -40,7 +41,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -60,14 +61,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSOAdminClient: ClientRuntime.Client {
     public static let clientName = "SSOAdminClient"
-    public static let version = "1.2.13"
+    public static let version = "1.5.43"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOAdminClient.SSOAdminClientConfiguration
     let serviceName = "SSO Admin"
@@ -111,11 +112,12 @@ extension SSOAdminClient {
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        internal let logger: Smithy.LogAgent
+        public let logger: Smithy.LogAgent
 
         private init(
             _ useFIPS: Swift.Bool?,
@@ -138,6 +140,7 @@ extension SSOAdminClient {
             _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
             _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
             _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemePreference: [String]?,
             _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
             _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
             _ interceptorProviders: [ClientRuntime.InterceptorProvider],
@@ -163,6 +166,7 @@ extension SSOAdminClient {
             self.httpClientEngine = httpClientEngine
             self.httpClientConfiguration = httpClientConfiguration
             self.authSchemes = authSchemes
+            self.authSchemePreference = authSchemePreference
             self.authSchemeResolver = authSchemeResolver
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
             self.interceptorProviders = interceptorProviders
@@ -191,6 +195,7 @@ extension SSOAdminClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -200,7 +205,7 @@ extension SSOAdminClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -214,9 +219,10 @@ extension SSOAdminClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultSSOAdminAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -245,6 +251,7 @@ extension SSOAdminClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -254,7 +261,7 @@ extension SSOAdminClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -268,9 +275,10 @@ extension SSOAdminClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultSSOAdminAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -300,6 +308,7 @@ extension SSOAdminClient {
                 httpClientEngine: nil,
                 httpClientConfiguration: nil,
                 authSchemes: nil,
+                authSchemePreference: nil,
                 authSchemeResolver: nil,
                 bearerTokenIdentityResolver: nil,
                 interceptorProviders: nil,
@@ -312,7 +321,7 @@ extension SSOAdminClient {
                 nil,
                 nil,
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
+                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 nil,
                 try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
@@ -329,6 +338,7 @@ extension SSOAdminClient {
                 AWSClientConfigDefaultsProvider.httpClientEngine(),
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                nil,
                 DefaultSSOAdminAuthSchemeResolver(),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
@@ -383,15 +393,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "attachCustomerManagedPolicyReferenceToPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -464,15 +467,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "attachManagedPolicyToPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -545,15 +541,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createAccountAssignment")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -605,7 +594,7 @@ extension SSOAdminClient {
 
     /// Performs the `CreateApplication` operation on the `SSOAdmin` service.
     ///
-    /// Creates an application in IAM Identity Center for the given application provider.
+    /// Creates an OAuth 2.0 customer managed application in IAM Identity Center for the given application provider. This API does not support creating SAML 2.0 customer managed applications or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the application user guide. You can create a SAML 2.0 customer managed application in the Amazon Web Services Management Console only. See [Setting up customer managed SAML 2.0 applications](https://docs.aws.amazon.com/singlesignon/latest/userguide/customermanagedapps-saml2-setup.html). For more information on these application types, see [Amazon Web Services managed applications](https://docs.aws.amazon.com/singlesignon/latest/userguide/awsapps.html).
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
     ///
@@ -626,15 +615,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createApplication")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -708,15 +690,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createApplicationAssignment")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -792,15 +767,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createInstance")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -873,15 +841,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createInstanceAccessControlAttributeConfiguration")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -954,15 +915,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1034,15 +988,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createTrustedTokenIssuer")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1115,15 +1062,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteAccountAssignment")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1195,15 +1135,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteApplication")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1275,15 +1208,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteApplicationAccessScope")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1355,15 +1281,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteApplicationAssignment")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1435,15 +1354,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteApplicationAuthenticationMethod")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1515,15 +1427,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteApplicationGrant")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1595,15 +1500,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteInlinePolicyFromPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1674,15 +1572,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteInstance")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1754,15 +1645,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteInstanceAccessControlAttributeConfiguration")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1834,15 +1718,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deletePermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1914,15 +1791,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deletePermissionsBoundaryFromPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1994,15 +1864,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteTrustedTokenIssuer")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2073,15 +1936,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeAccountAssignmentCreationStatus")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2152,15 +2008,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeAccountAssignmentDeletionStatus")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2231,15 +2080,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeApplication")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2310,15 +2152,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeApplicationAssignment")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2389,15 +2224,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeApplicationProvider")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2473,15 +2301,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeInstance")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2552,15 +2373,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeInstanceAccessControlAttributeConfiguration")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2631,15 +2445,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describePermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2710,15 +2517,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describePermissionSetProvisioningStatus")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2789,15 +2589,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeTrustedTokenIssuer")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2869,15 +2662,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "detachCustomerManagedPolicyReferenceFromPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2949,15 +2735,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "detachManagedPolicyFromPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3028,15 +2807,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getApplicationAccessScope")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3107,15 +2879,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getApplicationAssignmentConfiguration")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3186,15 +2951,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getApplicationAuthenticationMethod")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3265,15 +3023,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getApplicationGrant")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3323,6 +3074,78 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetApplicationSessionConfiguration` operation on the `SSOAdmin` service.
+    ///
+    /// Retrieves the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
+    ///
+    /// - Parameter GetApplicationSessionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationSessionConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
+    public func getApplicationSessionConfiguration(input: GetApplicationSessionConfigurationInput) async throws -> GetApplicationSessionConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getApplicationSessionConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sso")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetApplicationSessionConfigurationInput, GetApplicationSessionConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetApplicationSessionConfigurationInput, GetApplicationSessionConfigurationOutput>(GetApplicationSessionConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationSessionConfigurationInput, GetApplicationSessionConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationSessionConfigurationInput, GetApplicationSessionConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationSessionConfigurationOutput>(GetApplicationSessionConfigurationOutput.httpOutput(from:), GetApplicationSessionConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationSessionConfigurationInput, GetApplicationSessionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationSessionConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSO Admin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetApplicationSessionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetApplicationSessionConfigurationInput, GetApplicationSessionConfigurationOutput>(xAmzTarget: "SWBExternalService.GetApplicationSessionConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetApplicationSessionConfigurationInput, GetApplicationSessionConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetApplicationSessionConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetApplicationSessionConfigurationInput, GetApplicationSessionConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetApplicationSessionConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetApplicationSessionConfigurationInput, GetApplicationSessionConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetApplicationSessionConfigurationInput, GetApplicationSessionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetApplicationSessionConfigurationInput, GetApplicationSessionConfigurationOutput>(serviceID: serviceName, version: SSOAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetApplicationSessionConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetInlinePolicyForPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Obtains the inline policy assigned to the permission set.
@@ -3344,15 +3167,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getInlinePolicyForPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3423,15 +3239,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getPermissionsBoundaryForPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3502,15 +3311,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listAccountAssignmentCreationStatus")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3581,15 +3383,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listAccountAssignmentDeletionStatus")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3660,15 +3455,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listAccountAssignments")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3720,7 +3508,7 @@ extension SSOAdminClient {
 
     /// Performs the `ListAccountAssignmentsForPrincipal` operation on the `SSOAdmin` service.
     ///
-    /// Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to.
+    /// Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to. This action must be called from the management account containing your organization instance of IAM Identity Center. This action is not valid for account instances of IAM Identity Center.
     ///
     /// - Parameter ListAccountAssignmentsForPrincipalInput : [no documentation found]
     ///
@@ -3739,15 +3527,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listAccountAssignmentsForPrincipal")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3818,15 +3599,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listAccountsForProvisionedPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3897,15 +3671,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listApplicationAccessScopes")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3976,15 +3743,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listApplicationAssignments")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4036,7 +3796,7 @@ extension SSOAdminClient {
 
     /// Performs the `ListApplicationAssignmentsForPrincipal` operation on the `SSOAdmin` service.
     ///
-    /// Lists the applications to which a specified principal is assigned.
+    /// Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organization instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account.
     ///
     /// - Parameter ListApplicationAssignmentsForPrincipalInput : [no documentation found]
     ///
@@ -4055,15 +3815,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listApplicationAssignmentsForPrincipal")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4134,15 +3887,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listApplicationAuthenticationMethods")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4213,15 +3959,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listApplicationGrants")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4291,15 +4030,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listApplicationProviders")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4351,7 +4083,7 @@ extension SSOAdminClient {
 
     /// Performs the `ListApplications` operation on the `SSOAdmin` service.
     ///
-    /// Lists all applications associated with the instance of IAM Identity Center. When listing applications for an instance in the management account, member accounts must use the applicationAccount parameter to filter the list to only applications created from that account.
+    /// Lists all applications associated with the instance of IAM Identity Center. When listing applications for an organization instance in the management account, member accounts must use the applicationAccount parameter to filter the list to only applications created from that account. When listing applications for an account instance in the same member account, a filter is not required.
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
     ///
@@ -4369,15 +4101,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listApplications")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4448,15 +4173,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listCustomerManagedPolicyReferencesInPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4526,15 +4244,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listInstances")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4605,15 +4316,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listManagedPoliciesInPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4684,15 +4388,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listPermissionSetProvisioningStatus")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4763,15 +4460,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listPermissionSets")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4842,15 +4532,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listPermissionSetsProvisionedToAccount")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4921,15 +4604,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listTagsForResource")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4999,15 +4675,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listTrustedTokenIssuers")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5079,15 +4748,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "provisionPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5159,15 +4821,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putApplicationAccessScope")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5239,15 +4894,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putApplicationAssignmentConfiguration")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5319,15 +4967,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putApplicationAuthenticationMethod")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5379,7 +5020,33 @@ extension SSOAdminClient {
 
     /// Performs the `PutApplicationGrant` operation on the `SSOAdmin` service.
     ///
-    /// Adds a grant to an application.
+    /// Creates a configuration for an application to use grants. Conceptually grants are authorization to request actions related to tokens. This configuration will be used when parties are requesting and receiving tokens during the trusted identity propagation process. For more information on the IAM Identity Center supported grant workflows, see [SAML 2.0 and OAuth 2.0](https://docs.aws.amazon.com/singlesignon/latest/userguide/customermanagedapps-saml2-oauth2.html). A grant is created between your applications and Identity Center instance which enables an application to use specified mechanisms to obtain tokens. These tokens are used by your applications to gain access to Amazon Web Services resources on behalf of users. The following elements are within these exchanges:
+    ///
+    /// * Requester - The application requesting access to Amazon Web Services resources.
+    ///
+    /// * Subject - Typically the user that is requesting access to Amazon Web Services resources.
+    ///
+    /// * Grant - Conceptually, a grant is authorization to access Amazon Web Services resources. These grants authorize token generation for authenticating access to the requester and for the request to make requests on behalf of the subjects. There are four types of grants:
+    ///
+    /// * AuthorizationCode - Allows an application to request authorization through a series of user-agent redirects.
+    ///
+    /// * JWT bearer - Authorizes an application to exchange a JSON Web Token that came from an external identity provider. To learn more, see [RFC 6479](https://datatracker.ietf.org/doc/html/rfc6749).
+    ///
+    /// * Refresh token - Enables application to request new access tokens to replace expiring or expired access tokens.
+    ///
+    /// * Exchange token - A grant that requests tokens from the authorization server by providing a ‘subject’ token with access scope authorizing trusted identity propagation to this application. To learn more, see [RFC 8693](https://datatracker.ietf.org/doc/html/rfc8693).
+    ///
+    ///
+    ///
+    ///
+    /// * Authorization server - IAM Identity Center requests tokens.
+    ///
+    ///
+    /// User credentials are never shared directly within these exchanges. Instead, applications use grants to request access tokens from IAM Identity Center. For more information, see [RFC 6479](https://datatracker.ietf.org/doc/html/rfc6749). Use cases
+    ///
+    /// * Connecting to custom applications.
+    ///
+    /// * Configuring an Amazon Web Services service to make calls to another Amazon Web Services services using JWT tokens.
     ///
     /// - Parameter PutApplicationGrantInput : [no documentation found]
     ///
@@ -5399,15 +5066,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putApplicationGrant")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5457,6 +5117,79 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutApplicationSessionConfiguration` operation on the `SSOAdmin` service.
+    ///
+    /// Updates the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
+    ///
+    /// - Parameter PutApplicationSessionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutApplicationSessionConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
+    public func putApplicationSessionConfiguration(input: PutApplicationSessionConfigurationInput) async throws -> PutApplicationSessionConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putApplicationSessionConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sso")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutApplicationSessionConfigurationInput, PutApplicationSessionConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutApplicationSessionConfigurationInput, PutApplicationSessionConfigurationOutput>(PutApplicationSessionConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutApplicationSessionConfigurationInput, PutApplicationSessionConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutApplicationSessionConfigurationInput, PutApplicationSessionConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutApplicationSessionConfigurationOutput>(PutApplicationSessionConfigurationOutput.httpOutput(from:), PutApplicationSessionConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutApplicationSessionConfigurationInput, PutApplicationSessionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutApplicationSessionConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSO Admin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutApplicationSessionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutApplicationSessionConfigurationInput, PutApplicationSessionConfigurationOutput>(xAmzTarget: "SWBExternalService.PutApplicationSessionConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutApplicationSessionConfigurationInput, PutApplicationSessionConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutApplicationSessionConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutApplicationSessionConfigurationInput, PutApplicationSessionConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutApplicationSessionConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutApplicationSessionConfigurationInput, PutApplicationSessionConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutApplicationSessionConfigurationInput, PutApplicationSessionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutApplicationSessionConfigurationInput, PutApplicationSessionConfigurationOutput>(serviceID: serviceName, version: SSOAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutApplicationSessionConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutInlinePolicyToPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Attaches an inline policy to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this action to apply the corresponding IAM policy updates to all assigned accounts.
@@ -5480,15 +5213,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putInlinePolicyToPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5560,15 +5286,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putPermissionsBoundaryToPermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5641,15 +5360,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "tagResource")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5721,15 +5433,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "untagResource")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5801,15 +5506,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateApplication")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5880,15 +5578,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateInstance")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5960,15 +5651,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateInstanceAccessControlAttributeConfiguration")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6040,15 +5724,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updatePermissionSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6120,15 +5797,8 @@ extension SSOAdminClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateTrustedTokenIssuer")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6177,5 +5847,4 @@ extension SSOAdminClient {
             .build()
         return try await op.execute(input: input)
     }
-
 }

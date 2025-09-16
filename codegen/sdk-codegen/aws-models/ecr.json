@@ -379,6 +379,56 @@
                                                     ],
                                                     "rules": [
                                                         {
+                                                            "conditions": [
+                                                                {
+                                                                    "fn": "stringEquals",
+                                                                    "argv": [
+                                                                        "aws",
+                                                                        {
+                                                                            "fn": "getAttr",
+                                                                            "argv": [
+                                                                                {
+                                                                                    "ref": "PartitionResult"
+                                                                                },
+                                                                                "name"
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "endpoint": {
+                                                                "url": "https://ecr-fips.{Region}.api.aws",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        },
+                                                        {
+                                                            "conditions": [
+                                                                {
+                                                                    "fn": "stringEquals",
+                                                                    "argv": [
+                                                                        "aws-us-gov",
+                                                                        {
+                                                                            "fn": "getAttr",
+                                                                            "argv": [
+                                                                                {
+                                                                                    "ref": "PartitionResult"
+                                                                                },
+                                                                                "name"
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "endpoint": {
+                                                                "url": "https://ecr-fips.{Region}.api.aws",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        },
+                                                        {
                                                             "conditions": [],
                                                             "endpoint": {
                                                                 "url": "https://api.ecr-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
@@ -533,6 +583,81 @@
                                                     ],
                                                     "rules": [
                                                         {
+                                                            "conditions": [
+                                                                {
+                                                                    "fn": "stringEquals",
+                                                                    "argv": [
+                                                                        "aws",
+                                                                        {
+                                                                            "fn": "getAttr",
+                                                                            "argv": [
+                                                                                {
+                                                                                    "ref": "PartitionResult"
+                                                                                },
+                                                                                "name"
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "endpoint": {
+                                                                "url": "https://ecr.{Region}.api.aws",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        },
+                                                        {
+                                                            "conditions": [
+                                                                {
+                                                                    "fn": "stringEquals",
+                                                                    "argv": [
+                                                                        "aws-cn",
+                                                                        {
+                                                                            "fn": "getAttr",
+                                                                            "argv": [
+                                                                                {
+                                                                                    "ref": "PartitionResult"
+                                                                                },
+                                                                                "name"
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "endpoint": {
+                                                                "url": "https://ecr.{Region}.api.amazonwebservices.com.cn",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        },
+                                                        {
+                                                            "conditions": [
+                                                                {
+                                                                    "fn": "stringEquals",
+                                                                    "argv": [
+                                                                        "aws-us-gov",
+                                                                        {
+                                                                            "fn": "getAttr",
+                                                                            "argv": [
+                                                                                {
+                                                                                    "ref": "PartitionResult"
+                                                                                },
+                                                                                "name"
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "endpoint": {
+                                                                "url": "https://ecr.{Region}.api.aws",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        },
+                                                        {
                                                             "conditions": [],
                                                             "endpoint": {
                                                                 "url": "https://api.ecr.{Region}.{PartitionResult#dualStackDnsSuffix}",
@@ -590,6 +715,19 @@
                             }
                         },
                         {
+                            "documentation": "For region af-south-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.af-south-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "af-south-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
                             "documentation": "For region ap-east-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -600,6 +738,19 @@
                                 "Region": "ap-east-1",
                                 "UseFIPS": false,
                                 "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.ap-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -616,6 +767,19 @@
                             }
                         },
                         {
+                            "documentation": "For region ap-northeast-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.ap-northeast-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-northeast-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
                             "documentation": "For region ap-northeast-2 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -626,6 +790,19 @@
                                 "Region": "ap-northeast-2",
                                 "UseFIPS": false,
                                 "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-northeast-2 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.ap-northeast-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-northeast-2",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -642,6 +819,19 @@
                             }
                         },
                         {
+                            "documentation": "For region ap-northeast-3 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.ap-northeast-3.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-northeast-3",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
                             "documentation": "For region ap-south-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -652,6 +842,45 @@
                                 "Region": "ap-south-1",
                                 "UseFIPS": false,
                                 "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-south-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.ap-south-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-south-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-south-2 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.ecr.ap-south-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-south-2",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-south-2 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.ap-south-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-south-2",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -668,6 +897,19 @@
                             }
                         },
                         {
+                            "documentation": "For region ap-southeast-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.ap-southeast-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-southeast-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
                             "documentation": "For region ap-southeast-2 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -678,6 +920,19 @@
                                 "Region": "ap-southeast-2",
                                 "UseFIPS": false,
                                 "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-2 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.ap-southeast-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-southeast-2",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -694,6 +949,97 @@
                             }
                         },
                         {
+                            "documentation": "For region ap-southeast-3 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.ap-southeast-3.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-southeast-3",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-4 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.ecr.ap-southeast-4.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-southeast-4",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-4 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.ap-southeast-4.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-southeast-4",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-5 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.ecr.ap-southeast-5.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-southeast-5",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-5 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.ap-southeast-5.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-southeast-5",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-7 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.ecr.ap-southeast-7.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-southeast-7",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-7 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.ap-southeast-7.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "ap-southeast-7",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
                             "documentation": "For region ca-central-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -704,6 +1050,45 @@
                                 "Region": "ca-central-1",
                                 "UseFIPS": false,
                                 "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region ca-central-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.ca-central-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "ca-central-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region ca-west-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.ecr.ca-west-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "ca-west-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region ca-west-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.ca-west-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "ca-west-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -720,6 +1105,45 @@
                             }
                         },
                         {
+                            "documentation": "For region eu-central-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.eu-central-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "eu-central-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-central-2 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.ecr.eu-central-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "eu-central-2",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-central-2 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.eu-central-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "eu-central-2",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
                             "documentation": "For region eu-north-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -730,6 +1154,19 @@
                                 "Region": "eu-north-1",
                                 "UseFIPS": false,
                                 "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-north-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.eu-north-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "eu-north-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -746,6 +1183,45 @@
                             }
                         },
                         {
+                            "documentation": "For region eu-south-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.eu-south-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "eu-south-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-south-2 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.ecr.eu-south-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "eu-south-2",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-south-2 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.eu-south-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "eu-south-2",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
                             "documentation": "For region eu-west-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -756,6 +1232,19 @@
                                 "Region": "eu-west-1",
                                 "UseFIPS": false,
                                 "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.eu-west-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "eu-west-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -772,6 +1261,19 @@
                             }
                         },
                         {
+                            "documentation": "For region eu-west-2 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.eu-west-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "eu-west-2",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
                             "documentation": "For region eu-west-3 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -782,6 +1284,71 @@
                                 "Region": "eu-west-3",
                                 "UseFIPS": false,
                                 "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-3 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.eu-west-3.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "eu-west-3",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region il-central-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.ecr.il-central-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "il-central-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region il-central-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.il-central-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "il-central-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region me-central-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.ecr.me-central-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "Region": "me-central-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region me-central-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.me-central-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "me-central-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -798,6 +1365,19 @@
                             }
                         },
                         {
+                            "documentation": "For region me-south-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.me-south-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "me-south-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
                             "documentation": "For region sa-east-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -808,6 +1388,19 @@
                                 "Region": "sa-east-1",
                                 "UseFIPS": false,
                                 "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region sa-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.sa-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "sa-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -837,6 +1430,32 @@
                             }
                         },
                         {
+                            "documentation": "For region us-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.us-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr-fips.us-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
                             "documentation": "For region us-east-2 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -860,6 +1479,32 @@
                                 "Region": "us-east-2",
                                 "UseFIPS": true,
                                 "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-east-2 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.us-east-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-east-2",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-east-2 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr-fips.us-east-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-east-2",
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -889,6 +1534,32 @@
                             }
                         },
                         {
+                            "documentation": "For region us-west-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.us-west-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-west-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-west-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr-fips.us-west-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-west-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
                             "documentation": "For region us-west-2 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -915,28 +1586,28 @@
                             }
                         },
                         {
-                            "documentation": "For region us-east-1 with FIPS enabled and DualStack enabled",
+                            "documentation": "For region us-west-2 with FIPS disabled and DualStack enabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://api.ecr-fips.us-east-1.api.aws"
+                                    "url": "https://ecr.us-west-2.api.aws"
                                 }
                             },
                             "params": {
-                                "Region": "us-east-1",
-                                "UseFIPS": true,
+                                "Region": "us-west-2",
+                                "UseFIPS": false,
                                 "UseDualStack": true
                             }
                         },
                         {
-                            "documentation": "For region us-east-1 with FIPS disabled and DualStack enabled",
+                            "documentation": "For region us-west-2 with FIPS enabled and DualStack enabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://api.ecr.us-east-1.api.aws"
+                                    "url": "https://ecr-fips.us-west-2.api.aws"
                                 }
                             },
                             "params": {
-                                "Region": "us-east-1",
-                                "UseFIPS": false,
+                                "Region": "us-west-2",
+                                "UseFIPS": true,
                                 "UseDualStack": true
                             }
                         },
@@ -954,6 +1625,19 @@
                             }
                         },
                         {
+                            "documentation": "For region cn-north-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.cn-north-1.api.amazonwebservices.com.cn"
+                                }
+                            },
+                            "params": {
+                                "Region": "cn-north-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
                             "documentation": "For region cn-northwest-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -964,6 +1648,19 @@
                                 "Region": "cn-northwest-1",
                                 "UseFIPS": false,
                                 "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-northwest-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.cn-northwest-1.api.amazonwebservices.com.cn"
+                                }
+                            },
+                            "params": {
+                                "Region": "cn-northwest-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -993,19 +1690,6 @@
                             }
                         },
                         {
-                            "documentation": "For region cn-north-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.ecr.cn-north-1.api.amazonwebservices.com.cn"
-                                }
-                            },
-                            "params": {
-                                "Region": "cn-north-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -1029,6 +1713,32 @@
                                 "Region": "us-gov-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr.us-gov-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://ecr-fips.us-gov-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
                             }
                         },
                         {
@@ -1058,28 +1768,28 @@
                             }
                         },
                         {
-                            "documentation": "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                            "documentation": "For region us-gov-west-1 with FIPS disabled and DualStack enabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://api.ecr-fips.us-gov-east-1.api.aws"
+                                    "url": "https://ecr.us-gov-west-1.api.aws"
                                 }
                             },
                             "params": {
-                                "Region": "us-gov-east-1",
-                                "UseFIPS": true,
+                                "Region": "us-gov-west-1",
+                                "UseFIPS": false,
                                 "UseDualStack": true
                             }
                         },
                         {
-                            "documentation": "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                            "documentation": "For region us-gov-west-1 with FIPS enabled and DualStack enabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://api.ecr.us-gov-east-1.api.aws"
+                                    "url": "https://ecr-fips.us-gov-west-1.api.aws"
                                 }
                             },
                             "params": {
-                                "Region": "us-gov-east-1",
-                                "UseFIPS": false,
+                                "Region": "us-gov-west-1",
+                                "UseFIPS": true,
                                 "UseDualStack": true
                             }
                         },
@@ -1110,17 +1820,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -1131,17 +1830,6 @@
                                 "Region": "us-iso-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -1158,17 +1846,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -1179,17 +1856,6 @@
                                 "Region": "us-isob-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -1383,6 +2049,18 @@
                     "target": "com.amazonaws.ecr#Date",
                     "traits": {
                         "smithy.api#documentation": "<p>The date and time the Amazon ECR container image was pushed.</p>"
+                    }
+                },
+                "lastInUseAt": {
+                    "target": "com.amazonaws.ecr#Date",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The most recent date and time a cluster was running the image.</p>"
+                    }
+                },
+                "inUseCount": {
+                    "target": "com.amazonaws.ecr#InUseCount",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of Amazon ECS or Amazon EKS clusters currently running the\n            image.</p>"
                     }
                 },
                 "registry": {
@@ -1928,14 +2606,14 @@
                 "ecrRepositoryPrefix": {
                     "target": "com.amazonaws.ecr#PullThroughCacheRuleRepositoryPrefix",
                     "traits": {
-                        "smithy.api#documentation": "<p>The repository name prefix to use when caching images from the source registry.</p>",
+                        "smithy.api#documentation": "<p>The repository name prefix to use when caching images from the source registry.</p>\n         <important>\n            <p>There is always an assumed <code>/</code> applied to the end of the prefix. If you\n                specify <code>ecr-public</code> as the prefix, Amazon ECR treats that as\n                    <code>ecr-public/</code>.</p>\n         </important>",
                         "smithy.api#required": {}
                     }
                 },
                 "upstreamRegistryUrl": {
                     "target": "com.amazonaws.ecr#Url",
                     "traits": {
-                        "smithy.api#documentation": "<p>The registry URL of the upstream public registry to use as the source for the pull\n            through cache rule. The following is the syntax to use for each supported upstream\n            registry.</p>\n         <ul>\n            <li>\n               <p>Amazon ECR Public (<code>ecr-public</code>) - <code>public.ecr.aws</code>\n               </p>\n            </li>\n            <li>\n               <p>Docker Hub (<code>docker-hub</code>) -\n                    <code>registry-1.docker.io</code>\n               </p>\n            </li>\n            <li>\n               <p>Quay (<code>quay</code>) - <code>quay.io</code>\n               </p>\n            </li>\n            <li>\n               <p>Kubernetes (<code>k8s</code>) - <code>registry.k8s.io</code>\n               </p>\n            </li>\n            <li>\n               <p>GitHub Container Registry (<code>github-container-registry</code>) -\n                        <code>ghcr.io</code>\n               </p>\n            </li>\n            <li>\n               <p>Microsoft Azure Container Registry (<code>azure-container-registry</code>) -\n                        <code><custom>.azurecr.io</code>\n               </p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>The registry URL of the upstream public registry to use as the source for the pull\n            through cache rule. The following is the syntax to use for each supported upstream\n            registry.</p>\n         <ul>\n            <li>\n               <p>Amazon ECR (<code>ecr</code>) –\n                    <code><accountId>.dkr.ecr.<region>.amazonaws.com</code>\n               </p>\n            </li>\n            <li>\n               <p>Amazon ECR Public (<code>ecr-public</code>) – <code>public.ecr.aws</code>\n               </p>\n            </li>\n            <li>\n               <p>Docker Hub (<code>docker-hub</code>) –\n                    <code>registry-1.docker.io</code>\n               </p>\n            </li>\n            <li>\n               <p>GitHub Container Registry (<code>github-container-registry</code>) –\n                        <code>ghcr.io</code>\n               </p>\n            </li>\n            <li>\n               <p>GitLab Container Registry (<code>gitlab-container-registry</code>) –\n                        <code>registry.gitlab.com</code>\n               </p>\n            </li>\n            <li>\n               <p>Kubernetes (<code>k8s</code>) – <code>registry.k8s.io</code>\n               </p>\n            </li>\n            <li>\n               <p>Microsoft Azure Container Registry (<code>azure-container-registry</code>) –\n                        <code><custom>.azurecr.io</code>\n               </p>\n            </li>\n            <li>\n               <p>Quay (<code>quay</code>) – <code>quay.io</code>\n               </p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
                 },
@@ -1955,6 +2633,18 @@
                     "target": "com.amazonaws.ecr#CredentialArn",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate\n            to the upstream registry.</p>"
+                    }
+                },
+                "customRoleArn": {
+                    "target": "com.amazonaws.ecr#CustomRoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Amazon Resource Name (ARN) of the IAM role to be assumed by Amazon ECR to authenticate to\n            the ECR upstream registry. This role must be in the same account as the registry that\n            you are configuring.</p>"
+                    }
+                },
+                "upstreamRepositoryPrefix": {
+                    "target": "com.amazonaws.ecr#PullThroughCacheRuleRepositoryPrefix",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The repository name prefix of the upstream registry to match with the upstream\n            repository name. When this field isn't specified, Amazon ECR will use the\n            <code>ROOT</code>.</p>"
                     }
                 }
             },
@@ -1999,6 +2689,18 @@
                     "target": "com.amazonaws.ecr#CredentialArn",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache\n            rule.</p>"
+                    }
+                },
+                "customRoleArn": {
+                    "target": "com.amazonaws.ecr#CustomRoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the IAM role associated with the pull through cache rule.</p>"
+                    }
+                },
+                "upstreamRepositoryPrefix": {
+                    "target": "com.amazonaws.ecr#PullThroughCacheRuleRepositoryPrefix",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The upstream repository prefix associated with the pull through cache rule.</p>"
                     }
                 }
             },
@@ -2120,6 +2822,12 @@
                         "smithy.api#documentation": "<p>The tag mutability setting for the repository. If this parameter is omitted, the\n            default setting of <code>MUTABLE</code> will be used which will allow image tags to be\n            overwritten. If <code>IMMUTABLE</code> is specified, all image tags within the\n            repository will be immutable which will prevent them from being overwritten.</p>"
                     }
                 },
+                "imageTagMutabilityExclusionFilters": {
+                    "target": "com.amazonaws.ecr#ImageTagMutabilityExclusionFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Creates a repository creation template with a list of filters that define which image tags can override the default image tag mutability setting.</p>"
+                    }
+                },
                 "repositoryPolicy": {
                     "target": "com.amazonaws.ecr#RepositoryPolicyText",
                     "traits": {
@@ -2196,6 +2904,12 @@
                     "target": "com.amazonaws.ecr#ImageTagMutability",
                     "traits": {
                         "smithy.api#documentation": "<p>The tag mutability setting for the repository. If this parameter is omitted, the\n            default setting of <code>MUTABLE</code> will be used which will allow image tags to be\n            overwritten. If <code>IMMUTABLE</code> is specified, all image tags within the\n            repository will be immutable which will prevent them from being overwritten.</p>"
+                    }
+                },
+                "imageTagMutabilityExclusionFilters": {
+                    "target": "com.amazonaws.ecr#ImageTagMutabilityExclusionFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Creates a repository with a list of filters that define which image tags can override the default image tag mutability setting.</p>"
                     }
                 },
                 "imageScanningConfiguration": {
@@ -2518,6 +3232,18 @@
                     "target": "com.amazonaws.ecr#CredentialArn",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache\n            rule.</p>"
+                    }
+                },
+                "customRoleArn": {
+                    "target": "com.amazonaws.ecr#CustomRoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the IAM role associated with the pull through cache rule.</p>"
+                    }
+                },
+                "upstreamRepositoryPrefix": {
+                    "target": "com.amazonaws.ecr#PullThroughCacheRuleRepositoryPrefix",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The upstream repository prefix associated with the pull through cache rule.</p>"
                     }
                 }
             },
@@ -3061,7 +3787,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Returns metadata about the images in a repository.</p>\n         <note>\n            <p>Beginning with Docker version 1.9, the Docker client compresses image layers\n                before pushing them to a V2 Docker registry. The output of the <code>docker\n                    images</code> command shows the uncompressed image size, so it may return a\n                larger image size than the image sizes returned by <a>DescribeImages</a>.</p>\n         </note>",
+                "smithy.api#documentation": "<p>Returns metadata about the images in a repository.</p>\n         <note>\n            <p>Starting with Docker version 1.9, the Docker client compresses image layers before\n                pushing them to a V2 Docker registry. The output of the <code>docker images</code>\n                command shows the uncompressed image size. Therefore, Docker might return a larger\n                image than the image shown in the Amazon Web Services Management Console.</p>\n         </note>\n         <important>\n            <p>The new version of Amazon ECR <i>Basic Scanning</i> doesn't use the\n                <a>ImageDetail$imageScanFindingsSummary</a> and\n                <a>ImageDetail$imageScanStatus</a>\n                attributes from the API response to return scan results.\n                Use the <a>DescribeImageScanFindings</a> API instead. For more\n                information about Amazon Web Services native basic scanning, see <a href=\"https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html\"> Scan images for software\n                    vulnerabilities in Amazon ECR</a>.</p>\n         </important>",
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
@@ -3814,7 +4540,7 @@
                 "value": {
                     "target": "com.amazonaws.ecr#AccountSettingName",
                     "traits": {
-                        "smithy.api#documentation": "<p>The setting value for the setting name. The following are valid values for the basic scan\n            type being used: <code>AWS_NATIVE</code> or <code>CLAIR</code>. The following are valid\n            values for the registry policy scope being used: <code>V1</code> or\n            <code>V2</code>.</p>"
+                        "smithy.api#documentation": "<p>The setting value for the setting name. The following are valid values for the basic\n            scan type being used: <code>AWS_NATIVE</code> or <code>CLAIR</code>. The following are\n            valid values for the registry policy scope being used: <code>V1</code> or\n                <code>V2</code>.</p>"
                     }
                 }
             },
@@ -3877,7 +4603,7 @@
                 "authorizationData": {
                     "target": "com.amazonaws.ecr#AuthorizationDataList",
                     "traits": {
-                        "smithy.api#documentation": "<p>A list of authorization token data objects that correspond to the\n                <code>registryIds</code> values in the request.</p>"
+                        "smithy.api#documentation": "<p>A list of authorization token data objects that correspond to the\n                <code>registryIds</code> values in the request.</p>\n         <note>\n            <p>The size of the authorization token returned by Amazon ECR is not fixed. We recommend\n                that you don't make assumptions about the maximum size.</p>\n         </note>"
                     }
                 }
             },
@@ -4088,7 +4814,7 @@
                 "maxResults": {
                     "target": "com.amazonaws.ecr#LifecyclePreviewMaxResults",
                     "traits": {
-                        "smithy.api#documentation": "<p>The maximum number of repository results returned by\n                <code>GetLifecyclePolicyPreviewRequest</code> in\u2028 paginated output. When this\n            parameter is used, <code>GetLifecyclePolicyPreviewRequest</code> only returns\u2028\n                <code>maxResults</code> results in a single page along with a\n            <code>nextToken</code>\u2028 response element. The remaining results of the initial request\n            can be seen by sending\u2028 another <code>GetLifecyclePolicyPreviewRequest</code> request\n            with the returned <code>nextToken</code>\u2028 value. This value can be between\n            1 and 1000. If this\u2028 parameter is not used, then\n                <code>GetLifecyclePolicyPreviewRequest</code> returns up to\u2028 100\n            results and a <code>nextToken</code> value, if\u2028 applicable. This option cannot be used\n            when you specify images with <code>imageIds</code>.</p>"
+                        "smithy.api#documentation": "<p>The maximum number of repository results returned by\n                <code>GetLifecyclePolicyPreviewRequest</code> in\u2028 paginated output. When this\n            parameter is used, <code>GetLifecyclePolicyPreviewRequest</code> only returns\u2028\n                <code>maxResults</code> results in a single page along with a\n            <code>nextToken</code>\u2028 response element. The remaining results of the initial request\n            can be seen by sending\u2028 another <code>GetLifecyclePolicyPreviewRequest</code> request\n            with the returned <code>nextToken</code>\u2028 value. This value can be between\n            1 and 100. If this\u2028 parameter is not used, then\n                <code>GetLifecyclePolicyPreviewRequest</code> returns up to\u2028100\n            results and a <code>nextToken</code> value, if\u2028 applicable. This option cannot be used\n            when you specify images with <code>imageIds</code>.</p>"
                     }
                 },
                 "filter": {
@@ -4497,7 +5223,7 @@
                 "imageSizeInBytes": {
                     "target": "com.amazonaws.ecr#ImageSizeInBytes",
                     "traits": {
-                        "smithy.api#documentation": "<p>The size, in bytes, of the image in the repository.</p>\n         <p>If the image is a manifest list, this will be the max size of all manifests in the\n            list.</p>\n         <note>\n            <p>Beginning with Docker version 1.9, the Docker client compresses image layers\n                before pushing them to a V2 Docker registry. The output of the <code>docker\n                    images</code> command shows the uncompressed image size, so it may return a\n                larger image size than the image sizes returned by <a>DescribeImages</a>.</p>\n         </note>"
+                        "smithy.api#documentation": "<p>The size, in bytes, of the image in the repository.</p>\n         <p>If the image is a manifest list, this will be the max size of all manifests in the\n            list.</p>\n         <note>\n            <p>Starting with Docker version 1.9, the Docker client compresses image layers before\n                pushing them to a V2 Docker registry. The output of the <code>docker images</code>\n                command shows the uncompressed image size. Therefore, Docker might return a larger\n                image than the image shown in the Amazon Web Services Management Console.</p>\n         </note>"
                     }
                 },
                 "imagePushedAt": {
@@ -4946,6 +5672,73 @@
                     "traits": {
                         "smithy.api#enumValue": "IMMUTABLE"
                     }
+                },
+                "IMMUTABLE_WITH_EXCLUSION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "IMMUTABLE_WITH_EXCLUSION"
+                    }
+                },
+                "MUTABLE_WITH_EXCLUSION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MUTABLE_WITH_EXCLUSION"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.ecr#ImageTagMutabilityExclusionFilter": {
+            "type": "structure",
+            "members": {
+                "filterType": {
+                    "target": "com.amazonaws.ecr#ImageTagMutabilityExclusionFilterType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the type of filter to use for excluding image tags from the repository's mutability setting.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "filter": {
+                    "target": "com.amazonaws.ecr#ImageTagMutabilityExclusionFilterValue",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The value to use when filtering image tags. Must be either a regular expression pattern or a tag prefix value based on the specified filter type.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Overrides the default image tag mutability setting of the repository for image tags that match the specified filters.</p>"
+            }
+        },
+        "com.amazonaws.ecr#ImageTagMutabilityExclusionFilterType": {
+            "type": "enum",
+            "members": {
+                "WILDCARD": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "WILDCARD"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.ecr#ImageTagMutabilityExclusionFilterValue": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                },
+                "smithy.api#pattern": "^[0-9a-zA-Z._*-]{1,128}$"
+            }
+        },
+        "com.amazonaws.ecr#ImageTagMutabilityExclusionFilters": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.ecr#ImageTagMutabilityExclusionFilter"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 5
                 }
             }
         },
@@ -4953,6 +5746,14 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.ecr#ImageTag"
+            }
+        },
+        "com.amazonaws.ecr#InUseCount": {
+            "type": "long",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 0
+                }
             }
         },
         "com.amazonaws.ecr#InitiateLayerUpload": {
@@ -5900,6 +6701,18 @@
                         "smithy.api#documentation": "<p>The ARN of the Secrets Manager secret associated with the pull through cache rule.</p>"
                     }
                 },
+                "customRoleArn": {
+                    "target": "com.amazonaws.ecr#CustomRoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the IAM role associated with the pull through cache rule.</p>"
+                    }
+                },
+                "upstreamRepositoryPrefix": {
+                    "target": "com.amazonaws.ecr#PullThroughCacheRuleRepositoryPrefix",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The upstream repository prefix associated with the pull through cache rule.</p>"
+                    }
+                },
                 "upstreamRegistry": {
                     "target": "com.amazonaws.ecr#UpstreamRegistry",
                     "traits": {
@@ -5954,7 +6767,7 @@
                     "min": 2,
                     "max": 30
                 },
-                "smithy.api#pattern": "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+                "smithy.api#pattern": "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$"
             }
         },
         "com.amazonaws.ecr#PullThroughCacheRuleRepositoryPrefixList": {
@@ -6269,6 +7082,12 @@
                         "smithy.api#documentation": "<p>The tag mutability setting for the repository. If <code>MUTABLE</code> is specified,\n            image tags can be overwritten. If <code>IMMUTABLE</code> is specified, all image tags\n            within the repository will be immutable which will prevent them from being\n            overwritten.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "imageTagMutabilityExclusionFilters": {
+                    "target": "com.amazonaws.ecr#ImageTagMutabilityExclusionFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Creates or updates a repository with filters that define which image tags can override the default image tag mutability setting.</p>"
+                    }
                 }
             },
             "traits": {
@@ -6294,6 +7113,12 @@
                     "target": "com.amazonaws.ecr#ImageTagMutability",
                     "traits": {
                         "smithy.api#documentation": "<p>The image tag mutability setting for the repository.</p>"
+                    }
+                },
+                "imageTagMutabilityExclusionFilters": {
+                    "target": "com.amazonaws.ecr#ImageTagMutabilityExclusionFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Returns a list of filters that were defined for a repository. These filters determine which image tags can override the default image tag mutability setting of the repository.</p>"
                     }
                 }
             },
@@ -6882,6 +7707,12 @@
                         "smithy.api#documentation": "<p>The tag mutability setting for the repository.</p>"
                     }
                 },
+                "imageTagMutabilityExclusionFilters": {
+                    "target": "com.amazonaws.ecr#ImageTagMutabilityExclusionFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The image tag mutability exclusion filters associated with the repository. These filters specify which image tags can override the repository's default image tag mutability setting.</p>"
+                    }
+                },
                 "imageScanningConfiguration": {
                     "target": "com.amazonaws.ecr#ImageScanningConfiguration"
                 },
@@ -6941,13 +7772,19 @@
                 "imageTagMutability": {
                     "target": "com.amazonaws.ecr#ImageTagMutability",
                     "traits": {
-                        "smithy.api#documentation": "<p>The tag mutability setting for the repository. If this parameter is omitted, the\n            default setting of MUTABLE will be used which will allow image tags to be overwritten.\n            If IMMUTABLE is specified, all image tags within the repository will be immutable which\n            will prevent them from being overwritten.</p>"
+                        "smithy.api#documentation": "<p>The tag mutability setting for the repository. If this parameter is omitted, the\n            default setting of <code>MUTABLE</code> will be used which will allow image tags to be overwritten.\n            If <code>IMMUTABLE</code> is specified, all image tags within the repository will be immutable which\n            will prevent them from being overwritten.</p>"
+                    }
+                },
+                "imageTagMutabilityExclusionFilters": {
+                    "target": "com.amazonaws.ecr#ImageTagMutabilityExclusionFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines the image tag mutability exclusion filters to apply when creating repositories from this template. These filters specify which image tags can override the repository's default image tag mutability setting.</p>"
                     }
                 },
                 "repositoryPolicy": {
                     "target": "com.amazonaws.ecr#RepositoryPolicyText",
                     "traits": {
-                        "smithy.api#documentation": "<p>he repository policy to apply to repositories created using the template. A repository\n            policy is a permissions policy associated with a repository to control access\n            permissions. </p>"
+                        "smithy.api#documentation": "<p>The repository policy to apply to repositories created using the template. A\n            repository policy is a permissions policy associated with a repository to control access\n            permissions. </p>"
                     }
                 },
                 "lifecyclePolicy": {
@@ -7360,6 +8197,12 @@
                     "traits": {
                         "smithy.api#enumValue": "FINDINGS_UNAVAILABLE"
                     }
+                },
+                "LIMIT_EXCEEDED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "LIMIT_EXCEEDED"
+                    }
                 }
             }
         },
@@ -7650,7 +8493,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Starts an image vulnerability scan. An image scan can only be started once per 24\n            hours on an individual image. This limit includes if an image was scanned on initial\n            push. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html\">Image scanning</a> in the\n                <i>Amazon Elastic Container Registry User Guide</i>.</p>"
+                "smithy.api#documentation": "<p>Starts a basic image vulnerability scan.</p>\n         <p> A basic image scan can only be started once per 24\n            hours on an individual image. This limit includes if an image was scanned on initial\n            push. You can start up to 100,000 basic scans per 24 hours. This limit includes both scans on initial push\n            and scans initiated by the StartImageScan API. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning-basic.html\">Basic scanning</a> in the\n                <i>Amazon Elastic Container Registry User Guide</i>.</p>"
             }
         },
         "com.amazonaws.ecr#StartImageScanRequest": {
@@ -8159,8 +9002,13 @@
                 "credentialArn": {
                     "target": "com.amazonaws.ecr#CredentialArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate\n            to the upstream registry.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate\n            to the upstream registry.</p>"
+                    }
+                },
+                "customRoleArn": {
+                    "target": "com.amazonaws.ecr#CustomRoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Amazon Resource Name (ARN) of the IAM role to be assumed by Amazon ECR to authenticate to the\n            ECR upstream registry. This role must be in the same account as the registry that you\n            are configuring.</p>"
                     }
                 }
             },
@@ -8193,6 +9041,18 @@
                     "target": "com.amazonaws.ecr#CredentialArn",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache\n            rule.</p>"
+                    }
+                },
+                "customRoleArn": {
+                    "target": "com.amazonaws.ecr#CustomRoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the IAM role associated with the pull through cache rule.</p>"
+                    }
+                },
+                "upstreamRepositoryPrefix": {
+                    "target": "com.amazonaws.ecr#PullThroughCacheRuleRepositoryPrefix",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The upstream repository prefix associated with the pull through cache rule.</p>"
                     }
                 }
             },
@@ -8255,6 +9115,12 @@
                     "target": "com.amazonaws.ecr#ImageTagMutability",
                     "traits": {
                         "smithy.api#documentation": "<p>Updates the tag mutability setting for the repository. If this parameter is omitted,\n            the default setting of <code>MUTABLE</code> will be used which will allow image tags to\n            be overwritten. If <code>IMMUTABLE</code> is specified, all image tags within the\n            repository will be immutable which will prevent them from being overwritten.</p>"
+                    }
+                },
+                "imageTagMutabilityExclusionFilters": {
+                    "target": "com.amazonaws.ecr#ImageTagMutabilityExclusionFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Updates a repository with filters that define which image tags can override the default image tag mutability setting.</p>"
                     }
                 },
                 "repositoryPolicy": {
@@ -8449,6 +9315,12 @@
         "com.amazonaws.ecr#UpstreamRegistry": {
             "type": "enum",
             "members": {
+                "Ecr": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ecr"
+                    }
+                },
                 "EcrPublic": {
                     "target": "smithy.api#Unit",
                     "traits": {
@@ -8568,6 +9440,18 @@
                     "target": "com.amazonaws.ecr#CredentialArn",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache\n            rule.</p>"
+                    }
+                },
+                "customRoleArn": {
+                    "target": "com.amazonaws.ecr#CustomRoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the IAM role associated with the pull through cache rule.</p>"
+                    }
+                },
+                "upstreamRepositoryPrefix": {
+                    "target": "com.amazonaws.ecr#PullThroughCacheRuleRepositoryPrefix",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The upstream repository prefix associated with the pull through cache rule.</p>"
                     }
                 },
                 "isValid": {

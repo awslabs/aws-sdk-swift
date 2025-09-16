@@ -11,8 +11,11 @@ class AWSOperationEndpointResolverMiddleware(
     ctx: ProtocolGenerator.GenerationContext,
     endpointResolverMiddlewareSymbol: Symbol,
 ) : OperationEndpointResolverMiddleware(ctx, endpointResolverMiddlewareSymbol) {
-    override fun handleClientContextParam(param: Parameter, writer: SwiftWriter): String {
-        return when (param.name.toString()) {
+    override fun handleClientContextParam(
+        param: Parameter,
+        writer: SwiftWriter,
+    ): String =
+        when (param.name.toString()) {
             "AccountId" -> {
                 writer.format("context.resolvedAccountID")
             }
@@ -24,16 +27,18 @@ class AWSOperationEndpointResolverMiddleware(
                 super.handleClientContextParam(param, writer)
             }
         }
-    }
 
-    override fun handleBuiltInParam(param: Parameter, writer: SwiftWriter): String {
+    override fun handleBuiltInParam(
+        param: Parameter,
+        writer: SwiftWriter,
+    ): String {
         // Handle endpoint param if present
         if (getBuiltInName(param) == "endpoint") {
             writer.write(
                 "let configuredEndpoint = try config.${getBuiltInName(param)} " +
                     "?? \$N.configuredEndpoint(\$S, config.ignoreConfiguredEndpointURLs)",
                 AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
-                ctx.settings.sdkId
+                ctx.settings.sdkId,
             )
             return "configuredEndpoint"
         }

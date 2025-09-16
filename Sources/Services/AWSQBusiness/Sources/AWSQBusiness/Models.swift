@@ -698,6 +698,7 @@ extension QBusinessClientTypes {
 extension QBusinessClientTypes {
 
     public enum IdentityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case anonymous
         case awsIamIdc
         case awsIamIdpOidc
         case awsIamIdpSaml
@@ -706,6 +707,7 @@ extension QBusinessClientTypes {
 
         public static var allCases: [IdentityType] {
             return [
+                .anonymous,
                 .awsIamIdc,
                 .awsIamIdpOidc,
                 .awsIamIdpSaml,
@@ -720,6 +722,7 @@ extension QBusinessClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .anonymous: return "ANONYMOUS"
             case .awsIamIdc: return "AWS_IAM_IDC"
             case .awsIamIdpOidc: return "AWS_IAM_IDP_OIDC"
             case .awsIamIdpSaml: return "AWS_IAM_IDP_SAML"
@@ -1318,6 +1321,90 @@ public struct CreateApplicationOutput: Swift.Sendable {
     }
 }
 
+extension QBusinessClientTypes {
+
+    /// Configuration details for IAM Identity Center Trusted Token Issuer (TTI) authentication.
+    public struct DataAccessorIdcTrustedTokenIssuerConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center Trusted Token Issuer that will be used for authentication.
+        /// This member is required.
+        public var idcTrustedTokenIssuerArn: Swift.String?
+
+        public init(
+            idcTrustedTokenIssuerArn: Swift.String? = nil
+        ) {
+            self.idcTrustedTokenIssuerArn = idcTrustedTokenIssuerArn
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// A union type that contains the specific authentication configuration based on the authentication type selected.
+    public enum DataAccessorAuthenticationConfiguration: Swift.Sendable {
+        /// Configuration for IAM Identity Center Trusted Token Issuer (TTI) authentication used when the authentication type is AWS_IAM_IDC_TTI.
+        case idctrustedtokenissuerconfiguration(QBusinessClientTypes.DataAccessorIdcTrustedTokenIssuerConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// The type of authentication mechanism used by the data accessor.
+    public enum DataAccessorAuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsIamIdcAuthCode
+        case awsIamIdcTti
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataAccessorAuthenticationType] {
+            return [
+                .awsIamIdcAuthCode,
+                .awsIamIdcTti
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsIamIdcAuthCode: return "AWS_IAM_IDC_AUTH_CODE"
+            case .awsIamIdcTti: return "AWS_IAM_IDC_TTI"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Contains the authentication configuration details for a data accessor. This structure defines how the ISV authenticates when accessing data through the data accessor.
+    public struct DataAccessorAuthenticationDetail: Swift.Sendable {
+        /// The specific authentication configuration based on the authentication type.
+        public var authenticationConfiguration: QBusinessClientTypes.DataAccessorAuthenticationConfiguration?
+        /// The type of authentication to use for the data accessor. This determines how the ISV authenticates when accessing data. You can use one of two authentication types:
+        ///
+        /// * AWS_IAM_IDC_TTI - Authentication using IAM Identity Center Trusted Token Issuer (TTI). This authentication type allows the ISV to use a trusted token issuer to generate tokens for accessing the data.
+        ///
+        /// * AWS_IAM_IDC_AUTH_CODE - Authentication using IAM Identity Center authorization code flow. This authentication type uses the standard OAuth 2.0 authorization code flow for authentication.
+        /// This member is required.
+        public var authenticationType: QBusinessClientTypes.DataAccessorAuthenticationType?
+        /// A list of external identifiers associated with this authentication configuration. These are used to correlate the data accessor with external systems.
+        public var externalIds: [Swift.String]?
+
+        public init(
+            authenticationConfiguration: QBusinessClientTypes.DataAccessorAuthenticationConfiguration? = nil,
+            authenticationType: QBusinessClientTypes.DataAccessorAuthenticationType? = nil,
+            externalIds: [Swift.String]? = nil
+        ) {
+            self.authenticationConfiguration = authenticationConfiguration
+            self.authenticationType = authenticationType
+            self.externalIds = externalIds
+        }
+    }
+}
+
 public struct CreateDataAccessorOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the created data accessor.
     /// This member is required.
@@ -1403,6 +1490,8 @@ extension QBusinessClientTypes {
 
     /// Provides summary information about a data accessor.
     public struct DataAccessor: Swift.Sendable {
+        /// The authentication configuration details for the data accessor. This specifies how the ISV authenticates when accessing data through this data accessor.
+        public var authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail?
         /// The timestamp when the data accessor was created.
         public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the data accessor.
@@ -1419,6 +1508,7 @@ extension QBusinessClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail? = nil,
             createdAt: Foundation.Date? = nil,
             dataAccessorArn: Swift.String? = nil,
             dataAccessorId: Swift.String? = nil,
@@ -1427,6 +1517,7 @@ extension QBusinessClientTypes {
             principal: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.authenticationDetail = authenticationDetail
             self.createdAt = createdAt
             self.dataAccessorArn = dataAccessorArn
             self.dataAccessorId = dataAccessorId
@@ -1440,7 +1531,7 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes.DataAccessor: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DataAccessor(createdAt: \(Swift.String(describing: createdAt)), dataAccessorArn: \(Swift.String(describing: dataAccessorArn)), dataAccessorId: \(Swift.String(describing: dataAccessorId)), idcApplicationArn: \(Swift.String(describing: idcApplicationArn)), principal: \(Swift.String(describing: principal)), updatedAt: \(Swift.String(describing: updatedAt)), displayName: \"CONTENT_REDACTED\")"}
+        "DataAccessor(authenticationDetail: \(Swift.String(describing: authenticationDetail)), createdAt: \(Swift.String(describing: createdAt)), dataAccessorArn: \(Swift.String(describing: dataAccessorArn)), dataAccessorId: \(Swift.String(describing: dataAccessorId)), idcApplicationArn: \(Swift.String(describing: idcApplicationArn)), principal: \(Swift.String(describing: principal)), updatedAt: \(Swift.String(describing: updatedAt)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListDataAccessorsOutput: Swift.Sendable {
@@ -2004,7 +2095,7 @@ extension QBusinessClientTypes {
     public struct HookConfiguration: Swift.Sendable {
         /// The condition used for when a Lambda function should be invoked. For example, you can specify a condition that if there are empty date-time values, then Amazon Q Business should invoke a function that inserts the current date-time.
         public var invocationCondition: QBusinessClientTypes.DocumentAttributeCondition?
-        /// The Amazon Resource Name (ARN) of a role with permission to run a Lambda function during ingestion. For more information, see [IAM roles for Custom Document Enrichment (CDE)](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/iam-roles.html#cde-iam-role).
+        /// The Amazon Resource Name (ARN) of the Lambda function during ingestion. For more information, see [Using Lambda functions for Amazon Q Business document enrichment](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cde-lambda-operations.html).
         public var lambdaArn: Swift.String?
         /// The Amazon Resource Name (ARN) of a role with permission to run PreExtractionHookConfiguration and PostExtractionHookConfiguration for altering document metadata and content during the document ingestion process.
         public var roleArn: Swift.String?
@@ -2044,6 +2135,51 @@ extension QBusinessClientTypes {
             self.inlineConfigurations = inlineConfigurations
             self.postExtractionHookConfiguration = postExtractionHookConfiguration
             self.preExtractionHookConfiguration = preExtractionHookConfiguration
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    public enum AudioExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AudioExtractionStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Configuration settings for audio content extraction and processing.
+    public struct AudioExtractionConfiguration: Swift.Sendable {
+        /// The status of audio extraction (ENABLED or DISABLED) for processing audio content from files.
+        /// This member is required.
+        public var audioExtractionStatus: QBusinessClientTypes.AudioExtractionStatus?
+
+        public init(
+            audioExtractionStatus: QBusinessClientTypes.AudioExtractionStatus? = nil
+        ) {
+            self.audioExtractionStatus = audioExtractionStatus
         }
     }
 }
@@ -2095,15 +2231,68 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
-    /// The configuration for extracting information from media in documents.
-    public struct MediaExtractionConfiguration: Swift.Sendable {
-        /// The configuration for extracting semantic meaning from images in documents. For more information, see [Extracting semantic meaning from images and visuals](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/extracting-meaning-from-images.html).
-        public var imageExtractionConfiguration: QBusinessClientTypes.ImageExtractionConfiguration?
+    public enum VideoExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoExtractionStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Configuration settings for video content extraction and processing.
+    public struct VideoExtractionConfiguration: Swift.Sendable {
+        /// The status of video extraction (ENABLED or DISABLED) for processing video content from files.
+        /// This member is required.
+        public var videoExtractionStatus: QBusinessClientTypes.VideoExtractionStatus?
 
         public init(
-            imageExtractionConfiguration: QBusinessClientTypes.ImageExtractionConfiguration? = nil
+            videoExtractionStatus: QBusinessClientTypes.VideoExtractionStatus? = nil
         ) {
+            self.videoExtractionStatus = videoExtractionStatus
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// The configuration for extracting information from media in documents.
+    public struct MediaExtractionConfiguration: Swift.Sendable {
+        /// Configuration settings for extracting and processing audio content from media files.
+        public var audioExtractionConfiguration: QBusinessClientTypes.AudioExtractionConfiguration?
+        /// The configuration for extracting semantic meaning from images in documents. For more information, see [Extracting semantic meaning from images and visuals](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/extracting-meaning-from-images.html).
+        public var imageExtractionConfiguration: QBusinessClientTypes.ImageExtractionConfiguration?
+        /// Configuration settings for extracting and processing video content from media files.
+        public var videoExtractionConfiguration: QBusinessClientTypes.VideoExtractionConfiguration?
+
+        public init(
+            audioExtractionConfiguration: QBusinessClientTypes.AudioExtractionConfiguration? = nil,
+            imageExtractionConfiguration: QBusinessClientTypes.ImageExtractionConfiguration? = nil,
+            videoExtractionConfiguration: QBusinessClientTypes.VideoExtractionConfiguration? = nil
+        ) {
+            self.audioExtractionConfiguration = audioExtractionConfiguration
             self.imageExtractionConfiguration = imageExtractionConfiguration
+            self.videoExtractionConfiguration = videoExtractionConfiguration
         }
     }
 }
@@ -2161,7 +2350,7 @@ public struct CreateDataSourceInput: Swift.Sendable {
     public var indexId: Swift.String?
     /// The configuration for extracting information from media in documents during ingestion.
     public var mediaExtractionConfiguration: QBusinessClientTypes.MediaExtractionConfiguration?
-    /// The Amazon Resource Name (ARN) of an IAM role with permission to access the data source and required resources.
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access the data source and required resources. This field is required for all connector types except custom connectors, where it is optional.
     public var roleArn: Swift.String?
     /// Sets the frequency for Amazon Q Business to check the documents in your data source repository and update your index. If you don't set a schedule, Amazon Q Business won't periodically update the index. Specify a cron- format schedule string or an empty string to indicate that the index is updated on demand. You can't specify the Schedule parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception.
     public var syncSchedule: Swift.String?
@@ -3005,7 +3194,6 @@ extension QBusinessClientTypes {
     /// Configuration information required to create a custom plugin.
     public struct CustomPluginConfiguration: Swift.Sendable {
         /// Contains either details about the S3 object containing the OpenAPI schema for the action group or the JSON or YAML-formatted payload defining the schema.
-        /// This member is required.
         public var apiSchema: QBusinessClientTypes.APISchema?
         /// The type of OpenAPI schema to use.
         /// This member is required.
@@ -3398,6 +3586,8 @@ extension QBusinessClientTypes {
         case low
         case medium
         case `none`
+        case one
+        case two
         case veryHigh
         case sdkUnknown(Swift.String)
 
@@ -3407,6 +3597,8 @@ extension QBusinessClientTypes {
                 .low,
                 .medium,
                 .none,
+                .one,
+                .two,
                 .veryHigh
             ]
         }
@@ -3422,6 +3614,8 @@ extension QBusinessClientTypes {
             case .low: return "LOW"
             case .medium: return "MEDIUM"
             case .none: return "NONE"
+            case .one: return "ONE"
+            case .two: return "TWO"
             case .veryHigh: return "VERY_HIGH"
             case let .sdkUnknown(s): return s
             }
@@ -3435,7 +3629,7 @@ extension QBusinessClientTypes {
     public struct DateAttributeBoostingConfiguration: Swift.Sendable {
         /// Specifies the duration, in seconds, of a boost applies to a DATE type document attribute.
         public var boostingDurationInSeconds: Swift.Int?
-        /// Specifies how much a document attribute is boosted.
+        /// Specifies the priority tier ranking of boosting applied to document attributes. For version 2, this parameter indicates the relative ranking between boosted fields (ONE being highest priority, TWO being second highest, etc.) and determines the order in which attributes influence document ranking in search results. For version 1, this parameter specifies the boosting intensity. For version 2, boosting intensity (VERY HIGH, HIGH, MEDIUM, LOW, NONE) are not supported. Note that in version 2, you are not allowed to boost on only one field and make this value TWO.
         /// This member is required.
         public var boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel?
 
@@ -3480,12 +3674,12 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
-    /// Provides information on boosting NUMBER type document attributes. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
+    /// Provides information on boosting NUMBER type document attributes. In the current boosting implementation, boosting focuses primarily on DATE attributes for recency and STRING attributes for source prioritization. NUMBER attributes can serve as additional boosting factors when needed, but are not supported when using NativeIndexConfiguration version 2. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
     public struct NumberAttributeBoostingConfiguration: Swift.Sendable {
-        /// Specifies the duration, in seconds, of a boost applies to a NUMBER type document attribute.
+        /// Specifies the priority of boosted document attributes in relation to other boosted attributes. This parameter determines how strongly the attribute influences document ranking in search results. NUMBER attributes can serve as additional boosting factors when needed, but are not supported when using NativeIndexConfiguration version 2.
         /// This member is required.
         public var boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel?
-        /// Specifies how much a document attribute is boosted.
+        /// Specifies whether higher or lower numeric values should be prioritized when boosting. Valid values are ASCENDING (higher numbers are more important) and DESCENDING (lower numbers are more important).
         public var boostingType: QBusinessClientTypes.NumberAttributeBoostingType?
 
         public init(
@@ -3501,17 +3695,27 @@ extension QBusinessClientTypes {
 extension QBusinessClientTypes {
 
     public enum StringAttributeValueBoostingLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case five
+        case four
         case high
         case low
         case medium
+        case one
+        case three
+        case two
         case veryHigh
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StringAttributeValueBoostingLevel] {
             return [
+                .five,
+                .four,
                 .high,
                 .low,
                 .medium,
+                .one,
+                .three,
+                .two,
                 .veryHigh
             ]
         }
@@ -3523,9 +3727,14 @@ extension QBusinessClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .five: return "FIVE"
+            case .four: return "FOUR"
             case .high: return "HIGH"
             case .low: return "LOW"
             case .medium: return "MEDIUM"
+            case .one: return "ONE"
+            case .three: return "THREE"
+            case .two: return "TWO"
             case .veryHigh: return "VERY_HIGH"
             case let .sdkUnknown(s): return s
             }
@@ -3537,9 +3746,9 @@ extension QBusinessClientTypes {
 
     /// Provides information on boosting STRING type document attributes. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
     public struct StringAttributeBoostingConfiguration: Swift.Sendable {
-        /// Specifies specific values of a STRING type document attribute being boosted.
+        /// Specifies specific values of a STRING type document attribute being boosted. When using NativeIndexConfiguration version 2, you can specify up to five values in order of priority.
         public var attributeValueBoosting: [Swift.String: QBusinessClientTypes.StringAttributeValueBoostingLevel]?
-        /// Specifies how much a document attribute is boosted.
+        /// Specifies the priority tier ranking of boosting applied to document attributes. For version 2, this parameter indicates the relative ranking between boosted fields (ONE being highest priority, TWO being second highest, etc.) and determines the order in which attributes influence document ranking in search results. For version 1, this parameter specifies the boosting intensity. For version 2, boosting intensity (VERY HIGH, HIGH, MEDIUM, LOW, NONE) are not supported. Note that in version 2, you are not allowed to boost on only one field and make this value TWO.
         /// This member is required.
         public var boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel?
 
@@ -3555,9 +3764,9 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
-    /// Provides information on boosting STRING_LIST type document attributes. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
+    /// Provides information on boosting STRING_LIST type document attributes. In the current boosting implementation, boosting focuses primarily on DATE attributes for recency and STRING attributes for source prioritization. STRING_LIST attributes can serve as additional boosting factors when needed, but are not supported when using NativeIndexConfiguration version 2. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
     public struct StringListAttributeBoostingConfiguration: Swift.Sendable {
-        /// Specifies how much a document attribute is boosted.
+        /// Specifies the priority of boosted document attributes in relation to other boosted attributes. This parameter determines how strongly the attribute influences document ranking in search results. STRING_LIST attributes can serve as additional boosting factors when needed, but are not supported when using NativeIndexConfiguration version 2.
         /// This member is required.
         public var boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel?
 
@@ -3571,15 +3780,15 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
-    /// Provides information on boosting supported Amazon Q Business document attribute types. When an end user chat query matches document attributes that have been boosted, Amazon Q Business prioritizes generating responses from content that matches the boosted document attributes. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
+    /// Provides information on boosting supported Amazon Q Business document attribute types. When an end user chat query matches document attributes that have been boosted, Amazon Q Business prioritizes generating responses from content that matches the boosted document attributes. In version 2, boosting uses numeric values (ONE, TWO) to indicate priority tiers that establish clear hierarchical relationships between boosted attributes. This allows for more precise control over how different attributes influence search results. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
     public enum DocumentAttributeBoostingConfiguration: Swift.Sendable {
-        /// Provides information on boosting NUMBER type document attributes.
+        /// Provides information on boosting NUMBER type document attributes. NUMBER attributes are not supported when using NativeIndexConfiguration version 2, which focuses on DATE attributes for recency and STRING attributes for source prioritization.
         case numberconfiguration(QBusinessClientTypes.NumberAttributeBoostingConfiguration)
-        /// Provides information on boosting STRING type document attributes.
+        /// Provides information on boosting STRING type document attributes. Version 2 assigns priority tiers to STRING attributes, establishing clear hierarchical relationships with other boosted attributes.
         case stringconfiguration(QBusinessClientTypes.StringAttributeBoostingConfiguration)
-        /// Provides information on boosting DATE type document attributes.
+        /// Provides information on boosting DATE type document attributes. Version 2 assigns priority tiers to DATE attributes, establishing clear hierarchical relationships with other boosted attributes.
         case dateconfiguration(QBusinessClientTypes.DateAttributeBoostingConfiguration)
-        /// Provides information on boosting STRING_LIST type document attributes.
+        /// Provides information on boosting STRING_LIST type document attributes. STRING_LIST attributes are not supported when using NativeIndexConfiguration version 2, which focuses on DATE attributes for recency and STRING attributes for source prioritization.
         case stringlistconfiguration(QBusinessClientTypes.StringListAttributeBoostingConfiguration)
         case sdkUnknown(Swift.String)
     }
@@ -3594,13 +3803,27 @@ extension QBusinessClientTypes {
         /// The identifier for the Amazon Q Business index.
         /// This member is required.
         public var indexId: Swift.String?
+        /// A read-only field that specifies the version of the NativeIndexConfiguration. Amazon Q Business introduces enhanced document retrieval capabilities in version 2 of NativeIndexConfiguration, focusing on streamlined metadata boosting that prioritizes recency and source relevance to deliver more accurate responses to your queries. Version 2 has the following differences from version 1:
+        ///
+        /// * Version 2 supports a single Date field (created_at OR last_updated_at) for recency boosting
+        ///
+        /// * Version 2 supports a single String field with an ordered list of up to 5 values
+        ///
+        /// * Version 2 introduces number-based boost levels (ONE, TWO) alongside the text-based levels
+        ///
+        /// * Version 2 allows specifying prioritization between Date and String fields
+        ///
+        /// * Version 2 maintains backward compatibility with existing configurations
+        public var version: Swift.Int?
 
         public init(
             boostingOverride: [Swift.String: QBusinessClientTypes.DocumentAttributeBoostingConfiguration]? = nil,
-            indexId: Swift.String? = nil
+            indexId: Swift.String? = nil,
+            version: Swift.Int? = nil
         ) {
             self.boostingOverride = boostingOverride
             self.indexId = indexId
+            self.version = version
         }
     }
 }
@@ -4137,7 +4360,7 @@ public struct CreateWebExperienceInput: Swift.Sendable {
     public var identityProviderConfiguration: QBusinessClientTypes.IdentityProviderConfiguration?
     /// Sets the website domain origins that are allowed to embed the Amazon Q Business web experience. The domain origin refers to the base URL for accessing a website including the protocol (http/https), the domain name, and the port number (if specified). You must only submit a base URL and not a full path. For example, https://docs.aws.amazon.com.
     public var origins: [Swift.String]?
-    /// The Amazon Resource Name (ARN) of the service role attached to your web experience. You must provide this value if you're using IAM Identity Center to manage end user access to your application. If you're using legacy identity management to manage user access, you don't need to provide this value.
+    /// The Amazon Resource Name (ARN) of the service role attached to your web experience. The roleArn parameter is required when your Amazon Q Business application is created with IAM Identity Center. It is not required for SAML-based applications.
     public var roleArn: Swift.String?
     /// Determines whether sample prompts are enabled in the web experience for an end user.
     public var samplePromptsControlMode: QBusinessClientTypes.WebExperienceSamplePromptsControlMode?
@@ -4614,6 +4837,96 @@ extension QBusinessClientTypes {
     }
 }
 
+extension QBusinessClientTypes {
+
+    /// Represents a group associated with a given user in the access control system.
+    public struct AssociatedGroup: Swift.Sendable {
+        /// The name of the group associated with the user. This is used to identify the group in access control decisions.
+        public var name: Swift.String?
+        /// The type of the associated group. This indicates the scope of the group's applicability.
+        public var type: QBusinessClientTypes.MembershipType?
+
+        public init(
+            name: Swift.String? = nil,
+            type: QBusinessClientTypes.MembershipType? = nil
+        ) {
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Represents an associated user in the access control system.
+    public struct AssociatedUser: Swift.Sendable {
+        /// The unique identifier of the associated user. This is used to identify the user in access control decisions.
+        public var id: Swift.String?
+        /// The type of the associated user. This indicates the scope of the user's association.
+        public var type: QBusinessClientTypes.MembershipType?
+
+        public init(
+            id: Swift.String? = nil,
+            type: QBusinessClientTypes.MembershipType? = nil
+        ) {
+            self.id = id
+            self.type = type
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    public enum PermissionConditionOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case stringEquals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PermissionConditionOperator] {
+            return [
+                .stringEquals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .stringEquals: return "StringEquals"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Defines a condition that restricts when a permission is effective. Conditions allow you to control access based on specific attributes of the request.
+    public struct PermissionCondition: Swift.Sendable {
+        /// The key for the condition. This identifies the attribute that the condition applies to.
+        /// This member is required.
+        public var conditionKey: Swift.String?
+        /// The operator to use for the condition evaluation. This determines how the condition values are compared.
+        /// This member is required.
+        public var conditionOperator: QBusinessClientTypes.PermissionConditionOperator?
+        /// The values to compare against using the specified condition operator.
+        /// This member is required.
+        public var conditionValues: [Swift.String]?
+
+        public init(
+            conditionKey: Swift.String? = nil,
+            conditionOperator: QBusinessClientTypes.PermissionConditionOperator? = nil,
+            conditionValues: [Swift.String]? = nil
+        ) {
+            self.conditionKey = conditionKey
+            self.conditionOperator = conditionOperator
+            self.conditionValues = conditionValues
+        }
+    }
+}
+
 public struct AssociatePermissionInput: Swift.Sendable {
     /// The list of Amazon Q Business actions that the ISV is allowed to perform.
     /// This member is required.
@@ -4621,6 +4934,8 @@ public struct AssociatePermissionInput: Swift.Sendable {
     /// The unique identifier of the Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
+    /// The conditions that restrict when the permission is effective. These conditions can be used to limit the permission based on specific attributes of the request.
+    public var conditions: [QBusinessClientTypes.PermissionCondition]?
     /// The Amazon Resource Name of the IAM role for the ISV that is being granted permission.
     /// This member is required.
     public var principal: Swift.String?
@@ -4631,11 +4946,13 @@ public struct AssociatePermissionInput: Swift.Sendable {
     public init(
         actions: [Swift.String]? = nil,
         applicationId: Swift.String? = nil,
+        conditions: [QBusinessClientTypes.PermissionCondition]? = nil,
         principal: Swift.String? = nil,
         statementId: Swift.String? = nil
     ) {
         self.actions = actions
         self.applicationId = applicationId
+        self.conditions = conditions
         self.principal = principal
         self.statementId = statementId
     }
@@ -4834,6 +5151,66 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
+    public enum AudioExtractionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case summary
+        case transcript
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AudioExtractionType] {
+            return [
+                .summary,
+                .transcript
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .summary: return "SUMMARY"
+            case .transcript: return "TRANSCRIPT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Details about an audio source, including its identifier, format, and time information.
+    public struct AudioSourceDetails: Swift.Sendable {
+        /// The type of audio extraction performed on the content.
+        public var audioExtractionType: QBusinessClientTypes.AudioExtractionType?
+        /// The ending timestamp in milliseconds for the relevant audio segment.
+        public var endTimeMilliseconds: Swift.Int?
+        /// Unique identifier for the audio media file.
+        public var mediaId: Swift.String?
+        /// The MIME type of the audio file (e.g., audio/mp3, audio/wav).
+        public var mediaMimeType: Swift.String?
+        /// The starting timestamp in milliseconds for the relevant audio segment.
+        public var startTimeMilliseconds: Swift.Int?
+
+        public init(
+            audioExtractionType: QBusinessClientTypes.AudioExtractionType? = nil,
+            endTimeMilliseconds: Swift.Int? = nil,
+            mediaId: Swift.String? = nil,
+            mediaMimeType: Swift.String? = nil,
+            startTimeMilliseconds: Swift.Int? = nil
+        ) {
+            self.audioExtractionType = audioExtractionType
+            self.endTimeMilliseconds = endTimeMilliseconds
+            self.mediaId = mediaId
+            self.mediaMimeType = mediaMimeType
+            self.startTimeMilliseconds = startTimeMilliseconds
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
     /// A request made by Amazon Q Business to a third paty authentication server to authenticate a custom plugin user.
     public struct AuthChallengeRequest: Swift.Sendable {
         /// The URL sent by Amazon Q Business to the third party authentication server to authenticate a custom plugin user through an OAuth protocol.
@@ -4974,7 +5351,7 @@ public struct BatchDeleteDocumentOutput: Swift.Sendable {
 
 extension QBusinessClientTypes {
 
-    /// The contents of a document.
+    /// The contents of a document. Documents have size limitations. The maximum file size for a document is 50 MB. The maximum amount of text that can be extracted from a single document is 5 MB. For more information, see [Supported document formats in Amazon Q Business](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/doc-types.html).
     public enum DocumentContent: Swift.Sendable {
         /// The contents of the document. Documents passed to the blob parameter must be base64 encoded. Your code might not need to encode the document file bytes if you're using an Amazon Web Services SDK to call Amazon Q Business APIs. If you are calling the Amazon Q Business endpoint directly using REST, you must base64 encode the contents before sending.
         case blob(Foundation.Data)
@@ -5093,7 +5470,7 @@ public struct BatchPutDocumentInput: Swift.Sendable {
     public var applicationId: Swift.String?
     /// The identifier of the data source sync during which the documents were added.
     public var dataSourceSyncId: Swift.String?
-    /// One or more documents to add to the index.
+    /// One or more documents to add to the index. Ensure that the name of your document doesn't contain any confidential information. Amazon Q Business returns document names in chat responses and citations when relevant.
     /// This member is required.
     public var documents: [QBusinessClientTypes.Document]?
     /// The identifier of the Amazon Q Business index to add the documents to.
@@ -5132,7 +5509,7 @@ extension QBusinessClientTypes {
 
     /// Provides information about the phrases blocked from chat by your chat control configuration.
     public struct BlockedPhrasesConfiguration: Swift.Sendable {
-        /// A list of phrases blocked from a Amazon Q Business web experience chat.
+        /// A list of phrases blocked from a Amazon Q Business web experience chat. Each phrase can contain a maximum of 36 characters. The list can contain a maximum of 20 phrases.
         public var blockedPhrases: [Swift.String]?
         /// The configured custom message displayed to an end user informing them that they've used a blocked phrase during chat.
         public var systemMessageOverride: Swift.String?
@@ -5396,6 +5773,99 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
+    /// Details about an image source, including its identifier and format.
+    public struct ImageSourceDetails: Swift.Sendable {
+        /// Unique identifier for the image file.
+        public var mediaId: Swift.String?
+        /// The MIME type of the image file.
+        public var mediaMimeType: Swift.String?
+
+        public init(
+            mediaId: Swift.String? = nil,
+            mediaMimeType: Swift.String? = nil
+        ) {
+            self.mediaId = mediaId
+            self.mediaMimeType = mediaMimeType
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    public enum VideoExtractionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case summary
+        case transcript
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoExtractionType] {
+            return [
+                .summary,
+                .transcript
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .summary: return "SUMMARY"
+            case .transcript: return "TRANSCRIPT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Details about a video source, including its identifier, format, and time information.
+    public struct VideoSourceDetails: Swift.Sendable {
+        /// The ending timestamp in milliseconds for the relevant video segment.
+        public var endTimeMilliseconds: Swift.Int?
+        /// Unique identifier for the video media file.
+        public var mediaId: Swift.String?
+        /// The MIME type of the video file (e.g., video/mp4, video/avi).
+        public var mediaMimeType: Swift.String?
+        /// The starting timestamp in milliseconds for the relevant video segment.
+        public var startTimeMilliseconds: Swift.Int?
+        /// The type of video extraction performed on the content.
+        public var videoExtractionType: QBusinessClientTypes.VideoExtractionType?
+
+        public init(
+            endTimeMilliseconds: Swift.Int? = nil,
+            mediaId: Swift.String? = nil,
+            mediaMimeType: Swift.String? = nil,
+            startTimeMilliseconds: Swift.Int? = nil,
+            videoExtractionType: QBusinessClientTypes.VideoExtractionType? = nil
+        ) {
+            self.endTimeMilliseconds = endTimeMilliseconds
+            self.mediaId = mediaId
+            self.mediaMimeType = mediaMimeType
+            self.startTimeMilliseconds = startTimeMilliseconds
+            self.videoExtractionType = videoExtractionType
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Container for details about different types of media sources (image, audio, or video).
+    public enum SourceDetails: Swift.Sendable {
+        /// Details specific to image content within the source.
+        case imagesourcedetails(QBusinessClientTypes.ImageSourceDetails)
+        /// Details specific to audio content within the source.
+        case audiosourcedetails(QBusinessClientTypes.AudioSourceDetails)
+        /// Details specific to video content within the source.
+        case videosourcedetails(QBusinessClientTypes.VideoSourceDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QBusinessClientTypes {
+
     /// Provides information about a text extract in a chat response that can be attributed to a source document.
     public struct TextSegment: Swift.Sendable {
         /// The zero-based location in the response string where the source attribution starts.
@@ -5403,24 +5873,30 @@ extension QBusinessClientTypes {
         /// The zero-based location in the response string where the source attribution ends.
         public var endOffset: Swift.Int?
         /// The identifier of the media object associated with the text segment in the source attribution.
+        @available(*, deprecated, message: "Deprecated in favor of using mediaId within the respective sourceDetails field. API deprecated since 2025-02-28")
         public var mediaId: Swift.String?
         /// The MIME type (image/png) of the media object associated with the text segment in the source attribution.
+        @available(*, deprecated, message: "Deprecated in favor of using mediaMimeType within the respective sourceDetails field. API deprecated since 2025-02-28")
         public var mediaMimeType: Swift.String?
         /// The relevant text excerpt from a source that was used to generate a citation text segment in an Amazon Q Business chat response.
         public var snippetExcerpt: QBusinessClientTypes.SnippetExcerpt?
+        /// Source information for a segment of extracted text, including its media type.
+        public var sourceDetails: QBusinessClientTypes.SourceDetails?
 
         public init(
             beginOffset: Swift.Int? = nil,
             endOffset: Swift.Int? = nil,
             mediaId: Swift.String? = nil,
             mediaMimeType: Swift.String? = nil,
-            snippetExcerpt: QBusinessClientTypes.SnippetExcerpt? = nil
+            snippetExcerpt: QBusinessClientTypes.SnippetExcerpt? = nil,
+            sourceDetails: QBusinessClientTypes.SourceDetails? = nil
         ) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
             self.mediaId = mediaId
             self.mediaMimeType = mediaMimeType
             self.snippetExcerpt = snippetExcerpt
+            self.sourceDetails = sourceDetails
         }
     }
 }
@@ -5431,6 +5907,12 @@ extension QBusinessClientTypes {
     public struct SourceAttribution: Swift.Sendable {
         /// The number attached to a citation in an Amazon Q Business generated response.
         public var citationNumber: Swift.Int?
+        /// The identifier of the data source from which the document was ingested. This field is not present if the document is ingested by directly calling the BatchPutDocument API (similar to checkDocumentAccess). If the document is from a file-upload data source, the datasource will be "uploaded-docs-file-stat-datasourceid".
+        public var datasourceId: Swift.String?
+        /// The unique identifier of the source document used in the citation, obtained from the Amazon Q Business index during chat response generation. This ID is used as input to the GetDocumentContent API to retrieve the actual document content for user verification.
+        public var documentId: Swift.String?
+        /// The identifier of the index containing the source document's metadata and access control information. This links the citation back to the specific Amazon Q Business index where the document's searchable content and permissions are stored.
+        public var indexId: Swift.String?
         /// The content extract from the document on which the generated response is based.
         public var snippet: Swift.String?
         /// A text extract from a source document that is used for source attribution.
@@ -5444,6 +5926,9 @@ extension QBusinessClientTypes {
 
         public init(
             citationNumber: Swift.Int? = nil,
+            datasourceId: Swift.String? = nil,
+            documentId: Swift.String? = nil,
+            indexId: Swift.String? = nil,
             snippet: Swift.String? = nil,
             textMessageSegments: [QBusinessClientTypes.TextSegment]? = nil,
             title: Swift.String? = nil,
@@ -5451,6 +5936,9 @@ extension QBusinessClientTypes {
             url: Swift.String? = nil
         ) {
             self.citationNumber = citationNumber
+            self.datasourceId = datasourceId
+            self.documentId = documentId
+            self.indexId = indexId
             self.snippet = snippet
             self.textMessageSegments = textMessageSegments
             self.title = title
@@ -5493,6 +5981,35 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
+    public enum SystemMessageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case groundedResponse
+        case response
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SystemMessageType] {
+            return [
+                .groundedResponse,
+                .response
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .groundedResponse: return "GROUNDED_RESPONSE"
+            case .response: return "RESPONSE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
     /// An output event for an AI-generated response in an Amazon Q Business web experience.
     public struct TextOutputEvent: Swift.Sendable {
         /// The identifier of the conversation with which the text output event is associated.
@@ -5501,6 +6018,12 @@ extension QBusinessClientTypes {
         public var systemMessage: Swift.String?
         /// The identifier of an AI-generated message in a TextOutputEvent.
         public var systemMessageId: Swift.String?
+        /// The type of AI-generated message in a TextOutputEvent. Amazon Q Business currently supports two types of messages:
+        ///
+        /// * RESPONSE - The Amazon Q Business system response.
+        ///
+        /// * GROUNDED_RESPONSE - The corrected, hallucination-reduced, response returned by Amazon Q Business. Available only if hallucination reduction is supported and configured for the application and detected in the end user chat query by Amazon Q Business.
+        public var systemMessageType: QBusinessClientTypes.SystemMessageType?
         /// The identifier of an end user message in a TextOutputEvent.
         public var userMessageId: Swift.String?
 
@@ -5508,11 +6031,13 @@ extension QBusinessClientTypes {
             conversationId: Swift.String? = nil,
             systemMessage: Swift.String? = nil,
             systemMessageId: Swift.String? = nil,
+            systemMessageType: QBusinessClientTypes.SystemMessageType? = nil,
             userMessageId: Swift.String? = nil
         ) {
             self.conversationId = conversationId
             self.systemMessage = systemMessage
             self.systemMessageId = systemMessageId
+            self.systemMessageType = systemMessageType
             self.userMessageId = userMessageId
         }
     }
@@ -5544,6 +6069,199 @@ public struct ChatOutput: Swift.Sendable {
         outputStream: AsyncThrowingStream<QBusinessClientTypes.ChatOutputStream, Swift.Error>? = nil
     ) {
         self.outputStream = outputStream
+    }
+}
+
+extension QBusinessClientTypes {
+
+    public enum ChatResponseConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChatResponseConfigurationStatus] {
+            return [
+                .active,
+                .creating,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Configuration details that define how Amazon Q Business generates and formats responses to user queries in chat interactions. This configuration allows administrators to customize response characteristics to meet specific organizational needs and communication standards.
+    public struct ChatResponseConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the chat response configuration, which uniquely identifies the resource across all Amazon Web Services services and accounts.
+        /// This member is required.
+        public var chatResponseConfigurationArn: Swift.String?
+        /// A unique identifier for your chat response configuration settings, used to reference and manage the configuration within the Amazon Q Business service.
+        /// This member is required.
+        public var chatResponseConfigurationId: Swift.String?
+        /// The timestamp indicating when the chat response configuration was initially created, useful for tracking the lifecycle of configuration resources.
+        public var createdAt: Foundation.Date?
+        /// A human-readable name for the chat response configuration, making it easier to identify and manage multiple configurations within an organization.
+        /// This member is required.
+        public var displayName: Swift.String?
+        /// A summary of the response configuration settings, providing a concise overview of the key parameters that define how responses are generated and formatted.
+        public var responseConfigurationSummary: Swift.String?
+        /// The current status of the chat response configuration, indicating whether it is active, pending, or in another state that affects its availability for use in chat interactions.
+        /// This member is required.
+        public var status: QBusinessClientTypes.ChatResponseConfigurationStatus?
+        /// The timestamp indicating when the chat response configuration was last modified, helping administrators track changes and maintain version awareness.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            chatResponseConfigurationArn: Swift.String? = nil,
+            chatResponseConfigurationId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            displayName: Swift.String? = nil,
+            responseConfigurationSummary: Swift.String? = nil,
+            status: QBusinessClientTypes.ChatResponseConfigurationStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.chatResponseConfigurationArn = chatResponseConfigurationArn
+            self.chatResponseConfigurationId = chatResponseConfigurationId
+            self.createdAt = createdAt
+            self.displayName = displayName
+            self.responseConfigurationSummary = responseConfigurationSummary
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    public enum ResponseConfigurationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResponseConfigurationType] {
+            return [
+                .all
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// A set of instructions that define how Amazon Q Business should generate and format responses to user queries. This collection includes parameters for controlling response characteristics such as length, audience targeting, perspective, style, identity, tone, and custom instructions.
+    public struct InstructionCollection: Swift.Sendable {
+        /// Allows administrators to provide specific, custom instructions that guide how Amazon Q Business should respond in particular scenarios or to certain types of queries, enabling fine-grained control over response generation.
+        public var customInstructions: Swift.String?
+        /// Provides sample responses or templates that Amazon Q Business can reference when generating responses, helping to establish consistent patterns and formats for different types of user queries.
+        public var examples: Swift.String?
+        /// Defines the persona or identity that Amazon Q Business should adopt when responding to users, allowing for customization of the assistant's character, role, or representation within an organization.
+        public var identity: Swift.String?
+        /// Specifies the formatting and structural style of responses, such as bullet points, paragraphs, step-by-step instructions, or other organizational formats that enhance readability and comprehension.
+        public var outputStyle: Swift.String?
+        /// Determines the point of view or perspective from which Amazon Q Business generates responses, such as first-person, second-person, or third-person perspective, affecting how information is presented to users.
+        public var perspective: Swift.String?
+        /// Specifies the desired length of responses generated by Amazon Q Business. This parameter allows administrators to control whether responses are concise and brief or more detailed and comprehensive.
+        public var responseLength: Swift.String?
+        /// Defines the intended audience for the responses, allowing Amazon Q Business to tailor its language, terminology, and explanations appropriately. This could range from technical experts to general users with varying levels of domain knowledge.
+        public var targetAudience: Swift.String?
+        /// Controls the emotional tone and communication style of responses, such as formal, casual, technical, friendly, or professional, to align with organizational communication standards and user expectations.
+        public var tone: Swift.String?
+
+        public init(
+            customInstructions: Swift.String? = nil,
+            examples: Swift.String? = nil,
+            identity: Swift.String? = nil,
+            outputStyle: Swift.String? = nil,
+            perspective: Swift.String? = nil,
+            responseLength: Swift.String? = nil,
+            targetAudience: Swift.String? = nil,
+            tone: Swift.String? = nil
+        ) {
+            self.customInstructions = customInstructions
+            self.examples = examples
+            self.identity = identity
+            self.outputStyle = outputStyle
+            self.perspective = perspective
+            self.responseLength = responseLength
+            self.targetAudience = targetAudience
+            self.tone = tone
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Configuration settings to define how Amazon Q Business generates and formats responses to user queries. This includes customization options for response style, tone, length, and other characteristics.
+    public struct ResponseConfiguration: Swift.Sendable {
+        /// A collection of instructions that guide how Amazon Q Business generates responses, including parameters for response length, target audience, perspective, output style, identity, tone, and custom instructions.
+        public var instructionCollection: QBusinessClientTypes.InstructionCollection?
+
+        public init(
+            instructionCollection: QBusinessClientTypes.InstructionCollection? = nil
+        ) {
+            self.instructionCollection = instructionCollection
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Detailed information about a chat response configuration, including comprehensive settings and parameters that define how Amazon Q Business generates and formats responses.
+    public struct ChatResponseConfigurationDetail: Swift.Sendable {
+        /// Provides information about a Amazon Q Business request error.
+        public var error: QBusinessClientTypes.ErrorDetail?
+        /// A summary of the response configuration details, providing a concise overview of the key parameters and settings that define the response generation behavior.
+        public var responseConfigurationSummary: Swift.String?
+        /// A collection of specific response configuration settings that collectively define how responses are generated, formatted, and presented to users in chat interactions.
+        public var responseConfigurations: [Swift.String: QBusinessClientTypes.ResponseConfiguration]?
+        /// The current status of the chat response configuration, indicating whether it is active, pending, or in another state that affects its availability for use.
+        public var status: QBusinessClientTypes.ChatResponseConfigurationStatus?
+        /// The timestamp indicating when the detailed chat response configuration was last modified, helping administrators track changes and maintain version awareness.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            error: QBusinessClientTypes.ErrorDetail? = nil,
+            responseConfigurationSummary: Swift.String? = nil,
+            responseConfigurations: [Swift.String: QBusinessClientTypes.ResponseConfiguration]? = nil,
+            status: QBusinessClientTypes.ChatResponseConfigurationStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.error = error
+            self.responseConfigurationSummary = responseConfigurationSummary
+            self.responseConfigurations = responseConfigurations
+            self.status = status
+            self.updatedAt = updatedAt
+        }
     }
 }
 
@@ -5583,6 +6301,159 @@ public struct ChatSyncOutput: Swift.Sendable {
         self.systemMessage = systemMessage
         self.systemMessageId = systemMessageId
         self.userMessageId = userMessageId
+    }
+}
+
+public struct CheckDocumentAccessInput: Swift.Sendable {
+    /// The unique identifier of the application. This is required to identify the specific Amazon Q Business application context for the document access check.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier of the data source. Identifies the specific data source from which the document originates. Should not be used when a document is uploaded directly with BatchPutDocument, as no dataSourceId is available or necessary.
+    public var dataSourceId: Swift.String?
+    /// The unique identifier of the document. Specifies which document's access permissions are being checked.
+    /// This member is required.
+    public var documentId: Swift.String?
+    /// The unique identifier of the index. Used to locate the correct index within the application where the document is stored.
+    /// This member is required.
+    public var indexId: Swift.String?
+    /// The unique identifier of the user. Used to check the access permissions for this specific user against the document's ACL.
+    /// This member is required.
+    public var userId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        dataSourceId: Swift.String? = nil,
+        documentId: Swift.String? = nil,
+        indexId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.dataSourceId = dataSourceId
+        self.documentId = documentId
+        self.indexId = indexId
+        self.userId = userId
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Represents a group in the document's ACL, used to define access permissions for multiple users collectively.
+    public struct DocumentAclGroup: Swift.Sendable {
+        /// The name of the group in the document's ACL. This is used to identify the group when applying access rules.
+        public var name: Swift.String?
+        /// The type of the group. This indicates the scope of the group's applicability in access control.
+        public var type: QBusinessClientTypes.MembershipType?
+
+        public init(
+            name: Swift.String? = nil,
+            type: QBusinessClientTypes.MembershipType? = nil
+        ) {
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Represents a user in the document's ACL, used to define access permissions for individual users.
+    public struct DocumentAclUser: Swift.Sendable {
+        /// The unique identifier of the user in the document's ACL. This is used to identify the user when applying access rules.
+        public var id: Swift.String?
+        /// The type of the user. This indicates the scope of the user's applicability in access control.
+        public var type: QBusinessClientTypes.MembershipType?
+
+        public init(
+            id: Swift.String? = nil,
+            type: QBusinessClientTypes.MembershipType? = nil
+        ) {
+            self.id = id
+            self.type = type
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Represents a condition in the document's ACL, specifying access rules for users and groups.
+    public struct DocumentAclCondition: Swift.Sendable {
+        /// An array of group identifiers that this condition applies to. Groups listed here are subject to the access rule defined by this condition.
+        public var groups: [QBusinessClientTypes.DocumentAclGroup]?
+        /// The logical relation between members in the condition, determining how multiple user or group conditions are combined.
+        public var memberRelation: QBusinessClientTypes.MemberRelation?
+        /// An array of user identifiers that this condition applies to. Users listed here are subject to the access rule defined by this condition.
+        public var users: [QBusinessClientTypes.DocumentAclUser]?
+
+        public init(
+            groups: [QBusinessClientTypes.DocumentAclGroup]? = nil,
+            memberRelation: QBusinessClientTypes.MemberRelation? = nil,
+            users: [QBusinessClientTypes.DocumentAclUser]? = nil
+        ) {
+            self.groups = groups
+            self.memberRelation = memberRelation
+            self.users = users
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Represents membership rules in the document's ACL, defining how users or groups are associated with access permissions.
+    public struct DocumentAclMembership: Swift.Sendable {
+        /// An array of conditions that define the membership rules. Each condition specifies criteria for users or groups to be included in this membership.
+        public var conditions: [QBusinessClientTypes.DocumentAclCondition]?
+        /// The logical relation between members in the membership rule, determining how multiple conditions are combined.
+        public var memberRelation: QBusinessClientTypes.MemberRelation?
+
+        public init(
+            conditions: [QBusinessClientTypes.DocumentAclCondition]? = nil,
+            memberRelation: QBusinessClientTypes.MemberRelation? = nil
+        ) {
+            self.conditions = conditions
+            self.memberRelation = memberRelation
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Represents the Access Control List (ACL) for a document, containing both allowlist and denylist conditions.
+    public struct DocumentAcl: Swift.Sendable {
+        /// The allowlist conditions for the document. Users or groups matching these conditions are granted access to the document.
+        public var allowlist: QBusinessClientTypes.DocumentAclMembership?
+        /// The denylist conditions for the document. Users or groups matching these conditions are denied access to the document, overriding allowlist permissions.
+        public var denyList: QBusinessClientTypes.DocumentAclMembership?
+
+        public init(
+            allowlist: QBusinessClientTypes.DocumentAclMembership? = nil,
+            denyList: QBusinessClientTypes.DocumentAclMembership? = nil
+        ) {
+            self.allowlist = allowlist
+            self.denyList = denyList
+        }
+    }
+}
+
+public struct CheckDocumentAccessOutput: Swift.Sendable {
+    /// The Access Control List (ACL) associated with the document. Includes allowlist and denylist conditions that determine user access.
+    public var documentAcl: QBusinessClientTypes.DocumentAcl?
+    /// A boolean value indicating whether the specified user has access to the document, either direct access or transitive access via groups and aliases attached to the document.
+    public var hasAccess: Swift.Bool?
+    /// An array of aliases associated with the user. This includes both global and local aliases, each with a name and type.
+    public var userAliases: [QBusinessClientTypes.AssociatedUser]?
+    /// An array of groups the user is part of for the specified data source. Each group has a name and type.
+    public var userGroups: [QBusinessClientTypes.AssociatedGroup]?
+
+    public init(
+        documentAcl: QBusinessClientTypes.DocumentAcl? = nil,
+        hasAccess: Swift.Bool? = nil,
+        userAliases: [QBusinessClientTypes.AssociatedUser]? = nil,
+        userGroups: [QBusinessClientTypes.AssociatedGroup]? = nil
+    ) {
+        self.documentAcl = documentAcl
+        self.hasAccess = hasAccess
+        self.userAliases = userAliases
+        self.userGroups = userGroups
     }
 }
 
@@ -5681,6 +6552,85 @@ extension QBusinessClientTypes {
             self.startTime = startTime
             self.title = title
         }
+    }
+}
+
+public struct CreateAnonymousWebExperienceUrlInput: Swift.Sendable {
+    /// The identifier of the Amazon Q Business application environment attached to the web experience.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The duration of the session associated with the unique URL for the web experience.
+    public var sessionDurationInMinutes: Swift.Int?
+    /// The identifier of the web experience.
+    /// This member is required.
+    public var webExperienceId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        sessionDurationInMinutes: Swift.Int? = nil,
+        webExperienceId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.sessionDurationInMinutes = sessionDurationInMinutes
+        self.webExperienceId = webExperienceId
+    }
+}
+
+public struct CreateAnonymousWebExperienceUrlOutput: Swift.Sendable {
+    /// The unique URL for accessing the web experience. This URL can only be used once and must be used within 5 minutes after it's generated.
+    public var anonymousUrl: Swift.String?
+
+    public init(
+        anonymousUrl: Swift.String? = nil
+    ) {
+        self.anonymousUrl = anonymousUrl
+    }
+}
+
+public struct CreateChatResponseConfigurationInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q Business application for which to create the new chat response configuration.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This helps prevent the same configuration from being created multiple times if retries occur.
+    public var clientToken: Swift.String?
+    /// A human-readable name for the new chat response configuration, making it easier to identify and manage among multiple configurations.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// A collection of response configuration settings that define how Amazon Q Business will generate and format responses to user queries in chat interactions.
+    /// This member is required.
+    public var responseConfigurations: [Swift.String: QBusinessClientTypes.ResponseConfiguration]?
+    /// A list of key-value pairs to apply as tags to the new chat response configuration, enabling categorization and management of resources across Amazon Web Services services.
+    public var tags: [QBusinessClientTypes.Tag]?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        responseConfigurations: [Swift.String: QBusinessClientTypes.ResponseConfiguration]? = nil,
+        tags: [QBusinessClientTypes.Tag]? = nil
+    ) {
+        self.applicationId = applicationId
+        self.clientToken = clientToken
+        self.displayName = displayName
+        self.responseConfigurations = responseConfigurations
+        self.tags = tags
+    }
+}
+
+public struct CreateChatResponseConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the newly created chat response configuration, which uniquely identifies the resource across all Amazon Web Services services.
+    /// This member is required.
+    public var chatResponseConfigurationArn: Swift.String?
+    /// The unique identifier assigned to a newly created chat response configuration, used for subsequent operations on this resource.
+    /// This member is required.
+    public var chatResponseConfigurationId: Swift.String?
+
+    public init(
+        chatResponseConfigurationArn: Swift.String? = nil,
+        chatResponseConfigurationId: Swift.String? = nil
+    ) {
+        self.chatResponseConfigurationArn = chatResponseConfigurationArn
+        self.chatResponseConfigurationId = chatResponseConfigurationId
     }
 }
 
@@ -5929,6 +6879,37 @@ extension QBusinessClientTypes {
     }
 }
 
+public struct DeleteAttachmentInput: Swift.Sendable {
+    /// The unique identifier for the Amazon Q Business application environment.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier for the attachment.
+    /// This member is required.
+    public var attachmentId: Swift.String?
+    /// The unique identifier of the conversation.
+    /// This member is required.
+    public var conversationId: Swift.String?
+    /// The unique identifier of the user involved in the conversation.
+    public var userId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        attachmentId: Swift.String? = nil,
+        conversationId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.attachmentId = attachmentId
+        self.conversationId = conversationId
+        self.userId = userId
+    }
+}
+
+public struct DeleteAttachmentOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteChatControlsConfigurationInput: Swift.Sendable {
     /// The identifier of the application the chat controls have been configured for.
     /// This member is required.
@@ -5942,6 +6923,28 @@ public struct DeleteChatControlsConfigurationInput: Swift.Sendable {
 }
 
 public struct DeleteChatControlsConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteChatResponseConfigurationInput: Swift.Sendable {
+    /// The unique identifier of theAmazon Q Business application from which to delete the chat response configuration.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier of the chat response configuration to delete from the specified application.
+    /// This member is required.
+    public var chatResponseConfigurationId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        chatResponseConfigurationId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.chatResponseConfigurationId = chatResponseConfigurationId
+    }
+}
+
+public struct DeleteChatResponseConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -6147,6 +7150,50 @@ public struct GetChatControlsConfigurationInput: Swift.Sendable {
 
 extension QBusinessClientTypes {
 
+    public enum HallucinationReductionControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HallucinationReductionControl] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Configuration information required to setup hallucination reduction. For more information, see [ hallucination reduction](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/hallucination-reduction.html). The hallucination reduction feature won't work if chat orchestration controls are enabled for your application.
+    public struct HallucinationReductionConfiguration: Swift.Sendable {
+        /// Controls whether hallucination reduction has been enabled or disabled for your application. The default status is DISABLED.
+        public var hallucinationReductionControl: QBusinessClientTypes.HallucinationReductionControl?
+
+        public init(
+            hallucinationReductionControl: QBusinessClientTypes.HallucinationReductionControl? = nil
+        ) {
+            self.hallucinationReductionControl = hallucinationReductionControl
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
     public enum ResponseScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case enterpriseContentOnly
         case extendedKnowledgeEnabled
@@ -6296,6 +7343,8 @@ public struct GetChatControlsConfigurationOutput: Swift.Sendable {
     public var blockedPhrases: QBusinessClientTypes.BlockedPhrasesConfiguration?
     /// The configuration details for CREATOR_MODE.
     public var creatorModeConfiguration: QBusinessClientTypes.AppliedCreatorModeConfiguration?
+    /// The hallucination reduction settings for your application.
+    public var hallucinationReductionConfiguration: QBusinessClientTypes.HallucinationReductionConfiguration?
     /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Q Business chat controls configured.
     public var nextToken: Swift.String?
     /// The chat response orchestration settings for your application. Chat orchestration is optimized to work for English language content. For more details on language support in Amazon Q Business, see [Supported languages](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/supported-languages.html).
@@ -6308,6 +7357,7 @@ public struct GetChatControlsConfigurationOutput: Swift.Sendable {
     public init(
         blockedPhrases: QBusinessClientTypes.BlockedPhrasesConfiguration? = nil,
         creatorModeConfiguration: QBusinessClientTypes.AppliedCreatorModeConfiguration? = nil,
+        hallucinationReductionConfiguration: QBusinessClientTypes.HallucinationReductionConfiguration? = nil,
         nextToken: Swift.String? = nil,
         orchestrationConfiguration: QBusinessClientTypes.AppliedOrchestrationConfiguration? = nil,
         responseScope: QBusinessClientTypes.ResponseScope? = nil,
@@ -6315,10 +7365,135 @@ public struct GetChatControlsConfigurationOutput: Swift.Sendable {
     ) {
         self.blockedPhrases = blockedPhrases
         self.creatorModeConfiguration = creatorModeConfiguration
+        self.hallucinationReductionConfiguration = hallucinationReductionConfiguration
         self.nextToken = nextToken
         self.orchestrationConfiguration = orchestrationConfiguration
         self.responseScope = responseScope
         self.topicConfigurations = topicConfigurations
+    }
+}
+
+public struct GetChatResponseConfigurationInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q Business application containing the chat response configuration to retrieve.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier of the chat response configuration to retrieve from the specified application.
+    /// This member is required.
+    public var chatResponseConfigurationId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        chatResponseConfigurationId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.chatResponseConfigurationId = chatResponseConfigurationId
+    }
+}
+
+public struct GetChatResponseConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the retrieved chat response configuration, which uniquely identifies the resource across all Amazon Web Services services.
+    public var chatResponseConfigurationArn: Swift.String?
+    /// The unique identifier of the retrieved chat response configuration.
+    public var chatResponseConfigurationId: Swift.String?
+    /// The timestamp indicating when the chat response configuration was initially created.
+    public var createdAt: Foundation.Date?
+    /// The human-readable name of the retrieved chat response configuration, making it easier to identify among multiple configurations.
+    public var displayName: Swift.String?
+    /// The currently active configuration settings that are being used to generate responses in the Amazon Q Business application.
+    public var inUseConfiguration: QBusinessClientTypes.ChatResponseConfigurationDetail?
+    /// Information about the most recent update to the configuration, including timestamp and modification details.
+    public var lastUpdateConfiguration: QBusinessClientTypes.ChatResponseConfigurationDetail?
+
+    public init(
+        chatResponseConfigurationArn: Swift.String? = nil,
+        chatResponseConfigurationId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        displayName: Swift.String? = nil,
+        inUseConfiguration: QBusinessClientTypes.ChatResponseConfigurationDetail? = nil,
+        lastUpdateConfiguration: QBusinessClientTypes.ChatResponseConfigurationDetail? = nil
+    ) {
+        self.chatResponseConfigurationArn = chatResponseConfigurationArn
+        self.chatResponseConfigurationId = chatResponseConfigurationId
+        self.createdAt = createdAt
+        self.displayName = displayName
+        self.inUseConfiguration = inUseConfiguration
+        self.lastUpdateConfiguration = lastUpdateConfiguration
+    }
+}
+
+extension QBusinessClientTypes {
+
+    public enum OutputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case extracted
+        case raw
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutputFormat] {
+            return [
+                .extracted,
+                .raw
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .extracted: return "EXTRACTED"
+            case .raw: return "RAW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetDocumentContentInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q Business application containing the document. This ensures the request is scoped to the correct application environment and its associated security policies.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The identifier of the data source from which the document was ingested. This field is not present if the document is ingested by directly calling the BatchPutDocument API. If the document is from a file-upload data source, the datasource will be "uploaded-docs-file-stat-datasourceid".
+    public var dataSourceId: Swift.String?
+    /// The unique identifier of the document that is indexed via BatchPutDocument API or file-upload or connector sync. It is also found in chat or chatSync response.
+    /// This member is required.
+    public var documentId: Swift.String?
+    /// The identifier of the index where documents are indexed.
+    /// This member is required.
+    public var indexId: Swift.String?
+    /// Document outputFormat. Defaults to RAW if not selected.
+    public var outputFormat: QBusinessClientTypes.OutputFormat?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        dataSourceId: Swift.String? = nil,
+        documentId: Swift.String? = nil,
+        indexId: Swift.String? = nil,
+        outputFormat: QBusinessClientTypes.OutputFormat? = nil
+    ) {
+        self.applicationId = applicationId
+        self.dataSourceId = dataSourceId
+        self.documentId = documentId
+        self.indexId = indexId
+        self.outputFormat = outputFormat
+    }
+}
+
+public struct GetDocumentContentOutput: Swift.Sendable {
+    /// The MIME type of the document content. When outputFormat is RAW, this corresponds to the original document's MIME type (e.g., application/pdf, text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document). When outputFormat is EXTRACTED, the MIME type is always application/json.
+    /// This member is required.
+    public var mimeType: Swift.String?
+    /// A pre-signed URL that provides temporary access to download the document content directly from Amazon Q Business. The URL expires after 5 minutes for security purposes. This URL is generated only after successful ACL validation.
+    /// This member is required.
+    public var presignedUrl: Swift.String?
+
+    public init(
+        mimeType: Swift.String? = nil,
+        presignedUrl: Swift.String? = nil
+    ) {
+        self.mimeType = mimeType
+        self.presignedUrl = presignedUrl
     }
 }
 
@@ -6580,6 +7755,41 @@ public struct ListAttachmentsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.attachments = attachments
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListChatResponseConfigurationsInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q Business application for which to list available chat response configurations.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The maximum number of chat response configurations to return in a single response. This parameter helps control pagination of results when many configurations exist.
+    public var maxResults: Swift.Int?
+    /// A pagination token used to retrieve the next set of results when the number of configurations exceeds the specified maxResults value.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListChatResponseConfigurationsOutput: Swift.Sendable {
+    /// A list of chat response configuration summaries, each containing key information about an available configuration in the specified application.
+    public var chatResponseConfigurations: [QBusinessClientTypes.ChatResponseConfiguration]?
+    /// A pagination token that can be used in a subsequent request to retrieve additional chat response configurations if the results were truncated due to the maxResults parameter.
+    public var nextToken: Swift.String?
+
+    public init(
+        chatResponseConfigurations: [QBusinessClientTypes.ChatResponseConfiguration]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.chatResponseConfigurations = chatResponseConfigurations
         self.nextToken = nextToken
     }
 }
@@ -7651,6 +8861,8 @@ public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The configuration details for CREATOR_MODE.
     public var creatorModeConfiguration: QBusinessClientTypes.CreatorModeConfiguration?
+    /// The hallucination reduction settings for your application.
+    public var hallucinationReductionConfiguration: QBusinessClientTypes.HallucinationReductionConfiguration?
     /// The chat response orchestration settings for your application.
     public var orchestrationConfiguration: QBusinessClientTypes.OrchestrationConfiguration?
     /// The response scope configured for your application. This determines whether your application uses its retrieval augmented generation (RAG) system to generate answers only from your enterprise data, or also uses the large language models (LLM) knowledge to respons to end user questions in chat.
@@ -7665,6 +8877,7 @@ public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
         blockedPhrasesConfigurationUpdate: QBusinessClientTypes.BlockedPhrasesConfigurationUpdate? = nil,
         clientToken: Swift.String? = nil,
         creatorModeConfiguration: QBusinessClientTypes.CreatorModeConfiguration? = nil,
+        hallucinationReductionConfiguration: QBusinessClientTypes.HallucinationReductionConfiguration? = nil,
         orchestrationConfiguration: QBusinessClientTypes.OrchestrationConfiguration? = nil,
         responseScope: QBusinessClientTypes.ResponseScope? = nil,
         topicConfigurationsToCreateOrUpdate: [QBusinessClientTypes.TopicConfiguration]? = nil,
@@ -7674,6 +8887,7 @@ public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
         self.blockedPhrasesConfigurationUpdate = blockedPhrasesConfigurationUpdate
         self.clientToken = clientToken
         self.creatorModeConfiguration = creatorModeConfiguration
+        self.hallucinationReductionConfiguration = hallucinationReductionConfiguration
         self.orchestrationConfiguration = orchestrationConfiguration
         self.responseScope = responseScope
         self.topicConfigurationsToCreateOrUpdate = topicConfigurationsToCreateOrUpdate
@@ -7682,6 +8896,41 @@ public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
 }
 
 public struct UpdateChatControlsConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateChatResponseConfigurationInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q Business application containing the chat response configuration to update.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier of the chat response configuration to update within the specified application.
+    /// This member is required.
+    public var chatResponseConfigurationId: Swift.String?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This helps prevent the same update from being processed multiple times if retries occur.
+    public var clientToken: Swift.String?
+    /// The new human-readable name to assign to the chat response configuration, making it easier to identify among multiple configurations.
+    public var displayName: Swift.String?
+    /// The updated collection of response configuration settings that define how Amazon Q Business generates and formats responses to user queries.
+    /// This member is required.
+    public var responseConfigurations: [Swift.String: QBusinessClientTypes.ResponseConfiguration]?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        chatResponseConfigurationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        responseConfigurations: [Swift.String: QBusinessClientTypes.ResponseConfiguration]? = nil
+    ) {
+        self.applicationId = applicationId
+        self.chatResponseConfigurationId = chatResponseConfigurationId
+        self.clientToken = clientToken
+        self.displayName = displayName
+        self.responseConfigurations = responseConfigurations
+    }
+}
+
+public struct UpdateChatResponseConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -8056,6 +9305,8 @@ public struct CreateDataAccessorInput: Swift.Sendable {
     /// The unique identifier of the Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
+    /// The authentication configuration details for the data accessor. This specifies how the ISV will authenticate when accessing data through this data accessor.
+    public var authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail?
     /// A unique, case-sensitive identifier you provide to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// A friendly name for the data accessor.
@@ -8070,6 +9321,7 @@ public struct CreateDataAccessorInput: Swift.Sendable {
     public init(
         actionConfigurations: [QBusinessClientTypes.ActionConfiguration]? = nil,
         applicationId: Swift.String? = nil,
+        authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail? = nil,
         clientToken: Swift.String? = nil,
         displayName: Swift.String? = nil,
         principal: Swift.String? = nil,
@@ -8077,6 +9329,7 @@ public struct CreateDataAccessorInput: Swift.Sendable {
     ) {
         self.actionConfigurations = actionConfigurations
         self.applicationId = applicationId
+        self.authenticationDetail = authenticationDetail
         self.clientToken = clientToken
         self.displayName = displayName
         self.principal = principal
@@ -8086,7 +9339,7 @@ public struct CreateDataAccessorInput: Swift.Sendable {
 
 extension CreateDataAccessorInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDataAccessorInput(actionConfigurations: \(Swift.String(describing: actionConfigurations)), applicationId: \(Swift.String(describing: applicationId)), clientToken: \(Swift.String(describing: clientToken)), principal: \(Swift.String(describing: principal)), tags: \(Swift.String(describing: tags)), displayName: \"CONTENT_REDACTED\")"}
+        "CreateDataAccessorInput(actionConfigurations: \(Swift.String(describing: actionConfigurations)), applicationId: \(Swift.String(describing: applicationId)), authenticationDetail: \(Swift.String(describing: authenticationDetail)), clientToken: \(Swift.String(describing: clientToken)), principal: \(Swift.String(describing: principal)), tags: \(Swift.String(describing: tags)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDataAccessorOutput: Swift.Sendable {
@@ -8094,6 +9347,8 @@ public struct GetDataAccessorOutput: Swift.Sendable {
     public var actionConfigurations: [QBusinessClientTypes.ActionConfiguration]?
     /// The unique identifier of the Amazon Q Business application associated with this data accessor.
     public var applicationId: Swift.String?
+    /// The authentication configuration details for the data accessor. This specifies how the ISV authenticates when accessing data through this data accessor.
+    public var authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail?
     /// The timestamp when the data accessor was created.
     public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the data accessor.
@@ -8112,6 +9367,7 @@ public struct GetDataAccessorOutput: Swift.Sendable {
     public init(
         actionConfigurations: [QBusinessClientTypes.ActionConfiguration]? = nil,
         applicationId: Swift.String? = nil,
+        authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail? = nil,
         createdAt: Foundation.Date? = nil,
         dataAccessorArn: Swift.String? = nil,
         dataAccessorId: Swift.String? = nil,
@@ -8122,6 +9378,7 @@ public struct GetDataAccessorOutput: Swift.Sendable {
     ) {
         self.actionConfigurations = actionConfigurations
         self.applicationId = applicationId
+        self.authenticationDetail = authenticationDetail
         self.createdAt = createdAt
         self.dataAccessorArn = dataAccessorArn
         self.dataAccessorId = dataAccessorId
@@ -8134,7 +9391,7 @@ public struct GetDataAccessorOutput: Swift.Sendable {
 
 extension GetDataAccessorOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDataAccessorOutput(actionConfigurations: \(Swift.String(describing: actionConfigurations)), applicationId: \(Swift.String(describing: applicationId)), createdAt: \(Swift.String(describing: createdAt)), dataAccessorArn: \(Swift.String(describing: dataAccessorArn)), dataAccessorId: \(Swift.String(describing: dataAccessorId)), idcApplicationArn: \(Swift.String(describing: idcApplicationArn)), principal: \(Swift.String(describing: principal)), updatedAt: \(Swift.String(describing: updatedAt)), displayName: \"CONTENT_REDACTED\")"}
+        "GetDataAccessorOutput(actionConfigurations: \(Swift.String(describing: actionConfigurations)), applicationId: \(Swift.String(describing: applicationId)), authenticationDetail: \(Swift.String(describing: authenticationDetail)), createdAt: \(Swift.String(describing: createdAt)), dataAccessorArn: \(Swift.String(describing: dataAccessorArn)), dataAccessorId: \(Swift.String(describing: dataAccessorId)), idcApplicationArn: \(Swift.String(describing: idcApplicationArn)), principal: \(Swift.String(describing: principal)), updatedAt: \(Swift.String(describing: updatedAt)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateDataAccessorInput: Swift.Sendable {
@@ -8144,6 +9401,8 @@ public struct UpdateDataAccessorInput: Swift.Sendable {
     /// The unique identifier of the Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
+    /// The updated authentication configuration details for the data accessor. This specifies how the ISV will authenticate when accessing data through this data accessor.
+    public var authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail?
     /// The unique identifier of the data accessor to update.
     /// This member is required.
     public var dataAccessorId: Swift.String?
@@ -8153,11 +9412,13 @@ public struct UpdateDataAccessorInput: Swift.Sendable {
     public init(
         actionConfigurations: [QBusinessClientTypes.ActionConfiguration]? = nil,
         applicationId: Swift.String? = nil,
+        authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail? = nil,
         dataAccessorId: Swift.String? = nil,
         displayName: Swift.String? = nil
     ) {
         self.actionConfigurations = actionConfigurations
         self.applicationId = applicationId
+        self.authenticationDetail = authenticationDetail
         self.dataAccessorId = dataAccessorId
         self.displayName = displayName
     }
@@ -8165,7 +9426,7 @@ public struct UpdateDataAccessorInput: Swift.Sendable {
 
 extension UpdateDataAccessorInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateDataAccessorInput(actionConfigurations: \(Swift.String(describing: actionConfigurations)), applicationId: \(Swift.String(describing: applicationId)), dataAccessorId: \(Swift.String(describing: dataAccessorId)), displayName: \"CONTENT_REDACTED\")"}
+        "UpdateDataAccessorInput(actionConfigurations: \(Swift.String(describing: actionConfigurations)), applicationId: \(Swift.String(describing: applicationId)), authenticationDetail: \(Swift.String(describing: authenticationDetail)), dataAccessorId: \(Swift.String(describing: dataAccessorId)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 extension AssociatePermissionInput {
@@ -8286,10 +9547,64 @@ extension ChatSyncInput {
     }
 }
 
+extension CheckDocumentAccessInput {
+
+    static func urlPathProvider(_ value: CheckDocumentAccessInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let indexId = value.indexId else {
+            return nil
+        }
+        guard let userId = value.userId else {
+            return nil
+        }
+        guard let documentId = value.documentId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/index/\(indexId.urlPercentEncoding())/users/\(userId.urlPercentEncoding())/documents/\(documentId.urlPercentEncoding())/check-document-access"
+    }
+}
+
+extension CheckDocumentAccessInput {
+
+    static func queryItemProvider(_ value: CheckDocumentAccessInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let dataSourceId = value.dataSourceId {
+            let dataSourceIdQueryItem = Smithy.URIQueryItem(name: "dataSourceId".urlPercentEncoding(), value: Swift.String(dataSourceId).urlPercentEncoding())
+            items.append(dataSourceIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension CreateAnonymousWebExperienceUrlInput {
+
+    static func urlPathProvider(_ value: CreateAnonymousWebExperienceUrlInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let webExperienceId = value.webExperienceId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/experiences/\(webExperienceId.urlPercentEncoding())/anonymous-url"
+    }
+}
+
 extension CreateApplicationInput {
 
     static func urlPathProvider(_ value: CreateApplicationInput) -> Swift.String? {
         return "/applications"
+    }
+}
+
+extension CreateChatResponseConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateChatResponseConfigurationInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/chatresponseconfigurations"
     }
 }
 
@@ -8386,6 +9701,34 @@ extension DeleteApplicationInput {
     }
 }
 
+extension DeleteAttachmentInput {
+
+    static func urlPathProvider(_ value: DeleteAttachmentInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let conversationId = value.conversationId else {
+            return nil
+        }
+        guard let attachmentId = value.attachmentId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/conversations/\(conversationId.urlPercentEncoding())/attachments/\(attachmentId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteAttachmentInput {
+
+    static func queryItemProvider(_ value: DeleteAttachmentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let userId = value.userId {
+            let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            items.append(userIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteChatControlsConfigurationInput {
 
     static func urlPathProvider(_ value: DeleteChatControlsConfigurationInput) -> Swift.String? {
@@ -8393,6 +9736,19 @@ extension DeleteChatControlsConfigurationInput {
             return nil
         }
         return "/applications/\(applicationId.urlPercentEncoding())/chatcontrols"
+    }
+}
+
+extension DeleteChatResponseConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteChatResponseConfigurationInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let chatResponseConfigurationId = value.chatResponseConfigurationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/chatresponseconfigurations/\(chatResponseConfigurationId.urlPercentEncoding())"
     }
 }
 
@@ -8592,6 +9948,19 @@ extension GetChatControlsConfigurationInput {
     }
 }
 
+extension GetChatResponseConfigurationInput {
+
+    static func urlPathProvider(_ value: GetChatResponseConfigurationInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let chatResponseConfigurationId = value.chatResponseConfigurationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/chatresponseconfigurations/\(chatResponseConfigurationId.urlPercentEncoding())"
+    }
+}
+
 extension GetDataAccessorInput {
 
     static func urlPathProvider(_ value: GetDataAccessorInput) -> Swift.String? {
@@ -8618,6 +9987,38 @@ extension GetDataSourceInput {
             return nil
         }
         return "/applications/\(applicationId.urlPercentEncoding())/indices/\(indexId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())"
+    }
+}
+
+extension GetDocumentContentInput {
+
+    static func urlPathProvider(_ value: GetDocumentContentInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let indexId = value.indexId else {
+            return nil
+        }
+        guard let documentId = value.documentId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/index/\(indexId.urlPercentEncoding())/documents/\(documentId.urlPercentEncoding())/content"
+    }
+}
+
+extension GetDocumentContentInput {
+
+    static func queryItemProvider(_ value: GetDocumentContentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let dataSourceId = value.dataSourceId {
+            let dataSourceIdQueryItem = Smithy.URIQueryItem(name: "dataSourceId".urlPercentEncoding(), value: Swift.String(dataSourceId).urlPercentEncoding())
+            items.append(dataSourceIdQueryItem)
+        }
+        if let outputFormat = value.outputFormat {
+            let outputFormatQueryItem = Smithy.URIQueryItem(name: "outputFormat".urlPercentEncoding(), value: Swift.String(outputFormat.rawValue).urlPercentEncoding())
+            items.append(outputFormatQueryItem)
+        }
+        return items
     }
 }
 
@@ -8795,6 +10196,32 @@ extension ListAttachmentsInput {
         if let userId = value.userId {
             let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
             items.append(userIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListChatResponseConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListChatResponseConfigurationsInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/chatresponseconfigurations"
+    }
+}
+
+extension ListChatResponseConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListChatResponseConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
         return items
     }
@@ -9393,6 +10820,19 @@ extension UpdateChatControlsConfigurationInput {
     }
 }
 
+extension UpdateChatResponseConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateChatResponseConfigurationInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let chatResponseConfigurationId = value.chatResponseConfigurationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/chatresponseconfigurations/\(chatResponseConfigurationId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateDataAccessorInput {
 
     static func urlPathProvider(_ value: UpdateDataAccessorInput) -> Swift.String? {
@@ -9505,6 +10945,7 @@ extension AssociatePermissionInput {
     static func write(value: AssociatePermissionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["conditions"].writeList(value.conditions, memberWritingClosure: QBusinessClientTypes.PermissionCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["principal"].write(value.principal)
         try writer["statementId"].write(value.statementId)
     }
@@ -9546,6 +10987,14 @@ extension ChatSyncInput {
     }
 }
 
+extension CreateAnonymousWebExperienceUrlInput {
+
+    static func write(value: CreateAnonymousWebExperienceUrlInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sessionDurationInMinutes"].write(value.sessionDurationInMinutes)
+    }
+}
+
 extension CreateApplicationInput {
 
     static func write(value: CreateApplicationInput?, to writer: SmithyJSON.Writer) throws {
@@ -9567,11 +11016,23 @@ extension CreateApplicationInput {
     }
 }
 
+extension CreateChatResponseConfigurationInput {
+
+    static func write(value: CreateChatResponseConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["displayName"].write(value.displayName)
+        try writer["responseConfigurations"].writeMap(value.responseConfigurations, valueWritingClosure: QBusinessClientTypes.ResponseConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: QBusinessClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateDataAccessorInput {
 
     static func write(value: CreateDataAccessorInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actionConfigurations"].writeList(value.actionConfigurations, memberWritingClosure: QBusinessClientTypes.ActionConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["authenticationDetail"].write(value.authenticationDetail, with: QBusinessClientTypes.DataAccessorAuthenticationDetail.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["displayName"].write(value.displayName)
         try writer["principal"].write(value.principal)
@@ -9737,10 +11198,21 @@ extension UpdateChatControlsConfigurationInput {
         try writer["blockedPhrasesConfigurationUpdate"].write(value.blockedPhrasesConfigurationUpdate, with: QBusinessClientTypes.BlockedPhrasesConfigurationUpdate.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["creatorModeConfiguration"].write(value.creatorModeConfiguration, with: QBusinessClientTypes.CreatorModeConfiguration.write(value:to:))
+        try writer["hallucinationReductionConfiguration"].write(value.hallucinationReductionConfiguration, with: QBusinessClientTypes.HallucinationReductionConfiguration.write(value:to:))
         try writer["orchestrationConfiguration"].write(value.orchestrationConfiguration, with: QBusinessClientTypes.OrchestrationConfiguration.write(value:to:))
         try writer["responseScope"].write(value.responseScope)
         try writer["topicConfigurationsToCreateOrUpdate"].writeList(value.topicConfigurationsToCreateOrUpdate, memberWritingClosure: QBusinessClientTypes.TopicConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["topicConfigurationsToDelete"].writeList(value.topicConfigurationsToDelete, memberWritingClosure: QBusinessClientTypes.TopicConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateChatResponseConfigurationInput {
+
+    static func write(value: UpdateChatResponseConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["displayName"].write(value.displayName)
+        try writer["responseConfigurations"].writeMap(value.responseConfigurations, valueWritingClosure: QBusinessClientTypes.ResponseConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -9749,6 +11221,7 @@ extension UpdateDataAccessorInput {
     static func write(value: UpdateDataAccessorInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actionConfigurations"].writeList(value.actionConfigurations, memberWritingClosure: QBusinessClientTypes.ActionConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["authenticationDetail"].write(value.authenticationDetail, with: QBusinessClientTypes.DataAccessorAuthenticationDetail.write(value:to:))
         try writer["displayName"].write(value.displayName)
     }
 }
@@ -9917,6 +11390,33 @@ extension ChatSyncOutput {
     }
 }
 
+extension CheckDocumentAccessOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CheckDocumentAccessOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CheckDocumentAccessOutput()
+        value.documentAcl = try reader["documentAcl"].readIfPresent(with: QBusinessClientTypes.DocumentAcl.read(from:))
+        value.hasAccess = try reader["hasAccess"].readIfPresent()
+        value.userAliases = try reader["userAliases"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.AssociatedUser.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userGroups = try reader["userGroups"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.AssociatedGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateAnonymousWebExperienceUrlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAnonymousWebExperienceUrlOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAnonymousWebExperienceUrlOutput()
+        value.anonymousUrl = try reader["anonymousUrl"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateApplicationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateApplicationOutput {
@@ -9926,6 +11426,19 @@ extension CreateApplicationOutput {
         var value = CreateApplicationOutput()
         value.applicationArn = try reader["applicationArn"].readIfPresent()
         value.applicationId = try reader["applicationId"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateChatResponseConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateChatResponseConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateChatResponseConfigurationOutput()
+        value.chatResponseConfigurationArn = try reader["chatResponseConfigurationArn"].readIfPresent() ?? ""
+        value.chatResponseConfigurationId = try reader["chatResponseConfigurationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10039,10 +11552,24 @@ extension DeleteApplicationOutput {
     }
 }
 
+extension DeleteAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAttachmentOutput {
+        return DeleteAttachmentOutput()
+    }
+}
+
 extension DeleteChatControlsConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteChatControlsConfigurationOutput {
         return DeleteChatControlsConfigurationOutput()
+    }
+}
+
+extension DeleteChatResponseConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteChatResponseConfigurationOutput {
+        return DeleteChatResponseConfigurationOutput()
     }
 }
 
@@ -10155,10 +11682,28 @@ extension GetChatControlsConfigurationOutput {
         var value = GetChatControlsConfigurationOutput()
         value.blockedPhrases = try reader["blockedPhrases"].readIfPresent(with: QBusinessClientTypes.BlockedPhrasesConfiguration.read(from:))
         value.creatorModeConfiguration = try reader["creatorModeConfiguration"].readIfPresent(with: QBusinessClientTypes.AppliedCreatorModeConfiguration.read(from:))
+        value.hallucinationReductionConfiguration = try reader["hallucinationReductionConfiguration"].readIfPresent(with: QBusinessClientTypes.HallucinationReductionConfiguration.read(from:))
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.orchestrationConfiguration = try reader["orchestrationConfiguration"].readIfPresent(with: QBusinessClientTypes.AppliedOrchestrationConfiguration.read(from:))
         value.responseScope = try reader["responseScope"].readIfPresent()
         value.topicConfigurations = try reader["topicConfigurations"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.TopicConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetChatResponseConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetChatResponseConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetChatResponseConfigurationOutput()
+        value.chatResponseConfigurationArn = try reader["chatResponseConfigurationArn"].readIfPresent()
+        value.chatResponseConfigurationId = try reader["chatResponseConfigurationId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.inUseConfiguration = try reader["inUseConfiguration"].readIfPresent(with: QBusinessClientTypes.ChatResponseConfigurationDetail.read(from:))
+        value.lastUpdateConfiguration = try reader["lastUpdateConfiguration"].readIfPresent(with: QBusinessClientTypes.ChatResponseConfigurationDetail.read(from:))
         return value
     }
 }
@@ -10172,6 +11717,7 @@ extension GetDataAccessorOutput {
         var value = GetDataAccessorOutput()
         value.actionConfigurations = try reader["actionConfigurations"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.ActionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.applicationId = try reader["applicationId"].readIfPresent()
+        value.authenticationDetail = try reader["authenticationDetail"].readIfPresent(with: QBusinessClientTypes.DataAccessorAuthenticationDetail.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.dataAccessorArn = try reader["dataAccessorArn"].readIfPresent()
         value.dataAccessorId = try reader["dataAccessorId"].readIfPresent()
@@ -10207,6 +11753,19 @@ extension GetDataSourceOutput {
         value.type = try reader["type"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: QBusinessClientTypes.DataSourceVpcConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GetDocumentContentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDocumentContentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDocumentContentOutput()
+        value.mimeType = try reader["mimeType"].readIfPresent() ?? ""
+        value.presignedUrl = try reader["presignedUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10379,6 +11938,19 @@ extension ListAttachmentsOutput {
         let reader = responseReader
         var value = ListAttachmentsOutput()
         value.attachments = try reader["attachments"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.Attachment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListChatResponseConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListChatResponseConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListChatResponseConfigurationsOutput()
+        value.chatResponseConfigurations = try reader["chatResponseConfigurations"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.ChatResponseConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -10665,6 +12237,13 @@ extension UpdateChatControlsConfigurationOutput {
     }
 }
 
+extension UpdateChatResponseConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateChatResponseConfigurationOutput {
+        return UpdateChatResponseConfigurationOutput()
+    }
+}
+
 extension UpdateDataAccessorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataAccessorOutput {
@@ -10854,7 +12433,64 @@ enum ChatSyncOutputError {
     }
 }
 
+enum CheckDocumentAccessOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAnonymousWebExperienceUrlOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateChatResponseConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -11052,6 +12688,25 @@ enum DeleteApplicationOutputError {
     }
 }
 
+enum DeleteAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "LicenseNotFoundException": return try LicenseNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteChatControlsConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11070,6 +12725,25 @@ enum DeleteChatControlsConfigurationOutputError {
     }
 }
 
+enum DeleteChatResponseConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteConversationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11079,6 +12753,7 @@ enum DeleteConversationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "LicenseNotFoundException": return try LicenseNotFoundException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -11296,6 +12971,24 @@ enum GetChatControlsConfigurationOutputError {
     }
 }
 
+enum GetChatResponseConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDataAccessorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11315,6 +13008,24 @@ enum GetDataAccessorOutputError {
 }
 
 enum GetDataSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDocumentContentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -11508,6 +13219,24 @@ enum ListAttachmentsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "LicenseNotFoundException": return try LicenseNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListChatResponseConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -11979,6 +13708,25 @@ enum UpdateChatControlsConfigurationOutputError {
     }
 }
 
+enum UpdateChatResponseConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateDataAccessorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12105,6 +13853,7 @@ enum UpdateUserOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -12134,11 +13883,67 @@ enum UpdateWebExperienceOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
@@ -12170,62 +13975,6 @@ extension ValidationException {
         value.properties.fields = try reader["fields"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12506,6 +14255,9 @@ extension QBusinessClientTypes.SourceAttribution {
         value.citationNumber = try reader["citationNumber"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.textMessageSegments = try reader["textMessageSegments"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.TextSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.documentId = try reader["documentId"].readIfPresent()
+        value.indexId = try reader["indexId"].readIfPresent()
+        value.datasourceId = try reader["datasourceId"].readIfPresent()
         return value
     }
 }
@@ -12518,6 +14270,64 @@ extension QBusinessClientTypes.TextSegment {
         value.beginOffset = try reader["beginOffset"].readIfPresent()
         value.endOffset = try reader["endOffset"].readIfPresent()
         value.snippetExcerpt = try reader["snippetExcerpt"].readIfPresent(with: QBusinessClientTypes.SnippetExcerpt.read(from:))
+        value.mediaId = try reader["mediaId"].readIfPresent()
+        value.mediaMimeType = try reader["mediaMimeType"].readIfPresent()
+        value.sourceDetails = try reader["sourceDetails"].readIfPresent(with: QBusinessClientTypes.SourceDetails.read(from:))
+        return value
+    }
+}
+
+extension QBusinessClientTypes.SourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.SourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "imageSourceDetails":
+                return .imagesourcedetails(try reader["imageSourceDetails"].read(with: QBusinessClientTypes.ImageSourceDetails.read(from:)))
+            case "audioSourceDetails":
+                return .audiosourcedetails(try reader["audioSourceDetails"].read(with: QBusinessClientTypes.AudioSourceDetails.read(from:)))
+            case "videoSourceDetails":
+                return .videosourcedetails(try reader["videoSourceDetails"].read(with: QBusinessClientTypes.VideoSourceDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QBusinessClientTypes.VideoSourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.VideoSourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.VideoSourceDetails()
+        value.mediaId = try reader["mediaId"].readIfPresent()
+        value.mediaMimeType = try reader["mediaMimeType"].readIfPresent()
+        value.startTimeMilliseconds = try reader["startTimeMilliseconds"].readIfPresent()
+        value.endTimeMilliseconds = try reader["endTimeMilliseconds"].readIfPresent()
+        value.videoExtractionType = try reader["videoExtractionType"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.AudioSourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AudioSourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.AudioSourceDetails()
+        value.mediaId = try reader["mediaId"].readIfPresent()
+        value.mediaMimeType = try reader["mediaMimeType"].readIfPresent()
+        value.startTimeMilliseconds = try reader["startTimeMilliseconds"].readIfPresent()
+        value.endTimeMilliseconds = try reader["endTimeMilliseconds"].readIfPresent()
+        value.audioExtractionType = try reader["audioExtractionType"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.ImageSourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.ImageSourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.ImageSourceDetails()
         value.mediaId = try reader["mediaId"].readIfPresent()
         value.mediaMimeType = try reader["mediaMimeType"].readIfPresent()
         return value
@@ -12539,6 +14349,7 @@ extension QBusinessClientTypes.TextOutputEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.TextOutputEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.TextOutputEvent()
+        value.systemMessageType = try reader["systemMessageType"].readIfPresent()
         value.conversationId = try reader["conversationId"].readIfPresent()
         value.userMessageId = try reader["userMessageId"].readIfPresent()
         value.systemMessageId = try reader["systemMessageId"].readIfPresent()
@@ -12566,6 +14377,84 @@ extension QBusinessClientTypes.AuthChallengeRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.AuthChallengeRequest()
         value.authorizationUrl = try reader["authorizationUrl"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QBusinessClientTypes.AssociatedGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AssociatedGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.AssociatedGroup()
+        value.name = try reader["name"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.AssociatedUser {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AssociatedUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.AssociatedUser()
+        value.id = try reader["id"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.DocumentAcl {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DocumentAcl {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.DocumentAcl()
+        value.allowlist = try reader["allowlist"].readIfPresent(with: QBusinessClientTypes.DocumentAclMembership.read(from:))
+        value.denyList = try reader["denyList"].readIfPresent(with: QBusinessClientTypes.DocumentAclMembership.read(from:))
+        return value
+    }
+}
+
+extension QBusinessClientTypes.DocumentAclMembership {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DocumentAclMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.DocumentAclMembership()
+        value.memberRelation = try reader["memberRelation"].readIfPresent()
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.DocumentAclCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QBusinessClientTypes.DocumentAclCondition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DocumentAclCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.DocumentAclCondition()
+        value.memberRelation = try reader["memberRelation"].readIfPresent()
+        value.users = try reader["users"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.DocumentAclUser.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groups = try reader["groups"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.DocumentAclGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QBusinessClientTypes.DocumentAclGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DocumentAclGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.DocumentAclGroup()
+        value.name = try reader["name"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.DocumentAclUser {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DocumentAclUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.DocumentAclUser()
+        value.id = try reader["id"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -12822,6 +14711,79 @@ extension QBusinessClientTypes.AppliedCreatorModeConfiguration {
     }
 }
 
+extension QBusinessClientTypes.HallucinationReductionConfiguration {
+
+    static func write(value: QBusinessClientTypes.HallucinationReductionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["hallucinationReductionControl"].write(value.hallucinationReductionControl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.HallucinationReductionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.HallucinationReductionConfiguration()
+        value.hallucinationReductionControl = try reader["hallucinationReductionControl"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.ChatResponseConfigurationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.ChatResponseConfigurationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.ChatResponseConfigurationDetail()
+        value.responseConfigurations = try reader["responseConfigurations"].readMapIfPresent(valueReadingClosure: QBusinessClientTypes.ResponseConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.responseConfigurationSummary = try reader["responseConfigurationSummary"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.error = try reader["error"].readIfPresent(with: QBusinessClientTypes.ErrorDetail.read(from:))
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension QBusinessClientTypes.ResponseConfiguration {
+
+    static func write(value: QBusinessClientTypes.ResponseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["instructionCollection"].write(value.instructionCollection, with: QBusinessClientTypes.InstructionCollection.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.ResponseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.ResponseConfiguration()
+        value.instructionCollection = try reader["instructionCollection"].readIfPresent(with: QBusinessClientTypes.InstructionCollection.read(from:))
+        return value
+    }
+}
+
+extension QBusinessClientTypes.InstructionCollection {
+
+    static func write(value: QBusinessClientTypes.InstructionCollection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customInstructions"].write(value.customInstructions)
+        try writer["examples"].write(value.examples)
+        try writer["identity"].write(value.identity)
+        try writer["outputStyle"].write(value.outputStyle)
+        try writer["perspective"].write(value.perspective)
+        try writer["responseLength"].write(value.responseLength)
+        try writer["targetAudience"].write(value.targetAudience)
+        try writer["tone"].write(value.tone)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.InstructionCollection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.InstructionCollection()
+        value.responseLength = try reader["responseLength"].readIfPresent()
+        value.targetAudience = try reader["targetAudience"].readIfPresent()
+        value.perspective = try reader["perspective"].readIfPresent()
+        value.outputStyle = try reader["outputStyle"].readIfPresent()
+        value.identity = try reader["identity"].readIfPresent()
+        value.tone = try reader["tone"].readIfPresent()
+        value.customInstructions = try reader["customInstructions"].readIfPresent()
+        value.examples = try reader["examples"].readIfPresent()
+        return value
+    }
+}
+
 extension QBusinessClientTypes.ActionConfiguration {
 
     static func write(value: QBusinessClientTypes.ActionConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -12937,6 +14899,64 @@ extension QBusinessClientTypes.DocumentAttributeValue {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension QBusinessClientTypes.DataAccessorAuthenticationDetail {
+
+    static func write(value: QBusinessClientTypes.DataAccessorAuthenticationDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authenticationConfiguration"].write(value.authenticationConfiguration, with: QBusinessClientTypes.DataAccessorAuthenticationConfiguration.write(value:to:))
+        try writer["authenticationType"].write(value.authenticationType)
+        try writer["externalIds"].writeList(value.externalIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DataAccessorAuthenticationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.DataAccessorAuthenticationDetail()
+        value.authenticationType = try reader["authenticationType"].readIfPresent() ?? .sdkUnknown("")
+        value.authenticationConfiguration = try reader["authenticationConfiguration"].readIfPresent(with: QBusinessClientTypes.DataAccessorAuthenticationConfiguration.read(from:))
+        value.externalIds = try reader["externalIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QBusinessClientTypes.DataAccessorAuthenticationConfiguration {
+
+    static func write(value: QBusinessClientTypes.DataAccessorAuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .idctrustedtokenissuerconfiguration(idctrustedtokenissuerconfiguration):
+                try writer["idcTrustedTokenIssuerConfiguration"].write(idctrustedtokenissuerconfiguration, with: QBusinessClientTypes.DataAccessorIdcTrustedTokenIssuerConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DataAccessorAuthenticationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "idcTrustedTokenIssuerConfiguration":
+                return .idctrustedtokenissuerconfiguration(try reader["idcTrustedTokenIssuerConfiguration"].read(with: QBusinessClientTypes.DataAccessorIdcTrustedTokenIssuerConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QBusinessClientTypes.DataAccessorIdcTrustedTokenIssuerConfiguration {
+
+    static func write(value: QBusinessClientTypes.DataAccessorIdcTrustedTokenIssuerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["idcTrustedTokenIssuerArn"].write(value.idcTrustedTokenIssuerArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DataAccessorIdcTrustedTokenIssuerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.DataAccessorIdcTrustedTokenIssuerConfiguration()
+        value.idcTrustedTokenIssuerArn = try reader["idcTrustedTokenIssuerArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -13058,13 +15078,47 @@ extension QBusinessClientTypes.MediaExtractionConfiguration {
 
     static func write(value: QBusinessClientTypes.MediaExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioExtractionConfiguration"].write(value.audioExtractionConfiguration, with: QBusinessClientTypes.AudioExtractionConfiguration.write(value:to:))
         try writer["imageExtractionConfiguration"].write(value.imageExtractionConfiguration, with: QBusinessClientTypes.ImageExtractionConfiguration.write(value:to:))
+        try writer["videoExtractionConfiguration"].write(value.videoExtractionConfiguration, with: QBusinessClientTypes.VideoExtractionConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.MediaExtractionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.MediaExtractionConfiguration()
         value.imageExtractionConfiguration = try reader["imageExtractionConfiguration"].readIfPresent(with: QBusinessClientTypes.ImageExtractionConfiguration.read(from:))
+        value.audioExtractionConfiguration = try reader["audioExtractionConfiguration"].readIfPresent(with: QBusinessClientTypes.AudioExtractionConfiguration.read(from:))
+        value.videoExtractionConfiguration = try reader["videoExtractionConfiguration"].readIfPresent(with: QBusinessClientTypes.VideoExtractionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QBusinessClientTypes.VideoExtractionConfiguration {
+
+    static func write(value: QBusinessClientTypes.VideoExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["videoExtractionStatus"].write(value.videoExtractionStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.VideoExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.VideoExtractionConfiguration()
+        value.videoExtractionStatus = try reader["videoExtractionStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QBusinessClientTypes.AudioExtractionConfiguration {
+
+    static func write(value: QBusinessClientTypes.AudioExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioExtractionStatus"].write(value.audioExtractionStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AudioExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.AudioExtractionConfiguration()
+        value.audioExtractionStatus = try reader["audioExtractionStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13368,12 +15422,14 @@ extension QBusinessClientTypes.NativeIndexConfiguration {
         guard let value else { return }
         try writer["boostingOverride"].writeMap(value.boostingOverride, valueWritingClosure: QBusinessClientTypes.DocumentAttributeBoostingConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["indexId"].write(value.indexId)
+        try writer["version"].write(value.version)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.NativeIndexConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.NativeIndexConfiguration()
         value.indexId = try reader["indexId"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent()
         value.boostingOverride = try reader["boostingOverride"].readMapIfPresent(valueReadingClosure: QBusinessClientTypes.DocumentAttributeBoostingConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -13717,6 +15773,22 @@ extension QBusinessClientTypes.ConversationSource {
     }
 }
 
+extension QBusinessClientTypes.ChatResponseConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.ChatResponseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.ChatResponseConfiguration()
+        value.chatResponseConfigurationId = try reader["chatResponseConfigurationId"].readIfPresent() ?? ""
+        value.chatResponseConfigurationArn = try reader["chatResponseConfigurationArn"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.responseConfigurationSummary = try reader["responseConfigurationSummary"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension QBusinessClientTypes.Conversation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.Conversation {
@@ -13739,6 +15811,7 @@ extension QBusinessClientTypes.DataAccessor {
         value.dataAccessorArn = try reader["dataAccessorArn"].readIfPresent()
         value.idcApplicationArn = try reader["idcApplicationArn"].readIfPresent()
         value.principal = try reader["principal"].readIfPresent()
+        value.authenticationDetail = try reader["authenticationDetail"].readIfPresent(with: QBusinessClientTypes.DataAccessorAuthenticationDetail.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -14041,6 +16114,16 @@ extension QBusinessClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension QBusinessClientTypes.PermissionCondition {
+
+    static func write(value: QBusinessClientTypes.PermissionCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conditionKey"].write(value.conditionKey)
+        try writer["conditionOperator"].write(value.conditionOperator)
+        try writer["conditionValues"].writeList(value.conditionValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

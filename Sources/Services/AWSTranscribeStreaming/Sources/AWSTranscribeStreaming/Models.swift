@@ -47,9 +47,9 @@ extension TranscribeStreamingClientTypes {
         public var confidence: Swift.Double?
         /// The word or words identified as PII.
         public var content: Swift.String?
-        /// The end time, in milliseconds, of the utterance that was identified as PII.
+        /// The end time of the utterance that was identified as PII in seconds, with millisecond precision (e.g., 1.056)
         public var endTime: Swift.Double
-        /// The start time, in milliseconds, of the utterance that was identified as PII.
+        /// The start time of the utterance that was identified as PII in seconds, with millisecond precision (e.g., 1.056)
         public var startTime: Swift.Double
         /// The type of PII identified. For example, NAME or CREDIT_DEBIT_NUMBER.
         public var type: Swift.String?
@@ -109,13 +109,13 @@ extension TranscribeStreamingClientTypes {
         public var confidence: Swift.Double?
         /// The word or punctuation that was transcribed.
         public var content: Swift.String?
-        /// The end time, in milliseconds, of the transcribed item.
+        /// The end time of the transcribed item in seconds, with millisecond precision (e.g., 1.056)
         public var endTime: Swift.Double
         /// If speaker partitioning is enabled, Speaker labels the speaker of the specified item.
         public var speaker: Swift.String?
         /// If partial result stabilization is enabled, Stable indicates whether the specified item is stable (true) or if it may change when the segment is complete (false).
         public var stable: Swift.Bool?
-        /// The start time, in milliseconds, of the transcribed item.
+        /// The start time of the transcribed item in seconds, with millisecond precision (e.g., 1.056)
         public var startTime: Swift.Double
         /// The type of item identified. Options are: PRONUNCIATION (spoken words) and PUNCTUATION.
         public var type: TranscribeStreamingClientTypes.ItemType?
@@ -494,6 +494,25 @@ extension TranscribeStreamingClientTypes {
 
 extension TranscribeStreamingClientTypes {
 
+    /// The language code that represents the language identified in your audio, including the associated confidence score.
+    public struct CallAnalyticsLanguageWithScore: Swift.Sendable {
+        /// The language code of the identified language.
+        public var languageCode: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode?
+        /// The confidence score associated with the identified language code. Confidence scores are values between zero and one; larger values indicate a higher confidence in the identified language.
+        public var score: Swift.Double
+
+        public init(
+            languageCode: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode? = nil,
+            score: Swift.Double = 0.0
+        ) {
+            self.languageCode = languageCode
+            self.score = score
+        }
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+
     /// Contains the timestamp range (start time through end time) of a matched category.
     public struct TimestampRange: Swift.Sendable {
         /// The time, in milliseconds, from the beginning of the audio stream to the start of the category match.
@@ -722,6 +741,10 @@ extension TranscribeStreamingClientTypes {
         public var issuesDetected: [TranscribeStreamingClientTypes.IssueDetected]?
         /// Contains words, phrases, or punctuation marks that are associated with the specified UtteranceEvent.
         public var items: [TranscribeStreamingClientTypes.CallAnalyticsItem]?
+        /// The language code that represents the language spoken in your audio stream.
+        public var languageCode: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode?
+        /// The language code of the dominant language identified in your stream.
+        public var languageIdentification: [TranscribeStreamingClientTypes.CallAnalyticsLanguageWithScore]?
         /// Provides the role of the speaker for each audio channel, either CUSTOMER or AGENT.
         public var participantRole: TranscribeStreamingClientTypes.ParticipantRole?
         /// Provides the sentiment that was detected in the specified segment.
@@ -738,6 +761,8 @@ extension TranscribeStreamingClientTypes {
             isPartial: Swift.Bool = false,
             issuesDetected: [TranscribeStreamingClientTypes.IssueDetected]? = nil,
             items: [TranscribeStreamingClientTypes.CallAnalyticsItem]? = nil,
+            languageCode: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode? = nil,
+            languageIdentification: [TranscribeStreamingClientTypes.CallAnalyticsLanguageWithScore]? = nil,
             participantRole: TranscribeStreamingClientTypes.ParticipantRole? = nil,
             sentiment: TranscribeStreamingClientTypes.Sentiment? = nil,
             transcript: Swift.String? = nil,
@@ -749,6 +774,8 @@ extension TranscribeStreamingClientTypes {
             self.isPartial = isPartial
             self.issuesDetected = issuesDetected
             self.items = items
+            self.languageCode = languageCode
+            self.languageIdentification = languageIdentification
             self.participantRole = participantRole
             self.sentiment = sentiment
             self.transcript = transcript
@@ -839,15 +866,77 @@ extension TranscribeStreamingClientTypes {
 
 extension TranscribeStreamingClientTypes {
 
+    public enum MedicalScribeNoteTemplate: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case behavioralSoap
+        case birp
+        case dap
+        case girpp
+        case historyAndPhysical
+        case physicalSoap
+        case sirp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MedicalScribeNoteTemplate] {
+            return [
+                .behavioralSoap,
+                .birp,
+                .dap,
+                .girpp,
+                .historyAndPhysical,
+                .physicalSoap,
+                .sirp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .behavioralSoap: return "BEHAVIORAL_SOAP"
+            case .birp: return "BIRP"
+            case .dap: return "DAP"
+            case .girpp: return "GIRPP"
+            case .historyAndPhysical: return "HISTORY_AND_PHYSICAL"
+            case .physicalSoap: return "PHYSICAL_SOAP"
+            case .sirp: return "SIRP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+
     /// The output configuration for aggregated transcript and clinical note generation.
     public struct ClinicalNoteGenerationSettings: Swift.Sendable {
+        /// Specify one of the following templates to use for the clinical note summary. The default is HISTORY_AND_PHYSICAL.
+        ///
+        /// * HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Examples of sections include Chief Complaint, History of Present Illness, Review of Systems, Past Medical History, Assessment, and Plan.
+        ///
+        /// * GIRPP: Provides summaries based on the patients progress toward goals. Examples of sections include Goal, Intervention, Response, Progress, and Plan.
+        ///
+        /// * BIRP: Focuses on the patient's behavioral patterns and responses. Examples of sections include Behavior, Intervention, Response, and Plan.
+        ///
+        /// * SIRP: Emphasizes the situational context of therapy. Examples of sections include Situation, Intervention, Response, and Plan.
+        ///
+        /// * DAP: Provides a simplified format for clinical documentation. Examples of sections include Data, Assessment, and Plan.
+        ///
+        /// * BEHAVIORAL_SOAP: Behavioral health focused documentation format. Examples of sections include Subjective, Objective, Assessment, and Plan.
+        ///
+        /// * PHYSICAL_SOAP: Physical health focused documentation format. Examples of sections include Subjective, Objective, Assessment, and Plan.
+        public var noteTemplate: TranscribeStreamingClientTypes.MedicalScribeNoteTemplate?
         /// The name of the Amazon S3 bucket where you want the output of Amazon Web Services HealthScribe post-stream analytics stored. Don't include the S3:// prefix of the specified bucket. HealthScribe outputs transcript and clinical note files under the prefix: S3://$output-bucket-name/healthscribe-streaming/session-id/post-stream-analytics/clinical-notes The role ResourceAccessRoleArn specified in the MedicalScribeConfigurationEvent must have permission to use the specified location. You can change Amazon S3 permissions using the [ Amazon Web Services Management Console ](https://console.aws.amazon.com/s3). See also [Permissions Required for IAM User Roles ](https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user) .
         /// This member is required.
         public var outputBucketName: Swift.String?
 
         public init(
+            noteTemplate: TranscribeStreamingClientTypes.MedicalScribeNoteTemplate? = nil,
             outputBucketName: Swift.String? = nil
         ) {
+            self.noteTemplate = noteTemplate
             self.outputBucketName = outputBucketName
         }
     }
@@ -1191,6 +1280,8 @@ extension TranscribeStreamingClientTypes {
         public var mediaEncoding: TranscribeStreamingClientTypes.MedicalScribeMediaEncoding?
         /// The sample rate (in hertz) of the HealthScribe streaming session.
         public var mediaSampleRateHertz: Swift.Int?
+        /// Indicates whether the MedicalScribeContext object was provided when the stream was started.
+        public var medicalScribeContextProvided: Swift.Bool?
         /// The result of post-stream analytics for the HealthScribe streaming session.
         public var postStreamAnalyticsResult: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsResult?
         /// The post-stream analytics settings of the HealthScribe streaming session.
@@ -1229,6 +1320,7 @@ extension TranscribeStreamingClientTypes {
             languageCode: TranscribeStreamingClientTypes.MedicalScribeLanguageCode? = nil,
             mediaEncoding: TranscribeStreamingClientTypes.MedicalScribeMediaEncoding? = nil,
             mediaSampleRateHertz: Swift.Int? = nil,
+            medicalScribeContextProvided: Swift.Bool? = nil,
             postStreamAnalyticsResult: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsResult? = nil,
             postStreamAnalyticsSettings: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsSettings? = nil,
             resourceAccessRoleArn: Swift.String? = nil,
@@ -1245,6 +1337,7 @@ extension TranscribeStreamingClientTypes {
             self.languageCode = languageCode
             self.mediaEncoding = mediaEncoding
             self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.medicalScribeContextProvided = medicalScribeContextProvided
             self.postStreamAnalyticsResult = postStreamAnalyticsResult
             self.postStreamAnalyticsSettings = postStreamAnalyticsSettings
             self.resourceAccessRoleArn = resourceAccessRoleArn
@@ -1516,9 +1609,9 @@ extension TranscribeStreamingClientTypes {
         public var confidence: Swift.Double?
         /// The word or words identified as PHI.
         public var content: Swift.String?
-        /// The end time, in milliseconds, of the utterance that was identified as PHI.
+        /// The end time, in seconds, of the utterance that was identified as PHI.
         public var endTime: Swift.Double
-        /// The start time, in milliseconds, of the utterance that was identified as PHI.
+        /// The start time, in seconds, of the utterance that was identified as PHI.
         public var startTime: Swift.Double
 
         public init(
@@ -1545,11 +1638,11 @@ extension TranscribeStreamingClientTypes {
         public var confidence: Swift.Double?
         /// The word or punctuation that was transcribed.
         public var content: Swift.String?
-        /// The end time, in milliseconds, of the transcribed item.
+        /// The end time, in seconds, of the transcribed item.
         public var endTime: Swift.Double
         /// If speaker partitioning is enabled, Speaker labels the speaker of the specified item.
         public var speaker: Swift.String?
-        /// The start time, in milliseconds, of the transcribed item.
+        /// The start time, in seconds, of the transcribed item.
         public var startTime: Swift.Double
         /// The type of item identified. Options are: PRONUNCIATION (spoken words) and PUNCTUATION.
         public var type: TranscribeStreamingClientTypes.ItemType?
@@ -1629,13 +1722,13 @@ extension TranscribeStreamingClientTypes {
         public var alternatives: [TranscribeStreamingClientTypes.MedicalAlternative]?
         /// Indicates the channel identified for the Result.
         public var channelId: Swift.String?
-        /// The end time, in milliseconds, of the Result.
+        /// The end time, in seconds, of the Result.
         public var endTime: Swift.Double
         /// Indicates if the segment is complete. If IsPartial is true, the segment is not complete. If IsPartial is false, the segment is complete.
         public var isPartial: Swift.Bool
         /// Provides a unique identifier for the Result.
         public var resultId: Swift.String?
-        /// The start time, in milliseconds, of the Result.
+        /// The start time, in seconds, of the Result.
         public var startTime: Swift.Double
 
         public init(
@@ -1674,12 +1767,81 @@ extension TranscribeStreamingClientTypes {
 
 extension TranscribeStreamingClientTypes {
 
+    public enum Pronouns: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case heHim
+        case sheHer
+        case theyThem
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Pronouns] {
+            return [
+                .heHim,
+                .sheHer,
+                .theyThem
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .heHim: return "HE_HIM"
+            case .sheHer: return "SHE_HER"
+            case .theyThem: return "THEY_THEM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+
+    /// Contains patient-specific information.
+    public struct MedicalScribePatientContext: Swift.Sendable {
+        /// The patient's preferred pronouns that the user wants to provide as a context for clinical note generation .
+        public var pronouns: TranscribeStreamingClientTypes.Pronouns?
+
+        public init(
+            pronouns: TranscribeStreamingClientTypes.Pronouns? = nil
+        ) {
+            self.pronouns = pronouns
+        }
+    }
+}
+
+extension TranscribeStreamingClientTypes.MedicalScribePatientContext: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MedicalScribePatientContext(pronouns: \"CONTENT_REDACTED\")"}
+}
+
+extension TranscribeStreamingClientTypes {
+
+    /// The MedicalScribeContext object that contains contextual information which is used during clinical note generation to add relevant context to the note.
+    public struct MedicalScribeContext: Swift.Sendable {
+        /// Contains patient-specific information used to customize the clinical note generation.
+        public var patientContext: TranscribeStreamingClientTypes.MedicalScribePatientContext?
+
+        public init(
+            patientContext: TranscribeStreamingClientTypes.MedicalScribePatientContext? = nil
+        ) {
+            self.patientContext = patientContext
+        }
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+
     /// Specify details to configure the streaming session, including channel definitions, encryption settings, post-stream analytics settings, resource access role ARN and vocabulary settings. Whether you are starting a new session or resuming an existing session, your first event must be a MedicalScribeConfigurationEvent. If you are resuming a session, then this event must have the same configurations that you provided to start the session.
     public struct MedicalScribeConfigurationEvent: Swift.Sendable {
         /// Specify which speaker is on which audio channel.
         public var channelDefinitions: [TranscribeStreamingClientTypes.MedicalScribeChannelDefinition]?
         /// Specify the encryption settings for your streaming session.
         public var encryptionSettings: TranscribeStreamingClientTypes.MedicalScribeEncryptionSettings?
+        /// The MedicalScribeContext object that contains contextual information used to generate customized clinical notes.
+        public var medicalScribeContext: TranscribeStreamingClientTypes.MedicalScribeContext?
         /// Specify settings for post-stream analytics.
         /// This member is required.
         public var postStreamAnalyticsSettings: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsSettings?
@@ -1696,6 +1858,7 @@ extension TranscribeStreamingClientTypes {
         public init(
             channelDefinitions: [TranscribeStreamingClientTypes.MedicalScribeChannelDefinition]? = nil,
             encryptionSettings: TranscribeStreamingClientTypes.MedicalScribeEncryptionSettings? = nil,
+            medicalScribeContext: TranscribeStreamingClientTypes.MedicalScribeContext? = nil,
             postStreamAnalyticsSettings: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsSettings? = nil,
             resourceAccessRoleArn: Swift.String? = nil,
             vocabularyFilterMethod: TranscribeStreamingClientTypes.MedicalScribeVocabularyFilterMethod? = nil,
@@ -1704,6 +1867,7 @@ extension TranscribeStreamingClientTypes {
         ) {
             self.channelDefinitions = channelDefinitions
             self.encryptionSettings = encryptionSettings
+            self.medicalScribeContext = medicalScribeContext
             self.postStreamAnalyticsSettings = postStreamAnalyticsSettings
             self.resourceAccessRoleArn = resourceAccessRoleArn
             self.vocabularyFilterMethod = vocabularyFilterMethod
@@ -1985,7 +2149,7 @@ extension TranscribeStreamingClientTypes {
         public var alternatives: [TranscribeStreamingClientTypes.Alternative]?
         /// Indicates which audio channel is associated with the Result.
         public var channelId: Swift.String?
-        /// The end time, in milliseconds, of the Result.
+        /// The end time of the Result in seconds, with millisecond precision (e.g., 1.056).
         public var endTime: Swift.Double
         /// Indicates if the segment is complete. If IsPartial is true, the segment is not complete. If IsPartial is false, the segment is complete.
         public var isPartial: Swift.Bool
@@ -1995,7 +2159,7 @@ extension TranscribeStreamingClientTypes {
         public var languageIdentification: [TranscribeStreamingClientTypes.LanguageWithScore]?
         /// Provides a unique identifier for the Result.
         public var resultId: Swift.String?
-        /// The start time, in milliseconds, of the Result.
+        /// The start time of the Result in seconds, with millisecond precision (e.g., 1.056).
         public var startTime: Swift.Double
 
         public init(
@@ -2103,11 +2267,14 @@ public struct StartCallAnalyticsStreamTranscriptionInput: Swift.Sendable {
     public var contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType?
     /// Enables partial result stabilization for your transcription. Partial result stabilization can reduce latency in your output, but may impact accuracy. For more information, see [Partial-result stabilization](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html#streaming-partial-result-stabilization).
     public var enablePartialResultsStabilization: Swift.Bool?
+    /// Enables automatic language identification for your Call Analytics transcription. If you include IdentifyLanguage, you must include a list of language codes, using LanguageOptions, that you think may be present in your audio stream. You must provide a minimum of two language selections. You can also include a preferred language using PreferredLanguage. Adding a preferred language can help Amazon Transcribe identify the language faster than if you omit this parameter. Note that you must include either LanguageCode or IdentifyLanguage in your request. If you include both parameters, your transcription job fails.
+    public var identifyLanguage: Swift.Bool?
     /// Specify the language code that represents the language spoken in your audio. For a list of languages supported with real-time Call Analytics, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
-    /// This member is required.
     public var languageCode: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode?
     /// Specify the name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied. There are no errors or warnings associated with a language mismatch. For more information, see [Custom language models](https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html).
     public var languageModelName: Swift.String?
+    /// Specify two or more language codes that represent the languages you think may be present in your media. Including language options can improve the accuracy of language identification. If you include LanguageOptions in your request, you must also include IdentifyLanguage. For a list of languages supported with Call Analytics streaming, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. You can only include one language dialect per language per stream. For example, you cannot include en-US and en-AU in the same request.
+    public var languageOptions: Swift.String?
     /// Specify the encoding of your input audio. Supported formats are:
     ///
     /// * FLAC
@@ -2127,45 +2294,61 @@ public struct StartCallAnalyticsStreamTranscriptionInput: Swift.Sendable {
     public var partialResultsStability: TranscribeStreamingClientTypes.PartialResultsStability?
     /// Specify which types of personally identifiable information (PII) you want to redact in your transcript. You can include as many types as you'd like, or you can select ALL. Values must be comma-separated and can include: ADDRESS, BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, CREDIT_DEBIT_NUMBER, EMAIL, NAME, PHONE, PIN, SSN, or ALL. Note that if you include PiiEntityTypes in your request, you must also include ContentIdentificationType or ContentRedactionType. If you include ContentRedactionType or ContentIdentificationType in your request, but do not include PiiEntityTypes, all PII is redacted or identified.
     public var piiEntityTypes: Swift.String?
+    /// Specify a preferred language from the subset of languages codes you specified in LanguageOptions. You can only use this parameter if you've included IdentifyLanguage and LanguageOptions in your request.
+    public var preferredLanguage: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode?
     /// Specify a name for your Call Analytics transcription session. If you don't include this parameter in your request, Amazon Transcribe generates an ID and returns it in the response.
     public var sessionId: Swift.String?
     /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
     public var vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod?
     /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, the vocabulary filter is not applied to your transcription. For more information, see [Using vocabulary filtering with unwanted words](https://docs.aws.amazon.com/transcribe/latest/dg/vocabulary-filtering.html).
     public var vocabularyFilterName: Swift.String?
+    /// Specify the names of the custom vocabulary filters that you want to use when processing your Call Analytics transcription. Note that vocabulary filter names are case sensitive. These filters serve to customize the transcript output. This parameter is only intended for use with the IdentifyLanguage parameter. If you're not including IdentifyLanguage in your request and want to use a custom vocabulary filter with your transcription, use the VocabularyFilterName parameter instead. For more information, see [Using vocabulary filtering with unwanted words](https://docs.aws.amazon.com/transcribe/latest/dg/vocabulary-filtering.html).
+    public var vocabularyFilterNames: Swift.String?
     /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If the language of the specified custom vocabulary doesn't match the language identified in your media, the custom vocabulary is not applied to your transcription. For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
     public var vocabularyName: Swift.String?
+    /// Specify the names of the custom vocabularies that you want to use when processing your Call Analytics transcription. Note that vocabulary names are case sensitive. If the custom vocabulary's language doesn't match the identified media language, it won't be applied to the transcription. This parameter is only intended for use with the IdentifyLanguage parameter. If you're not including IdentifyLanguage in your request and want to use a custom vocabulary with your transcription, use the VocabularyName parameter instead. For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
+    public var vocabularyNames: Swift.String?
 
     public init(
         audioStream: AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Swift.Error>? = nil,
         contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType? = nil,
         contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType? = nil,
         enablePartialResultsStabilization: Swift.Bool? = false,
+        identifyLanguage: Swift.Bool? = false,
         languageCode: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode? = nil,
         languageModelName: Swift.String? = nil,
+        languageOptions: Swift.String? = nil,
         mediaEncoding: TranscribeStreamingClientTypes.MediaEncoding? = nil,
         mediaSampleRateHertz: Swift.Int? = nil,
         partialResultsStability: TranscribeStreamingClientTypes.PartialResultsStability? = nil,
         piiEntityTypes: Swift.String? = nil,
+        preferredLanguage: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode? = nil,
         sessionId: Swift.String? = nil,
         vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod? = nil,
         vocabularyFilterName: Swift.String? = nil,
-        vocabularyName: Swift.String? = nil
+        vocabularyFilterNames: Swift.String? = nil,
+        vocabularyName: Swift.String? = nil,
+        vocabularyNames: Swift.String? = nil
     ) {
         self.audioStream = audioStream
         self.contentIdentificationType = contentIdentificationType
         self.contentRedactionType = contentRedactionType
         self.enablePartialResultsStabilization = enablePartialResultsStabilization
+        self.identifyLanguage = identifyLanguage
         self.languageCode = languageCode
         self.languageModelName = languageModelName
+        self.languageOptions = languageOptions
         self.mediaEncoding = mediaEncoding
         self.mediaSampleRateHertz = mediaSampleRateHertz
         self.partialResultsStability = partialResultsStability
         self.piiEntityTypes = piiEntityTypes
+        self.preferredLanguage = preferredLanguage
         self.sessionId = sessionId
         self.vocabularyFilterMethod = vocabularyFilterMethod
         self.vocabularyFilterName = vocabularyFilterName
+        self.vocabularyFilterNames = vocabularyFilterNames
         self.vocabularyName = vocabularyName
+        self.vocabularyNames = vocabularyNames
     }
 }
 
@@ -2178,10 +2361,14 @@ public struct StartCallAnalyticsStreamTranscriptionOutput: Swift.Sendable {
     public var contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType?
     /// Shows whether partial results stabilization was enabled for your Call Analytics transcription.
     public var enablePartialResultsStabilization: Swift.Bool
+    /// Shows whether automatic language identification was enabled for your Call Analytics transcription.
+    public var identifyLanguage: Swift.Bool
     /// Provides the language code that you specified in your Call Analytics request.
     public var languageCode: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode?
     /// Provides the name of the custom language model that you specified in your Call Analytics request.
     public var languageModelName: Swift.String?
+    /// Provides the language codes that you specified in your Call Analytics request.
+    public var languageOptions: Swift.String?
     /// Provides the media encoding you specified in your Call Analytics request.
     public var mediaEncoding: TranscribeStreamingClientTypes.MediaEncoding?
     /// Provides the sample rate that you specified in your Call Analytics request.
@@ -2190,6 +2377,8 @@ public struct StartCallAnalyticsStreamTranscriptionOutput: Swift.Sendable {
     public var partialResultsStability: TranscribeStreamingClientTypes.PartialResultsStability?
     /// Lists the PII entity types you specified in your Call Analytics request.
     public var piiEntityTypes: Swift.String?
+    /// Provides the preferred language that you specified in your Call Analytics request.
+    public var preferredLanguage: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode?
     /// Provides the identifier for your real-time Call Analytics request.
     public var requestId: Swift.String?
     /// Provides the identifier for your Call Analytics transcription session.
@@ -2198,41 +2387,55 @@ public struct StartCallAnalyticsStreamTranscriptionOutput: Swift.Sendable {
     public var vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod?
     /// Provides the name of the custom vocabulary filter that you specified in your Call Analytics request.
     public var vocabularyFilterName: Swift.String?
+    /// Provides the names of the custom vocabulary filters that you specified in your Call Analytics request.
+    public var vocabularyFilterNames: Swift.String?
     /// Provides the name of the custom vocabulary that you specified in your Call Analytics request.
     public var vocabularyName: Swift.String?
+    /// Provides the names of the custom vocabularies that you specified in your Call Analytics request.
+    public var vocabularyNames: Swift.String?
 
     public init(
         callAnalyticsTranscriptResultStream: AsyncThrowingStream<TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream, Swift.Error>? = nil,
         contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType? = nil,
         contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType? = nil,
         enablePartialResultsStabilization: Swift.Bool = false,
+        identifyLanguage: Swift.Bool = false,
         languageCode: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode? = nil,
         languageModelName: Swift.String? = nil,
+        languageOptions: Swift.String? = nil,
         mediaEncoding: TranscribeStreamingClientTypes.MediaEncoding? = nil,
         mediaSampleRateHertz: Swift.Int? = nil,
         partialResultsStability: TranscribeStreamingClientTypes.PartialResultsStability? = nil,
         piiEntityTypes: Swift.String? = nil,
+        preferredLanguage: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode? = nil,
         requestId: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod? = nil,
         vocabularyFilterName: Swift.String? = nil,
-        vocabularyName: Swift.String? = nil
+        vocabularyFilterNames: Swift.String? = nil,
+        vocabularyName: Swift.String? = nil,
+        vocabularyNames: Swift.String? = nil
     ) {
         self.callAnalyticsTranscriptResultStream = callAnalyticsTranscriptResultStream
         self.contentIdentificationType = contentIdentificationType
         self.contentRedactionType = contentRedactionType
         self.enablePartialResultsStabilization = enablePartialResultsStabilization
+        self.identifyLanguage = identifyLanguage
         self.languageCode = languageCode
         self.languageModelName = languageModelName
+        self.languageOptions = languageOptions
         self.mediaEncoding = mediaEncoding
         self.mediaSampleRateHertz = mediaSampleRateHertz
         self.partialResultsStability = partialResultsStability
         self.piiEntityTypes = piiEntityTypes
+        self.preferredLanguage = preferredLanguage
         self.requestId = requestId
         self.sessionId = sessionId
         self.vocabularyFilterMethod = vocabularyFilterMethod
         self.vocabularyFilterName = vocabularyFilterName
+        self.vocabularyFilterNames = vocabularyFilterNames
         self.vocabularyName = vocabularyName
+        self.vocabularyNames = vocabularyNames
     }
 }
 
@@ -2749,11 +2952,17 @@ extension StartCallAnalyticsStreamTranscriptionInput {
         if let enablePartialResultsStabilization = value.enablePartialResultsStabilization {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-enable-partial-results-stabilization", value: Swift.String(enablePartialResultsStabilization)))
         }
+        if let identifyLanguage = value.identifyLanguage {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-identify-language", value: Swift.String(identifyLanguage)))
+        }
         if let languageCode = value.languageCode {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-language-code", value: Swift.String(languageCode.rawValue)))
         }
         if let languageModelName = value.languageModelName {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-language-model-name", value: Swift.String(languageModelName)))
+        }
+        if let languageOptions = value.languageOptions {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-language-options", value: Swift.String(languageOptions)))
         }
         if let mediaEncoding = value.mediaEncoding {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-media-encoding", value: Swift.String(mediaEncoding.rawValue)))
@@ -2767,6 +2976,9 @@ extension StartCallAnalyticsStreamTranscriptionInput {
         if let piiEntityTypes = value.piiEntityTypes {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-pii-entity-types", value: Swift.String(piiEntityTypes)))
         }
+        if let preferredLanguage = value.preferredLanguage {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-preferred-language", value: Swift.String(preferredLanguage.rawValue)))
+        }
         if let sessionId = value.sessionId {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-session-id", value: Swift.String(sessionId)))
         }
@@ -2776,8 +2988,14 @@ extension StartCallAnalyticsStreamTranscriptionInput {
         if let vocabularyFilterName = value.vocabularyFilterName {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-vocabulary-filter-name", value: Swift.String(vocabularyFilterName)))
         }
+        if let vocabularyFilterNames = value.vocabularyFilterNames {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-vocabulary-filter-names", value: Swift.String(vocabularyFilterNames)))
+        }
         if let vocabularyName = value.vocabularyName {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-vocabulary-name", value: Swift.String(vocabularyName)))
+        }
+        if let vocabularyNames = value.vocabularyNames {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-vocabulary-names", value: Swift.String(vocabularyNames)))
         }
         return items
     }
@@ -2964,11 +3182,17 @@ extension StartCallAnalyticsStreamTranscriptionOutput {
         if let enablePartialResultsStabilizationHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-enable-partial-results-stabilization") {
             value.enablePartialResultsStabilization = Swift.Bool(enablePartialResultsStabilizationHeaderValue) ?? false
         }
+        if let identifyLanguageHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-identify-language") {
+            value.identifyLanguage = Swift.Bool(identifyLanguageHeaderValue) ?? false
+        }
         if let languageCodeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-language-code") {
             value.languageCode = TranscribeStreamingClientTypes.CallAnalyticsLanguageCode(rawValue: languageCodeHeaderValue)
         }
         if let languageModelNameHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-language-model-name") {
             value.languageModelName = languageModelNameHeaderValue
+        }
+        if let languageOptionsHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-language-options") {
+            value.languageOptions = languageOptionsHeaderValue
         }
         if let mediaEncodingHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-media-encoding") {
             value.mediaEncoding = TranscribeStreamingClientTypes.MediaEncoding(rawValue: mediaEncodingHeaderValue)
@@ -2982,6 +3206,9 @@ extension StartCallAnalyticsStreamTranscriptionOutput {
         if let piiEntityTypesHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-pii-entity-types") {
             value.piiEntityTypes = piiEntityTypesHeaderValue
         }
+        if let preferredLanguageHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-preferred-language") {
+            value.preferredLanguage = TranscribeStreamingClientTypes.CallAnalyticsLanguageCode(rawValue: preferredLanguageHeaderValue)
+        }
         if let requestIdHeaderValue = httpResponse.headers.value(for: "x-amzn-request-id") {
             value.requestId = requestIdHeaderValue
         }
@@ -2994,8 +3221,14 @@ extension StartCallAnalyticsStreamTranscriptionOutput {
         if let vocabularyFilterNameHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-vocabulary-filter-name") {
             value.vocabularyFilterName = vocabularyFilterNameHeaderValue
         }
+        if let vocabularyFilterNamesHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-vocabulary-filter-names") {
+            value.vocabularyFilterNames = vocabularyFilterNamesHeaderValue
+        }
         if let vocabularyNameHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-vocabulary-name") {
             value.vocabularyName = vocabularyNameHeaderValue
+        }
+        if let vocabularyNamesHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-vocabulary-names") {
+            value.vocabularyNames = vocabularyNamesHeaderValue
         }
         if case .stream(let stream) = httpResponse.body {
             let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
@@ -3306,11 +3539,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ServiceUnavailableException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3319,11 +3552,11 @@ extension ServiceUnavailableException {
     }
 }
 
-extension ConflictException {
+extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = ServiceUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3384,6 +3617,7 @@ extension TranscribeStreamingClientTypes.MedicalScribeInputStream {
                 try writer["ChannelDefinitions"].write(value.channelDefinitions, with: SmithyReadWrite.listWritingClosure(memberWritingClosure: TranscribeStreamingClientTypes.MedicalScribeChannelDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false))
                 try writer["EncryptionSettings"].write(value.encryptionSettings, with: TranscribeStreamingClientTypes.MedicalScribeEncryptionSettings.write(value:to:))
                 try writer["PostStreamAnalyticsSettings"].write(value.postStreamAnalyticsSettings, with: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsSettings.write(value:to:))
+                try writer["MedicalScribeContext"].write(value.medicalScribeContext, with: TranscribeStreamingClientTypes.MedicalScribeContext.write(value:to:))
                 payload = try writer.data()
             case .sdkUnknown(_):
                 throw Smithy.ClientError.unknownError("cannot serialize the unknown event type!")
@@ -3604,6 +3838,7 @@ extension TranscribeStreamingClientTypes.MedicalScribeStreamDetails {
         value.streamStatus = try reader["StreamStatus"].readIfPresent()
         value.postStreamAnalyticsSettings = try reader["PostStreamAnalyticsSettings"].readIfPresent(with: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsSettings.read(from:))
         value.postStreamAnalyticsResult = try reader["PostStreamAnalyticsResult"].readIfPresent(with: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsResult.read(from:))
+        value.medicalScribeContextProvided = try reader["MedicalScribeContextProvided"].readIfPresent()
         return value
     }
 }
@@ -3650,6 +3885,7 @@ extension TranscribeStreamingClientTypes.ClinicalNoteGenerationSettings {
 
     static func write(value: TranscribeStreamingClientTypes.ClinicalNoteGenerationSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["NoteTemplate"].write(value.noteTemplate)
         try writer["OutputBucketName"].write(value.outputBucketName)
     }
 
@@ -3657,6 +3893,7 @@ extension TranscribeStreamingClientTypes.ClinicalNoteGenerationSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeStreamingClientTypes.ClinicalNoteGenerationSettings()
         value.outputBucketName = try reader["OutputBucketName"].readIfPresent() ?? ""
+        value.noteTemplate = try reader["NoteTemplate"].readIfPresent()
         return value
     }
 }
@@ -3792,6 +4029,19 @@ extension TranscribeStreamingClientTypes.UtteranceEvent {
         value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: TranscribeStreamingClientTypes.CallAnalyticsEntity.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sentiment = try reader["Sentiment"].readIfPresent()
         value.issuesDetected = try reader["IssuesDetected"].readListIfPresent(memberReadingClosure: TranscribeStreamingClientTypes.IssueDetected.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.languageIdentification = try reader["LanguageIdentification"].readListIfPresent(memberReadingClosure: TranscribeStreamingClientTypes.CallAnalyticsLanguageWithScore.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TranscribeStreamingClientTypes.CallAnalyticsLanguageWithScore {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeStreamingClientTypes.CallAnalyticsLanguageWithScore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeStreamingClientTypes.CallAnalyticsLanguageWithScore()
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.score = try reader["Score"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4100,11 +4350,28 @@ extension TranscribeStreamingClientTypes.MedicalScribeConfigurationEvent {
         guard let value else { return }
         try writer["ChannelDefinitions"].writeList(value.channelDefinitions, memberWritingClosure: TranscribeStreamingClientTypes.MedicalScribeChannelDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EncryptionSettings"].write(value.encryptionSettings, with: TranscribeStreamingClientTypes.MedicalScribeEncryptionSettings.write(value:to:))
+        try writer["MedicalScribeContext"].write(value.medicalScribeContext, with: TranscribeStreamingClientTypes.MedicalScribeContext.write(value:to:))
         try writer["PostStreamAnalyticsSettings"].write(value.postStreamAnalyticsSettings, with: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsSettings.write(value:to:))
         try writer["ResourceAccessRoleArn"].write(value.resourceAccessRoleArn)
         try writer["VocabularyFilterMethod"].write(value.vocabularyFilterMethod)
         try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
         try writer["VocabularyName"].write(value.vocabularyName)
+    }
+}
+
+extension TranscribeStreamingClientTypes.MedicalScribeContext {
+
+    static func write(value: TranscribeStreamingClientTypes.MedicalScribeContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PatientContext"].write(value.patientContext, with: TranscribeStreamingClientTypes.MedicalScribePatientContext.write(value:to:))
+    }
+}
+
+extension TranscribeStreamingClientTypes.MedicalScribePatientContext {
+
+    static func write(value: TranscribeStreamingClientTypes.MedicalScribePatientContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Pronouns"].write(value.pronouns)
     }
 }
 

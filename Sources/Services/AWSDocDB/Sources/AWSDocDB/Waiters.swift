@@ -28,7 +28,7 @@ extension DocDBClient {
                     let dbInstanceStatus = original.dbInstanceStatus
                     return dbInstanceStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Swift.Result<DescribeDBInstancesOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "DBInstances[].DBInstanceStatus"
@@ -122,7 +122,7 @@ extension DocDBClient {
                     let dbInstanceStatus = original.dbInstanceStatus
                     return dbInstanceStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeDBInstancesInput, result: Swift.Result<DescribeDBInstancesOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }

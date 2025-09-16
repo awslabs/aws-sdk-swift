@@ -171,6 +171,7 @@ extension NetworkFlowMonitorClientTypes {
 
     public enum MonitorLocalResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsAz
+        case awsRegion
         case awsSubnet
         case awsVpc
         case sdkUnknown(Swift.String)
@@ -178,6 +179,7 @@ extension NetworkFlowMonitorClientTypes {
         public static var allCases: [MonitorLocalResourceType] {
             return [
                 .awsAz,
+                .awsRegion,
                 .awsSubnet,
                 .awsVpc
             ]
@@ -191,6 +193,7 @@ extension NetworkFlowMonitorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .awsAz: return "AWS::AvailabilityZone"
+            case .awsRegion: return "AWS::Region"
             case .awsSubnet: return "AWS::EC2::Subnet"
             case .awsVpc: return "AWS::EC2::VPC"
             case let .sdkUnknown(s): return s
@@ -201,12 +204,12 @@ extension NetworkFlowMonitorClientTypes {
 
 extension NetworkFlowMonitorClientTypes {
 
-    /// A local resource is the host where the agent is installed. Local resources can be a a subnet, a VPC, or an Availability Zone.
+    /// A local resource is the host where the agent is installed. Local resources can be a a subnet, a VPC, an Availability Zone, or an Amazon Web Services service.
     public struct MonitorLocalResource: Swift.Sendable {
-        /// The identifier of the local resource, such as an ARN.
+        /// The identifier of the local resource. For a VPC or subnet, this identifier is the VPC Amazon Resource Name (ARN) or subnet ARN. For an Availability Zone, this identifier is the AZ name, for example, us-west-2b.
         /// This member is required.
         public var identifier: Swift.String?
-        /// The type of the local resource. Valid values are AWS::EC2::VPCAWS::AvailabilityZone or AWS::EC2::Subnet.
+        /// The type of the local resource. Valid values are AWS::EC2::VPCAWS::AvailabilityZone, AWS::EC2::Subnet, or AWS::Region.
         /// This member is required.
         public var type: NetworkFlowMonitorClientTypes.MonitorLocalResourceType?
 
@@ -224,6 +227,7 @@ extension NetworkFlowMonitorClientTypes {
 
     public enum MonitorRemoteResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsAz
+        case awsRegion
         case awsService
         case awsSubnet
         case awsVpc
@@ -232,6 +236,7 @@ extension NetworkFlowMonitorClientTypes {
         public static var allCases: [MonitorRemoteResourceType] {
             return [
                 .awsAz,
+                .awsRegion,
                 .awsService,
                 .awsSubnet,
                 .awsVpc
@@ -246,6 +251,7 @@ extension NetworkFlowMonitorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .awsAz: return "AWS::AvailabilityZone"
+            case .awsRegion: return "AWS::Region"
             case .awsService: return "AWS::AWSService"
             case .awsSubnet: return "AWS::EC2::Subnet"
             case .awsVpc: return "AWS::EC2::VPC"
@@ -257,12 +263,12 @@ extension NetworkFlowMonitorClientTypes {
 
 extension NetworkFlowMonitorClientTypes {
 
-    /// A remote resource is the other endpoint in a network flow. That is, one endpoint is the local resource and the other is the remote resource. Remote resources can be a a subnet, a VPC, an Availability Zone, or an Amazon Web Services service.
+    /// A remote resource is the other endpoint in a network flow. That is, one endpoint is the local resource and the other is the remote resource. Remote resources can be a a subnet, a VPC, an Availability Zone, an Amazon Web Services service, or an Amazon Web Services Region. When a remote resource is an Amazon Web Services Region, Network Flow Monitor provides network performance measurements up to the edge of the Region that you specify.
     public struct MonitorRemoteResource: Swift.Sendable {
-        /// The identifier of the remote resource, such as an ARN.
+        /// The identifier of the remote resource. For a VPC or subnet, this identifier is the VPC Amazon Resource Name (ARN) or subnet ARN. For an Availability Zone, this identifier is the AZ name, for example, us-west-2b. For an Amazon Web Services Region , this identifier is the Region name, for example, us-west-2.
         /// This member is required.
         public var identifier: Swift.String?
-        /// The type of the remote resource. Valid values are AWS::EC2::VPCAWS::AvailabilityZone, AWS::EC2::Subnet, or AWS::AWSService.
+        /// The type of the remote resource. Valid values are AWS::EC2::VPCAWS::AvailabilityZone, AWS::EC2::Subnet, AWS::AWSService, or AWS::Region.
         /// This member is required.
         public var type: NetworkFlowMonitorClientTypes.MonitorRemoteResourceType?
 
@@ -279,13 +285,21 @@ extension NetworkFlowMonitorClientTypes {
 public struct CreateMonitorInput: Swift.Sendable {
     /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-    /// The local resources to monitor. A local resource, in a bi-directional flow of a workload, is the host where the agent is installed. For example, if a workload consists of an interaction between a web service and a backend database (for example, Amazon Relational Database Service (RDS)), the EC2 instance hosting the web service, which also runs the agent, is the local resource.
+    /// The local resources to monitor. A local resource in a workload is the location of the host, or hosts, where the Network Flow Monitor agent is installed. For example, if a workload consists of an interaction between a web service and a backend database (for example, Amazon Dynamo DB), the subnet with the EC2 instance that hosts the web service, which also runs the agent, is the local resource. Be aware that all local resources must belong to the current Region.
     /// This member is required.
     public var localResources: [NetworkFlowMonitorClientTypes.MonitorLocalResource]?
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
-    /// The remote resources to monitor. A remote resource is the other endpoint in the bi-directional flow of a workload, with a local resource. For example, Amazon Relational Database Service (RDS) can be a remote resource.
+    /// The remote resources to monitor. A remote resource is the other endpoint in the bi-directional flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource. When you specify remote resources, be aware that specific combinations of resources are allowed and others are not, including the following constraints:
+    ///
+    /// * All remote resources that you specify must all belong to a single Region.
+    ///
+    /// * If you specify Amazon Web Services services as remote resources, any other remote resources that you specify must be in the current Region.
+    ///
+    /// * When you specify a remote resource for another Region, you can only specify the Region resource type. You cannot specify a subnet, VPC, or Availability Zone in another Region.
+    ///
+    /// * If you leave the RemoteResources parameter empty, the monitor will include all network flows that terminate in the current Region.
     public var remoteResources: [NetworkFlowMonitorClientTypes.MonitorRemoteResource]?
     /// The Amazon Resource Name (ARN) of the scope for the monitor.
     /// This member is required.
@@ -352,7 +366,7 @@ public struct CreateMonitorOutput: Swift.Sendable {
     /// The date and time when the monitor was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
-    /// The local resources to monitor. A local resource, in a bi-directional flow of a workload, is the host where the agent is installed.
+    /// The local resources to monitor. A local resource in a workload is the location of hosts where the Network Flow Monitor agent is installed.
     /// This member is required.
     public var localResources: [NetworkFlowMonitorClientTypes.MonitorLocalResource]?
     /// The last date and time that the monitor was modified.
@@ -377,7 +391,7 @@ public struct CreateMonitorOutput: Swift.Sendable {
     /// * DELETING: The monitor is in the process of being deleted.
     /// This member is required.
     public var monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus?
-    /// The remote resources to monitor. A remote resource is the other endpoint in the bi-directional flow of a workload, with a local resource. For example, Amazon Relational Database Service (RDS) can be a remote resource. The remote resource is identified by its ARN or an identifier.
+    /// The remote resources to monitor. A remote resource is the other endpoint specified for the network flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource.
     /// This member is required.
     public var remoteResources: [NetworkFlowMonitorClientTypes.MonitorRemoteResource]?
     /// The tags for a monitor.
@@ -442,12 +456,12 @@ extension NetworkFlowMonitorClientTypes {
 
 extension NetworkFlowMonitorClientTypes {
 
-    /// A target identifier is a pair of identifying information for a resource that is included in a target. A target identifier includes the target ID and the target type.
+    /// A target identifier is a pair of identifying information for a scope that is included in a target. A target identifier is made up of a target ID and a target type. Currently the target ID is always an account ID and the target type is always ACCOUNT.
     public struct TargetIdentifier: Swift.Sendable {
-        /// The identifier for a target.
+        /// The identifier for a target, which is currently always an account ID .
         /// This member is required.
         public var targetId: NetworkFlowMonitorClientTypes.TargetId?
-        /// The type of a target. A target type is currently always ACCOUNT because a target is currently a single Amazon Web Services account.
+        /// The type of a target. A target type is currently always ACCOUNT.
         /// This member is required.
         public var targetType: NetworkFlowMonitorClientTypes.TargetType?
 
@@ -463,12 +477,12 @@ extension NetworkFlowMonitorClientTypes {
 
 extension NetworkFlowMonitorClientTypes {
 
-    /// A target resource in a scope. The resource is identified by a Region and a target identifier, which includes a target ID and a target type.
+    /// A target resource in a scope. The resource is identified by a Region and an account, defined by a target identifier. A target identifier is made up of a target ID (currently always an account ID) and a target type (currently always ACCOUNT).
     public struct TargetResource: Swift.Sendable {
-        /// The Amazon Web Services Region where the target resource is located.
+        /// The Amazon Web Services Region for the scope.
         /// This member is required.
         public var region: Swift.String?
-        /// A target identifier is a pair of identifying information for a resource that is included in a target. A target identifier includes the target ID and the target type.
+        /// A target identifier is a pair of identifying information for a scope. A target identifier is made up of a targetID (currently always an account ID) and a targetType (currently always an account).
         /// This member is required.
         public var targetIdentifier: NetworkFlowMonitorClientTypes.TargetIdentifier?
 
@@ -487,7 +501,7 @@ public struct CreateScopeInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The tags for a scope. You can add a maximum of 200 tags.
     public var tags: [Swift.String: Swift.String]?
-    /// The targets to define the scope to be monitored. Currently, a target is an Amazon Web Services account.
+    /// The targets to define the scope to be monitored. A target is an array of targetResources, which are currently Region-account pairs, defined by targetResource constructs.
     /// This member is required.
     public var targets: [NetworkFlowMonitorClientTypes.TargetResource]?
 
@@ -505,6 +519,8 @@ public struct CreateScopeInput: Swift.Sendable {
 extension NetworkFlowMonitorClientTypes {
 
     public enum ScopeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deactivated
+        case deactivating
         case failed
         case inProgress
         case succeeded
@@ -512,6 +528,8 @@ extension NetworkFlowMonitorClientTypes {
 
         public static var allCases: [ScopeStatus] {
             return [
+                .deactivated,
+                .deactivating,
                 .failed,
                 .inProgress,
                 .succeeded
@@ -525,6 +543,8 @@ extension NetworkFlowMonitorClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .deactivated: return "DEACTIVATED"
+            case .deactivating: return "DEACTIVATING"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
             case .succeeded: return "SUCCEEDED"
@@ -541,7 +561,7 @@ public struct CreateScopeOutput: Swift.Sendable {
     /// The identifier for the scope that includes the resources you want to get metrics for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     /// This member is required.
     public var scopeId: Swift.String?
-    /// The status for a call to create a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, or FAILED.
+    /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
     /// This member is required.
     public var status: NetworkFlowMonitorClientTypes.ScopeStatus?
     /// The tags for a scope.
@@ -623,6 +643,7 @@ extension NetworkFlowMonitorClientTypes {
         case amazonDynamodb
         case amazonS3
         case interAz
+        case interRegion
         case interVpc
         case intraAz
         case unclassified
@@ -633,6 +654,7 @@ extension NetworkFlowMonitorClientTypes {
                 .amazonDynamodb,
                 .amazonS3,
                 .interAz,
+                .interRegion,
                 .interVpc,
                 .intraAz,
                 .unclassified
@@ -649,6 +671,7 @@ extension NetworkFlowMonitorClientTypes {
             case .amazonDynamodb: return "AMAZON_DYNAMODB"
             case .amazonS3: return "AMAZON_S3"
             case .interAz: return "INTER_AZ"
+            case .interRegion: return "INTER_REGION"
             case .interVpc: return "INTER_VPC"
             case .intraAz: return "INTRA_AZ"
             case .unclassified: return "UNCLASSIFIED"
@@ -674,7 +697,7 @@ public struct GetMonitorOutput: Swift.Sendable {
     /// The date and time when the monitor was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
-    /// The local resources for this monitor.
+    /// The local resources to monitor. A local resource in a workload is the location of the hosts where the Network Flow Monitor agent is installed.
     /// This member is required.
     public var localResources: [NetworkFlowMonitorClientTypes.MonitorLocalResource]?
     /// The date and time when the monitor was last modified.
@@ -699,7 +722,7 @@ public struct GetMonitorOutput: Swift.Sendable {
     /// * DELETING: The monitor is in the process of being deleted.
     /// This member is required.
     public var monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus?
-    /// The remote resources for this monitor.
+    /// The remote resources to monitor. A remote resource is the other endpoint specified for the network flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource.
     /// This member is required.
     public var remoteResources: [NetworkFlowMonitorClientTypes.MonitorRemoteResource]?
     /// The tags for a monitor.
@@ -734,7 +757,7 @@ public struct GetQueryResultsMonitorTopContributorsInput: Swift.Sendable {
     public var monitorName: Swift.String?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
 
@@ -790,7 +813,7 @@ extension NetworkFlowMonitorClientTypes {
 
     /// A section of the network that a network flow has traveled through.
     public struct TraversedComponent: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of a tranversed component.
+        /// The Amazon Resource Name (ARN) of a traversed component.
         public var componentArn: Swift.String?
         /// The identifier for the traversed component.
         public var componentId: Swift.String?
@@ -822,6 +845,8 @@ extension NetworkFlowMonitorClientTypes {
         /// * INTRA_AZ: Top contributor network flows within a single Availability Zone
         ///
         /// * INTER_AZ: Top contributor network flows between Availability Zones
+        ///
+        /// * INTER_REGION: Top contributor network flows between Regions (to the edge of another Region)
         ///
         /// * INTER_VPC: Top contributor network flows between VPCs
         ///
@@ -1062,7 +1087,7 @@ public struct GetQueryResultsWorkloadInsightsTopContributorsInput: Swift.Sendabl
     public var maxResults: Swift.Int?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -1100,7 +1125,7 @@ extension NetworkFlowMonitorClientTypes {
         public var localVpcArn: Swift.String?
         /// The identifier for the VPC for the local resource.
         public var localVpcId: Swift.String?
-        /// The identifier of a remote resource.
+        /// The identifier of a remote resource. For a VPC or subnet, this identifier is the VPC Amazon Resource Name (ARN) or subnet ARN. For an Availability Zone, this identifier is the AZ name, for example, us-west-2b. For an Amazon Web Services Region , this identifier is the Region name, for example, us-west-2.
         public var remoteIdentifier: Swift.String?
         /// The value for a metric.
         public var value: Swift.Int?
@@ -1149,7 +1174,7 @@ public struct GetQueryResultsWorkloadInsightsTopContributorsDataInput: Swift.Sen
     public var maxResults: Swift.Int?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -1390,12 +1415,12 @@ public struct GetScopeOutput: Swift.Sendable {
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
     /// This member is required.
     public var scopeId: Swift.String?
-    /// The status of a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, or FAILED.
+    /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
     /// This member is required.
     public var status: NetworkFlowMonitorClientTypes.ScopeStatus?
     /// The tags for a scope.
     public var tags: [Swift.String: Swift.String]?
-    /// The targets for a scope
+    /// The targets to define the scope to be monitored. A target is an array of targetResources, which are currently Region-account pairs, defined by targetResource constructs.
     /// This member is required.
     public var targets: [NetworkFlowMonitorClientTypes.TargetResource]?
 
@@ -1445,7 +1470,7 @@ public struct ListMonitorsInput: Swift.Sendable {
 
 extension NetworkFlowMonitorClientTypes {
 
-    /// A summary of information about a monitor, includ the ARN, the name, and the status.
+    /// A summary of information about a monitor, including the ARN, the name, and the status.
     public struct MonitorSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the monitor.
         /// This member is required.
@@ -1517,10 +1542,10 @@ extension NetworkFlowMonitorClientTypes {
         /// The Amazon Resource Name (ARN) of the scope.
         /// This member is required.
         public var scopeArn: Swift.String?
-        /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
+        /// The identifier for the scope that includes the resources that you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for the accounts in a scope.
         /// This member is required.
         public var scopeId: Swift.String?
-        /// The status of a scope. The status can be one of the following, depending on the state of scope creation: SUCCEEDED, IN_PROGRESS, or FAILED.
+        /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
         /// This member is required.
         public var status: NetworkFlowMonitorClientTypes.ScopeStatus?
 
@@ -1617,9 +1642,13 @@ public struct StartQueryMonitorTopContributorsInput: Swift.Sendable {
     ///
     /// * INTER_AZ: Top contributor network flows between Availability Zones
     ///
+    /// * INTER_REGION: Top contributor network flows between Regions (to the edge of another Region)
+    ///
     /// * INTER_VPC: Top contributor network flows between VPCs
     ///
-    /// * AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services
+    /// * AMAZON_S3: Top contributor network flows to or from Amazon S3
+    ///
+    /// * AMAZON_DYNAMODB: Top contributor network flows to or from Amazon Dynamo DB
     ///
     /// * UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
     /// This member is required.
@@ -1629,13 +1658,13 @@ public struct StartQueryMonitorTopContributorsInput: Swift.Sendable {
     public var endTime: Foundation.Date?
     /// The maximum number of top contributors to return.
     public var limit: Swift.Int?
-    /// The metric that you want to query top contributors for. That is, you can specify this metric to return the top contributor network flows, for this type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
+    /// The metric that you want to query top contributors for. That is, you can specify a metric with this call and return the top contributor network flows, for that type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
     /// This member is required.
     public var metricName: NetworkFlowMonitorClientTypes.MonitorMetric?
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
-    /// The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
+    /// The timestamp that is the date and time that is the beginning of the period that you want to retrieve results for with your query.
     /// This member is required.
     public var startTime: Foundation.Date?
 
@@ -1672,7 +1701,7 @@ public struct StopQueryMonitorTopContributorsInput: Swift.Sendable {
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
 
@@ -1693,16 +1722,16 @@ public struct StopQueryMonitorTopContributorsOutput: Swift.Sendable {
 public struct UpdateMonitorInput: Swift.Sendable {
     /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-    /// The local resources to add, as an array of resources with identifiers and types.
+    /// Additional local resources to specify network flows for a monitor, as an array of resources with identifiers and types. A local resource in a workload is the location of hosts where the Network Flow Monitor agent is installed.
     public var localResourcesToAdd: [NetworkFlowMonitorClientTypes.MonitorLocalResource]?
     /// The local resources to remove, as an array of resources with identifiers and types.
     public var localResourcesToRemove: [NetworkFlowMonitorClientTypes.MonitorLocalResource]?
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
-    /// The remove resources to add, as an array of resources with identifiers and types.
+    /// The remote resources to add, as an array of resources with identifiers and types. A remote resource is the other endpoint in the flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource.
     public var remoteResourcesToAdd: [NetworkFlowMonitorClientTypes.MonitorRemoteResource]?
-    /// The remove resources to remove, as an array of resources with identifiers and types.
+    /// The remote resources to remove, as an array of resources with identifiers and types. A remote resource is the other endpoint specified for the network flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource.
     public var remoteResourcesToRemove: [NetworkFlowMonitorClientTypes.MonitorRemoteResource]?
 
     public init(
@@ -1726,7 +1755,7 @@ public struct UpdateMonitorOutput: Swift.Sendable {
     /// The date and time when the monitor was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
-    /// The local resources updated for a monitor, as an array of resources with identifiers and types.
+    /// The local resources to monitor. A local resource in a workload is the location of hosts where the Network Flow Monitor agent is installed.
     /// This member is required.
     public var localResources: [NetworkFlowMonitorClientTypes.MonitorLocalResource]?
     /// The last date and time that the monitor was modified.
@@ -1751,7 +1780,7 @@ public struct UpdateMonitorOutput: Swift.Sendable {
     /// * DELETING: The monitor is in the process of being deleted.
     /// This member is required.
     public var monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus?
-    /// The remote resources updated for a monitor, as an array of resources with identifiers and types.
+    /// The remote resources updated for a monitor, as an array of resources with identifiers and types. A remote resource is the other endpoint specified for the network flow of a workload, with a local resource. For example, Amazon Dynamo DB can be a remote resource.
     /// This member is required.
     public var remoteResources: [NetworkFlowMonitorClientTypes.MonitorRemoteResource]?
     /// The tags for a monitor.
@@ -1817,6 +1846,8 @@ public struct StartQueryWorkloadInsightsTopContributorsInput: Swift.Sendable {
     ///
     /// * INTER_AZ: Top contributor network flows between Availability Zones
     ///
+    /// * INTER_REGION: Top contributor network flows between Regions (to the edge of another Region)
+    ///
     /// * INTER_VPC: Top contributor network flows between VPCs
     ///
     /// * AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services
@@ -1835,7 +1866,7 @@ public struct StartQueryWorkloadInsightsTopContributorsInput: Swift.Sendable {
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
     /// This member is required.
     public var scopeId: Swift.String?
-    /// The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
+    /// The timestamp that is the date and time that is the beginning of the period that you want to retrieve results for with your query.
     /// This member is required.
     public var startTime: Foundation.Date?
 
@@ -1875,6 +1906,8 @@ public struct StartQueryWorkloadInsightsTopContributorsDataInput: Swift.Sendable
     ///
     /// * INTER_AZ: Top contributor network flows between Availability Zones
     ///
+    /// * INTER_REGION: Top contributor network flows between Regions (to the edge of another Region)
+    ///
     /// * INTER_VPC: Top contributor network flows between VPCs
     ///
     /// * AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services
@@ -1891,7 +1924,7 @@ public struct StartQueryWorkloadInsightsTopContributorsDataInput: Swift.Sendable
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     /// This member is required.
     public var scopeId: Swift.String?
-    /// The timestamp that is the date and time beginning of the period that you want to retrieve results for with your query.
+    /// The timestamp that is the date and time that is the beginning of the period that you want to retrieve results for with your query.
     /// This member is required.
     public var startTime: Foundation.Date?
 
@@ -1923,7 +1956,7 @@ public struct StartQueryWorkloadInsightsTopContributorsDataOutput: Swift.Sendabl
 }
 
 public struct StopQueryWorkloadInsightsTopContributorsInput: Swift.Sendable {
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -1945,7 +1978,7 @@ public struct StopQueryWorkloadInsightsTopContributorsOutput: Swift.Sendable {
 }
 
 public struct StopQueryWorkloadInsightsTopContributorsDataInput: Swift.Sendable {
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -1993,7 +2026,7 @@ public struct UpdateScopeOutput: Swift.Sendable {
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     /// This member is required.
     public var scopeId: Swift.String?
-    /// The status for a call to update a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, or FAILED.
+    /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
     /// This member is required.
     public var status: NetworkFlowMonitorClientTypes.ScopeStatus?
     /// The tags for a scope.
@@ -2858,6 +2891,7 @@ enum DeleteMonitorOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -2876,7 +2910,9 @@ enum DeleteScopeOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3024,6 +3060,7 @@ enum GetScopeOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3259,7 +3296,9 @@ enum UpdateScopeOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3268,37 +3307,24 @@ enum UpdateScopeOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3320,11 +3346,11 @@ extension InternalServerException {
     }
 }
 
-extension AccessDeniedException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3338,6 +3364,19 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

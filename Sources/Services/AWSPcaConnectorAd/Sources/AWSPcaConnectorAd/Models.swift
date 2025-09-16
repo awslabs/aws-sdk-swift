@@ -744,8 +744,11 @@ extension PcaConnectorAdClientTypes {
 extension PcaConnectorAdClientTypes {
 
     public enum ConnectorStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case caCertificateRegistrationFailed
         case directoryAccessDenied
+        case insufficientFreeAddresses
         case internalFailure
+        case invalidSubnetIpProtocol
         case privatecaAccessDenied
         case privatecaResourceNotFound
         case securityGroupNotInVpc
@@ -756,8 +759,11 @@ extension PcaConnectorAdClientTypes {
 
         public static var allCases: [ConnectorStatusReason] {
             return [
+                .caCertificateRegistrationFailed,
                 .directoryAccessDenied,
+                .insufficientFreeAddresses,
                 .internalFailure,
+                .invalidSubnetIpProtocol,
                 .privatecaAccessDenied,
                 .privatecaResourceNotFound,
                 .securityGroupNotInVpc,
@@ -774,8 +780,11 @@ extension PcaConnectorAdClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .caCertificateRegistrationFailed: return "CA_CERTIFICATE_REGISTRATION_FAILED"
             case .directoryAccessDenied: return "DIRECTORY_ACCESS_DENIED"
+            case .insufficientFreeAddresses: return "INSUFFICIENT_FREE_ADDRESSES"
             case .internalFailure: return "INTERNAL_FAILURE"
+            case .invalidSubnetIpProtocol: return "INVALID_SUBNET_IP_PROTOCOL"
             case .privatecaAccessDenied: return "PRIVATECA_ACCESS_DENIED"
             case .privatecaResourceNotFound: return "PRIVATECA_RESOURCE_NOT_FOUND"
             case .securityGroupNotInVpc: return "SECURITY_GROUP_NOT_IN_VPC"
@@ -790,15 +799,48 @@ extension PcaConnectorAdClientTypes {
 
 extension PcaConnectorAdClientTypes {
 
+    public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpAddressType] {
+            return [
+                .dualstack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "DUALSTACK"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PcaConnectorAdClientTypes {
+
     /// Information about your VPC and security groups used with the connector.
     public struct VpcInformation: Swift.Sendable {
+        /// The VPC IP address type.
+        public var ipAddressType: PcaConnectorAdClientTypes.IpAddressType?
         /// The security groups used with the connector. You can use a maximum of 4 security groups with a connector.
         /// This member is required.
         public var securityGroupIds: [Swift.String]?
 
         public init(
+            ipAddressType: PcaConnectorAdClientTypes.IpAddressType? = nil,
             securityGroupIds: [Swift.String]? = nil
         ) {
+            self.ipAddressType = ipAddressType
             self.securityGroupIds = securityGroupIds
         }
     }
@@ -1036,6 +1078,7 @@ extension PcaConnectorAdClientTypes {
 
     public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fieldValidationFailed
+        case invalidCaSubject
         case invalidPermission
         case invalidState
         case mismatchedConnector
@@ -1048,6 +1091,7 @@ extension PcaConnectorAdClientTypes {
         public static var allCases: [ValidationExceptionReason] {
             return [
                 .fieldValidationFailed,
+                .invalidCaSubject,
                 .invalidPermission,
                 .invalidState,
                 .mismatchedConnector,
@@ -1066,6 +1110,7 @@ extension PcaConnectorAdClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .fieldValidationFailed: return "FIELD_VALIDATION_FAILED"
+            case .invalidCaSubject: return "INVALID_CA_SUBJECT"
             case .invalidPermission: return "INVALID_PERMISSION"
             case .invalidState: return "INVALID_STATE"
             case .mismatchedConnector: return "MISMATCHED_CONNECTOR"
@@ -1118,7 +1163,7 @@ public struct CreateConnectorInput: Swift.Sendable {
     public var directoryId: Swift.String?
     /// Metadata assigned to a connector consisting of a key-value pair.
     public var tags: [Swift.String: Swift.String]?
-    /// Security group IDs that describe the inbound and outbound rules.
+    /// Information about your VPC and security groups used with the connector.
     /// This member is required.
     public var vpcInformation: PcaConnectorAdClientTypes.VpcInformation?
 
@@ -2579,6 +2624,7 @@ extension PcaConnectorAdClientTypes {
         case directoryResourceNotFound
         case internalFailure
         case spnExistsOnDifferentAdObject
+        case spnLimitExceeded
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ServicePrincipalNameStatusReason] {
@@ -2587,7 +2633,8 @@ extension PcaConnectorAdClientTypes {
                 .directoryNotReachable,
                 .directoryResourceNotFound,
                 .internalFailure,
-                .spnExistsOnDifferentAdObject
+                .spnExistsOnDifferentAdObject,
+                .spnLimitExceeded
             ]
         }
 
@@ -2603,6 +2650,7 @@ extension PcaConnectorAdClientTypes {
             case .directoryResourceNotFound: return "DIRECTORY_RESOURCE_NOT_FOUND"
             case .internalFailure: return "INTERNAL_FAILURE"
             case .spnExistsOnDifferentAdObject: return "SPN_EXISTS_ON_DIFFERENT_AD_OBJECT"
+            case .spnLimitExceeded: return "SPN_LIMIT_EXCEEDED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4270,6 +4318,19 @@ extension ConflictException {
     }
 }
 
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
@@ -4278,6 +4339,23 @@ extension ResourceNotFoundException {
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
         value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["QuotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4300,19 +4378,6 @@ extension ThrottlingException {
     }
 }
 
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ValidationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
@@ -4320,23 +4385,6 @@ extension ValidationException {
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.reason = try reader["Reason"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.properties.quotaCode = try reader["QuotaCode"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
-        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4366,12 +4414,14 @@ extension PcaConnectorAdClientTypes.VpcInformation {
 
     static func write(value: PcaConnectorAdClientTypes.VpcInformation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.VpcInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PcaConnectorAdClientTypes.VpcInformation()
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }

@@ -3472,6 +3472,22 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes {
 
+    /// Settings parameters for the error logs, whether it is enabled or disabled.
+    public struct ErrorLogSettings: Swift.Sendable {
+        /// Settings parameters for the error logs, when it is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
     /// Provides the bot parameters required for importing a bot.
     public struct BotImportSpecification: Swift.Sendable {
         /// The name that Amazon Lex should use for the bot.
@@ -3482,6 +3498,8 @@ extension LexModelsV2ClientTypes {
         /// By default, data stored by Amazon Lex is encrypted. The DataPrivacy structure provides settings that determine how Amazon Lex handles special cases of securing the data for your bot.
         /// This member is required.
         public var dataPrivacy: LexModelsV2ClientTypes.DataPrivacy?
+        /// Allows you to configure destinations where error logs will be published during the bot import process.
+        public var errorLogSettings: LexModelsV2ClientTypes.ErrorLogSettings?
         /// The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds.
         public var idleSessionTTLInSeconds: Swift.Int?
         /// The Amazon Resource Name (ARN) of the IAM role used to build and run the bot.
@@ -3494,6 +3512,7 @@ extension LexModelsV2ClientTypes {
             botName: Swift.String? = nil,
             botTags: [Swift.String: Swift.String]? = nil,
             dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
+            errorLogSettings: LexModelsV2ClientTypes.ErrorLogSettings? = nil,
             idleSessionTTLInSeconds: Swift.Int? = nil,
             roleArn: Swift.String? = nil,
             testBotAliasTags: [Swift.String: Swift.String]? = nil
@@ -3501,6 +3520,7 @@ extension LexModelsV2ClientTypes {
             self.botName = botName
             self.botTags = botTags
             self.dataPrivacy = dataPrivacy
+            self.errorLogSettings = errorLogSettings
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.roleArn = roleArn
             self.testBotAliasTags = testBotAliasTags
@@ -5496,6 +5516,8 @@ public struct CreateBotInput: Swift.Sendable {
     public var dataPrivacy: LexModelsV2ClientTypes.DataPrivacy?
     /// A description of the bot. It appears in lists to help you identify a particular bot.
     public var description: Swift.String?
+    /// Specifies the configuration for error logging during bot creation.
+    public var errorLogSettings: LexModelsV2ClientTypes.ErrorLogSettings?
     /// The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds.
     /// This member is required.
     public var idleSessionTTLInSeconds: Swift.Int?
@@ -5512,6 +5534,7 @@ public struct CreateBotInput: Swift.Sendable {
         botType: LexModelsV2ClientTypes.BotType? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
+        errorLogSettings: LexModelsV2ClientTypes.ErrorLogSettings? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
         testBotAliasTags: [Swift.String: Swift.String]? = nil
@@ -5522,6 +5545,7 @@ public struct CreateBotInput: Swift.Sendable {
         self.botType = botType
         self.dataPrivacy = dataPrivacy
         self.description = description
+        self.errorLogSettings = errorLogSettings
         self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
         self.roleArn = roleArn
         self.testBotAliasTags = testBotAliasTags
@@ -5547,6 +5571,8 @@ public struct CreateBotOutput: Swift.Sendable {
     public var dataPrivacy: LexModelsV2ClientTypes.DataPrivacy?
     /// The description specified for the bot.
     public var description: Swift.String?
+    /// Specifies configuration settings for delivering error logs to Cloudwatch Logs in an Amazon Lex bot response.
+    public var errorLogSettings: LexModelsV2ClientTypes.ErrorLogSettings?
     /// The session idle time specified for the bot.
     public var idleSessionTTLInSeconds: Swift.Int?
     /// The IAM role specified for the bot.
@@ -5564,6 +5590,7 @@ public struct CreateBotOutput: Swift.Sendable {
         creationDateTime: Foundation.Date? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
+        errorLogSettings: LexModelsV2ClientTypes.ErrorLogSettings? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
         testBotAliasTags: [Swift.String: Swift.String]? = nil
@@ -5577,6 +5604,7 @@ public struct CreateBotOutput: Swift.Sendable {
         self.creationDateTime = creationDateTime
         self.dataPrivacy = dataPrivacy
         self.description = description
+        self.errorLogSettings = errorLogSettings
         self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
         self.roleArn = roleArn
         self.testBotAliasTags = testBotAliasTags
@@ -5693,6 +5721,22 @@ public struct CreateBotAliasOutput: Swift.Sendable {
 
 extension LexModelsV2ClientTypes {
 
+    /// Specifies whether the assisted nlu feature is turned on or off.
+    public struct NluImprovementSpecification: Swift.Sendable {
+        /// Specifies whether the assisted nlu feature is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init(
+            enabled: Swift.Bool = false
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
     /// Contains specifications for the assisted slot resolution feature.
     public struct SlotResolutionImprovementSpecification: Swift.Sendable {
         /// An object containing information about the Amazon Bedrock model used to assist slot resolution.
@@ -5715,12 +5759,16 @@ extension LexModelsV2ClientTypes {
 
     /// Contains specifications about the Amazon Lex runtime generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
     public struct RuntimeSettings: Swift.Sendable {
+        /// An object containing specifications for the assisted nlu feature.
+        public var nluImprovement: LexModelsV2ClientTypes.NluImprovementSpecification?
         /// An object containing specifications for the assisted slot resolution feature.
         public var slotResolutionImprovement: LexModelsV2ClientTypes.SlotResolutionImprovementSpecification?
 
         public init(
+            nluImprovement: LexModelsV2ClientTypes.NluImprovementSpecification? = nil,
             slotResolutionImprovement: LexModelsV2ClientTypes.SlotResolutionImprovementSpecification? = nil
         ) {
+            self.nluImprovement = nluImprovement
             self.slotResolutionImprovement = slotResolutionImprovement
         }
     }
@@ -6448,6 +6496,37 @@ extension LexModelsV2ClientTypes {
             self.name = name
             self.timeToLiveInSeconds = timeToLiveInSeconds
             self.turnsToLive = turnsToLive
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// The configuration details of the Qinconnect assistant.
+    public struct QInConnectAssistantConfiguration: Swift.Sendable {
+        /// The assistant Arn details of the Qinconnect assistant configuration.
+        /// This member is required.
+        public var assistantArn: Swift.String?
+
+        public init(
+            assistantArn: Swift.String? = nil
+        ) {
+            self.assistantArn = assistantArn
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// The configuration details of the Qinconnect intent.
+    public struct QInConnectIntentConfiguration: Swift.Sendable {
+        /// The Qinconnect assistant configuration details of the Qinconnect intent.
+        public var qInConnectAssistantConfiguration: LexModelsV2ClientTypes.QInConnectAssistantConfiguration?
+
+        public init(
+            qInConnectAssistantConfiguration: LexModelsV2ClientTypes.QInConnectAssistantConfiguration? = nil
+        ) {
+            self.qInConnectAssistantConfiguration = qInConnectAssistantConfiguration
         }
     }
 }
@@ -8050,6 +8129,8 @@ public struct DescribeBotOutput: Swift.Sendable {
     public var dataPrivacy: LexModelsV2ClientTypes.DataPrivacy?
     /// The description of the bot.
     public var description: Swift.String?
+    /// Contains the configuration for error logging that specifies where and how bot errors are recorded, including destinations like CloudWatch Logs.
+    public var errorLogSettings: LexModelsV2ClientTypes.ErrorLogSettings?
     /// If the botStatus is Failed, this contains a list of reasons that the bot couldn't be built.
     public var failureReasons: [Swift.String]?
     /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation.
@@ -8068,6 +8149,7 @@ public struct DescribeBotOutput: Swift.Sendable {
         creationDateTime: Foundation.Date? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
+        errorLogSettings: LexModelsV2ClientTypes.ErrorLogSettings? = nil,
         failureReasons: [Swift.String]? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
         lastUpdatedDateTime: Foundation.Date? = nil,
@@ -8081,6 +8163,7 @@ public struct DescribeBotOutput: Swift.Sendable {
         self.creationDateTime = creationDateTime
         self.dataPrivacy = dataPrivacy
         self.description = description
+        self.errorLogSettings = errorLogSettings
         self.failureReasons = failureReasons
         self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
         self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -14093,6 +14176,8 @@ public struct UpdateBotInput: Swift.Sendable {
     public var dataPrivacy: LexModelsV2ClientTypes.DataPrivacy?
     /// A description of the bot.
     public var description: Swift.String?
+    /// Allows you to modify how Amazon Lex logs errors during bot interactions, including destinations for error logs and the types of errors to be captured.
+    public var errorLogSettings: LexModelsV2ClientTypes.ErrorLogSettings?
     /// The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds.
     /// This member is required.
     public var idleSessionTTLInSeconds: Swift.Int?
@@ -14107,6 +14192,7 @@ public struct UpdateBotInput: Swift.Sendable {
         botType: LexModelsV2ClientTypes.BotType? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
+        errorLogSettings: LexModelsV2ClientTypes.ErrorLogSettings? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
         roleArn: Swift.String? = nil
     ) {
@@ -14116,6 +14202,7 @@ public struct UpdateBotInput: Swift.Sendable {
         self.botType = botType
         self.dataPrivacy = dataPrivacy
         self.description = description
+        self.errorLogSettings = errorLogSettings
         self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
         self.roleArn = roleArn
     }
@@ -14138,6 +14225,8 @@ public struct UpdateBotOutput: Swift.Sendable {
     public var dataPrivacy: LexModelsV2ClientTypes.DataPrivacy?
     /// The description of the bot after the update.
     public var description: Swift.String?
+    /// Settings for managing error logs within the response of an update bot operation.
+    public var errorLogSettings: LexModelsV2ClientTypes.ErrorLogSettings?
     /// The session timeout, in seconds, for the bot after the update.
     public var idleSessionTTLInSeconds: Swift.Int?
     /// A timestamp of the date and time that the bot was last updated.
@@ -14154,6 +14243,7 @@ public struct UpdateBotOutput: Swift.Sendable {
         creationDateTime: Foundation.Date? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
+        errorLogSettings: LexModelsV2ClientTypes.ErrorLogSettings? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
         lastUpdatedDateTime: Foundation.Date? = nil,
         roleArn: Swift.String? = nil
@@ -14166,6 +14256,7 @@ public struct UpdateBotOutput: Swift.Sendable {
         self.creationDateTime = creationDateTime
         self.dataPrivacy = dataPrivacy
         self.description = description
+        self.errorLogSettings = errorLogSettings
         self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
         self.lastUpdatedDateTime = lastUpdatedDateTime
         self.roleArn = roleArn
@@ -15926,6 +16017,8 @@ public struct CreateIntentInput: Swift.Sendable {
     public var outputContexts: [LexModelsV2ClientTypes.OutputContext]?
     /// A unique identifier for the built-in intent to base this intent on.
     public var parentIntentSignature: Swift.String?
+    /// Qinconnect intent configuration details for the create intent request.
+    public var qInConnectIntentConfiguration: LexModelsV2ClientTypes.QInConnectIntentConfiguration?
     /// Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
     public var qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
     /// An array of strings that a user might say to signal the intent. For example, "I want a pizza", or "I want a {PizzaSize} pizza". In an utterance, slot names are enclosed in curly braces ("{", "}") to indicate where they should be displayed in the utterance shown to the user..
@@ -15946,6 +16039,7 @@ public struct CreateIntentInput: Swift.Sendable {
         localeId: Swift.String? = nil,
         outputContexts: [LexModelsV2ClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
+        qInConnectIntentConfiguration: LexModelsV2ClientTypes.QInConnectIntentConfiguration? = nil,
         qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil
     ) {
@@ -15963,6 +16057,7 @@ public struct CreateIntentInput: Swift.Sendable {
         self.localeId = localeId
         self.outputContexts = outputContexts
         self.parentIntentSignature = parentIntentSignature
+        self.qInConnectIntentConfiguration = qInConnectIntentConfiguration
         self.qnAIntentConfiguration = qnAIntentConfiguration
         self.sampleUtterances = sampleUtterances
     }
@@ -16001,6 +16096,8 @@ public struct CreateIntentOutput: Swift.Sendable {
     public var outputContexts: [LexModelsV2ClientTypes.OutputContext]?
     /// The signature of the parent intent specified for the intent.
     public var parentIntentSignature: Swift.String?
+    /// Qinconnect intent configuration details for the create intent response.
+    public var qInConnectIntentConfiguration: LexModelsV2ClientTypes.QInConnectIntentConfiguration?
     /// Details about the the configuration of the built-in Amazon.QnAIntent.
     public var qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
     /// The sample utterances specified for the intent.
@@ -16023,6 +16120,7 @@ public struct CreateIntentOutput: Swift.Sendable {
         localeId: Swift.String? = nil,
         outputContexts: [LexModelsV2ClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
+        qInConnectIntentConfiguration: LexModelsV2ClientTypes.QInConnectIntentConfiguration? = nil,
         qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil
     ) {
@@ -16042,6 +16140,7 @@ public struct CreateIntentOutput: Swift.Sendable {
         self.localeId = localeId
         self.outputContexts = outputContexts
         self.parentIntentSignature = parentIntentSignature
+        self.qInConnectIntentConfiguration = qInConnectIntentConfiguration
         self.qnAIntentConfiguration = qnAIntentConfiguration
         self.sampleUtterances = sampleUtterances
     }
@@ -16082,6 +16181,8 @@ public struct DescribeIntentOutput: Swift.Sendable {
     public var outputContexts: [LexModelsV2ClientTypes.OutputContext]?
     /// The identifier of the built-in intent that this intent is derived from, if any.
     public var parentIntentSignature: Swift.String?
+    /// Qinconnect intent configuration details for the describe intent response.
+    public var qInConnectIntentConfiguration: LexModelsV2ClientTypes.QInConnectIntentConfiguration?
     /// Details about the configuration of the built-in Amazon.QnAIntent.
     public var qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
     /// User utterances that trigger this intent.
@@ -16107,6 +16208,7 @@ public struct DescribeIntentOutput: Swift.Sendable {
         localeId: Swift.String? = nil,
         outputContexts: [LexModelsV2ClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
+        qInConnectIntentConfiguration: LexModelsV2ClientTypes.QInConnectIntentConfiguration? = nil,
         qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil,
         slotPriorities: [LexModelsV2ClientTypes.SlotPriority]? = nil
@@ -16128,6 +16230,7 @@ public struct DescribeIntentOutput: Swift.Sendable {
         self.localeId = localeId
         self.outputContexts = outputContexts
         self.parentIntentSignature = parentIntentSignature
+        self.qInConnectIntentConfiguration = qInConnectIntentConfiguration
         self.qnAIntentConfiguration = qnAIntentConfiguration
         self.sampleUtterances = sampleUtterances
         self.slotPriorities = slotPriorities
@@ -16170,6 +16273,8 @@ public struct UpdateIntentInput: Swift.Sendable {
     public var outputContexts: [LexModelsV2ClientTypes.OutputContext]?
     /// The signature of the new built-in intent to use as the parent of this intent.
     public var parentIntentSignature: Swift.String?
+    /// Qinconnect intent configuration details for the update intent request.
+    public var qInConnectIntentConfiguration: LexModelsV2ClientTypes.QInConnectIntentConfiguration?
     /// Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
     public var qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
     /// New utterances used to invoke the intent.
@@ -16193,6 +16298,7 @@ public struct UpdateIntentInput: Swift.Sendable {
         localeId: Swift.String? = nil,
         outputContexts: [LexModelsV2ClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
+        qInConnectIntentConfiguration: LexModelsV2ClientTypes.QInConnectIntentConfiguration? = nil,
         qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil,
         slotPriorities: [LexModelsV2ClientTypes.SlotPriority]? = nil
@@ -16212,6 +16318,7 @@ public struct UpdateIntentInput: Swift.Sendable {
         self.localeId = localeId
         self.outputContexts = outputContexts
         self.parentIntentSignature = parentIntentSignature
+        self.qInConnectIntentConfiguration = qInConnectIntentConfiguration
         self.qnAIntentConfiguration = qnAIntentConfiguration
         self.sampleUtterances = sampleUtterances
         self.slotPriorities = slotPriorities
@@ -16253,6 +16360,8 @@ public struct UpdateIntentOutput: Swift.Sendable {
     public var outputContexts: [LexModelsV2ClientTypes.OutputContext]?
     /// The updated built-in intent that is the parent of this intent.
     public var parentIntentSignature: Swift.String?
+    /// Qinconnect intent configuration details for the update intent response.
+    public var qInConnectIntentConfiguration: LexModelsV2ClientTypes.QInConnectIntentConfiguration?
     /// Details about the configuration of the built-in Amazon.QnAIntent.
     public var qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
     /// The updated list of sample utterances for the intent.
@@ -16278,6 +16387,7 @@ public struct UpdateIntentOutput: Swift.Sendable {
         localeId: Swift.String? = nil,
         outputContexts: [LexModelsV2ClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
+        qInConnectIntentConfiguration: LexModelsV2ClientTypes.QInConnectIntentConfiguration? = nil,
         qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil,
         slotPriorities: [LexModelsV2ClientTypes.SlotPriority]? = nil
@@ -16299,6 +16409,7 @@ public struct UpdateIntentOutput: Swift.Sendable {
         self.localeId = localeId
         self.outputContexts = outputContexts
         self.parentIntentSignature = parentIntentSignature
+        self.qInConnectIntentConfiguration = qInConnectIntentConfiguration
         self.qnAIntentConfiguration = qnAIntentConfiguration
         self.sampleUtterances = sampleUtterances
         self.slotPriorities = slotPriorities
@@ -17769,6 +17880,7 @@ extension CreateBotInput {
         try writer["botType"].write(value.botType)
         try writer["dataPrivacy"].write(value.dataPrivacy, with: LexModelsV2ClientTypes.DataPrivacy.write(value:to:))
         try writer["description"].write(value.description)
+        try writer["errorLogSettings"].write(value.errorLogSettings, with: LexModelsV2ClientTypes.ErrorLogSettings.write(value:to:))
         try writer["idleSessionTTLInSeconds"].write(value.idleSessionTTLInSeconds)
         try writer["roleArn"].write(value.roleArn)
         try writer["testBotAliasTags"].writeMap(value.testBotAliasTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -17843,6 +17955,7 @@ extension CreateIntentInput {
         try writer["kendraConfiguration"].write(value.kendraConfiguration, with: LexModelsV2ClientTypes.KendraConfiguration.write(value:to:))
         try writer["outputContexts"].writeList(value.outputContexts, memberWritingClosure: LexModelsV2ClientTypes.OutputContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["parentIntentSignature"].write(value.parentIntentSignature)
+        try writer["qInConnectIntentConfiguration"].write(value.qInConnectIntentConfiguration, with: LexModelsV2ClientTypes.QInConnectIntentConfiguration.write(value:to:))
         try writer["qnAIntentConfiguration"].write(value.qnAIntentConfiguration, with: LexModelsV2ClientTypes.QnAIntentConfiguration.write(value:to:))
         try writer["sampleUtterances"].writeList(value.sampleUtterances, memberWritingClosure: LexModelsV2ClientTypes.SampleUtterance.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -18321,6 +18434,7 @@ extension UpdateBotInput {
         try writer["botType"].write(value.botType)
         try writer["dataPrivacy"].write(value.dataPrivacy, with: LexModelsV2ClientTypes.DataPrivacy.write(value:to:))
         try writer["description"].write(value.description)
+        try writer["errorLogSettings"].write(value.errorLogSettings, with: LexModelsV2ClientTypes.ErrorLogSettings.write(value:to:))
         try writer["idleSessionTTLInSeconds"].write(value.idleSessionTTLInSeconds)
         try writer["roleArn"].write(value.roleArn)
     }
@@ -18381,6 +18495,7 @@ extension UpdateIntentInput {
         try writer["kendraConfiguration"].write(value.kendraConfiguration, with: LexModelsV2ClientTypes.KendraConfiguration.write(value:to:))
         try writer["outputContexts"].writeList(value.outputContexts, memberWritingClosure: LexModelsV2ClientTypes.OutputContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["parentIntentSignature"].write(value.parentIntentSignature)
+        try writer["qInConnectIntentConfiguration"].write(value.qInConnectIntentConfiguration, with: LexModelsV2ClientTypes.QInConnectIntentConfiguration.write(value:to:))
         try writer["qnAIntentConfiguration"].write(value.qnAIntentConfiguration, with: LexModelsV2ClientTypes.QnAIntentConfiguration.write(value:to:))
         try writer["sampleUtterances"].writeList(value.sampleUtterances, memberWritingClosure: LexModelsV2ClientTypes.SampleUtterance.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["slotPriorities"].writeList(value.slotPriorities, memberWritingClosure: LexModelsV2ClientTypes.SlotPriority.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -18512,6 +18627,7 @@ extension CreateBotOutput {
         value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.dataPrivacy = try reader["dataPrivacy"].readIfPresent(with: LexModelsV2ClientTypes.DataPrivacy.read(from:))
         value.description = try reader["description"].readIfPresent()
+        value.errorLogSettings = try reader["errorLogSettings"].readIfPresent(with: LexModelsV2ClientTypes.ErrorLogSettings.read(from:))
         value.idleSessionTTLInSeconds = try reader["idleSessionTTLInSeconds"].readIfPresent()
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.testBotAliasTags = try reader["testBotAliasTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -18634,6 +18750,7 @@ extension CreateIntentOutput {
         value.localeId = try reader["localeId"].readIfPresent()
         value.outputContexts = try reader["outputContexts"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.OutputContext.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.parentIntentSignature = try reader["parentIntentSignature"].readIfPresent()
+        value.qInConnectIntentConfiguration = try reader["qInConnectIntentConfiguration"].readIfPresent(with: LexModelsV2ClientTypes.QInConnectIntentConfiguration.read(from:))
         value.qnAIntentConfiguration = try reader["qnAIntentConfiguration"].readIfPresent(with: LexModelsV2ClientTypes.QnAIntentConfiguration.read(from:))
         value.sampleUtterances = try reader["sampleUtterances"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.SampleUtterance.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -18928,6 +19045,7 @@ extension DescribeBotOutput {
         value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.dataPrivacy = try reader["dataPrivacy"].readIfPresent(with: LexModelsV2ClientTypes.DataPrivacy.read(from:))
         value.description = try reader["description"].readIfPresent()
+        value.errorLogSettings = try reader["errorLogSettings"].readIfPresent(with: LexModelsV2ClientTypes.ErrorLogSettings.read(from:))
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.idleSessionTTLInSeconds = try reader["idleSessionTTLInSeconds"].readIfPresent()
         value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -19153,6 +19271,7 @@ extension DescribeIntentOutput {
         value.localeId = try reader["localeId"].readIfPresent()
         value.outputContexts = try reader["outputContexts"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.OutputContext.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.parentIntentSignature = try reader["parentIntentSignature"].readIfPresent()
+        value.qInConnectIntentConfiguration = try reader["qInConnectIntentConfiguration"].readIfPresent(with: LexModelsV2ClientTypes.QInConnectIntentConfiguration.read(from:))
         value.qnAIntentConfiguration = try reader["qnAIntentConfiguration"].readIfPresent(with: LexModelsV2ClientTypes.QnAIntentConfiguration.read(from:))
         value.sampleUtterances = try reader["sampleUtterances"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.SampleUtterance.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.slotPriorities = try reader["slotPriorities"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.SlotPriority.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -19946,6 +20065,7 @@ extension UpdateBotOutput {
         value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.dataPrivacy = try reader["dataPrivacy"].readIfPresent(with: LexModelsV2ClientTypes.DataPrivacy.read(from:))
         value.description = try reader["description"].readIfPresent()
+        value.errorLogSettings = try reader["errorLogSettings"].readIfPresent(with: LexModelsV2ClientTypes.ErrorLogSettings.read(from:))
         value.idleSessionTTLInSeconds = try reader["idleSessionTTLInSeconds"].readIfPresent()
         value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.roleArn = try reader["roleArn"].readIfPresent()
@@ -20060,6 +20180,7 @@ extension UpdateIntentOutput {
         value.localeId = try reader["localeId"].readIfPresent()
         value.outputContexts = try reader["outputContexts"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.OutputContext.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.parentIntentSignature = try reader["parentIntentSignature"].readIfPresent()
+        value.qInConnectIntentConfiguration = try reader["qInConnectIntentConfiguration"].readIfPresent(with: LexModelsV2ClientTypes.QInConnectIntentConfiguration.read(from:))
         value.qnAIntentConfiguration = try reader["qnAIntentConfiguration"].readIfPresent(with: LexModelsV2ClientTypes.QnAIntentConfiguration.read(from:))
         value.sampleUtterances = try reader["sampleUtterances"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.SampleUtterance.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.slotPriorities = try reader["slotPriorities"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.SlotPriority.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -21997,19 +22118,6 @@ enum UpdateTestSetOutputError {
     }
 }
 
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalServerException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
@@ -22036,6 +22144,19 @@ extension ResourceNotFoundException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -22053,11 +22174,11 @@ extension ThrottlingException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -22159,6 +22280,21 @@ extension LexModelsV2ClientTypes.BotMember {
         value.botMemberAliasId = try reader["botMemberAliasId"].readIfPresent() ?? ""
         value.botMemberAliasName = try reader["botMemberAliasName"].readIfPresent() ?? ""
         value.botMemberVersion = try reader["botMemberVersion"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.ErrorLogSettings {
+
+    static func write(value: LexModelsV2ClientTypes.ErrorLogSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.ErrorLogSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.ErrorLogSettings()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -22475,6 +22611,7 @@ extension LexModelsV2ClientTypes.RuntimeSettings {
 
     static func write(value: LexModelsV2ClientTypes.RuntimeSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["nluImprovement"].write(value.nluImprovement, with: LexModelsV2ClientTypes.NluImprovementSpecification.write(value:to:))
         try writer["slotResolutionImprovement"].write(value.slotResolutionImprovement, with: LexModelsV2ClientTypes.SlotResolutionImprovementSpecification.write(value:to:))
     }
 
@@ -22482,6 +22619,22 @@ extension LexModelsV2ClientTypes.RuntimeSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.RuntimeSettings()
         value.slotResolutionImprovement = try reader["slotResolutionImprovement"].readIfPresent(with: LexModelsV2ClientTypes.SlotResolutionImprovementSpecification.read(from:))
+        value.nluImprovement = try reader["nluImprovement"].readIfPresent(with: LexModelsV2ClientTypes.NluImprovementSpecification.read(from:))
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.NluImprovementSpecification {
+
+    static func write(value: LexModelsV2ClientTypes.NluImprovementSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.NluImprovementSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.NluImprovementSpecification()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -23516,6 +23669,36 @@ extension LexModelsV2ClientTypes.ExactResponseFields {
     }
 }
 
+extension LexModelsV2ClientTypes.QInConnectIntentConfiguration {
+
+    static func write(value: LexModelsV2ClientTypes.QInConnectIntentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["qInConnectAssistantConfiguration"].write(value.qInConnectAssistantConfiguration, with: LexModelsV2ClientTypes.QInConnectAssistantConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.QInConnectIntentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.QInConnectIntentConfiguration()
+        value.qInConnectAssistantConfiguration = try reader["qInConnectAssistantConfiguration"].readIfPresent(with: LexModelsV2ClientTypes.QInConnectAssistantConfiguration.read(from:))
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.QInConnectAssistantConfiguration {
+
+    static func write(value: LexModelsV2ClientTypes.QInConnectAssistantConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assistantArn"].write(value.assistantArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.QInConnectAssistantConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.QInConnectAssistantConfiguration()
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension LexModelsV2ClientTypes.SlotValueElicitationSetting {
 
     static func write(value: LexModelsV2ClientTypes.SlotValueElicitationSetting?, to writer: SmithyJSON.Writer) throws {
@@ -24269,6 +24452,7 @@ extension LexModelsV2ClientTypes.BotImportSpecification {
         try writer["botName"].write(value.botName)
         try writer["botTags"].writeMap(value.botTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["dataPrivacy"].write(value.dataPrivacy, with: LexModelsV2ClientTypes.DataPrivacy.write(value:to:))
+        try writer["errorLogSettings"].write(value.errorLogSettings, with: LexModelsV2ClientTypes.ErrorLogSettings.write(value:to:))
         try writer["idleSessionTTLInSeconds"].write(value.idleSessionTTLInSeconds)
         try writer["roleArn"].write(value.roleArn)
         try writer["testBotAliasTags"].writeMap(value.testBotAliasTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -24280,6 +24464,7 @@ extension LexModelsV2ClientTypes.BotImportSpecification {
         value.botName = try reader["botName"].readIfPresent() ?? ""
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.dataPrivacy = try reader["dataPrivacy"].readIfPresent(with: LexModelsV2ClientTypes.DataPrivacy.read(from:))
+        value.errorLogSettings = try reader["errorLogSettings"].readIfPresent(with: LexModelsV2ClientTypes.ErrorLogSettings.read(from:))
         value.idleSessionTTLInSeconds = try reader["idleSessionTTLInSeconds"].readIfPresent()
         value.botTags = try reader["botTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.testBotAliasTags = try reader["testBotAliasTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)

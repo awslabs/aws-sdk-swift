@@ -747,24 +747,25 @@ extension CreateRescoreExecutionPlanInput {
 extension DeleteRescoreExecutionPlanInput {
 
     static func write(value: DeleteRescoreExecutionPlanInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["Id"].write(value.id)
     }
 }
 
 extension DescribeRescoreExecutionPlanInput {
 
     static func write(value: DescribeRescoreExecutionPlanInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["Id"].write(value.id)
     }
 }
 
 extension ListRescoreExecutionPlansInput {
 
     static func write(value: ListRescoreExecutionPlansInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -781,6 +782,7 @@ extension RescoreInput {
     static func write(value: RescoreInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Documents"].writeList(value.documents, memberWritingClosure: KendraRankingClientTypes.Document.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RescoreExecutionPlanId"].write(value.rescoreExecutionPlanId)
         try writer["SearchQuery"].write(value.searchQuery)
     }
 }
@@ -809,6 +811,7 @@ extension UpdateRescoreExecutionPlanInput {
         guard let value else { return }
         try writer["CapacityUnits"].write(value.capacityUnits, with: KendraRankingClientTypes.CapacityUnitsConfiguration.write(value:to:))
         try writer["Description"].write(value.description)
+        try writer["Id"].write(value.id)
         try writer["Name"].write(value.name)
     }
 }
@@ -1078,50 +1081,11 @@ enum UpdateRescoreExecutionPlanOutputError {
     }
 }
 
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1143,11 +1107,50 @@ extension ConflictException {
     }
 }
 
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

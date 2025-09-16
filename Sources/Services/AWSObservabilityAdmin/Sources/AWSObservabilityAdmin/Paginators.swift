@@ -11,6 +11,38 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension ObservabilityAdminClient {
+    /// Paginate over `[ListCentralizationRulesForOrganizationOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCentralizationRulesForOrganizationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCentralizationRulesForOrganizationOutput`
+    public func listCentralizationRulesForOrganizationPaginated(input: ListCentralizationRulesForOrganizationInput) -> ClientRuntime.PaginatorSequence<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput> {
+        return ClientRuntime.PaginatorSequence<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCentralizationRulesForOrganization(input:))
+    }
+}
+
+extension ListCentralizationRulesForOrganizationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCentralizationRulesForOrganizationInput {
+        return ListCentralizationRulesForOrganizationInput(
+            allRegions: self.allRegions,
+            maxResults: self.maxResults,
+            nextToken: token,
+            ruleNamePrefix: self.ruleNamePrefix
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCentralizationRulesForOrganizationInput, OperationStackOutput == ListCentralizationRulesForOrganizationOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCentralizationRulesForOrganizationPaginated`
+    /// to access the nested member `[ObservabilityAdminClientTypes.CentralizationRuleSummary]`
+    /// - Returns: `[ObservabilityAdminClientTypes.CentralizationRuleSummary]`
+    public func centralizationRuleSummaries() async throws -> [ObservabilityAdminClientTypes.CentralizationRuleSummary] {
+        return try await self.asyncCompactMap { item in item.centralizationRuleSummaries }
+    }
+}
+extension ObservabilityAdminClient {
     /// Paginate over `[ListResourceTelemetryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -77,5 +109,69 @@ extension PaginatorSequence where OperationStackInput == ListResourceTelemetryFo
     /// - Returns: `[ObservabilityAdminClientTypes.TelemetryConfiguration]`
     public func telemetryConfigurations() async throws -> [ObservabilityAdminClientTypes.TelemetryConfiguration] {
         return try await self.asyncCompactMap { item in item.telemetryConfigurations }
+    }
+}
+extension ObservabilityAdminClient {
+    /// Paginate over `[ListTelemetryRulesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTelemetryRulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTelemetryRulesOutput`
+    public func listTelemetryRulesPaginated(input: ListTelemetryRulesInput) -> ClientRuntime.PaginatorSequence<ListTelemetryRulesInput, ListTelemetryRulesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTelemetryRulesInput, ListTelemetryRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTelemetryRules(input:))
+    }
+}
+
+extension ListTelemetryRulesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTelemetryRulesInput {
+        return ListTelemetryRulesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            ruleNamePrefix: self.ruleNamePrefix
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTelemetryRulesInput, OperationStackOutput == ListTelemetryRulesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTelemetryRulesPaginated`
+    /// to access the nested member `[ObservabilityAdminClientTypes.TelemetryRuleSummary]`
+    /// - Returns: `[ObservabilityAdminClientTypes.TelemetryRuleSummary]`
+    public func telemetryRuleSummaries() async throws -> [ObservabilityAdminClientTypes.TelemetryRuleSummary] {
+        return try await self.asyncCompactMap { item in item.telemetryRuleSummaries }
+    }
+}
+extension ObservabilityAdminClient {
+    /// Paginate over `[ListTelemetryRulesForOrganizationOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTelemetryRulesForOrganizationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTelemetryRulesForOrganizationOutput`
+    public func listTelemetryRulesForOrganizationPaginated(input: ListTelemetryRulesForOrganizationInput) -> ClientRuntime.PaginatorSequence<ListTelemetryRulesForOrganizationInput, ListTelemetryRulesForOrganizationOutput> {
+        return ClientRuntime.PaginatorSequence<ListTelemetryRulesForOrganizationInput, ListTelemetryRulesForOrganizationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTelemetryRulesForOrganization(input:))
+    }
+}
+
+extension ListTelemetryRulesForOrganizationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTelemetryRulesForOrganizationInput {
+        return ListTelemetryRulesForOrganizationInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            ruleNamePrefix: self.ruleNamePrefix,
+            sourceAccountIds: self.sourceAccountIds,
+            sourceOrganizationUnitIds: self.sourceOrganizationUnitIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTelemetryRulesForOrganizationInput, OperationStackOutput == ListTelemetryRulesForOrganizationOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTelemetryRulesForOrganizationPaginated`
+    /// to access the nested member `[ObservabilityAdminClientTypes.TelemetryRuleSummary]`
+    /// - Returns: `[ObservabilityAdminClientTypes.TelemetryRuleSummary]`
+    public func telemetryRuleSummaries() async throws -> [ObservabilityAdminClientTypes.TelemetryRuleSummary] {
+        return try await self.asyncCompactMap { item in item.telemetryRuleSummaries }
     }
 }

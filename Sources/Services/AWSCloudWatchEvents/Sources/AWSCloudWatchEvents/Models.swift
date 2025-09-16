@@ -3219,12 +3219,12 @@ extension CloudWatchEventsClientTypes {
 
 extension CloudWatchEventsClientTypes {
 
-    /// Name/Value pair of a parameter to start execution of a SageMaker Model Building Pipeline.
+    /// Name/Value pair of a parameter to start execution of a SageMaker AI Model Building Pipeline.
     public struct SageMakerPipelineParameter: Swift.Sendable {
-        /// Name of parameter to start execution of a SageMaker Model Building Pipeline.
+        /// Name of parameter to start execution of a SageMaker AI Model Building Pipeline.
         /// This member is required.
         public var name: Swift.String?
-        /// Value of parameter to start execution of a SageMaker Model Building Pipeline.
+        /// Value of parameter to start execution of a SageMaker AI Model Building Pipeline.
         /// This member is required.
         public var value: Swift.String?
 
@@ -3240,9 +3240,9 @@ extension CloudWatchEventsClientTypes {
 
 extension CloudWatchEventsClientTypes {
 
-    /// These are custom parameters to use when the target is a SageMaker Model Building Pipeline that starts based on EventBridge events.
+    /// These are custom parameters to use when the target is a SageMaker AI Model Building Pipeline that starts based on EventBridge events.
     public struct SageMakerPipelineParameters: Swift.Sendable {
-        /// List of Parameter names and values for SageMaker Model Building Pipeline execution.
+        /// List of Parameter names and values for SageMaker AI Model Building Pipeline execution.
         public var pipelineParameterList: [CloudWatchEventsClientTypes.SageMakerPipelineParameter]?
 
         public init(
@@ -3302,7 +3302,7 @@ extension CloudWatchEventsClientTypes {
         public var roleArn: Swift.String?
         /// Parameters used when you are using the rule to invoke Amazon EC2 Run Command.
         public var runCommandParameters: CloudWatchEventsClientTypes.RunCommandParameters?
-        /// Contains the SageMaker Model Building Pipeline parameters to start execution of a SageMaker Model Building Pipeline. If you specify a SageMaker Model Building Pipeline as a target, you can use this to specify parameters to start a pipeline execution based on EventBridge events.
+        /// Contains the SageMaker AI Model Building Pipeline parameters to start execution of a SageMaker AI Model Building Pipeline. If you specify a SageMaker AI Model Building Pipeline as a target, you can use this to specify parameters to start a pipeline execution based on EventBridge events.
         public var sageMakerPipelineParameters: CloudWatchEventsClientTypes.SageMakerPipelineParameters?
         /// Contains the message group ID to use when the target is a FIFO queue. If you specify an SQS FIFO queue as a target, the queue must have content-based deduplication enabled.
         public var sqsParameters: CloudWatchEventsClientTypes.SqsParameters?
@@ -6558,50 +6558,11 @@ enum UpdateConnectionOutputError {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension OperationDisabledException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationDisabledException {
-        let reader = baseError.errorBodyReader
-        var value = OperationDisabledException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConcurrentModificationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidStateException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStateException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidStateException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6623,6 +6584,45 @@ extension InternalException {
     }
 }
 
+extension InvalidStateException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStateException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidStateException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OperationDisabledException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationDisabledException {
+        let reader = baseError.errorBodyReader
+        var value = OperationDisabledException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension IllegalStatusException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IllegalStatusException {
@@ -6636,11 +6636,11 @@ extension IllegalStatusException {
     }
 }
 
-extension ResourceAlreadyExistsException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ResourceAlreadyExistsException()
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6649,11 +6649,11 @@ extension ResourceAlreadyExistsException {
     }
 }
 
-extension LimitExceededException {
+extension ResourceAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = ResourceAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -239,6 +239,29 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
+/// You do not have permission to perform this action.
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnauthorizedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension QConnectClientTypes {
 
     /// A leaf node condition which can be used to specify a tag condition.
@@ -408,7 +431,7 @@ extension QConnectClientTypes {
         public var associationConfigurations: [QConnectClientTypes.AssociationConfiguration]?
         /// The AI Prompt identifier for the Intent Labeling prompt used by the ANSWER_RECOMMENDATION AI Agent.
         public var intentLabelingGenerationAIPromptId: Swift.String?
-        /// The locale to which specifies the language and region settings that determine the response language for [QueryAssistant](https://docs.aws.amazon.com/connect/latest/APIReference/API_amazon-q-connect_QueryAssistant.html). Changing this locale to anything other than en_US will turn off recommendations triggered by contact transcripts for agent assistance, as this feature is not supported in multiple languages.
+        /// The locale to which specifies the language and region settings that determine the response language for [QueryAssistant](https://docs.aws.amazon.com/connect/latest/APIReference/API_amazon-q-connect_QueryAssistant.html). For more information on supported locales, see [Language support for Amazon Q in Connect](https://docs.aws.amazon.com/connect/latest/adminguide/supported-languages.html#qic-notes-languages).
         public var locale: Swift.String?
         /// The AI Prompt identifier for the Query Reformulation prompt used by the ANSWER_RECOMMENDATION AI Agent.
         public var queryReformulationAIPromptId: Swift.String?
@@ -441,7 +464,7 @@ extension QConnectClientTypes {
         public var answerGenerationAIPromptId: Swift.String?
         /// The association configurations for overriding behavior on this AI Agent.
         public var associationConfigurations: [QConnectClientTypes.AssociationConfiguration]?
-        /// The locale to which specifies the language and region settings that determine the response language for [QueryAssistant](https://docs.aws.amazon.com/connect/latest/APIReference/API_amazon-q-connect_QueryAssistant.html).
+        /// The locale to which specifies the language and region settings that determine the response language for [QueryAssistant](https://docs.aws.amazon.com/connect/latest/APIReference/API_amazon-q-connect_QueryAssistant.html). For more information on supported locales, see [Language support for Amazon Q in Connect](https://docs.aws.amazon.com/connect/latest/adminguide/supported-languages.html#qic-notes-languages).
         public var locale: Swift.String?
 
         public init(
@@ -2341,12 +2364,16 @@ extension QConnectClientTypes {
     public enum AIPromptAPIFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case anthropicClaudeMessages
         case anthropicClaudeTextCompletions
+        case messages
+        case textCompletions
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AIPromptAPIFormat] {
             return [
                 .anthropicClaudeMessages,
-                .anthropicClaudeTextCompletions
+                .anthropicClaudeTextCompletions,
+                .messages,
+                .textCompletions
             ]
         }
 
@@ -2359,6 +2386,8 @@ extension QConnectClientTypes {
             switch self {
             case .anthropicClaudeMessages: return "ANTHROPIC_CLAUDE_MESSAGES"
             case .anthropicClaudeTextCompletions: return "ANTHROPIC_CLAUDE_TEXT_COMPLETIONS"
+            case .messages: return "MESSAGES"
+            case .textCompletions: return "TEXT_COMPLETIONS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2461,7 +2490,7 @@ extension QConnectClientTypes {
 }
 
 public struct CreateAIPromptInput: Swift.Sendable {
-    /// The API Format of the AI Prompt.
+    /// The API Format of the AI Prompt. Recommended values: MESSAGES | TEXT_COMPLETIONS The values ANTHROPIC_CLAUDE_MESSAGES | ANTHROPIC_CLAUDE_TEXT_COMPLETIONS will be deprecated.
     /// This member is required.
     public var apiFormat: QConnectClientTypes.AIPromptAPIFormat?
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -2471,7 +2500,7 @@ public struct CreateAIPromptInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The description of the AI Prompt.
     public var description: Swift.String?
-    /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1
+    /// The identifier of the model used for this AI Prompt.
     /// This member is required.
     public var modelId: Swift.String?
     /// The name of the AI Prompt.
@@ -2540,7 +2569,41 @@ extension QConnectClientTypes {
         public var assistantId: Swift.String?
         /// The description of the AI Prompt.
         public var description: Swift.String?
-        /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1.
+        /// The identifier of the model used for this AI Prompt. The following model Ids are supported:
+        ///
+        /// * anthropic.claude-3-haiku--v1:0
+        ///
+        /// * apac.amazon.nova-lite-v1:0
+        ///
+        /// * apac.amazon.nova-micro-v1:0
+        ///
+        /// * apac.amazon.nova-pro-v1:0
+        ///
+        /// * apac.anthropic.claude-3-5-sonnet--v2:0
+        ///
+        /// * apac.anthropic.claude-3-haiku-20240307-v1:0
+        ///
+        /// * eu.amazon.nova-lite-v1:0
+        ///
+        /// * eu.amazon.nova-micro-v1:0
+        ///
+        /// * eu.amazon.nova-pro-v1:0
+        ///
+        /// * eu.anthropic.claude-3-7-sonnet-20250219-v1:0
+        ///
+        /// * eu.anthropic.claude-3-haiku-20240307-v1:0
+        ///
+        /// * us.amazon.nova-lite-v1:0
+        ///
+        /// * us.amazon.nova-micro-v1:0
+        ///
+        /// * us.amazon.nova-pro-v1:0
+        ///
+        /// * us.anthropic.claude-3-5-haiku-20241022-v1:0
+        ///
+        /// * us.anthropic.claude-3-7-sonnet-20250219-v1:0
+        ///
+        /// * us.anthropic.claude-3-haiku-20240307-v1:0
         /// This member is required.
         public var modelId: Swift.String?
         /// The time the AI Prompt was last modified.
@@ -2782,7 +2845,7 @@ extension QConnectClientTypes {
         public var assistantId: Swift.String?
         /// The description of the AI Prompt.
         public var description: Swift.String?
-        /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1.
+        /// The identifier of the model used for this AI Prompt. Model Ids supported are: anthropic.claude-3-haiku-20240307-v1:0.
         /// This member is required.
         public var modelId: Swift.String?
         /// The time the AI Prompt was last modified.
@@ -2933,6 +2996,8 @@ public struct UpdateAIPromptInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The description of the Amazon Q in Connect AI Prompt.
     public var description: Swift.String?
+    /// The identifier of the model used for this AI Prompt. For more information on supported models, see [Supported models for system and custom prompts](https://docs.aws.amazon.com/connect/latest/adminguide/create-ai-prompts.html#cli-create-aiprompt).
+    public var modelId: Swift.String?
     /// The configuration of the prompt template for this AI Prompt.
     public var templateConfiguration: QConnectClientTypes.AIPromptTemplateConfiguration?
     /// The visibility status of the Amazon Q in Connect AI prompt.
@@ -2944,6 +3009,7 @@ public struct UpdateAIPromptInput: Swift.Sendable {
         assistantId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        modelId: Swift.String? = nil,
         templateConfiguration: QConnectClientTypes.AIPromptTemplateConfiguration? = nil,
         visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
     ) {
@@ -2951,6 +3017,7 @@ public struct UpdateAIPromptInput: Swift.Sendable {
         self.assistantId = assistantId
         self.clientToken = clientToken
         self.description = description
+        self.modelId = modelId
         self.templateConfiguration = templateConfiguration
         self.visibilityStatus = visibilityStatus
     }
@@ -3594,6 +3661,8 @@ public struct GetRecommendationsInput: Swift.Sendable {
     public var assistantId: Swift.String?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
+    /// The token for the next set of chunks. Use the value returned in the previous response in the next request to retrieve the next set of chunks.
+    public var nextChunkToken: Swift.String?
     /// The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -3603,11 +3672,13 @@ public struct GetRecommendationsInput: Swift.Sendable {
     public init(
         assistantId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
+        nextChunkToken: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         waitTimeSeconds: Swift.Int = 0
     ) {
         self.assistantId = assistantId
         self.maxResults = maxResults
+        self.nextChunkToken = nextChunkToken
         self.sessionId = sessionId
         self.waitTimeSeconds = waitTimeSeconds
     }
@@ -3975,17 +4046,25 @@ extension QConnectClientTypes {
 extension QConnectClientTypes {
 
     public enum RecommendationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blockedGenerativeAnswerChunk
+        case blockedIntentAnswerChunk
         case detectedIntent
         case generativeAnswer
+        case generativeAnswerChunk
         case generativeResponse
+        case intentAnswerChunk
         case knowledgeContent
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RecommendationType] {
             return [
+                .blockedGenerativeAnswerChunk,
+                .blockedIntentAnswerChunk,
                 .detectedIntent,
                 .generativeAnswer,
+                .generativeAnswerChunk,
                 .generativeResponse,
+                .intentAnswerChunk,
                 .knowledgeContent
             ]
         }
@@ -3997,9 +4076,13 @@ extension QConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .blockedGenerativeAnswerChunk: return "BLOCKED_GENERATIVE_ANSWER_CHUNK"
+            case .blockedIntentAnswerChunk: return "BLOCKED_INTENT_ANSWER_CHUNK"
             case .detectedIntent: return "DETECTED_INTENT"
             case .generativeAnswer: return "GENERATIVE_ANSWER"
+            case .generativeAnswerChunk: return "GENERATIVE_ANSWER_CHUNK"
             case .generativeResponse: return "GENERATIVE_RESPONSE"
+            case .intentAnswerChunk: return "INTENT_ANSWER_CHUNK"
             case .knowledgeContent: return "KNOWLEDGE_CONTENT"
             case let .sdkUnknown(s): return s
             }
@@ -4636,15 +4719,23 @@ extension QueryAssistantInput: Swift.CustomDebugStringConvertible {
 extension QConnectClientTypes {
 
     public enum QueryResultType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blockedGenerativeAnswerChunk
+        case blockedIntentAnswerChunk
         case generativeAnswer
+        case generativeAnswerChunk
         case intentAnswer
+        case intentAnswerChunk
         case knowledgeContent
         case sdkUnknown(Swift.String)
 
         public static var allCases: [QueryResultType] {
             return [
+                .blockedGenerativeAnswerChunk,
+                .blockedIntentAnswerChunk,
                 .generativeAnswer,
+                .generativeAnswerChunk,
                 .intentAnswer,
+                .intentAnswerChunk,
                 .knowledgeContent
             ]
         }
@@ -4656,8 +4747,12 @@ extension QConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .blockedGenerativeAnswerChunk: return "BLOCKED_GENERATIVE_ANSWER_CHUNK"
+            case .blockedIntentAnswerChunk: return "BLOCKED_INTENT_ANSWER_CHUNK"
             case .generativeAnswer: return "GENERATIVE_ANSWER"
+            case .generativeAnswerChunk: return "GENERATIVE_ANSWER_CHUNK"
             case .intentAnswer: return "INTENT_ANSWER"
+            case .intentAnswerChunk: return "INTENT_ANSWER_CHUNK"
             case .knowledgeContent: return "KNOWLEDGE_CONTENT"
             case let .sdkUnknown(s): return s
             }
@@ -4918,6 +5013,8 @@ extension QConnectClientTypes {
         /// The name of the session.
         /// This member is required.
         public var name: Swift.String?
+        /// The origin of the Session to be listed. SYSTEM for a default Session created by Amazon Q in Connect or CUSTOMER for a Session created by calling [CreateSession](https://docs.aws.amazon.com/connect/latest/APIReference/API_amazon-q-connect_CreateSession.html) API.
+        public var origin: QConnectClientTypes.Origin?
         /// The Amazon Resource Name (ARN) of the session.
         /// This member is required.
         public var sessionArn: Swift.String?
@@ -4934,6 +5031,7 @@ extension QConnectClientTypes {
             description: Swift.String? = nil,
             integrationConfiguration: QConnectClientTypes.SessionIntegrationConfiguration? = nil,
             name: Swift.String? = nil,
+            origin: QConnectClientTypes.Origin? = nil,
             sessionArn: Swift.String? = nil,
             sessionId: Swift.String? = nil,
             tagFilter: QConnectClientTypes.TagFilter? = nil,
@@ -4943,6 +5041,7 @@ extension QConnectClientTypes {
             self.description = description
             self.integrationConfiguration = integrationConfiguration
             self.name = name
+            self.origin = origin
             self.sessionArn = sessionArn
             self.sessionId = sessionId
             self.tagFilter = tagFilter
@@ -5329,7 +5428,22 @@ public struct ListMessagesOutput: Swift.Sendable {
 
 extension QConnectClientTypes {
 
-    /// The conversation history data to included in conversation context data before the the Amazon Q in Connect session..
+    /// The configuration for a [SendMessage](https://docs.aws.amazon.com/connect/latest/APIReference/API_amazon-q-connect_SendMessage.html) request.
+    public struct MessageConfiguration: Swift.Sendable {
+        /// Generates a filler response when tool selection is QUESTION.
+        public var generateFillerMessage: Swift.Bool?
+
+        public init(
+            generateFillerMessage: Swift.Bool? = nil
+        ) {
+            self.generateFillerMessage = generateFillerMessage
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The conversation history data to included in conversation context data before the Amazon Q in Connect session.
     public struct SelfServiceConversationHistory: Swift.Sendable {
         /// The bot response of the conversation history data.
         public var botResponse: Swift.String?
@@ -5394,6 +5508,8 @@ public struct SendMessageInput: Swift.Sendable {
     public var assistantId: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field.For more information about idempotency, see Making retries safe with idempotent APIs.
     public var clientToken: Swift.String?
+    /// The configuration of the [SendMessage](https://docs.aws.amazon.com/connect/latest/APIReference/API_amazon-q-connect_SendMessage.html) request.
+    public var configuration: QConnectClientTypes.MessageConfiguration?
     /// The conversation context before the Amazon Q in Connect session.
     public var conversationContext: QConnectClientTypes.ConversationContext?
     /// The message data to submit to the Amazon Q in Connect session.
@@ -5409,6 +5525,7 @@ public struct SendMessageInput: Swift.Sendable {
     public init(
         assistantId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
+        configuration: QConnectClientTypes.MessageConfiguration? = nil,
         conversationContext: QConnectClientTypes.ConversationContext? = nil,
         message: QConnectClientTypes.MessageInput? = nil,
         sessionId: Swift.String? = nil,
@@ -5416,6 +5533,7 @@ public struct SendMessageInput: Swift.Sendable {
     ) {
         self.assistantId = assistantId
         self.clientToken = clientToken
+        self.configuration = configuration
         self.conversationContext = conversationContext
         self.message = message
         self.sessionId = sessionId
@@ -5424,6 +5542,8 @@ public struct SendMessageInput: Swift.Sendable {
 }
 
 public struct SendMessageOutput: Swift.Sendable {
+    /// The configuration of the [SendMessage](https://docs.aws.amazon.com/connect/latest/APIReference/API_amazon-q-connect_SendMessage.html) request.
+    public var configuration: QConnectClientTypes.MessageConfiguration?
     /// The token for the next message, used by GetNextMessage.
     /// This member is required.
     public var nextMessageToken: Swift.String?
@@ -5432,9 +5552,11 @@ public struct SendMessageOutput: Swift.Sendable {
     public var requestMessageId: Swift.String?
 
     public init(
+        configuration: QConnectClientTypes.MessageConfiguration? = nil,
         nextMessageToken: Swift.String? = nil,
         requestMessageId: Swift.String? = nil
     ) {
+        self.configuration = configuration
         self.nextMessageToken = nextMessageToken
         self.requestMessageId = requestMessageId
     }
@@ -10447,6 +10569,8 @@ extension QConnectClientTypes {
         case intentdetecteddata(QConnectClientTypes.IntentDetectedDataDetails)
         /// Details about the content data.
         case sourcecontentdata(QConnectClientTypes.SourceContentDataDetails)
+        /// Details about the generative chunk data.
+        case generativechunkdata(QConnectClientTypes.GenerativeChunkDataDetails)
         case sdkUnknown(Swift.String)
     }
 }
@@ -10470,6 +10594,34 @@ extension QConnectClientTypes {
             self.reference = reference
         }
     }
+}
+
+extension QConnectClientTypes {
+
+    /// Details about the generative chunk data.
+    public struct GenerativeChunkDataDetails: Swift.Sendable {
+        /// A chunk of the LLM response.
+        public var completion: Swift.String?
+        /// The token for the next set of chunks. Use the value returned in the previous response in the next request to retrieve the next set of chunks.
+        public var nextChunkToken: Swift.String?
+        /// The references used to generate the LLM response.
+        public var references: [QConnectClientTypes.DataSummary]?
+
+        public init(
+            completion: Swift.String? = nil,
+            nextChunkToken: Swift.String? = nil,
+            references: [QConnectClientTypes.DataSummary]? = nil
+        ) {
+            self.completion = completion
+            self.nextChunkToken = nextChunkToken
+            self.references = references
+        }
+    }
+}
+
+extension QConnectClientTypes.GenerativeChunkDataDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GenerativeChunkDataDetails(nextChunkToken: \(Swift.String(describing: nextChunkToken)), references: \(Swift.String(describing: references)), completion: \"CONTENT_REDACTED\")"}
 }
 
 extension QConnectClientTypes {
@@ -11205,6 +11357,10 @@ extension GetRecommendationsInput {
         if value.waitTimeSeconds != 0 {
             let waitTimeSecondsQueryItem = Smithy.URIQueryItem(name: "waitTimeSeconds".urlPercentEncoding(), value: Swift.String(value.waitTimeSeconds).urlPercentEncoding())
             items.append(waitTimeSecondsQueryItem)
+        }
+        if let nextChunkToken = value.nextChunkToken {
+            let nextChunkTokenQueryItem = Smithy.URIQueryItem(name: "nextChunkToken".urlPercentEncoding(), value: Swift.String(nextChunkToken).urlPercentEncoding())
+            items.append(nextChunkTokenQueryItem)
         }
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -12373,6 +12529,7 @@ extension SendMessageInput {
     static func write(value: SendMessageInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["configuration"].write(value.configuration, with: QConnectClientTypes.MessageConfiguration.write(value:to:))
         try writer["conversationContext"].write(value.conversationContext, with: QConnectClientTypes.ConversationContext.write(value:to:))
         try writer["message"].write(value.message, with: QConnectClientTypes.MessageInput.write(value:to:))
         try writer["type"].write(value.type)
@@ -12442,6 +12599,7 @@ extension UpdateAIPromptInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["modelId"].write(value.modelId)
         try writer["templateConfiguration"].write(value.templateConfiguration, with: QConnectClientTypes.AIPromptTemplateConfiguration.write(value:to:))
         try writer["visibilityStatus"].write(value.visibilityStatus)
     }
@@ -13401,6 +13559,7 @@ extension SendMessageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SendMessageOutput()
+        value.configuration = try reader["configuration"].readIfPresent(with: QConnectClientTypes.MessageConfiguration.read(from:))
         value.nextMessageToken = try reader["nextMessageToken"].readIfPresent() ?? ""
         value.requestMessageId = try reader["requestMessageId"].readIfPresent() ?? ""
         return value
@@ -13614,6 +13773,7 @@ enum CreateAIAgentOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13633,6 +13793,7 @@ enum CreateAIAgentVersionOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13652,6 +13813,7 @@ enum CreateAIGuardrailOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13671,6 +13833,7 @@ enum CreateAIGuardrailVersionOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13690,6 +13853,7 @@ enum CreateAIPromptOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13709,6 +13873,7 @@ enum CreateAIPromptVersionOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13726,6 +13891,7 @@ enum CreateAssistantOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13762,6 +13928,7 @@ enum CreateContentOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13781,6 +13948,7 @@ enum CreateContentAssociationOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13798,6 +13966,7 @@ enum CreateKnowledgeBaseOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13836,6 +14005,7 @@ enum CreateMessageTemplateAttachmentOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13873,6 +14043,7 @@ enum CreateQuickResponseOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13890,6 +14061,7 @@ enum CreateSessionOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13925,6 +14097,7 @@ enum DeleteAIAgentOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13943,6 +14116,7 @@ enum DeleteAIAgentVersionOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13961,6 +14135,7 @@ enum DeleteAIGuardrailOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13979,6 +14154,7 @@ enum DeleteAIGuardrailVersionOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13996,6 +14172,7 @@ enum DeleteAIPromptOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14014,6 +14191,7 @@ enum DeleteAIPromptVersionOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14030,6 +14208,7 @@ enum DeleteAssistantOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14046,6 +14225,7 @@ enum DeleteAssistantAssociationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14061,7 +14241,9 @@ enum DeleteContentOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14078,6 +14260,7 @@ enum DeleteContentAssociationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14095,6 +14278,7 @@ enum DeleteImportJobOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14112,6 +14296,7 @@ enum DeleteKnowledgeBaseOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14164,6 +14349,7 @@ enum DeleteQuickResponseOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14181,6 +14367,7 @@ enum GetAIAgentOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14198,6 +14385,7 @@ enum GetAIGuardrailOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14215,6 +14403,7 @@ enum GetAIPromptOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14231,6 +14420,7 @@ enum GetAssistantOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14247,6 +14437,7 @@ enum GetAssistantAssociationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14263,6 +14454,7 @@ enum GetContentOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14279,6 +14471,7 @@ enum GetContentAssociationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14295,6 +14488,7 @@ enum GetContentSummaryOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14327,6 +14521,7 @@ enum GetKnowledgeBaseOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14344,6 +14539,7 @@ enum GetMessageTemplateOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14376,6 +14572,7 @@ enum GetQuickResponseOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14408,6 +14605,7 @@ enum GetSessionOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14425,6 +14623,7 @@ enum ListAIAgentsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14442,6 +14641,7 @@ enum ListAIAgentVersionsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14459,6 +14659,7 @@ enum ListAIGuardrailsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14476,6 +14677,7 @@ enum ListAIGuardrailVersionsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14493,6 +14695,7 @@ enum ListAIPromptsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14510,6 +14713,7 @@ enum ListAIPromptVersionsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14541,6 +14745,7 @@ enum ListAssistantsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14557,6 +14762,7 @@ enum ListContentAssociationsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14798,6 +15004,7 @@ enum SearchContentOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14815,6 +15022,7 @@ enum SearchMessageTemplatesOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14832,6 +15040,7 @@ enum SearchQuickResponsesOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14848,6 +15057,7 @@ enum SearchSessionsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14883,6 +15093,7 @@ enum StartContentUploadOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14901,6 +15112,7 @@ enum StartImportJobOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14948,6 +15160,7 @@ enum UpdateAIAgentOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14966,6 +15179,7 @@ enum UpdateAIGuardrailOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14984,6 +15198,7 @@ enum UpdateAIPromptOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15018,6 +15233,7 @@ enum UpdateContentOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15088,6 +15304,7 @@ enum UpdateQuickResponseOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15104,6 +15321,7 @@ enum UpdateSessionOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15120,17 +15338,18 @@ enum UpdateSessionDataOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
-extension ValidationException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15144,19 +15363,6 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15192,11 +15398,37 @@ extension ThrottlingException {
     }
 }
 
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnauthorizedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+        let reader = baseError.errorBodyReader
+        var value = UnauthorizedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16808,6 +17040,7 @@ extension QConnectClientTypes.SessionData {
         value.integrationConfiguration = try reader["integrationConfiguration"].readIfPresent(with: QConnectClientTypes.SessionIntegrationConfiguration.read(from:))
         value.tagFilter = try reader["tagFilter"].readIfPresent(with: QConnectClientTypes.TagFilter.read(from:))
         value.aiAgentConfiguration = try reader["aiAgentConfiguration"].readMapIfPresent(valueReadingClosure: QConnectClientTypes.AIAgentConfigurationData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.origin = try reader["origin"].readIfPresent()
         return value
     }
 }
@@ -17064,9 +17297,23 @@ extension QConnectClientTypes.DataDetails {
                 return .intentdetecteddata(try reader["intentDetectedData"].read(with: QConnectClientTypes.IntentDetectedDataDetails.read(from:)))
             case "sourceContentData":
                 return .sourcecontentdata(try reader["sourceContentData"].read(with: QConnectClientTypes.SourceContentDataDetails.read(from:)))
+            case "generativeChunkData":
+                return .generativechunkdata(try reader["generativeChunkData"].read(with: QConnectClientTypes.GenerativeChunkDataDetails.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension QConnectClientTypes.GenerativeChunkDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GenerativeChunkDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.GenerativeChunkDataDetails()
+        value.completion = try reader["completion"].readIfPresent()
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: QConnectClientTypes.DataSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
+        return value
     }
 }
 
@@ -17643,6 +17890,21 @@ extension QConnectClientTypes.SessionSummary {
         value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
         value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
         value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QConnectClientTypes.MessageConfiguration {
+
+    static func write(value: QConnectClientTypes.MessageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["generateFillerMessage"].write(value.generateFillerMessage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.MessageConfiguration()
+        value.generateFillerMessage = try reader["generateFillerMessage"].readIfPresent()
         return value
     }
 }

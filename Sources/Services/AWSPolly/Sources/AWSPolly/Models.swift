@@ -195,6 +195,7 @@ extension PollyClientTypes {
         case enIe
         case enIn
         case enNz
+        case enSg
         case enUs
         case enZa
         case esEs
@@ -240,6 +241,7 @@ extension PollyClientTypes {
                 .enIe,
                 .enIn,
                 .enNz,
+                .enSg,
                 .enUs,
                 .enZa,
                 .esEs,
@@ -291,6 +293,7 @@ extension PollyClientTypes {
             case .enIe: return "en-IE"
             case .enIn: return "en-IN"
             case .enNz: return "en-NZ"
+            case .enSg: return "en-SG"
             case .enUs: return "en-US"
             case .enZa: return "en-ZA"
             case .esEs: return "es-ES"
@@ -419,6 +422,8 @@ extension PollyClientTypes {
         case ivy
         case jacek
         case jan
+        case jasmine
+        case jihye
         case jitka
         case joanna
         case joey
@@ -521,6 +526,8 @@ extension PollyClientTypes {
                 .ivy,
                 .jacek,
                 .jan,
+                .jasmine,
+                .jihye,
                 .jitka,
                 .joanna,
                 .joey,
@@ -629,6 +636,8 @@ extension PollyClientTypes {
             case .ivy: return "Ivy"
             case .jacek: return "Jacek"
             case .jan: return "Jan"
+            case .jasmine: return "Jasmine"
+            case .jihye: return "Jihye"
             case .jitka: return "Jitka"
             case .joanna: return "Joanna"
             case .joey: return "Joey"
@@ -917,6 +926,7 @@ extension PollyClientTypes {
     public enum OutputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case json
         case mp3
+        case oggOpus
         case oggVorbis
         case pcm
         case sdkUnknown(Swift.String)
@@ -925,6 +935,7 @@ extension PollyClientTypes {
             return [
                 .json,
                 .mp3,
+                .oggOpus,
                 .oggVorbis,
                 .pcm
             ]
@@ -939,6 +950,7 @@ extension PollyClientTypes {
             switch self {
             case .json: return "json"
             case .mp3: return "mp3"
+            case .oggOpus: return "ogg_opus"
             case .oggVorbis: return "ogg_vorbis"
             case .pcm: return "pcm"
             case let .sdkUnknown(s): return s
@@ -1650,7 +1662,7 @@ public struct StartSpeechSynthesisTaskOutput: Swift.Sendable {
 }
 
 public struct SynthesizeSpeechInput: Swift.Sendable {
-    /// Specifies the engine (standard, neural, long-form, or generative) for Amazon Polly to use when processing input text for speech synthesis. Provide an engine that is supported by the voice you select. If you don't provide an engine, the standard engine is selected by default. If a chosen voice isn't supported by the standard engine, this will result in an error. For information on Amazon Polly voices and which voices are available for each engine, see [Available Voices](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html). Type: String Valid Values: standard | neural | long-form | generative Required: Yes
+    /// Specifies the engine (standard, neural, long-form, or generative) for Amazon Polly to use when processing input text for speech synthesis. Provide an engine that is supported by the voice you select. If you don't provide an engine, the standard engine is selected by default. If a chosen voice isn't supported by the standard engine, this will result in an error. For information on Amazon Polly voices and which voices are available for each engine, see [Available Voices](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html).
     public var engine: PollyClientTypes.Engine?
     /// Optional language code for the Synthesize Speech request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN). If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html) operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
     public var languageCode: PollyClientTypes.LanguageCode?
@@ -1659,7 +1671,7 @@ public struct SynthesizeSpeechInput: Swift.Sendable {
     /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json. When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.
     /// This member is required.
     public var outputFormat: PollyClientTypes.OutputFormat?
-    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", "24000", "44100" and "48000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
     public var sampleRate: Swift.String?
     /// The type of speech marks returned for the input text.
     public var speechMarkTypes: [PollyClientTypes.SpeechMarkType]?
@@ -2166,11 +2178,11 @@ enum SynthesizeSpeechOutputError {
     }
 }
 
-extension ServiceFailureException {
+extension LexiconNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceFailureException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LexiconNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ServiceFailureException()
+        var value = LexiconNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2179,11 +2191,11 @@ extension ServiceFailureException {
     }
 }
 
-extension LexiconNotFoundException {
+extension ServiceFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LexiconNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceFailureException {
         let reader = baseError.errorBodyReader
-        var value = LexiconNotFoundException()
+        var value = ServiceFailureException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2205,19 +2217,6 @@ extension InvalidNextTokenException {
     }
 }
 
-extension SynthesisTaskNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SynthesisTaskNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = SynthesisTaskNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidTaskIdException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidTaskIdException {
@@ -2231,37 +2230,11 @@ extension InvalidTaskIdException {
     }
 }
 
-extension MaxLexiconsNumberExceededException {
+extension SynthesisTaskNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MaxLexiconsNumberExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SynthesisTaskNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = MaxLexiconsNumberExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnsupportedPlsAlphabetException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedPlsAlphabetException {
-        let reader = baseError.errorBodyReader
-        var value = UnsupportedPlsAlphabetException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension MaxLexemeLengthExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MaxLexemeLengthExceededException {
-        let reader = baseError.errorBodyReader
-        var value = MaxLexemeLengthExceededException()
+        var value = SynthesisTaskNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2296,6 +2269,45 @@ extension LexiconSizeExceededException {
     }
 }
 
+extension MaxLexemeLengthExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MaxLexemeLengthExceededException {
+        let reader = baseError.errorBodyReader
+        var value = MaxLexemeLengthExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MaxLexiconsNumberExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MaxLexiconsNumberExceededException {
+        let reader = baseError.errorBodyReader
+        var value = MaxLexiconsNumberExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnsupportedPlsAlphabetException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedPlsAlphabetException {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedPlsAlphabetException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension UnsupportedPlsLanguageException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedPlsLanguageException {
@@ -2309,11 +2321,11 @@ extension UnsupportedPlsLanguageException {
     }
 }
 
-extension InvalidSnsTopicArnException {
+extension EngineNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidSnsTopicArnException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EngineNotSupportedException {
         let reader = baseError.errorBodyReader
-        var value = InvalidSnsTopicArnException()
+        var value = EngineNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2322,11 +2334,24 @@ extension InvalidSnsTopicArnException {
     }
 }
 
-extension SsmlMarksNotSupportedForTextTypeException {
+extension InvalidS3BucketException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SsmlMarksNotSupportedForTextTypeException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidS3BucketException {
         let reader = baseError.errorBodyReader
-        var value = SsmlMarksNotSupportedForTextTypeException()
+        var value = InvalidS3BucketException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidS3KeyException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidS3KeyException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidS3KeyException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2348,11 +2373,11 @@ extension InvalidSampleRateException {
     }
 }
 
-extension TextLengthExceededException {
+extension InvalidSnsTopicArnException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TextLengthExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidSnsTopicArnException {
         let reader = baseError.errorBodyReader
-        var value = TextLengthExceededException()
+        var value = InvalidSnsTopicArnException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2387,50 +2412,37 @@ extension LanguageNotSupportedException {
     }
 }
 
-extension EngineNotSupportedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EngineNotSupportedException {
-        let reader = baseError.errorBodyReader
-        var value = EngineNotSupportedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidS3KeyException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidS3KeyException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidS3KeyException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidS3BucketException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidS3BucketException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidS3BucketException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension MarksNotSupportedForFormatException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MarksNotSupportedForFormatException {
         let reader = baseError.errorBodyReader
         var value = MarksNotSupportedForFormatException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SsmlMarksNotSupportedForTextTypeException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SsmlMarksNotSupportedForTextTypeException {
+        let reader = baseError.errorBodyReader
+        var value = SsmlMarksNotSupportedForTextTypeException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TextLengthExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TextLengthExceededException {
+        let reader = baseError.errorBodyReader
+        var value = TextLengthExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2527,17 +2539,10 @@ extension SynthesizeSpeechInput {
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "synthesizeSpeech")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_URL)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2646,17 +2651,10 @@ extension SynthesizeSpeechInput {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "synthesizeSpeech")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_REQUEST)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)

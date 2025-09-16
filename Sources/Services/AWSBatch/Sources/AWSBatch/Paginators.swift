@@ -106,6 +106,68 @@ extension PaginatorSequence where OperationStackInput == DescribeJobQueuesInput,
     }
 }
 extension BatchClient {
+    /// Paginate over `[DescribeServiceEnvironmentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeServiceEnvironmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeServiceEnvironmentsOutput`
+    public func describeServiceEnvironmentsPaginated(input: DescribeServiceEnvironmentsInput) -> ClientRuntime.PaginatorSequence<DescribeServiceEnvironmentsInput, DescribeServiceEnvironmentsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeServiceEnvironmentsInput, DescribeServiceEnvironmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeServiceEnvironments(input:))
+    }
+}
+
+extension DescribeServiceEnvironmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeServiceEnvironmentsInput {
+        return DescribeServiceEnvironmentsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceEnvironments: self.serviceEnvironments
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeServiceEnvironmentsInput, OperationStackOutput == DescribeServiceEnvironmentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeServiceEnvironmentsPaginated`
+    /// to access the nested member `[BatchClientTypes.ServiceEnvironmentDetail]`
+    /// - Returns: `[BatchClientTypes.ServiceEnvironmentDetail]`
+    public func serviceEnvironments() async throws -> [BatchClientTypes.ServiceEnvironmentDetail] {
+        return try await self.asyncCompactMap { item in item.serviceEnvironments }
+    }
+}
+extension BatchClient {
+    /// Paginate over `[ListConsumableResourcesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConsumableResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConsumableResourcesOutput`
+    public func listConsumableResourcesPaginated(input: ListConsumableResourcesInput) -> ClientRuntime.PaginatorSequence<ListConsumableResourcesInput, ListConsumableResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListConsumableResourcesInput, ListConsumableResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConsumableResources(input:))
+    }
+}
+
+extension ListConsumableResourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListConsumableResourcesInput {
+        return ListConsumableResourcesInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListConsumableResourcesInput, OperationStackOutput == ListConsumableResourcesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listConsumableResourcesPaginated`
+    /// to access the nested member `[BatchClientTypes.ConsumableResourceSummary]`
+    /// - Returns: `[BatchClientTypes.ConsumableResourceSummary]`
+    public func consumableResources() async throws -> [BatchClientTypes.ConsumableResourceSummary] {
+        return try await self.asyncCompactMap { item in item.consumableResources }
+    }
+}
+extension BatchClient {
     /// Paginate over `[ListJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -141,6 +203,38 @@ extension PaginatorSequence where OperationStackInput == ListJobsInput, Operatio
     }
 }
 extension BatchClient {
+    /// Paginate over `[ListJobsByConsumableResourceOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListJobsByConsumableResourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsByConsumableResourceOutput`
+    public func listJobsByConsumableResourcePaginated(input: ListJobsByConsumableResourceInput) -> ClientRuntime.PaginatorSequence<ListJobsByConsumableResourceInput, ListJobsByConsumableResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListJobsByConsumableResourceInput, ListJobsByConsumableResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobsByConsumableResource(input:))
+    }
+}
+
+extension ListJobsByConsumableResourceInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListJobsByConsumableResourceInput {
+        return ListJobsByConsumableResourceInput(
+            consumableResource: self.consumableResource,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListJobsByConsumableResourceInput, OperationStackOutput == ListJobsByConsumableResourceOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listJobsByConsumableResourcePaginated`
+    /// to access the nested member `[BatchClientTypes.ListJobsByConsumableResourceSummary]`
+    /// - Returns: `[BatchClientTypes.ListJobsByConsumableResourceSummary]`
+    public func jobs() async throws -> [BatchClientTypes.ListJobsByConsumableResourceSummary] {
+        return try await self.asyncCompactMap { item in item.jobs }
+    }
+}
+extension BatchClient {
     /// Paginate over `[ListSchedulingPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -168,5 +262,38 @@ extension PaginatorSequence where OperationStackInput == ListSchedulingPoliciesI
     /// - Returns: `[BatchClientTypes.SchedulingPolicyListingDetail]`
     public func schedulingPolicies() async throws -> [BatchClientTypes.SchedulingPolicyListingDetail] {
         return try await self.asyncCompactMap { item in item.schedulingPolicies }
+    }
+}
+extension BatchClient {
+    /// Paginate over `[ListServiceJobsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListServiceJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceJobsOutput`
+    public func listServiceJobsPaginated(input: ListServiceJobsInput) -> ClientRuntime.PaginatorSequence<ListServiceJobsInput, ListServiceJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListServiceJobsInput, ListServiceJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServiceJobs(input:))
+    }
+}
+
+extension ListServiceJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListServiceJobsInput {
+        return ListServiceJobsInput(
+            filters: self.filters,
+            jobQueue: self.jobQueue,
+            jobStatus: self.jobStatus,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListServiceJobsInput, OperationStackOutput == ListServiceJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listServiceJobsPaginated`
+    /// to access the nested member `[BatchClientTypes.ServiceJobSummary]`
+    /// - Returns: `[BatchClientTypes.ServiceJobSummary]`
+    public func jobSummaryList() async throws -> [BatchClientTypes.ServiceJobSummary] {
+        return try await self.asyncCompactMap { item in item.jobSummaryList }
     }
 }

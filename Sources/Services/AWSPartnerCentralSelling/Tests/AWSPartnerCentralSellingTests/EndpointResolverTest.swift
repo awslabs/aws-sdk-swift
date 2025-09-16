@@ -10,6 +10,7 @@
 @testable import AWSPartnerCentralSelling
 import XCTest
 import enum ClientRuntime.EndpointError
+import enum SmithyHTTPAPI.EndpointPropertyValue
 import enum SmithyTestUtil.TestInitializer
 import struct SmithyHTTPAPI.Endpoint
 import struct SmithyHTTPAPI.Headers
@@ -30,7 +31,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -67,7 +68,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -86,7 +87,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -105,7 +106,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -124,7 +125,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -143,7 +144,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -162,7 +163,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -171,160 +172,8 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-iso-east-1 with FIPS enabled and DualStack enabled
-    func testResolve9() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-iso-east-1 with FIPS disabled and DualStack enabled
-    func testResolve10() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isob-east-1 with FIPS enabled and DualStack enabled
-    func testResolve11() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isob-east-1 with FIPS disabled and DualStack enabled
-    func testResolve12() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region eu-isoe-west-1 with FIPS enabled and DualStack enabled
-    func testResolve13() throws {
-        let endpointParams = EndpointParams(
-            region: "eu-isoe-west-1",
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling-fips.eu-isoe-west-1.cloud.adc-e.uk", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region eu-isoe-west-1 with FIPS disabled and DualStack enabled
-    func testResolve14() throws {
-        let endpointParams = EndpointParams(
-            region: "eu-isoe-west-1",
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling.eu-isoe-west-1.cloud.adc-e.uk", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isof-south-1 with FIPS enabled and DualStack enabled
-    func testResolve15() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isof-south-1",
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling-fips.us-isof-south-1.csp.hci.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isof-south-1 with FIPS disabled and DualStack enabled
-    func testResolve16() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isof-south-1",
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling.us-isof-south-1.csp.hci.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
     /// Missing region
-    func testResolve17() throws {
+    func testResolve9() throws {
         let endpointParams = EndpointParams(
         )
         let resolver = try DefaultEndpointResolver()

@@ -7933,8 +7933,10 @@ extension ListServiceTemplateVersionsInput {
 extension ListTagsForResourceInput {
 
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["resourceArn"].write(value.resourceArn)
     }
 }
 
@@ -7962,6 +7964,7 @@ extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["resourceArn"].write(value.resourceArn)
         try writer["tags"].writeList(value.tags, memberWritingClosure: ProtonClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -7970,6 +7973,7 @@ extension UntagResourceInput {
 
     static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["resourceArn"].write(value.resourceArn)
         try writer["tagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -10813,24 +10817,11 @@ enum UpdateTemplateSyncConfigOutputError {
     }
 }
 
-extension ThrottlingException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10878,11 +10869,24 @@ extension ResourceNotFoundException {
     }
 }
 
-extension AccessDeniedException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

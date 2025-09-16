@@ -100,6 +100,11 @@ public struct DeleteRouteSettingsOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteRoutingRuleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteStageOutput: Swift.Sendable {
 
     public init() { }
@@ -146,6 +151,36 @@ extension ApiGatewayV2ClientTypes {
             self.allowOrigins = allowOrigins
             self.exposeHeaders = exposeHeaders
             self.maxAge = maxAge
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// The IP address types that can invoke your API or domain name.
+    public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpAddressType] {
+            return [
+                .dualstack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "dualstack"
+            case .ipv4: return "ipv4"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -204,6 +239,8 @@ extension ApiGatewayV2ClientTypes {
         public var disableSchemaValidation: Swift.Bool?
         /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
         public var importInfo: [Swift.String]?
+        /// The IP address types that can invoke the API.
+        public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
         /// The name of the API.
         /// This member is required.
         public var name: Swift.String?
@@ -231,6 +268,7 @@ extension ApiGatewayV2ClientTypes {
             disableExecuteApiEndpoint: Swift.Bool? = nil,
             disableSchemaValidation: Swift.Bool? = nil,
             importInfo: [Swift.String]? = nil,
+            ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
             name: Swift.String? = nil,
             protocolType: ApiGatewayV2ClientTypes.ProtocolType? = nil,
             routeSelectionExpression: Swift.String? = nil,
@@ -248,6 +286,7 @@ extension ApiGatewayV2ClientTypes {
             self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
+            self.ipAddressType = ipAddressType
             self.name = name
             self.protocolType = protocolType
             self.routeSelectionExpression = routeSelectionExpression
@@ -576,6 +615,8 @@ extension ApiGatewayV2ClientTypes {
         public var endpointType: ApiGatewayV2ClientTypes.EndpointType?
         /// The Amazon Route 53 Hosted Zone ID of the endpoint.
         public var hostedZoneId: Swift.String?
+        /// The IP address types that can invoke the domain name. Use ipv4 to allow only IPv4 addresses to invoke your domain name, or use dualstack to allow both IPv4 and IPv6 addresses to invoke your domain name.
+        public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
         /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn
         public var ownershipVerificationCertificateArn: Swift.String?
         /// The Transport Layer Security (TLS) version of the security policy for this domain name. The valid values are TLS_1_0 and TLS_1_2.
@@ -590,6 +631,7 @@ extension ApiGatewayV2ClientTypes {
             domainNameStatusMessage: Swift.String? = nil,
             endpointType: ApiGatewayV2ClientTypes.EndpointType? = nil,
             hostedZoneId: Swift.String? = nil,
+            ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
             ownershipVerificationCertificateArn: Swift.String? = nil,
             securityPolicy: ApiGatewayV2ClientTypes.SecurityPolicy? = nil
         ) {
@@ -601,6 +643,7 @@ extension ApiGatewayV2ClientTypes {
             self.domainNameStatusMessage = domainNameStatusMessage
             self.endpointType = endpointType
             self.hostedZoneId = hostedZoneId
+            self.ipAddressType = ipAddressType
             self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
             self.securityPolicy = securityPolicy
         }
@@ -631,6 +674,38 @@ extension ApiGatewayV2ClientTypes {
 
 extension ApiGatewayV2ClientTypes {
 
+    public enum RoutingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apiMappingOnly
+        case routingRuleOnly
+        case routingRuleThenApiMapping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RoutingMode] {
+            return [
+                .apiMappingOnly,
+                .routingRuleOnly,
+                .routingRuleThenApiMapping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apiMappingOnly: return "API_MAPPING_ONLY"
+            case .routingRuleOnly: return "ROUTING_RULE_ONLY"
+            case .routingRuleThenApiMapping: return "ROUTING_RULE_THEN_API_MAPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
     /// Represents a domain name.
     public struct DomainName: Swift.Sendable {
         /// The API mapping selection expression.
@@ -638,24 +713,32 @@ extension ApiGatewayV2ClientTypes {
         /// The name of the DomainName resource.
         /// This member is required.
         public var domainName: Swift.String?
+        /// Represents an Amazon Resource Name (ARN).
+        public var domainNameArn: Swift.String?
         /// The domain name configurations.
         public var domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]?
         /// The mutual TLS authentication configuration for a custom domain name.
         public var mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthentication?
+        /// The routing mode.
+        public var routingMode: ApiGatewayV2ClientTypes.RoutingMode?
         /// The collection of tags associated with a domain name.
         public var tags: [Swift.String: Swift.String]?
 
         public init(
             apiMappingSelectionExpression: Swift.String? = nil,
             domainName: Swift.String? = nil,
+            domainNameArn: Swift.String? = nil,
             domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]? = nil,
             mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthentication? = nil,
+            routingMode: ApiGatewayV2ClientTypes.RoutingMode? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
+            self.domainNameArn = domainNameArn
             self.domainNameConfigurations = domainNameConfigurations
             self.mutualTlsAuthentication = mutualTlsAuthentication
+            self.routingMode = routingMode
             self.tags = tags
         }
     }
@@ -838,7 +921,7 @@ extension ApiGatewayV2ClientTypes {
         public var integrationUri: Swift.String?
         /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER. Supported only for WebSocket APIs. WHEN_NO_MATCH passes the request body for unmapped content types through to the integration backend without transformation. NEVER rejects unmapped content types with an HTTP 415 Unsupported Media Type response. WHEN_NO_TEMPLATES allows pass-through when the integration has no content types mapped to templates. However, if there is at least one content type defined, unmapped content types will be rejected with the same HTTP 415 Unsupported Media Type response.
         public var passthroughBehavior: ApiGatewayV2ClientTypes.PassthroughBehavior?
-        /// Specifies the format of the payload sent to an integration. Required for HTTP APIs.
+        /// Specifies the format of the payload sent to an integration. Required for HTTP APIs. Supported values for Lambda proxy integrations are 1.0 and 2.0. For all other integrations, 1.0 is the only supported value. To learn more, see [Working with AWS Lambda proxy integrations for HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-lambda.html).
         public var payloadFormatVersion: Swift.String?
         /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name} , where {location} is querystring, path, or header; and {name} must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see [Working with AWS service integrations for HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html). For HTTP API integrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to backend integrations. The key should follow the pattern <action>:<header|querystring|path>.<location>. The action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see [Transforming API requests and responses](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html).
         public var requestParameters: [Swift.String: Swift.String]?
@@ -1110,6 +1193,150 @@ extension ApiGatewayV2ClientTypes {
             self.responseParameters = responseParameters
             self.routeResponseId = routeResponseId
             self.routeResponseKey = routeResponseKey
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents an InvokeApi action.
+    public struct RoutingRuleActionInvokeApi: Swift.Sendable {
+        /// The identifier.
+        /// This member is required.
+        public var apiId: Swift.String?
+        /// A string with a length between [1-128].
+        /// This member is required.
+        public var stage: Swift.String?
+        /// The strip base path setting.
+        public var stripBasePath: Swift.Bool?
+
+        public init(
+            apiId: Swift.String? = nil,
+            stage: Swift.String? = nil,
+            stripBasePath: Swift.Bool? = nil
+        ) {
+            self.apiId = apiId
+            self.stage = stage
+            self.stripBasePath = stripBasePath
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// The routing rule action.
+    public struct RoutingRuleAction: Swift.Sendable {
+        /// Represents an InvokeApi action.
+        /// This member is required.
+        public var invokeApi: ApiGatewayV2ClientTypes.RoutingRuleActionInvokeApi?
+
+        public init(
+            invokeApi: ApiGatewayV2ClientTypes.RoutingRuleActionInvokeApi? = nil
+        ) {
+            self.invokeApi = invokeApi
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents a MatchBasePaths condition.
+    public struct RoutingRuleMatchBasePaths: Swift.Sendable {
+        /// The string of the case sensitive base path to be matched.
+        /// This member is required.
+        public var anyOf: [Swift.String]?
+
+        public init(
+            anyOf: [Swift.String]? = nil
+        ) {
+            self.anyOf = anyOf
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents a MatchHeaderValue.
+    public struct RoutingRuleMatchHeaderValue: Swift.Sendable {
+        /// After evaluating a selection expression, the result is compared against one or more selection keys to find a matching key. See [Selection Expressions](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-selection-expressions.html#apigateway-websocket-api-apikey-selection-expressions) for a list of expressions and each expression's associated selection key type.
+        /// This member is required.
+        public var header: Swift.String?
+        /// An expression used to extract information at runtime. See [Selection Expressions](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-selection-expressions.html#apigateway-websocket-api-apikey-selection-expressions) for more information.
+        /// This member is required.
+        public var valueGlob: Swift.String?
+
+        public init(
+            header: Swift.String? = nil,
+            valueGlob: Swift.String? = nil
+        ) {
+            self.header = header
+            self.valueGlob = valueGlob
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents a MatchHeaders condition.
+    public struct RoutingRuleMatchHeaders: Swift.Sendable {
+        /// The header name and header value glob to be matched. The matchHeaders condition is matched if any of the header name and header value globs are matched.
+        /// This member is required.
+        public var anyOf: [ApiGatewayV2ClientTypes.RoutingRuleMatchHeaderValue]?
+
+        public init(
+            anyOf: [ApiGatewayV2ClientTypes.RoutingRuleMatchHeaderValue]? = nil
+        ) {
+            self.anyOf = anyOf
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents a routing rule condition.
+    public struct RoutingRuleCondition: Swift.Sendable {
+        /// The base path to be matched.
+        public var matchBasePaths: ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths?
+        /// The headers to be matched.
+        public var matchHeaders: ApiGatewayV2ClientTypes.RoutingRuleMatchHeaders?
+
+        public init(
+            matchBasePaths: ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths? = nil,
+            matchHeaders: ApiGatewayV2ClientTypes.RoutingRuleMatchHeaders? = nil
+        ) {
+            self.matchBasePaths = matchBasePaths
+            self.matchHeaders = matchHeaders
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
+    /// Represents a routing rule.
+    public struct RoutingRule: Swift.Sendable {
+        /// The routing rule action.
+        public var actions: [ApiGatewayV2ClientTypes.RoutingRuleAction]?
+        /// The routing rule condition.
+        public var conditions: [ApiGatewayV2ClientTypes.RoutingRuleCondition]?
+        /// The routing rule priority.
+        public var priority: Swift.Int?
+        /// The routing rule ARN.
+        public var routingRuleArn: Swift.String?
+        /// The routing rule ID.
+        public var routingRuleId: Swift.String?
+
+        public init(
+            actions: [ApiGatewayV2ClientTypes.RoutingRuleAction]? = nil,
+            conditions: [ApiGatewayV2ClientTypes.RoutingRuleCondition]? = nil,
+            priority: Swift.Int? = nil,
+            routingRuleArn: Swift.String? = nil,
+            routingRuleId: Swift.String? = nil
+        ) {
+            self.actions = actions
+            self.conditions = conditions
+            self.priority = priority
+            self.routingRuleArn = routingRuleArn
+            self.routingRuleId = routingRuleId
         }
     }
 }
@@ -1522,6 +1749,8 @@ public struct CreateApiInput: Swift.Sendable {
     public var disableExecuteApiEndpoint: Swift.Bool?
     /// Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
     public var disableSchemaValidation: Swift.Bool?
+    /// The IP address types that can invoke the API.
+    public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
     /// The name of the API.
     /// This member is required.
     public var name: Swift.String?
@@ -1546,6 +1775,7 @@ public struct CreateApiInput: Swift.Sendable {
         description: Swift.String? = nil,
         disableExecuteApiEndpoint: Swift.Bool? = nil,
         disableSchemaValidation: Swift.Bool? = nil,
+        ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         protocolType: ApiGatewayV2ClientTypes.ProtocolType? = nil,
         routeKey: Swift.String? = nil,
@@ -1560,6 +1790,7 @@ public struct CreateApiInput: Swift.Sendable {
         self.description = description
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
         self.disableSchemaValidation = disableSchemaValidation
+        self.ipAddressType = ipAddressType
         self.name = name
         self.protocolType = protocolType
         self.routeKey = routeKey
@@ -1591,6 +1822,8 @@ public struct CreateApiOutput: Swift.Sendable {
     public var disableSchemaValidation: Swift.Bool?
     /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
     public var importInfo: [Swift.String]?
+    /// The IP address types that can invoke the API.
+    public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
     /// The name of the API.
     public var name: Swift.String?
     /// The API protocol.
@@ -1615,6 +1848,7 @@ public struct CreateApiOutput: Swift.Sendable {
         disableExecuteApiEndpoint: Swift.Bool? = nil,
         disableSchemaValidation: Swift.Bool? = nil,
         importInfo: [Swift.String]? = nil,
+        ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         protocolType: ApiGatewayV2ClientTypes.ProtocolType? = nil,
         routeSelectionExpression: Swift.String? = nil,
@@ -1632,6 +1866,7 @@ public struct CreateApiOutput: Swift.Sendable {
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
         self.disableSchemaValidation = disableSchemaValidation
         self.importInfo = importInfo
+        self.ipAddressType = ipAddressType
         self.name = name
         self.protocolType = protocolType
         self.routeSelectionExpression = routeSelectionExpression
@@ -1877,6 +2112,8 @@ public struct CreateDomainNameInput: Swift.Sendable {
     public var domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]?
     /// The mutual TLS authentication configuration for a custom domain name.
     public var mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput?
+    /// The routing mode.
+    public var routingMode: ApiGatewayV2ClientTypes.RoutingMode?
     /// The collection of tags associated with a domain name.
     public var tags: [Swift.String: Swift.String]?
 
@@ -1884,11 +2121,13 @@ public struct CreateDomainNameInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]? = nil,
         mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput? = nil,
+        routingMode: ApiGatewayV2ClientTypes.RoutingMode? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.domainName = domainName
         self.domainNameConfigurations = domainNameConfigurations
         self.mutualTlsAuthentication = mutualTlsAuthentication
+        self.routingMode = routingMode
         self.tags = tags
     }
 }
@@ -1898,24 +2137,32 @@ public struct CreateDomainNameOutput: Swift.Sendable {
     public var apiMappingSelectionExpression: Swift.String?
     /// The name of the DomainName resource.
     public var domainName: Swift.String?
+    /// Represents an Amazon Resource Name (ARN).
+    public var domainNameArn: Swift.String?
     /// The domain name configurations.
     public var domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]?
     /// The mutual TLS authentication configuration for a custom domain name.
     public var mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthentication?
+    /// The routing mode.
+    public var routingMode: ApiGatewayV2ClientTypes.RoutingMode?
     /// The collection of tags associated with a domain name.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         apiMappingSelectionExpression: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        domainNameArn: Swift.String? = nil,
         domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]? = nil,
         mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthentication? = nil,
+        routingMode: ApiGatewayV2ClientTypes.RoutingMode? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.apiMappingSelectionExpression = apiMappingSelectionExpression
         self.domainName = domainName
+        self.domainNameArn = domainNameArn
         self.domainNameConfigurations = domainNameConfigurations
         self.mutualTlsAuthentication = mutualTlsAuthentication
+        self.routingMode = routingMode
         self.tags = tags
     }
 }
@@ -1961,7 +2208,7 @@ public struct CreateIntegrationInput: Swift.Sendable {
     public var integrationUri: Swift.String?
     /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER. Supported only for WebSocket APIs. WHEN_NO_MATCH passes the request body for unmapped content types through to the integration backend without transformation. NEVER rejects unmapped content types with an HTTP 415 Unsupported Media Type response. WHEN_NO_TEMPLATES allows pass-through when the integration has no content types mapped to templates. However, if there is at least one content type defined, unmapped content types will be rejected with the same HTTP 415 Unsupported Media Type response.
     public var passthroughBehavior: ApiGatewayV2ClientTypes.PassthroughBehavior?
-    /// Specifies the format of the payload sent to an integration. Required for HTTP APIs.
+    /// Specifies the format of the payload sent to an integration. Required for HTTP APIs. Supported values for Lambda proxy integrations are 1.0 and 2.0. For all other integrations, 1.0 is the only supported value. To learn more, see [Working with AWS Lambda proxy integrations for HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-lambda.html).
     public var payloadFormatVersion: Swift.String?
     /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name} , where {location} is querystring, path, or header; and {name} must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see [Working with AWS service integrations for HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html). For HTTP API integrations without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to the backend. The key should follow the pattern <action>:<header|querystring|path>.<location> where action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see [Transforming API requests and responses](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html).
     public var requestParameters: [Swift.String: Swift.String]?
@@ -2044,7 +2291,7 @@ public struct CreateIntegrationOutput: Swift.Sendable {
     public var integrationUri: Swift.String?
     /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER. Supported only for WebSocket APIs. WHEN_NO_MATCH passes the request body for unmapped content types through to the integration backend without transformation. NEVER rejects unmapped content types with an HTTP 415 Unsupported Media Type response. WHEN_NO_TEMPLATES allows pass-through when the integration has no content types mapped to templates. However, if there is at least one content type defined, unmapped content types will be rejected with the same HTTP 415 Unsupported Media Type response.
     public var passthroughBehavior: ApiGatewayV2ClientTypes.PassthroughBehavior?
-    /// Specifies the format of the payload sent to an integration. Required for HTTP APIs.
+    /// Specifies the format of the payload sent to an integration. Required for HTTP APIs. Supported values for Lambda proxy integrations are 1.0 and 2.0. For all other integrations, 1.0 is the only supported value. To learn more, see [Working with AWS Lambda proxy integrations for HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-lambda.html).
     public var payloadFormatVersion: Swift.String?
     /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name} , where {location} is querystring, path, or header; and {name} must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see [Working with AWS service integrations for HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html). For HTTP API integrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to backend integrations. The key should follow the pattern <action>:<header|querystring|path>.<location>. The action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see [Transforming API requests and responses](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html).
     public var requestParameters: [Swift.String: Swift.String]?
@@ -2408,6 +2655,64 @@ public struct CreateRouteResponseOutput: Swift.Sendable {
         self.responseParameters = responseParameters
         self.routeResponseId = routeResponseId
         self.routeResponseKey = routeResponseKey
+    }
+}
+
+public struct CreateRoutingRuleInput: Swift.Sendable {
+    /// Represents a routing rule action. The only supported action is invokeApi.
+    /// This member is required.
+    public var actions: [ApiGatewayV2ClientTypes.RoutingRuleAction]?
+    /// Represents a condition. Conditions can contain up to two matchHeaders conditions and one matchBasePaths conditions. API Gateway evaluates header conditions and base path conditions together. You can only use AND between header and base path conditions.
+    /// This member is required.
+    public var conditions: [ApiGatewayV2ClientTypes.RoutingRuleCondition]?
+    /// The domain name.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The domain name ID.
+    public var domainNameId: Swift.String?
+    /// Represents the priority of the routing rule.
+    /// This member is required.
+    public var priority: Swift.Int?
+
+    public init(
+        actions: [ApiGatewayV2ClientTypes.RoutingRuleAction]? = nil,
+        conditions: [ApiGatewayV2ClientTypes.RoutingRuleCondition]? = nil,
+        domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
+        priority: Swift.Int? = nil
+    ) {
+        self.actions = actions
+        self.conditions = conditions
+        self.domainName = domainName
+        self.domainNameId = domainNameId
+        self.priority = priority
+    }
+}
+
+public struct CreateRoutingRuleOutput: Swift.Sendable {
+    /// Represents a routing rule action. The only supported action is invokeApi.
+    public var actions: [ApiGatewayV2ClientTypes.RoutingRuleAction]?
+    /// Represents a condition. Conditions can contain up to two matchHeaders conditions and one matchBasePaths conditions. API Gateway evaluates header conditions and base path conditions together. You can only use AND between header and base path conditions.
+    public var conditions: [ApiGatewayV2ClientTypes.RoutingRuleCondition]?
+    /// Represents the priority of the routing rule.
+    public var priority: Swift.Int?
+    /// The ARN of the domain name.
+    public var routingRuleArn: Swift.String?
+    /// The routing rule ID.
+    public var routingRuleId: Swift.String?
+
+    public init(
+        actions: [ApiGatewayV2ClientTypes.RoutingRuleAction]? = nil,
+        conditions: [ApiGatewayV2ClientTypes.RoutingRuleCondition]? = nil,
+        priority: Swift.Int? = nil,
+        routingRuleArn: Swift.String? = nil,
+        routingRuleId: Swift.String? = nil
+    ) {
+        self.actions = actions
+        self.conditions = conditions
+        self.priority = priority
+        self.routingRuleArn = routingRuleArn
+        self.routingRuleId = routingRuleId
     }
 }
 
@@ -2840,6 +3145,27 @@ public struct DeleteRouteSettingsInput: Swift.Sendable {
     }
 }
 
+public struct DeleteRoutingRuleInput: Swift.Sendable {
+    /// The domain name.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The domain name ID.
+    public var domainNameId: Swift.String?
+    /// The routing rule ID.
+    /// This member is required.
+    public var routingRuleId: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
+        routingRuleId: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.domainNameId = domainNameId
+        self.routingRuleId = routingRuleId
+    }
+}
+
 public struct DeleteStageInput: Swift.Sendable {
     /// The API identifier.
     /// This member is required.
@@ -2952,6 +3278,8 @@ public struct GetApiOutput: Swift.Sendable {
     public var disableSchemaValidation: Swift.Bool?
     /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
     public var importInfo: [Swift.String]?
+    /// The IP address types that can invoke the API.
+    public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
     /// The name of the API.
     public var name: Swift.String?
     /// The API protocol.
@@ -2976,6 +3304,7 @@ public struct GetApiOutput: Swift.Sendable {
         disableExecuteApiEndpoint: Swift.Bool? = nil,
         disableSchemaValidation: Swift.Bool? = nil,
         importInfo: [Swift.String]? = nil,
+        ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         protocolType: ApiGatewayV2ClientTypes.ProtocolType? = nil,
         routeSelectionExpression: Swift.String? = nil,
@@ -2993,6 +3322,7 @@ public struct GetApiOutput: Swift.Sendable {
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
         self.disableSchemaValidation = disableSchemaValidation
         self.importInfo = importInfo
+        self.ipAddressType = ipAddressType
         self.name = name
         self.protocolType = protocolType
         self.routeSelectionExpression = routeSelectionExpression
@@ -3310,24 +3640,32 @@ public struct GetDomainNameOutput: Swift.Sendable {
     public var apiMappingSelectionExpression: Swift.String?
     /// The name of the DomainName resource.
     public var domainName: Swift.String?
+    /// Represents an Amazon Resource Name (ARN).
+    public var domainNameArn: Swift.String?
     /// The domain name configurations.
     public var domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]?
     /// The mutual TLS authentication configuration for a custom domain name.
     public var mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthentication?
+    /// The routing mode.
+    public var routingMode: ApiGatewayV2ClientTypes.RoutingMode?
     /// The collection of tags associated with a domain name.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         apiMappingSelectionExpression: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        domainNameArn: Swift.String? = nil,
         domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]? = nil,
         mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthentication? = nil,
+        routingMode: ApiGatewayV2ClientTypes.RoutingMode? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.apiMappingSelectionExpression = apiMappingSelectionExpression
         self.domainName = domainName
+        self.domainNameArn = domainNameArn
         self.domainNameConfigurations = domainNameConfigurations
         self.mutualTlsAuthentication = mutualTlsAuthentication
+        self.routingMode = routingMode
         self.tags = tags
     }
 }
@@ -3406,7 +3744,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
     public var integrationUri: Swift.String?
     /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER. Supported only for WebSocket APIs. WHEN_NO_MATCH passes the request body for unmapped content types through to the integration backend without transformation. NEVER rejects unmapped content types with an HTTP 415 Unsupported Media Type response. WHEN_NO_TEMPLATES allows pass-through when the integration has no content types mapped to templates. However, if there is at least one content type defined, unmapped content types will be rejected with the same HTTP 415 Unsupported Media Type response.
     public var passthroughBehavior: ApiGatewayV2ClientTypes.PassthroughBehavior?
-    /// Specifies the format of the payload sent to an integration. Required for HTTP APIs.
+    /// Specifies the format of the payload sent to an integration. Required for HTTP APIs. Supported values for Lambda proxy integrations are 1.0 and 2.0. For all other integrations, 1.0 is the only supported value. To learn more, see [Working with AWS Lambda proxy integrations for HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-lambda.html).
     public var payloadFormatVersion: Swift.String?
     /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name} , where {location} is querystring, path, or header; and {name} must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see [Working with AWS service integrations for HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html). For HTTP API integrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to backend integrations. The key should follow the pattern <action>:<header|querystring|path>.<location>. The action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see [Transforming API requests and responses](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html).
     public var requestParameters: [Swift.String: Swift.String]?
@@ -3901,6 +4239,54 @@ public struct GetRoutesOutput: Swift.Sendable {
     }
 }
 
+public struct GetRoutingRuleInput: Swift.Sendable {
+    /// The domain name.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The domain name ID.
+    public var domainNameId: Swift.String?
+    /// The routing rule ID.
+    /// This member is required.
+    public var routingRuleId: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
+        routingRuleId: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.domainNameId = domainNameId
+        self.routingRuleId = routingRuleId
+    }
+}
+
+public struct GetRoutingRuleOutput: Swift.Sendable {
+    /// The resulting action based on matching a routing rules condition. Only InvokeApi is supported.
+    public var actions: [ApiGatewayV2ClientTypes.RoutingRuleAction]?
+    /// The conditions of the routing rule.
+    public var conditions: [ApiGatewayV2ClientTypes.RoutingRuleCondition]?
+    /// The order in which API Gateway evaluates a rule. Priority is evaluated from the lowest value to the highest value.
+    public var priority: Swift.Int?
+    /// The routing rule ARN.
+    public var routingRuleArn: Swift.String?
+    /// The routing rule ID.
+    public var routingRuleId: Swift.String?
+
+    public init(
+        actions: [ApiGatewayV2ClientTypes.RoutingRuleAction]? = nil,
+        conditions: [ApiGatewayV2ClientTypes.RoutingRuleCondition]? = nil,
+        priority: Swift.Int? = nil,
+        routingRuleArn: Swift.String? = nil,
+        routingRuleId: Swift.String? = nil
+    ) {
+        self.actions = actions
+        self.conditions = conditions
+        self.priority = priority
+        self.routingRuleArn = routingRuleArn
+        self.routingRuleId = routingRuleId
+    }
+}
+
 public struct GetStageInput: Swift.Sendable {
     /// The API identifier.
     /// This member is required.
@@ -4166,6 +4552,8 @@ public struct ImportApiOutput: Swift.Sendable {
     public var disableSchemaValidation: Swift.Bool?
     /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
     public var importInfo: [Swift.String]?
+    /// The IP address types that can invoke the API.
+    public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
     /// The name of the API.
     public var name: Swift.String?
     /// The API protocol.
@@ -4190,6 +4578,7 @@ public struct ImportApiOutput: Swift.Sendable {
         disableExecuteApiEndpoint: Swift.Bool? = nil,
         disableSchemaValidation: Swift.Bool? = nil,
         importInfo: [Swift.String]? = nil,
+        ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         protocolType: ApiGatewayV2ClientTypes.ProtocolType? = nil,
         routeSelectionExpression: Swift.String? = nil,
@@ -4207,12 +4596,115 @@ public struct ImportApiOutput: Swift.Sendable {
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
         self.disableSchemaValidation = disableSchemaValidation
         self.importInfo = importInfo
+        self.ipAddressType = ipAddressType
         self.name = name
         self.protocolType = protocolType
         self.routeSelectionExpression = routeSelectionExpression
         self.tags = tags
         self.version = version
         self.warnings = warnings
+    }
+}
+
+public struct ListRoutingRulesInput: Swift.Sendable {
+    /// The domain name.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The domain name ID.
+    public var domainNameId: Swift.String?
+    /// The maximum number of elements to be returned for this resource.
+    public var maxResults: Swift.Int?
+    /// The next page of elements from this collection. Not valid for the last element of the collection.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.domainNameId = domainNameId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListRoutingRulesOutput: Swift.Sendable {
+    /// The next page of elements from this collection. Not valid for the last element of the collection.
+    public var nextToken: Swift.String?
+    /// The routing rules.
+    public var routingRules: [ApiGatewayV2ClientTypes.RoutingRule]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        routingRules: [ApiGatewayV2ClientTypes.RoutingRule]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.routingRules = routingRules
+    }
+}
+
+public struct PutRoutingRuleInput: Swift.Sendable {
+    /// The routing rule action.
+    /// This member is required.
+    public var actions: [ApiGatewayV2ClientTypes.RoutingRuleAction]?
+    /// The routing rule condition.
+    /// This member is required.
+    public var conditions: [ApiGatewayV2ClientTypes.RoutingRuleCondition]?
+    /// The domain name.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The domain name ID.
+    public var domainNameId: Swift.String?
+    /// The routing rule priority.
+    /// This member is required.
+    public var priority: Swift.Int?
+    /// The routing rule ID.
+    /// This member is required.
+    public var routingRuleId: Swift.String?
+
+    public init(
+        actions: [ApiGatewayV2ClientTypes.RoutingRuleAction]? = nil,
+        conditions: [ApiGatewayV2ClientTypes.RoutingRuleCondition]? = nil,
+        domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
+        priority: Swift.Int? = nil,
+        routingRuleId: Swift.String? = nil
+    ) {
+        self.actions = actions
+        self.conditions = conditions
+        self.domainName = domainName
+        self.domainNameId = domainNameId
+        self.priority = priority
+        self.routingRuleId = routingRuleId
+    }
+}
+
+public struct PutRoutingRuleOutput: Swift.Sendable {
+    /// The routing rule action.
+    public var actions: [ApiGatewayV2ClientTypes.RoutingRuleAction]?
+    /// The conditions of the routing rule.
+    public var conditions: [ApiGatewayV2ClientTypes.RoutingRuleCondition]?
+    /// The routing rule priority.
+    public var priority: Swift.Int?
+    /// The routing rule ARN.
+    public var routingRuleArn: Swift.String?
+    /// The routing rule ID.
+    public var routingRuleId: Swift.String?
+
+    public init(
+        actions: [ApiGatewayV2ClientTypes.RoutingRuleAction]? = nil,
+        conditions: [ApiGatewayV2ClientTypes.RoutingRuleCondition]? = nil,
+        priority: Swift.Int? = nil,
+        routingRuleArn: Swift.String? = nil,
+        routingRuleId: Swift.String? = nil
+    ) {
+        self.actions = actions
+        self.conditions = conditions
+        self.priority = priority
+        self.routingRuleArn = routingRuleArn
+        self.routingRuleId = routingRuleId
     }
 }
 
@@ -4263,6 +4755,8 @@ public struct ReimportApiOutput: Swift.Sendable {
     public var disableSchemaValidation: Swift.Bool?
     /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
     public var importInfo: [Swift.String]?
+    /// The IP address types that can invoke the API.
+    public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
     /// The name of the API.
     public var name: Swift.String?
     /// The API protocol.
@@ -4287,6 +4781,7 @@ public struct ReimportApiOutput: Swift.Sendable {
         disableExecuteApiEndpoint: Swift.Bool? = nil,
         disableSchemaValidation: Swift.Bool? = nil,
         importInfo: [Swift.String]? = nil,
+        ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         protocolType: ApiGatewayV2ClientTypes.ProtocolType? = nil,
         routeSelectionExpression: Swift.String? = nil,
@@ -4304,6 +4799,7 @@ public struct ReimportApiOutput: Swift.Sendable {
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
         self.disableSchemaValidation = disableSchemaValidation
         self.importInfo = importInfo
+        self.ipAddressType = ipAddressType
         self.name = name
         self.protocolType = protocolType
         self.routeSelectionExpression = routeSelectionExpression
@@ -4386,6 +4882,8 @@ public struct UpdateApiInput: Swift.Sendable {
     public var disableExecuteApiEndpoint: Swift.Bool?
     /// Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
     public var disableSchemaValidation: Swift.Bool?
+    /// The IP address types that can invoke your API or domain name.
+    public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
     /// The name of the API.
     public var name: Swift.String?
     /// This property is part of quick create. If not specified, the route created using quick create is kept. Otherwise, this value replaces the route key of the quick create route. Additional routes may still be added after the API is updated. Supported only for HTTP APIs.
@@ -4405,6 +4903,7 @@ public struct UpdateApiInput: Swift.Sendable {
         description: Swift.String? = nil,
         disableExecuteApiEndpoint: Swift.Bool? = nil,
         disableSchemaValidation: Swift.Bool? = nil,
+        ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         routeKey: Swift.String? = nil,
         routeSelectionExpression: Swift.String? = nil,
@@ -4418,6 +4917,7 @@ public struct UpdateApiInput: Swift.Sendable {
         self.description = description
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
         self.disableSchemaValidation = disableSchemaValidation
+        self.ipAddressType = ipAddressType
         self.name = name
         self.routeKey = routeKey
         self.routeSelectionExpression = routeSelectionExpression
@@ -4447,6 +4947,8 @@ public struct UpdateApiOutput: Swift.Sendable {
     public var disableSchemaValidation: Swift.Bool?
     /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
     public var importInfo: [Swift.String]?
+    /// The IP address types that can invoke the API.
+    public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
     /// The name of the API.
     public var name: Swift.String?
     /// The API protocol.
@@ -4471,6 +4973,7 @@ public struct UpdateApiOutput: Swift.Sendable {
         disableExecuteApiEndpoint: Swift.Bool? = nil,
         disableSchemaValidation: Swift.Bool? = nil,
         importInfo: [Swift.String]? = nil,
+        ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         protocolType: ApiGatewayV2ClientTypes.ProtocolType? = nil,
         routeSelectionExpression: Swift.String? = nil,
@@ -4488,6 +4991,7 @@ public struct UpdateApiOutput: Swift.Sendable {
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
         self.disableSchemaValidation = disableSchemaValidation
         self.importInfo = importInfo
+        self.ipAddressType = ipAddressType
         self.name = name
         self.protocolType = protocolType
         self.routeSelectionExpression = routeSelectionExpression
@@ -4722,15 +5226,19 @@ public struct UpdateDomainNameInput: Swift.Sendable {
     public var domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]?
     /// The mutual TLS authentication configuration for a custom domain name.
     public var mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput?
+    /// The routing mode.
+    public var routingMode: ApiGatewayV2ClientTypes.RoutingMode?
 
     public init(
         domainName: Swift.String? = nil,
         domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]? = nil,
-        mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput? = nil
+        mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput? = nil,
+        routingMode: ApiGatewayV2ClientTypes.RoutingMode? = nil
     ) {
         self.domainName = domainName
         self.domainNameConfigurations = domainNameConfigurations
         self.mutualTlsAuthentication = mutualTlsAuthentication
+        self.routingMode = routingMode
     }
 }
 
@@ -4739,24 +5247,32 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
     public var apiMappingSelectionExpression: Swift.String?
     /// The name of the DomainName resource.
     public var domainName: Swift.String?
+    /// Represents an Amazon Resource Name (ARN).
+    public var domainNameArn: Swift.String?
     /// The domain name configurations.
     public var domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]?
     /// The mutual TLS authentication configuration for a custom domain name.
     public var mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthentication?
+    /// The routing mode.
+    public var routingMode: ApiGatewayV2ClientTypes.RoutingMode?
     /// The collection of tags associated with a domain name.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         apiMappingSelectionExpression: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        domainNameArn: Swift.String? = nil,
         domainNameConfigurations: [ApiGatewayV2ClientTypes.DomainNameConfiguration]? = nil,
         mutualTlsAuthentication: ApiGatewayV2ClientTypes.MutualTlsAuthentication? = nil,
+        routingMode: ApiGatewayV2ClientTypes.RoutingMode? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.apiMappingSelectionExpression = apiMappingSelectionExpression
         self.domainName = domainName
+        self.domainNameArn = domainNameArn
         self.domainNameConfigurations = domainNameConfigurations
         self.mutualTlsAuthentication = mutualTlsAuthentication
+        self.routingMode = routingMode
         self.tags = tags
     }
 }
@@ -4789,7 +5305,7 @@ public struct UpdateIntegrationInput: Swift.Sendable {
     public var integrationUri: Swift.String?
     /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER. Supported only for WebSocket APIs. WHEN_NO_MATCH passes the request body for unmapped content types through to the integration backend without transformation. NEVER rejects unmapped content types with an HTTP 415 Unsupported Media Type response. WHEN_NO_TEMPLATES allows pass-through when the integration has no content types mapped to templates. However, if there is at least one content type defined, unmapped content types will be rejected with the same HTTP 415 Unsupported Media Type response.
     public var passthroughBehavior: ApiGatewayV2ClientTypes.PassthroughBehavior?
-    /// Specifies the format of the payload sent to an integration. Required for HTTP APIs.
+    /// Specifies the format of the payload sent to an integration. Required for HTTP APIs. Supported values for Lambda proxy integrations are 1.0 and 2.0. For all other integrations, 1.0 is the only supported value. To learn more, see [Working with AWS Lambda proxy integrations for HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-lambda.html).
     public var payloadFormatVersion: Swift.String?
     /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name} , where {location} is querystring, path, or header; and {name} must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see [Working with AWS service integrations for HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html). For HTTP API integrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to the backend. The key should follow the pattern <action>:<header|querystring|path>.<location> where action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see [Transforming API requests and responses](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html).
     public var requestParameters: [Swift.String: Swift.String]?
@@ -4874,7 +5390,7 @@ public struct UpdateIntegrationOutput: Swift.Sendable {
     public var integrationUri: Swift.String?
     /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER. Supported only for WebSocket APIs. WHEN_NO_MATCH passes the request body for unmapped content types through to the integration backend without transformation. NEVER rejects unmapped content types with an HTTP 415 Unsupported Media Type response. WHEN_NO_TEMPLATES allows pass-through when the integration has no content types mapped to templates. However, if there is at least one content type defined, unmapped content types will be rejected with the same HTTP 415 Unsupported Media Type response.
     public var passthroughBehavior: ApiGatewayV2ClientTypes.PassthroughBehavior?
-    /// Specifies the format of the payload sent to an integration. Required for HTTP APIs.
+    /// Specifies the format of the payload sent to an integration. Required for HTTP APIs. Supported values for Lambda proxy integrations are 1.0 and 2.0. For all other integrations, 1.0 is the only supported value. To learn more, see [Working with AWS Lambda proxy integrations for HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-lambda.html).
     public var payloadFormatVersion: Swift.String?
     /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name} , where {location} is querystring, path, or header; and {name} must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see [Working with AWS service integrations for HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html). For HTTP API integrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to backend integrations. The key should follow the pattern <action>:<header|querystring|path>.<location>. The action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see [Transforming API requests and responses](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html).
     public var requestParameters: [Swift.String: Swift.String]?
@@ -5529,6 +6045,28 @@ extension CreateRouteResponseInput {
     }
 }
 
+extension CreateRoutingRuleInput {
+
+    static func urlPathProvider(_ value: CreateRoutingRuleInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/v2/domainnames/\(domainName.urlPercentEncoding())/routingrules"
+    }
+}
+
+extension CreateRoutingRuleInput {
+
+    static func queryItemProvider(_ value: CreateRoutingRuleInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension CreateStageInput {
 
     static func urlPathProvider(_ value: CreateStageInput) -> Swift.String? {
@@ -5728,6 +6266,31 @@ extension DeleteRouteSettingsInput {
             return nil
         }
         return "/v2/apis/\(apiId.urlPercentEncoding())/stages/\(stageName.urlPercentEncoding())/routesettings/\(routeKey.urlPercentEncoding())"
+    }
+}
+
+extension DeleteRoutingRuleInput {
+
+    static func urlPathProvider(_ value: DeleteRoutingRuleInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let routingRuleId = value.routingRuleId else {
+            return nil
+        }
+        return "/v2/domainnames/\(domainName.urlPercentEncoding())/routingrules/\(routingRuleId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteRoutingRuleInput {
+
+    static func queryItemProvider(_ value: DeleteRoutingRuleInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
     }
 }
 
@@ -6196,6 +6759,31 @@ extension GetRoutesInput {
     }
 }
 
+extension GetRoutingRuleInput {
+
+    static func urlPathProvider(_ value: GetRoutingRuleInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let routingRuleId = value.routingRuleId else {
+            return nil
+        }
+        return "/v2/domainnames/\(domainName.urlPercentEncoding())/routingrules/\(routingRuleId.urlPercentEncoding())"
+    }
+}
+
+extension GetRoutingRuleInput {
+
+    static func queryItemProvider(_ value: GetRoutingRuleInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetStageInput {
 
     static func urlPathProvider(_ value: GetStageInput) -> Swift.String? {
@@ -6296,6 +6884,61 @@ extension ImportApiInput {
         if let basepath = value.basepath {
             let basepathQueryItem = Smithy.URIQueryItem(name: "basepath".urlPercentEncoding(), value: Swift.String(basepath).urlPercentEncoding())
             items.append(basepathQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListRoutingRulesInput {
+
+    static func urlPathProvider(_ value: ListRoutingRulesInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/v2/domainnames/\(domainName.urlPercentEncoding())/routingrules"
+    }
+}
+
+extension ListRoutingRulesInput {
+
+    static func queryItemProvider(_ value: ListRoutingRulesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension PutRoutingRuleInput {
+
+    static func urlPathProvider(_ value: PutRoutingRuleInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let routingRuleId = value.routingRuleId else {
+            return nil
+        }
+        return "/v2/domainnames/\(domainName.urlPercentEncoding())/routingrules/\(routingRuleId.urlPercentEncoding())"
+    }
+}
+
+extension PutRoutingRuleInput {
+
+    static func queryItemProvider(_ value: PutRoutingRuleInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
         }
         return items
     }
@@ -6539,6 +7182,7 @@ extension CreateApiInput {
         try writer["description"].write(value.description)
         try writer["disableExecuteApiEndpoint"].write(value.disableExecuteApiEndpoint)
         try writer["disableSchemaValidation"].write(value.disableSchemaValidation)
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["name"].write(value.name)
         try writer["protocolType"].write(value.protocolType)
         try writer["routeKey"].write(value.routeKey)
@@ -6592,6 +7236,7 @@ extension CreateDomainNameInput {
         try writer["domainName"].write(value.domainName)
         try writer["domainNameConfigurations"].writeList(value.domainNameConfigurations, memberWritingClosure: ApiGatewayV2ClientTypes.DomainNameConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["mutualTlsAuthentication"].write(value.mutualTlsAuthentication, with: ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput.write(value:to:))
+        try writer["routingMode"].write(value.routingMode)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -6672,6 +7317,16 @@ extension CreateRouteResponseInput {
     }
 }
 
+extension CreateRoutingRuleInput {
+
+    static func write(value: CreateRoutingRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actions"].writeList(value.actions, memberWritingClosure: ApiGatewayV2ClientTypes.RoutingRuleAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["conditions"].writeList(value.conditions, memberWritingClosure: ApiGatewayV2ClientTypes.RoutingRuleCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["priority"].write(value.priority)
+    }
+}
+
 extension CreateStageInput {
 
     static func write(value: CreateStageInput?, to writer: SmithyJSON.Writer) throws {
@@ -6708,6 +7363,16 @@ extension ImportApiInput {
     }
 }
 
+extension PutRoutingRuleInput {
+
+    static func write(value: PutRoutingRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actions"].writeList(value.actions, memberWritingClosure: ApiGatewayV2ClientTypes.RoutingRuleAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["conditions"].writeList(value.conditions, memberWritingClosure: ApiGatewayV2ClientTypes.RoutingRuleCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["priority"].write(value.priority)
+    }
+}
+
 extension ReimportApiInput {
 
     static func write(value: ReimportApiInput?, to writer: SmithyJSON.Writer) throws {
@@ -6734,6 +7399,7 @@ extension UpdateApiInput {
         try writer["description"].write(value.description)
         try writer["disableExecuteApiEndpoint"].write(value.disableExecuteApiEndpoint)
         try writer["disableSchemaValidation"].write(value.disableSchemaValidation)
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["name"].write(value.name)
         try writer["routeKey"].write(value.routeKey)
         try writer["routeSelectionExpression"].write(value.routeSelectionExpression)
@@ -6783,6 +7449,7 @@ extension UpdateDomainNameInput {
         guard let value else { return }
         try writer["domainNameConfigurations"].writeList(value.domainNameConfigurations, memberWritingClosure: ApiGatewayV2ClientTypes.DomainNameConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["mutualTlsAuthentication"].write(value.mutualTlsAuthentication, with: ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput.write(value:to:))
+        try writer["routingMode"].write(value.routingMode)
     }
 }
 
@@ -6902,6 +7569,7 @@ extension CreateApiOutput {
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
         value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
         value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.protocolType = try reader["protocolType"].readIfPresent()
         value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent()
@@ -6975,8 +7643,10 @@ extension CreateDomainNameOutput {
         var value = CreateDomainNameOutput()
         value.apiMappingSelectionExpression = try reader["apiMappingSelectionExpression"].readIfPresent()
         value.domainName = try reader["domainName"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
         value.domainNameConfigurations = try reader["domainNameConfigurations"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.DomainNameConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: ApiGatewayV2ClientTypes.MutualTlsAuthentication.read(from:))
+        value.routingMode = try reader["routingMode"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -7082,6 +7752,22 @@ extension CreateRouteResponseOutput {
         value.responseParameters = try reader["responseParameters"].readMapIfPresent(valueReadingClosure: ApiGatewayV2ClientTypes.ParameterConstraints.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.routeResponseId = try reader["routeResponseId"].readIfPresent()
         value.routeResponseKey = try reader["routeResponseKey"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateRoutingRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRoutingRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRoutingRuleOutput()
+        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRuleAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRuleCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.priority = try reader["priority"].readIfPresent()
+        value.routingRuleArn = try reader["routingRuleArn"].readIfPresent()
+        value.routingRuleId = try reader["routingRuleId"].readIfPresent()
         return value
     }
 }
@@ -7229,6 +7915,13 @@ extension DeleteRouteSettingsOutput {
     }
 }
 
+extension DeleteRoutingRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRoutingRuleOutput {
+        return DeleteRoutingRuleOutput()
+    }
+}
+
 extension DeleteStageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteStageOutput {
@@ -7276,6 +7969,7 @@ extension GetApiOutput {
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
         value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
         value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.protocolType = try reader["protocolType"].readIfPresent()
         value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent()
@@ -7401,8 +8095,10 @@ extension GetDomainNameOutput {
         var value = GetDomainNameOutput()
         value.apiMappingSelectionExpression = try reader["apiMappingSelectionExpression"].readIfPresent()
         value.domainName = try reader["domainName"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
         value.domainNameConfigurations = try reader["domainNameConfigurations"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.DomainNameConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: ApiGatewayV2ClientTypes.MutualTlsAuthentication.read(from:))
+        value.routingMode = try reader["routingMode"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -7602,6 +8298,22 @@ extension GetRoutesOutput {
     }
 }
 
+extension GetRoutingRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRoutingRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRoutingRuleOutput()
+        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRuleAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRuleCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.priority = try reader["priority"].readIfPresent()
+        value.routingRuleArn = try reader["routingRuleArn"].readIfPresent()
+        value.routingRuleId = try reader["routingRuleId"].readIfPresent()
+        return value
+    }
+}
+
 extension GetStageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetStageOutput {
@@ -7702,12 +8414,42 @@ extension ImportApiOutput {
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
         value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
         value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.protocolType = try reader["protocolType"].readIfPresent()
         value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.version = try reader["version"].readIfPresent()
         value.warnings = try reader["warnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListRoutingRulesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRoutingRulesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRoutingRulesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.routingRules = try reader["routingRules"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PutRoutingRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutRoutingRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutRoutingRuleOutput()
+        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRuleAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRuleCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.priority = try reader["priority"].readIfPresent()
+        value.routingRuleArn = try reader["routingRuleArn"].readIfPresent()
+        value.routingRuleId = try reader["routingRuleId"].readIfPresent()
         return value
     }
 }
@@ -7729,6 +8471,7 @@ extension ReimportApiOutput {
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
         value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
         value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.protocolType = try reader["protocolType"].readIfPresent()
         value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent()
@@ -7777,6 +8520,7 @@ extension UpdateApiOutput {
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
         value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
         value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.protocolType = try reader["protocolType"].readIfPresent()
         value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent()
@@ -7850,8 +8594,10 @@ extension UpdateDomainNameOutput {
         var value = UpdateDomainNameOutput()
         value.apiMappingSelectionExpression = try reader["apiMappingSelectionExpression"].readIfPresent()
         value.domainName = try reader["domainName"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
         value.domainNameConfigurations = try reader["domainNameConfigurations"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.DomainNameConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: ApiGatewayV2ClientTypes.MutualTlsAuthentication.read(from:))
+        value.routingMode = try reader["routingMode"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -8177,6 +8923,23 @@ enum CreateRouteResponseOutputError {
     }
 }
 
+enum CreateRoutingRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateStageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8413,6 +9176,22 @@ enum DeleteRouteSettingsOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRoutingRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8792,6 +9571,22 @@ enum GetRoutesOutputError {
     }
 }
 
+enum GetRoutingRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetStageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8871,6 +9666,39 @@ enum GetVpcLinksOutputError {
 }
 
 enum ImportApiOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRoutingRulesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutRoutingRuleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9156,12 +9984,24 @@ enum UpdateVpcLinkOutputError {
     }
 }
 
-extension TooManyRequestsException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
-        value.properties.limitType = try reader["limitType"].readIfPresent()
+        var value = BadRequestException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9184,24 +10024,12 @@ extension NotFoundException {
     }
 }
 
-extension ConflictException {
+extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension BadRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
-        let reader = baseError.errorBodyReader
-        var value = BadRequestException()
+        var value = TooManyRequestsException()
+        value.properties.limitType = try reader["limitType"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9277,6 +10105,7 @@ extension ApiGatewayV2ClientTypes.DomainNameConfiguration {
         try writer["domainNameStatusMessage"].write(value.domainNameStatusMessage)
         try writer["endpointType"].write(value.endpointType)
         try writer["hostedZoneId"].write(value.hostedZoneId)
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["ownershipVerificationCertificateArn"].write(value.ownershipVerificationCertificateArn)
         try writer["securityPolicy"].write(value.securityPolicy)
     }
@@ -9292,6 +10121,7 @@ extension ApiGatewayV2ClientTypes.DomainNameConfiguration {
         value.domainNameStatusMessage = try reader["domainNameStatusMessage"].readIfPresent()
         value.endpointType = try reader["endpointType"].readIfPresent()
         value.hostedZoneId = try reader["hostedZoneId"].readIfPresent()
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.securityPolicy = try reader["securityPolicy"].readIfPresent()
         value.ownershipVerificationCertificateArn = try reader["ownershipVerificationCertificateArn"].readIfPresent()
         return value
@@ -9331,6 +10161,104 @@ extension ApiGatewayV2ClientTypes.ParameterConstraints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayV2ClientTypes.ParameterConstraints()
         value.`required` = try reader["required"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.RoutingRuleAction {
+
+    static func write(value: ApiGatewayV2ClientTypes.RoutingRuleAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["invokeApi"].write(value.invokeApi, with: ApiGatewayV2ClientTypes.RoutingRuleActionInvokeApi.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RoutingRuleAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.RoutingRuleAction()
+        value.invokeApi = try reader["invokeApi"].readIfPresent(with: ApiGatewayV2ClientTypes.RoutingRuleActionInvokeApi.read(from:))
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.RoutingRuleActionInvokeApi {
+
+    static func write(value: ApiGatewayV2ClientTypes.RoutingRuleActionInvokeApi?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["apiId"].write(value.apiId)
+        try writer["stage"].write(value.stage)
+        try writer["stripBasePath"].write(value.stripBasePath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RoutingRuleActionInvokeApi {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.RoutingRuleActionInvokeApi()
+        value.apiId = try reader["apiId"].readIfPresent() ?? ""
+        value.stage = try reader["stage"].readIfPresent() ?? ""
+        value.stripBasePath = try reader["stripBasePath"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.RoutingRuleCondition {
+
+    static func write(value: ApiGatewayV2ClientTypes.RoutingRuleCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["matchBasePaths"].write(value.matchBasePaths, with: ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths.write(value:to:))
+        try writer["matchHeaders"].write(value.matchHeaders, with: ApiGatewayV2ClientTypes.RoutingRuleMatchHeaders.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RoutingRuleCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.RoutingRuleCondition()
+        value.matchBasePaths = try reader["matchBasePaths"].readIfPresent(with: ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths.read(from:))
+        value.matchHeaders = try reader["matchHeaders"].readIfPresent(with: ApiGatewayV2ClientTypes.RoutingRuleMatchHeaders.read(from:))
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.RoutingRuleMatchHeaders {
+
+    static func write(value: ApiGatewayV2ClientTypes.RoutingRuleMatchHeaders?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["anyOf"].writeList(value.anyOf, memberWritingClosure: ApiGatewayV2ClientTypes.RoutingRuleMatchHeaderValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RoutingRuleMatchHeaders {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.RoutingRuleMatchHeaders()
+        value.anyOf = try reader["anyOf"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRuleMatchHeaderValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.RoutingRuleMatchHeaderValue {
+
+    static func write(value: ApiGatewayV2ClientTypes.RoutingRuleMatchHeaderValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["header"].write(value.header)
+        try writer["valueGlob"].write(value.valueGlob)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RoutingRuleMatchHeaderValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.RoutingRuleMatchHeaderValue()
+        value.header = try reader["header"].readIfPresent() ?? ""
+        value.valueGlob = try reader["valueGlob"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths {
+
+    static func write(value: ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["anyOf"].writeList(value.anyOf, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths()
+        value.anyOf = try reader["anyOf"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9403,6 +10331,7 @@ extension ApiGatewayV2ClientTypes.Api {
         value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
         value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.protocolType = try reader["protocolType"].readIfPresent() ?? .sdkUnknown("")
         value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent() ?? ""
@@ -9455,8 +10384,10 @@ extension ApiGatewayV2ClientTypes.DomainName {
         var value = ApiGatewayV2ClientTypes.DomainName()
         value.apiMappingSelectionExpression = try reader["apiMappingSelectionExpression"].readIfPresent()
         value.domainName = try reader["domainName"].readIfPresent() ?? ""
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
         value.domainNameConfigurations = try reader["domainNameConfigurations"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.DomainNameConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: ApiGatewayV2ClientTypes.MutualTlsAuthentication.read(from:))
+        value.routingMode = try reader["routingMode"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -9593,6 +10524,20 @@ extension ApiGatewayV2ClientTypes.VpcLink {
         value.vpcLinkStatus = try reader["vpcLinkStatus"].readIfPresent()
         value.vpcLinkStatusMessage = try reader["vpcLinkStatusMessage"].readIfPresent()
         value.vpcLinkVersion = try reader["vpcLinkVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.RoutingRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RoutingRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.RoutingRule()
+        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRuleAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRuleCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.priority = try reader["priority"].readIfPresent()
+        value.routingRuleArn = try reader["routingRuleArn"].readIfPresent()
+        value.routingRuleId = try reader["routingRuleId"].readIfPresent()
         return value
     }
 }

@@ -957,11 +957,11 @@ extension CertificateValidationException {
     }
 }
 
-extension TerminalStateException {
+extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TerminalStateException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
-        var value = TerminalStateException()
+        var value = InvalidRequestException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -996,6 +996,19 @@ extension ServiceUnavailableException {
     }
 }
 
+extension TerminalStateException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TerminalStateException {
+        let reader = baseError.errorBodyReader
+        var value = TerminalStateException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -1003,45 +1016,6 @@ extension ThrottlingException {
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.payload = try reader["payload"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1068,6 +1042,32 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

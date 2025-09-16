@@ -763,6 +763,21 @@ extension LakeFormationClientTypes {
 
 extension LakeFormationClientTypes {
 
+    /// A Lake Formation condition, which applies to permissions and opt-ins that contain an expression.
+    public struct Condition: Swift.Sendable {
+        /// An expression written based on the Cedar Policy Language used to match the principal attributes.
+        public var expression: Swift.String?
+
+        public init(
+            expression: Swift.String? = nil
+        ) {
+            self.expression = expression
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
     public enum Permission: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
         case alter
@@ -851,6 +866,8 @@ extension LakeFormationClientTypes {
 
     /// A permission to a resource granted by batch operation to the principal.
     public struct BatchPermissionsRequestEntry: Swift.Sendable {
+        /// A Lake Formation condition, which applies to permissions and opt-ins that contain an expression.
+        public var condition: LakeFormationClientTypes.Condition?
         /// A unique identifier for the batch permissions request entry.
         /// This member is required.
         public var id: Swift.String?
@@ -864,12 +881,14 @@ extension LakeFormationClientTypes {
         public var resource: LakeFormationClientTypes.Resource?
 
         public init(
+            condition: LakeFormationClientTypes.Condition? = nil,
             id: Swift.String? = nil,
             permissions: [LakeFormationClientTypes.Permission]? = nil,
             permissionsWithGrantOption: [LakeFormationClientTypes.Permission]? = nil,
             principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
             resource: LakeFormationClientTypes.Resource? = nil
         ) {
+            self.condition = condition
             self.id = id
             self.permissions = permissions
             self.permissionsWithGrantOption = permissionsWithGrantOption
@@ -1291,6 +1310,8 @@ public struct CreateLakeFormationIdentityCenterConfigurationOutput: Swift.Sendab
 }
 
 public struct CreateLakeFormationOptInInput: Swift.Sendable {
+    /// A Lake Formation condition, which applies to permissions and opt-ins that contain an expression.
+    public var condition: LakeFormationClientTypes.Condition?
     /// The Lake Formation principal. Supported principals are IAM users or IAM roles.
     /// This member is required.
     public var principal: LakeFormationClientTypes.DataLakePrincipal?
@@ -1299,9 +1320,11 @@ public struct CreateLakeFormationOptInInput: Swift.Sendable {
     public var resource: LakeFormationClientTypes.Resource?
 
     public init(
+        condition: LakeFormationClientTypes.Condition? = nil,
         principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
         resource: LakeFormationClientTypes.Resource? = nil
     ) {
+        self.condition = condition
         self.principal = principal
         self.resource = resource
     }
@@ -1413,6 +1436,8 @@ public struct DeleteLakeFormationIdentityCenterConfigurationOutput: Swift.Sendab
 }
 
 public struct DeleteLakeFormationOptInInput: Swift.Sendable {
+    /// A Lake Formation condition, which applies to permissions and opt-ins that contain an expression.
+    public var condition: LakeFormationClientTypes.Condition?
     /// The Lake Formation principal. Supported principals are IAM users or IAM roles.
     /// This member is required.
     public var principal: LakeFormationClientTypes.DataLakePrincipal?
@@ -1421,9 +1446,11 @@ public struct DeleteLakeFormationOptInInput: Swift.Sendable {
     public var resource: LakeFormationClientTypes.Resource?
 
     public init(
+        condition: LakeFormationClientTypes.Condition? = nil,
         principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
         resource: LakeFormationClientTypes.Resource? = nil
     ) {
+        self.condition = condition
         self.principal = principal
         self.resource = resource
     }
@@ -1641,19 +1668,23 @@ extension LakeFormationClientTypes {
         public var roleArn: Swift.String?
         /// Whether or not the resource is a federated resource.
         public var withFederation: Swift.Bool?
+        /// Grants the calling principal the permissions to perform all supported Lake Formation operations on the registered data location.
+        public var withPrivilegedAccess: Swift.Bool?
 
         public init(
             hybridAccessEnabled: Swift.Bool? = nil,
             lastModified: Foundation.Date? = nil,
             resourceArn: Swift.String? = nil,
             roleArn: Swift.String? = nil,
-            withFederation: Swift.Bool? = nil
+            withFederation: Swift.Bool? = nil,
+            withPrivilegedAccess: Swift.Bool? = nil
         ) {
             self.hybridAccessEnabled = hybridAccessEnabled
             self.lastModified = lastModified
             self.resourceArn = resourceArn
             self.roleArn = roleArn
             self.withFederation = withFederation
+            self.withPrivilegedAccess = withPrivilegedAccess
         }
     }
 }
@@ -1916,21 +1947,6 @@ extension LakeFormationClientTypes {
             resourceShare: [Swift.String]? = nil
         ) {
             self.resourceShare = resourceShare
-        }
-    }
-}
-
-extension LakeFormationClientTypes {
-
-    /// A Lake Formation condition, which applies to permissions and opt-ins that contain an expression.
-    public struct Condition: Swift.Sendable {
-        /// An expression written based on the Cedar Policy Language used to match the principal attributes.
-        public var expression: Swift.String?
-
-        public init(
-            expression: Swift.String? = nil
-        ) {
-            self.expression = expression
         }
     }
 }
@@ -2840,6 +2856,8 @@ public struct GetWorkUnitsOutput: Swift.Sendable {
 public struct GrantPermissionsInput: Swift.Sendable {
     /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
     public var catalogId: Swift.String?
+    /// A Lake Formation condition, which applies to permissions and opt-ins that contain an expression.
+    public var condition: LakeFormationClientTypes.Condition?
     /// The permissions granted to the principal on the resource. Lake Formation defines privileges to grant and revoke access to metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. Lake Formation requires that each principal be authorized to perform a specific task on Lake Formation resources.
     /// This member is required.
     public var permissions: [LakeFormationClientTypes.Permission]?
@@ -2854,12 +2872,14 @@ public struct GrantPermissionsInput: Swift.Sendable {
 
     public init(
         catalogId: Swift.String? = nil,
+        condition: LakeFormationClientTypes.Condition? = nil,
         permissions: [LakeFormationClientTypes.Permission]? = nil,
         permissionsWithGrantOption: [LakeFormationClientTypes.Permission]? = nil,
         principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
         resource: LakeFormationClientTypes.Resource? = nil
     ) {
         self.catalogId = catalogId
+        self.condition = condition
         self.permissions = permissions
         self.permissionsWithGrantOption = permissionsWithGrantOption
         self.principal = principal
@@ -3568,19 +3588,23 @@ public struct RegisterResourceInput: Swift.Sendable {
     public var useServiceLinkedRole: Swift.Bool?
     /// Whether or not the resource is a federated resource.
     public var withFederation: Swift.Bool?
+    /// Grants the calling principal the permissions to perform all supported Lake Formation operations on the registered data location.
+    public var withPrivilegedAccess: Swift.Bool?
 
     public init(
         hybridAccessEnabled: Swift.Bool? = nil,
         resourceArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         useServiceLinkedRole: Swift.Bool? = nil,
-        withFederation: Swift.Bool? = nil
+        withFederation: Swift.Bool? = nil,
+        withPrivilegedAccess: Swift.Bool? = false
     ) {
         self.hybridAccessEnabled = hybridAccessEnabled
         self.resourceArn = resourceArn
         self.roleArn = roleArn
         self.useServiceLinkedRole = useServiceLinkedRole
         self.withFederation = withFederation
+        self.withPrivilegedAccess = withPrivilegedAccess
     }
 }
 
@@ -3624,6 +3648,8 @@ public struct RemoveLFTagsFromResourceOutput: Swift.Sendable {
 public struct RevokePermissionsInput: Swift.Sendable {
     /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
     public var catalogId: Swift.String?
+    /// A Lake Formation condition, which applies to permissions and opt-ins that contain an expression.
+    public var condition: LakeFormationClientTypes.Condition?
     /// The permissions revoked to the principal on the resource. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
     /// This member is required.
     public var permissions: [LakeFormationClientTypes.Permission]?
@@ -3638,12 +3664,14 @@ public struct RevokePermissionsInput: Swift.Sendable {
 
     public init(
         catalogId: Swift.String? = nil,
+        condition: LakeFormationClientTypes.Condition? = nil,
         permissions: [LakeFormationClientTypes.Permission]? = nil,
         permissionsWithGrantOption: [LakeFormationClientTypes.Permission]? = nil,
         principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
         resource: LakeFormationClientTypes.Resource? = nil
     ) {
         self.catalogId = catalogId
+        self.condition = condition
         self.permissions = permissions
         self.permissionsWithGrantOption = permissionsWithGrantOption
         self.principal = principal
@@ -4645,6 +4673,7 @@ extension CreateLakeFormationOptInInput {
 
     static func write(value: CreateLakeFormationOptInInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Condition"].write(value.condition, with: LakeFormationClientTypes.Condition.write(value:to:))
         try writer["Principal"].write(value.principal, with: LakeFormationClientTypes.DataLakePrincipal.write(value:to:))
         try writer["Resource"].write(value.resource, with: LakeFormationClientTypes.Resource.write(value:to:))
     }
@@ -4694,6 +4723,7 @@ extension DeleteLakeFormationOptInInput {
 
     static func write(value: DeleteLakeFormationOptInInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Condition"].write(value.condition, with: LakeFormationClientTypes.Condition.write(value:to:))
         try writer["Principal"].write(value.principal, with: LakeFormationClientTypes.DataLakePrincipal.write(value:to:))
         try writer["Resource"].write(value.resource, with: LakeFormationClientTypes.Resource.write(value:to:))
     }
@@ -4910,6 +4940,7 @@ extension GrantPermissionsInput {
     static func write(value: GrantPermissionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CatalogId"].write(value.catalogId)
+        try writer["Condition"].write(value.condition, with: LakeFormationClientTypes.Condition.write(value:to:))
         try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LakeFormationClientTypes.Permission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PermissionsWithGrantOption"].writeList(value.permissionsWithGrantOption, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LakeFormationClientTypes.Permission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Principal"].write(value.principal, with: LakeFormationClientTypes.DataLakePrincipal.write(value:to:))
@@ -5025,6 +5056,7 @@ extension RegisterResourceInput {
         try writer["RoleArn"].write(value.roleArn)
         try writer["UseServiceLinkedRole"].write(value.useServiceLinkedRole)
         try writer["WithFederation"].write(value.withFederation)
+        try writer["WithPrivilegedAccess"].write(value.withPrivilegedAccess)
     }
 }
 
@@ -5043,6 +5075,7 @@ extension RevokePermissionsInput {
     static func write(value: RevokePermissionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CatalogId"].write(value.catalogId)
+        try writer["Condition"].write(value.condition, with: LakeFormationClientTypes.Condition.write(value:to:))
         try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LakeFormationClientTypes.Permission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PermissionsWithGrantOption"].writeList(value.permissionsWithGrantOption, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LakeFormationClientTypes.Permission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Principal"].write(value.principal, with: LakeFormationClientTypes.DataLakePrincipal.write(value:to:))
@@ -5971,6 +6004,7 @@ enum CreateLakeFormationOptInOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6904,11 +6938,24 @@ extension AccessDeniedException {
     }
 }
 
-extension OperationTimeoutException {
+extension ConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> OperationTimeoutException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
-        var value = OperationTimeoutException()
+        var value = ConcurrentModificationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EntityNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EntityNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = EntityNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6943,24 +6990,11 @@ extension InvalidInputException {
     }
 }
 
-extension ConcurrentModificationException {
+extension OperationTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> OperationTimeoutException {
         let reader = baseError.errorBodyReader
-        var value = ConcurrentModificationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EntityNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EntityNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = EntityNotFoundException()
+        var value = OperationTimeoutException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7008,11 +7042,11 @@ extension TransactionCanceledException {
     }
 }
 
-extension ResourceNumberLimitExceededException {
+extension AlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNumberLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNumberLimitExceededException()
+        var value = AlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7021,11 +7055,11 @@ extension ResourceNumberLimitExceededException {
     }
 }
 
-extension AlreadyExistsException {
+extension ResourceNumberLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNumberLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = AlreadyExistsException()
+        var value = ResourceNumberLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7181,6 +7215,7 @@ extension LakeFormationClientTypes.BatchPermissionsRequestEntry {
 
     static func write(value: LakeFormationClientTypes.BatchPermissionsRequestEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Condition"].write(value.condition, with: LakeFormationClientTypes.Condition.write(value:to:))
         try writer["Id"].write(value.id)
         try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LakeFormationClientTypes.Permission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PermissionsWithGrantOption"].writeList(value.permissionsWithGrantOption, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LakeFormationClientTypes.Permission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -7195,7 +7230,23 @@ extension LakeFormationClientTypes.BatchPermissionsRequestEntry {
         value.principal = try reader["Principal"].readIfPresent(with: LakeFormationClientTypes.DataLakePrincipal.read(from:))
         value.resource = try reader["Resource"].readIfPresent(with: LakeFormationClientTypes.Resource.read(from:))
         value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LakeFormationClientTypes.Permission>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.condition = try reader["Condition"].readIfPresent(with: LakeFormationClientTypes.Condition.read(from:))
         value.permissionsWithGrantOption = try reader["PermissionsWithGrantOption"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LakeFormationClientTypes.Permission>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.Condition {
+
+    static func write(value: LakeFormationClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Expression"].write(value.expression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.Condition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.Condition()
+        value.expression = try reader["Expression"].readIfPresent()
         return value
     }
 }
@@ -7489,6 +7540,7 @@ extension LakeFormationClientTypes.ResourceInfo {
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.withFederation = try reader["WithFederation"].readIfPresent()
         value.hybridAccessEnabled = try reader["HybridAccessEnabled"].readIfPresent()
+        value.withPrivilegedAccess = try reader["WithPrivilegedAccess"].readIfPresent()
         return value
     }
 }
@@ -7638,16 +7690,6 @@ extension LakeFormationClientTypes.DetailsMap {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.DetailsMap()
         value.resourceShare = try reader["ResourceShare"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.Condition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.Condition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.Condition()
-        value.expression = try reader["Expression"].readIfPresent()
         return value
     }
 }

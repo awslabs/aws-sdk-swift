@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
 public struct AddRoleToDBClusterOutput: Swift.Sendable {
@@ -2056,6 +2057,16 @@ public struct CopyDBSnapshotInput: Swift.Sendable {
     ///
     /// To learn how to generate a Signature Version 4 signed request, see [Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html) and [Signature Version 4 Signing Process](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can run in the source Amazon Web Services Region.
     public var preSignedUrl: Swift.String?
+    /// Specifies the name of the Availability Zone where RDS stores the DB snapshot. This value is valid only for snapshots that RDS stores on a Dedicated Local Zone.
+    public var snapshotAvailabilityZone: Swift.String?
+    /// Configures the location where RDS will store copied snapshots. Valid Values:
+    ///
+    /// * local (Dedicated Local Zone)
+    ///
+    /// * outposts (Amazon Web Services Outposts)
+    ///
+    /// * region (Amazon Web Services Region)
+    public var snapshotTarget: Swift.String?
     /// The identifier for the source DB snapshot. If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid DB snapshot identifier. For example, you might specify rds:mysql-instance1-snapshot-20130805. If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid DB snapshot ARN. For example, you might specify arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805. If you are copying from a shared manual DB snapshot, this parameter must be the Amazon Resource Name (ARN) of the shared DB snapshot. If you are copying an encrypted snapshot this parameter must be in the ARN format for the source Amazon Web Services Region. Constraints:
     ///
     /// * Must specify a valid system snapshot in the "available" state.
@@ -2089,6 +2100,8 @@ public struct CopyDBSnapshotInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
         preSignedUrl: Swift.String? = nil,
+        snapshotAvailabilityZone: Swift.String? = nil,
+        snapshotTarget: Swift.String? = nil,
         sourceDBSnapshotIdentifier: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetCustomAvailabilityZone: Swift.String? = nil,
@@ -2099,6 +2112,8 @@ public struct CopyDBSnapshotInput: Swift.Sendable {
         self.kmsKeyId = kmsKeyId
         self.optionGroupName = optionGroupName
         self.preSignedUrl = preSignedUrl
+        self.snapshotAvailabilityZone = snapshotAvailabilityZone
+        self.snapshotTarget = snapshotTarget
         self.sourceDBSnapshotIdentifier = sourceDBSnapshotIdentifier
         self.tags = tags
         self.targetCustomAvailabilityZone = targetCustomAvailabilityZone
@@ -2206,11 +2221,13 @@ extension RDSClientTypes {
         public var port: Swift.Int?
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance when the DB snapshot was created.
         public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
+        /// Specifies the name of the Availability Zone where RDS stores the DB snapshot. This value is valid only for snapshots that RDS stores on a Dedicated Local Zone.
+        public var snapshotAvailabilityZone: Swift.String?
         /// Specifies when the snapshot was taken in Coordinated Universal Time (UTC). Changes for the copy when the snapshot is copied.
         public var snapshotCreateTime: Foundation.Date?
         /// The timestamp of the most recent transaction applied to the database that you're backing up. Thus, if you restore a snapshot, SnapshotDatabaseTime is the most recent transaction in the restored DB instance. In contrast, originalSnapshotCreateTime specifies the system time that the snapshot completed. If you back up a read replica, you can determine the replica lag by comparing SnapshotDatabaseTime with originalSnapshotCreateTime. For example, if originalSnapshotCreateTime is two hours later than SnapshotDatabaseTime, then the replica lag is two hours.
         public var snapshotDatabaseTime: Foundation.Date?
-        /// Specifies where manual snapshots are stored: Amazon Web Services Outposts or the Amazon Web Services Region.
+        /// Specifies where manual snapshots are stored: Dedicated Local Zones, Amazon Web Services Outposts or the Amazon Web Services Region.
         public var snapshotTarget: Swift.String?
         /// Provides the type of the DB snapshot.
         public var snapshotType: Swift.String?
@@ -2257,6 +2274,7 @@ extension RDSClientTypes {
             percentProgress: Swift.Int? = nil,
             port: Swift.Int? = nil,
             processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
+            snapshotAvailabilityZone: Swift.String? = nil,
             snapshotCreateTime: Foundation.Date? = nil,
             snapshotDatabaseTime: Foundation.Date? = nil,
             snapshotTarget: Swift.String? = nil,
@@ -2294,6 +2312,7 @@ extension RDSClientTypes {
             self.percentProgress = percentProgress
             self.port = port
             self.processorFeatures = processorFeatures
+            self.snapshotAvailabilityZone = snapshotAvailabilityZone
             self.snapshotCreateTime = snapshotCreateTime
             self.snapshotDatabaseTime = snapshotDatabaseTime
             self.snapshotTarget = snapshotTarget
@@ -3171,11 +3190,11 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
-    /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
+    /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions and platform versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
     public struct ServerlessV2FeaturesSupport: Swift.Sendable {
-        /// Specifies the upper Aurora Serverless v2 capacity limit for a particular engine version. Depending on the engine version, the maximum capacity for an Aurora Serverless v2 cluster might be 256 or 128.
+        /// Specifies the upper Aurora Serverless v2 capacity limit for a particular engine version or platform version. Depending on the engine version, the maximum capacity for an Aurora Serverless v2 cluster might be 256 or 128.
         public var maxCapacity: Swift.Double?
-        /// If the minimum capacity is 0 ACUs, the engine version supports the automatic pause/resume feature of Aurora Serverless v2.
+        /// If the minimum capacity is 0 ACUs, the engine version or platform version supports the automatic pause/resume feature of Aurora Serverless v2.
         public var minCapacity: Swift.Double?
 
         public init(
@@ -3769,6 +3788,35 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
+    public enum MasterUserAuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iamDbAuth
+        case password
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MasterUserAuthenticationType] {
+            return [
+                .iamDbAuth,
+                .password
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iamDbAuth: return "iam-db-auth"
+            case .password: return "password"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     public enum ReplicaMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mounted
         case openReadOnly
@@ -3858,7 +3906,7 @@ extension RDSClientTypes {
 
     /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
     public struct ServerlessV2ScalingConfiguration: Swift.Sendable {
-        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions.
+        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the specific maximum capacity supported.
         public var maxCapacity: Swift.Double?
         /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5.
         public var minCapacity: Swift.Double?
@@ -3881,9 +3929,9 @@ extension RDSClientTypes {
 public struct CreateDBClusterInput: Swift.Sendable {
     /// The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster. Valid for Cluster Type: Multi-AZ DB clusters only This setting is required to create a Multi-AZ DB cluster.
     public var allocatedStorage: Swift.Int?
-    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster
+    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
-    /// A list of Availability Zones (AZs) where you specifically want to create DB instances in the DB cluster. For information on AZs, see [Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.RegionsAndAvailabilityZones.html#Concepts.RegionsAndAvailabilityZones.AvailabilityZones) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Constraints:
+    /// A list of Availability Zones (AZs) where you specifically want to create DB instances in the DB cluster. For the first three DB instances that you create, RDS distributes each DB instance to a different AZ that you specify. For additional DB instances that you create, RDS randomly distributes them to the AZs that you specified. For example, if you create a DB cluster with one writer instance and three reader instances, RDS might distribute the writer instance to AZ 1, the first reader instance to AZ 2, the second reader instance to AZ 3, and the third reader instance to either AZ 1, AZ 2, or AZ 3. For more information, see [Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.RegionsAndAvailabilityZones.html#Concepts.RegionsAndAvailabilityZones.AvailabilityZones) and [High availability for Aurora DB instances](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html#Concepts.AuroraHighAvailability.Instances) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Constraints:
     ///
     /// * Can't specify more than three AZs.
     public var availabilityZones: [Swift.String]?
@@ -3903,7 +3951,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var clusterScalabilityType: RDSClientTypes.ClusterScalabilityType?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
-    /// The mode of Database Insights to enable for the DB cluster. If you set this value to advanced, you must also set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. Valid for Cluster Type: Aurora DB clusters only
+    /// The mode of Database Insights to enable for the DB cluster. If you set this value to advanced, you must also set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The name for your database of up to 64 alphanumeric characters. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseName: Swift.String?
@@ -3942,13 +3990,13 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var domainIAMRoleName: Swift.String?
     /// The list of log types that need to be enabled for exporting to CloudWatch Logs. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The following values are valid for each DB engine:
     ///
-    /// * Aurora MySQL - audit | error | general | instance | slowquery
+    /// * Aurora MySQL - audit | error | general | instance | slowquery | iam-db-auth-error
     ///
-    /// * Aurora PostgreSQL - instance | postgresql
+    /// * Aurora PostgreSQL - instance | postgresql | iam-db-auth-error
     ///
-    /// * RDS for MySQL - error | general | slowquery
+    /// * RDS for MySQL - error | general | slowquery | iam-db-auth-error
     ///
-    /// * RDS for PostgreSQL - postgresql | upgrade
+    /// * RDS for PostgreSQL - postgresql | upgrade | iam-db-auth-error
     ///
     ///
     /// For more information about exporting CloudWatch Logs for Amazon RDS, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide.
@@ -3980,9 +4028,9 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var engine: Swift.String?
     /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, creating the DB cluster will fail if the DB major version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
     ///
-    /// * Amazon Aurora - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    /// * Amazon Aurora - [Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
     ///
-    /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
+    /// * Amazon RDS - [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
     ///
     ///
     /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
@@ -4028,6 +4076,15 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ///
     /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can configure the master DB user with IAM database authentication when you create a DB cluster. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The password for the master database user. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
     /// * Must contain from 8 to 41 characters.
@@ -4183,6 +4240,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         iops: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
@@ -4240,6 +4298,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         self.iops = iops
         self.kmsKeyId = kmsKeyId
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
@@ -4684,7 +4743,7 @@ extension RDSClientTypes {
 
     /// The scaling configuration for an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
     public struct ServerlessV2ScalingConfigurationInfo: Swift.Sendable {
-        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions.
+        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the specific maximum capacity supported.
         public var maxCapacity: Swift.Double?
         /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5.
         public var minCapacity: Swift.Double?
@@ -4746,7 +4805,7 @@ extension RDSClientTypes {
         public var allocatedStorage: Swift.Int?
         /// A list of the Amazon Web Services Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other Amazon Web Services on your behalf.
         public var associatedRoles: [RDSClientTypes.DBClusterRole]?
-        /// Indicates whether minor version patches are applied automatically. This setting is for Aurora DB clusters and Multi-AZ DB clusters.
+        /// Indicates whether minor version patches are applied automatically. This setting is for Aurora DB clusters and Multi-AZ DB clusters. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
         public var autoMinorVersionUpgrade: Swift.Bool?
         /// The time when a stopped DB cluster is restarted automatically.
         public var automaticRestartTime: Foundation.Date?
@@ -4814,12 +4873,14 @@ extension RDSClientTypes {
         public var endpoint: Swift.String?
         /// The database engine used for this DB cluster.
         public var engine: Swift.String?
-        /// The life cycle type for the DB cluster. For more information, see CreateDBCluster.
+        /// The lifecycle type for the DB cluster. For more information, see CreateDBCluster.
         public var engineLifecycleSupport: Swift.String?
         /// The DB engine mode of the DB cluster, either provisioned or serverless. For more information, see [ CreateDBCluster](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBCluster.html).
         public var engineMode: Swift.String?
         /// The version of the database engine.
         public var engineVersion: Swift.String?
+        /// Contains a user-supplied global database cluster identifier. This identifier is the unique key that identifies a global database cluster.
+        public var globalClusterIdentifier: Swift.String?
         /// Indicates whether write forwarding is enabled for a secondary cluster in an Aurora global database. Because write forwarding takes time to enable, check the value of GlobalWriteForwardingStatus to confirm that the request has completed before using the write forwarding feature for this cluster.
         public var globalWriteForwardingRequested: Swift.Bool?
         /// The status of write forwarding for a secondary cluster in an Aurora global database.
@@ -4891,6 +4952,8 @@ extension RDSClientTypes {
         public var replicationSourceIdentifier: Swift.String?
         /// The scaling configuration for an Aurora DB cluster in serverless DB engine mode. For more information, see [Using Amazon Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html) in the Amazon Aurora User Guide.
         public var scalingConfigurationInfo: RDSClientTypes.ScalingConfigurationInfo?
+        /// The version of the Aurora Serverless V2 platform used by the DB cluster. For more information, see [Using Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
+        public var serverlessV2PlatformVersion: Swift.String?
         /// The scaling configuration for an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
         public var serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfigurationInfo?
         /// The current state of this DB cluster.
@@ -4952,6 +5015,7 @@ extension RDSClientTypes {
             engineLifecycleSupport: Swift.String? = nil,
             engineMode: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
+            globalClusterIdentifier: Swift.String? = nil,
             globalWriteForwardingRequested: Swift.Bool? = nil,
             globalWriteForwardingStatus: RDSClientTypes.WriteForwardingStatus? = nil,
             hostedZoneId: Swift.String? = nil,
@@ -4983,6 +5047,7 @@ extension RDSClientTypes {
             readerEndpoint: Swift.String? = nil,
             replicationSourceIdentifier: Swift.String? = nil,
             scalingConfigurationInfo: RDSClientTypes.ScalingConfigurationInfo? = nil,
+            serverlessV2PlatformVersion: Swift.String? = nil,
             serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfigurationInfo? = nil,
             status: Swift.String? = nil,
             statusInfos: [RDSClientTypes.DBClusterStatusInfo]? = nil,
@@ -5035,6 +5100,7 @@ extension RDSClientTypes {
             self.engineLifecycleSupport = engineLifecycleSupport
             self.engineMode = engineMode
             self.engineVersion = engineVersion
+            self.globalClusterIdentifier = globalClusterIdentifier
             self.globalWriteForwardingRequested = globalWriteForwardingRequested
             self.globalWriteForwardingStatus = globalWriteForwardingStatus
             self.hostedZoneId = hostedZoneId
@@ -5066,6 +5132,7 @@ extension RDSClientTypes {
             self.readerEndpoint = readerEndpoint
             self.replicationSourceIdentifier = replicationSourceIdentifier
             self.scalingConfigurationInfo = scalingConfigurationInfo
+            self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
             self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.status = status
             self.statusInfos = statusInfos
@@ -5588,7 +5655,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// * Web and Express editions: Must be an integer from 20 to 1024.
     public var allocatedStorage: Swift.Int?
-    /// Specifies whether minor engine upgrades are applied automatically to the DB instance during the maintenance window. By default, minor engine upgrades are applied automatically. If you create an RDS Custom DB instance, you must set AutoMinorVersionUpgrade to false.
+    /// Specifies whether minor engine upgrades are applied automatically to the DB instance during the maintenance window. By default, minor engine upgrades are applied automatically. If you create an RDS Custom DB instance, you must set AutoMinorVersionUpgrade to false. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the database will be created. For information on Amazon Web Services Regions and Availability Zones, see [Regions and Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html). For Amazon Aurora, each Aurora DB cluster hosts copies of its storage in three separate Availability Zones. Specify one of these Availability Zones. Aurora automatically chooses an appropriate Availability Zone if you don't specify one. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Constraints:
     ///
@@ -5608,6 +5675,8 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     /// * Can't be set to 0 for an RDS Custom for Oracle DB instance.
     public var backupRetentionPeriod: Swift.Int?
     /// The location for storing automated backups and manual snapshots. Valid Values:
+    ///
+    /// * local (Dedicated Local Zone)
     ///
     /// * outposts (Amazon Web Services Outposts)
     ///
@@ -5637,7 +5706,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide.
     public var customIamInstanceProfile: Swift.String?
-    /// The mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
+    /// The mode of Database Insights to enable for the DB instance. Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The identifier of the DB cluster that this DB instance will belong to. This setting doesn't apply to RDS Custom DB instances.
     public var dbClusterIdentifier: Swift.String?
@@ -5795,17 +5864,17 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// The following values are valid for each DB engine:
     ///
-    /// * RDS for Db2 - diag.log | notify.log
+    /// * RDS for Db2 - diag.log | notify.log | iam-db-auth-error
     ///
-    /// * RDS for MariaDB - audit | error | general | slowquery
+    /// * RDS for MariaDB - audit | error | general | slowquery | iam-db-auth-error
     ///
     /// * RDS for Microsoft SQL Server - agent | error
     ///
-    /// * RDS for MySQL - audit | error | general | slowquery
+    /// * RDS for MySQL - audit | error | general | slowquery | iam-db-auth-error
     ///
     /// * RDS for Oracle - alert | audit | listener | trace | oemagent
     ///
-    /// * RDS for PostgreSQL - postgresql | upgrade
+    /// * RDS for PostgreSQL - postgresql | upgrade | iam-db-auth-error
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
     public var enableCustomerOwnedIp: Swift.Bool?
@@ -5866,7 +5935,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     /// * sqlserver-web
     /// This member is required.
     public var engine: Swift.String?
-    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, creating the DB instance will fail if the DB major version is past its end of standard support date. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, creating the DB instance will fail if the DB major version is past its end of standard support date. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     public var engineLifecycleSupport: Swift.String?
     /// The version number of the database engine to use. This setting doesn't apply to Amazon Aurora DB instances. The version number of the database engine the DB instance uses is managed by the DB cluster. For a list of valid engine versions, use the DescribeDBEngineVersions operation. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every Amazon Web Services Region. Amazon RDS Custom for Oracle A custom engine version (CEV) that you have previously created. This setting is required for RDS Custom for Oracle. The CEV name has the following format: 19.customized_string. A valid CEV name is 19.my_cev1. For more information, see [ Creating an RDS Custom for Oracle DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-creating.html#custom-creating.create) in the Amazon RDS User Guide. Amazon RDS Custom for SQL Server See [RDS Custom for SQL Server general requirements](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html) in the Amazon RDS User Guide. RDS for Db2 For information, see [Db2 on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Db2.html#Db2.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for MariaDB For information, see [MariaDB on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MariaDB.html#MariaDB.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for Microsoft SQL Server For information, see [Microsoft SQL Server versions on Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.VersionSupport) in the Amazon RDS User Guide. RDS for MySQL For information, see [MySQL on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for Oracle For information, see [Oracle Database Engine release notes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.Oracle.PatchComposition.html) in the Amazon RDS User Guide. RDS for PostgreSQL For information, see [Amazon RDS for PostgreSQL versions and extensions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts) in the Amazon RDS User Guide.
     public var engineVersion: Swift.String?
@@ -5878,7 +5947,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var iops: Swift.Int?
     /// The Amazon Web Services KMS key identifier for an encrypted DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. This setting doesn't apply to Amazon Aurora DB instances. The Amazon Web Services KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If StorageEncrypted is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. For Amazon RDS Custom, a KMS key is required for DB instances. For most RDS engines, if you leave this parameter empty while enabling StorageEncrypted, the engine uses the default KMS key. However, RDS Custom doesn't use the default key when this parameter is empty. You must explicitly specify a key.
     public var kmsKeyId: Swift.String?
-    /// The license model information for this DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. The default for RDS for Db2 is bring-your-own-license. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    /// The license model information for this DB instance. License models for RDS for Db2 require additional configuration. The bring your own license (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. The default for RDS for Db2 is bring-your-own-license. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
     ///
     /// * RDS for Db2 - bring-your-own-license | marketplace-license
     ///
@@ -5896,6 +5965,15 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can configure the master DB user with IAM database authentication when you create a DB instance. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The password for the master user. This setting doesn't apply to Amazon Aurora DB instances. The password for the master user is managed by the DB cluster. Constraints:
     ///
     /// * Can't be specified if ManageMasterUserPassword is turned on.
@@ -5937,11 +6015,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var monitoringInterval: Swift.Int?
     /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, see [Setting Up and Enabling Enhanced Monitoring](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.OS.html#USER_Monitoring.OS.Enabling) in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value. This setting doesn't apply to RDS Custom DB instances.
     public var monitoringRoleArn: Swift.String?
-    /// Specifies whether the DB instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. This setting doesn't apply to the following DB instances:
-    ///
-    /// * Amazon Aurora (DB instance Availability Zones (AZs) are managed by the DB cluster.)
-    ///
-    /// * RDS Custom
+    /// Specifies whether the DB instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. This setting doesn't apply to Amazon Aurora because the DB instance Availability Zones (AZs) are managed by the DB cluster.
     public var multiAZ: Swift.Bool?
     /// Specifies whether to use the multi-tenant configuration or the single-tenant configuration (default). This parameter only applies to RDS for Oracle container database (CDB) engines. Note the following restrictions:
     ///
@@ -6030,7 +6104,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var storageEncrypted: Swift.Bool?
     /// The storage throughput value, in mebibyte per second (MiBps), for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
     public var storageThroughput: Swift.Int?
-    /// The storage type to associate with the DB instance. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp2.
+    /// The storage type to associate with the DB instance. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp3.
     public var storageType: Swift.String?
     /// Tags to assign to the DB instance.
     public var tags: [RDSClientTypes.Tag]?
@@ -6081,6 +6155,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         licenseModel: Swift.String? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
@@ -6146,6 +6221,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         self.kmsKeyId = kmsKeyId
         self.licenseModel = licenseModel
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
@@ -6359,7 +6435,7 @@ extension RDSClientTypes {
         public var dbSubnetGroupName: Swift.String?
         /// Provides the status of the DB subnet group.
         public var subnetGroupStatus: Swift.String?
-        /// Contains a list of Subnet elements.
+        /// Contains a list of Subnet elements. The list of subnets shown here might not reflect the current state of your VPC. For the most up-to-date information, we recommend checking your VPC configuration directly.
         public var subnets: [RDSClientTypes.Subnet]?
         /// The network type of the DB subnet group. Valid values:
         ///
@@ -6590,7 +6666,7 @@ extension RDSClientTypes {
         public var allocatedStorage: Swift.Int?
         /// The Amazon Web Services Identity and Access Management (IAM) roles associated with the DB instance.
         public var associatedRoles: [RDSClientTypes.DBInstanceRole]?
-        /// Indicates whether minor version patches are applied automatically.
+        /// Indicates whether minor version patches are applied automatically. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
         public var autoMinorVersionUpgrade: Swift.Bool?
         /// The time when a stopped DB instance is restarted automatically.
         public var automaticRestartTime: Foundation.Date?
@@ -6602,7 +6678,7 @@ extension RDSClientTypes {
         public var awsBackupRecoveryPointArn: Swift.String?
         /// The number of days for which automatic DB snapshots are retained.
         public var backupRetentionPeriod: Swift.Int?
-        /// The location where automated backups and manual snapshots are stored: Amazon Web Services Outposts or the Amazon Web Services Region.
+        /// The location where automated backups and manual snapshots are stored: Dedicated Local Zones, Amazon Web Services Outposts or the Amazon Web Services Region.
         public var backupTarget: Swift.String?
         /// The identifier of the CA certificate for this DB instance. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
         public var caCertificateIdentifier: Swift.String?
@@ -6665,7 +6741,7 @@ extension RDSClientTypes {
         public var endpoint: RDSClientTypes.Endpoint?
         /// The database engine used for this DB instance.
         public var engine: Swift.String?
-        /// The life cycle type for the DB instance. For more information, see CreateDBInstance.
+        /// The lifecycle type for the DB instance. For more information, see CreateDBInstance.
         public var engineLifecycleSupport: Swift.String?
         /// The version of the database engine.
         public var engineVersion: Swift.String?
@@ -6744,7 +6820,7 @@ extension RDSClientTypes {
         public var readReplicaSourceDBClusterIdentifier: Swift.String?
         /// The identifier of the source DB instance if this DB instance is a read replica.
         public var readReplicaSourceDBInstanceIdentifier: Swift.String?
-        /// The open mode of an Oracle read replica. The default is open-read-only. For more information, see [Working with Oracle Read Replicas for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. This attribute is only supported in RDS for Oracle.
+        /// The open mode of a Db2 or an Oracle read replica. The default is open-read-only. For more information, see [Working with replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) and [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. This attribute is only supported in RDS for Db2, RDS for Oracle, and RDS Custom for Oracle.
         public var replicaMode: RDSClientTypes.ReplicaMode?
         /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes full automation. The minimum value is 60 (default). The maximum value is 1,440.
         public var resumeFullAutomationModeTime: Foundation.Date?
@@ -6984,10 +7060,16 @@ public struct DBSubnetGroupNotAllowedFault: ClientRuntime.ModeledError, AWSClien
 public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your read replica so that the create operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
-    /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance.
+    /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the read replica will be created. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
     public var availabilityZone: Swift.String?
+    /// The location where RDS stores automated backups and manual snapshots. Valid Values:
+    ///
+    /// * local for Dedicated Local Zones
+    ///
+    /// * region for Amazon Web Services Region
+    public var backupTarget: Swift.String?
     /// The CA certificate identifier to use for the read replica's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
     public var caCertificateIdentifier: Swift.String?
     /// Specifies whether to copy all tags from the read replica to snapshots of the read replica. By default, tags aren't copied.
@@ -7003,14 +7085,14 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide. This setting is required for RDS Custom DB instances.
     public var customIamInstanceProfile: Swift.String?
-    /// The mode of Database Insights to enable for the read replica. Currently, this setting is not supported.
+    /// The mode of Database Insights to enable for the read replica. This setting isn't supported.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The compute and memory capacity of the read replica, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Default: Inherits the value from the source DB instance.
     public var dbInstanceClass: Swift.String?
     /// The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
-    /// The name of the DB parameter group to associate with this read replica DB instance. For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:
+    /// The name of the DB parameter group to associate with this read replica DB instance. For the Db2 DB engine, if your source DB instance uses the bring your own license (BYOL) model, then a custom parameter group must be associated with the replica. For a same Amazon Web Services Region replica, if you don't specify a custom parameter group, Amazon RDS associates the custom parameter group associated with the source DB instance. For a cross-Region replica, you must specify a custom parameter group. This custom parameter group must include your IBM Site ID and IBM Customer ID. For more information, see [IBM IDs for bring your own license (BYOL) for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html#db2-prereqs-ibm-info). For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, for Db2 DB instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:
     ///
     /// * Must be 1 to 255 letters, numbers, or hyphens.
     ///
@@ -7130,7 +7212,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
     /// Specifies whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see [CreateDBInstance].
     public var publiclyAccessible: Swift.Bool?
-    /// The open mode of the replica database: mounted or read-only. This parameter is only supported for Oracle DB instances. Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with Oracle Read Replicas for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
+    /// The open mode of the replica database. This parameter is only supported for Db2 DB instances and Oracle DB instances. Db2 Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see [Working with replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted. Oracle Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
     public var replicaMode: RDSClientTypes.ReplicaMode?
     /// The identifier of the Multi-AZ DB cluster that will act as the source for the read replica. Each DB cluster can have up to 15 read replicas. Constraints:
     ///
@@ -7142,7 +7224,16 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     ///
     /// * The source DB cluster must be in the same Amazon Web Services Region as the read replica. Cross-Region replication isn't supported.
     public var sourceDBClusterIdentifier: Swift.String?
-    /// The identifier of the DB instance that will act as the source for the read replica. Each DB instance can have up to 15 read replicas, with the exception of Oracle and SQL Server, which can have up to five. Constraints:
+    /// The identifier of the DB instance that will act as the source for the read replica. Each DB instance can have up to 15 read replicas, except for the following engines:
+    ///
+    /// * Db2 - Can have up to three replicas.
+    ///
+    /// * Oracle - Can have up to five read replicas.
+    ///
+    /// * SQL Server - Can have up to five read replicas.
+    ///
+    ///
+    /// Constraints:
     ///
     /// * Must be the identifier of an existing Db2, MariaDB, MySQL, Oracle, PostgreSQL, or SQL Server DB instance.
     ///
@@ -7160,7 +7251,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     public var sourceDBInstanceIdentifier: Swift.String?
     /// Specifies the storage throughput value for the read replica. This setting doesn't apply to RDS Custom or Amazon Aurora DB instances.
     public var storageThroughput: Swift.Int?
-    /// The storage type to associate with the read replica. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1 if the Iops parameter is specified. Otherwise, gp2.
+    /// The storage type to associate with the read replica. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1 if the Iops parameter is specified. Otherwise, gp3.
     public var storageType: Swift.String?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
@@ -7175,6 +7266,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
+        backupTarget: Swift.String? = nil,
         caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
@@ -7222,6 +7314,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
+        self.backupTarget = backupTarget
         self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
@@ -7502,7 +7595,13 @@ extension RDSClientTypes {
     public struct UserAuthConfig: Swift.Sendable {
         /// The type of authentication that the proxy uses for connections from the proxy to the underlying database.
         public var authScheme: RDSClientTypes.AuthScheme?
-        /// The type of authentication the proxy uses for connections from clients.
+        /// The type of authentication the proxy uses for connections from clients. The following values are defaults for the corresponding engines:
+        ///
+        /// * RDS for MySQL: MYSQL_CACHING_SHA2_PASSWORD
+        ///
+        /// * RDS for SQL Server: SQL_SERVER_AUTHENTICATION
+        ///
+        /// * RDS for PostgreSQL: POSTGRES_SCRAM_SHA2_256
         public var clientPasswordAuthType: RDSClientTypes.ClientPasswordAuthType?
         /// A user-specified description about the authentication used by a proxy to log in as a specific database user.
         public var description: Swift.String?
@@ -7527,6 +7626,67 @@ extension RDSClientTypes {
             self.iamAuth = iamAuth
             self.secretArn = secretArn
             self.userName = userName
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    public enum DefaultAuthScheme: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iamAuth
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DefaultAuthScheme] {
+            return [
+                .iamAuth,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iamAuth: return "IAM_AUTH"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    public enum EndpointNetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dual
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointNetworkType] {
+            return [
+                .dual,
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dual: return "DUAL"
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -7563,15 +7723,60 @@ extension RDSClientTypes {
     }
 }
 
+extension RDSClientTypes {
+
+    public enum TargetConnectionNetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetConnectionNetworkType] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateDBProxyInput: Swift.Sendable {
     /// The authorization mechanism that the proxy uses.
-    /// This member is required.
     public var auth: [RDSClientTypes.UserAuthConfig]?
     /// The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
     /// This member is required.
     public var dbProxyName: Swift.String?
-    /// Specifies whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
+    /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
     public var debugLogging: Swift.Bool?
+    /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database. Valid values are NONE and IAM_AUTH. When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database. If you don't specify DefaultAuthScheme or specify this parameter as NONE, you must specify the Auth option.
+    public var defaultAuthScheme: RDSClientTypes.DefaultAuthScheme?
+    /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+    ///
+    /// * IPV4 - The proxy endpoint supports IPv4 only.
+    ///
+    /// * IPV6 - The proxy endpoint supports IPv6 only.
+    ///
+    /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+    ///
+    ///
+    /// Default: IPV4 Constraints:
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC and all subnets must have an IPv6 CIDR block.
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC tenancy cannot be dedicated.
+    public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
     /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases, specify MYSQL. For Aurora PostgreSQL and RDS for PostgreSQL databases, specify POSTGRESQL. For RDS for Microsoft SQL Server, specify SQLSERVER.
     /// This member is required.
     public var engineFamily: RDSClientTypes.EngineFamily?
@@ -7584,6 +7789,19 @@ public struct CreateDBProxyInput: Swift.Sendable {
     public var roleArn: Swift.String?
     /// An optional set of key-value pairs to associate arbitrary data of your choosing with the proxy.
     public var tags: [RDSClientTypes.Tag]?
+    /// The network type that the proxy uses to connect to the target database. The network type determines the IP version that the proxy uses for connections to the database. Valid values:
+    ///
+    /// * IPV4 - The proxy connects to the database using IPv4 only.
+    ///
+    /// * IPV6 - The proxy connects to the database using IPv6 only.
+    ///
+    ///
+    /// Default: IPV4 Constraints:
+    ///
+    /// * If you specify IPV6, the database must support dual-stack mode. RDS doesn't support IPv6-only databases.
+    ///
+    /// * All targets registered with the proxy must be compatible with the specified network type.
+    public var targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType?
     /// One or more VPC security group IDs to associate with the new proxy.
     public var vpcSecurityGroupIds: [Swift.String]?
     /// One or more VPC subnet IDs to associate with the new proxy.
@@ -7594,22 +7812,28 @@ public struct CreateDBProxyInput: Swift.Sendable {
         auth: [RDSClientTypes.UserAuthConfig]? = nil,
         dbProxyName: Swift.String? = nil,
         debugLogging: Swift.Bool? = nil,
+        defaultAuthScheme: RDSClientTypes.DefaultAuthScheme? = nil,
+        endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
         engineFamily: RDSClientTypes.EngineFamily? = nil,
         idleClientTimeout: Swift.Int? = nil,
         requireTLS: Swift.Bool? = nil,
         roleArn: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
+        targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
     ) {
         self.auth = auth
         self.dbProxyName = dbProxyName
         self.debugLogging = debugLogging
+        self.defaultAuthScheme = defaultAuthScheme
+        self.endpointNetworkType = endpointNetworkType
         self.engineFamily = engineFamily
         self.idleClientTimeout = idleClientTimeout
         self.requireTLS = requireTLS
         self.roleArn = roleArn
         self.tags = tags
+        self.targetConnectionNetworkType = targetConnectionNetworkType
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
         self.vpcSubnetIds = vpcSubnetIds
     }
@@ -7625,7 +7849,7 @@ extension RDSClientTypes {
         public var clientPasswordAuthType: RDSClientTypes.ClientPasswordAuthType?
         /// A user-specified description about the authentication used by a proxy to log in as a specific database user.
         public var description: Swift.String?
-        /// Whether to require or disallow Amazon Web Services Identity and Access Management (IAM) authentication for connections to the proxy. The ENABLED value is valid only for proxies with RDS for Microsoft SQL Server.
+        /// Whether to require or disallow Amazon Web Services Identity and Access Management (IAM) authentication for connections to the proxy.
         public var iamAuth: RDSClientTypes.IAMAuthMode?
         /// The Amazon Resource Name (ARN) representing the secret that the proxy uses to authenticate to the RDS DB instance or Aurora DB cluster. These secrets are stored within Amazon Secrets Manager.
         public var secretArn: Swift.String?
@@ -7712,10 +7936,20 @@ extension RDSClientTypes {
         public var dbProxyArn: Swift.String?
         /// The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region.
         public var dbProxyName: Swift.String?
-        /// Indicates whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
+        /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
         public var debugLogging: Swift.Bool?
+        /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database. Valid values are NONE and IAM_AUTH. When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database.
+        public var defaultAuthScheme: Swift.String?
         /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public var endpoint: Swift.String?
+        /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+        ///
+        /// * IPV4 - The proxy endpoint supports IPv4 only.
+        ///
+        /// * IPV6 - The proxy endpoint supports IPv6 only.
+        ///
+        /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+        public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
         /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. MYSQL supports Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases. POSTGRESQL supports Aurora PostgreSQL and RDS for PostgreSQL databases. SQLSERVER supports RDS for Microsoft SQL Server databases.
         public var engineFamily: Swift.String?
         /// The number of seconds a connection to the proxy can have no activity before the proxy drops the client connection. The proxy keeps the underlying database connection open and puts it back into the connection pool for reuse by later connection requests. Default: 1800 (30 minutes) Constraints: 1 to 28,800
@@ -7726,6 +7960,12 @@ extension RDSClientTypes {
         public var roleArn: Swift.String?
         /// The current status of this proxy. A status of available means the proxy is ready to handle requests. Other values indicate that you must wait for the proxy to be ready, or take some action to resolve an issue.
         public var status: RDSClientTypes.DBProxyStatus?
+        /// The network type that the proxy uses to connect to the target database. The network type determines the IP version that the proxy uses for connections to the database. Valid values:
+        ///
+        /// * IPV4 - The proxy connects to the database using IPv4 only.
+        ///
+        /// * IPV6 - The proxy connects to the database using IPv6 only.
+        public var targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType?
         /// The date and time when the proxy was last updated.
         public var updatedDate: Foundation.Date?
         /// Provides the VPC ID of the DB proxy.
@@ -7741,12 +7981,15 @@ extension RDSClientTypes {
             dbProxyArn: Swift.String? = nil,
             dbProxyName: Swift.String? = nil,
             debugLogging: Swift.Bool? = nil,
+            defaultAuthScheme: Swift.String? = nil,
             endpoint: Swift.String? = nil,
+            endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
             engineFamily: Swift.String? = nil,
             idleClientTimeout: Swift.Int? = nil,
             requireTLS: Swift.Bool? = nil,
             roleArn: Swift.String? = nil,
             status: RDSClientTypes.DBProxyStatus? = nil,
+            targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType? = nil,
             updatedDate: Foundation.Date? = nil,
             vpcId: Swift.String? = nil,
             vpcSecurityGroupIds: [Swift.String]? = nil,
@@ -7757,12 +8000,15 @@ extension RDSClientTypes {
             self.dbProxyArn = dbProxyArn
             self.dbProxyName = dbProxyName
             self.debugLogging = debugLogging
+            self.defaultAuthScheme = defaultAuthScheme
             self.endpoint = endpoint
+            self.endpointNetworkType = endpointNetworkType
             self.engineFamily = engineFamily
             self.idleClientTimeout = idleClientTimeout
             self.requireTLS = requireTLS
             self.roleArn = roleArn
             self.status = status
+            self.targetConnectionNetworkType = targetConnectionNetworkType
             self.updatedDate = updatedDate
             self.vpcId = vpcId
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -7887,6 +8133,21 @@ public struct CreateDBProxyEndpointInput: Swift.Sendable {
     /// The name of the DB proxy associated with the DB proxy endpoint that you create.
     /// This member is required.
     public var dbProxyName: Swift.String?
+    /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+    ///
+    /// * IPV4 - The proxy endpoint supports IPv4 only.
+    ///
+    /// * IPV6 - The proxy endpoint supports IPv6 only.
+    ///
+    /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+    ///
+    ///
+    /// Default: IPV4 Constraints:
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC and all subnets must have an IPv6 CIDR block.
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC tenancy cannot be dedicated.
+    public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The role of the DB proxy endpoint. The role determines whether the endpoint can be used for read/write or only read operations. The default is READ_WRITE. The only role that proxies for RDS for Microsoft SQL Server support is READ_WRITE.
@@ -7900,6 +8161,7 @@ public struct CreateDBProxyEndpointInput: Swift.Sendable {
     public init(
         dbProxyEndpointName: Swift.String? = nil,
         dbProxyName: Swift.String? = nil,
+        endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetRole: RDSClientTypes.DBProxyEndpointTargetRole? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
@@ -7907,6 +8169,7 @@ public struct CreateDBProxyEndpointInput: Swift.Sendable {
     ) {
         self.dbProxyEndpointName = dbProxyEndpointName
         self.dbProxyName = dbProxyName
+        self.endpointNetworkType = endpointNetworkType
         self.tags = tags
         self.targetRole = targetRole
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -7969,6 +8232,14 @@ extension RDSClientTypes {
         public var dbProxyName: Swift.String?
         /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public var endpoint: Swift.String?
+        /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+        ///
+        /// * IPV4 - The proxy endpoint supports IPv4 only.
+        ///
+        /// * IPV6 - The proxy endpoint supports IPv6 only.
+        ///
+        /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+        public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
         /// Indicates whether this endpoint is the default endpoint for the associated DB proxy. Default DB proxy endpoints always have read/write capability. Other endpoints that you associate with the DB proxy can be either read/write or read-only.
         public var isDefault: Swift.Bool?
         /// The current status of this DB proxy endpoint. A status of available means the endpoint is ready to handle requests. Other values indicate that you must wait for the endpoint to be ready, or take some action to resolve an issue.
@@ -7988,6 +8259,7 @@ extension RDSClientTypes {
             dbProxyEndpointName: Swift.String? = nil,
             dbProxyName: Swift.String? = nil,
             endpoint: Swift.String? = nil,
+            endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
             isDefault: Swift.Bool? = nil,
             status: RDSClientTypes.DBProxyEndpointStatus? = nil,
             targetRole: RDSClientTypes.DBProxyEndpointTargetRole? = nil,
@@ -8000,6 +8272,7 @@ extension RDSClientTypes {
             self.dbProxyEndpointName = dbProxyEndpointName
             self.dbProxyName = dbProxyName
             self.endpoint = endpoint
+            self.endpointNetworkType = endpointNetworkType
             self.isDefault = isDefault
             self.status = status
             self.targetRole = targetRole
@@ -8204,13 +8477,13 @@ public struct UnsupportedDBEngineVersionFault: ClientRuntime.ModeledError, AWSCl
 }
 
 public struct CreateDBShardGroupInput: Swift.Sendable {
-    /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
+    /// Specifies whether to create standby standby DB data access shard for the DB shard group. Valid values are the following:
     ///
-    /// * 0 - Creates a DB shard group without a standby DB shard group. This is the default value.
+    /// * 0 - Creates a DB shard group without a standby DB data access shard. This is the default value.
     ///
-    /// * 1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).
+    /// * 1 - Creates a DB shard group with a standby DB data access shard in a different Availability Zone (AZ).
     ///
-    /// * 2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
+    /// * 2 - Creates a DB shard group with two standby DB data access shard in two different AZs.
     public var computeRedundancy: Swift.Int?
     /// The name of the primary DB cluster for the DB shard group.
     /// This member is required.
@@ -8738,7 +9011,7 @@ public struct CreateGlobalClusterInput: Swift.Sendable {
     ///
     /// * Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine of the source DB cluster.
     public var engine: Swift.String?
-    /// The life cycle type for this global database cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your global cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, creating the global cluster will fail if the DB major version is past its end of standard support date. This setting only applies to Aurora PostgreSQL-based global databases. You can use this setting to enroll your global cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your global cluster past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    /// The life cycle type for this global database cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your global cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, creating the global cluster will fail if the DB major version is past its end of standard support date. This setting only applies to Aurora PostgreSQL-based global databases. You can use this setting to enroll your global cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your global cluster past the end of standard support for that engine version. For more information, see [Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     public var engineLifecycleSupport: Swift.String?
     /// The engine version to use for this global database cluster. Constraints:
     ///
@@ -8925,7 +9198,7 @@ extension RDSClientTypes {
         public var endpoint: Swift.String?
         /// The Aurora database engine used by the global database cluster.
         public var engine: Swift.String?
-        /// The life cycle type for the global cluster. For more information, see CreateGlobalCluster.
+        /// The lifecycle type for the global cluster. For more information, see CreateGlobalCluster.
         public var engineLifecycleSupport: Swift.String?
         /// Indicates the database engine version.
         public var engineVersion: Swift.String?
@@ -8937,7 +9210,7 @@ extension RDSClientTypes {
         public var globalClusterIdentifier: Swift.String?
         /// The list of primary and secondary clusters within the global database cluster.
         public var globalClusterMembers: [RDSClientTypes.GlobalClusterMember]?
-        /// The Amazon Web Services Region-unique, immutable identifier for the global database cluster. This identifier is found in Amazon Web Services CloudTrail log entries whenever the Amazon Web Services KMS key for the DB cluster is accessed.
+        /// The Amazon Web Services [partition](https://docs.aws.amazon.com/glossary/latest/reference/glos-chap.html?id=docs_gateway#partition)-unique, immutable identifier for the global database cluster. This identifier is found in Amazon Web Services CloudTrail log entries whenever the Amazon Web Services KMS key for the DB cluster is accessed.
         public var globalClusterResourceId: Swift.String?
         /// Specifies the current state of this global database cluster.
         public var status: Swift.String?
@@ -9329,13 +9602,20 @@ public struct CreateTenantDatabaseInput: Swift.Sendable {
     /// The user-supplied DB instance identifier. RDS creates your tenant database in this DB instance. This parameter isn't case-sensitive.
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
+    public var manageMasterUserPassword: Swift.Bool?
     /// The password for the master user in your tenant database. Constraints:
     ///
     /// * Must be 8 to 30 characters.
     ///
     /// * Can include any printable ASCII character except forward slash (/), double quote ("), at symbol (@), ampersand (&), or single quote (').
-    /// This member is required.
+    ///
+    /// * Can't be specified when ManageMasterUserPassword is enabled.
     public var masterUserPassword: Swift.String?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// The name for the master user account in your tenant database. RDS creates this user account in the tenant database and grants privileges to the master user. This parameter is case-sensitive. Constraints:
     ///
     /// * Must be 1 to 16 letters, numbers, or underscores.
@@ -9356,7 +9636,9 @@ public struct CreateTenantDatabaseInput: Swift.Sendable {
     public init(
         characterSetName: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
         masterUserPassword: Swift.String? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
         ncharCharacterSetName: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
@@ -9364,7 +9646,9 @@ public struct CreateTenantDatabaseInput: Swift.Sendable {
     ) {
         self.characterSetName = characterSetName
         self.dbInstanceIdentifier = dbInstanceIdentifier
+        self.manageMasterUserPassword = manageMasterUserPassword
         self.masterUserPassword = masterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
         self.ncharCharacterSetName = ncharCharacterSetName
         self.tags = tags
@@ -9374,7 +9658,7 @@ public struct CreateTenantDatabaseInput: Swift.Sendable {
 
 extension CreateTenantDatabaseInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateTenantDatabaseInput(characterSetName: \(Swift.String(describing: characterSetName)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), masterUsername: \(Swift.String(describing: masterUsername)), ncharCharacterSetName: \(Swift.String(describing: ncharCharacterSetName)), tags: \(Swift.String(describing: tags)), tenantDBName: \(Swift.String(describing: tenantDBName)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "CreateTenantDatabaseInput(characterSetName: \(Swift.String(describing: characterSetName)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), ncharCharacterSetName: \(Swift.String(describing: ncharCharacterSetName)), tags: \(Swift.String(describing: tags)), tenantDBName: \(Swift.String(describing: tenantDBName)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -9413,6 +9697,8 @@ extension RDSClientTypes {
         public var dbiResourceId: Swift.String?
         /// Specifies whether deletion protection is enabled for the DB instance.
         public var deletionProtection: Swift.Bool?
+        /// Contains the secret managed by RDS in Amazon Web Services Secrets Manager for the master user password. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide and [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html) in the Amazon Aurora User Guide.
+        public var masterUserSecret: RDSClientTypes.MasterUserSecret?
         /// The master username of the tenant database.
         public var masterUsername: Swift.String?
         /// The NCHAR character set name of the tenant database.
@@ -9437,6 +9723,7 @@ extension RDSClientTypes {
             dbInstanceIdentifier: Swift.String? = nil,
             dbiResourceId: Swift.String? = nil,
             deletionProtection: Swift.Bool? = nil,
+            masterUserSecret: RDSClientTypes.MasterUserSecret? = nil,
             masterUsername: Swift.String? = nil,
             ncharCharacterSetName: Swift.String? = nil,
             pendingModifiedValues: RDSClientTypes.TenantDatabasePendingModifiedValues? = nil,
@@ -9451,6 +9738,7 @@ extension RDSClientTypes {
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbiResourceId = dbiResourceId
             self.deletionProtection = deletionProtection
+            self.masterUserSecret = masterUserSecret
             self.masterUsername = masterUsername
             self.ncharCharacterSetName = ncharCharacterSetName
             self.pendingModifiedValues = pendingModifiedValues
@@ -10340,7 +10628,7 @@ extension RDSClientTypes {
         public var awsBackupRecoveryPointArn: Swift.String?
         /// The retention period for the automated backups.
         public var backupRetentionPeriod: Swift.Int?
-        /// The location where automated backups are stored: Amazon Web Services Outposts or the Amazon Web Services Region.
+        /// The location where automated backups are stored: Dedicated Local Zones, Amazon Web Services Outposts or the Amazon Web Services Region.
         public var backupTarget: Swift.String?
         /// The Amazon Resource Name (ARN) for the automated backups.
         public var dbInstanceArn: Swift.String?
@@ -12449,6 +12737,165 @@ public struct DescribeDBLogFilesOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeDBMajorEngineVersionsInput: Swift.Sendable {
+    /// The database engine to return major version details for. Valid Values:
+    ///
+    /// * aurora-mysql
+    ///
+    /// * aurora-postgresql
+    ///
+    /// * custom-sqlserver-ee
+    ///
+    /// * custom-sqlserver-se
+    ///
+    /// * custom-sqlserver-web
+    ///
+    /// * db2-ae
+    ///
+    /// * db2-se
+    ///
+    /// * mariadb
+    ///
+    /// * mysql
+    ///
+    /// * oracle-ee
+    ///
+    /// * oracle-ee-cdb
+    ///
+    /// * oracle-se2
+    ///
+    /// * oracle-se2-cdb
+    ///
+    /// * postgres
+    ///
+    /// * sqlserver-ee
+    ///
+    /// * sqlserver-se
+    ///
+    /// * sqlserver-ex
+    ///
+    /// * sqlserver-web
+    public var engine: Swift.String?
+    /// A specific database major engine version to return details for. Example: 8.4
+    public var majorEngineVersion: Swift.String?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100
+    public var maxRecords: Swift.Int?
+
+    public init(
+        engine: Swift.String? = nil,
+        majorEngineVersion: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    ) {
+        self.engine = engine
+        self.majorEngineVersion = majorEngineVersion
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+extension RDSClientTypes {
+
+    public enum LifecycleSupportName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case openSourceRdsExtendedSupport
+        case openSourceRdsStandardSupport
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LifecycleSupportName] {
+            return [
+                .openSourceRdsExtendedSupport,
+                .openSourceRdsStandardSupport
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .openSourceRdsExtendedSupport: return "open-source-rds-extended-support"
+            case .openSourceRdsStandardSupport: return "open-source-rds-standard-support"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    /// This data type is used as a response element in the operation DescribeDBMajorEngineVersions. You can use the information that this data type returns to plan for upgrades. This data type only returns information for the open source engines Amazon RDS for MariaDB, Amazon RDS for MySQL, Amazon RDS for PostgreSQL, Aurora MySQL, and Aurora PostgreSQL.
+    public struct SupportedEngineLifecycle: Swift.Sendable {
+        /// The end date for the type of support returned by LifecycleSupportName.
+        /// This member is required.
+        public var lifecycleSupportEndDate: Foundation.Date?
+        /// The type of lifecycle support that the engine version is in. This parameter returns the following values:
+        ///
+        /// * open-source-rds-standard-support - Indicates RDS standard support or Aurora standard support.
+        ///
+        /// * open-source-rds-extended-support - Indicates Amazon RDS Extended Support.
+        ///
+        ///
+        /// For Amazon RDS for MySQL, Amazon RDS for PostgreSQL, Aurora MySQL, and Aurora PostgreSQL, this parameter returns both open-source-rds-standard-support and open-source-rds-extended-support. For Amazon RDS for MariaDB, this parameter only returns the value open-source-rds-standard-support. For information about Amazon RDS Extended Support, see [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide and [Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide.
+        /// This member is required.
+        public var lifecycleSupportName: RDSClientTypes.LifecycleSupportName?
+        /// The start date for the type of support returned by LifecycleSupportName.
+        /// This member is required.
+        public var lifecycleSupportStartDate: Foundation.Date?
+
+        public init(
+            lifecycleSupportEndDate: Foundation.Date? = nil,
+            lifecycleSupportName: RDSClientTypes.LifecycleSupportName? = nil,
+            lifecycleSupportStartDate: Foundation.Date? = nil
+        ) {
+            self.lifecycleSupportEndDate = lifecycleSupportEndDate
+            self.lifecycleSupportName = lifecycleSupportName
+            self.lifecycleSupportStartDate = lifecycleSupportStartDate
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    /// This data type is used as a response element in the operation DescribeDBMajorEngineVersions.
+    public struct DBMajorEngineVersion: Swift.Sendable {
+        /// The name of the database engine.
+        public var engine: Swift.String?
+        /// The major version number of the database engine.
+        public var majorEngineVersion: Swift.String?
+        /// A list of the lifecycles supported by this engine for the DescribeDBMajorEngineVersions operation.
+        public var supportedEngineLifecycles: [RDSClientTypes.SupportedEngineLifecycle]?
+
+        public init(
+            engine: Swift.String? = nil,
+            majorEngineVersion: Swift.String? = nil,
+            supportedEngineLifecycles: [RDSClientTypes.SupportedEngineLifecycle]? = nil
+        ) {
+            self.engine = engine
+            self.majorEngineVersion = majorEngineVersion
+            self.supportedEngineLifecycles = supportedEngineLifecycles
+        }
+    }
+}
+
+public struct DescribeDBMajorEngineVersionsOutput: Swift.Sendable {
+    /// A list of DBMajorEngineVersion elements.
+    public var dbMajorEngineVersions: [RDSClientTypes.DBMajorEngineVersion]?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+
+    public init(
+        dbMajorEngineVersions: [RDSClientTypes.DBMajorEngineVersion]? = nil,
+        marker: Swift.String? = nil
+    ) {
+        self.dbMajorEngineVersions = dbMajorEngineVersions
+        self.marker = marker
+    }
+}
+
 ///
 public struct DescribeDBParameterGroupsInput: Swift.Sendable {
     /// The name of a specific DB parameter group to return details for. Constraints:
@@ -12651,7 +13098,7 @@ extension RDSClientTypes {
     public struct ConnectionPoolConfigurationInfo: Swift.Sendable {
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions.
         public var connectionBorrowTimeout: Swift.Int?
-        /// One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. This setting is empty by default. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2.
+        /// One or more SQL statements for the proxy to run when opening each new database connection. The setting is typically used with SET statements to make sure that each connection has identical settings. The query added here must be valid. For including multiple variables in a single SET statement, use a comma separator. This is an optional field. For example: SET variable1=value1, variable2=value2 Since you can access initialization query as part of target group configuration, it is not protected by authentication or cryptographic methods. Anyone with access to view or manage your proxy target group configuration can view the initialization query. You should not add sensitive data, such as passwords or long-lived encryption keys, to this option.
         public var initQuery: Swift.String?
         /// The maximum size of the connection pool for each target in a target group. The value is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group.
         public var maxConnectionsPercent: Swift.Int?
@@ -15204,6 +15651,8 @@ extension RDSClientTypes {
         public var supportsEnhancedMonitoring: Swift.Bool?
         /// Indicates whether you can use Aurora global databases with a specific combination of other DB engine attributes.
         public var supportsGlobalDatabases: Swift.Bool?
+        /// Indicates whether a DB instance supports HTTP endpoints.
+        public var supportsHttpEndpoint: Swift.Bool?
         /// Indicates whether a DB instance supports IAM database authentication.
         public var supportsIAMDatabaseAuthentication: Swift.Bool?
         /// Indicates whether a DB instance supports provisioned IOPS.
@@ -15250,6 +15699,7 @@ extension RDSClientTypes {
             supportsDedicatedLogVolume: Swift.Bool? = nil,
             supportsEnhancedMonitoring: Swift.Bool? = nil,
             supportsGlobalDatabases: Swift.Bool? = nil,
+            supportsHttpEndpoint: Swift.Bool? = nil,
             supportsIAMDatabaseAuthentication: Swift.Bool? = nil,
             supportsIops: Swift.Bool? = nil,
             supportsKerberosAuthentication: Swift.Bool? = nil,
@@ -15287,6 +15737,7 @@ extension RDSClientTypes {
             self.supportsDedicatedLogVolume = supportsDedicatedLogVolume
             self.supportsEnhancedMonitoring = supportsEnhancedMonitoring
             self.supportsGlobalDatabases = supportsGlobalDatabases
+            self.supportsHttpEndpoint = supportsHttpEndpoint
             self.supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication
             self.supportsIops = supportsIops
             self.supportsKerberosAuthentication = supportsKerberosAuthentication
@@ -16646,7 +17097,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var allowMajorVersionUpgrade: Swift.Bool?
     /// Specifies whether the modifications in this request are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as turning on deletion protection and changing the master password, are applied immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var applyImmediately: Swift.Bool?
-    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
     public var awsBackupRecoveryPointArn: Swift.String?
@@ -16662,20 +17113,20 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var caCertificateIdentifier: Swift.String?
     /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The following values are valid for each DB engine:
     ///
-    /// * Aurora MySQL - audit | error | general | instance | slowquery
+    /// * Aurora MySQL - audit | error | general | instance | slowquery | iam-db-auth-error
     ///
-    /// * Aurora PostgreSQL - instance | postgresql
+    /// * Aurora PostgreSQL - instance | postgresql | iam-db-auth-error
     ///
-    /// * RDS for MySQL - error | general | slowquery
+    /// * RDS for MySQL - error | general | slowquery | iam-db-auth-error
     ///
-    /// * RDS for PostgreSQL - postgresql | upgrade
+    /// * RDS for PostgreSQL - postgresql | upgrade | iam-db-auth-error
     ///
     ///
     /// For more information about exporting CloudWatch Logs for Amazon RDS, see [ Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide.
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you must set the PerformanceInsightsEnabled parameter to false. Valid for Cluster Type: Aurora DB clusters only
+    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you can set the PerformanceInsightsEnabled parameter to true to collect detailed database counter and per-query metrics. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
@@ -16720,6 +17171,15 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var iops: Swift.Int?
     /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the DB cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide and [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can change the master DB user to use IAM database authentication. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The new password for the master database user. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
     /// * Must contain from 8 to 41 characters.
@@ -16845,6 +17305,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         engineVersion: Swift.String? = nil,
         iops: Swift.Int? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         monitoringInterval: Swift.Int? = nil,
@@ -16892,6 +17353,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         self.engineVersion = engineVersion
         self.iops = iops
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.monitoringInterval = monitoringInterval
@@ -17149,7 +17611,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     /// * RDS has enabled automatic patching for the engine version.
     ///
     ///
-    /// If any of the preceding conditions isn't met, Amazon RDS applies the change as soon as possible and doesn't cause an outage. For an RDS Custom DB instance, don't enable this setting. Otherwise, the operation returns an error.
+    /// If any of the preceding conditions isn't met, Amazon RDS applies the change as soon as possible and doesn't cause an outage. For an RDS Custom DB instance, don't enable this setting. Otherwise, the operation returns an error. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The automation mode of the RDS Custom DB instance. If full, the DB instance automates monitoring and instance recovery. If all paused, the instance pauses automation for the duration set by ResumeFullAutomationModeMinutes.
     public var automationMode: RDSClientTypes.AutomationMode?
@@ -17176,20 +17638,20 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var certificateRotationRestart: Swift.Bool?
     /// The log types to be enabled for export to CloudWatch Logs for a specific DB instance. A change to the CloudwatchLogsExportConfiguration parameter is always applied to the DB instance immediately. Therefore, the ApplyImmediately parameter has no effect. This setting doesn't apply to RDS Custom DB instances. The following values are valid for each DB engine:
     ///
-    /// * Aurora MySQL - audit | error | general | slowquery
+    /// * Aurora MySQL - audit | error | general | slowquery | iam-db-auth-error
     ///
-    /// * Aurora PostgreSQL - postgresql
+    /// * Aurora PostgreSQL - postgresql | iam-db-auth-error
     ///
-    /// * RDS for MySQL - error | general | slowquery
+    /// * RDS for MySQL - error | general | slowquery | iam-db-auth-error
     ///
-    /// * RDS for PostgreSQL - postgresql | upgrade
+    /// * RDS for PostgreSQL - postgresql | upgrade | iam-db-auth-error
     ///
     ///
     /// For more information about exporting CloudWatch Logs for Amazon RDS, see [ Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide.
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags aren't copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see ModifyDBCluster.
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
+    /// Specifies the mode of Database Insights to enable for the DB instance. Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide or [Aurora DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html) in the Amazon Aurora User Guide. For RDS Custom, see [DB instance class support for RDS Custom for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits.html#custom-reqs-limits.instances) and [ DB instance class support for RDS Custom for SQL Server](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html#custom-reqs-limits.instancesMS). If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request. Default: Uses existing setting Constraints:
     ///
@@ -17324,12 +17786,27 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB instance doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the DB instance already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, Amazon RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
     ///
     /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
+    ///
+    /// * Can't specify for RDS for Oracle CDB instances in the multi-tenant configuration. Use ModifyTenantDatabase instead.
+    ///
+    /// * Can't specify the parameters ManageMasterUserPassword and MultiTenant in the same operation.
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can change the master DB user to use IAM database authentication. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The new password for the master user. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. Amazon RDS API operations never return the password, so this operation provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked. This setting doesn't apply to the following DB instances:
     ///
-    /// * Amazon Aurora (The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.)
+    /// * Amazon Aurora The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.
     ///
     /// * RDS Custom
+    ///
+    /// * RDS for Oracle CDBs in the multi-tenant configuration Specify the master password in ModifyTenantDatabase instead.
     ///
     ///
     /// Default: Uses existing setting Constraints:
@@ -17428,7 +17905,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var promotionTier: Swift.Int?
     /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. PubliclyAccessible only applies to DB instances in a VPC. The DB instance must be part of a public subnet and PubliclyAccessible must be enabled for it to be publicly accessible. Changes to the PubliclyAccessible parameter are applied immediately regardless of the value of the ApplyImmediately parameter.
     public var publiclyAccessible: Swift.Bool?
-    /// A value that sets the open mode of a replica database to either mounted or read-only. Currently, this parameter is only supported for Oracle DB instances. Mounted DB replicas are included in Oracle Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. For more information, see [Working with Oracle Read Replicas for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom DB instances.
+    /// The open mode of a replica database. This parameter is only supported for Db2 DB instances and Oracle DB instances. Db2 Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see [Working with replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted. Oracle Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
     public var replicaMode: RDSClientTypes.ReplicaMode?
     /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes full automation. Default: 60 Constraints:
     ///
@@ -17436,7 +17913,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     ///
     /// * Must be no more than 1,440.
     public var resumeFullAutomationModeMinutes: Swift.Int?
-    /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB cluster. The secret value contains the updated password. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The secret value contains the updated password. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
     ///
     /// * You must apply the change immediately when rotating the master user password.
     public var rotateMasterUserPassword: Swift.Bool?
@@ -17498,6 +17975,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         iops: Swift.Int? = nil,
         licenseModel: Swift.String? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         maxAllocatedStorage: Swift.Int? = nil,
@@ -17560,6 +18038,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         self.iops = iops
         self.licenseModel = licenseModel
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.maxAllocatedStorage = maxAllocatedStorage
@@ -17638,8 +18117,10 @@ public struct ModifyDBProxyInput: Swift.Sendable {
     /// The identifier for the DBProxy to modify.
     /// This member is required.
     public var dbProxyName: Swift.String?
-    /// Whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
+    /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
     public var debugLogging: Swift.Bool?
+    /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database. Valid values are NONE and IAM_AUTH. When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database.
+    public var defaultAuthScheme: RDSClientTypes.DefaultAuthScheme?
     /// The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database.
     public var idleClientTimeout: Swift.Int?
     /// The new identifier for the DBProxy. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
@@ -17655,6 +18136,7 @@ public struct ModifyDBProxyInput: Swift.Sendable {
         auth: [RDSClientTypes.UserAuthConfig]? = nil,
         dbProxyName: Swift.String? = nil,
         debugLogging: Swift.Bool? = nil,
+        defaultAuthScheme: RDSClientTypes.DefaultAuthScheme? = nil,
         idleClientTimeout: Swift.Int? = nil,
         newDBProxyName: Swift.String? = nil,
         requireTLS: Swift.Bool? = nil,
@@ -17664,6 +18146,7 @@ public struct ModifyDBProxyInput: Swift.Sendable {
         self.auth = auth
         self.dbProxyName = dbProxyName
         self.debugLogging = debugLogging
+        self.defaultAuthScheme = defaultAuthScheme
         self.idleClientTimeout = idleClientTimeout
         self.newDBProxyName = newDBProxyName
         self.requireTLS = requireTLS
@@ -17720,9 +18203,9 @@ extension RDSClientTypes {
     public struct ConnectionPoolConfiguration: Swift.Sendable {
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. This setting only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120 Constraints:
         ///
-        /// * Must be between 0 and 3600.
+        /// * Must be between 0 and 300.
         public var connectionBorrowTimeout: Swift.Int?
-        /// One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2. Default: no initialization query
+        /// Add an initialization query, or modify the current one. You can specify one or more SQL statements for the proxy to run when opening each new database connection. The setting is typically used with SET statements to make sure that each connection has identical settings. Make sure the query added here is valid. This is an optional field, so you can choose to leave it empty. For including multiple variables in a single SET statement, use a comma separator. For example: SET variable1=value1, variable2=value2 Default: no initialization query Since you can access initialization query as part of target group configuration, it is not protected by authentication or cryptographic methods. Anyone with access to view or manage your proxy target group configuration can view the initialization query. You should not add sensitive data, such as passwords or long-lived encryption keys, to this option.
         public var initQuery: Swift.String?
         /// The maximum size of the connection pool for each target in a target group. The value is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group. If you specify MaxIdleConnectionsPercent, then you must also include a value for this parameter. Default: 10 for RDS for Microsoft SQL Server, and 100 for all other engines Constraints:
         ///
@@ -17943,7 +18426,11 @@ public struct ModifyDBSnapshotInput: Swift.Sendable {
     /// The identifier of the DB snapshot to modify.
     /// This member is required.
     public var dbSnapshotIdentifier: Swift.String?
-    /// The engine version to upgrade the DB snapshot to. The following are the database engines and engine versions that are available when you upgrade a DB snapshot. MySQL For the list of engine versions that are available for upgrading a DB snapshot, see [ Upgrading a MySQL DB snapshot engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql-upgrade-snapshot.html) in the Amazon RDS User Guide. Oracle
+    /// The engine version to upgrade the DB snapshot to. The following are the database engines and engine versions that are available when you upgrade a DB snapshot. MariaDB For the list of engine versions that are available for upgrading a DB snapshot, see [ Upgrading a MariaDB DB snapshot engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mariadb-upgrade-snapshot.html) in the Amazon RDS User Guide. MySQL For the list of engine versions that are available for upgrading a DB snapshot, see [ Upgrading a MySQL DB snapshot engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql-upgrade-snapshot.html) in the Amazon RDS User Guide. Oracle
+    ///
+    /// * 21.0.0.0.ru-2025-04.rur-2025-04.r1 (supported for 21.0.0.0.ru-2022-01.rur-2022-01.r1, 21.0.0.0.ru-2022-04.rur-2022-04.r1, 21.0.0.0.ru-2022-07.rur-2022-07.r1, 21.0.0.0.ru-2022-10.rur-2022-10.r1, 21.0.0.0.ru-2023-01.rur-2023-01.r1 and 21.0.0.0.ru-2023-01.rur-2023-01.r2 DB snapshots)
+    ///
+    /// * 19.0.0.0.ru-2025-04.rur-2025-04.r1 (supported for 19.0.0.0.ru-2019-07.rur-2019-07.r1, 19.0.0.0.ru-2019-10.rur-2019-10.r1 and 0.0.0.ru-2020-01.rur-2020-01.r1 DB snapshots)
     ///
     /// * 19.0.0.0.ru-2022-01.rur-2022-01.r1 (supported for 12.2.0.1 DB snapshots)
     ///
@@ -18323,6 +18810,10 @@ public struct ModifyTenantDatabaseInput: Swift.Sendable {
     /// * Must match the identifier of an existing DB instance.
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the tenant database doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the tenant database already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, Amazon RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
+    public var manageMasterUserPassword: Swift.Bool?
     /// The new password for the master user of the specified tenant database in your DB instance. Amazon RDS operations never return the password, so this action provides a way to regain access to a tenant database user if the password is lost. This includes restoring privileges that might have been accidentally revoked. Constraints:
     ///
     /// * Can include any printable ASCII character except /, " (double quote), @, & (ampersand), and ' (single quote).
@@ -18332,12 +18823,36 @@ public struct ModifyTenantDatabaseInput: Swift.Sendable {
     ///
     /// * Must contain between 8 and 30 characters.
     public var masterUserPassword: Swift.String?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:
+    ///
+    /// * The tenant database doesn't manage the master user password in Amazon Web Services Secrets Manager. If the tenant database already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key used to encrypt the secret.
+    ///
+    /// * You're turning on ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager. If you're turning on ManageMasterUserPassword and don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a self-managed KMS key.
+    ///
+    ///
+    /// The Amazon Web Services KMS key identifier is any of the following:
+    ///
+    /// * Key ARN
+    ///
+    /// * Key ID
+    ///
+    /// * Alias ARN
+    ///
+    /// * Alias name for the KMS key
+    ///
+    ///
+    /// To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. A default KMS key exists for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// The new name of the tenant database when renaming a tenant database. This parameter isn’t case-sensitive. Constraints:
     ///
     /// * Can't be the string null or any other reserved word.
     ///
     /// * Can't be longer than 8 characters.
     public var newTenantDBName: Swift.String?
+    /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The secret value contains the updated password. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * You must apply the change immediately when rotating the master user password.
+    public var rotateMasterUserPassword: Swift.Bool?
     /// The user-supplied name of the tenant database that you want to modify. This parameter isn’t case-sensitive. Constraints:
     ///
     /// * Must match the identifier of an existing tenant database.
@@ -18346,20 +18861,26 @@ public struct ModifyTenantDatabaseInput: Swift.Sendable {
 
     public init(
         dbInstanceIdentifier: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
         masterUserPassword: Swift.String? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         newTenantDBName: Swift.String? = nil,
+        rotateMasterUserPassword: Swift.Bool? = nil,
         tenantDBName: Swift.String? = nil
     ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
+        self.manageMasterUserPassword = manageMasterUserPassword
         self.masterUserPassword = masterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.newTenantDBName = newTenantDBName
+        self.rotateMasterUserPassword = rotateMasterUserPassword
         self.tenantDBName = tenantDBName
     }
 }
 
 extension ModifyTenantDatabaseInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ModifyTenantDatabaseInput(dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), newTenantDBName: \(Swift.String(describing: newTenantDBName)), tenantDBName: \(Swift.String(describing: tenantDBName)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "ModifyTenantDatabaseInput(dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), newTenantDBName: \(Swift.String(describing: newTenantDBName)), rotateMasterUserPassword: \(Swift.String(describing: rotateMasterUserPassword)), tenantDBName: \(Swift.String(describing: tenantDBName)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct ModifyTenantDatabaseOutput: Swift.Sendable {
@@ -19042,7 +19563,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
     public var domain: Swift.String?
     /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
     public var domainIAMRoleName: Swift.String?
-    /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. Aurora MySQL Possible values are audit, error, general, instance, and slowquery. Aurora PostgreSQL Possible value are instance and postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide.
+    /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. Aurora MySQL Possible values are audit, error, general, instance, slowquery, and iam-db-auth-error. Aurora PostgreSQL Possible value are instance, postgresql, and iam-db-auth-error. For more information about exporting CloudWatch Logs for Amazon RDS, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide.
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide.
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -19051,9 +19572,9 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
     public var engine: Swift.String?
     /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
     ///
-    /// * Amazon Aurora - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    /// * Amazon Aurora - [Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
     ///
-    /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
+    /// * Amazon RDS - [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
     ///
     ///
     /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
@@ -19319,7 +19840,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public var domain: Swift.String?
     /// The name of the IAM role to be used when making API calls to the Directory Service. Valid for: Aurora DB clusters only
     public var domainIAMRoleName: Swift.String?
-    /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs. The values in the list depend on the DB engine being used. RDS for MySQL Possible values are error, general, and slowquery. RDS for PostgreSQL Possible values are postgresql and upgrade. Aurora MySQL Possible values are audit, error, general, instance, and slowquery. Aurora PostgreSQL Possible value are instance and postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs. The values in the list depend on the DB engine being used. RDS for MySQL Possible values are error, general, slowquery, and iam-db-auth-error. RDS for PostgreSQL Possible values are postgresql, upgrade, and iam-db-auth-error. Aurora MySQL Possible values are audit, error, general, instance, slowquery, and iam-db-auth-error. Aurora PostgreSQL Possible value are instance, postgresql, and iam-db-auth-error. For more information about exporting CloudWatch Logs for Amazon RDS, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide or [ IAM database authentication for MariaDB, MySQL, and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -19330,9 +19851,9 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public var engine: Swift.String?
     /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
     ///
-    /// * Amazon Aurora - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    /// * Amazon Aurora - [Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
     ///
-    /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
+    /// * Amazon RDS - [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
     ///
     ///
     /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
@@ -19551,7 +20072,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     public var domain: Swift.String?
     /// The name of the IAM role to be used when making API calls to the Directory Service. Valid for: Aurora DB clusters only
     public var domainIAMRoleName: Swift.String?
-    /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. RDS for MySQL Possible values are error, general, and slowquery. RDS for PostgreSQL Possible values are postgresql and upgrade. Aurora MySQL Possible values are audit, error, general, instance, and slowquery. Aurora PostgreSQL Possible value are instance and postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. RDS for MySQL Possible values are error, general, slowquery, and iam-db-auth-error. RDS for PostgreSQL Possible values are postgresql, upgrade, and iam-db-auth-error. Aurora MySQL Possible values are audit, error, general, instance, slowquery, and iam-db-auth-error. Aurora PostgreSQL Possible value are instance, postgresql, and iam-db-auth-error. For more information about exporting CloudWatch Logs for Amazon RDS, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide or [ IAM database authentication for MariaDB, MySQL, and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -19559,9 +20080,9 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     public var enablePerformanceInsights: Swift.Bool?
     /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
     ///
-    /// * Amazon Aurora - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    /// * Amazon Aurora - [Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
     ///
-    /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
+    /// * Amazon RDS - [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
     ///
     ///
     /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
@@ -19761,11 +20282,11 @@ public struct RestoreDBClusterToPointInTimeOutput: Swift.Sendable {
 public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
-    /// Specifies whether to automatically apply minor version upgrades to the DB instance during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter.
+    /// Specifies whether to automatically apply minor version upgrades to the DB instance during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
     public var availabilityZone: Swift.String?
-    /// Specifies where automated backups and manual snapshots are stored for the restored DB instance. Possible values are outposts (Amazon Web Services Outposts) and region (Amazon Web Services Region). The default is region. For more information, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide.
+    /// Specifies where automated backups and manual snapshots are stored for the restored DB instance. Possible values are local (Dedicated Local Zone), outposts (Amazon Web Services Outposts), and region (Amazon Web Services Region). The default is region. For more information, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide.
     public var backupTarget: Swift.String?
     /// The CA certificate identifier to use for the DB instance's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
     public var caCertificateIdentifier: Swift.String?
@@ -19909,11 +20430,11 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     ///
     /// * sqlserver-web
     public var engine: Swift.String?
-    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     public var engineLifecycleSupport: Swift.String?
     /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second. If this parameter isn't specified, the IOPS value is taken from the backup. If this parameter is set to 0, the new instance is converted to a non-PIOPS instance. The conversion takes additional time, though your DB instance is available for connections before the conversion starts. The provisioned IOPS value must follow the requirements for your database engine. For more information, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. Constraints: Must be an integer greater than 1000.
     public var iops: Swift.Int?
-    /// License model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    /// License model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The bring your own license (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
     ///
     /// * RDS for Db2 - bring-your-own-license | marketplace-license
     ///
@@ -19930,6 +20451,12 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     ///
     /// Default: Same as the source.
     public var licenseModel: Swift.String?
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager in the restored DB instance. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * Applies to RDS for Oracle only.
+    public var manageMasterUserPassword: Swift.Bool?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// Specifies whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.
     public var multiAZ: Swift.Bool?
     /// The network type of the DB instance. Valid Values:
@@ -19951,7 +20478,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     public var publiclyAccessible: Swift.Bool?
     /// Specifies the storage throughput value for the DB instance. This setting doesn't apply to RDS Custom or Amazon Aurora.
     public var storageThroughput: Swift.Int?
-    /// Specifies the storage type to be associated with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp2
+    /// Specifies the storage type to be associated with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp3
     public var storageType: Swift.String?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
@@ -19994,6 +20521,8 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         engineLifecycleSupport: Swift.String? = nil,
         iops: Swift.Int? = nil,
         licenseModel: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         multiAZ: Swift.Bool? = nil,
         networkType: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
@@ -20037,6 +20566,8 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         self.engineLifecycleSupport = engineLifecycleSupport
         self.iops = iops
         self.licenseModel = licenseModel
+        self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.multiAZ = multiAZ
         self.networkType = networkType
         self.optionGroupName = optionGroupName
@@ -20067,7 +20598,7 @@ public struct RestoreDBInstanceFromDBSnapshotOutput: Swift.Sendable {
 public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
-    /// Specifies whether to automatically apply minor engine upgrades to the DB instance during the maintenance window. By default, minor engine upgrades are not applied automatically.
+    /// Specifies whether to automatically apply minor engine upgrades to the DB instance during the maintenance window. By default, minor engine upgrades are not applied automatically. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone that the DB instance is created in. For information about Amazon Web Services Regions and Availability Zones, see [Regions and Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) in the Amazon RDS User Guide. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d Constraint: The AvailabilityZone parameter can't be specified if the DB instance is a Multi-AZ deployment. The specified Availability Zone must be in the same Amazon Web Services Region as the current endpoint.
     public var availabilityZone: Swift.String?
@@ -20077,7 +20608,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     public var caCertificateIdentifier: Swift.String?
     /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
+    /// Specifies the mode of Database Insights to enable for the DB instance. Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.
     /// This member is required.
@@ -20115,7 +20646,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     /// The name of the database engine to be used for this instance. Valid Values: mysql
     /// This member is required.
     public var engine: Swift.String?
-    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Amazon RDS Extended Support Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     public var engineLifecycleSupport: Swift.String?
     /// The version number of the database engine to use. Choose the latest minor version of your database engine. For information about engine versions, see CreateDBInstance, or call DescribeDBEngineVersions.
     public var engineVersion: Swift.String?
@@ -20405,7 +20936,7 @@ public struct PointInTimeRestoreNotEnabledFault: ClientRuntime.ModeledError, AWS
 public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
-    /// Specifies whether minor version upgrades are applied automatically to the DB instance during the maintenance window. This setting doesn't apply to RDS Custom.
+    /// Specifies whether minor version upgrades are applied automatically to the DB instance during the maintenance window. This setting doesn't apply to RDS Custom. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraints:
     ///
@@ -20415,6 +20946,8 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     /// Example: us-east-1a
     public var availabilityZone: Swift.String?
     /// The location for storing automated backups and manual snapshots for the restored DB instance. Valid Values:
+    ///
+    /// * local (Dedicated Local Zone)
     ///
     /// * outposts (Amazon Web Services Outposts)
     ///
@@ -20544,13 +21077,13 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     ///
     /// * Must be compatible with the engine of the source.
     public var engine: Swift.String?
-    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     public var engineLifecycleSupport: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance. This setting doesn't apply to SQL Server. Constraints:
     ///
     /// * Must be an integer greater than 1000.
     public var iops: Swift.Int?
-    /// The license model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    /// The license model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The bring your own license (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
     ///
     /// * RDS for Db2 - bring-your-own-license | marketplace-license
     ///
@@ -20567,6 +21100,12 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     ///
     /// Default: Same as the source.
     public var licenseModel: Swift.String?
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager in the restored DB instance. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * Applies to RDS for Oracle only.
+    public var manageMasterUserPassword: Swift.Bool?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// The upper limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see [ Managing capacity automatically with Amazon RDS storage autoscaling](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html#USER_PIOPS.Autoscaling) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var maxAllocatedStorage: Swift.Int?
     /// Secifies whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom. Constraints:
@@ -20610,7 +21149,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     public var sourceDbiResourceId: Swift.String?
     /// The storage throughput value for the DB instance. This setting doesn't apply to RDS Custom or Amazon Aurora.
     public var storageThroughput: Swift.Int?
-    /// The storage type to associate with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp2. Constraints:
+    /// The storage type to associate with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp3. Constraints:
     ///
     /// * If you specify io1, io2, or gp3, you must also include a value for the Iops parameter.
     public var storageType: Swift.String?
@@ -20665,6 +21204,8 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         engineLifecycleSupport: Swift.String? = nil,
         iops: Swift.Int? = nil,
         licenseModel: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         maxAllocatedStorage: Swift.Int? = nil,
         multiAZ: Swift.Bool? = nil,
         networkType: Swift.String? = nil,
@@ -20712,6 +21253,8 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         self.engineLifecycleSupport = engineLifecycleSupport
         self.iops = iops
         self.licenseModel = licenseModel
+        self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.maxAllocatedStorage = maxAllocatedStorage
         self.multiAZ = multiAZ
         self.networkType = networkType
@@ -21079,23 +21622,9 @@ public struct StartExportTaskInput: Swift.Sendable {
     public var iamRoleArn: Swift.String?
     /// The ID of the Amazon Web Services KMS key to use to encrypt the data exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. The caller of this operation must be authorized to run the following operations. These can be set in the Amazon Web Services KMS key policy:
     ///
-    /// * kms:Encrypt
-    ///
-    /// * kms:Decrypt
-    ///
-    /// * kms:GenerateDataKey
-    ///
-    /// * kms:GenerateDataKeyWithoutPlaintext
-    ///
-    /// * kms:ReEncryptFrom
-    ///
-    /// * kms:ReEncryptTo
-    ///
     /// * kms:CreateGrant
     ///
     /// * kms:DescribeKey
-    ///
-    /// * kms:RetireGrant
     /// This member is required.
     public var kmsKeyId: Swift.String?
     /// The name of the Amazon S3 bucket to export the snapshot or cluster data to.
@@ -21900,6 +22429,13 @@ extension DescribeDBLogFilesInput {
     }
 }
 
+extension DescribeDBMajorEngineVersionsInput {
+
+    static func urlPathProvider(_ value: DescribeDBMajorEngineVersionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeDBParameterGroupsInput {
 
     static func urlPathProvider(_ value: DescribeDBParameterGroupsInput) -> Swift.String? {
@@ -22689,6 +23225,8 @@ extension CopyDBSnapshotInput {
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["OptionGroupName"].write(value.optionGroupName)
         try writer["PreSignedUrl"].write(value.preSignedUrl)
+        try writer["SnapshotAvailabilityZone"].write(value.snapshotAvailabilityZone)
+        try writer["SnapshotTarget"].write(value.snapshotTarget)
         try writer["SourceDBSnapshotIdentifier"].write(value.sourceDBSnapshotIdentifier)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["TargetCustomAvailabilityZone"].write(value.targetCustomAvailabilityZone)
@@ -22790,6 +23328,7 @@ extension CreateDBClusterInput {
         try writer["Iops"].write(value.iops)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MasterUsername"].write(value.masterUsername)
@@ -22898,6 +23437,7 @@ extension CreateDBInstanceInput {
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["LicenseModel"].write(value.licenseModel)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MasterUsername"].write(value.masterUsername)
@@ -22937,6 +23477,7 @@ extension CreateDBInstanceReadReplicaInput {
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["BackupTarget"].write(value.backupTarget)
         try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["CustomIamInstanceProfile"].write(value.customIamInstanceProfile)
@@ -23005,11 +23546,14 @@ extension CreateDBProxyInput {
         try writer["Auth"].writeList(value.auth, memberWritingClosure: RDSClientTypes.UserAuthConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DBProxyName"].write(value.dbProxyName)
         try writer["DebugLogging"].write(value.debugLogging)
+        try writer["DefaultAuthScheme"].write(value.defaultAuthScheme)
+        try writer["EndpointNetworkType"].write(value.endpointNetworkType)
         try writer["EngineFamily"].write(value.engineFamily)
         try writer["IdleClientTimeout"].write(value.idleClientTimeout)
         try writer["RequireTLS"].write(value.requireTLS)
         try writer["RoleArn"].write(value.roleArn)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+        try writer["TargetConnectionNetworkType"].write(value.targetConnectionNetworkType)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcSubnetIds"].writeList(value.vpcSubnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Action"].write("CreateDBProxy")
@@ -23023,6 +23567,7 @@ extension CreateDBProxyEndpointInput {
         guard let value else { return }
         try writer["DBProxyEndpointName"].write(value.dbProxyEndpointName)
         try writer["DBProxyName"].write(value.dbProxyName)
+        try writer["EndpointNetworkType"].write(value.endpointNetworkType)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["TargetRole"].write(value.targetRole)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -23156,7 +23701,9 @@ extension CreateTenantDatabaseInput {
         guard let value else { return }
         try writer["CharacterSetName"].write(value.characterSetName)
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
+        try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
+        try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MasterUsername"].write(value.masterUsername)
         try writer["NcharCharacterSetName"].write(value.ncharCharacterSetName)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
@@ -23607,6 +24154,19 @@ extension DescribeDBLogFilesInput {
         try writer["Marker"].write(value.marker)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["Action"].write("DescribeDBLogFiles")
+        try writer["Version"].write("2014-10-31")
+    }
+}
+
+extension DescribeDBMajorEngineVersionsInput {
+
+    static func write(value: DescribeDBMajorEngineVersionsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Engine"].write(value.engine)
+        try writer["MajorEngineVersion"].write(value.majorEngineVersion)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["Action"].write("DescribeDBMajorEngineVersions")
         try writer["Version"].write("2014-10-31")
     }
 }
@@ -24184,6 +24744,7 @@ extension ModifyDBClusterInput {
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["Iops"].write(value.iops)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MonitoringInterval"].write(value.monitoringInterval)
@@ -24282,6 +24843,7 @@ extension ModifyDBInstanceInput {
         try writer["Iops"].write(value.iops)
         try writer["LicenseModel"].write(value.licenseModel)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
@@ -24331,6 +24893,7 @@ extension ModifyDBProxyInput {
         try writer["Auth"].writeList(value.auth, memberWritingClosure: RDSClientTypes.UserAuthConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DBProxyName"].write(value.dbProxyName)
         try writer["DebugLogging"].write(value.debugLogging)
+        try writer["DefaultAuthScheme"].write(value.defaultAuthScheme)
         try writer["IdleClientTimeout"].write(value.idleClientTimeout)
         try writer["NewDBProxyName"].write(value.newDBProxyName)
         try writer["RequireTLS"].write(value.requireTLS)
@@ -24488,8 +25051,11 @@ extension ModifyTenantDatabaseInput {
     static func write(value: ModifyTenantDatabaseInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
+        try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
+        try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["NewTenantDBName"].write(value.newTenantDBName)
+        try writer["RotateMasterUserPassword"].write(value.rotateMasterUserPassword)
         try writer["TenantDBName"].write(value.tenantDBName)
         try writer["Action"].write("ModifyTenantDatabase")
         try writer["Version"].write("2014-10-31")
@@ -24823,6 +25389,8 @@ extension RestoreDBInstanceFromDBSnapshotInput {
         try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["Iops"].write(value.iops)
         try writer["LicenseModel"].write(value.licenseModel)
+        try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MultiAZ"].write(value.multiAZ)
         try writer["NetworkType"].write(value.networkType)
         try writer["OptionGroupName"].write(value.optionGroupName)
@@ -24932,6 +25500,8 @@ extension RestoreDBInstanceToPointInTimeInput {
         try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["Iops"].write(value.iops)
         try writer["LicenseModel"].write(value.licenseModel)
+        try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
         try writer["MultiAZ"].write(value.multiAZ)
         try writer["NetworkType"].write(value.networkType)
@@ -26060,6 +26630,19 @@ extension DescribeDBLogFilesOutput {
         let reader = responseReader["DescribeDBLogFilesResult"]
         var value = DescribeDBLogFilesOutput()
         value.describeDBLogFiles = try reader["DescribeDBLogFiles"].readListIfPresent(memberReadingClosure: RDSClientTypes.DescribeDBLogFilesDetails.read(from:), memberNodeInfo: "DescribeDBLogFilesDetails", isFlattened: false)
+        value.marker = try reader["Marker"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeDBMajorEngineVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDBMajorEngineVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DescribeDBMajorEngineVersionsResult"]
+        var value = DescribeDBMajorEngineVersionsOutput()
+        value.dbMajorEngineVersions = try reader["DBMajorEngineVersions"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBMajorEngineVersion.read(from:), memberNodeInfo: "DBMajorEngineVersion", isFlattened: false)
         value.marker = try reader["Marker"].readIfPresent()
         return value
     }
@@ -27909,6 +28492,7 @@ enum CreateTenantDatabaseOutputError {
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
+            case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
             case "TenantDatabaseAlreadyExists": return try TenantDatabaseAlreadyExistsFault.makeError(baseError: baseError)
             case "TenantDatabaseQuotaExceeded": return try TenantDatabaseQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -28466,6 +29050,19 @@ enum DescribeDBLogFilesOutputError {
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceNotReady": return try DBInstanceNotReadyFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeDBMajorEngineVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -29383,6 +29980,7 @@ enum ModifyTenantDatabaseOutputError {
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
+            case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
             case "TenantDatabaseAlreadyExists": return try TenantDatabaseAlreadyExistsFault.makeError(baseError: baseError)
             case "TenantDatabaseNotFound": return try TenantDatabaseNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -29866,6 +30464,7 @@ enum StartDBClusterOutputError {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
+            case "InvalidDBShardGroupState": return try InvalidDBShardGroupStateFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -29965,6 +30564,7 @@ enum StopDBClusterOutputError {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
+            case "InvalidDBShardGroupState": return try InvalidDBShardGroupStateFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30063,6 +30663,19 @@ extension DBClusterNotFoundFault {
     }
 }
 
+extension DBClusterRoleAlreadyExistsFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterRoleAlreadyExistsFault {
+        let reader = baseError.errorBodyReader
+        var value = DBClusterRoleAlreadyExistsFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DBClusterRoleQuotaExceededFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterRoleQuotaExceededFault {
@@ -30089,11 +30702,11 @@ extension InvalidDBClusterStateFault {
     }
 }
 
-extension DBClusterRoleAlreadyExistsFault {
+extension DBInstanceNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterRoleAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = DBClusterRoleAlreadyExistsFault()
+        var value = DBInstanceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30107,19 +30720,6 @@ extension DBInstanceRoleAlreadyExistsFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceRoleAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceRoleAlreadyExistsFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DBInstanceNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = DBInstanceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30154,11 +30754,11 @@ extension InvalidDBInstanceStateFault {
     }
 }
 
-extension SubscriptionNotFoundFault {
+extension SourceNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SourceNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = SubscriptionNotFoundFault()
+        var value = SourceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30167,11 +30767,11 @@ extension SubscriptionNotFoundFault {
     }
 }
 
-extension SourceNotFoundFault {
+extension SubscriptionNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SourceNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = SourceNotFoundFault()
+        var value = SubscriptionNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30193,6 +30793,19 @@ extension BlueGreenDeploymentNotFoundFault {
     }
 }
 
+extension DBProxyNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = DBProxyNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DBProxyTargetGroupNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyTargetGroupNotFoundFault {
@@ -30206,11 +30819,11 @@ extension DBProxyTargetGroupNotFoundFault {
     }
 }
 
-extension DBProxyNotFoundFault {
+extension DBSnapshotNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSnapshotNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = DBProxyNotFoundFault()
+        var value = DBSnapshotNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30258,19 +30871,6 @@ extension TenantDatabaseNotFoundFault {
     }
 }
 
-extension DBSnapshotNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSnapshotNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = DBSnapshotNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ResourceNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceNotFoundFault {
@@ -30284,11 +30884,11 @@ extension ResourceNotFoundFault {
     }
 }
 
-extension AuthorizationQuotaExceededFault {
+extension AuthorizationAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationAlreadyExistsFault {
         let reader = baseError.errorBodyReader
-        var value = AuthorizationQuotaExceededFault()
+        var value = AuthorizationAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30297,11 +30897,11 @@ extension AuthorizationQuotaExceededFault {
     }
 }
 
-extension AuthorizationAlreadyExistsFault {
+extension AuthorizationQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = AuthorizationAlreadyExistsFault()
+        var value = AuthorizationQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30375,19 +30975,6 @@ extension DBParameterGroupAlreadyExistsFault {
     }
 }
 
-extension DBParameterGroupQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBParameterGroupQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = DBParameterGroupQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DBParameterGroupNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBParameterGroupNotFoundFault {
@@ -30401,24 +30988,11 @@ extension DBParameterGroupNotFoundFault {
     }
 }
 
-extension InvalidDBClusterSnapshotStateFault {
+extension DBParameterGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterSnapshotStateFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBParameterGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidDBClusterSnapshotStateFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SnapshotQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = SnapshotQuotaExceededFault()
+        var value = DBParameterGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30440,19 +31014,6 @@ extension DBClusterSnapshotAlreadyExistsFault {
     }
 }
 
-extension KMSKeyNotAccessibleFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSKeyNotAccessibleFault {
-        let reader = baseError.errorBodyReader
-        var value = KMSKeyNotAccessibleFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DBClusterSnapshotNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterSnapshotNotFoundFault {
@@ -30466,11 +31027,37 @@ extension DBClusterSnapshotNotFoundFault {
     }
 }
 
-extension DBSnapshotAlreadyExistsFault {
+extension InvalidDBClusterSnapshotStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSnapshotAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterSnapshotStateFault {
         let reader = baseError.errorBodyReader
-        var value = DBSnapshotAlreadyExistsFault()
+        var value = InvalidDBClusterSnapshotStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KMSKeyNotAccessibleFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSKeyNotAccessibleFault {
+        let reader = baseError.errorBodyReader
+        var value = KMSKeyNotAccessibleFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SnapshotQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = SnapshotQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30484,6 +31071,19 @@ extension CustomAvailabilityZoneNotFoundFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomAvailabilityZoneNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CustomAvailabilityZoneNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DBSnapshotAlreadyExistsFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSnapshotAlreadyExistsFault {
+        let reader = baseError.errorBodyReader
+        var value = DBSnapshotAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30544,37 +31144,11 @@ extension OptionGroupQuotaExceededFault {
     }
 }
 
-extension SourceDatabaseNotSupportedFault {
+extension BlueGreenDeploymentAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SourceDatabaseNotSupportedFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BlueGreenDeploymentAlreadyExistsFault {
         let reader = baseError.errorBodyReader
-        var value = SourceDatabaseNotSupportedFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InstanceQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InstanceQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = InstanceQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DBClusterQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = DBClusterQuotaExceededFault()
+        var value = BlueGreenDeploymentAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30596,11 +31170,24 @@ extension DBClusterParameterGroupNotFoundFault {
     }
 }
 
-extension BlueGreenDeploymentAlreadyExistsFault {
+extension DBClusterQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BlueGreenDeploymentAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = BlueGreenDeploymentAlreadyExistsFault()
+        var value = DBClusterQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InstanceQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InstanceQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = InstanceQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30614,6 +31201,19 @@ extension SourceClusterNotSupportedFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SourceClusterNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = SourceClusterNotSupportedFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SourceDatabaseNotSupportedFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SourceDatabaseNotSupportedFault {
+        let reader = baseError.errorBodyReader
+        var value = SourceDatabaseNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30674,24 +31274,11 @@ extension Ec2ImagePropertiesNotSupportedFault {
     }
 }
 
-extension GlobalClusterNotFoundFault {
+extension DBClusterAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> GlobalClusterNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterAlreadyExistsFault {
         let reader = baseError.errorBodyReader
-        var value = GlobalClusterNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidDBSubnetGroupStateFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBSubnetGroupStateFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidDBSubnetGroupStateFault()
+        var value = DBClusterAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30713,19 +31300,6 @@ extension DBSubnetGroupDoesNotCoverEnoughAZs {
     }
 }
 
-extension InsufficientStorageClusterCapacityFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientStorageClusterCapacityFault {
-        let reader = baseError.errorBodyReader
-        var value = InsufficientStorageClusterCapacityFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DBSubnetGroupNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupNotFoundFault {
@@ -30739,11 +31313,102 @@ extension DBSubnetGroupNotFoundFault {
     }
 }
 
+extension DomainNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DomainNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = DomainNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension GlobalClusterNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> GlobalClusterNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = GlobalClusterNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InsufficientDBInstanceCapacityFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientDBInstanceCapacityFault {
+        let reader = baseError.errorBodyReader
+        var value = InsufficientDBInstanceCapacityFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InsufficientStorageClusterCapacityFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientStorageClusterCapacityFault {
+        let reader = baseError.errorBodyReader
+        var value = InsufficientStorageClusterCapacityFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidDBSubnetGroupFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBSubnetGroupFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBSubnetGroupFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidDBSubnetGroupStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBSubnetGroupStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidDBSubnetGroupStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidGlobalClusterStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidGlobalClusterStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidGlobalClusterStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidSubnet {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnet {
+        let reader = baseError.errorBodyReader
+        var value = InvalidSubnet()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30778,63 +31443,11 @@ extension StorageQuotaExceededFault {
     }
 }
 
-extension InvalidSubnet {
+extension DBClusterEndpointAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnet {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterEndpointAlreadyExistsFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidSubnet()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InsufficientDBInstanceCapacityFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientDBInstanceCapacityFault {
-        let reader = baseError.errorBodyReader
-        var value = InsufficientDBInstanceCapacityFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DBClusterAlreadyExistsFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterAlreadyExistsFault {
-        let reader = baseError.errorBodyReader
-        var value = DBClusterAlreadyExistsFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidGlobalClusterStateFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidGlobalClusterStateFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidGlobalClusterStateFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DomainNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DomainNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = DomainNotFoundFault()
+        var value = DBClusterEndpointAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30856,11 +31469,11 @@ extension DBClusterEndpointQuotaExceededFault {
     }
 }
 
-extension DBClusterEndpointAlreadyExistsFault {
+extension AuthorizationNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterEndpointAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = DBClusterEndpointAlreadyExistsFault()
+        var value = AuthorizationNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30869,24 +31482,11 @@ extension DBClusterEndpointAlreadyExistsFault {
     }
 }
 
-extension TenantDatabaseQuotaExceededFault {
+extension BackupPolicyNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TenantDatabaseQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BackupPolicyNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = TenantDatabaseQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DBInstanceAlreadyExistsFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceAlreadyExistsFault {
-        let reader = baseError.errorBodyReader
-        var value = DBInstanceAlreadyExistsFault()
+        var value = BackupPolicyNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30900,6 +31500,19 @@ extension CertificateNotFoundFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CertificateNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CertificateNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DBInstanceAlreadyExistsFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceAlreadyExistsFault {
+        let reader = baseError.errorBodyReader
+        var value = DBInstanceAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30934,19 +31547,6 @@ extension ProvisionedIopsNotAvailableInAZFault {
     }
 }
 
-extension AuthorizationNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = AuthorizationNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension StorageTypeNotSupportedFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageTypeNotSupportedFault {
@@ -30960,11 +31560,11 @@ extension StorageTypeNotSupportedFault {
     }
 }
 
-extension BackupPolicyNotFoundFault {
+extension TenantDatabaseQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BackupPolicyNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TenantDatabaseQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = BackupPolicyNotFoundFault()
+        var value = TenantDatabaseQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30986,11 +31586,11 @@ extension DBSubnetGroupNotAllowedFault {
     }
 }
 
-extension DBProxyQuotaExceededFault {
+extension DBProxyAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyAlreadyExistsFault {
         let reader = baseError.errorBodyReader
-        var value = DBProxyQuotaExceededFault()
+        var value = DBProxyAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30999,11 +31599,11 @@ extension DBProxyQuotaExceededFault {
     }
 }
 
-extension DBProxyAlreadyExistsFault {
+extension DBProxyQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = DBProxyAlreadyExistsFault()
+        var value = DBProxyQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31051,19 +31651,6 @@ extension InvalidDBProxyStateFault {
     }
 }
 
-extension DBSecurityGroupNotSupportedFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSecurityGroupNotSupportedFault {
-        let reader = baseError.errorBodyReader
-        var value = DBSecurityGroupNotSupportedFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DBSecurityGroupAlreadyExistsFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSecurityGroupAlreadyExistsFault {
@@ -31077,11 +31664,37 @@ extension DBSecurityGroupAlreadyExistsFault {
     }
 }
 
+extension DBSecurityGroupNotSupportedFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSecurityGroupNotSupportedFault {
+        let reader = baseError.errorBodyReader
+        var value = DBSecurityGroupNotSupportedFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DBSecurityGroupQuotaExceededFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSecurityGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBSecurityGroupQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DBShardGroupAlreadyExistsFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBShardGroupAlreadyExistsFault {
+        let reader = baseError.errorBodyReader
+        var value = DBShardGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31116,11 +31729,11 @@ extension UnsupportedDBEngineVersionFault {
     }
 }
 
-extension DBShardGroupAlreadyExistsFault {
+extension DBSubnetGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBShardGroupAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
-        var value = DBShardGroupAlreadyExistsFault()
+        var value = DBSubnetGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31155,11 +31768,11 @@ extension DBSubnetQuotaExceededFault {
     }
 }
 
-extension DBSubnetGroupAlreadyExistsFault {
+extension EventSubscriptionQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EventSubscriptionQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = DBSubnetGroupAlreadyExistsFault()
+        var value = EventSubscriptionQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31173,19 +31786,6 @@ extension SNSInvalidTopicFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SNSInvalidTopicFault {
         let reader = baseError.errorBodyReader
         var value = SNSInvalidTopicFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SubscriptionCategoryNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionCategoryNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = SubscriptionCategoryNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31233,24 +31833,11 @@ extension SubscriptionAlreadyExistFault {
     }
 }
 
-extension EventSubscriptionQuotaExceededFault {
+extension SubscriptionCategoryNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EventSubscriptionQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionCategoryNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = EventSubscriptionQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension GlobalClusterQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> GlobalClusterQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = GlobalClusterQuotaExceededFault()
+        var value = SubscriptionCategoryNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31272,11 +31859,24 @@ extension GlobalClusterAlreadyExistsFault {
     }
 }
 
-extension IntegrationQuotaExceededFault {
+extension GlobalClusterQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> GlobalClusterQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = IntegrationQuotaExceededFault()
+        var value = GlobalClusterQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IntegrationAlreadyExistsFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationAlreadyExistsFault {
+        let reader = baseError.errorBodyReader
+        var value = IntegrationAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31298,11 +31898,11 @@ extension IntegrationConflictOperationFault {
     }
 }
 
-extension IntegrationAlreadyExistsFault {
+extension IntegrationQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = IntegrationAlreadyExistsFault()
+        var value = IntegrationQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31337,11 +31937,11 @@ extension InvalidBlueGreenDeploymentStateFault {
     }
 }
 
-extension InvalidCustomDBEngineVersionStateFault {
+extension CustomDBEngineVersionNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCustomDBEngineVersionStateFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidCustomDBEngineVersionStateFault()
+        var value = CustomDBEngineVersionNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31350,11 +31950,11 @@ extension InvalidCustomDBEngineVersionStateFault {
     }
 }
 
-extension CustomDBEngineVersionNotFoundFault {
+extension InvalidCustomDBEngineVersionStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCustomDBEngineVersionStateFault {
         let reader = baseError.errorBodyReader
-        var value = CustomDBEngineVersionNotFoundFault()
+        var value = InvalidCustomDBEngineVersionStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31376,11 +31976,11 @@ extension DBClusterAutomatedBackupQuotaExceededFault {
     }
 }
 
-extension InvalidDBClusterAutomatedBackupStateFault {
+extension DBClusterAutomatedBackupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterAutomatedBackupStateFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterAutomatedBackupNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidDBClusterAutomatedBackupStateFault()
+        var value = DBClusterAutomatedBackupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31389,11 +31989,11 @@ extension InvalidDBClusterAutomatedBackupStateFault {
     }
 }
 
-extension DBClusterAutomatedBackupNotFoundFault {
+extension InvalidDBClusterAutomatedBackupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterAutomatedBackupNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterAutomatedBackupStateFault {
         let reader = baseError.errorBodyReader
-        var value = DBClusterAutomatedBackupNotFoundFault()
+        var value = InvalidDBClusterAutomatedBackupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31480,11 +32080,11 @@ extension InvalidDBInstanceAutomatedBackupStateFault {
     }
 }
 
-extension InvalidDBProxyEndpointStateFault {
+extension DBProxyEndpointNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBProxyEndpointStateFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyEndpointNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidDBProxyEndpointStateFault()
+        var value = DBProxyEndpointNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31493,11 +32093,11 @@ extension InvalidDBProxyEndpointStateFault {
     }
 }
 
-extension DBProxyEndpointNotFoundFault {
+extension InvalidDBProxyEndpointStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyEndpointNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBProxyEndpointStateFault {
         let reader = baseError.errorBodyReader
-        var value = DBProxyEndpointNotFoundFault()
+        var value = InvalidDBProxyEndpointStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31766,11 +32366,11 @@ extension ReservedDBInstanceQuotaExceededFault {
     }
 }
 
-extension InsufficientAvailableIPsInSubnetFault {
+extension DBProxyTargetAlreadyRegisteredFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientAvailableIPsInSubnetFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyTargetAlreadyRegisteredFault {
         let reader = baseError.errorBodyReader
-        var value = InsufficientAvailableIPsInSubnetFault()
+        var value = DBProxyTargetAlreadyRegisteredFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31779,11 +32379,11 @@ extension InsufficientAvailableIPsInSubnetFault {
     }
 }
 
-extension DBProxyTargetAlreadyRegisteredFault {
+extension InsufficientAvailableIPsInSubnetFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyTargetAlreadyRegisteredFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientAvailableIPsInSubnetFault {
         let reader = baseError.errorBodyReader
-        var value = DBProxyTargetAlreadyRegisteredFault()
+        var value = InsufficientAvailableIPsInSubnetFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31870,32 +32470,6 @@ extension PointInTimeRestoreNotEnabledFault {
     }
 }
 
-extension InvalidExportSourceStateFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidExportSourceStateFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidExportSourceStateFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension IamRoleNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IamRoleNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = IamRoleNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ExportTaskAlreadyExistsFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ExportTaskAlreadyExistsFault {
@@ -31922,11 +32496,37 @@ extension IamRoleMissingPermissionsFault {
     }
 }
 
+extension IamRoleNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IamRoleNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = IamRoleNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidExportOnlyFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidExportOnlyFault {
         let reader = baseError.errorBodyReader
         var value = InvalidExportOnlyFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidExportSourceStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidExportSourceStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidExportSourceStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -32139,6 +32739,7 @@ extension RDSClientTypes.DBSnapshot {
         value.dbSystemId = try reader["DBSystemId"].readIfPresent()
         value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
         value.multiTenant = try reader["MultiTenant"].readIfPresent()
+        value.snapshotAvailabilityZone = try reader["SnapshotAvailabilityZone"].readIfPresent()
         return value
     }
 }
@@ -32419,6 +33020,7 @@ extension RDSClientTypes.DBCluster {
         value.crossAccountClone = try reader["CrossAccountClone"].readIfPresent()
         value.domainMemberships = try reader["DomainMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.DomainMembership.read(from:), memberNodeInfo: "DomainMembership", isFlattened: false)
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.globalClusterIdentifier = try reader["GlobalClusterIdentifier"].readIfPresent()
         value.globalWriteForwardingStatus = try reader["GlobalWriteForwardingStatus"].readIfPresent()
         value.globalWriteForwardingRequested = try reader["GlobalWriteForwardingRequested"].readIfPresent()
         value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: RDSClientTypes.ClusterPendingModifiedValues.read(from:))
@@ -32434,6 +33036,7 @@ extension RDSClientTypes.DBCluster {
         value.performanceInsightsKMSKeyId = try reader["PerformanceInsightsKMSKeyId"].readIfPresent()
         value.performanceInsightsRetentionPeriod = try reader["PerformanceInsightsRetentionPeriod"].readIfPresent()
         value.serverlessV2ScalingConfiguration = try reader["ServerlessV2ScalingConfiguration"].readIfPresent(with: RDSClientTypes.ServerlessV2ScalingConfigurationInfo.read(from:))
+        value.serverlessV2PlatformVersion = try reader["ServerlessV2PlatformVersion"].readIfPresent()
         value.networkType = try reader["NetworkType"].readIfPresent()
         value.dbSystemId = try reader["DBSystemId"].readIfPresent()
         value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: RDSClientTypes.MasterUserSecret.read(from:))
@@ -32882,6 +33485,7 @@ extension RDSClientTypes.DBProxy {
         value.vpcId = try reader["VpcId"].readIfPresent()
         value.vpcSecurityGroupIds = try reader["VpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcSubnetIds = try reader["VpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultAuthScheme = try reader["DefaultAuthScheme"].readIfPresent()
         value.auth = try reader["Auth"].readListIfPresent(memberReadingClosure: RDSClientTypes.UserAuthConfigInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()
@@ -32890,6 +33494,8 @@ extension RDSClientTypes.DBProxy {
         value.debugLogging = try reader["DebugLogging"].readIfPresent()
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedDate = try reader["UpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endpointNetworkType = try reader["EndpointNetworkType"].readIfPresent()
+        value.targetConnectionNetworkType = try reader["TargetConnectionNetworkType"].readIfPresent()
         return value
     }
 }
@@ -32925,6 +33531,7 @@ extension RDSClientTypes.DBProxyEndpoint {
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.targetRole = try reader["TargetRole"].readIfPresent()
         value.isDefault = try reader["IsDefault"].readIfPresent()
+        value.endpointNetworkType = try reader["EndpointNetworkType"].readIfPresent()
         return value
     }
 }
@@ -33007,6 +33614,7 @@ extension RDSClientTypes.TenantDatabase {
         value.ncharCharacterSetName = try reader["NcharCharacterSetName"].readIfPresent()
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: RDSClientTypes.TenantDatabasePendingModifiedValues.read(from:))
+        value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: RDSClientTypes.MasterUserSecret.read(from:))
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
@@ -33280,6 +33888,30 @@ extension RDSClientTypes.DescribeDBLogFilesDetails {
         value.logFileName = try reader["LogFileName"].readIfPresent()
         value.lastWritten = try reader["LastWritten"].readIfPresent()
         value.size = try reader["Size"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DBMajorEngineVersion {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBMajorEngineVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBMajorEngineVersion()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.supportedEngineLifecycles = try reader["SupportedEngineLifecycles"].readListIfPresent(memberReadingClosure: RDSClientTypes.SupportedEngineLifecycle.read(from:), memberNodeInfo: "SupportedEngineLifecycle", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.SupportedEngineLifecycle {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.SupportedEngineLifecycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.SupportedEngineLifecycle()
+        value.lifecycleSupportName = try reader["LifecycleSupportName"].readIfPresent() ?? .sdkUnknown("")
+        value.lifecycleSupportStartDate = try reader["LifecycleSupportStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lifecycleSupportEndDate = try reader["LifecycleSupportEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -33778,6 +34410,7 @@ extension RDSClientTypes.OrderableDBInstanceOption {
         value.minStorageThroughputPerIops = try reader["MinStorageThroughputPerIops"].readIfPresent()
         value.maxStorageThroughputPerIops = try reader["MaxStorageThroughputPerIops"].readIfPresent()
         value.supportsDedicatedLogVolume = try reader["SupportsDedicatedLogVolume"].readIfPresent()
+        value.supportsHttpEndpoint = try reader["SupportsHttpEndpoint"].readIfPresent()
         return value
     }
 }

@@ -90,13 +90,7 @@ public struct ValidateConfigurationOutput: Swift.Sendable {
 
 extension AppConfigClientTypes {
 
-    /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. This setting uses the following default values:
-    ///
-    /// * Deletion protection is disabled by default.
-    ///
-    /// * The default interval specified by ProtectionPeriodInMinutes is 60.
-    ///
-    /// * DeletionProtectionCheck skips configuration profiles and environments that were created in the past hour.
+    /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. The default interval specified by ProtectionPeriodInMinutes is 60. DeletionProtectionCheck skips configuration profiles and environments that were created in the past hour.
     public struct DeletionProtectionSettings: Swift.Sendable {
         /// A parameter that indicates if deletion protection is enabled or not.
         public var enabled: Swift.Bool?
@@ -534,7 +528,7 @@ public struct CreateConfigurationProfileInput: Swift.Sendable {
     /// A name for the configuration profile.
     /// This member is required.
     public var name: Swift.String?
-    /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri. A retrieval role ARN is not required for configurations stored in the AppConfig hosted configuration store. It is required for all other sources that store your configuration.
+    /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri. A retrieval role ARN is not required for configurations stored in CodePipeline or the AppConfig hosted configuration store. It is required for all other sources that store your configuration.
     public var retrievalRoleArn: Swift.String?
     /// Metadata to assign to the configuration profile. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
     public var tags: [Swift.String: Swift.String]?
@@ -1246,7 +1240,7 @@ public struct DeleteConfigurationProfileInput: Swift.Sendable {
     /// The ID of the configuration profile you want to delete.
     /// This member is required.
     public var configurationProfileId: Swift.String?
-    /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile if your application has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile during the specified interval. This parameter supports the following values:
+    /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile if your application has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile during the specified interval. This parameter supports the following values:
     ///
     /// * BYPASS: Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protection would have otherwise prevented it.
     ///
@@ -1282,7 +1276,7 @@ public struct DeleteEnvironmentInput: Swift.Sendable {
     /// The application ID that includes the environment that you want to delete.
     /// This member is required.
     public var applicationId: Swift.String?
-    /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting an environment if your application called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or in the environment during the specified interval. This parameter supports the following values:
+    /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting an environment if your application called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or in the environment during the specified interval. This parameter supports the following values:
     ///
     /// * BYPASS: Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protection would have otherwise prevented it.
     ///
@@ -1356,7 +1350,7 @@ public struct DeleteHostedConfigurationVersionInput: Swift.Sendable {
 }
 
 public struct GetAccountSettingsOutput: Swift.Sendable {
-    /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. Deletion protection is disabled by default. The default interval for ProtectionPeriodInMinutes is 60.
+    /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60.
     public var deletionProtection: AppConfigClientTypes.DeletionProtectionSettings?
 
     public init(
@@ -2731,6 +2725,11 @@ public struct StartDeploymentInput: Swift.Sendable {
     }
 }
 
+extension StartDeploymentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartDeploymentInput(applicationId: \(Swift.String(describing: applicationId)), configurationProfileId: \(Swift.String(describing: configurationProfileId)), configurationVersion: \(Swift.String(describing: configurationVersion)), deploymentStrategyId: \(Swift.String(describing: deploymentStrategyId)), description: \(Swift.String(describing: description)), environmentId: \(Swift.String(describing: environmentId)), kmsKeyIdentifier: \(Swift.String(describing: kmsKeyIdentifier)), tags: \(Swift.String(describing: tags)), dynamicExtensionParameters: \"CONTENT_REDACTED\")"}
+}
+
 public struct StartDeploymentOutput: Swift.Sendable {
     /// The ID of the application that was deployed.
     public var applicationId: Swift.String?
@@ -2982,7 +2981,7 @@ public struct UntagResourceInput: Swift.Sendable {
 }
 
 public struct UpdateAccountSettingsInput: Swift.Sendable {
-    /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. Deletion protection is disabled by default. The default interval for ProtectionPeriodInMinutes is 60.
+    /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60.
     public var deletionProtection: AppConfigClientTypes.DeletionProtectionSettings?
 
     public init(
@@ -2993,7 +2992,7 @@ public struct UpdateAccountSettingsInput: Swift.Sendable {
 }
 
 public struct UpdateAccountSettingsOutput: Swift.Sendable {
-    /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. Deletion protection is disabled by default. The default interval for ProtectionPeriodInMinutes is 60.
+    /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60.
     public var deletionProtection: AppConfigClientTypes.DeletionProtectionSettings?
 
     public init(
@@ -3055,7 +3054,7 @@ public struct UpdateConfigurationProfileInput: Swift.Sendable {
     public var kmsKeyIdentifier: Swift.String?
     /// The name of the configuration profile.
     public var name: Swift.String?
-    /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri.
+    /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri. A retrieval role ARN is not required for configurations stored in CodePipeline or the AppConfig hosted configuration store. It is required for all other sources that store your configuration.
     public var retrievalRoleArn: Swift.String?
     /// A list of methods for validating the configuration.
     public var validators: [AppConfigClientTypes.Validator]?
@@ -5787,19 +5786,6 @@ enum ValidateConfigurationOutputError {
     }
 }
 
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension BadRequestException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
@@ -5820,6 +5806,19 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -488,6 +488,35 @@ extension VerifiedPermissionsClientTypes.EvaluationErrorItem: Swift.CustomDebugS
 
 extension VerifiedPermissionsClientTypes {
 
+    public enum CedarVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cedar2
+        case cedar4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CedarVersion] {
+            return [
+                .cedar2,
+                .cedar4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cedar2: return "CEDAR_2"
+            case .cedar4: return "CEDAR_4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
     /// The type of entity that a policy store maps to groups from an Amazon Cognito user pool identity source. This data type is part of a [CognitoUserPoolConfiguration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfiguration.html) structure and is a request parameter in [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html).
     public struct CognitoGroupConfiguration: Swift.Sendable {
         /// The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup.
@@ -1351,6 +1380,35 @@ public struct CreatePolicyOutput: Swift.Sendable {
 
 extension VerifiedPermissionsClientTypes {
 
+    public enum DeletionProtection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeletionProtection] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
     public enum ValidationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case off
         case strict
@@ -1404,26 +1462,34 @@ extension VerifiedPermissionsClientTypes {
 public struct CreatePolicyStoreInput: Swift.Sendable {
     /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     public var clientToken: Swift.String?
+    /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. The default state is DISABLED.
+    public var deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection?
     /// Descriptive text that you can provide to help with identification of the current policy store.
     public var description: Swift.String?
+    /// The list of key-value pairs to associate with the policy store.
+    public var tags: [Swift.String: Swift.String]?
     /// Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode. We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore). Then, when you have a schema defined, use [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore) again to turn validation back on.
     /// This member is required.
     public var validationSettings: VerifiedPermissionsClientTypes.ValidationSettings?
 
     public init(
         clientToken: Swift.String? = nil,
+        deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection? = nil,
         description: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
     ) {
         self.clientToken = clientToken
+        self.deletionProtection = deletionProtection
         self.description = description
+        self.tags = tags
         self.validationSettings = validationSettings
     }
 }
 
 extension CreatePolicyStoreInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePolicyStoreInput(clientToken: \(Swift.String(describing: clientToken)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+        "CreatePolicyStoreInput(clientToken: \(Swift.String(describing: clientToken)), deletionProtection: \(Swift.String(describing: deletionProtection)), tags: \(Swift.String(describing: tags)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreatePolicyStoreOutput: Swift.Sendable {
@@ -1552,6 +1618,30 @@ public struct DeletePolicyInput: Swift.Sendable {
 public struct DeletePolicyOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// The policy store can't be deleted because deletion protection is enabled. To delete this policy store, disable deletion protection.
+public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidStateException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
 }
 
 public struct DeletePolicyStoreInput: Swift.Sendable {
@@ -1805,11 +1895,15 @@ public struct GetPolicyStoreInput: Swift.Sendable {
     /// Specifies the ID of the policy store that you want information about.
     /// This member is required.
     public var policyStoreId: Swift.String?
+    /// Specifies whether to return the tags that are attached to the policy store. If this parameter is included in the API call, the tags are returned, otherwise they are not returned. If this parameter is included in the API call but there are no tags attached to the policy store, the tags response parameter is omitted from the response.
+    public var tags: Swift.Bool?
 
     public init(
-        policyStoreId: Swift.String? = nil
+        policyStoreId: Swift.String? = nil,
+        tags: Swift.Bool? = nil
     ) {
         self.policyStoreId = policyStoreId
+        self.tags = tags
     }
 }
 
@@ -1817,9 +1911,13 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the policy store.
     /// This member is required.
     public var arn: Swift.String?
+    /// The version of the Cedar language used with policies, policy templates, and schemas in this policy store. For more information, see [Amazon Verified Permissions upgrade to Cedar v4 FAQ](https://docs.aws.amazon.com/verifiedpermissions/latest/userguide/cedar4-faq.html).
+    public var cedarVersion: VerifiedPermissionsClientTypes.CedarVersion?
     /// The date and time that the policy store was originally created.
     /// This member is required.
     public var createdDate: Foundation.Date?
+    /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. The default state is DISABLED.
+    public var deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection?
     /// Descriptive text that you can provide to help with identification of the current policy store.
     public var description: Swift.String?
     /// The date and time that the policy store was last updated.
@@ -1828,30 +1926,38 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
     /// The ID of the policy store;
     /// This member is required.
     public var policyStoreId: Swift.String?
+    /// The list of tags associated with the policy store.
+    public var tags: [Swift.String: Swift.String]?
     /// The current validation settings for the policy store.
     /// This member is required.
     public var validationSettings: VerifiedPermissionsClientTypes.ValidationSettings?
 
     public init(
         arn: Swift.String? = nil,
+        cedarVersion: VerifiedPermissionsClientTypes.CedarVersion? = nil,
         createdDate: Foundation.Date? = nil,
+        deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection? = nil,
         description: Swift.String? = nil,
         lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
     ) {
         self.arn = arn
+        self.cedarVersion = cedarVersion
         self.createdDate = createdDate
+        self.deletionProtection = deletionProtection
         self.description = description
         self.lastUpdatedDate = lastUpdatedDate
         self.policyStoreId = policyStoreId
+        self.tags = tags
         self.validationSettings = validationSettings
     }
 }
 
 extension GetPolicyStoreOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetPolicyStoreOutput(arn: \(Swift.String(describing: arn)), createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+        "GetPolicyStoreOutput(arn: \(Swift.String(describing: arn)), cedarVersion: \(Swift.String(describing: cedarVersion)), createdDate: \(Swift.String(describing: createdDate)), deletionProtection: \(Swift.String(describing: deletionProtection)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), tags: \(Swift.String(describing: tags)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPolicyTemplateInput: Swift.Sendable {
@@ -2502,7 +2608,7 @@ extension VerifiedPermissionsClientTypes.StaticPolicyDefinitionItem: Swift.Custo
 
 extension VerifiedPermissionsClientTypes {
 
-    /// Contains information about a policy created by instantiating a policy template. This
+    /// Contains information about a policy created by instantiating a policy template.
     public struct TemplateLinkedPolicyDefinitionItem: Swift.Sendable {
         /// The unique identifier of the policy template used to create this policy.
         /// This member is required.
@@ -2756,6 +2862,61 @@ public struct ListPolicyTemplatesOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.policyTemplates = policyTemplates
+    }
+}
+
+/// The request failed because it exceeded a throttling quota.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The quota code recognized by the Amazon Web Services Service Quotas service.
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// The code for the Amazon Web Services service that owns the quota.
+        public internal(set) var serviceCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { true }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.serviceCode = serviceCode
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// The ARN of the resource for which you want to view tags.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// The list of tags associated with the resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.tags = tags
     }
 }
 
@@ -3025,6 +3186,8 @@ extension PutSchemaOutput: Swift.CustomDebugStringConvertible {
 }
 
 public struct UpdatePolicyStoreInput: Swift.Sendable {
+    /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. When you call UpdatePolicyStore, this parameter is unchanged unless explicitly included in the call.
+    public var deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection?
     /// Descriptive text that you can provide to help with identification of the current policy store.
     public var description: Swift.String?
     /// Specifies the ID of the policy store that you want to update
@@ -3035,10 +3198,12 @@ public struct UpdatePolicyStoreInput: Swift.Sendable {
     public var validationSettings: VerifiedPermissionsClientTypes.ValidationSettings?
 
     public init(
+        deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection? = nil,
         description: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
     ) {
+        self.deletionProtection = deletionProtection
         self.description = description
         self.policyStoreId = policyStoreId
         self.validationSettings = validationSettings
@@ -3047,7 +3212,7 @@ public struct UpdatePolicyStoreInput: Swift.Sendable {
 
 extension UpdatePolicyStoreInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePolicyStoreInput(policyStoreId: \(Swift.String(describing: policyStoreId)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+        "UpdatePolicyStoreInput(deletionProtection: \(Swift.String(describing: deletionProtection)), policyStoreId: \(Swift.String(describing: policyStoreId)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdatePolicyStoreOutput: Swift.Sendable {
@@ -3077,36 +3242,75 @@ public struct UpdatePolicyStoreOutput: Swift.Sendable {
     }
 }
 
-/// The request failed because it exceeded a throttling quota.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+/// No more tags be added because the limit (50) has been reached. To add new tags, use UntagResource to remove existing tags.
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// The quota code recognized by the Amazon Web Services Service Quotas service.
-        public internal(set) var quotaCode: Swift.String? = nil
-        /// The code for the Amazon Web Services service that owns the quota.
-        public internal(set) var serviceCode: Swift.String? = nil
+        /// An Amazon Resource Name (ARN) uniquely identifies an AWS resource.
+        public internal(set) var resourceName: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var typeName: Swift.String { "TooManyTagsException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { true }
-    public static var isThrottling: Swift.Bool { true }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
-        quotaCode: Swift.String? = nil,
-        serviceCode: Swift.String? = nil
+        resourceName: Swift.String? = nil
     ) {
         self.properties.message = message
-        self.properties.quotaCode = quotaCode
-        self.properties.serviceCode = serviceCode
+        self.properties.resourceName = resourceName
     }
+}
+
+public struct TagResourceInput: Swift.Sendable {
+    /// The ARN of the resource that you're adding tags to.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The list of key-value pairs to associate with the resource.
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UntagResourceInput: Swift.Sendable {
+    /// The ARN of the resource from which you are removing tags.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The list of tag keys to remove from the resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
+    }
+}
+
+public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension VerifiedPermissionsClientTypes {
@@ -3198,6 +3402,10 @@ extension VerifiedPermissionsClientTypes {
         case ipaddr(Swift.String)
         /// An attribute value of [decimal](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-decimal) type. Example: {"decimal": "1.1"}
         case decimal(Swift.String)
+        /// An attribute value of [datetime](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-datetime) type. Example: {"datetime": "2024-10-15T11:35:00Z"}
+        case datetime(Swift.String)
+        /// An attribute value of [duration](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-duration) type. Example: {"duration": "1h30m"}
+        case duration(Swift.String)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3405,7 +3613,7 @@ public struct IsAuthorizedInput: Swift.Sendable {
     public var action: VerifiedPermissionsClientTypes.ActionIdentifier?
     /// Specifies additional context that can be used to make more granular authorization decisions.
     public var context: VerifiedPermissionsClientTypes.ContextDefinition?
-    /// Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
+    /// (Optional) Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store. You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
     public var entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
     /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
     /// This member is required.
@@ -3439,7 +3647,7 @@ public struct IsAuthorizedWithTokenInput: Swift.Sendable {
     public var action: VerifiedPermissionsClientTypes.ActionIdentifier?
     /// Specifies additional context that can be used to make more granular authorization decisions.
     public var context: VerifiedPermissionsClientTypes.ContextDefinition?
-    /// Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.
+    /// (Optional) Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store. You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.
     ///
     /// * The IsAuthorizedWithToken operation takes principal attributes from only the identityToken or accessToken passed to the operation.
     ///
@@ -3478,7 +3686,7 @@ extension IsAuthorizedWithTokenInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct BatchIsAuthorizedInput: Swift.Sendable {
-    /// Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
+    /// (Optional) Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store. You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
     public var entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
     /// Specifies the ID of the policy store. Policies in this policy store will be used to make the authorization decisions for the input.
     /// This member is required.
@@ -3501,7 +3709,7 @@ public struct BatchIsAuthorizedInput: Swift.Sendable {
 public struct BatchIsAuthorizedWithTokenInput: Swift.Sendable {
     /// Specifies an access token for the principal that you want to authorize in each request. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an access token. Verified Permissions returns an error if the token_use claim in the submitted token isn't access.
     public var accessToken: Swift.String?
-    /// Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.
+    /// (Optional) Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store. You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.
     ///
     /// * The BatchIsAuthorizedWithToken operation takes principal attributes from only the identityToken or accessToken passed to the operation.
     ///
@@ -3690,9 +3898,30 @@ extension ListPolicyTemplatesInput {
     }
 }
 
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension PutSchemaInput {
 
     static func urlPathProvider(_ value: PutSchemaInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3781,7 +4010,9 @@ extension CreatePolicyStoreInput {
     static func write(value: CreatePolicyStoreInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["deletionProtection"].write(value.deletionProtection)
         try writer["description"].write(value.description)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["validationSettings"].write(value.validationSettings, with: VerifiedPermissionsClientTypes.ValidationSettings.write(value:to:))
     }
 }
@@ -3855,6 +4086,7 @@ extension GetPolicyStoreInput {
     static func write(value: GetPolicyStoreInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["policyStoreId"].write(value.policyStoreId)
+        try writer["tags"].write(value.tags)
     }
 }
 
@@ -3943,12 +4175,38 @@ extension ListPolicyTemplatesInput {
     }
 }
 
+extension ListTagsForResourceInput {
+
+    static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceArn"].write(value.resourceArn)
+    }
+}
+
 extension PutSchemaInput {
 
     static func write(value: PutSchemaInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["definition"].write(value.definition, with: VerifiedPermissionsClientTypes.SchemaDefinition.write(value:to:))
         try writer["policyStoreId"].write(value.policyStoreId)
+    }
+}
+
+extension TagResourceInput {
+
+    static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceArn"].write(value.resourceArn)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UntagResourceInput {
+
+    static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceArn"].write(value.resourceArn)
+        try writer["tagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -3977,6 +4235,7 @@ extension UpdatePolicyStoreInput {
 
     static func write(value: UpdatePolicyStoreInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["deletionProtection"].write(value.deletionProtection)
         try writer["description"].write(value.description)
         try writer["policyStoreId"].write(value.policyStoreId)
         try writer["validationSettings"].write(value.validationSettings, with: VerifiedPermissionsClientTypes.ValidationSettings.write(value:to:))
@@ -4172,10 +4431,13 @@ extension GetPolicyStoreOutput {
         let reader = responseReader
         var value = GetPolicyStoreOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.cedarVersion = try reader["cedarVersion"].readIfPresent()
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.validationSettings = try reader["validationSettings"].readIfPresent(with: VerifiedPermissionsClientTypes.ValidationSettings.read(from:))
         return value
     }
@@ -4295,6 +4557,18 @@ extension ListPolicyTemplatesOutput {
     }
 }
 
+extension ListTagsForResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourceOutput()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension PutSchemaOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutSchemaOutput {
@@ -4307,6 +4581,20 @@ extension PutSchemaOutput {
         value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension TagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
+        return TagResourceOutput()
+    }
+}
+
+extension UntagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
+        return UntagResourceOutput()
     }
 }
 
@@ -4537,6 +4825,7 @@ enum DeletePolicyStoreOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -4722,6 +5011,24 @@ enum ListPolicyTemplatesOutputError {
     }
 }
 
+enum ListTagsForResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutSchemaOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4734,6 +5041,43 @@ enum PutSchemaOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -4819,6 +5163,20 @@ extension ResourceNotFoundException {
     }
 }
 
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resources = try reader["resources"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.ResourceConflict.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
@@ -4836,13 +5194,12 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension ConflictException {
+extension InvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStateException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = InvalidStateException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resources = try reader["resources"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.ResourceConflict.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4884,6 +5241,20 @@ extension ThrottlingException {
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyTagsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTagsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceName = try reader["resourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5078,8 +5449,12 @@ extension VerifiedPermissionsClientTypes.AttributeValue {
         switch value {
             case let .boolean(boolean):
                 try writer["boolean"].write(boolean)
+            case let .datetime(datetime):
+                try writer["datetime"].write(datetime)
             case let .decimal(decimal):
                 try writer["decimal"].write(decimal)
+            case let .duration(duration):
+                try writer["duration"].write(duration)
             case let .entityidentifier(entityidentifier):
                 try writer["entityIdentifier"].write(entityidentifier, with: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:))
             case let .ipaddr(ipaddr):
@@ -5117,6 +5492,10 @@ extension VerifiedPermissionsClientTypes.AttributeValue {
                 return .ipaddr(try reader["ipaddr"].read())
             case "decimal":
                 return .decimal(try reader["decimal"].read())
+            case "datetime":
+                return .datetime(try reader["datetime"].read())
+            case "duration":
+                return .duration(try reader["duration"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }

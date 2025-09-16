@@ -3381,11 +3381,11 @@ extension BadRequestException {
     }
 }
 
-extension ServiceUnavailableException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
+        var value = ConflictException()
         value.properties.code = try reader["Code"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
@@ -3423,11 +3423,11 @@ extension InternalServerErrorException {
     }
 }
 
-extension UnauthorizedException {
+extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
-        var value = UnauthorizedException()
+        var value = ServiceUnavailableException()
         value.properties.code = try reader["Code"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
@@ -3437,11 +3437,11 @@ extension UnauthorizedException {
     }
 }
 
-extension ConflictException {
+extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = UnauthorizedException()
         value.properties.code = try reader["Code"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse

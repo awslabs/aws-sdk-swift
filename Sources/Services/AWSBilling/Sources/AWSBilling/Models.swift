@@ -356,7 +356,7 @@ extension BillingClientTypes {
 
 extension BillingClientTypes {
 
-    /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). Billing view only supports LINKED_ACCOUNT and Tags.
+    /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html). Billing view only supports LINKED_ACCOUNT and Tags.
     public struct Expression: Swift.Sendable {
         /// The specific Dimension to use for Expression.
         public var dimensions: BillingClientTypes.DimensionValues?
@@ -396,7 +396,7 @@ extension BillingClientTypes {
 public struct CreateBillingViewInput: Swift.Sendable {
     /// A unique, case-sensitive identifier you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. If the original request completes successfully, any subsequent retries complete successfully without performing any further actions with an idempotent request.
     public var clientToken: Swift.String?
-    /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). Billing view only supports LINKED_ACCOUNT and Tags.
+    /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html). Billing view only supports LINKED_ACCOUNT and Tags.
     public var dataFilterExpression: BillingClientTypes.Expression?
     /// The description of the billing view.
     public var description: Swift.String?
@@ -559,13 +559,13 @@ extension BillingClientTypes {
         public var billingViewType: BillingClientTypes.BillingViewType?
         /// The time when the billing view was created.
         public var createdAt: Foundation.Date?
-        /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). Billing view only supports LINKED_ACCOUNT and Tags.
+        /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html). Billing view only supports LINKED_ACCOUNT and Tags.
         public var dataFilterExpression: BillingClientTypes.Expression?
         /// The description of the billing view.
         public var description: Swift.String?
-        /// A list of names of the billing view.
+        /// The account name of the billing view.
         public var name: Swift.String?
-        /// The list of owners of the billing view.
+        /// The account owner of the billing view.
         public var ownerAccountId: Swift.String?
         /// The time when the billing view was last updated.
         public var updatedAt: Foundation.Date?
@@ -827,7 +827,7 @@ public struct UpdateBillingViewInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
     /// This member is required.
     public var arn: Swift.String?
-    /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). Billing view only supports LINKED_ACCOUNT and Tags.
+    /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html). Billing view only supports LINKED_ACCOUNT and Tags.
     public var dataFilterExpression: BillingClientTypes.Expression?
     /// The description of the billing view.
     public var description: Swift.String?
@@ -942,6 +942,7 @@ extension CreateBillingViewInput {
 
     static func write(value: CreateBillingViewInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["dataFilterExpression"].write(value.dataFilterExpression, with: BillingClientTypes.Expression.write(value:to:))
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
@@ -1331,6 +1332,19 @@ enum UpdateBillingViewOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
@@ -1346,11 +1360,11 @@ extension ConflictException {
     }
 }
 
-extension ThrottlingException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1376,24 +1390,11 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension InternalServerException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

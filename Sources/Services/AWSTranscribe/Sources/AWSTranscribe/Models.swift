@@ -353,6 +353,7 @@ extension TranscribeClientTypes {
         case enZa
         case esEs
         case esUs
+        case etEe
         case etEt
         case euEs
         case faIr
@@ -423,6 +424,7 @@ extension TranscribeClientTypes {
         case viVn
         case woSn
         case zhCn
+        case zhHk
         case zhTw
         case zuZa
         case sdkUnknown(Swift.String)
@@ -460,6 +462,7 @@ extension TranscribeClientTypes {
                 .enZa,
                 .esEs,
                 .esUs,
+                .etEe,
                 .etEt,
                 .euEs,
                 .faIr,
@@ -530,6 +533,7 @@ extension TranscribeClientTypes {
                 .viVn,
                 .woSn,
                 .zhCn,
+                .zhHk,
                 .zhTw,
                 .zuZa
             ]
@@ -573,6 +577,7 @@ extension TranscribeClientTypes {
             case .enZa: return "en-ZA"
             case .esEs: return "es-ES"
             case .esUs: return "es-US"
+            case .etEe: return "et-EE"
             case .etEt: return "et-ET"
             case .euEs: return "eu-ES"
             case .faIr: return "fa-IR"
@@ -643,6 +648,7 @@ extension TranscribeClientTypes {
             case .viVn: return "vi-VN"
             case .woSn: return "wo-SN"
             case .zhCn: return "zh-CN"
+            case .zhHk: return "zh-HK"
             case .zhTw: return "zh-TW"
             case .zuZa: return "zu-ZA"
             case let .sdkUnknown(s): return s
@@ -951,7 +957,7 @@ extension TranscribeClientTypes {
         public var languageIdSettings: [Swift.String: TranscribeClientTypes.LanguageIdSettings]?
         /// The name of the custom language model you want to use when processing your Call Analytics job. Note that custom language model names are case sensitive. The language of the specified custom language model must match the language code that you specify in your transcription request. If the languages do not match, the custom language model isn't applied. There are no errors or warnings associated with a language mismatch.
         public var languageModelName: Swift.String?
-        /// You can specify two or more language codes that represent the languages you think may be present in your media. Including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. Including language options can improve the accuracy of language identification. For a list of languages supported with Call Analytics, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. To transcribe speech in Modern Standard Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000 Hz or higher.
+        /// You can specify two or more language codes that represent the languages you think may be present in your media. Including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. Including language options can improve the accuracy of language identification. For a list of languages supported with Call Analytics, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. To transcribe speech in Modern Standard Arabic (ar-SA) in Amazon Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web Services GovCloud (US) (US-East, us-gov-east-1), Canada (Calgary) ca-west-1 and Africa (Cape Town) af-south-1, your media file must be encoded at a sample rate of 16,000 Hz or higher.
         public var languageOptions: [TranscribeClientTypes.LanguageCode]?
         /// Contains GenerateAbstractiveSummary, which is a required parameter if you want to enable Generative call summarization in your Call Analytics request.
         public var summarization: TranscribeClientTypes.Summarization?
@@ -1487,6 +1493,79 @@ extension TranscribeClientTypes {
             self.lastUpdateTime = lastUpdateTime
             self.rules = rules
             self.tags = tags
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
+    public enum MedicalScribeNoteTemplate: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case behavioralSoap
+        case birp
+        case dap
+        case girpp
+        case historyAndPhysical
+        case physicalSoap
+        case sirp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MedicalScribeNoteTemplate] {
+            return [
+                .behavioralSoap,
+                .birp,
+                .dap,
+                .girpp,
+                .historyAndPhysical,
+                .physicalSoap,
+                .sirp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .behavioralSoap: return "BEHAVIORAL_SOAP"
+            case .birp: return "BIRP"
+            case .dap: return "DAP"
+            case .girpp: return "GIRPP"
+            case .historyAndPhysical: return "HISTORY_AND_PHYSICAL"
+            case .physicalSoap: return "PHYSICAL_SOAP"
+            case .sirp: return "SIRP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
+    /// The output configuration for clinical note generation.
+    public struct ClinicalNoteGenerationSettings: Swift.Sendable {
+        /// Specify one of the following templates to use for the clinical note summary. The default is HISTORY_AND_PHYSICAL.
+        ///
+        /// * HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Examples of sections include Chief Complaint, History of Present Illness, Review of Systems, Past Medical History, Assessment, and Plan.
+        ///
+        /// * GIRPP: Provides summaries based on the patients progress toward goals. Examples of sections include Goal, Intervention, Response, Progress, and Plan.
+        ///
+        /// * BIRP: Focuses on the patient's behavioral patterns and responses. Examples of sections include Behavior, Intervention, Response, and Plan.
+        ///
+        /// * SIRP: Emphasizes the situational context of therapy. Examples of sections include Situation, Intervention, Response, and Plan.
+        ///
+        /// * DAP: Provides a simplified format for clinical documentation. Examples of sections include Data, Assessment, and Plan.
+        ///
+        /// * BEHAVIORAL_SOAP: Behavioral health focused documentation format. Examples of sections include Subjective, Objective, Assessment, and Plan.
+        ///
+        /// * PHYSICAL_SOAP: Physical health focused documentation format. Examples of sections include Subjective, Objective, Assessment, and Plan.
+        public var noteTemplate: TranscribeClientTypes.MedicalScribeNoteTemplate?
+
+        public init(
+            noteTemplate: TranscribeClientTypes.MedicalScribeNoteTemplate? = nil
+        ) {
+            self.noteTemplate = noteTemplate
         }
     }
 }
@@ -2375,6 +2454,8 @@ extension TranscribeClientTypes {
     public struct MedicalScribeSettings: Swift.Sendable {
         /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the output for each channel into one transcript. For more information, see [Transcribing multi-channel audio](https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html).
         public var channelIdentification: Swift.Bool?
+        /// Specify settings for the clinical note generation.
+        public var clinicalNoteGenerationSettings: TranscribeClientTypes.ClinicalNoteGenerationSettings?
         /// Specify the maximum number of speakers you want to partition in your media. Note that if your media contains more speakers than the specified number, multiple speakers are treated as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
         public var maxSpeakerLabels: Swift.Int?
         /// Enables speaker partitioning (diarization) in your Medical Scribe output. Speaker partitioning labels the speech from individual speakers in your media file. If you enable ShowSpeakerLabels in your request, you must also include MaxSpeakerLabels. For more information, see [Partitioning speakers (diarization)](https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html).
@@ -2388,6 +2469,7 @@ extension TranscribeClientTypes {
 
         public init(
             channelIdentification: Swift.Bool? = nil,
+            clinicalNoteGenerationSettings: TranscribeClientTypes.ClinicalNoteGenerationSettings? = nil,
             maxSpeakerLabels: Swift.Int? = nil,
             showSpeakerLabels: Swift.Bool? = nil,
             vocabularyFilterMethod: TranscribeClientTypes.VocabularyFilterMethod? = nil,
@@ -2395,6 +2477,7 @@ extension TranscribeClientTypes {
             vocabularyName: Swift.String? = nil
         ) {
             self.channelIdentification = channelIdentification
+            self.clinicalNoteGenerationSettings = clinicalNoteGenerationSettings
             self.maxSpeakerLabels = maxSpeakerLabels
             self.showSpeakerLabels = showSpeakerLabels
             self.vocabularyFilterMethod = vocabularyFilterMethod
@@ -2422,6 +2505,8 @@ extension TranscribeClientTypes {
         public var languageCode: TranscribeClientTypes.MedicalScribeLanguageCode?
         /// Describes the Amazon S3 location of the media file you want to use in your request. For information on supported media formats, refer to the MediaFormat parameter or the [Media formats](https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio) section in the Amazon S3 Developer Guide.
         public var media: TranscribeClientTypes.Media?
+        /// Indicates whether the MedicalScribeContext object was provided when the Medical Scribe job was started.
+        public var medicalScribeContextProvided: Swift.Bool?
         /// The name of the Medical Scribe job. Job names are case sensitive and must be unique within an Amazon Web Services account.
         public var medicalScribeJobName: Swift.String?
         /// Provides the status of the specified Medical Scribe job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in MedicalScribeOutput If the status is FAILED, FailureReason provides details on why your Medical Scribe job failed.
@@ -2432,7 +2517,7 @@ extension TranscribeClientTypes {
         public var settings: TranscribeClientTypes.MedicalScribeSettings?
         /// The date and time your Medical Scribe job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public var startTime: Foundation.Date?
-        /// Adds one or more custom tags, each in the form of a key:value pair, to the Medica Scribe job. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
+        /// Adds one or more custom tags, each in the form of a key:value pair, to the Medical Scribe job. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
         public var tags: [TranscribeClientTypes.Tag]?
 
         public init(
@@ -2443,6 +2528,7 @@ extension TranscribeClientTypes {
             failureReason: Swift.String? = nil,
             languageCode: TranscribeClientTypes.MedicalScribeLanguageCode? = nil,
             media: TranscribeClientTypes.Media? = nil,
+            medicalScribeContextProvided: Swift.Bool? = nil,
             medicalScribeJobName: Swift.String? = nil,
             medicalScribeJobStatus: TranscribeClientTypes.MedicalScribeJobStatus? = nil,
             medicalScribeOutput: TranscribeClientTypes.MedicalScribeOutput? = nil,
@@ -2457,6 +2543,7 @@ extension TranscribeClientTypes {
             self.failureReason = failureReason
             self.languageCode = languageCode
             self.media = media
+            self.medicalScribeContextProvided = medicalScribeContextProvided
             self.medicalScribeJobName = medicalScribeJobName
             self.medicalScribeJobStatus = medicalScribeJobStatus
             self.medicalScribeOutput = medicalScribeOutput
@@ -3832,6 +3919,73 @@ public struct ListVocabularyFiltersOutput: Swift.Sendable {
     }
 }
 
+extension TranscribeClientTypes {
+
+    public enum Pronouns: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case heHim
+        case sheHer
+        case theyThem
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Pronouns] {
+            return [
+                .heHim,
+                .sheHer,
+                .theyThem
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .heHim: return "HE_HIM"
+            case .sheHer: return "SHE_HER"
+            case .theyThem: return "THEY_THEM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
+    /// Contains patient-specific information used to customize the clinical note generation.
+    public struct MedicalScribePatientContext: Swift.Sendable {
+        /// The patient's preferred pronouns that the user wants to provide as a context for clinical note generation.
+        public var pronouns: TranscribeClientTypes.Pronouns?
+
+        public init(
+            pronouns: TranscribeClientTypes.Pronouns? = nil
+        ) {
+            self.pronouns = pronouns
+        }
+    }
+}
+
+extension TranscribeClientTypes.MedicalScribePatientContext: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MedicalScribePatientContext(pronouns: \"CONTENT_REDACTED\")"}
+}
+
+extension TranscribeClientTypes {
+
+    /// The MedicalScribeContext object that contains contextual information used to generate customized clinical notes.
+    public struct MedicalScribeContext: Swift.Sendable {
+        /// Contains patient-specific information.
+        public var patientContext: TranscribeClientTypes.MedicalScribePatientContext?
+
+        public init(
+            patientContext: TranscribeClientTypes.MedicalScribePatientContext? = nil
+        ) {
+            self.patientContext = patientContext
+        }
+    }
+}
+
 public struct StartCallAnalyticsJobInput: Swift.Sendable {
     /// A unique name, chosen by you, for your Call Analytics job. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictException error.
     /// This member is required.
@@ -3922,6 +4076,8 @@ public struct StartMedicalScribeJobInput: Swift.Sendable {
     /// Describes the Amazon S3 location of the media file you want to use in your request. For information on supported media formats, refer to the MediaFormat parameter or the [Media formats](https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio) section in the Amazon S3 Developer Guide.
     /// This member is required.
     public var media: TranscribeClientTypes.Media?
+    /// The MedicalScribeContext object that contains contextual information which is used during clinical note generation to add relevant context to the note.
+    public var medicalScribeContext: TranscribeClientTypes.MedicalScribeContext?
     /// A unique name, chosen by you, for your Medical Scribe job. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictException error.
     /// This member is required.
     public var medicalScribeJobName: Swift.String?
@@ -3951,7 +4107,7 @@ public struct StartMedicalScribeJobInput: Swift.Sendable {
     /// Makes it possible to control how your Medical Scribe job is processed using a MedicalScribeSettings object. Specify ChannelIdentification if ChannelDefinitions are set. Enabled ShowSpeakerLabels if ChannelIdentification and ChannelDefinitions are not set. One and only one of ChannelIdentification and ShowSpeakerLabels must be set. If ShowSpeakerLabels is set, MaxSpeakerLabels must also be set. Use Settings to specify a vocabulary or vocabulary filter or both using VocabularyName, VocabularyFilterName. VocabularyFilterMethod must be specified if VocabularyFilterName is set.
     /// This member is required.
     public var settings: TranscribeClientTypes.MedicalScribeSettings?
-    /// Adds one or more custom tags, each in the form of a key:value pair, to the Medica Scribe job. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
+    /// Adds one or more custom tags, each in the form of a key:value pair, to the Medical Scribe job. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     public var tags: [TranscribeClientTypes.Tag]?
 
     public init(
@@ -3959,6 +4115,7 @@ public struct StartMedicalScribeJobInput: Swift.Sendable {
         dataAccessRoleArn: Swift.String? = nil,
         kmsEncryptionContext: [Swift.String: Swift.String]? = nil,
         media: TranscribeClientTypes.Media? = nil,
+        medicalScribeContext: TranscribeClientTypes.MedicalScribeContext? = nil,
         medicalScribeJobName: Swift.String? = nil,
         outputBucketName: Swift.String? = nil,
         outputEncryptionKMSKeyId: Swift.String? = nil,
@@ -3969,6 +4126,7 @@ public struct StartMedicalScribeJobInput: Swift.Sendable {
         self.dataAccessRoleArn = dataAccessRoleArn
         self.kmsEncryptionContext = kmsEncryptionContext
         self.media = media
+        self.medicalScribeContext = medicalScribeContext
         self.medicalScribeJobName = medicalScribeJobName
         self.outputBucketName = outputBucketName
         self.outputEncryptionKMSKeyId = outputEncryptionKMSKeyId
@@ -4127,11 +4285,11 @@ public struct StartTranscriptionJobInput: Swift.Sendable {
     public var jobExecutionSettings: TranscribeClientTypes.JobExecutionSettings?
     /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see [KMS encryption context](https://docs.aws.amazon.com/transcribe/latest/dg/key-management.html#kms-context) and [Asymmetric keys in KMS](https://docs.aws.amazon.com/transcribe/latest/dg/symmetric-asymmetric.html).
     public var kmsEncryptionContext: [Swift.String: Swift.String]?
-    /// The language code that represents the language spoken in the input media file. If you're unsure of the language spoken in your media file, consider using IdentifyLanguage or IdentifyMultipleLanguages to enable automatic language identification. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. To transcribe speech in Modern Standard Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000 Hz or higher.
+    /// The language code that represents the language spoken in the input media file. If you're unsure of the language spoken in your media file, consider using IdentifyLanguage or IdentifyMultipleLanguages to enable automatic language identification. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. To transcribe speech in Modern Standard Arabic (ar-SA) in Amazon Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web Services GovCloud (US) (US-East, us-gov-east-1), Canada (Calgary, ca-west-1) and Africa (Cape Town, af-south-1), your media file must be encoded at a sample rate of 16,000 Hz or higher.
     public var languageCode: TranscribeClientTypes.LanguageCode?
     /// If using automatic language identification in your request and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). Note that multi-language identification (IdentifyMultipleLanguages) doesn't support custom language models. LanguageIdSettings supports two to five language codes. Each language code you include can have an associated custom language model, custom vocabulary, and custom vocabulary filter. The language codes that you specify must match the languages of the associated custom language models, custom vocabularies, and custom vocabulary filters. It's recommended that you include LanguageOptions when using LanguageIdSettings to ensure that the correct language dialect is identified. For example, if you specify a custom vocabulary that is in en-US but Amazon Transcribe determines that the language spoken in your media is en-AU, your custom vocabulary is not applied to your transcription. If you include LanguageOptions and include en-US as the only English language dialect, your custom vocabulary is applied to your transcription. If you want to include a custom language model with your request but do not want to use automatic language identification, use instead the  parameter with the LanguageModelName sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic language identification, use instead the  parameter with the VocabularyName or VocabularyFilterName (or both) sub-parameter.
     public var languageIdSettings: [Swift.String: TranscribeClientTypes.LanguageIdSettings]?
-    /// You can specify two or more language codes that represent the languages you think may be present in your media. Including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. If you include LanguageOptions in your request, you must also include IdentifyLanguage. For more information, refer to [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html). To transcribe speech in Modern Standard Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000 Hz or higher.
+    /// You can specify two or more language codes that represent the languages you think may be present in your media. Including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. If you include LanguageOptions in your request, you must also include IdentifyLanguage. For more information, refer to [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html). To transcribe speech in Modern Standard Arabic (ar-SA)in Amazon Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web Services GovCloud (US) (US-East, us-gov-east-1), in Canada (Calgary) ca-west-1 and Africa (Cape Town) af-south-1, your media file must be encoded at a sample rate of 16,000 Hz or higher.
     public var languageOptions: [TranscribeClientTypes.LanguageCode]?
     /// Describes the Amazon S3 location of the media file you want to use in your request.
     /// This member is required.
@@ -4829,6 +4987,7 @@ extension CreateCallAnalyticsCategoryInput {
 
     static func write(value: CreateCallAnalyticsCategoryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CategoryName"].write(value.categoryName)
         try writer["InputType"].write(value.inputType)
         try writer["Rules"].writeList(value.rules, memberWritingClosure: TranscribeClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -4842,6 +5001,7 @@ extension CreateLanguageModelInput {
         try writer["BaseModelName"].write(value.baseModelName)
         try writer["InputDataConfig"].write(value.inputDataConfig, with: TranscribeClientTypes.InputDataConfig.write(value:to:))
         try writer["LanguageCode"].write(value.languageCode)
+        try writer["ModelName"].write(value.modelName)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4853,6 +5013,7 @@ extension CreateMedicalVocabularyInput {
         try writer["LanguageCode"].write(value.languageCode)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VocabularyFileUri"].write(value.vocabularyFileUri)
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
@@ -4865,6 +5026,7 @@ extension CreateVocabularyInput {
         try writer["Phrases"].writeList(value.phrases, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VocabularyFileUri"].write(value.vocabularyFileUri)
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
@@ -4876,6 +5038,7 @@ extension CreateVocabularyFilterInput {
         try writer["LanguageCode"].write(value.languageCode)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VocabularyFilterFileUri"].write(value.vocabularyFilterFileUri)
+        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
         try writer["Words"].writeList(value.words, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4883,224 +5046,248 @@ extension CreateVocabularyFilterInput {
 extension DeleteCallAnalyticsCategoryInput {
 
     static func write(value: DeleteCallAnalyticsCategoryInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["CategoryName"].write(value.categoryName)
     }
 }
 
 extension DeleteCallAnalyticsJobInput {
 
     static func write(value: DeleteCallAnalyticsJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["CallAnalyticsJobName"].write(value.callAnalyticsJobName)
     }
 }
 
 extension DeleteLanguageModelInput {
 
     static func write(value: DeleteLanguageModelInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ModelName"].write(value.modelName)
     }
 }
 
 extension DeleteMedicalScribeJobInput {
 
     static func write(value: DeleteMedicalScribeJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MedicalScribeJobName"].write(value.medicalScribeJobName)
     }
 }
 
 extension DeleteMedicalTranscriptionJobInput {
 
     static func write(value: DeleteMedicalTranscriptionJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MedicalTranscriptionJobName"].write(value.medicalTranscriptionJobName)
     }
 }
 
 extension DeleteMedicalVocabularyInput {
 
     static func write(value: DeleteMedicalVocabularyInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
 extension DeleteTranscriptionJobInput {
 
     static func write(value: DeleteTranscriptionJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["TranscriptionJobName"].write(value.transcriptionJobName)
     }
 }
 
 extension DeleteVocabularyInput {
 
     static func write(value: DeleteVocabularyInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
 extension DeleteVocabularyFilterInput {
 
     static func write(value: DeleteVocabularyFilterInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
     }
 }
 
 extension DescribeLanguageModelInput {
 
     static func write(value: DescribeLanguageModelInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ModelName"].write(value.modelName)
     }
 }
 
 extension GetCallAnalyticsCategoryInput {
 
     static func write(value: GetCallAnalyticsCategoryInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["CategoryName"].write(value.categoryName)
     }
 }
 
 extension GetCallAnalyticsJobInput {
 
     static func write(value: GetCallAnalyticsJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["CallAnalyticsJobName"].write(value.callAnalyticsJobName)
     }
 }
 
 extension GetMedicalScribeJobInput {
 
     static func write(value: GetMedicalScribeJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MedicalScribeJobName"].write(value.medicalScribeJobName)
     }
 }
 
 extension GetMedicalTranscriptionJobInput {
 
     static func write(value: GetMedicalTranscriptionJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MedicalTranscriptionJobName"].write(value.medicalTranscriptionJobName)
     }
 }
 
 extension GetMedicalVocabularyInput {
 
     static func write(value: GetMedicalVocabularyInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
 extension GetTranscriptionJobInput {
 
     static func write(value: GetTranscriptionJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["TranscriptionJobName"].write(value.transcriptionJobName)
     }
 }
 
 extension GetVocabularyInput {
 
     static func write(value: GetVocabularyInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
 extension GetVocabularyFilterInput {
 
     static func write(value: GetVocabularyFilterInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
     }
 }
 
 extension ListCallAnalyticsCategoriesInput {
 
     static func write(value: ListCallAnalyticsCategoriesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
 extension ListCallAnalyticsJobsInput {
 
     static func write(value: ListCallAnalyticsJobsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["JobNameContains"].write(value.jobNameContains)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Status"].write(value.status)
     }
 }
 
 extension ListLanguageModelsInput {
 
     static func write(value: ListLanguageModelsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NameContains"].write(value.nameContains)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["StatusEquals"].write(value.statusEquals)
     }
 }
 
 extension ListMedicalScribeJobsInput {
 
     static func write(value: ListMedicalScribeJobsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["JobNameContains"].write(value.jobNameContains)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Status"].write(value.status)
     }
 }
 
 extension ListMedicalTranscriptionJobsInput {
 
     static func write(value: ListMedicalTranscriptionJobsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["JobNameContains"].write(value.jobNameContains)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Status"].write(value.status)
     }
 }
 
 extension ListMedicalVocabulariesInput {
 
     static func write(value: ListMedicalVocabulariesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NameContains"].write(value.nameContains)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["StateEquals"].write(value.stateEquals)
     }
 }
 
 extension ListTagsForResourceInput {
 
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
     }
 }
 
 extension ListTranscriptionJobsInput {
 
     static func write(value: ListTranscriptionJobsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["JobNameContains"].write(value.jobNameContains)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Status"].write(value.status)
     }
 }
 
 extension ListVocabulariesInput {
 
     static func write(value: ListVocabulariesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NameContains"].write(value.nameContains)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["StateEquals"].write(value.stateEquals)
     }
 }
 
 extension ListVocabularyFiltersInput {
 
     static func write(value: ListVocabularyFiltersInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NameContains"].write(value.nameContains)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -5108,6 +5295,7 @@ extension StartCallAnalyticsJobInput {
 
     static func write(value: StartCallAnalyticsJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CallAnalyticsJobName"].write(value.callAnalyticsJobName)
         try writer["ChannelDefinitions"].writeList(value.channelDefinitions, memberWritingClosure: TranscribeClientTypes.ChannelDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
         try writer["Media"].write(value.media, with: TranscribeClientTypes.Media.write(value:to:))
@@ -5126,6 +5314,8 @@ extension StartMedicalScribeJobInput {
         try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
         try writer["KMSEncryptionContext"].writeMap(value.kmsEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Media"].write(value.media, with: TranscribeClientTypes.Media.write(value:to:))
+        try writer["MedicalScribeContext"].write(value.medicalScribeContext, with: TranscribeClientTypes.MedicalScribeContext.write(value:to:))
+        try writer["MedicalScribeJobName"].write(value.medicalScribeJobName)
         try writer["OutputBucketName"].write(value.outputBucketName)
         try writer["OutputEncryptionKMSKeyId"].write(value.outputEncryptionKMSKeyId)
         try writer["Settings"].write(value.settings, with: TranscribeClientTypes.MedicalScribeSettings.write(value:to:))
@@ -5143,6 +5333,7 @@ extension StartMedicalTranscriptionJobInput {
         try writer["Media"].write(value.media, with: TranscribeClientTypes.Media.write(value:to:))
         try writer["MediaFormat"].write(value.mediaFormat)
         try writer["MediaSampleRateHertz"].write(value.mediaSampleRateHertz)
+        try writer["MedicalTranscriptionJobName"].write(value.medicalTranscriptionJobName)
         try writer["OutputBucketName"].write(value.outputBucketName)
         try writer["OutputEncryptionKMSKeyId"].write(value.outputEncryptionKMSKeyId)
         try writer["OutputKey"].write(value.outputKey)
@@ -5176,6 +5367,7 @@ extension StartTranscriptionJobInput {
         try writer["Subtitles"].write(value.subtitles, with: TranscribeClientTypes.Subtitles.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ToxicityDetection"].writeList(value.toxicityDetection, memberWritingClosure: TranscribeClientTypes.ToxicityDetectionSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TranscriptionJobName"].write(value.transcriptionJobName)
     }
 }
 
@@ -5183,6 +5375,7 @@ extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -5191,6 +5384,7 @@ extension UntagResourceInput {
 
     static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
         try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -5199,6 +5393,7 @@ extension UpdateCallAnalyticsCategoryInput {
 
     static func write(value: UpdateCallAnalyticsCategoryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CategoryName"].write(value.categoryName)
         try writer["InputType"].write(value.inputType)
         try writer["Rules"].writeList(value.rules, memberWritingClosure: TranscribeClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -5210,6 +5405,7 @@ extension UpdateMedicalVocabularyInput {
         guard let value else { return }
         try writer["LanguageCode"].write(value.languageCode)
         try writer["VocabularyFileUri"].write(value.vocabularyFileUri)
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
@@ -5221,6 +5417,7 @@ extension UpdateVocabularyInput {
         try writer["LanguageCode"].write(value.languageCode)
         try writer["Phrases"].writeList(value.phrases, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VocabularyFileUri"].write(value.vocabularyFileUri)
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
@@ -5230,6 +5427,7 @@ extension UpdateVocabularyFilterInput {
         guard let value else { return }
         try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
         try writer["VocabularyFilterFileUri"].write(value.vocabularyFilterFileUri)
+        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
         try writer["Words"].writeList(value.words, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -6468,11 +6666,24 @@ enum UpdateVocabularyFilterOutputError {
     }
 }
 
-extension LimitExceededException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = BadRequestException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6494,24 +6705,11 @@ extension InternalFailureException {
     }
 }
 
-extension BadRequestException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BadRequestException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6964,6 +7162,7 @@ extension TranscribeClientTypes.MedicalScribeJob {
         value.settings = try reader["Settings"].readIfPresent(with: TranscribeClientTypes.MedicalScribeSettings.read(from:))
         value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
         value.channelDefinitions = try reader["ChannelDefinitions"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.MedicalScribeChannelDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.medicalScribeContextProvided = try reader["MedicalScribeContextProvided"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -6991,6 +7190,7 @@ extension TranscribeClientTypes.MedicalScribeSettings {
     static func write(value: TranscribeClientTypes.MedicalScribeSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ChannelIdentification"].write(value.channelIdentification)
+        try writer["ClinicalNoteGenerationSettings"].write(value.clinicalNoteGenerationSettings, with: TranscribeClientTypes.ClinicalNoteGenerationSettings.write(value:to:))
         try writer["MaxSpeakerLabels"].write(value.maxSpeakerLabels)
         try writer["ShowSpeakerLabels"].write(value.showSpeakerLabels)
         try writer["VocabularyFilterMethod"].write(value.vocabularyFilterMethod)
@@ -7007,6 +7207,22 @@ extension TranscribeClientTypes.MedicalScribeSettings {
         value.vocabularyName = try reader["VocabularyName"].readIfPresent()
         value.vocabularyFilterName = try reader["VocabularyFilterName"].readIfPresent()
         value.vocabularyFilterMethod = try reader["VocabularyFilterMethod"].readIfPresent()
+        value.clinicalNoteGenerationSettings = try reader["ClinicalNoteGenerationSettings"].readIfPresent(with: TranscribeClientTypes.ClinicalNoteGenerationSettings.read(from:))
+        return value
+    }
+}
+
+extension TranscribeClientTypes.ClinicalNoteGenerationSettings {
+
+    static func write(value: TranscribeClientTypes.ClinicalNoteGenerationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NoteTemplate"].write(value.noteTemplate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TranscribeClientTypes.ClinicalNoteGenerationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TranscribeClientTypes.ClinicalNoteGenerationSettings()
+        value.noteTemplate = try reader["NoteTemplate"].readIfPresent()
         return value
     }
 }
@@ -7313,6 +7529,22 @@ extension TranscribeClientTypes.VocabularyFilterInfo {
         value.languageCode = try reader["LanguageCode"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
+    }
+}
+
+extension TranscribeClientTypes.MedicalScribeContext {
+
+    static func write(value: TranscribeClientTypes.MedicalScribeContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PatientContext"].write(value.patientContext, with: TranscribeClientTypes.MedicalScribePatientContext.write(value:to:))
+    }
+}
+
+extension TranscribeClientTypes.MedicalScribePatientContext {
+
+    static func write(value: TranscribeClientTypes.MedicalScribePatientContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Pronouns"].write(value.pronouns)
     }
 }
 

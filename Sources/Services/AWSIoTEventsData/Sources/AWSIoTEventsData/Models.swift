@@ -2138,24 +2138,11 @@ enum ListDetectorsOutputError {
     }
 }
 
-extension ServiceUnavailableException {
+extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = InternalFailureException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2177,11 +2164,24 @@ extension InvalidRequestException {
     }
 }
 
-extension InternalFailureException {
+extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
-        var value = InternalFailureException()
+        var value = ServiceUnavailableException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

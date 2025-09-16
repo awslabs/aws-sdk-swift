@@ -7,15 +7,13 @@
 
 import XCTest
 import struct AWSSDKIdentity.ProcessAWSCredentialIdentityResolver
-@_spi(FileBasedConfig) @testable import AWSClientRuntime
+import struct AWSSDKIdentity.ProfileAWSCredentialIdentityResolver
 
-// Test fails on CI build with macos-11, Xcode_13.2.1, platform=iOS Simulator but not on later versions
-// ProcessCredentialsProvider is not useful on iOS platform so this test will remain disabled for now
-#if !os(iOS)
 class ProcessAWSCredentialIdentityResolverTests: XCTestCase {
     let configPath = Bundle.module.path(forResource: "config_with_process", ofType: nil)!
     let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
 
+    #if !os(iOS) && !os(tvOS) && !os(watchOS) && !os(visionOS)
     func testGetCredentialsWithDefaultProfile() async throws {
         let subject = try ProcessAWSCredentialIdentityResolver(
             configFilePath: configPath,
@@ -26,6 +24,7 @@ class ProcessAWSCredentialIdentityResolverTests: XCTestCase {
         XCTAssertEqual("AccessKey123", credentials.accessKey)
         XCTAssertEqual("SecretAccessKey123", credentials.secret)
         XCTAssertEqual("SessionToken123", credentials.sessionToken)
+        XCTAssertEqual("012345678901", credentials.accountID)
     }
 
     func testGetCredentialsWithNamedProfileFromConfigFile() async throws {
@@ -36,9 +35,10 @@ class ProcessAWSCredentialIdentityResolverTests: XCTestCase {
         )
         let credentials = try await subject.getIdentity()
 
-        XCTAssertEqual("AccessKey123", credentials.accessKey)
-        XCTAssertEqual("SecretAccessKey123", credentials.secret)
-        XCTAssertEqual("SessionToken123", credentials.sessionToken)
+        XCTAssertEqual("AccessKey456", credentials.accessKey)
+        XCTAssertEqual("SecretAccessKey456", credentials.secret)
+        XCTAssertEqual("SessionToken456", credentials.sessionToken)
+        XCTAssertEqual("234567890123", credentials.accountID)
     }
+    #endif
 }
-#endif

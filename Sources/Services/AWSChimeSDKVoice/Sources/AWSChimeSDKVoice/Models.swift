@@ -1088,6 +1088,8 @@ extension ChimeSDKVoiceClientTypes {
     public struct PhoneNumberOrder: Swift.Sendable {
         /// The phone number order creation time stamp, in ISO 8601 format.
         public var createdTimestamp: Foundation.Date?
+        /// The Firm Order Commitment (FOC) date for phone number porting orders. This field is null if a phone number order is not a porting order.
+        public var focDate: Foundation.Date?
         /// The type of phone number being ordered, local or toll-free.
         public var orderType: ChimeSDKVoiceClientTypes.PhoneNumberOrderType?
         /// The ordered phone number details, such as the phone number in E.164 format and the phone number status.
@@ -1103,6 +1105,7 @@ extension ChimeSDKVoiceClientTypes {
 
         public init(
             createdTimestamp: Foundation.Date? = nil,
+            focDate: Foundation.Date? = nil,
             orderType: ChimeSDKVoiceClientTypes.PhoneNumberOrderType? = nil,
             orderedPhoneNumbers: [ChimeSDKVoiceClientTypes.OrderedPhoneNumber]? = nil,
             phoneNumberOrderId: Swift.String? = nil,
@@ -1111,6 +1114,7 @@ extension ChimeSDKVoiceClientTypes {
             updatedTimestamp: Foundation.Date? = nil
         ) {
             self.createdTimestamp = createdTimestamp
+            self.focDate = focDate
             self.orderType = orderType
             self.orderedPhoneNumbers = orderedPhoneNumbers
             self.phoneNumberOrderId = phoneNumberOrderId
@@ -10024,6 +10028,7 @@ enum ValidateE911AddressOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
@@ -10033,48 +10038,6 @@ enum ValidateE911AddressOutputError {
             case "UnauthorizedClientException": return try UnauthorizedClientException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension ServiceFailureException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceFailureException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceFailureException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnauthorizedClientException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedClientException {
-        let reader = baseError.errorBodyReader
-        var value = UnauthorizedClientException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension BadRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
-        let reader = baseError.errorBodyReader
-        var value = BadRequestException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
     }
 }
 
@@ -10092,25 +10055,11 @@ extension AccessDeniedException {
     }
 }
 
-extension ThrottledClientException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottledClientException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = ThrottledClientException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
+        var value = BadRequestException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -10139,6 +10088,62 @@ extension NotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceFailureException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceFailureException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceFailureException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottledClientException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottledClientException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottledClientException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnauthorizedClientException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedClientException {
+        let reader = baseError.errorBodyReader
+        var value = UnauthorizedClientException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -10228,6 +10233,7 @@ extension ChimeSDKVoiceClientTypes.PhoneNumberOrder {
         value.orderedPhoneNumbers = try reader["OrderedPhoneNumbers"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.OrderedPhoneNumber.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.focDate = try reader["FocDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

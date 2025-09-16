@@ -183,12 +183,12 @@ public struct ValidationError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 public struct InvokeEndpointInput: Swift.Sendable {
     /// The desired MIME type of the inference response from the model container.
     public var accept: Swift.String?
-    /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model. For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
+    /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker AI passes all of the data in the body to the model. For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
     /// This member is required.
     public var body: Foundation.Data?
     /// The MIME type of the input data in the request body.
     public var contentType: Swift.String?
-    /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
+    /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK.
     public var customAttributes: Swift.String?
     /// An optional JMESPath expression used to override the EnableExplanations parameter of the ClarifyExplainerConfig API. See the [EnableExplanations](https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-online-explainability-create-endpoint.html#clarify-online-explainability-create-endpoint-enable) section in the developer guide for more information.
     public var enableExplanations: Swift.String?
@@ -206,7 +206,7 @@ public struct InvokeEndpointInput: Swift.Sendable {
     /// * Send your request to an existing stateful session by specifying the ID of that session.
     ///
     ///
-    /// With a stateful session, you can send multiple requests to a stateful model. When you create a session with a stateful model, the model must create the session ID and set the expiration time. The model must also provide that information in the response to your request. You can get the ID and timestamp from the NewSessionId response parameter. For any subsequent request where you specify that session ID, SageMaker routes the request to the same instance that supports the session.
+    /// With a stateful session, you can send multiple requests to a stateful model. When you create a session with a stateful model, the model must create the session ID and set the expiration time. The model must also provide that information in the response to your request. You can get the ID and timestamp from the NewSessionId response parameter. For any subsequent request where you specify that session ID, SageMaker AI routes the request to the same instance that supports the session.
     public var sessionId: Swift.String?
     /// If the endpoint hosts multiple containers and is configured to use direct invocation, this parameter specifies the host name of the container to invoke.
     public var targetContainerHostname: Swift.String?
@@ -257,7 +257,7 @@ public struct InvokeEndpointOutput: Swift.Sendable {
     public var closedSessionId: Swift.String?
     /// The MIME type of the inference returned from the model container.
     public var contentType: Swift.String?
-    /// Provides additional information in the response about the inference returned by a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to return an ID received in the CustomAttributes header of a request or other metadata that a service endpoint was programmed to produce. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://tools.ietf.org/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). If the customer wants the custom attribute returned, the model must set the custom attribute to be included on the way back. The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
+    /// Provides additional information in the response about the inference returned by a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to return an ID received in the CustomAttributes header of a request or other metadata that a service endpoint was programmed to produce. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://tools.ietf.org/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). If the customer wants the custom attribute returned, the model must set the custom attribute to be included on the way back. The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK.
     public var customAttributes: Swift.String?
     /// Identifies the production variant that was invoked.
     public var invokedProductionVariant: Swift.String?
@@ -291,12 +291,12 @@ public struct InvokeEndpointAsyncInput: Swift.Sendable {
     public var accept: Swift.String?
     /// The MIME type of the input data in the request body.
     public var contentType: Swift.String?
-    /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
+    /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK.
     public var customAttributes: Swift.String?
     /// The name of the endpoint that you specified when you created the endpoint using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html) API.
     /// This member is required.
     public var endpointName: Swift.String?
-    /// The identifier for the inference request. Amazon SageMaker will generate an identifier for you if none is specified.
+    /// The identifier for the inference request. Amazon SageMaker AI will generate an identifier for you if none is specified.
     public var inferenceId: Swift.String?
     /// The Amazon S3 URI where the inference request payload is stored.
     /// This member is required.
@@ -335,7 +335,7 @@ extension InvokeEndpointAsyncInput: Swift.CustomDebugStringConvertible {
 public struct InvokeEndpointAsyncOutput: Swift.Sendable {
     /// The Amazon S3 URI where the inference failure response payload is stored.
     public var failureLocation: Swift.String?
-    /// Identifier for an inference request. This will be the same as the InferenceId specified in the input. Amazon SageMaker will generate an identifier for you if you do not specify one.
+    /// Identifier for an inference request. This will be the same as the InferenceId specified in the input. Amazon SageMaker AI will generate an identifier for you if you do not specify one.
     public var inferenceId: Swift.String?
     /// The Amazon S3 URI where the inference response payload is stored.
     public var outputLocation: Swift.String?
@@ -374,11 +374,11 @@ public struct InternalStreamFailure: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-/// An error occurred while streaming the response body. This error can have the following error codes: ModelInvocationTimeExceeded The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker. StreamBroken The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
+/// An error occurred while streaming the response body. This error can have the following error codes: ModelInvocationTimeExceeded The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker AI. StreamBroken The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
 public struct ModelStreamError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// This error can have the following error codes: ModelInvocationTimeExceeded The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker. StreamBroken The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
+        /// This error can have the following error codes: ModelInvocationTimeExceeded The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker AI. StreamBroken The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
         public internal(set) var errorCode: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -404,12 +404,12 @@ public struct ModelStreamError: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 public struct InvokeEndpointWithResponseStreamInput: Swift.Sendable {
     /// The desired MIME type of the inference response from the model container.
     public var accept: Swift.String?
-    /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model. For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
+    /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker AI passes all of the data in the body to the model. For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
     /// This member is required.
     public var body: Foundation.Data?
     /// The MIME type of the input data in the request body.
     public var contentType: Swift.String?
-    /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
+    /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK.
     public var customAttributes: Swift.String?
     /// The name of the endpoint that you specified when you created the endpoint using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html) API.
     /// This member is required.
@@ -491,7 +491,7 @@ public struct InvokeEndpointWithResponseStreamOutput: Swift.Sendable {
     public var body: AsyncThrowingStream<SageMakerRuntimeClientTypes.ResponseStream, Swift.Error>?
     /// The MIME type of the inference returned from the model container.
     public var contentType: Swift.String?
-    /// Provides additional information in the response about the inference returned by a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to return an ID received in the CustomAttributes header of a request or other metadata that a service endpoint was programmed to produce. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://tools.ietf.org/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). If the customer wants the custom attribute returned, the model must set the custom attribute to be included on the way back. The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
+    /// Provides additional information in the response about the inference returned by a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to return an ID received in the CustomAttributes header of a request or other metadata that a service endpoint was programmed to produce. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://tools.ietf.org/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). If the customer wants the custom attribute returned, the model must set the custom attribute to be included on the way back. The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK.
     public var customAttributes: Swift.String?
     /// Identifies the production variant that was invoked.
     public var invokedProductionVariant: Swift.String?
@@ -797,37 +797,11 @@ extension InternalDependencyException {
     }
 }
 
-extension ModelNotReadyException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelNotReadyException {
-        let reader = baseError.errorBodyReader
-        var value = ModelNotReadyException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalFailure {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailure {
         let reader = baseError.errorBodyReader
         var value = InternalFailure()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationError {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationError {
-        let reader = baseError.errorBodyReader
-        var value = ValidationError()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -852,11 +826,50 @@ extension ModelError {
     }
 }
 
+extension ModelNotReadyException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelNotReadyException {
+        let reader = baseError.errorBodyReader
+        var value = ModelNotReadyException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceUnavailable {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailable {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailable()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationError {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationError {
+        let reader = baseError.errorBodyReader
+        var value = ValidationError()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalStreamFailure {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalStreamFailure {
+        let reader = baseError.errorBodyReader
+        var value = InternalStreamFailure()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -871,19 +884,6 @@ extension ModelStreamError {
         let reader = baseError.errorBodyReader
         var value = ModelStreamError()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalStreamFailure {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalStreamFailure {
-        let reader = baseError.errorBodyReader
-        var value = InternalStreamFailure()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

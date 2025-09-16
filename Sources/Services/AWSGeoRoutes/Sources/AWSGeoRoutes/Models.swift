@@ -221,6 +221,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.IsolineAllowOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IsolineAllowOptions(hot: \"CONTENT_REDACTED\", hov: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Geometry defined as a corridor - a LineString with a radius that defines the width of the corridor.
@@ -437,6 +442,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.IsolineAvoidanceOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IsolineAvoidanceOptions(areas: \(Swift.String(describing: areas)), zoneCategories: \(Swift.String(describing: zoneCategories)), carShuttleTrains: \"CONTENT_REDACTED\", controlledAccessHighways: \"CONTENT_REDACTED\", dirtRoads: \"CONTENT_REDACTED\", ferries: \"CONTENT_REDACTED\", seasonalClosure: \"CONTENT_REDACTED\", tollRoads: \"CONTENT_REDACTED\", tollTransponders: \"CONTENT_REDACTED\", truckRoadTypes: \"CONTENT_REDACTED\", tunnels: \"CONTENT_REDACTED\", uTurns: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     public enum MatchingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -495,7 +505,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.IsolineMatchingOptions: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "IsolineMatchingOptions(onRoadThreshold: \(Swift.String(describing: onRoadThreshold)), radius: \(Swift.String(describing: radius)), strategy: \(Swift.String(describing: strategy)), nameHint: \"CONTENT_REDACTED\")"}
+        "IsolineMatchingOptions(strategy: \(Swift.String(describing: strategy)), nameHint: \"CONTENT_REDACTED\", onRoadThreshold: \"CONTENT_REDACTED\", radius: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -579,6 +589,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.IsolineDestinationOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IsolineDestinationOptions(matching: \(Swift.String(describing: matching)), sideOfStreet: \(Swift.String(describing: sideOfStreet)), avoidActionsForDistance: \"CONTENT_REDACTED\", heading: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     public enum GeometryFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -625,6 +640,11 @@ extension GeoRoutesClientTypes {
             self.maxResolution = maxResolution
         }
     }
+}
+
+extension GeoRoutesClientTypes.IsolineGranularityOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IsolineGranularityOptions(maxPoints: \(Swift.String(describing: maxPoints)), maxResolution: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -715,6 +735,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.IsolineOriginOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IsolineOriginOptions(matching: \(Swift.String(describing: matching)), sideOfStreet: \(Swift.String(describing: sideOfStreet)), avoidActionsForDistance: \"CONTENT_REDACTED\", heading: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Threshold to be used for the isoline calculation. Up to 5 thresholds per provided type can be requested.
@@ -732,6 +757,11 @@ extension GeoRoutesClientTypes {
             self.time = time
         }
     }
+}
+
+extension GeoRoutesClientTypes.IsolineThresholds: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IsolineThresholds(distance: \"CONTENT_REDACTED\", time: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -780,6 +810,11 @@ extension GeoRoutesClientTypes {
             self.usage = usage
         }
     }
+}
+
+extension GeoRoutesClientTypes.IsolineTrafficOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IsolineTrafficOptions(usage: \(Swift.String(describing: usage)), flowEventThresholdOverride: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -864,6 +899,12 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.IsolineVehicleLicensePlate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension GeoRoutesClientTypes {
 
     /// Travel mode options when the provided travel mode is Car.
@@ -891,6 +932,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.IsolineCarOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IsolineCarOptions(engineType: \"CONTENT_REDACTED\", licensePlate: \"CONTENT_REDACTED\", maxSpeed: \"CONTENT_REDACTED\", occupancy: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Travel mode options when the provided travel mode is Scooter
@@ -916,6 +962,11 @@ extension GeoRoutesClientTypes {
             self.occupancy = occupancy
         }
     }
+}
+
+extension GeoRoutesClientTypes.IsolineScooterOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IsolineScooterOptions(engineType: \"CONTENT_REDACTED\", licensePlate: \"CONTENT_REDACTED\", maxSpeed: \"CONTENT_REDACTED\", occupancy: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -993,6 +1044,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.IsolineTrailerOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IsolineTrailerOptions(axleCount: \"CONTENT_REDACTED\", trailerCount: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     public enum IsolineTruckType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -1054,6 +1110,11 @@ extension GeoRoutesClientTypes {
             self.triple = triple
         }
     }
+}
+
+extension GeoRoutesClientTypes.WeightPerAxleGroup: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WeightPerAxleGroup(quad: \"CONTENT_REDACTED\", quint: \"CONTENT_REDACTED\", single: \"CONTENT_REDACTED\", tandem: \"CONTENT_REDACTED\", triple: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -1176,6 +1237,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.IsolineTruckOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IsolineTruckOptions(trailer: \(Swift.String(describing: trailer)), truckType: \(Swift.String(describing: truckType)), weightPerAxleGroup: \(Swift.String(describing: weightPerAxleGroup)), axleCount: \"CONTENT_REDACTED\", engineType: \"CONTENT_REDACTED\", grossWeight: \"CONTENT_REDACTED\", hazardousCargos: \"CONTENT_REDACTED\", height: \"CONTENT_REDACTED\", heightAboveFirstAxle: \"CONTENT_REDACTED\", kpraLength: \"CONTENT_REDACTED\", length: \"CONTENT_REDACTED\", licensePlate: \"CONTENT_REDACTED\", maxSpeed: \"CONTENT_REDACTED\", occupancy: \"CONTENT_REDACTED\", payloadCapacity: \"CONTENT_REDACTED\", tireCount: \"CONTENT_REDACTED\", tunnelRestrictionCode: \"CONTENT_REDACTED\", weightPerAxle: \"CONTENT_REDACTED\", width: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Travel mode related options for the provided travel mode.
@@ -1283,7 +1349,7 @@ public struct CalculateIsolinesInput: Swift.Sendable {
 
 extension CalculateIsolinesInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CalculateIsolinesInput(allow: \(Swift.String(describing: allow)), arrivalTime: \(Swift.String(describing: arrivalTime)), avoid: \(Swift.String(describing: avoid)), departNow: \(Swift.String(describing: departNow)), departureTime: \(Swift.String(describing: departureTime)), destinationOptions: \(Swift.String(describing: destinationOptions)), isolineGeometryFormat: \(Swift.String(describing: isolineGeometryFormat)), isolineGranularity: \(Swift.String(describing: isolineGranularity)), optimizeIsolineFor: \(Swift.String(describing: optimizeIsolineFor)), optimizeRoutingFor: \(Swift.String(describing: optimizeRoutingFor)), originOptions: \(Swift.String(describing: originOptions)), thresholds: \(Swift.String(describing: thresholds)), traffic: \(Swift.String(describing: traffic)), travelMode: \(Swift.String(describing: travelMode)), travelModeOptions: \(Swift.String(describing: travelModeOptions)), destination: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", origin: \"CONTENT_REDACTED\")"}
+        "CalculateIsolinesInput(allow: \(Swift.String(describing: allow)), avoid: \(Swift.String(describing: avoid)), destinationOptions: \(Swift.String(describing: destinationOptions)), isolineGeometryFormat: \(Swift.String(describing: isolineGeometryFormat)), isolineGranularity: \(Swift.String(describing: isolineGranularity)), optimizeIsolineFor: \(Swift.String(describing: optimizeIsolineFor)), optimizeRoutingFor: \(Swift.String(describing: optimizeRoutingFor)), originOptions: \(Swift.String(describing: originOptions)), thresholds: \(Swift.String(describing: thresholds)), traffic: \(Swift.String(describing: traffic)), travelMode: \(Swift.String(describing: travelMode)), travelModeOptions: \(Swift.String(describing: travelModeOptions)), arrivalTime: \"CONTENT_REDACTED\", departNow: \"CONTENT_REDACTED\", departureTime: \"CONTENT_REDACTED\", destination: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", origin: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -1389,6 +1455,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.Isoline: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Isoline(connections: \(Swift.String(describing: connections)), geometries: \(Swift.String(describing: geometries)), distanceThreshold: \"CONTENT_REDACTED\", timeThreshold: \"CONTENT_REDACTED\")"}
+}
+
 public struct CalculateIsolinesOutput: Swift.Sendable {
     /// Time of arrival at the destination. This parameter is returned only if the Destination parameters was provided in the request. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
@@ -1431,7 +1502,7 @@ public struct CalculateIsolinesOutput: Swift.Sendable {
 
 extension CalculateIsolinesOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CalculateIsolinesOutput(arrivalTime: \(Swift.String(describing: arrivalTime)), departureTime: \(Swift.String(describing: departureTime)), isolineGeometryFormat: \(Swift.String(describing: isolineGeometryFormat)), isolines: \(Swift.String(describing: isolines)), pricingBucket: \(Swift.String(describing: pricingBucket)), snappedDestination: \"CONTENT_REDACTED\", snappedOrigin: \"CONTENT_REDACTED\")"}
+        "CalculateIsolinesOutput(isolineGeometryFormat: \(Swift.String(describing: isolineGeometryFormat)), isolines: \(Swift.String(describing: isolines)), pricingBucket: \(Swift.String(describing: pricingBucket)), arrivalTime: \"CONTENT_REDACTED\", departureTime: \"CONTENT_REDACTED\", snappedDestination: \"CONTENT_REDACTED\", snappedOrigin: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -1450,6 +1521,12 @@ extension GeoRoutesClientTypes {
             self.hot = hot
             self.hov = hov
         }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixAllowOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -1544,6 +1621,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteMatrixAvoidanceZoneCategory: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteMatrixAvoidanceZoneCategory(category: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Specifies options for areas to avoid when calculating the route. This is a best-effort avoidance setting, meaning the router will try to honor the avoidance preferences but may still include restricted areas if no feasible alternative route exists. If avoidance options are not followed, the response will indicate that the avoidance criteria were violated.
@@ -1599,6 +1681,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteMatrixAvoidanceOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteMatrixAvoidanceOptions(areas: \(Swift.String(describing: areas)), zoneCategories: \(Swift.String(describing: zoneCategories)), carShuttleTrains: \"CONTENT_REDACTED\", controlledAccessHighways: \"CONTENT_REDACTED\", dirtRoads: \"CONTENT_REDACTED\", ferries: \"CONTENT_REDACTED\", tollRoads: \"CONTENT_REDACTED\", tollTransponders: \"CONTENT_REDACTED\", truckRoadTypes: \"CONTENT_REDACTED\", tunnels: \"CONTENT_REDACTED\", uTurns: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Matching options.
@@ -1628,7 +1715,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RouteMatrixMatchingOptions: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RouteMatrixMatchingOptions(onRoadThreshold: \(Swift.String(describing: onRoadThreshold)), radius: \(Swift.String(describing: radius)), strategy: \(Swift.String(describing: strategy)), nameHint: \"CONTENT_REDACTED\")"}
+        "RouteMatrixMatchingOptions(strategy: \(Swift.String(describing: strategy)), nameHint: \"CONTENT_REDACTED\", onRoadThreshold: \"CONTENT_REDACTED\", radius: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -1683,6 +1770,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteMatrixDestinationOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteMatrixDestinationOptions(matching: \(Swift.String(describing: matching)), sideOfStreet: \(Swift.String(describing: sideOfStreet)), avoidActionsForDistance: \"CONTENT_REDACTED\", heading: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// The route destination.
@@ -1724,6 +1816,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteMatrixExclusionOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteMatrixExclusionOptions(countries: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Origin related options.
@@ -1749,6 +1846,11 @@ extension GeoRoutesClientTypes {
             self.sideOfStreet = sideOfStreet
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixOriginOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteMatrixOriginOptions(matching: \(Swift.String(describing: matching)), sideOfStreet: \(Swift.String(describing: sideOfStreet)), avoidActionsForDistance: \"CONTENT_REDACTED\", heading: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -1793,6 +1895,11 @@ extension GeoRoutesClientTypes {
             self.maxRadius = maxRadius
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixAutoCircle: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteMatrixAutoCircle(margin: \"CONTENT_REDACTED\", maxRadius: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -1873,6 +1980,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteMatrixBoundary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteMatrixBoundary(geometry: \(Swift.String(describing: geometry)), unbounded: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Traffic related options.
@@ -1890,6 +2002,11 @@ extension GeoRoutesClientTypes {
             self.usage = usage
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixTrafficOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteMatrixTrafficOptions(usage: \(Swift.String(describing: usage)), flowEventThresholdOverride: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -1942,6 +2059,12 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension GeoRoutesClientTypes {
 
     /// Travel mode options when the provided travel mode is Car.
@@ -1965,6 +2088,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteMatrixCarOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteMatrixCarOptions(licensePlate: \"CONTENT_REDACTED\", maxSpeed: \"CONTENT_REDACTED\", occupancy: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Travel mode options when the provided travel mode is Scooter
@@ -1986,6 +2114,11 @@ extension GeoRoutesClientTypes {
             self.occupancy = occupancy
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixScooterOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteMatrixScooterOptions(licensePlate: \"CONTENT_REDACTED\", maxSpeed: \"CONTENT_REDACTED\", occupancy: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -2057,6 +2190,11 @@ extension GeoRoutesClientTypes {
             self.trailerCount = trailerCount
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixTrailerOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteMatrixTrailerOptions(trailerCount: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -2199,6 +2337,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteMatrixTruckOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteMatrixTruckOptions(trailer: \(Swift.String(describing: trailer)), weightPerAxleGroup: \(Swift.String(describing: weightPerAxleGroup)), axleCount: \"CONTENT_REDACTED\", grossWeight: \"CONTENT_REDACTED\", hazardousCargos: \"CONTENT_REDACTED\", height: \"CONTENT_REDACTED\", kpraLength: \"CONTENT_REDACTED\", length: \"CONTENT_REDACTED\", licensePlate: \"CONTENT_REDACTED\", maxSpeed: \"CONTENT_REDACTED\", occupancy: \"CONTENT_REDACTED\", payloadCapacity: \"CONTENT_REDACTED\", truckType: \"CONTENT_REDACTED\", tunnelRestrictionCode: \"CONTENT_REDACTED\", weightPerAxle: \"CONTENT_REDACTED\", width: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Travel mode related options for the provided travel mode.
@@ -2287,7 +2430,7 @@ public struct CalculateRouteMatrixInput: Swift.Sendable {
 
 extension CalculateRouteMatrixInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CalculateRouteMatrixInput(allow: \(Swift.String(describing: allow)), avoid: \(Swift.String(describing: avoid)), departNow: \(Swift.String(describing: departNow)), departureTime: \(Swift.String(describing: departureTime)), destinations: \(Swift.String(describing: destinations)), exclude: \(Swift.String(describing: exclude)), optimizeRoutingFor: \(Swift.String(describing: optimizeRoutingFor)), origins: \(Swift.String(describing: origins)), routingBoundary: \(Swift.String(describing: routingBoundary)), traffic: \(Swift.String(describing: traffic)), travelMode: \(Swift.String(describing: travelMode)), travelModeOptions: \(Swift.String(describing: travelModeOptions)), key: \"CONTENT_REDACTED\")"}
+        "CalculateRouteMatrixInput(avoid: \(Swift.String(describing: avoid)), destinations: \(Swift.String(describing: destinations)), exclude: \(Swift.String(describing: exclude)), optimizeRoutingFor: \(Swift.String(describing: optimizeRoutingFor)), origins: \(Swift.String(describing: origins)), routingBoundary: \(Swift.String(describing: routingBoundary)), traffic: \(Swift.String(describing: traffic)), travelMode: \(Swift.String(describing: travelMode)), travelModeOptions: \(Swift.String(describing: travelModeOptions)), allow: \"CONTENT_REDACTED\", departNow: \"CONTENT_REDACTED\", departureTime: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -2365,6 +2508,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteMatrixEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteMatrixEntry(error: \(Swift.String(describing: error)), distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\")"}
+}
+
 public struct CalculateRouteMatrixOutput: Swift.Sendable {
     /// The count of error results in the route matrix. If this number is 0, all routes were calculated successfully.
     /// This member is required.
@@ -2409,6 +2557,11 @@ extension GeoRoutesClientTypes {
             self.hov = hov
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteAllowOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteAllowOptions(hot: \"CONTENT_REDACTED\", hov: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -2515,6 +2668,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteAvoidanceZoneCategory: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteAvoidanceZoneCategory(category: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Specifies options for areas to avoid when calculating the route. This is a best-effort avoidance setting, meaning the router will try to honor the avoidance preferences but may still include restricted areas if no feasible alternative route exists. If avoidance options are not followed, the response will indicate that the avoidance criteria were violated.
@@ -2574,6 +2732,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteAvoidanceOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteAvoidanceOptions(areas: \(Swift.String(describing: areas)), zoneCategories: \(Swift.String(describing: zoneCategories)), carShuttleTrains: \"CONTENT_REDACTED\", controlledAccessHighways: \"CONTENT_REDACTED\", dirtRoads: \"CONTENT_REDACTED\", ferries: \"CONTENT_REDACTED\", seasonalClosure: \"CONTENT_REDACTED\", tollRoads: \"CONTENT_REDACTED\", tollTransponders: \"CONTENT_REDACTED\", truckRoadTypes: \"CONTENT_REDACTED\", tunnels: \"CONTENT_REDACTED\", uTurns: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Options related to route matching.
@@ -2603,7 +2766,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RouteMatchingOptions: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RouteMatchingOptions(onRoadThreshold: \(Swift.String(describing: onRoadThreshold)), radius: \(Swift.String(describing: radius)), strategy: \(Swift.String(describing: strategy)), nameHint: \"CONTENT_REDACTED\")"}
+        "RouteMatchingOptions(strategy: \(Swift.String(describing: strategy)), nameHint: \"CONTENT_REDACTED\", onRoadThreshold: \"CONTENT_REDACTED\", radius: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -2666,6 +2829,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteDestinationOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteDestinationOptions(matching: \(Swift.String(describing: matching)), sideOfStreet: \(Swift.String(describing: sideOfStreet)), avoidActionsForDistance: \"CONTENT_REDACTED\", avoidUTurns: \"CONTENT_REDACTED\", heading: \"CONTENT_REDACTED\", stopDuration: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Interval of the driver work-rest schedule. Stops are added to fulfil the provided rest schedule.
@@ -2685,6 +2853,11 @@ extension GeoRoutesClientTypes {
             self.restDuration = restDuration
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteDriverScheduleInterval: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteDriverScheduleInterval(driveDuration: \"CONTENT_REDACTED\", restDuration: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -2716,6 +2889,11 @@ extension GeoRoutesClientTypes {
             self.countries = countries
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteExclusionOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteExclusionOptions(countries: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -2826,6 +3004,11 @@ extension GeoRoutesClientTypes {
             self.sideOfStreet = sideOfStreet
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteOriginOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteOriginOptions(matching: \(Swift.String(describing: matching)), sideOfStreet: \(Swift.String(describing: sideOfStreet)), avoidActionsForDistance: \"CONTENT_REDACTED\", avoidUTurns: \"CONTENT_REDACTED\", heading: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -2943,6 +3126,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteEmissionType: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteEmissionType(co2EmissionClass: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     public enum RouteTollVehicleCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -3000,6 +3188,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteTollOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTollOptions(currency: \(Swift.String(describing: currency)), emissionType: \(Swift.String(describing: emissionType)), allTransponders: \"CONTENT_REDACTED\", allVignettes: \"CONTENT_REDACTED\", vehicleCategory: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Traffic options for the route.
@@ -3017,6 +3210,11 @@ extension GeoRoutesClientTypes {
             self.usage = usage
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteTrafficOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTrafficOptions(usage: \(Swift.String(describing: usage)), flowEventThresholdOverride: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -3101,6 +3299,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteVehicleLicensePlate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteVehicleLicensePlate(lastCharacter: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Travel mode options when the provided travel mode is Car.
@@ -3128,6 +3331,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteCarOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteCarOptions(licensePlate: \(Swift.String(describing: licensePlate)), engineType: \"CONTENT_REDACTED\", maxSpeed: \"CONTENT_REDACTED\", occupancy: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Options related to the pedestrian.
@@ -3141,6 +3349,11 @@ extension GeoRoutesClientTypes {
             self.speed = speed
         }
     }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RoutePedestrianOptions(speed: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -3168,6 +3381,11 @@ extension GeoRoutesClientTypes {
             self.occupancy = occupancy
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteScooterOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteScooterOptions(licensePlate: \(Swift.String(describing: licensePlate)), engineType: \"CONTENT_REDACTED\", maxSpeed: \"CONTENT_REDACTED\", occupancy: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -3243,6 +3461,11 @@ extension GeoRoutesClientTypes {
             self.trailerCount = trailerCount
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteTrailerOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTrailerOptions(axleCount: \"CONTENT_REDACTED\", trailerCount: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -3397,6 +3620,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteTruckOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTruckOptions(licensePlate: \(Swift.String(describing: licensePlate)), trailer: \(Swift.String(describing: trailer)), weightPerAxleGroup: \(Swift.String(describing: weightPerAxleGroup)), axleCount: \"CONTENT_REDACTED\", engineType: \"CONTENT_REDACTED\", grossWeight: \"CONTENT_REDACTED\", hazardousCargos: \"CONTENT_REDACTED\", height: \"CONTENT_REDACTED\", heightAboveFirstAxle: \"CONTENT_REDACTED\", kpraLength: \"CONTENT_REDACTED\", length: \"CONTENT_REDACTED\", maxSpeed: \"CONTENT_REDACTED\", occupancy: \"CONTENT_REDACTED\", payloadCapacity: \"CONTENT_REDACTED\", tireCount: \"CONTENT_REDACTED\", truckType: \"CONTENT_REDACTED\", tunnelRestrictionCode: \"CONTENT_REDACTED\", weightPerAxle: \"CONTENT_REDACTED\", width: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Travel mode related options for the provided travel mode.
@@ -3499,7 +3727,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RouteWaypoint: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RouteWaypoint(avoidActionsForDistance: \(Swift.String(describing: avoidActionsForDistance)), avoidUTurns: \(Swift.String(describing: avoidUTurns)), heading: \(Swift.String(describing: heading)), matching: \(Swift.String(describing: matching)), passThrough: \(Swift.String(describing: passThrough)), sideOfStreet: \(Swift.String(describing: sideOfStreet)), stopDuration: \(Swift.String(describing: stopDuration)), position: \"CONTENT_REDACTED\")"}
+        "RouteWaypoint(matching: \(Swift.String(describing: matching)), sideOfStreet: \(Swift.String(describing: sideOfStreet)), avoidActionsForDistance: \"CONTENT_REDACTED\", avoidUTurns: \"CONTENT_REDACTED\", heading: \"CONTENT_REDACTED\", passThrough: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", stopDuration: \"CONTENT_REDACTED\")"}
 }
 
 public struct CalculateRoutesInput: Swift.Sendable {
@@ -3633,7 +3861,7 @@ public struct CalculateRoutesInput: Swift.Sendable {
 
 extension CalculateRoutesInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CalculateRoutesInput(allow: \(Swift.String(describing: allow)), arrivalTime: \(Swift.String(describing: arrivalTime)), avoid: \(Swift.String(describing: avoid)), departNow: \(Swift.String(describing: departNow)), departureTime: \(Swift.String(describing: departureTime)), destinationOptions: \(Swift.String(describing: destinationOptions)), driver: \(Swift.String(describing: driver)), exclude: \(Swift.String(describing: exclude)), instructionsMeasurementSystem: \(Swift.String(describing: instructionsMeasurementSystem)), languages: \(Swift.String(describing: languages)), legAdditionalFeatures: \(Swift.String(describing: legAdditionalFeatures)), legGeometryFormat: \(Swift.String(describing: legGeometryFormat)), maxAlternatives: \(Swift.String(describing: maxAlternatives)), optimizeRoutingFor: \(Swift.String(describing: optimizeRoutingFor)), originOptions: \(Swift.String(describing: originOptions)), spanAdditionalFeatures: \(Swift.String(describing: spanAdditionalFeatures)), tolls: \(Swift.String(describing: tolls)), traffic: \(Swift.String(describing: traffic)), travelMode: \(Swift.String(describing: travelMode)), travelModeOptions: \(Swift.String(describing: travelModeOptions)), travelStepType: \(Swift.String(describing: travelStepType)), waypoints: \(Swift.String(describing: waypoints)), destination: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", origin: \"CONTENT_REDACTED\")"}
+        "CalculateRoutesInput(allow: \(Swift.String(describing: allow)), avoid: \(Swift.String(describing: avoid)), destinationOptions: \(Swift.String(describing: destinationOptions)), driver: \(Swift.String(describing: driver)), exclude: \(Swift.String(describing: exclude)), instructionsMeasurementSystem: \(Swift.String(describing: instructionsMeasurementSystem)), languages: \(Swift.String(describing: languages)), legGeometryFormat: \(Swift.String(describing: legGeometryFormat)), maxAlternatives: \(Swift.String(describing: maxAlternatives)), optimizeRoutingFor: \(Swift.String(describing: optimizeRoutingFor)), originOptions: \(Swift.String(describing: originOptions)), spanAdditionalFeatures: \(Swift.String(describing: spanAdditionalFeatures)), tolls: \(Swift.String(describing: tolls)), traffic: \(Swift.String(describing: traffic)), travelMode: \(Swift.String(describing: travelMode)), travelModeOptions: \(Swift.String(describing: travelModeOptions)), travelStepType: \(Swift.String(describing: travelStepType)), waypoints: \(Swift.String(describing: waypoints)), arrivalTime: \"CONTENT_REDACTED\", departNow: \"CONTENT_REDACTED\", departureTime: \"CONTENT_REDACTED\", destination: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", legAdditionalFeatures: \"CONTENT_REDACTED\", origin: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -3768,6 +3996,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteFerryAfterTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteFerryAfterTravelStep(duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Position provided in the request.
@@ -3798,7 +4031,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RouteFerryPlace: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RouteFerryPlace(name: \(Swift.String(describing: name)), waypointIndex: \(Swift.String(describing: waypointIndex)), originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\")"}
+        "RouteFerryPlace(name: \"CONTENT_REDACTED\", originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", waypointIndex: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -3819,6 +4052,11 @@ extension GeoRoutesClientTypes {
             self.time = time
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteFerryArrival: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteFerryArrival(place: \(Swift.String(describing: place)), time: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -3872,6 +4110,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteFerryBeforeTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteFerryBeforeTravelStep(duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Details corresponding to the departure for the leg.
@@ -3892,12 +4135,18 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteFerryDeparture: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteFerryDeparture(place: \(Swift.String(describing: place)), time: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     public enum RouteFerryNoticeCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accuratePolylineUnavailable
         case noSchedule
         case other
+        case potentialViolatedVehicleRestrictionUsage
         case seasonalClosure
         case violatedAvoidFerry
         case violatedAvoidRailFerry
@@ -3908,6 +4157,7 @@ extension GeoRoutesClientTypes {
                 .accuratePolylineUnavailable,
                 .noSchedule,
                 .other,
+                .potentialViolatedVehicleRestrictionUsage,
                 .seasonalClosure,
                 .violatedAvoidFerry,
                 .violatedAvoidRailFerry
@@ -3924,6 +4174,7 @@ extension GeoRoutesClientTypes {
             case .accuratePolylineUnavailable: return "AccuratePolylineUnavailable"
             case .noSchedule: return "NoSchedule"
             case .other: return "Other"
+            case .potentialViolatedVehicleRestrictionUsage: return "PotentialViolatedVehicleRestrictionUsage"
             case .seasonalClosure: return "SeasonalClosure"
             case .violatedAvoidFerry: return "ViolatedAvoidFerry"
             case .violatedAvoidRailFerry: return "ViolatedAvoidRailFerry"
@@ -3979,7 +4230,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RoutePassThroughPlace: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RoutePassThroughPlace(waypointIndex: \(Swift.String(describing: waypointIndex)), originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\")"}
+        "RoutePassThroughPlace(originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", waypointIndex: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -4022,6 +4273,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.LocalizedString: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "LocalizedString(language: \(Swift.String(describing: language)), value: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Span computed for the requested SpanAdditionalFeatures.
@@ -4057,6 +4313,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteFerrySpan: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteFerrySpan(geometryOffset: \(Swift.String(describing: geometryOffset)), names: \(Swift.String(describing: names)), country: \"CONTENT_REDACTED\", distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", region: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Summarized details of the leg.
@@ -4078,6 +4339,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteFerryOverviewSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteFerryOverviewSummary(distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Summarized details for the leg including travel steps only. The Distance for the travel only portion of the journey is the same as the Distance within the Overview summary.
@@ -4092,6 +4358,11 @@ extension GeoRoutesClientTypes {
             self.duration = duration
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteFerryTravelOnlySummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteFerryTravelOnlySummary(duration: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -4178,6 +4449,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteFerryTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteFerryTravelStep(geometryOffset: \(Swift.String(describing: geometryOffset)), distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// FerryLegDetails is populated when the Leg type is Ferry, and provides additional information that is specific
@@ -4235,6 +4511,11 @@ extension GeoRoutesClientTypes {
             self.travelSteps = travelSteps
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteFerryLegDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteFerryLegDetails(afterTravelSteps: \(Swift.String(describing: afterTravelSteps)), arrival: \(Swift.String(describing: arrival)), beforeTravelSteps: \(Swift.String(describing: beforeTravelSteps)), departure: \(Swift.String(describing: departure)), notices: \(Swift.String(describing: notices)), passThroughWaypoints: \(Swift.String(describing: passThroughWaypoints)), spans: \(Swift.String(describing: spans)), summary: \(Swift.String(describing: summary)), travelSteps: \(Swift.String(describing: travelSteps)), routeName: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -4324,7 +4605,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RoutePedestrianPlace: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RoutePedestrianPlace(name: \(Swift.String(describing: name)), sideOfStreet: \(Swift.String(describing: sideOfStreet)), waypointIndex: \(Swift.String(describing: waypointIndex)), originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\")"}
+        "RoutePedestrianPlace(name: \"CONTENT_REDACTED\", originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", sideOfStreet: \"CONTENT_REDACTED\", waypointIndex: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -4348,6 +4629,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RoutePedestrianArrival: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RoutePedestrianArrival(place: \(Swift.String(describing: place)), time: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Details corresponding to the departure for a leg. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
@@ -4367,6 +4653,11 @@ extension GeoRoutesClientTypes {
             self.time = time
         }
     }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianDeparture: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RoutePedestrianDeparture(place: \(Swift.String(describing: place)), time: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -4448,6 +4739,11 @@ extension GeoRoutesClientTypes {
             self.typicalSpeed = typicalSpeed
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteSpanDynamicSpeedDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteSpanDynamicSpeedDetails(bestCaseSpeed: \"CONTENT_REDACTED\", turnDuration: \"CONTENT_REDACTED\", typicalSpeed: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -4609,6 +4905,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteNumber: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteNumber(language: \(Swift.String(describing: language)), direction: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Details about the speed limit corresponding to the span. Unit: KilometersPerHour
@@ -4626,6 +4927,11 @@ extension GeoRoutesClientTypes {
             self.unlimited = unlimited
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteSpanSpeedLimitDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteSpanSpeedLimitDetails(maxSpeed: \"CONTENT_REDACTED\", unlimited: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -4699,6 +5005,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RoutePedestrianSpan: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RoutePedestrianSpan(dynamicSpeed: \(Swift.String(describing: dynamicSpeed)), geometryOffset: \(Swift.String(describing: geometryOffset)), incidents: \(Swift.String(describing: incidents)), names: \(Swift.String(describing: names)), routeNumbers: \(Swift.String(describing: routeNumbers)), speedLimit: \(Swift.String(describing: speedLimit)), bestCaseDuration: \"CONTENT_REDACTED\", country: \"CONTENT_REDACTED\", distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", functionalClassification: \"CONTENT_REDACTED\", pedestrianAccess: \"CONTENT_REDACTED\", region: \"CONTENT_REDACTED\", roadAttributes: \"CONTENT_REDACTED\", typicalDuration: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Provides a summary of a pedestrian route step.
@@ -4720,6 +5031,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RoutePedestrianOverviewSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RoutePedestrianOverviewSummary(distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Summarized details for the leg including travel steps.
@@ -4734,6 +5050,11 @@ extension GeoRoutesClientTypes {
             self.duration = duration
         }
     }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianTravelOnlySummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RoutePedestrianTravelOnlySummary(duration: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -4833,6 +5154,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteRoad: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRoad(roadName: \(Swift.String(describing: roadName)), routeNumber: \(Swift.String(describing: routeNumber)), towards: \(Swift.String(describing: towards)), type: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     public enum RouteSteeringDirection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -4925,6 +5251,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteKeepStepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteKeepStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Details about the roundabout leg.
@@ -4951,6 +5282,11 @@ extension GeoRoutesClientTypes {
             self.turnIntensity = turnIntensity
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRoundaboutEnterStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -4981,6 +5317,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteRoundaboutExitStepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRoundaboutExitStepDetails(intersection: \(Swift.String(describing: intersection)), roundaboutAngle: \(Swift.String(describing: roundaboutAngle)), relativeExit: \"CONTENT_REDACTED\", steeringDirection: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Details about the step.
@@ -5007,6 +5348,11 @@ extension GeoRoutesClientTypes {
             self.turnIntensity = turnIntensity
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteRoundaboutPassStepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRoundaboutPassStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -5070,6 +5416,11 @@ extension GeoRoutesClientTypes {
             self.turnIntensity = turnIntensity
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteTurnStepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTurnStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -5199,6 +5550,11 @@ extension GeoRoutesClientTypes {
             self.type = type
         }
     }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RoutePedestrianTravelStep(continueStepDetails: \(Swift.String(describing: continueStepDetails)), currentRoad: \(Swift.String(describing: currentRoad)), exitNumber: \(Swift.String(describing: exitNumber)), geometryOffset: \(Swift.String(describing: geometryOffset)), keepStepDetails: \(Swift.String(describing: keepStepDetails)), nextRoad: \(Swift.String(describing: nextRoad)), roundaboutEnterStepDetails: \(Swift.String(describing: roundaboutEnterStepDetails)), roundaboutExitStepDetails: \(Swift.String(describing: roundaboutExitStepDetails)), roundaboutPassStepDetails: \(Swift.String(describing: roundaboutPassStepDetails)), signpost: \(Swift.String(describing: signpost)), turnStepDetails: \(Swift.String(describing: turnStepDetails)), distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -5353,7 +5709,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RouteVehiclePlace: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RouteVehiclePlace(name: \(Swift.String(describing: name)), sideOfStreet: \(Swift.String(describing: sideOfStreet)), waypointIndex: \(Swift.String(describing: waypointIndex)), originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\")"}
+        "RouteVehiclePlace(name: \"CONTENT_REDACTED\", originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", sideOfStreet: \"CONTENT_REDACTED\", waypointIndex: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -5376,6 +5732,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteVehicleArrival: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteVehicleArrival(place: \(Swift.String(describing: place)), time: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Details corresponding to the departure for the leg.
@@ -5394,6 +5755,11 @@ extension GeoRoutesClientTypes {
             self.time = time
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteVehicleDeparture: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteVehicleDeparture(place: \(Swift.String(describing: place)), time: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -5516,6 +5882,11 @@ extension GeoRoutesClientTypes {
             self.type = type
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteVehicleIncident: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteVehicleIncident(description: \"CONTENT_REDACTED\", endTime: \"CONTENT_REDACTED\", severity: \"CONTENT_REDACTED\", startTime: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -5694,6 +6065,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteWeightConstraint: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteWeightConstraint(type: \(Swift.String(describing: type)), value: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// This property contains a summary of violated constraints.
@@ -5815,6 +6191,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteViolatedConstraints: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteViolatedConstraints(axleCount: \(Swift.String(describing: axleCount)), maxWeight: \(Swift.String(describing: maxWeight)), maxWeightPerAxleGroup: \(Swift.String(describing: maxWeightPerAxleGroup)), occupancy: \(Swift.String(describing: occupancy)), restrictedTimes: \(Swift.String(describing: restrictedTimes)), trailerCount: \(Swift.String(describing: trailerCount)), truckRoadType: \(Swift.String(describing: truckRoadType)), allHazardsRestricted: \"CONTENT_REDACTED\", hazardousCargos: \"CONTENT_REDACTED\", maxHeight: \"CONTENT_REDACTED\", maxKpraLength: \"CONTENT_REDACTED\", maxLength: \"CONTENT_REDACTED\", maxPayloadCapacity: \"CONTENT_REDACTED\", maxWeightPerAxle: \"CONTENT_REDACTED\", maxWidth: \"CONTENT_REDACTED\", timeDependent: \"CONTENT_REDACTED\", travelMode: \"CONTENT_REDACTED\", truckType: \"CONTENT_REDACTED\", tunnelRestrictionCode: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Additional details of the notice.
@@ -5832,6 +6213,11 @@ extension GeoRoutesClientTypes {
             self.violatedConstraints = violatedConstraints
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteVehicleNoticeDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteVehicleNoticeDetail(violatedConstraints: \(Swift.String(describing: violatedConstraints)), title: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -6119,6 +6505,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteVehicleSpan: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteVehicleSpan(dynamicSpeed: \(Swift.String(describing: dynamicSpeed)), geometryOffset: \(Swift.String(describing: geometryOffset)), incidents: \(Swift.String(describing: incidents)), names: \(Swift.String(describing: names)), notices: \(Swift.String(describing: notices)), routeNumbers: \(Swift.String(describing: routeNumbers)), speedLimit: \(Swift.String(describing: speedLimit)), tollSystems: \(Swift.String(describing: tollSystems)), truckRoadTypes: \(Swift.String(describing: truckRoadTypes)), zones: \(Swift.String(describing: zones)), bestCaseDuration: \"CONTENT_REDACTED\", carAccess: \"CONTENT_REDACTED\", country: \"CONTENT_REDACTED\", distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", functionalClassification: \"CONTENT_REDACTED\", gate: \"CONTENT_REDACTED\", railwayCrossing: \"CONTENT_REDACTED\", region: \"CONTENT_REDACTED\", roadAttributes: \"CONTENT_REDACTED\", scooterAccess: \"CONTENT_REDACTED\", truckAccess: \"CONTENT_REDACTED\", typicalDuration: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Summarized details of the leg.
@@ -6148,6 +6539,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteVehicleOverviewSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteVehicleOverviewSummary(bestCaseDuration: \"CONTENT_REDACTED\", distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", typicalDuration: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Summarized details of the route.
@@ -6170,6 +6566,11 @@ extension GeoRoutesClientTypes {
             self.typicalDuration = typicalDuration
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteVehicleTravelOnlySummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteVehicleTravelOnlySummary(bestCaseDuration: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", typicalDuration: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -6237,6 +6638,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteTollPriceValueRange: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTollPriceValueRange(max: \"CONTENT_REDACTED\", min: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// The toll price.
@@ -6274,6 +6680,11 @@ extension GeoRoutesClientTypes {
             self.value = value
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteTollPrice: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTollPrice(currency: \(Swift.String(describing: currency)), rangeValue: \(Swift.String(describing: rangeValue)), estimate: \"CONTENT_REDACTED\", perDuration: \"CONTENT_REDACTED\", range: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -6334,6 +6745,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteTollPassValidityPeriod: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTollPassValidityPeriod(period: \"CONTENT_REDACTED\", periodCount: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Details if the toll rate can be a pass that supports multiple trips.
@@ -6363,6 +6779,11 @@ extension GeoRoutesClientTypes {
             self.validityPeriod = validityPeriod
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteTollPass: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTollPass(validityPeriod: \(Swift.String(describing: validityPeriod)), includesReturnTrip: \"CONTENT_REDACTED\", seniorPass: \"CONTENT_REDACTED\", transferCount: \"CONTENT_REDACTED\", tripCount: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -6427,6 +6848,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteTransponder: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransponder(systemName: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// The toll rate.
@@ -6475,6 +6901,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteTollRate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTollRate(convertedPrice: \(Swift.String(describing: convertedPrice)), localPrice: \(Swift.String(describing: localPrice)), pass: \(Swift.String(describing: pass)), transponders: \(Swift.String(describing: transponders)), applicableTimes: \"CONTENT_REDACTED\", id: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", paymentMethods: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Provides details about toll information along a route, including the payment sites, applicable toll rates, toll systems, and the country associated with the toll collection.
@@ -6505,6 +6936,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteToll: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteToll(paymentSites: \(Swift.String(describing: paymentSites)), rates: \(Swift.String(describing: rates)), systems: \(Swift.String(describing: systems)), country: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Toll systems are authorities that collect payments for the toll.
@@ -6518,6 +6954,11 @@ extension GeoRoutesClientTypes {
             self.name = name
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteTollSystem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTollSystem(name: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -6548,6 +6989,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteContinueHighwayStepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteContinueHighwayStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Details related to the enter highway step.
@@ -6574,6 +7020,11 @@ extension GeoRoutesClientTypes {
             self.turnIntensity = turnIntensity
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteEnterHighwayStepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteEnterHighwayStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -6608,6 +7059,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteExitStepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteExitStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), relativeExit: \"CONTENT_REDACTED\", steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Details that are specific to a ramp step.
@@ -6634,6 +7090,11 @@ extension GeoRoutesClientTypes {
             self.turnIntensity = turnIntensity
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteRampStepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRampStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -6724,6 +7185,11 @@ extension GeoRoutesClientTypes {
             self.turnIntensity = turnIntensity
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteUTurnStepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteUTurnStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -6819,6 +7285,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteVehicleTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteVehicleTravelStep(continueHighwayStepDetails: \(Swift.String(describing: continueHighwayStepDetails)), continueStepDetails: \(Swift.String(describing: continueStepDetails)), currentRoad: \(Swift.String(describing: currentRoad)), enterHighwayStepDetails: \(Swift.String(describing: enterHighwayStepDetails)), exitNumber: \(Swift.String(describing: exitNumber)), exitStepDetails: \(Swift.String(describing: exitStepDetails)), geometryOffset: \(Swift.String(describing: geometryOffset)), keepStepDetails: \(Swift.String(describing: keepStepDetails)), nextRoad: \(Swift.String(describing: nextRoad)), rampStepDetails: \(Swift.String(describing: rampStepDetails)), roundaboutEnterStepDetails: \(Swift.String(describing: roundaboutEnterStepDetails)), roundaboutExitStepDetails: \(Swift.String(describing: roundaboutExitStepDetails)), roundaboutPassStepDetails: \(Swift.String(describing: roundaboutPassStepDetails)), signpost: \(Swift.String(describing: signpost)), turnStepDetails: \(Swift.String(describing: turnStepDetails)), uTurnStepDetails: \(Swift.String(describing: uTurnStepDetails)), distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// The zone.
@@ -6836,6 +7307,11 @@ extension GeoRoutesClientTypes {
             self.name = name
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteZone: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteZone(category: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -6908,6 +7384,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteVehicleLegDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteVehicleLegDetails(arrival: \(Swift.String(describing: arrival)), departure: \(Swift.String(describing: departure)), incidents: \(Swift.String(describing: incidents)), notices: \(Swift.String(describing: notices)), passThroughWaypoints: \(Swift.String(describing: passThroughWaypoints)), spans: \(Swift.String(describing: spans)), summary: \(Swift.String(describing: summary)), tollSystems: \(Swift.String(describing: tollSystems)), tolls: \(Swift.String(describing: tolls)), travelSteps: \(Swift.String(describing: travelSteps)), zones: \(Swift.String(describing: zones)), truckRoadTypes: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// A leg is a section of a route from one waypoint to the next. A leg could be of type Vehicle, Pedestrian or Ferry. Legs of different types could occur together within a single route. For example, a car employing the use of a Ferry will contain Vehicle legs corresponding to journey on land, and Ferry legs corresponding to the journey via Ferry.
@@ -6948,6 +7429,11 @@ extension GeoRoutesClientTypes {
             self.vehicleLegDetails = vehicleLegDetails
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteLeg: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteLeg(ferryLegDetails: \(Swift.String(describing: ferryLegDetails)), geometry: \(Swift.String(describing: geometry)), language: \(Swift.String(describing: language)), pedestrianLegDetails: \(Swift.String(describing: pedestrianLegDetails)), vehicleLegDetails: \(Swift.String(describing: vehicleLegDetails)), travelMode: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -7004,6 +7490,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RouteTollPriceSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTollPriceSummary(currency: \(Swift.String(describing: currency)), rangeValue: \(Swift.String(describing: rangeValue)), estimate: \"CONTENT_REDACTED\", range: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// The toll summary for the complete route.
@@ -7040,6 +7531,11 @@ extension GeoRoutesClientTypes {
             self.tolls = tolls
         }
     }
+}
+
+extension GeoRoutesClientTypes.RouteSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteSummary(tolls: \(Swift.String(describing: tolls)), distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -7217,6 +7713,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.WaypointOptimizationAvoidanceOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationAvoidanceOptions(areas: \(Swift.String(describing: areas)), carShuttleTrains: \"CONTENT_REDACTED\", controlledAccessHighways: \"CONTENT_REDACTED\", dirtRoads: \"CONTENT_REDACTED\", ferries: \"CONTENT_REDACTED\", tollRoads: \"CONTENT_REDACTED\", tunnels: \"CONTENT_REDACTED\", uTurns: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     public enum WaypointOptimizationClusteringAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -7262,6 +7763,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.WaypointOptimizationDrivingDistanceOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationDrivingDistanceOptions(drivingDistance: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Options for WaypointOptimizationClustering.
@@ -7280,6 +7786,11 @@ extension GeoRoutesClientTypes {
             self.drivingDistanceOptions = drivingDistanceOptions
         }
     }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationClusteringOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationClusteringOptions(drivingDistanceOptions: \(Swift.String(describing: drivingDistanceOptions)), algorithm: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -7301,6 +7812,11 @@ extension GeoRoutesClientTypes {
             self.timeOfDay = timeOfDay
         }
     }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationAccessHoursEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationAccessHoursEntry(dayOfWeek: \"CONTENT_REDACTED\", timeOfDay: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -7384,6 +7900,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.WaypointOptimizationDestinationOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationDestinationOptions(accessHours: \(Swift.String(describing: accessHours)), id: \(Swift.String(describing: id)), sideOfStreet: \(Swift.String(describing: sideOfStreet)), appointmentTime: \"CONTENT_REDACTED\", heading: \"CONTENT_REDACTED\", serviceDuration: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Driver work-rest schedules defined by a short and long cycle. A rest needs to be taken after the short work duration. The short cycle can be repeated until you hit the long work duration, at which point the long rest duration should be taken before restarting. Unit: seconds
@@ -7403,6 +7924,11 @@ extension GeoRoutesClientTypes {
             self.workDuration = workDuration
         }
     }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationRestCycleDurations: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationRestCycleDurations(restDuration: \"CONTENT_REDACTED\", workDuration: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -7440,6 +7966,11 @@ extension GeoRoutesClientTypes {
             self.profile = profile
         }
     }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationRestProfile: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationRestProfile(profile: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -7494,6 +8025,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.WaypointOptimizationDriverOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationDriverOptions(restCycles: \(Swift.String(describing: restCycles)), restProfile: \(Swift.String(describing: restProfile)), treatServiceTimeAs: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Specifies strict exclusion options for the route calculation. This setting mandates that the router will avoid any routes that include the specified options, rather than merely attempting to minimize them.
@@ -7508,6 +8044,11 @@ extension GeoRoutesClientTypes {
             self.countries = countries
         }
     }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationExclusionOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationExclusionOptions(countries: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -7619,6 +8160,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.WaypointOptimizationPedestrianOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationPedestrianOptions(speed: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     public enum WaypointOptimizationHazardousCargoType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -7688,6 +8234,11 @@ extension GeoRoutesClientTypes {
             self.trailerCount = trailerCount
         }
     }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationTrailerOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationTrailerOptions(trailerCount: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -7799,6 +8350,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.WaypointOptimizationTruckOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationTruckOptions(trailer: \(Swift.String(describing: trailer)), grossWeight: \"CONTENT_REDACTED\", hazardousCargos: \"CONTENT_REDACTED\", height: \"CONTENT_REDACTED\", length: \"CONTENT_REDACTED\", truckType: \"CONTENT_REDACTED\", tunnelRestrictionCode: \"CONTENT_REDACTED\", weightPerAxle: \"CONTENT_REDACTED\", width: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Travel mode related options for the provided travel mode.
@@ -7864,7 +8420,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.WaypointOptimizationWaypoint: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "WaypointOptimizationWaypoint(accessHours: \(Swift.String(describing: accessHours)), appointmentTime: \(Swift.String(describing: appointmentTime)), before: \(Swift.String(describing: before)), heading: \(Swift.String(describing: heading)), id: \(Swift.String(describing: id)), serviceDuration: \(Swift.String(describing: serviceDuration)), sideOfStreet: \(Swift.String(describing: sideOfStreet)), position: \"CONTENT_REDACTED\")"}
+        "WaypointOptimizationWaypoint(accessHours: \(Swift.String(describing: accessHours)), before: \(Swift.String(describing: before)), id: \(Swift.String(describing: id)), sideOfStreet: \(Swift.String(describing: sideOfStreet)), appointmentTime: \"CONTENT_REDACTED\", heading: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", serviceDuration: \"CONTENT_REDACTED\")"}
 }
 
 public struct OptimizeWaypointsInput: Swift.Sendable {
@@ -7938,7 +8494,7 @@ public struct OptimizeWaypointsInput: Swift.Sendable {
 
 extension OptimizeWaypointsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "OptimizeWaypointsInput(avoid: \(Swift.String(describing: avoid)), clustering: \(Swift.String(describing: clustering)), departureTime: \(Swift.String(describing: departureTime)), destinationOptions: \(Swift.String(describing: destinationOptions)), driver: \(Swift.String(describing: driver)), exclude: \(Swift.String(describing: exclude)), optimizeSequencingFor: \(Swift.String(describing: optimizeSequencingFor)), originOptions: \(Swift.String(describing: originOptions)), traffic: \(Swift.String(describing: traffic)), travelMode: \(Swift.String(describing: travelMode)), travelModeOptions: \(Swift.String(describing: travelModeOptions)), waypoints: \(Swift.String(describing: waypoints)), destination: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", origin: \"CONTENT_REDACTED\")"}
+        "OptimizeWaypointsInput(avoid: \(Swift.String(describing: avoid)), clustering: \(Swift.String(describing: clustering)), destinationOptions: \(Swift.String(describing: destinationOptions)), driver: \(Swift.String(describing: driver)), exclude: \(Swift.String(describing: exclude)), optimizeSequencingFor: \(Swift.String(describing: optimizeSequencingFor)), originOptions: \(Swift.String(describing: originOptions)), traffic: \(Swift.String(describing: traffic)), travelMode: \(Swift.String(describing: travelMode)), travelModeOptions: \(Swift.String(describing: travelModeOptions)), waypoints: \(Swift.String(describing: waypoints)), departureTime: \"CONTENT_REDACTED\", destination: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", origin: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -7980,6 +8536,11 @@ extension GeoRoutesClientTypes {
             self.waitDuration = waitDuration
         }
     }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationConnection: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationConnection(from: \(Swift.String(describing: from)), to: \(Swift.String(describing: to)), distance: \"CONTENT_REDACTED\", restDuration: \"CONTENT_REDACTED\", travelDuration: \"CONTENT_REDACTED\", waitDuration: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -8040,6 +8601,11 @@ extension GeoRoutesClientTypes {
             self.reason = reason
         }
     }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationFailedConstraint: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationFailedConstraint(constraint: \"CONTENT_REDACTED\", reason: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -8111,7 +8677,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.WaypointOptimizationOptimizedWaypoint: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "WaypointOptimizationOptimizedWaypoint(arrivalTime: \(Swift.String(describing: arrivalTime)), clusterIndex: \(Swift.String(describing: clusterIndex)), departureTime: \(Swift.String(describing: departureTime)), id: \(Swift.String(describing: id)), position: \"CONTENT_REDACTED\")"}
+        "WaypointOptimizationOptimizedWaypoint(clusterIndex: \(Swift.String(describing: clusterIndex)), id: \(Swift.String(describing: id)), arrivalTime: \"CONTENT_REDACTED\", departureTime: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -8143,6 +8709,11 @@ extension GeoRoutesClientTypes {
             self.waitDuration = waitDuration
         }
     }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationTimeBreakdown: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WaypointOptimizationTimeBreakdown(restDuration: \"CONTENT_REDACTED\", serviceDuration: \"CONTENT_REDACTED\", travelDuration: \"CONTENT_REDACTED\", waitDuration: \"CONTENT_REDACTED\")"}
 }
 
 public struct OptimizeWaypointsOutput: Swift.Sendable {
@@ -8187,6 +8758,11 @@ public struct OptimizeWaypointsOutput: Swift.Sendable {
     }
 }
 
+extension OptimizeWaypointsOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OptimizeWaypointsOutput(connections: \(Swift.String(describing: connections)), impedingWaypoints: \(Swift.String(describing: impedingWaypoints)), optimizedWaypoints: \(Swift.String(describing: optimizedWaypoints)), pricingBucket: \(Swift.String(describing: pricingBucket)), timeBreakdown: \(Swift.String(describing: timeBreakdown)), distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// TracePoint indices for which the provided notice code corresponds to.
@@ -8217,7 +8793,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RoadSnapTracePoint: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RoadSnapTracePoint(heading: \(Swift.String(describing: heading)), speed: \(Swift.String(describing: speed)), timestamp: \(Swift.String(describing: timestamp)), position: \"CONTENT_REDACTED\")"}
+        "RoadSnapTracePoint(heading: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", speed: \"CONTENT_REDACTED\", timestamp: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -8326,6 +8902,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RoadSnapTrailerOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RoadSnapTrailerOptions(trailerCount: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Travel mode options when the provided travel mode is "Truck".
@@ -8398,6 +8979,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RoadSnapTruckOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RoadSnapTruckOptions(trailer: \(Swift.String(describing: trailer)), grossWeight: \"CONTENT_REDACTED\", hazardousCargos: \"CONTENT_REDACTED\", height: \"CONTENT_REDACTED\", length: \"CONTENT_REDACTED\", tunnelRestrictionCode: \"CONTENT_REDACTED\", width: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Travel mode related options for the provided travel mode.
@@ -8447,7 +9033,7 @@ public struct SnapToRoadsInput: Swift.Sendable {
 
 extension SnapToRoadsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SnapToRoadsInput(snapRadius: \(Swift.String(describing: snapRadius)), snappedGeometryFormat: \(Swift.String(describing: snappedGeometryFormat)), tracePoints: \(Swift.String(describing: tracePoints)), travelMode: \(Swift.String(describing: travelMode)), travelModeOptions: \(Swift.String(describing: travelModeOptions)), key: \"CONTENT_REDACTED\")"}
+        "SnapToRoadsInput(snappedGeometryFormat: \(Swift.String(describing: snappedGeometryFormat)), tracePoints: \(Swift.String(describing: tracePoints)), travelMode: \(Swift.String(describing: travelMode)), travelModeOptions: \(Swift.String(describing: travelModeOptions)), key: \"CONTENT_REDACTED\", snapRadius: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -8520,6 +9106,11 @@ extension GeoRoutesClientTypes {
     }
 }
 
+extension GeoRoutesClientTypes.RoadSnapNotice: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RoadSnapNotice(code: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", tracePointIndexes: \"CONTENT_REDACTED\")"}
+}
+
 extension GeoRoutesClientTypes {
 
     /// Interpolated geometry for the snapped route that is overlay-able onto a map.
@@ -8572,7 +9163,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RoadSnapSnappedTracePoint: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RoadSnapSnappedTracePoint(confidence: \(Swift.String(describing: confidence)), originalPosition: \"CONTENT_REDACTED\", snappedPosition: \"CONTENT_REDACTED\")"}
+        "RoadSnapSnappedTracePoint(confidence: \"CONTENT_REDACTED\", originalPosition: \"CONTENT_REDACTED\", snappedPosition: \"CONTENT_REDACTED\")"}
 }
 
 public struct SnapToRoadsOutput: Swift.Sendable {
@@ -8985,11 +9576,11 @@ enum SnapToRoadsOutputError {
     }
 }
 
-extension InternalServerException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8998,14 +9589,12 @@ extension InternalServerException {
     }
 }
 
-extension ValidationException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9026,12 +9615,14 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

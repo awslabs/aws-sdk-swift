@@ -18,12 +18,14 @@ extension Target.Dependency {
     // AWS modules
     static var awsClientRuntime: Self { .product(name: "AWSClientRuntime", package: "aws-sdk-swift") }
     static var awsSDKCommon: Self { .product(name: "AWSSDKCommon", package: "aws-sdk-swift") }
+    static var awsSDKIdentityAPI: Self { .product(name: "AWSSDKIdentityAPI", package: "aws-sdk-swift") }
     static var awsSDKIdentity: Self { .product(name: "AWSSDKIdentity", package: "aws-sdk-swift") }
 
     // Smithy modules
     static var clientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
     static var smithyIdentity: Self { .product(name: "SmithyIdentity", package: "smithy-swift") }
     static var smithyTestUtil: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
+    static var smithyHttpApi: Self { .product(name: "SmithyHTTPAPI", package: "smithy-swift") }
 }
 
 // MARK: - Base Package
@@ -31,7 +33,7 @@ extension Target.Dependency {
 let package = Package(
     name: "aws-sdk-swift-integration-tests",
     platforms: [
-        .macOS(.v10_15),
+        .macOS(.v12),
         .iOS(.v13),
         .tvOS(.v13),
         .watchOS(.v6)
@@ -59,8 +61,10 @@ private var integrationTestTargets: [Target] {
         "AWSSTS",
         "AWSTranscribeStreaming",
         "AWSCognitoIdentity",
+        "AWSBedrockRuntime",
+        "AWSCloudWatch",
     ].map { integrationTestTarget($0) }
-    return integrationTests + [.target(name: "AWSIntegrationTestUtils", path: "./AWSIntegrationTestUtils")]
+    return integrationTests + [.target(name: "AWSIntegrationTestUtils", dependencies: [.clientRuntime], path: "./AWSIntegrationTestUtils")]
 }
 
 private func integrationTestTarget(_ name: String) -> Target {
@@ -90,7 +94,7 @@ private func integrationTestTarget(_ name: String) -> Target {
     case "AWSSTS":
         additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
     case "AWSCognitoIdentity":
-        additionalDependencies = ["AWSSTS"]
+        additionalDependencies = ["AWSSTS", "AWSIAM"]
     default:
         break
     }
@@ -101,9 +105,11 @@ private func integrationTestTarget(_ name: String) -> Target {
             .awsClientRuntime,
             .smithyTestUtil,
             .awsSDKIdentity,
+            .awsSDKIdentityAPI,
             .smithyIdentity,
             .awsSDKCommon,
             .awsIntegrationTestUtils,
+            .smithyHttpApi,
             .product(name: name, package: "aws-sdk-swift")
         ] + additionalDependencies.map {
             Target.Dependency.product(name: $0, package: "aws-sdk-swift", condition: nil)

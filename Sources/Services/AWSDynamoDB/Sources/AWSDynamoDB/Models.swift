@@ -564,7 +564,7 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
-    /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
+    /// Represents the provisioned throughput settings for the specified global secondary index. You must use ProvisionedThroughput or OnDemandThroughput based on your table’s capacity mode. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
     public struct ProvisionedThroughput: Swift.Sendable {
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see [Specifying Read and Write Requirements](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html) in the Amazon DynamoDB Developer Guide. If read/write capacity mode is PAY_PER_REQUEST the value is set to 0.
         /// This member is required.
@@ -679,7 +679,7 @@ extension DynamoDBClientTypes {
 
     /// Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
     public struct Projection: Swift.Sendable {
-        /// Represents the non-key attribute names which will be projected into the index. For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
+        /// Represents the non-key attribute names which will be projected into the index. For global and local secondary indexes, the total count of NonKeyAttributes summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.
         public var nonKeyAttributes: [Swift.String]?
         /// The set of attributes that are projected into the index:
         ///
@@ -1204,11 +1204,59 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-/// Throughput exceeds the current throughput quota for your account. Please contact [Amazon Web Services Support](https://aws.amazon.com/support) to request a quota increase.
+extension DynamoDBClientTypes {
+
+    /// Represents the specific reason why a DynamoDB request was throttled and the ARN of the impacted resource. This helps identify exactly what resource is being throttled, what type of operation caused it, and why the throttling occurred.
+    public struct ThrottlingReason: Swift.Sendable {
+        /// The reason for throttling. The throttling reason follows a specific format: ResourceType+OperationType+LimitType:
+        ///
+        /// * Resource Type (What is being throttled): Table or Index
+        ///
+        /// * Operation Type (What kind of operation): Read or Write
+        ///
+        /// * Limit Type (Why the throttling occurred):
+        ///
+        /// * ProvisionedThroughputExceeded: The request rate is exceeding the [provisioned throughput capacity](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html) (read or write capacity units) configured for a table or a global secondary index (GSI) in provisioned capacity mode.
+        ///
+        /// * AccountLimitExceeded: The request rate has caused a table or global secondary index (GSI) in on-demand mode to exceed the [per-table account-level service quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ServiceQuotas.html#default-limits-throughput) for read/write throughput in the current Amazon Web Services Region.
+        ///
+        /// * KeyRangeThroughputExceeded: The request rate directed at a specific partition key value has exceeded the [internal partition-level throughput limits](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html), indicating uneven access patterns across the table's or GSI's key space.
+        ///
+        /// * MaxOnDemandThroughputExceeded: The request rate has exceeded the [configured maximum throughput limits](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode-max-throughput.html) set for a table or index in on-demand capacity mode.
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// Examples of complete throttling reasons:
+        ///
+        /// * TableReadProvisionedThroughputExceeded
+        ///
+        /// * IndexWriteAccountLimitExceeded
+        ///
+        ///
+        /// This helps identify exactly what resource is being throttled, what type of operation caused it, and why the throttling occurred.
+        public var reason: Swift.String?
+        /// The Amazon Resource Name (ARN) of the DynamoDB table or index that experienced the throttling event.
+        public var resource: Swift.String?
+
+        public init(
+            reason: Swift.String? = nil,
+            resource: Swift.String? = nil
+        ) {
+            self.reason = reason
+            self.resource = resource
+        }
+    }
+}
+
+/// Throughput exceeds the current throughput quota for your account. For detailed information about why the request was throttled and the ARN of the impacted resource, find the [ThrottlingReason](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ThrottlingReason.html) field in the returned exception. Contact [Amazon Web Services Support](https://aws.amazon.com/support) to request a quota increase.
 public struct RequestLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
+        /// A list of [ThrottlingReason](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ThrottlingReason.html) that provide detailed diagnostic information about why the request was throttled.
+        public internal(set) var throttlingReasons: [DynamoDBClientTypes.ThrottlingReason]? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -1221,9 +1269,38 @@ public struct RequestLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        throttlingReasons: [DynamoDBClientTypes.ThrottlingReason]? = nil
     ) {
         self.properties.message = message
+        self.properties.throttlingReasons = throttlingReasons
+    }
+}
+
+/// The request was denied due to request throttling. For detailed information about why the request was throttled and the ARN of the impacted resource, find the [ThrottlingReason](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ThrottlingReason.html) field in the returned exception.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// A list of [ThrottlingReason](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ThrottlingReason.html) that provide detailed diagnostic information about why the request was throttled.
+        public internal(set) var throttlingReasons: [DynamoDBClientTypes.ThrottlingReason]? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "Throttling" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        throttlingReasons: [DynamoDBClientTypes.ThrottlingReason]? = nil
+    ) {
+        self.properties.message = message
+        self.properties.throttlingReasons = throttlingReasons
     }
 }
 
@@ -1435,12 +1512,14 @@ public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// Your request rate is too high. The Amazon Web Services SDKs for DynamoDB automatically retry requests that receive this exception. Your request is eventually successful, unless your retry queue is too large to finish. Reduce the frequency of requests and use exponential backoff. For more information, go to [Error Retries and Exponential Backoff](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff) in the Amazon DynamoDB Developer Guide.
+/// The request was denied due to request throttling. For detailed information about why the request was throttled and the ARN of the impacted resource, find the [ThrottlingReason](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ThrottlingReason.html) field in the returned exception. The Amazon Web Services SDKs for DynamoDB automatically retry requests that receive this exception. Your request is eventually successful, unless your retry queue is too large to finish. Reduce the frequency of requests and use exponential backoff. For more information, go to [Error Retries and Exponential Backoff](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff) in the Amazon DynamoDB Developer Guide.
 public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// You exceeded your maximum allowed provisioned throughput.
         public internal(set) var message: Swift.String? = nil
+        /// A list of [ThrottlingReason](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ThrottlingReason.html) that provide detailed diagnostic information about why the request was throttled.
+        public internal(set) var throttlingReasons: [DynamoDBClientTypes.ThrottlingReason]? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -1453,9 +1532,11 @@ public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        throttlingReasons: [DynamoDBClientTypes.ThrottlingReason]? = nil
     ) {
         self.properties.message = message
+        self.properties.throttlingReasons = throttlingReasons
     }
 }
 
@@ -1495,6 +1576,29 @@ public struct ItemCollectionSizeLimitExceededException: ClientRuntime.ModeledErr
     public static var typeName: Swift.String { "ItemCollectionSizeLimitExceededException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request was rejected because one or more items in the request are being modified by a request in another Region.
+public struct ReplicatedWriteConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReplicatedWriteConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
@@ -1722,7 +1826,7 @@ extension DynamoDBClientTypes {
         ///
         /// * DISABLED - Point in time recovery is disabled.
         public var pointInTimeRecoveryStatus: DynamoDBClientTypes.PointInTimeRecoveryStatus?
-        /// The number of preceding days for which continuous backups are taken and maintained. Your table data is only recoverable to any point-in-time from within the configured recovery period. This parameter is optional. If no value is provided, the value will default to 35.
+        /// The number of preceding days for which continuous backups are taken and maintained. Your table data is only recoverable to any point-in-time from within the configured recovery period. This parameter is optional.
         public var recoveryPeriodInDays: Swift.Int?
 
         public init(
@@ -1813,6 +1917,35 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
+    public enum ContributorInsightsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessedAndThrottledKeys
+        case throttledKeys
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContributorInsightsMode] {
+            return [
+                .accessedAndThrottledKeys,
+                .throttledKeys
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessedAndThrottledKeys: return "ACCESSED_AND_THROTTLED_KEYS"
+            case .throttledKeys: return "THROTTLED_KEYS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     public enum ContributorInsightsStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case disabling
@@ -1853,6 +1986,8 @@ extension DynamoDBClientTypes {
 
     /// Represents a Contributor Insights summary entry.
     public struct ContributorInsightsSummary: Swift.Sendable {
+        /// Indicates the current mode of CloudWatch Contributor Insights, specifying whether it tracks all access and throttled events or throttled events only for the DynamoDB table or index.
+        public var contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode?
         /// Describes the current status for contributor insights for the given table and index, if applicable.
         public var contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus?
         /// Name of the index associated with the summary, if any.
@@ -1861,10 +1996,12 @@ extension DynamoDBClientTypes {
         public var tableName: Swift.String?
 
         public init(
+            contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode? = nil,
             contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus? = nil,
             indexName: Swift.String? = nil,
             tableName: Swift.String? = nil
         ) {
+            self.contributorInsightsMode = contributorInsightsMode
             self.contributorInsightsStatus = contributorInsightsStatus
             self.indexName = indexName
             self.tableName = tableName
@@ -1999,7 +2136,7 @@ extension DynamoDBClientTypes {
         /// The key schema for the global secondary index.
         /// This member is required.
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
-        /// The maximum number of read and write units for the global secondary index being created. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        /// The maximum number of read and write units for the global secondary index being created. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both. You must use either OnDemand Throughput or ProvisionedThroughput based on your table's capacity mode.
         public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         /// This member is required.
@@ -2236,22 +2373,28 @@ extension DynamoDBClientTypes {
 
     public enum ReplicaStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case archived
+        case archiving
         case creating
         case creationFailed
         case deleting
         case inaccessibleEncryptionCredentials
         case regionDisabled
+        case replicationNotAuthorized
         case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ReplicaStatus] {
             return [
                 .active,
+                .archived,
+                .archiving,
                 .creating,
                 .creationFailed,
                 .deleting,
                 .inaccessibleEncryptionCredentials,
                 .regionDisabled,
+                .replicationNotAuthorized,
                 .updating
             ]
         }
@@ -2264,11 +2407,14 @@ extension DynamoDBClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .archived: return "ARCHIVED"
+            case .archiving: return "ARCHIVING"
             case .creating: return "CREATING"
             case .creationFailed: return "CREATION_FAILED"
             case .deleting: return "DELETING"
             case .inaccessibleEncryptionCredentials: return "INACCESSIBLE_ENCRYPTION_CREDENTIALS"
             case .regionDisabled: return "REGION_DISABLED"
+            case .replicationNotAuthorized: return "REPLICATION_NOT_AUTHORIZED"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -2333,6 +2479,7 @@ extension DynamoDBClientTypes {
         case creating
         case deleting
         case inaccessibleEncryptionCredentials
+        case replicationNotAuthorized
         case updating
         case sdkUnknown(Swift.String)
 
@@ -2344,6 +2491,7 @@ extension DynamoDBClientTypes {
                 .creating,
                 .deleting,
                 .inaccessibleEncryptionCredentials,
+                .replicationNotAuthorized,
                 .updating
             ]
         }
@@ -2361,6 +2509,7 @@ extension DynamoDBClientTypes {
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
             case .inaccessibleEncryptionCredentials: return "INACCESSIBLE_ENCRYPTION_CREDENTIALS"
+            case .replicationNotAuthorized: return "REPLICATION_NOT_AUTHORIZED"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -2370,11 +2519,11 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
-    /// Represents the warm throughput value (in read units per second and write units per second) of the base table.
+    /// Represents the warm throughput value (in read units per second and write units per second) of the table. Warm throughput is applicable for DynamoDB Standard-IA tables and specifies the minimum provisioned capacity maintained for immediate data access.
     public struct TableWarmThroughputDescription: Swift.Sendable {
         /// Represents the base table's warm throughput value in read units per second.
         public var readUnitsPerSecond: Swift.Int?
-        /// Represents warm throughput value of the base table..
+        /// Represents warm throughput value of the base table.
         public var status: DynamoDBClientTypes.TableStatus?
         /// Represents the base table's warm throughput value in write units per second.
         public var writeUnitsPerSecond: Swift.Int?
@@ -2510,6 +2659,28 @@ public struct CreateGlobalTableOutput: Swift.Sendable {
 
 extension DynamoDBClientTypes {
 
+    /// Specifies the action to add a new witness Region to a MRSC global table. A MRSC global table can be configured with either three replicas, or with two replicas and one witness.
+    public struct CreateGlobalTableWitnessGroupMemberAction: Swift.Sendable {
+        /// The Amazon Web Services Region name to be added as a witness Region for the MRSC global table. The witness must be in a different Region than the replicas and within the same Region set:
+        ///
+        /// * US Region set: US East (N. Virginia), US East (Ohio), US West (Oregon)
+        ///
+        /// * EU Region set: Europe (Ireland), Europe (London), Europe (Paris), Europe (Frankfurt)
+        ///
+        /// * AP Region set: Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Osaka)
+        /// This member is required.
+        public var regionName: Swift.String?
+
+        public init(
+            regionName: Swift.String? = nil
+        ) {
+            self.regionName = regionName
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     /// Represents a replica to be added.
     public struct CreateReplicaAction: Swift.Sendable {
         /// The Region of the replica to be added.
@@ -2634,12 +2805,12 @@ extension DynamoDBClientTypes {
         /// The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
         /// This member is required.
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
-        /// The maximum number of read and write units for the specified global secondary index. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        /// The maximum number of read and write units for the specified global secondary index. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both. You must use either OnDemandThroughput or ProvisionedThroughput based on your table's capacity mode.
         public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         /// This member is required.
         public var projection: DynamoDBClientTypes.Projection?
-        /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
+        /// Represents the provisioned throughput settings for the specified global secondary index. You must use either OnDemandThroughput or ProvisionedThroughput based on your table's capacity mode. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
         /// Represents the warm throughput value (in read units per second and write units per second) for the specified secondary index. If you use this parameter, you must specify ReadUnitsPerSecond, WriteUnitsPerSecond, or both.
         public var warmThroughput: DynamoDBClientTypes.WarmThroughput?
@@ -2748,9 +2919,9 @@ public struct CreateTableInput: Swift.Sendable {
     public var attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]?
     /// Controls how you are charged for read and write throughput and how you manage capacity. This setting can be changed later.
     ///
-    /// * PROVISIONED - We recommend using PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
+    /// * PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for most DynamoDB workloads. PAY_PER_REQUEST sets the billing mode to [On-demand capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html).
     ///
-    /// * PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to [On-demand capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html).
+    /// * PROVISIONED - We recommend using PROVISIONED for steady workloads with predictable growth where capacity requirements can be reliably forecasted. PROVISIONED sets the billing mode to [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
     public var billingMode: DynamoDBClientTypes.BillingMode?
     /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
     public var deletionProtectionEnabled: Swift.Bool?
@@ -2773,7 +2944,7 @@ public struct CreateTableInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
+    /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.
     ///
     ///
     ///
@@ -2816,7 +2987,7 @@ public struct CreateTableInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
+    /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.
     public var localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndex]?
     /// Sets the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
     public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
@@ -2988,6 +3159,57 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
+    public enum WitnessStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WitnessStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// Represents the properties of a witness Region in a MRSC global table.
+    public struct GlobalTableWitnessDescription: Swift.Sendable {
+        /// The name of the Amazon Web Services Region that serves as a witness for the MRSC global table.
+        public var regionName: Swift.String?
+        /// The current status of the witness Region in the MRSC global table.
+        public var witnessStatus: DynamoDBClientTypes.WitnessStatus?
+
+        public init(
+            regionName: Swift.String? = nil,
+            witnessStatus: DynamoDBClientTypes.WitnessStatus? = nil
+        ) {
+            self.regionName = regionName
+            self.witnessStatus = witnessStatus
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     /// Represents the properties of a local secondary index.
     public struct LocalSecondaryIndexDescription: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that uniquely identifies the index.
@@ -3142,7 +3364,7 @@ extension DynamoDBClientTypes {
         ///
         ///
         ///
-        /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
+        /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.
         ///
         ///
         ///
@@ -3154,6 +3376,8 @@ extension DynamoDBClientTypes {
         public var globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndexDescription]?
         /// Represents the version of [global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) in use, if the table is replicated across Amazon Web Services Regions.
         public var globalTableVersion: Swift.String?
+        /// The witness Region and its current status in the MRSC global table. Only one witness Region can be configured per MRSC global table.
+        public var globalTableWitnesses: [DynamoDBClientTypes.GlobalTableWitnessDescription]?
         /// The number of items in the specified table. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
         public var itemCount: Swift.Int?
         /// The primary key structure for the table. Each KeySchemaElement consists of:
@@ -3201,7 +3425,7 @@ extension DynamoDBClientTypes {
         ///
         ///
         ///
-        /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
+        /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.
         ///
         ///
         ///
@@ -3215,12 +3439,12 @@ extension DynamoDBClientTypes {
         public var localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndexDescription]?
         /// Indicates one of the following consistency modes for a global table:
         ///
-        /// * EVENTUAL: Indicates that the global table is configured for multi-Region eventual consistency.
+        /// * EVENTUAL: Indicates that the global table is configured for multi-Region eventual consistency (MREC).
         ///
-        /// * STRONG: Indicates that the global table is configured for multi-Region strong consistency (preview). Multi-Region strong consistency (MRSC) is a new DynamoDB global tables capability currently available in preview mode. For more information, see [Global tables multi-Region strong consistency](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PreviewFeatures.html#multi-region-strong-consistency-gt).
+        /// * STRONG: Indicates that the global table is configured for multi-Region strong consistency (MRSC).
         ///
         ///
-        /// If you don't specify this field, the global table consistency mode defaults to EVENTUAL.
+        /// If you don't specify this field, the global table consistency mode defaults to EVENTUAL. For more information about global tables consistency modes, see [ Consistency modes](https://docs.aws.amazon.com/V2globaltables_HowItWorks.html#V2globaltables_HowItWorks.consistency-modes) in DynamoDB developer guide.
         public var multiRegionConsistency: DynamoDBClientTypes.MultiRegionConsistency?
         /// The maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
         public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
@@ -3271,6 +3495,7 @@ extension DynamoDBClientTypes {
             deletionProtectionEnabled: Swift.Bool? = nil,
             globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndexDescription]? = nil,
             globalTableVersion: Swift.String? = nil,
+            globalTableWitnesses: [DynamoDBClientTypes.GlobalTableWitnessDescription]? = nil,
             itemCount: Swift.Int? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             latestStreamArn: Swift.String? = nil,
@@ -3298,6 +3523,7 @@ extension DynamoDBClientTypes {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.globalTableVersion = globalTableVersion
+            self.globalTableWitnesses = globalTableWitnesses
             self.itemCount = itemCount
             self.keySchema = keySchema
             self.latestStreamArn = latestStreamArn
@@ -3391,26 +3617,19 @@ extension DynamoDBClientTypes {
     }
 }
 
-/// The request was rejected because one or more items in the request are being modified by a request in another Region.
-public struct ReplicatedWriteConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension DynamoDBClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
+    /// Specifies the action to remove a witness Region from a MRSC global table. You cannot delete a single witness from a MRSC global table - you must delete both a replica and the witness together. The deletion of both a witness and replica converts the remaining replica to a single-Region DynamoDB table.
+    public struct DeleteGlobalTableWitnessGroupMemberAction: Swift.Sendable {
+        /// The witness Region name to be removed from the MRSC global table.
+        /// This member is required.
+        public var regionName: Swift.String?
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ReplicatedWriteConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
+        public init(
+            regionName: Swift.String? = nil
+        ) {
+            self.regionName = regionName
+        }
     }
 }
 
@@ -3664,6 +3883,8 @@ extension DynamoDBClientTypes {
 }
 
 public struct DescribeContributorInsightsOutput: Swift.Sendable {
+    /// The mode of CloudWatch Contributor Insights for DynamoDB that determines which events are emitted. Can be set to track all access and throttled events or throttled events only.
+    public var contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode?
     /// List of names of the associated contributor insights rules.
     public var contributorInsightsRuleList: [Swift.String]?
     /// Current status of contributor insights.
@@ -3686,6 +3907,7 @@ public struct DescribeContributorInsightsOutput: Swift.Sendable {
     public var tableName: Swift.String?
 
     public init(
+        contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode? = nil,
         contributorInsightsRuleList: [Swift.String]? = nil,
         contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus? = nil,
         failureException: DynamoDBClientTypes.FailureException? = nil,
@@ -3693,6 +3915,7 @@ public struct DescribeContributorInsightsOutput: Swift.Sendable {
         lastUpdateDateTime: Foundation.Date? = nil,
         tableName: Swift.String? = nil
     ) {
+        self.contributorInsightsMode = contributorInsightsMode
         self.contributorInsightsRuleList = contributorInsightsRuleList
         self.contributorInsightsStatus = contributorInsightsStatus
         self.failureException = failureException
@@ -4421,7 +4644,7 @@ extension DynamoDBClientTypes {
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
         /// Sets the maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
         public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
-        /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
+        /// Represents the provisioned throughput settings for the specified global secondary index. You must use ProvisionedThroughput or OnDemandThroughput based on your table’s capacity mode. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
         /// Represents the settings used to enable server-side encryption.
         public var sseSpecification: DynamoDBClientTypes.SSESpecification?
@@ -5942,6 +6165,8 @@ public struct UpdateContributorInsightsInput: Swift.Sendable {
     /// Represents the contributor insights action.
     /// This member is required.
     public var contributorInsightsAction: DynamoDBClientTypes.ContributorInsightsAction?
+    /// Specifies whether to track all access and throttled events or throttled events only for the DynamoDB table or index.
+    public var contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode?
     /// The global secondary index name, if applicable.
     public var indexName: Swift.String?
     /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
@@ -5950,16 +6175,20 @@ public struct UpdateContributorInsightsInput: Swift.Sendable {
 
     public init(
         contributorInsightsAction: DynamoDBClientTypes.ContributorInsightsAction? = nil,
+        contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode? = nil,
         indexName: Swift.String? = nil,
         tableName: Swift.String? = nil
     ) {
         self.contributorInsightsAction = contributorInsightsAction
+        self.contributorInsightsMode = contributorInsightsMode
         self.indexName = indexName
         self.tableName = tableName
     }
 }
 
 public struct UpdateContributorInsightsOutput: Swift.Sendable {
+    /// The updated mode of CloudWatch Contributor Insights that determines whether to monitor all access and throttled events or to track throttled events exclusively.
+    public var contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode?
     /// The status of contributor insights
     public var contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus?
     /// The name of the global secondary index, if applicable.
@@ -5968,10 +6197,12 @@ public struct UpdateContributorInsightsOutput: Swift.Sendable {
     public var tableName: Swift.String?
 
     public init(
+        contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode? = nil,
         contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus? = nil,
         indexName: Swift.String? = nil,
         tableName: Swift.String? = nil
     ) {
+        self.contributorInsightsMode = contributorInsightsMode
         self.contributorInsightsStatus = contributorInsightsStatus
         self.indexName = indexName
         self.tableName = tableName
@@ -6359,6 +6590,32 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
+    /// Represents one of the following:
+    ///
+    /// * A new witness to be added to a new global table.
+    ///
+    /// * An existing witness to be removed from an existing global table.
+    ///
+    ///
+    /// You can configure one witness per MRSC global table.
+    public struct GlobalTableWitnessGroupUpdate: Swift.Sendable {
+        /// Specifies a witness Region to be added to a new MRSC global table. The witness must be added when creating the MRSC global table.
+        public var create: DynamoDBClientTypes.CreateGlobalTableWitnessGroupMemberAction?
+        /// Specifies a witness Region to be removed from an existing global table. Must be done in conjunction with removing a replica. The deletion of both a witness and replica converts the remaining replica to a single-Region DynamoDB table.
+        public var delete: DynamoDBClientTypes.DeleteGlobalTableWitnessGroupMemberAction?
+
+        public init(
+            create: DynamoDBClientTypes.CreateGlobalTableWitnessGroupMemberAction? = nil,
+            delete: DynamoDBClientTypes.DeleteGlobalTableWitnessGroupMemberAction? = nil
+        ) {
+            self.create = create
+            self.delete = delete
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     /// Represents a replica to be modified.
     public struct UpdateReplicationGroupMemberAction: Swift.Sendable {
         /// Replica-specific global secondary index settings.
@@ -6431,9 +6688,9 @@ public struct UpdateTableInput: Swift.Sendable {
     public var attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]?
     /// Controls how you are charged for read and write throughput and how you manage capacity. When switching from pay-per-request to provisioned capacity, initial provisioned capacity values must be set. The initial provisioned capacity values are estimated based on the consumed read and write capacity of your table and global secondary indexes over the past 30 minutes.
     ///
-    /// * PROVISIONED - We recommend using PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
+    /// * PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for most DynamoDB workloads. PAY_PER_REQUEST sets the billing mode to [On-demand capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html).
     ///
-    /// * PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to [On-demand capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html).
+    /// * PROVISIONED - We recommend using PROVISIONED for steady workloads with predictable growth where capacity requirements can be reliably forecasted. PROVISIONED sets the billing mode to [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
     public var billingMode: DynamoDBClientTypes.BillingMode?
     /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
     public var deletionProtectionEnabled: Swift.Bool?
@@ -6448,20 +6705,29 @@ public struct UpdateTableInput: Swift.Sendable {
     ///
     /// You can create or delete only one global secondary index per UpdateTable operation. For more information, see [Managing Global Secondary Indexes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html) in the Amazon DynamoDB Developer Guide.
     public var globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]?
-    /// Specifies the consistency mode for a new global table. This parameter is only valid when you create a global table by specifying one or more [Create](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ReplicationGroupUpdate.html#DDB-Type-ReplicationGroupUpdate-Create) actions in the [ReplicaUpdates](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html#DDB-UpdateTable-request-ReplicaUpdates) action list. You can specify one of the following consistency modes:
+    /// A list of witness updates for a MRSC global table. A witness provides a cost-effective alternative to a full replica in a MRSC global table by maintaining replicated change data written to global table replicas. You cannot perform read or write operations on a witness. For each witness, you can request one action:
     ///
-    /// * EVENTUAL: Configures a new global table for multi-Region eventual consistency. This is the default consistency mode for global tables.
+    /// * Create - add a new witness to the global table.
     ///
-    /// * STRONG: Configures a new global table for multi-Region strong consistency (preview). Multi-Region strong consistency (MRSC) is a new DynamoDB global tables capability currently available in preview mode. For more information, see [Global tables multi-Region strong consistency](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PreviewFeatures.html#multi-region-strong-consistency-gt).
+    /// * Delete - remove a witness from the global table.
     ///
     ///
-    /// If you don't specify this parameter, the global table consistency mode defaults to EVENTUAL.
+    /// You can create or delete only one witness per UpdateTable operation. For more information, see [Multi-Region strong consistency (MRSC)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_HowItWorks.html#V2globaltables_HowItWorks.consistency-modes) in the Amazon DynamoDB Developer Guide
+    public var globalTableWitnessUpdates: [DynamoDBClientTypes.GlobalTableWitnessGroupUpdate]?
+    /// Specifies the consistency mode for a new global table. This parameter is only valid when you create a global table by specifying one or more [Create](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ReplicationGroupUpdate.html#DDB-Type-ReplicationGroupUpdate-Create) actions in the [ReplicaUpdates](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html#DDB-UpdateTable-request-ReplicaUpdates) action list. You can specify one of the following consistency modes:
+    ///
+    /// * EVENTUAL: Configures a new global table for multi-Region eventual consistency (MREC). This is the default consistency mode for global tables.
+    ///
+    /// * STRONG: Configures a new global table for multi-Region strong consistency (MRSC).
+    ///
+    ///
+    /// If you don't specify this field, the global table consistency mode defaults to EVENTUAL. For more information about global tables consistency modes, see [ Consistency modes](https://docs.aws.amazon.com/V2globaltables_HowItWorks.html#V2globaltables_HowItWorks.consistency-modes) in DynamoDB developer guide.
     public var multiRegionConsistency: DynamoDBClientTypes.MultiRegionConsistency?
     /// Updates the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
     public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
     /// The new provisioned throughput settings for the specified table or index.
     public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
-    /// A list of replica update actions (create, delete, or update) for the table. For global tables, this property only applies to global tables using Version 2019.11.21 (Current version).
+    /// A list of replica update actions (create, delete, or update) for the table.
     public var replicaUpdates: [DynamoDBClientTypes.ReplicationGroupUpdate]?
     /// The new server-side encryption settings for the specified table.
     public var sseSpecification: DynamoDBClientTypes.SSESpecification?
@@ -6480,6 +6746,7 @@ public struct UpdateTableInput: Swift.Sendable {
         billingMode: DynamoDBClientTypes.BillingMode? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]? = nil,
+        globalTableWitnessUpdates: [DynamoDBClientTypes.GlobalTableWitnessGroupUpdate]? = nil,
         multiRegionConsistency: DynamoDBClientTypes.MultiRegionConsistency? = nil,
         onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
         provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
@@ -6494,6 +6761,7 @@ public struct UpdateTableInput: Swift.Sendable {
         self.billingMode = billingMode
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
+        self.globalTableWitnessUpdates = globalTableWitnessUpdates
         self.multiRegionConsistency = multiRegionConsistency
         self.onDemandThroughput = onDemandThroughput
         self.provisionedThroughput = provisionedThroughput
@@ -6861,7 +7129,7 @@ extension DynamoDBClientTypes {
     }
 }
 
-/// A condition specified in the operation could not be evaluated.
+/// A condition specified in the operation failed to be evaluated.
 public struct ConditionalCheckFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -9546,6 +9814,7 @@ extension PutResourcePolicyInput {
 
     static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ConfirmRemoveSelfResourceAccess"].write(value.confirmRemoveSelfResourceAccess)
         try writer["ExpectedRevisionId"].write(value.expectedRevisionId)
         try writer["Policy"].write(value.policy)
         try writer["ResourceArn"].write(value.resourceArn)
@@ -9684,6 +9953,7 @@ extension UpdateContributorInsightsInput {
     static func write(value: UpdateContributorInsightsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ContributorInsightsAction"].write(value.contributorInsightsAction)
+        try writer["ContributorInsightsMode"].write(value.contributorInsightsMode)
         try writer["IndexName"].write(value.indexName)
         try writer["TableName"].write(value.tableName)
     }
@@ -9749,6 +10019,7 @@ extension UpdateTableInput {
         try writer["BillingMode"].write(value.billingMode)
         try writer["DeletionProtectionEnabled"].write(value.deletionProtectionEnabled)
         try writer["GlobalSecondaryIndexUpdates"].writeList(value.globalSecondaryIndexUpdates, memberWritingClosure: DynamoDBClientTypes.GlobalSecondaryIndexUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["GlobalTableWitnessUpdates"].writeList(value.globalTableWitnessUpdates, memberWritingClosure: DynamoDBClientTypes.GlobalTableWitnessGroupUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MultiRegionConsistency"].write(value.multiRegionConsistency)
         try writer["OnDemandThroughput"].write(value.onDemandThroughput, with: DynamoDBClientTypes.OnDemandThroughput.write(value:to:))
         try writer["ProvisionedThroughput"].write(value.provisionedThroughput, with: DynamoDBClientTypes.ProvisionedThroughput.write(value:to:))
@@ -9939,6 +10210,7 @@ extension DescribeContributorInsightsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeContributorInsightsOutput()
+        value.contributorInsightsMode = try reader["ContributorInsightsMode"].readIfPresent()
         value.contributorInsightsRuleList = try reader["ContributorInsightsRuleList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.contributorInsightsStatus = try reader["ContributorInsightsStatus"].readIfPresent()
         value.failureException = try reader["FailureException"].readIfPresent(with: DynamoDBClientTypes.FailureException.read(from:))
@@ -10414,6 +10686,7 @@ extension UpdateContributorInsightsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateContributorInsightsOutput()
+        value.contributorInsightsMode = try reader["ContributorInsightsMode"].readIfPresent()
         value.contributorInsightsStatus = try reader["ContributorInsightsStatus"].readIfPresent()
         value.indexName = try reader["IndexName"].readIfPresent()
         value.tableName = try reader["TableName"].readIfPresent()
@@ -10521,6 +10794,7 @@ enum BatchExecuteStatementOutputError {
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -10539,6 +10813,7 @@ enum BatchGetItemOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -10556,8 +10831,10 @@ enum BatchWriteItemOutputError {
             case "InvalidEndpointException": return try InvalidEndpointException.makeError(baseError: baseError)
             case "ItemCollectionSizeLimitExceededException": return try ItemCollectionSizeLimitExceededException.makeError(baseError: baseError)
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
+            case "ReplicatedWriteConflictException": return try ReplicatedWriteConflictException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -10652,6 +10929,7 @@ enum DeleteItemOutputError {
             case "ReplicatedWriteConflictException": return try ReplicatedWriteConflictException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             case "TransactionConflictException": return try TransactionConflictException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10946,6 +11224,7 @@ enum ExecuteStatementOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             case "TransactionConflictException": return try TransactionConflictException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10965,6 +11244,7 @@ enum ExecuteTransactionOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             case "TransactionCanceledException": return try TransactionCanceledException.makeError(baseError: baseError)
             case "TransactionInProgressException": return try TransactionInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11004,6 +11284,7 @@ enum GetItemOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11163,6 +11444,7 @@ enum PutItemOutputError {
             case "ReplicatedWriteConflictException": return try ReplicatedWriteConflictException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             case "TransactionConflictException": return try TransactionConflictException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11201,6 +11483,7 @@ enum QueryOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11260,6 +11543,7 @@ enum ScanOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11296,6 +11580,7 @@ enum TransactGetItemsOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             case "TransactionCanceledException": return try TransactionCanceledException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11316,6 +11601,7 @@ enum TransactWriteItemsOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             case "TransactionCanceledException": return try TransactionCanceledException.makeError(baseError: baseError)
             case "TransactionInProgressException": return try TransactionInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11428,6 +11714,7 @@ enum UpdateItemOutputError {
             case "ReplicatedWriteConflictException": return try ReplicatedWriteConflictException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             case "TransactionConflictException": return try TransactionConflictException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11523,7 +11810,22 @@ extension RequestLimitExceeded {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = RequestLimitExceeded()
+        value.properties.throttlingReasons = try reader["ThrottlingReasons"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ThrottlingReason.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.throttlingReasons = try reader["throttlingReasons"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ThrottlingReason.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11544,6 +11846,20 @@ extension InvalidEndpointException {
     }
 }
 
+extension ProvisionedThroughputExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ProvisionedThroughputExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ProvisionedThroughputExceededException()
+        value.properties.throttlingReasons = try reader["ThrottlingReasons"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ThrottlingReason.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
@@ -11557,11 +11873,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ProvisionedThroughputExceededException {
+extension ItemCollectionSizeLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ProvisionedThroughputExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ItemCollectionSizeLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ProvisionedThroughputExceededException()
+        var value = ItemCollectionSizeLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11570,11 +11886,37 @@ extension ProvisionedThroughputExceededException {
     }
 }
 
-extension ItemCollectionSizeLimitExceededException {
+extension ReplicatedWriteConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ItemCollectionSizeLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicatedWriteConflictException {
         let reader = baseError.errorBodyReader
-        var value = ItemCollectionSizeLimitExceededException()
+        var value = ReplicatedWriteConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BackupInUseException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupInUseException {
+        let reader = baseError.errorBodyReader
+        var value = BackupInUseException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ContinuousBackupsUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ContinuousBackupsUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ContinuousBackupsUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11609,37 +11951,11 @@ extension TableInUseException {
     }
 }
 
-extension BackupInUseException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupInUseException {
-        let reader = baseError.errorBodyReader
-        var value = BackupInUseException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension TableNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TableNotFoundException {
         let reader = baseError.errorBodyReader
         var value = TableNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ContinuousBackupsUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ContinuousBackupsUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = ContinuousBackupsUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11687,19 +12003,6 @@ extension BackupNotFoundException {
     }
 }
 
-extension TransactionConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TransactionConflictException {
-        let reader = baseError.errorBodyReader
-        var value = TransactionConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConditionalCheckFailedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConditionalCheckFailedException {
@@ -11714,11 +12017,11 @@ extension ConditionalCheckFailedException {
     }
 }
 
-extension ReplicatedWriteConflictException {
+extension TransactionConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicatedWriteConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TransactionConflictException {
         let reader = baseError.errorBodyReader
-        var value = ReplicatedWriteConflictException()
+        var value = TransactionConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11832,6 +12135,19 @@ extension TransactionInProgressException {
     }
 }
 
+extension ExportConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExportConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ExportConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidExportTimeException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidExportTimeException {
@@ -11850,19 +12166,6 @@ extension PointInTimeRecoveryUnavailableException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PointInTimeRecoveryUnavailableException {
         let reader = baseError.errorBodyReader
         var value = PointInTimeRecoveryUnavailableException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ExportConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExportConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ExportConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11910,11 +12213,11 @@ extension InvalidRestoreTimeException {
     }
 }
 
-extension ReplicaNotFoundException {
+extension ReplicaAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicaNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicaAlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = ReplicaNotFoundException()
+        var value = ReplicaAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11923,11 +12226,11 @@ extension ReplicaNotFoundException {
     }
 }
 
-extension ReplicaAlreadyExistsException {
+extension ReplicaNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicaAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicaNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ReplicaAlreadyExistsException()
+        var value = ReplicaNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12293,6 +12596,7 @@ extension DynamoDBClientTypes.TableDescription {
         value.latestStreamArn = try reader["LatestStreamArn"].readIfPresent()
         value.globalTableVersion = try reader["GlobalTableVersion"].readIfPresent()
         value.replicas = try reader["Replicas"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ReplicaDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.globalTableWitnesses = try reader["GlobalTableWitnesses"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.GlobalTableWitnessDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.restoreSummary = try reader["RestoreSummary"].readIfPresent(with: DynamoDBClientTypes.RestoreSummary.read(from:))
         value.sseDescription = try reader["SSEDescription"].readIfPresent(with: DynamoDBClientTypes.SSEDescription.read(from:))
         value.archivalSummary = try reader["ArchivalSummary"].readIfPresent(with: DynamoDBClientTypes.ArchivalSummary.read(from:))
@@ -12356,6 +12660,17 @@ extension DynamoDBClientTypes.RestoreSummary {
         value.sourceTableArn = try reader["SourceTableArn"].readIfPresent()
         value.restoreDateTime = try reader["RestoreDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.restoreInProgress = try reader["RestoreInProgress"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.GlobalTableWitnessDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalTableWitnessDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.GlobalTableWitnessDescription()
+        value.regionName = try reader["RegionName"].readIfPresent()
+        value.witnessStatus = try reader["WitnessStatus"].readIfPresent()
         return value
     }
 }
@@ -13026,6 +13341,7 @@ extension DynamoDBClientTypes.ContributorInsightsSummary {
         value.tableName = try reader["TableName"].readIfPresent()
         value.indexName = try reader["IndexName"].readIfPresent()
         value.contributorInsightsStatus = try reader["ContributorInsightsStatus"].readIfPresent()
+        value.contributorInsightsMode = try reader["ContributorInsightsMode"].readIfPresent()
         return value
     }
 }
@@ -13130,6 +13446,17 @@ extension DynamoDBClientTypes.TimeToLiveSpecification {
         var value = DynamoDBClientTypes.TimeToLiveSpecification()
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
         value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.ThrottlingReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ThrottlingReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.ThrottlingReason()
+        value.reason = try reader["reason"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent()
         return value
     }
 }
@@ -13480,6 +13807,31 @@ extension DynamoDBClientTypes.CreateReplicationGroupMemberAction {
         try writer["ProvisionedThroughputOverride"].write(value.provisionedThroughputOverride, with: DynamoDBClientTypes.ProvisionedThroughputOverride.write(value:to:))
         try writer["RegionName"].write(value.regionName)
         try writer["TableClassOverride"].write(value.tableClassOverride)
+    }
+}
+
+extension DynamoDBClientTypes.GlobalTableWitnessGroupUpdate {
+
+    static func write(value: DynamoDBClientTypes.GlobalTableWitnessGroupUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Create"].write(value.create, with: DynamoDBClientTypes.CreateGlobalTableWitnessGroupMemberAction.write(value:to:))
+        try writer["Delete"].write(value.delete, with: DynamoDBClientTypes.DeleteGlobalTableWitnessGroupMemberAction.write(value:to:))
+    }
+}
+
+extension DynamoDBClientTypes.DeleteGlobalTableWitnessGroupMemberAction {
+
+    static func write(value: DynamoDBClientTypes.DeleteGlobalTableWitnessGroupMemberAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RegionName"].write(value.regionName)
+    }
+}
+
+extension DynamoDBClientTypes.CreateGlobalTableWitnessGroupMemberAction {
+
+    static func write(value: DynamoDBClientTypes.CreateGlobalTableWitnessGroupMemberAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RegionName"].write(value.regionName)
     }
 }
 

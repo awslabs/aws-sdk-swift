@@ -176,6 +176,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
 extension CodeConnectionsClientTypes {
 
     public enum ProviderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azureDevOps
         case bitbucket
         case github
         case githubEnterpriseServer
@@ -185,6 +186,7 @@ extension CodeConnectionsClientTypes {
 
         public static var allCases: [ProviderType] {
             return [
+                .azureDevOps,
                 .bitbucket,
                 .github,
                 .githubEnterpriseServer,
@@ -200,6 +202,7 @@ extension CodeConnectionsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .azureDevOps: return "AzureDevOps"
             case .bitbucket: return "Bitbucket"
             case .github: return "GitHub"
             case .githubEnterpriseServer: return "GitHubEnterpriseServer"
@@ -957,7 +960,7 @@ extension CodeConnectionsClientTypes {
 
     /// A resource that is used to connect third-party source providers with services like CodePipeline. Note: A connection created through CloudFormation, the CLI, or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by updating the connection in the console.
     public struct Connection: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between Amazon Web Servicesservices. The ARN is never reused if the connection is deleted.
+        /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between Amazon Web Services services. The ARN is never reused if the connection is deleted.
         public var connectionArn: Swift.String?
         /// The name of the connection. Connection names must be unique in an Amazon Web Services account.
         public var connectionName: Swift.String?
@@ -3388,19 +3391,6 @@ extension LimitExceededException {
     }
 }
 
-extension ResourceUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceUnavailableException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
@@ -3414,11 +3404,37 @@ extension ResourceNotFoundException {
     }
 }
 
+extension ResourceUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceUnavailableException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConcurrentModificationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+        let reader = baseError.errorBodyReader
+        var value = ConcurrentModificationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3466,19 +3482,6 @@ extension ResourceAlreadyExistsException {
     }
 }
 
-extension ConcurrentModificationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
-        let reader = baseError.errorBodyReader
-        var value = ConcurrentModificationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
@@ -3492,11 +3495,11 @@ extension ThrottlingException {
     }
 }
 
-extension UnsupportedProviderTypeException {
+extension SyncConfigurationStillExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedProviderTypeException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SyncConfigurationStillExistsException {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedProviderTypeException()
+        var value = SyncConfigurationStillExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3505,11 +3508,11 @@ extension UnsupportedProviderTypeException {
     }
 }
 
-extension SyncConfigurationStillExistsException {
+extension UnsupportedProviderTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SyncConfigurationStillExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedProviderTypeException {
         let reader = baseError.errorBodyReader
-        var value = SyncConfigurationStillExistsException()
+        var value = UnsupportedProviderTypeException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3570,11 +3573,11 @@ extension UpdateOutOfSyncException {
     }
 }
 
-extension SyncBlockerDoesNotExistException {
+extension RetryLatestCommitFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SyncBlockerDoesNotExistException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RetryLatestCommitFailedException {
         let reader = baseError.errorBodyReader
-        var value = SyncBlockerDoesNotExistException()
+        var value = RetryLatestCommitFailedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3583,11 +3586,11 @@ extension SyncBlockerDoesNotExistException {
     }
 }
 
-extension RetryLatestCommitFailedException {
+extension SyncBlockerDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RetryLatestCommitFailedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SyncBlockerDoesNotExistException {
         let reader = baseError.errorBodyReader
-        var value = RetryLatestCommitFailedException()
+        var value = SyncBlockerDoesNotExistException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -14,11 +14,14 @@ import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.Ec2QueryTrait
 
 class Ec2QueryHttpResponseBindingErrorGeneratorTests {
-
     @Test
     fun `002 GreetingWithErrorsOutputError+HttpResponseBinding has with correct cases`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift")
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "Sources/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 enum GreetingWithErrorsOutputError {
@@ -113,7 +116,10 @@ func httpServiceError(baseError: AWSClientRuntime.EC2QueryError) throws -> Swift
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context =
             TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, Ec2QueryTrait.ID)
 

@@ -17,7 +17,6 @@ import software.amazon.smithy.swift.codegen.endpoints.EndpointParamsGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class EndpointParamsGeneratorTests {
-
     @Test
     fun `test endpoint params init`() {
         val context = setupTests("endpoints.smithy", "smithy.example#ExampleService")
@@ -25,7 +24,7 @@ class EndpointParamsGeneratorTests {
         endpointParamsGenerator.render()
         val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/Endpoints.swift")
         val expected = """
-public struct EndpointParams {
+public struct EndpointParams: Sendable {
     public let boolBar: Swift.Bool?
     public let boolBaz: Swift.String?
     public let boolFoo: Swift.Bool
@@ -110,16 +109,26 @@ extension EndpointParams: ClientRuntime.EndpointsRequestContextProviding {
 }
 
 @Language("JSON")
-fun String.toRuleset(): EndpointRuleSet {
-    return EndpointRuleSet.fromNode(Node.parse(this))
-}
+fun String.toRuleset(): EndpointRuleSet = EndpointRuleSet.fromNode(Node.parse(this))
 
-private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+private fun setupTests(
+    smithyFile: String,
+    serviceShapeId: String,
+): TestContext {
     val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
     val presigner = PresignerGenerator()
     val generator = AWSRestJson1ProtocolGenerator()
     val codegenContext = GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, context.manifest, generator)
-    val protocolGenerationContext = ProtocolGenerator.GenerationContext(context.ctx.settings, context.ctx.model, context.ctx.service, context.ctx.symbolProvider, listOf(), RestJson1Trait.ID, context.ctx.delegator)
+    val protocolGenerationContext =
+        ProtocolGenerator.GenerationContext(
+            context.ctx.settings,
+            context.ctx.model,
+            context.ctx.service,
+            context.ctx.symbolProvider,
+            listOf(),
+            RestJson1Trait.ID,
+            context.ctx.delegator,
+        )
     codegenContext.protocolGenerator?.initializeMiddleware(context.ctx)
     presigner.writeAdditionalFiles(codegenContext, protocolGenerationContext, context.ctx.delegator)
     context.ctx.delegator.flushWriters()

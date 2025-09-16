@@ -356,11 +356,19 @@ public struct GetPriceListFileUrlOutput: Swift.Sendable {
 extension PricingClientTypes {
 
     public enum FilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case anyOf
+        case contains
+        case equals
+        case noneOf
         case termMatch
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FilterType] {
             return [
+                .anyOf,
+                .contains,
+                .equals,
+                .noneOf,
                 .termMatch
             ]
         }
@@ -372,6 +380,10 @@ extension PricingClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .anyOf: return "ANY_OF"
+            case .contains: return "CONTAINS"
+            case .equals: return "EQUALS"
+            case .noneOf: return "NONE_OF"
             case .termMatch: return "TERM_MATCH"
             case let .sdkUnknown(s): return s
             }
@@ -386,10 +398,20 @@ extension PricingClientTypes {
         /// The product metadata field that you want to filter on. You can filter by just the service code to see all products for a specific service, filter by just the attribute name to see a specific attribute for multiple services, or use both a service code and an attribute name to retrieve only products that match both fields. Valid values include: ServiceCode, and all attribute names For example, you can filter by the AmazonEC2 service code and the volumeType attribute name to get the prices for only Amazon EC2 volumes.
         /// This member is required.
         public var field: Swift.String?
-        /// The type of filter that you want to use. Valid values are: TERM_MATCH. TERM_MATCH returns only products that match both the given filter field and the given value.
+        /// The type of filter that you want to use. Valid values are:
+        ///
+        /// * TERM_MATCH: Returns only products that match both the given filter field and the given value.
+        ///
+        /// * EQUALS: Returns products that have a field value exactly matching the provided value.
+        ///
+        /// * CONTAINS: Returns products where the field value contains the provided value as a substring.
+        ///
+        /// * ANY_OF: Returns products where the field value is any of the provided values.
+        ///
+        /// * NONE_OF: Returns products where the field value is not any of the provided values.
         /// This member is required.
         public var type: PricingClientTypes.FilterType?
-        /// The service code or attribute value that you want to filter by. If you're filtering by service code this is the actual service code, such as AmazonEC2. If you're filtering by attribute name, this is the attribute value that you want the returned products to match, such as a Provisioned IOPS volume.
+        /// The service code or attribute value that you want to filter by. If you're filtering by service code this is the actual service code, such as AmazonEC2. If you're filtering by attribute name, this is the attribute value that you want the returned products to match, such as a Provisioned IOPS volume. For ANY_OF and NONE_OF filter types, you can provide multiple values as a comma-separated string. For example, t2.micro,t2.small,t2.medium or Compute optimized, GPU instance, Micro instances.
         /// This member is required.
         public var value: Swift.String?
 
@@ -782,37 +804,11 @@ enum ListPriceListsOutputError {
     }
 }
 
-extension NotFoundException {
+extension ExpiredNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExpiredNextTokenException {
         let reader = baseError.errorBodyReader
-        var value = NotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidParameterException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidParameterException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = ExpiredNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -834,11 +830,11 @@ extension InternalErrorException {
     }
 }
 
-extension ExpiredNextTokenException {
+extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExpiredNextTokenException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
-        var value = ExpiredNextTokenException()
+        var value = InvalidNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -847,11 +843,37 @@ extension ExpiredNextTokenException {
     }
 }
 
-extension InvalidNextTokenException {
+extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
-        var value = InvalidNextTokenException()
+        var value = InvalidParameterException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = NotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

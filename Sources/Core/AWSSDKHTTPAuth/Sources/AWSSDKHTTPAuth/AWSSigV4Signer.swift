@@ -5,10 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import struct AWSSDKIdentityAPI.S3ExpressIdentity
 import class AwsCommonRuntimeKit.HTTPRequestBase
 import class AwsCommonRuntimeKit.Signer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPRequestBuilder
+import class Smithy.Context
 import enum AwsCommonRuntimeKit.CommonRunTimeError
 import enum Smithy.ClientError
 import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
@@ -20,7 +22,6 @@ import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentityAPI.Identity
 import protocol SmithyHTTPAuthAPI.Signer
 import struct AwsCommonRuntimeKit.SigningConfig
-import struct ClientRuntime.Date
 import struct Smithy.AttributeKey
 import struct Smithy.Attributes
 import struct Smithy.SwiftLogger
@@ -32,7 +33,7 @@ import struct Foundation.TimeInterval
 import struct Foundation.URL
 import AWSSDKChecksums
 
-public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
+public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
 
     public init() {}
 
@@ -49,7 +50,7 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
             )
         }
 
-        guard let identity = identity as? AWSCredentialIdentity else {
+        guard let identity = identity.asAWSCredentialIdentity else {
             throw Smithy.ClientError.authError(
                 "Identity passed to the AWSSigV4Signer must be of type Credentials."
             )
@@ -80,13 +81,18 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
             guard let requestSignature = crtSignedRequest.signature else {
                 throw Smithy.ClientError.dataNotFound("Could not get request signature!")
             }
-
+            // Context needs to get passed into ChunkedStream => ChunkedReader so finalized checksum
+            //  can be saved into it & persisted between retries in orchestrator for it to be re-used.
+            guard let context = signingProperties.get(key: AttributeKey<Smithy.Context>(name: "Context")) else {
+                throw Smithy.ClientError.dataNotFound("Could not retrieve operation context!")
+            }
             // Set streaming body to an Chunked wrapped type
             try sdkSignedRequest.setChunkedBody(
                 signingConfig: crtSigningConfig,
                 signature: requestSignature,
                 trailingHeaders: unsignedRequest.trailingHeaders,
-                checksumString: signingProperties.get(key: SigningPropertyKeys.checksum)
+                checksumString: signingProperties.get(key: SigningPropertyKeys.checksum),
+                context: context
             )
         }
 
@@ -165,7 +171,7 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
         awsCredentialIdentityResolver: any AWSCredentialIdentityResolver,
         signingName: Swift.String,
         signingRegion: Swift.String,
-        date: ClientRuntime.Date,
+        date: Date,
         expiration: TimeInterval,
         signingAlgorithm: SigningAlgorithm
     ) async -> URL? {
@@ -272,5 +278,20 @@ extension SigningConfig {
         default:
             return false
         }
+    }
+}
+
+private extension Identity {
+
+    var asAWSCredentialIdentity: AWSCredentialIdentity? {
+        (self as? AWSCredentialIdentity) ??
+        (self as? S3ExpressIdentity)?.awsCredentialIdentity
+    }
+}
+
+private extension S3ExpressIdentity {
+
+    var awsCredentialIdentity: AWSCredentialIdentity {
+        .init(accessKey: accessKeyID, secret: secretAccessKey, expiration: expiration, sessionToken: sessionToken)
     }
 }

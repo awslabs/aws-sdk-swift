@@ -147,6 +147,38 @@ extension DescribeFileSystemsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension FSxClient {
+    /// Paginate over `[DescribeS3AccessPointAttachmentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeS3AccessPointAttachmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeS3AccessPointAttachmentsOutput`
+    public func describeS3AccessPointAttachmentsPaginated(input: DescribeS3AccessPointAttachmentsInput) -> ClientRuntime.PaginatorSequence<DescribeS3AccessPointAttachmentsInput, DescribeS3AccessPointAttachmentsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeS3AccessPointAttachmentsInput, DescribeS3AccessPointAttachmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeS3AccessPointAttachments(input:))
+    }
+}
+
+extension DescribeS3AccessPointAttachmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeS3AccessPointAttachmentsInput {
+        return DescribeS3AccessPointAttachmentsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            names: self.names,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeS3AccessPointAttachmentsInput, OperationStackOutput == DescribeS3AccessPointAttachmentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeS3AccessPointAttachmentsPaginated`
+    /// to access the nested member `[FSxClientTypes.S3AccessPointAttachment]`
+    /// - Returns: `[FSxClientTypes.S3AccessPointAttachment]`
+    public func s3AccessPointAttachments() async throws -> [FSxClientTypes.S3AccessPointAttachment] {
+        return try await self.asyncCompactMap { item in item.s3AccessPointAttachments }
+    }
+}
+extension FSxClient {
     /// Paginate over `[DescribeSnapshotsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -169,6 +201,15 @@ extension DescribeSnapshotsInput: ClientRuntime.PaginateToken {
             nextToken: token,
             snapshotIds: self.snapshotIds
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeSnapshotsInput, OperationStackOutput == DescribeSnapshotsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSnapshotsPaginated`
+    /// to access the nested member `[FSxClientTypes.Snapshot]`
+    /// - Returns: `[FSxClientTypes.Snapshot]`
+    public func snapshots() async throws -> [FSxClientTypes.Snapshot] {
+        return try await self.asyncCompactMap { item in item.snapshots }
+    }
 }
 extension FSxClient {
     /// Paginate over `[DescribeStorageVirtualMachinesOutput]` results.

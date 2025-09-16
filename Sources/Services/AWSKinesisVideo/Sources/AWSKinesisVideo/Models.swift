@@ -3782,58 +3782,6 @@ enum UpdateStreamOutputError {
     }
 }
 
-extension InvalidArgumentException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidArgumentException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidArgumentException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceInUseException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ClientLimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientLimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ClientLimitExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TagsPerResourceExceededLimitException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TagsPerResourceExceededLimitException {
-        let reader = baseError.errorBodyReader
-        var value = TagsPerResourceExceededLimitException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
@@ -3860,6 +3808,58 @@ extension AccountChannelLimitExceededException {
     }
 }
 
+extension ClientLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ClientLimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidArgumentException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidArgumentException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidArgumentException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceInUseException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceInUseException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TagsPerResourceExceededLimitException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TagsPerResourceExceededLimitException {
+        let reader = baseError.errorBodyReader
+        var value = TagsPerResourceExceededLimitException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension AccountStreamLimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccountStreamLimitExceededException {
@@ -3873,11 +3873,11 @@ extension AccountStreamLimitExceededException {
     }
 }
 
-extension InvalidDeviceException {
+extension DeviceStreamLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidDeviceException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DeviceStreamLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = InvalidDeviceException()
+        var value = DeviceStreamLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3886,11 +3886,11 @@ extension InvalidDeviceException {
     }
 }
 
-extension DeviceStreamLimitExceededException {
+extension InvalidDeviceException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DeviceStreamLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidDeviceException {
         let reader = baseError.errorBodyReader
-        var value = DeviceStreamLimitExceededException()
+        var value = InvalidDeviceException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -1944,6 +1944,7 @@ enum StartSearchJobOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2235,7 +2236,7 @@ extension BackupSearchClientTypes.TimeCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupSearchClientTypes.TimeCondition()
         value.value = try reader["Value"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.`operator` = try reader["Operator"].readIfPresent() ?? .equalsTo
+        value.`operator` = try reader["Operator"].readIfPresent() ?? BackupSearchClientTypes.TimeConditionOperator.equalsTo
         return value
     }
 }
@@ -2252,7 +2253,7 @@ extension BackupSearchClientTypes.LongCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupSearchClientTypes.LongCondition()
         value.value = try reader["Value"].readIfPresent() ?? 0
-        value.`operator` = try reader["Operator"].readIfPresent() ?? .equalsTo
+        value.`operator` = try reader["Operator"].readIfPresent() ?? BackupSearchClientTypes.LongConditionOperator.equalsTo
         return value
     }
 }
@@ -2269,7 +2270,7 @@ extension BackupSearchClientTypes.StringCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BackupSearchClientTypes.StringCondition()
         value.value = try reader["Value"].readIfPresent() ?? ""
-        value.`operator` = try reader["Operator"].readIfPresent() ?? .equalsTo
+        value.`operator` = try reader["Operator"].readIfPresent() ?? BackupSearchClientTypes.StringConditionOperator.equalsTo
         return value
     }
 }

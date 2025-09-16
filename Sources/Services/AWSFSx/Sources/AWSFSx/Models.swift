@@ -28,6 +28,34 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
+/// An access point with that name already exists in the Amazon Web Services Region in your Amazon Web Services account.
+public struct AccessPointAlreadyOwnedByYou: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// An error code indicating that an access point with that name already exists in the Amazon Web Services Region in your Amazon Web Services account.
+        public internal(set) var errorCode: Swift.String? = nil
+        /// A detailed error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessPointAlreadyOwnedByYou" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        errorCode: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.errorCode = errorCode
+        self.properties.message = message
+    }
+}
+
 extension FSxClientTypes {
 
     /// The Microsoft Active Directory attributes of the Amazon FSx for Windows File Server file system.
@@ -242,20 +270,24 @@ extension FSxClientTypes {
 extension FSxClientTypes {
 
     public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
         case completed
         case failed
         case inProgress
         case optimizing
+        case paused
         case pending
         case updatedOptimizing
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Status] {
             return [
+                .cancelled,
                 .completed,
                 .failed,
                 .inProgress,
                 .optimizing,
+                .paused,
                 .pending,
                 .updatedOptimizing
             ]
@@ -268,10 +300,12 @@ extension FSxClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .cancelled: return "CANCELLED"
             case .completed: return "COMPLETED"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
             case .optimizing: return "OPTIMIZING"
+            case .paused: return "PAUSED"
             case .pending: return "PENDING"
             case .updatedOptimizing: return "UPDATED_OPTIMIZING"
             case let .sdkUnknown(s): return s
@@ -297,7 +331,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes {
 
-    /// The type of file system.
+    /// The type of Amazon FSx file system.
     public enum FileSystemType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case lustre
         case ontap
@@ -401,6 +435,63 @@ extension FSxClientTypes {
             case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum LustreReadCacheSizingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noCache
+        case proportionalToThroughputCapacity
+        case userProvisioned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LustreReadCacheSizingMode] {
+            return [
+                .noCache,
+                .proportionalToThroughputCapacity,
+                .userProvisioned
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noCache: return "NO_CACHE"
+            case .proportionalToThroughputCapacity: return "PROPORTIONAL_TO_THROUGHPUT_CAPACITY"
+            case .userProvisioned: return "USER_PROVISIONED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// The configuration for the optional provisioned SSD read cache on Amazon FSx for Lustre file systems that use the Intelligent-Tiering storage class.
+    public struct LustreReadCacheConfiguration: Swift.Sendable {
+        /// Required if SizingMode is set to USER_PROVISIONED. Specifies the size of the file system's SSD read cache, in gibibytes (GiB). The SSD read cache size is distributed across provisioned file servers in your file system. Intelligent-Tiering file systems support a minimum of 32 GiB and maximum of 131072 GiB for SSD read cache size for every 4,000 MB/s of throughput capacity provisioned.
+        public var sizeGiB: Swift.Int?
+        /// Specifies how the provisioned SSD read cache is sized, as follows:
+        ///
+        /// * Set to NO_CACHE if you do not want to use an SSD read cache with your Intelligent-Tiering file system.
+        ///
+        /// * Set to USER_PROVISIONED to specify the exact size of your SSD read cache.
+        ///
+        /// * Set to PROPORTIONAL_TO_THROUGHPUT_CAPACITY to have your SSD read cache automatically sized based on your throughput capacity.
+        public var sizingMode: FSxClientTypes.LustreReadCacheSizingMode?
+
+        public init(
+            sizeGiB: Swift.Int? = nil,
+            sizingMode: FSxClientTypes.LustreReadCacheSizingMode? = nil
+        ) {
+            self.sizeGiB = sizeGiB
+            self.sizingMode = sizingMode
         }
     }
 }
@@ -712,11 +803,15 @@ extension FSxClientTypes {
 
     /// The Lustre metadata performance configuration of an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type. The configuration enables the file system to support increasing metadata performance.
     public struct FileSystemLustreMetadataConfiguration: Swift.Sendable {
-        /// The number of Metadata IOPS provisioned for the file system. Valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
+        /// The number of Metadata IOPS provisioned for the file system.
+        ///
+        /// * For SSD file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
+        ///
+        /// * For Intelligent-Tiering file systems, valid values are 6000 and 12000.
         public var iops: Swift.Int?
         /// The metadata configuration mode for provisioning Metadata IOPS for the file system.
         ///
-        /// * In AUTOMATIC mode, FSx for Lustre automatically provisions and scales the number of Metadata IOPS on your file system based on your file system storage capacity.
+        /// * In AUTOMATIC mode (supported only on SSD file systems), FSx for Lustre automatically provisions and scales the number of Metadata IOPS on your file system based on your file system storage capacity.
         ///
         /// * In USER_PROVISIONED mode, you can choose to specify the number of Metadata IOPS to provision for your file system.
         /// This member is required.
@@ -781,9 +876,11 @@ extension FSxClientTypes {
         ///
         /// For more information, see [Lustre data compression](https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-compression.html).
         public var dataCompressionType: FSxClientTypes.DataCompressionType?
+        /// Required when StorageType is set to INTELLIGENT_TIERING. Specifies the optional provisioned SSD read cache.
+        public var dataReadCacheConfiguration: FSxClientTypes.LustreReadCacheConfiguration?
         /// The data repository configuration object for Lustre file systems returned in the response of the CreateFileSystem operation. This data type is not supported on file systems with a data repository association. For file systems with a data repository association, see .
         public var dataRepositoryConfiguration: FSxClientTypes.DataRepositoryConfiguration?
-        /// The deployment type of the FSx for Lustre file system. Scratch deployment type is designed for temporary storage and shorter-term processing of data. SCRATCH_1 and SCRATCH_2 deployment types are best suited for when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. The PERSISTENT_1 and PERSISTENT_2 deployment type is used for longer-term storage and workloads and encryption of data in transit. PERSISTENT_2 offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB) along with a lower minimum storage capacity requirement (600 GiB). To learn more about FSx for Lustre deployment types, see [ FSx for Lustre deployment options](https://docs.aws.amazon.com/fsx/latest/LustreGuide/lustre-deployment-types.html). The default is SCRATCH_1.
+        /// The deployment type of the FSx for Lustre file system. Scratch deployment type is designed for temporary storage and shorter-term processing of data. SCRATCH_1 and SCRATCH_2 deployment types are best suited for when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. The PERSISTENT_1 and PERSISTENT_2 deployment type is used for longer-term storage and workloads and encryption of data in transit. PERSISTENT_2 offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB) along with a lower minimum storage capacity requirement (600 GiB). To learn more about FSx for Lustre deployment types, see [Deployment and storage class options for FSx for Lustre file systems](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html). The default is SCRATCH_1.
         public var deploymentType: FSxClientTypes.LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when StorageType is HDD. When set to READ the file system has an SSD storage cache that is sized to 20% of the file system's storage capacity. This improves the performance for frequently accessed files by caching up to 20% of the total storage capacity. This parameter is required when StorageType is set to HDD.
         public var driveCacheType: FSxClientTypes.DriveCacheType?
@@ -805,6 +902,8 @@ extension FSxClientTypes {
         public var perUnitStorageThroughput: Swift.Int?
         /// The Lustre root squash configuration for an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
         public var rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration?
+        /// The throughput of an Amazon FSx for Lustre file system using the Intelligent-Tiering storage class, measured in megabytes per second (MBps).
+        public var throughputCapacity: Swift.Int?
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. Here, d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
@@ -813,6 +912,7 @@ extension FSxClientTypes {
             copyTagsToBackups: Swift.Bool? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             dataCompressionType: FSxClientTypes.DataCompressionType? = nil,
+            dataReadCacheConfiguration: FSxClientTypes.LustreReadCacheConfiguration? = nil,
             dataRepositoryConfiguration: FSxClientTypes.DataRepositoryConfiguration? = nil,
             deploymentType: FSxClientTypes.LustreDeploymentType? = nil,
             driveCacheType: FSxClientTypes.DriveCacheType? = nil,
@@ -822,12 +922,14 @@ extension FSxClientTypes {
             mountName: Swift.String? = nil,
             perUnitStorageThroughput: Swift.Int? = nil,
             rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration? = nil,
+            throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
         ) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.dataCompressionType = dataCompressionType
+            self.dataReadCacheConfiguration = dataReadCacheConfiguration
             self.dataRepositoryConfiguration = dataRepositoryConfiguration
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
@@ -837,7 +939,37 @@ extension FSxClientTypes {
             self.mountName = mountName
             self.perUnitStorageThroughput = perUnitStorageThroughput
             self.rootSquashConfiguration = rootSquashConfiguration
+            self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dual
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dual,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dual: return "DUAL"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -1021,7 +1153,7 @@ extension FSxClientTypes {
         ///
         /// * The value of ThroughputCapacityPerHAPair is not a valid value.
         public var throughputCapacityPerHAPair: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -1133,7 +1265,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes {
 
-    /// The configuration for the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
+    /// The configuration for the optional provisioned SSD read cache on Amazon FSx for OpenZFS file systems that use the Intelligent-Tiering storage class.
     public struct OpenZFSReadCacheConfiguration: Swift.Sendable {
         /// Required if SizingMode is set to USER_PROVISIONED. Specifies the size of the file system's SSD read cache, in gibibytes (GiB).
         public var sizeGiB: Swift.Int?
@@ -1176,6 +1308,10 @@ extension FSxClientTypes {
         public var endpointIpAddress: Swift.String?
         /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
         public var endpointIpAddressRange: Swift.String?
+        /// The IPv6 address of the endpoint that is used to access data or to manage the file system.
+        public var endpointIpv6Address: Swift.String?
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public var endpointIpv6AddressRange: Swift.String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public var preferredSubnetId: Swift.String?
         /// Required when StorageType is set to INTELLIGENT_TIERING. Specifies the optional provisioned SSD read cache.
@@ -1186,7 +1322,7 @@ extension FSxClientTypes {
         public var routeTableIds: [Swift.String]?
         /// The throughput of an Amazon FSx file system, measured in megabytes per second (MBps).
         public var throughputCapacity: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -1198,6 +1334,8 @@ extension FSxClientTypes {
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
             endpointIpAddress: Swift.String? = nil,
             endpointIpAddressRange: Swift.String? = nil,
+            endpointIpv6Address: Swift.String? = nil,
+            endpointIpv6AddressRange: Swift.String? = nil,
             preferredSubnetId: Swift.String? = nil,
             readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration? = nil,
             rootVolumeId: Swift.String? = nil,
@@ -1213,6 +1351,8 @@ extension FSxClientTypes {
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddress = endpointIpAddress
             self.endpointIpAddressRange = endpointIpAddressRange
+            self.endpointIpv6Address = endpointIpv6Address
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.preferredSubnetId = preferredSubnetId
             self.readCacheConfiguration = readCacheConfiguration
             self.rootVolumeId = rootVolumeId
@@ -2530,7 +2670,7 @@ extension FSxClientTypes {
         public var restoreToSnapshot: Swift.String?
         /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var sourceSnapshotARN: Swift.String?
-        /// The maximum amount of storage in gibibtyes (GiB) that the volume can use from its parent. You can specify a quota larger than the storage on the parent volume.
+        /// The maximum amount of storage in gibibytes (GiB) that the volume can use from its parent. You can specify a quota larger than the storage on the parent volume.
         public var storageCapacityQuotaGiB: Swift.Int?
         /// The amount of storage in gibibytes (GiB) to reserve from the parent volume. You can't reserve more storage than the parent volume has reserved.
         public var storageCapacityReservationGiB: Swift.Int?
@@ -3111,7 +3251,7 @@ public struct InvalidSourceKmsKey: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension FSxClientTypes {
 
-    /// The types of limits on your service utilization. Limits include file system count, total throughput capacity, total storage, and total user-initiated backups. These limits apply for a specific account in a specific Amazon Web Services Region. You can increase some of them by contacting Amazon Web Services Support.
+    /// The types of limits on your service utilization. Limits include file system count, total throughput capacity, total storage, and total user-initiated backups. These limits apply for a specific account in a specific Amazon Web Services Region. You can increase some of them by contacting Amazon Web ServicesSupport.
     public enum ServiceLimit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fileCacheCount
         case fileSystemCount
@@ -3163,7 +3303,7 @@ extension FSxClientTypes {
     }
 }
 
-/// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+/// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
 public struct ServiceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3473,16 +3613,18 @@ public struct CopySnapshotAndUpdateVolumeInput: Swift.Sendable {
     }
 }
 
-/// Another backup is already under way. Wait for completion before initiating additional backups of this file system.
-public struct BackupInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+/// The access point specified doesn't exist.
+public struct InvalidAccessPoint: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// An error code indicating that the access point specified doesn't exist.
+        public internal(set) var errorCode: Swift.String? = nil
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "BackupInProgress" }
+    public static var typeName: Swift.String { "InvalidAccessPoint" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -3491,8 +3633,66 @@ public struct BackupInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public internal(set) var requestID: Swift.String?
 
     public init(
+        errorCode: Swift.String? = nil,
         message: Swift.String? = nil
     ) {
+        self.properties.errorCode = errorCode
+        self.properties.message = message
+    }
+}
+
+/// The action or operation requested is invalid. Verify that the action is typed correctly.
+public struct InvalidRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// An error code indicating that the action or operation requested is invalid.
+        public internal(set) var errorCode: Swift.String? = nil
+        /// A detailed error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequest" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        errorCode: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.errorCode = errorCode
+        self.properties.message = message
+    }
+}
+
+/// You have reached the maximum number of S3 access points attachments allowed for your account in this Amazon Web Services Region, or for the file system. For more information, or to request an increase, see [Service quotas on FSx resources](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/limits.html) in the FSx for OpenZFS User Guide.
+public struct TooManyAccessPoints: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// An error code indicating that you have reached the maximum number of S3 access points attachments allowed for your account in this Amazon Web Services Region, or for the file system.
+        public internal(set) var errorCode: Swift.String? = nil
+        /// A detailed error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyAccessPoints" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        errorCode: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
@@ -3507,6 +3707,351 @@ public struct VolumeNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "VolumeNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension FSxClientTypes {
+
+    /// The FSx for OpenZFS file system user that is used for authorizing all file access requests that are made using the S3 access point.
+    public struct OpenZFSPosixFileSystemUser: Swift.Sendable {
+        /// The GID of the file system user.
+        /// This member is required.
+        public var gid: Swift.Int?
+        /// The list of secondary GIDs for the file system user.
+        public var secondaryGids: [Swift.Int]?
+        /// The UID of the file system user.
+        /// This member is required.
+        public var uid: Swift.Int?
+
+        public init(
+            gid: Swift.Int? = nil,
+            secondaryGids: [Swift.Int]? = nil,
+            uid: Swift.Int? = nil
+        ) {
+            self.gid = gid
+            self.secondaryGids = secondaryGids
+            self.uid = uid
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum OpenZFSFileSystemUserType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case posix
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OpenZFSFileSystemUserType] {
+            return [
+                .posix
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .posix: return "POSIX"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Specifies the file system user identity that will be used for authorizing all file access requests that are made using the S3 access point.
+    public struct OpenZFSFileSystemIdentity: Swift.Sendable {
+        /// Specifies the UID and GIDs of the file system POSIX user.
+        public var posixUser: FSxClientTypes.OpenZFSPosixFileSystemUser?
+        /// Specifies the FSx for OpenZFS user identity type, accepts only POSIX.
+        /// This member is required.
+        public var type: FSxClientTypes.OpenZFSFileSystemUserType?
+
+        public init(
+            posixUser: FSxClientTypes.OpenZFSPosixFileSystemUser? = nil,
+            type: FSxClientTypes.OpenZFSFileSystemUserType? = nil
+        ) {
+            self.posixUser = posixUser
+            self.type = type
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Specifies the FSx for OpenZFS volume that the S3 access point will be attached to, and the file system user identity.
+    public struct CreateAndAttachS3AccessPointOpenZFSConfiguration: Swift.Sendable {
+        /// Specifies the file system user identity to use for authorizing file read and write requests that are made using this S3 access point.
+        /// This member is required.
+        public var fileSystemIdentity: FSxClientTypes.OpenZFSFileSystemIdentity?
+        /// The ID of the FSx for OpenZFS volume to which you want the S3 access point attached.
+        /// This member is required.
+        public var volumeId: Swift.String?
+
+        public init(
+            fileSystemIdentity: FSxClientTypes.OpenZFSFileSystemIdentity? = nil,
+            volumeId: Swift.String? = nil
+        ) {
+            self.fileSystemIdentity = fileSystemIdentity
+            self.volumeId = volumeId
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// If included, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).
+    public struct S3AccessPointVpcConfiguration: Swift.Sendable {
+        /// Specifies the virtual private cloud (VPC) for the S3 access point VPC configuration, if one exists.
+        public var vpcId: Swift.String?
+
+        public init(
+            vpcId: Swift.String? = nil
+        ) {
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Used to create an S3 access point that accepts requests only from a virtual private cloud (VPC) to restrict data access to a private network.
+    public struct CreateAndAttachS3AccessPointS3Configuration: Swift.Sendable {
+        /// Specifies an access policy to associate with the S3 access point configuration. For more information, see [Configuring IAM policies for using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html) in the Amazon Simple Storage Service User Guide.
+        public var policy: Swift.String?
+        /// If included, Amazon S3 restricts access to this S3 access point to requests made from the specified virtual private cloud (VPC).
+        public var vpcConfiguration: FSxClientTypes.S3AccessPointVpcConfiguration?
+
+        public init(
+            policy: Swift.String? = nil,
+            vpcConfiguration: FSxClientTypes.S3AccessPointVpcConfiguration? = nil
+        ) {
+            self.policy = policy
+            self.vpcConfiguration = vpcConfiguration
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum S3AccessPointAttachmentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case openzfs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3AccessPointAttachmentType] {
+            return [
+                .openzfs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .openzfs: return "OPENZFS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateAndAttachS3AccessPointInput: Swift.Sendable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// The name you want to assign to this S3 access point.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Specifies the configuration to use when creating and attaching an S3 access point to an FSx for OpenZFS volume.
+    public var openZFSConfiguration: FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration?
+    /// Specifies the virtual private cloud (VPC) configuration if you're creating an access point that is restricted to a VPC. For more information, see [Creating access points restricted to a virtual private cloud](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/access-points-vpc.html).
+    public var s3AccessPoint: FSxClientTypes.CreateAndAttachS3AccessPointS3Configuration?
+    /// The type of S3 access point you want to create. Only OpenZFS is supported.
+    /// This member is required.
+    public var type: FSxClientTypes.S3AccessPointAttachmentType?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        openZFSConfiguration: FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration? = nil,
+        s3AccessPoint: FSxClientTypes.CreateAndAttachS3AccessPointS3Configuration? = nil,
+        type: FSxClientTypes.S3AccessPointAttachmentType? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.name = name
+        self.openZFSConfiguration = openZFSConfiguration
+        self.s3AccessPoint = s3AccessPoint
+        self.type = type
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum S3AccessPointAttachmentLifecycle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case creating
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3AccessPointAttachmentLifecycle] {
+            return [
+                .available,
+                .creating,
+                .deleting,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes the FSx for OpenZFS attachment configuration of an S3 access point attachment.
+    public struct S3AccessPointOpenZFSConfiguration: Swift.Sendable {
+        /// The file system identity used to authorize file access requests made using the S3 access point.
+        public var fileSystemIdentity: FSxClientTypes.OpenZFSFileSystemIdentity?
+        /// The ID of the FSx for OpenZFS volume that the S3 access point is attached to.
+        public var volumeId: Swift.String?
+
+        public init(
+            fileSystemIdentity: FSxClientTypes.OpenZFSFileSystemIdentity? = nil,
+            volumeId: Swift.String? = nil
+        ) {
+            self.fileSystemIdentity = fileSystemIdentity
+            self.volumeId = volumeId
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes the S3 access point configuration of the S3 access point attachment.
+    public struct S3AccessPoint: Swift.Sendable {
+        /// The S3 access point's alias.
+        public var alias: Swift.String?
+        /// he S3 access point's ARN.
+        public var resourceARN: Swift.String?
+        /// The S3 access point's virtual private cloud (VPC) configuration.
+        public var vpcConfiguration: FSxClientTypes.S3AccessPointVpcConfiguration?
+
+        public init(
+            alias: Swift.String? = nil,
+            resourceARN: Swift.String? = nil,
+            vpcConfiguration: FSxClientTypes.S3AccessPointVpcConfiguration? = nil
+        ) {
+            self.alias = alias
+            self.resourceARN = resourceARN
+            self.vpcConfiguration = vpcConfiguration
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// An S3 access point attached to an Amazon FSx volume.
+    public struct S3AccessPointAttachment: Swift.Sendable {
+        /// The time that the resource was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
+        public var creationTime: Foundation.Date?
+        /// The lifecycle status of the S3 access point attachment. The lifecycle can have the following values:
+        ///
+        /// * AVAILABLE - the S3 access point attachment is available for use
+        ///
+        /// * CREATING - Amazon FSx is creating the S3 access point and attachment
+        ///
+        /// * DELETING - Amazon FSx is deleting the S3 access point and attachment
+        ///
+        /// * FAILED - The S3 access point attachment is in a failed state. Delete and detach the S3 access point attachment, and create a new one.
+        ///
+        /// * UPDATING - Amazon FSx is updating the S3 access point attachment
+        public var lifecycle: FSxClientTypes.S3AccessPointAttachmentLifecycle?
+        /// Describes why a resource lifecycle state changed.
+        public var lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason?
+        /// The name of the S3 access point attachment; also used for the name of the S3 access point.
+        public var name: Swift.String?
+        /// The OpenZFSConfiguration of the S3 access point attachment.
+        public var openZFSConfiguration: FSxClientTypes.S3AccessPointOpenZFSConfiguration?
+        /// The S3 access point configuration of the S3 access point attachment.
+        public var s3AccessPoint: FSxClientTypes.S3AccessPoint?
+        /// The type of Amazon FSx volume that the S3 access point is attached to.
+        public var type: FSxClientTypes.S3AccessPointAttachmentType?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            lifecycle: FSxClientTypes.S3AccessPointAttachmentLifecycle? = nil,
+            lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason? = nil,
+            name: Swift.String? = nil,
+            openZFSConfiguration: FSxClientTypes.S3AccessPointOpenZFSConfiguration? = nil,
+            s3AccessPoint: FSxClientTypes.S3AccessPoint? = nil,
+            type: FSxClientTypes.S3AccessPointAttachmentType? = nil
+        ) {
+            self.creationTime = creationTime
+            self.lifecycle = lifecycle
+            self.lifecycleTransitionReason = lifecycleTransitionReason
+            self.name = name
+            self.openZFSConfiguration = openZFSConfiguration
+            self.s3AccessPoint = s3AccessPoint
+            self.type = type
+        }
+    }
+}
+
+public struct CreateAndAttachS3AccessPointOutput: Swift.Sendable {
+    /// Describes the configuration of the S3 access point created.
+    public var s3AccessPointAttachment: FSxClientTypes.S3AccessPointAttachment?
+
+    public init(
+        s3AccessPointAttachment: FSxClientTypes.S3AccessPointAttachment? = nil
+    ) {
+        self.s3AccessPointAttachment = s3AccessPointAttachment
+    }
+}
+
+/// Another backup is already under way. Wait for completion before initiating additional backups of this file system.
+public struct BackupInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A detailed error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BackupInProgress" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -3666,7 +4211,7 @@ extension FSxClientTypes {
     /// * DescribeDataRepositoryAssociations
     ///
     ///
-    /// Data repository associations are supported on Amazon File Cache resources and all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type.
+    /// Data repository associations are supported on Amazon File Cache resources and all FSx for Lustre 2.12 and 2.15 file systems, excluding Intelligent-Tiering and scratch_1 file systems.
     public struct DataRepositoryAssociation: Swift.Sendable {
         /// The system-generated, unique ID of the data repository association.
         public var associationId: Swift.String?
@@ -4423,7 +4968,7 @@ extension FSxClientTypes {
         /// Provisions the amount of read and write throughput for each 1 tebibyte (TiB) of cache storage capacity, in MB/s/TiB. The only supported value is 1000.
         /// This member is required.
         public var perUnitStorageThroughput: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -4569,7 +5114,7 @@ extension FSxClientTypes {
         public var mountName: Swift.String?
         /// Per unit storage throughput represents the megabytes per second of read or write throughput per 1 tebibyte of storage provisioned. Cache throughput capacity is equal to Storage capacity (TiB) * PerUnitStorageThroughput (MB/s/TiB). The only supported value is 1000.
         public var perUnitStorageThroughput: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -4808,11 +5353,18 @@ extension FSxClientTypes {
 
     /// The Lustre metadata performance configuration for the creation of an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type. The configuration uses a Metadata IOPS value to set the maximum rate of metadata disk IOPS supported by the file system. After creation, the file system supports increasing metadata performance. For more information on Metadata IOPS, see [Lustre metadata performance configuration](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-metadata-performance.html#metadata-configuration) in the Amazon FSx for Lustre User Guide.
     public struct CreateFileSystemLustreMetadataConfiguration: Swift.Sendable {
-        /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to provision for the file system. This parameter sets the maximum rate of metadata disk IOPS supported by the file system. Valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000. Iops doesn’t have a default value. If you're using USER_PROVISIONED mode, you can choose to specify a valid value. If you're using AUTOMATIC mode, you cannot specify a value because FSx for Lustre automatically sets the value based on your file system storage capacity.
+        /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to provision for the file system. This parameter sets the maximum rate of metadata disk IOPS supported by the file system.
+        ///
+        /// * For SSD file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
+        ///
+        /// * For Intelligent-Tiering file systems, valid values are 6000 and 12000.
+        ///
+        ///
+        /// Iops doesn’t have a default value. If you're using USER_PROVISIONED mode, you can choose to specify a valid value. If you're using AUTOMATIC mode, you cannot specify a value because FSx for Lustre automatically sets the value based on your file system storage capacity.
         public var iops: Swift.Int?
         /// The metadata configuration mode for provisioning Metadata IOPS for an FSx for Lustre file system using a PERSISTENT_2 deployment type.
         ///
-        /// * In AUTOMATIC mode, FSx for Lustre automatically provisions and scales the number of Metadata IOPS for your file system based on your file system storage capacity.
+        /// * In AUTOMATIC mode (supported only on SSD file systems), FSx for Lustre automatically provisions and scales the number of Metadata IOPS for your file system based on your file system storage capacity.
         ///
         /// * In USER_PROVISIONED mode, you specify the number of Metadata IOPS to provision for your file system.
         /// This member is required.
@@ -4868,7 +5420,9 @@ extension FSxClientTypes {
         ///
         /// For more information, see [Lustre data compression](https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-compression.html) in the Amazon FSx for Lustre User Guide.
         public var dataCompressionType: FSxClientTypes.DataCompressionType?
-        /// (Optional) Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 for longer-term storage and for throughput-focused workloads that aren’t latency-sensitive. PERSISTENT_1 supports encryption of data in transit, and is available in all Amazon Web Services Regions in which FSx for Lustre is available. Choose PERSISTENT_2 for longer-term storage and for latency-sensitive workloads that require the highest levels of IOPS/throughput. PERSISTENT_2 supports SSD storage, and offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB). You can optionally specify a metadata configuration mode for PERSISTENT_2 which supports increasing metadata performance. PERSISTENT_2 is available in a limited number of Amazon Web Services Regions. For more information, and an up-to-date list of Amazon Web Services Regions in which PERSISTENT_2 is available, see [File system deployment options for FSx for Lustre](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html#lustre-deployment-types) in the Amazon FSx for Lustre User Guide. If you choose PERSISTENT_2, and you set FileSystemTypeVersion to 2.10, the CreateFileSystem operation fails. Encryption of data in transit is automatically turned on when you access SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 file systems from Amazon EC2 instances that support automatic encryption in the Amazon Web Services Regions where they are available. For more information about encryption in transit for FSx for Lustre file systems, see [Encrypting data in transit](https://docs.aws.amazon.com/fsx/latest/LustreGuide/encryption-in-transit-fsxl.html) in the Amazon FSx for Lustre User Guide. (Default = SCRATCH_1)
+        /// Specifies the optional provisioned SSD read cache on FSx for Lustre file systems that use the Intelligent-Tiering storage class. Required when StorageType is set to INTELLIGENT_TIERING.
+        public var dataReadCacheConfiguration: FSxClientTypes.LustreReadCacheConfiguration?
+        /// (Optional) Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 for longer-term storage and for throughput-focused workloads that aren’t latency-sensitive. PERSISTENT_1 supports encryption of data in transit, and is available in all Amazon Web Services Regions in which FSx for Lustre is available. Choose PERSISTENT_2 for longer-term storage and for latency-sensitive workloads that require the highest levels of IOPS/throughput. PERSISTENT_2 supports the SSD and Intelligent-Tiering storage classes. You can optionally specify a metadata configuration mode for PERSISTENT_2 which supports increasing metadata performance. PERSISTENT_2 is available in a limited number of Amazon Web Services Regions. For more information, and an up-to-date list of Amazon Web Services Regions in which PERSISTENT_2 is available, see [Deployment and storage class options for FSx for Lustre file systems](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html) in the Amazon FSx for Lustre User Guide. If you choose PERSISTENT_2, and you set FileSystemTypeVersion to 2.10, the CreateFileSystem operation fails. Encryption of data in transit is automatically turned on when you access SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 file systems from Amazon EC2 instances that support automatic encryption in the Amazon Web Services Regions where they are available. For more information about encryption in transit for FSx for Lustre file systems, see [Encrypting data in transit](https://docs.aws.amazon.com/fsx/latest/LustreGuide/encryption-in-transit-fsxl.html) in the Amazon FSx for Lustre User Guide. (Default = SCRATCH_1)
         public var deploymentType: FSxClientTypes.LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set this property to READ to improve the performance for frequently accessed files by caching up to 20% of the total storage capacity of the file system. This parameter is required when StorageType is set to HDD.
         public var driveCacheType: FSxClientTypes.DriveCacheType?
@@ -4884,7 +5438,7 @@ extension FSxClientTypes {
         public var logConfiguration: FSxClientTypes.LustreLogCreateConfiguration?
         /// The Lustre metadata performance configuration for the creation of an FSx for Lustre file system using a PERSISTENT_2 deployment type.
         public var metadataConfiguration: FSxClientTypes.CreateFileSystemLustreMetadataConfiguration?
-        /// Required with PERSISTENT_1 and PERSISTENT_2 deployment types, provisions the amount of read and write throughput for each 1 tebibyte (TiB) of file system storage capacity, in MB/s/TiB. File system throughput capacity is calculated by multiplying ﬁle system storage capacity (TiB) by the PerUnitStorageThroughput (MB/s/TiB). For a 2.4-TiB ﬁle system, provisioning 50 MB/s/TiB of PerUnitStorageThroughput yields 120 MB/s of ﬁle system throughput. You pay for the amount of throughput that you provision. Valid values:
+        /// Required with PERSISTENT_1 and PERSISTENT_2 deployment types using an SSD or HDD storage class, provisions the amount of read and write throughput for each 1 tebibyte (TiB) of file system storage capacity, in MB/s/TiB. File system throughput capacity is calculated by multiplying ﬁle system storage capacity (TiB) by the PerUnitStorageThroughput (MB/s/TiB). For a 2.4-TiB ﬁle system, provisioning 50 MB/s/TiB of PerUnitStorageThroughput yields 120 MB/s of ﬁle system throughput. You pay for the amount of throughput that you provision. Valid values:
         ///
         /// * For PERSISTENT_1 SSD storage: 50, 100, 200 MB/s/TiB.
         ///
@@ -4894,6 +5448,8 @@ extension FSxClientTypes {
         public var perUnitStorageThroughput: Swift.Int?
         /// The Lustre root squash configuration used when creating an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
         public var rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration?
+        /// Specifies the throughput of an FSx for Lustre file system using the Intelligent-Tiering storage class, measured in megabytes per second (MBps). Valid values are 4000 MBps or multiples of 4000 MBps. You pay for the amount of throughput that you provision.
+        public var throughputCapacity: Swift.Int?
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
@@ -4903,6 +5459,7 @@ extension FSxClientTypes {
             copyTagsToBackups: Swift.Bool? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             dataCompressionType: FSxClientTypes.DataCompressionType? = nil,
+            dataReadCacheConfiguration: FSxClientTypes.LustreReadCacheConfiguration? = nil,
             deploymentType: FSxClientTypes.LustreDeploymentType? = nil,
             driveCacheType: FSxClientTypes.DriveCacheType? = nil,
             efaEnabled: Swift.Bool? = nil,
@@ -4913,6 +5470,7 @@ extension FSxClientTypes {
             metadataConfiguration: FSxClientTypes.CreateFileSystemLustreMetadataConfiguration? = nil,
             perUnitStorageThroughput: Swift.Int? = nil,
             rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration? = nil,
+            throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
         ) {
             self.autoImportPolicy = autoImportPolicy
@@ -4920,6 +5478,7 @@ extension FSxClientTypes {
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.dataCompressionType = dataCompressionType
+            self.dataReadCacheConfiguration = dataReadCacheConfiguration
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
             self.efaEnabled = efaEnabled
@@ -4930,6 +5489,7 @@ extension FSxClientTypes {
             self.metadataConfiguration = metadataConfiguration
             self.perUnitStorageThroughput = perUnitStorageThroughput
             self.rootSquashConfiguration = rootSquashConfiguration
+            self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
     }
@@ -4996,7 +5556,7 @@ extension FSxClientTypes {
         ///
         /// * The value of ThroughputCapacityPerHAPair is not a valid value.
         public var throughputCapacityPerHAPair: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -5105,8 +5665,10 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.OpenZFSDeploymentType?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
         public var endpointIpAddressRange: Swift.String?
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public var endpointIpv6AddressRange: Swift.String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public var preferredSubnetId: Swift.String?
         /// Specifies the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
@@ -5115,7 +5677,7 @@ extension FSxClientTypes {
         public var rootVolumeConfiguration: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration?
         /// (Multi-AZ only) Specifies the route tables in which Amazon FSx creates the rules for routing traffic to the correct file server. You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located. By default, Amazon FSx selects your VPC's default route table.
         public var routeTableIds: [Swift.String]?
-        /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second (MBps). Valid values depend on the DeploymentType you choose, as follows:
+        /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second (MBps). Valid values depend on the DeploymentType that you choose, as follows:
         ///
         /// * For MULTI_AZ_1 and SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MBps.
         ///
@@ -5125,7 +5687,7 @@ extension FSxClientTypes {
         /// You pay for additional throughput capacity that you provision.
         /// This member is required.
         public var throughputCapacity: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -5136,6 +5698,7 @@ extension FSxClientTypes {
             deploymentType: FSxClientTypes.OpenZFSDeploymentType? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
             endpointIpAddressRange: Swift.String? = nil,
+            endpointIpv6AddressRange: Swift.String? = nil,
             preferredSubnetId: Swift.String? = nil,
             readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration? = nil,
             rootVolumeConfiguration: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration? = nil,
@@ -5150,6 +5713,7 @@ extension FSxClientTypes {
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddressRange = endpointIpAddressRange
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.preferredSubnetId = preferredSubnetId
             self.readCacheConfiguration = readCacheConfiguration
             self.rootVolumeConfiguration = rootVolumeConfiguration
@@ -5380,6 +5944,8 @@ public struct CreateFileSystemInput: Swift.Sendable {
     ///
     /// * ImportPath
     public var lustreConfiguration: FSxClientTypes.CreateFileSystemLustreConfiguration?
+    /// The network type of the Amazon FSx file system that you are creating. Valid values are IPV4 (which supports IPv4 only) and DUAL (for dual-stack mode, which supports both IPv4 and IPv6). The default is IPV4. Supported only for Amazon FSx for OpenZFS file systems.
+    public var networkType: FSxClientTypes.NetworkType?
     /// The ONTAP configuration properties of the FSx for ONTAP file system that you are creating.
     public var ontapConfiguration: FSxClientTypes.CreateFileSystemOntapConfiguration?
     /// The OpenZFS configuration for the file system that's being created.
@@ -5405,12 +5971,12 @@ public struct CreateFileSystemInput: Swift.Sendable {
     ///
     /// * Set to SSD to use solid state drive storage. SSD is supported on all Windows, Lustre, ONTAP, and OpenZFS deployment types.
     ///
-    /// * Set to HDD to use hard disk drive storage. HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on PERSISTENT_1 Lustre file system deployment types.
+    /// * Set to HDD to use hard disk drive storage, which is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on PERSISTENT_1 Lustre file system deployment types.
     ///
-    /// * Set to INTELLIGENT_TIERING to use fully elastic, intelligently-tiered storage. Intelligent-Tiering is only available for OpenZFS file systems with the Multi-AZ deployment type.
+    /// * Set to INTELLIGENT_TIERING to use fully elastic, intelligently-tiered storage. Intelligent-Tiering is only available for OpenZFS file systems with the Multi-AZ deployment type and for Lustre file systems with the Persistent_2 deployment type.
     ///
     ///
-    /// Default value is SSD. For more information, see [ Storage type options](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/optimize-fsx-costs.html#storage-type-options) in the FSx for Windows File Server User Guide, [Multiple storage options](https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html#storage-options) in the FSx for Lustre User Guide, and [Working with Intelligent-Tiering](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance-intelligent-tiering) in the Amazon FSx for OpenZFS User Guide.
+    /// Default value is SSD. For more information, see [ Storage type options](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/optimize-fsx-costs.html#storage-type-options) in the FSx for Windows File Server User Guide, [FSx for Lustre storage classes](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html#lustre-storage-classes) in the FSx for Lustre User Guide, and [Working with Intelligent-Tiering](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance-intelligent-tiering) in the Amazon FSx for OpenZFS User Guide.
     public var storageType: FSxClientTypes.StorageType?
     /// Specifies the IDs of the subnets that the file system will be accessible from. For Windows and ONTAP MULTI_AZ_1 deployment types,provide exactly two subnet IDs, one for the preferred file server and one for the standby file server. You specify one of these subnets as the preferred subnet using the WindowsConfiguration > PreferredSubnetID or OntapConfiguration > PreferredSubnetID properties. For more information about Multi-AZ file system configuration, see [ Availability and durability: Single-AZ and Multi-AZ file systems](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html) in the Amazon FSx for Windows User Guide and [ Availability and durability](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/high-availability-multiAZ.html) in the Amazon FSx for ONTAP User Guide. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 and all Lustre deployment types, provide exactly one subnet ID. The file server is launched in that subnet's Availability Zone.
     /// This member is required.
@@ -5426,6 +5992,7 @@ public struct CreateFileSystemInput: Swift.Sendable {
         fileSystemTypeVersion: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         lustreConfiguration: FSxClientTypes.CreateFileSystemLustreConfiguration? = nil,
+        networkType: FSxClientTypes.NetworkType? = nil,
         ontapConfiguration: FSxClientTypes.CreateFileSystemOntapConfiguration? = nil,
         openZFSConfiguration: FSxClientTypes.CreateFileSystemOpenZFSConfiguration? = nil,
         securityGroupIds: [Swift.String]? = nil,
@@ -5440,6 +6007,7 @@ public struct CreateFileSystemInput: Swift.Sendable {
         self.fileSystemTypeVersion = fileSystemTypeVersion
         self.kmsKeyId = kmsKeyId
         self.lustreConfiguration = lustreConfiguration
+        self.networkType = networkType
         self.ontapConfiguration = ontapConfiguration
         self.openZFSConfiguration = openZFSConfiguration
         self.securityGroupIds = securityGroupIds
@@ -5458,7 +6026,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Sendable {
     public var backupId: Swift.String?
     /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
-    /// Sets the version for the Amazon FSx for Lustre file system that you're creating from a backup. Valid values are 2.10, 2.12, and 2.15. You don't need to specify FileSystemTypeVersion because it will be applied using the backup's FileSystemTypeVersion setting. If you choose to specify FileSystemTypeVersion when creating from backup, the value must match the backup's FileSystemTypeVersion setting.
+    /// Sets the version for the Amazon FSx for Lustre file system that you're creating from a backup. Valid values are 2.10, 2.12, and 2.15. You can enter a Lustre version that is newer than the backup's FileSystemTypeVersion setting. If you don't enter a newer Lustre version, it defaults to the backup's setting.
     public var fileSystemTypeVersion: Swift.String?
     /// Specifies the ID of the Key Management Service (KMS) key to use for encrypting data on Amazon FSx file systems, as follows:
     ///
@@ -5483,17 +6051,21 @@ public struct CreateFileSystemFromBackupInput: Swift.Sendable {
     ///
     /// * ImportPath
     public var lustreConfiguration: FSxClientTypes.CreateFileSystemLustreConfiguration?
+    /// Sets the network type for the Amazon FSx for OpenZFS file system that you're creating from a backup.
+    public var networkType: FSxClientTypes.NetworkType?
     /// The OpenZFS configuration for the file system that's being created.
     public var openZFSConfiguration: FSxClientTypes.CreateFileSystemOpenZFSConfiguration?
     /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups apply to all network interfaces. This value isn't returned in later DescribeFileSystem requests.
     public var securityGroupIds: [Swift.String]?
-    /// Sets the storage capacity of the OpenZFS file system that you're creating from a backup, in gibibytes (GiB). Valid values are from 64 GiB up to 524,288 GiB (512 TiB). However, the value that you specify must be equal to or greater than the backup's storage capacity value. If you don't use the StorageCapacity parameter, the default is the backup's StorageCapacity value. If used to create a file system other than OpenZFS, you must provide a value that matches the backup's StorageCapacity value. If you provide any other value, Amazon FSx responds with with an HTTP status code 400 Bad Request.
+    /// Sets the storage capacity of the OpenZFS file system that you're creating from a backup, in gibibytes (GiB). Valid values are from 64 GiB up to 524,288 GiB (512 TiB). However, the value that you specify must be equal to or greater than the backup's storage capacity value. If you don't use the StorageCapacity parameter, the default is the backup's StorageCapacity value. If used to create a file system other than OpenZFS, you must provide a value that matches the backup's StorageCapacity value. If you provide any other value, Amazon FSx responds with an HTTP status code 400 Bad Request.
     public var storageCapacity: Swift.Int?
-    /// Sets the storage type for the Windows or OpenZFS file system that you're creating from a backup. Valid values are SSD and HDD.
+    /// Sets the storage type for the Windows, OpenZFS, or Lustre file system that you're creating from a backup. Valid values are SSD, HDD, and INTELLIGENT_TIERING.
     ///
     /// * Set to SSD to use solid state drive storage. SSD is supported on all Windows and OpenZFS deployment types.
     ///
     /// * Set to HDD to use hard disk drive storage. HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 FSx for Windows File Server file system deployment types.
+    ///
+    /// * Set to INTELLIGENT_TIERING to use fully elastic, intelligently-tiered storage. Intelligent-Tiering is only available for OpenZFS file systems with the Multi-AZ deployment type and for Lustre file systems with the Persistent_2 deployment type.
     ///
     ///
     /// The default value is SSD. HDD and SSD storage types have different minimum storage capacity requirements. A restored file system's storage capacity is tied to the file system that was backed up. You can create a file system that uses HDD storage from a backup of a file system that used SSD storage if the original SSD file system had a storage capacity of at least 2000 GiB.
@@ -5512,6 +6084,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Sendable {
         fileSystemTypeVersion: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         lustreConfiguration: FSxClientTypes.CreateFileSystemLustreConfiguration? = nil,
+        networkType: FSxClientTypes.NetworkType? = nil,
         openZFSConfiguration: FSxClientTypes.CreateFileSystemOpenZFSConfiguration? = nil,
         securityGroupIds: [Swift.String]? = nil,
         storageCapacity: Swift.Int? = nil,
@@ -5525,6 +6098,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Sendable {
         self.fileSystemTypeVersion = fileSystemTypeVersion
         self.kmsKeyId = kmsKeyId
         self.lustreConfiguration = lustreConfiguration
+        self.networkType = networkType
         self.openZFSConfiguration = openZFSConfiguration
         self.securityGroupIds = securityGroupIds
         self.storageCapacity = storageCapacity
@@ -6162,7 +6736,7 @@ extension FSxClientTypes {
 
     /// Specifies the configuration of the Amazon FSx for OpenZFS volume that you are creating.
     public struct CreateOpenZFSVolumeConfiguration: Swift.Sendable {
-        /// A Boolean value indicating whether tags for the volume should be copied to snapshots. This value defaults to false. If it's set to true, all tags for the volume are copied to snapshots where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to snapshots. If you specify one or more tags when creating the snapshot, no tags are copied from the volume, regardless of this value.
+        /// A Boolean value indicating whether tags for the volume should be copied to snapshots. This value defaults to false. If this value is set to true, and you do not specify any tags, all tags for the original volume are copied over to snapshots. If this value is set to true, and you do specify one or more tags, only the specified tags for the original volume are copied over to snapshots. If you specify one or more tags when creating a new snapshot, no tags are copied over from the original volume, regardless of this value.
         public var copyTagsToSnapshots: Swift.Bool?
         /// Specifies the method used to compress the data on the volume. The compression type is NONE by default.
         ///
@@ -6184,7 +6758,7 @@ extension FSxClientTypes {
         public var parentVolumeId: Swift.String?
         /// A Boolean value indicating whether the volume is read-only.
         public var readOnly: Swift.Bool?
-        /// Specifies the suggested block size for a volume in a ZFS dataset, in kibibytes (KiB). For file systems using the Intelligent-Tiering storage class, valid values are 128, 256, 512, 1024, 2048, or 4096 KiB, with a default of 2048 KiB. For all other file systems, valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB, with a default of 128 KiB. We recommend using the default setting for the majority of use cases. Generally, workloads that write in fixed small or large record sizes may benefit from setting a custom record size, like database workloads (small record size) or media streaming workloads (large record size). For additional guidance on when to set a custom record size, see [ ZFS Record size](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#record-size-performance) in the Amazon FSx for OpenZFS User Guide.
+        /// Specifies the suggested block size for a volume in a ZFS dataset, in kibibytes (KiB). For file systems using the Intelligent-Tiering storage class, valid values are 128, 256, 512, 1024, 2048, or 4096 KiB, with a default of 1024 KiB. For all other file systems, valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB, with a default of 128 KiB. We recommend using the default setting for the majority of use cases. Generally, workloads that write in fixed small or large record sizes may benefit from setting a custom record size, like database workloads (small record size) or media streaming workloads (large record size). For additional guidance on when to set a custom record size, see [ ZFS Record size](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#record-size-performance) in the Amazon FSx for OpenZFS User Guide.
         public var recordSizeKiB: Swift.Int?
         /// Sets the maximum storage size in gibibytes (GiB) for the volume. You can specify a quota that is larger than the storage on the parent volume. A volume quota limits the amount of storage that the volume can consume to the configured amount, but does not guarantee the space will be available on the parent volume. To guarantee quota space, you must also set StorageCapacityReservationGiB. To not specify a storage capacity quota, set this to -1. For more information, see [Volume properties](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-volumes.html#volume-properties) in the Amazon FSx for OpenZFS User Guide.
         public var storageCapacityQuotaGiB: Swift.Int?
@@ -7088,7 +7662,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes {
 
-    /// (Optional) An array of filter objects you can use to filter the response of data repository tasks you will see in the the response. You can filter the tasks returned in the response by one or more file system IDs, task lifecycles, and by task type. A filter object consists of a filter Name, and one or more Values for the filter.
+    /// (Optional) An array of filter objects you can use to filter the response of data repository tasks you will see in the response. You can filter the tasks returned in the response by one or more file system IDs, task lifecycles, and by task type. A filter object consists of a filter Name, and one or more Values for the filter.
     public struct DataRepositoryTaskFilter: Swift.Sendable {
         /// Name of the task property to use in filtering the tasks returned in the response.
         ///
@@ -7324,6 +7898,119 @@ public struct DescribeFileSystemsInput: Swift.Sendable {
         self.fileSystemIds = fileSystemIds
         self.maxResults = maxResults
         self.nextToken = nextToken
+    }
+}
+
+/// The access point specified was not found.
+public struct S3AccessPointAttachmentNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A detailed error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "S3AccessPointAttachmentNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum S3AccessPointAttachmentsFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fileSystemId
+        case type
+        case volumeId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3AccessPointAttachmentsFilterName] {
+            return [
+                .fileSystemId,
+                .type,
+                .volumeId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fileSystemId: return "file-system-id"
+            case .type: return "type"
+            case .volumeId: return "volume-id"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// A set of Name and Values pairs used to view a select set of S3 access point attachments.
+    public struct S3AccessPointAttachmentsFilter: Swift.Sendable {
+        /// The name of the filter.
+        public var name: FSxClientTypes.S3AccessPointAttachmentsFilterName?
+        /// The values of the filter.
+        public var values: [Swift.String]?
+
+        public init(
+            name: FSxClientTypes.S3AccessPointAttachmentsFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct DescribeS3AccessPointAttachmentsInput: Swift.Sendable {
+    /// Enter a filter Name and Values pair to view a select set of S3 access point attachments.
+    public var filters: [FSxClientTypes.S3AccessPointAttachmentsFilter]?
+    /// The maximum number of resources to return in the response. This value must be an integer greater than zero.
+    public var maxResults: Swift.Int?
+    /// The names of the S3 access point attachments whose descriptions you want to retrieve.
+    public var names: [Swift.String]?
+    /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [FSxClientTypes.S3AccessPointAttachmentsFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        names: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.names = names
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeS3AccessPointAttachmentsOutput: Swift.Sendable {
+    /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
+    public var nextToken: Swift.String?
+    /// Array of S3 access point attachments returned after a successful DescribeS3AccessPointAttachments operation.
+    public var s3AccessPointAttachments: [FSxClientTypes.S3AccessPointAttachment]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        s3AccessPointAttachments: [FSxClientTypes.S3AccessPointAttachment]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.s3AccessPointAttachments = s3AccessPointAttachments
     }
 }
 
@@ -7569,6 +8256,37 @@ public struct DescribeVolumesInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.volumeIds = volumeIds
+    }
+}
+
+public struct DetachAndDeleteS3AccessPointInput: Swift.Sendable {
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    public var clientRequestToken: Swift.String?
+    /// The name of the S3 access point attachment that you want to delete.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.name = name
+    }
+}
+
+public struct DetachAndDeleteS3AccessPointOutput: Swift.Sendable {
+    /// The lifecycle status of the S3 access point attachment.
+    public var lifecycle: FSxClientTypes.S3AccessPointAttachmentLifecycle?
+    /// The name of the S3 access point attachment being deleted.
+    public var name: Swift.String?
+
+    public init(
+        lifecycle: FSxClientTypes.S3AccessPointAttachmentLifecycle? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.lifecycle = lifecycle
+        self.name = name
     }
 }
 
@@ -7907,7 +8625,7 @@ extension FSxClientTypes {
 
     /// The configuration update for an Amazon File Cache resource.
     public struct UpdateFileCacheLustreConfiguration: Swift.Sendable {
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -7953,13 +8671,24 @@ extension FSxClientTypes {
 
     /// The Lustre metadata performance configuration update for an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type. You can request an increase in your file system's Metadata IOPS and/or switch your file system's metadata configuration mode. For more information, see [Managing metadata performance](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-metadata-performance.html) in the Amazon FSx for Lustre User Guide.
     public struct UpdateFileSystemLustreMetadataConfiguration: Swift.Sendable {
-        /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to provision for your file system. Valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000. The value you provide must be greater than or equal to the current number of Metadata IOPS provisioned for the file system.
+        /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to provision for your file system.
+        ///
+        /// * For SSD file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
+        ///
+        /// * For Intelligent-Tiering file systems, valid values are 6000 and 12000.
+        ///
+        ///
+        /// The value you provide must be greater than or equal to the current number of Metadata IOPS provisioned for the file system.
         public var iops: Swift.Int?
         /// The metadata configuration mode for provisioning Metadata IOPS for an FSx for Lustre file system using a PERSISTENT_2 deployment type.
         ///
-        /// * To increase the Metadata IOPS or to switch from AUTOMATIC mode, specify USER_PROVISIONED as the value for this parameter. Then use the Iops parameter to provide a Metadata IOPS value that is greater than or equal to the current number of Metadata IOPS provisioned for the file system.
+        /// * To increase the Metadata IOPS or to switch an SSD file system from AUTOMATIC, specify USER_PROVISIONED as the value for this parameter. Then use the Iops parameter to provide a Metadata IOPS value that is greater than or equal to the current number of Metadata IOPS provisioned for the file system.
         ///
-        /// * To switch from USER_PROVISIONED mode, specify AUTOMATIC as the value for this parameter, but do not input a value for Iops. If you request to switch from USER_PROVISIONED to AUTOMATIC mode and the current Metadata IOPS value is greater than the automated default, FSx for Lustre rejects the request because downscaling Metadata IOPS is not supported.
+        /// * To switch from USER_PROVISIONED mode on an SSD file system, specify AUTOMATIC as the value for this parameter, but do not input a value for Iops.
+        ///
+        /// * If you request to switch from USER_PROVISIONED to AUTOMATIC mode and the current Metadata IOPS value is greater than the automated default, FSx for Lustre rejects the request because downscaling Metadata IOPS is not supported.
+        ///
+        /// * AUTOMATIC mode is not supported on Intelligent-Tiering file systems. For Intelligent-Tiering file systems, use USER_PROVISIONED mode.
         public var mode: FSxClientTypes.MetadataConfigurationMode?
 
         public init(
@@ -8002,6 +8731,8 @@ extension FSxClientTypes {
         ///
         /// If you don't use DataCompressionType, the file system retains its current data compression configuration. For more information, see [Lustre data compression](https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-compression.html).
         public var dataCompressionType: FSxClientTypes.DataCompressionType?
+        /// Specifies the optional provisioned SSD read cache on Amazon FSx for Lustre file systems that use the Intelligent-Tiering storage class.
+        public var dataReadCacheConfiguration: FSxClientTypes.LustreReadCacheConfiguration?
         /// The Lustre logging configuration used when updating an Amazon FSx for Lustre file system. When logging is enabled, Lustre logs error and warning events for data repositories associated with your file system to Amazon CloudWatch Logs.
         public var logConfiguration: FSxClientTypes.LustreLogCreateConfiguration?
         /// The Lustre metadata performance configuration for an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type. When this configuration is enabled, the file system supports increasing metadata performance.
@@ -8017,6 +8748,8 @@ extension FSxClientTypes {
         public var perUnitStorageThroughput: Swift.Int?
         /// The Lustre root squash configuration used when updating an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
         public var rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration?
+        /// The throughput of an Amazon FSx for Lustre file system using an Intelligent-Tiering storage class, measured in megabytes per second (MBps). You can only increase your file system's throughput. Valid values are 4000 MBps or multiples of 4000 MBps.
+        public var throughputCapacity: Swift.Int?
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
@@ -8025,20 +8758,24 @@ extension FSxClientTypes {
             automaticBackupRetentionDays: Swift.Int? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             dataCompressionType: FSxClientTypes.DataCompressionType? = nil,
+            dataReadCacheConfiguration: FSxClientTypes.LustreReadCacheConfiguration? = nil,
             logConfiguration: FSxClientTypes.LustreLogCreateConfiguration? = nil,
             metadataConfiguration: FSxClientTypes.UpdateFileSystemLustreMetadataConfiguration? = nil,
             perUnitStorageThroughput: Swift.Int? = nil,
             rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration? = nil,
+            throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
         ) {
             self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.dataCompressionType = dataCompressionType
+            self.dataReadCacheConfiguration = dataReadCacheConfiguration
             self.logConfiguration = logConfiguration
             self.metadataConfiguration = metadataConfiguration
             self.perUnitStorageThroughput = perUnitStorageThroughput
             self.rootSquashConfiguration = rootSquashConfiguration
+            self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
     }
@@ -8054,9 +8791,9 @@ extension FSxClientTypes {
         public var automaticBackupRetentionDays: Swift.Int?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
         public var dailyAutomaticBackupStartTime: Swift.String?
-        /// The SSD IOPS (input output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned. For more information, see [Updating SSD storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/increase-primary-storage.html).
+        /// The SSD IOPS (input output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned. For more information, see [File system storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/storage-capacity-and-IOPS.html).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
-        /// Update the password for the fsxadmin user by entering a new password. You use the fsxadmin user to access the NetApp ONTAP CLI and REST API to manage your file system resources. For more information, see [Managing resources using NetApp Applicaton](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-resources-ontap-apps.html).
+        /// Update the password for the fsxadmin user by entering a new password. You use the fsxadmin user to access the NetApp ONTAP CLI and REST API to manage your file system resources. For more information, see [Managing resources using NetApp Application](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-resources-ontap-apps.html).
         public var fsxAdminPassword: Swift.String?
         /// Use to update the number of high-availability (HA) pairs for a second-generation single-AZ file system. If you increase the number of HA pairs for your file system, you must specify proportional increases for StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs) in the FSx for ONTAP user guide. Block storage protocol support (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs. For more information, see [Using block storage protocols](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage).
         public var haPairs: Swift.Int?
@@ -8085,7 +8822,7 @@ extension FSxClientTypes {
         ///
         /// * The value of ThroughputCapacityPerHAPair is not a valid value.
         public var throughputCapacityPerHAPair: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -8135,6 +8872,8 @@ extension FSxClientTypes {
         public var dailyAutomaticBackupStartTime: Swift.String?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public var endpointIpv6AddressRange: Swift.String?
         /// The configuration for the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
         public var readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration?
         /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route tables to disassociate (remove) from your Amazon FSx for OpenZFS file system. You can use the API operation to retrieve the list of VPC route table IDs for a file system.
@@ -8145,7 +8884,7 @@ extension FSxClientTypes {
         ///
         /// * For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MB/s.
         public var throughputCapacity: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -8155,6 +8894,7 @@ extension FSxClientTypes {
             copyTagsToVolumes: Swift.Bool? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
+            endpointIpv6AddressRange: Swift.String? = nil,
             readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration? = nil,
             removeRouteTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
@@ -8166,6 +8906,7 @@ extension FSxClientTypes {
             self.copyTagsToVolumes = copyTagsToVolumes
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.readCacheConfiguration = readCacheConfiguration
             self.removeRouteTableIds = removeRouteTableIds
             self.throughputCapacity = throughputCapacity
@@ -8260,13 +9001,17 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     /// The ID of the file system that you are updating.
     /// This member is required.
     public var fileSystemId: Swift.String?
+    /// The Lustre version you are updating an FSx for Lustre file system to. Valid values are 2.12 and 2.15. The value you choose must be newer than the file system's current Lustre version.
+    public var fileSystemTypeVersion: Swift.String?
     /// The configuration object for Amazon FSx for Lustre file systems used in the UpdateFileSystem operation.
     public var lustreConfiguration: FSxClientTypes.UpdateFileSystemLustreConfiguration?
+    /// Changes the network type of an FSx for OpenZFS file system.
+    public var networkType: FSxClientTypes.NetworkType?
     /// The configuration updates for an Amazon FSx for NetApp ONTAP file system.
     public var ontapConfiguration: FSxClientTypes.UpdateFileSystemOntapConfiguration?
     /// The configuration updates for an FSx for OpenZFS file system.
     public var openZFSConfiguration: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration?
-    /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. Specifies the storage capacity target value, in GiB, to increase the storage capacity for the file system that you're updating. You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress. For Lustre file systems, the storage capacity target value can be the following:
+    /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. For second-generation FSx for ONTAP file systems, you can also decrease the storage capacity. Specifies the storage capacity target value, in GiB, for the file system that you're updating. You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress. For Lustre file systems, the storage capacity target value can be the following:
     ///
     /// * For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater than the current storage capacity.
     ///
@@ -8275,7 +9020,7 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     /// * For SCRATCH_1 file systems, you can't increase the storage capacity.
     ///
     ///
-    /// For more information, see [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html) in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity and provisioned IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html) in the Amazon FSx for NetApp ONTAP User Guide.
+    /// For more information, see [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html) in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, when increasing storage capacity, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. When decreasing storage capacity on second-generation file systems, the target value must be at least 9 percent smaller than the current SSD storage capacity. For more information, see [File system storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/storage-capacity-and-IOPS.html) in the Amazon FSx for NetApp ONTAP User Guide.
     public var storageCapacity: Swift.Int?
     /// Specifies the file system's storage type.
     public var storageType: FSxClientTypes.StorageType?
@@ -8285,7 +9030,9 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         fileSystemId: Swift.String? = nil,
+        fileSystemTypeVersion: Swift.String? = nil,
         lustreConfiguration: FSxClientTypes.UpdateFileSystemLustreConfiguration? = nil,
+        networkType: FSxClientTypes.NetworkType? = nil,
         ontapConfiguration: FSxClientTypes.UpdateFileSystemOntapConfiguration? = nil,
         openZFSConfiguration: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration? = nil,
         storageCapacity: Swift.Int? = nil,
@@ -8294,7 +9041,9 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     ) {
         self.clientRequestToken = clientRequestToken
         self.fileSystemId = fileSystemId
+        self.fileSystemTypeVersion = fileSystemTypeVersion
         self.lustreConfiguration = lustreConfiguration
+        self.networkType = networkType
         self.ontapConfiguration = ontapConfiguration
         self.openZFSConfiguration = openZFSConfiguration
         self.storageCapacity = storageCapacity
@@ -8612,6 +9361,8 @@ extension FSxClientTypes {
         public var administrativeActionType: FSxClientTypes.AdministrativeActionType?
         /// Provides information about a failed administrative action.
         public var failureDetails: FSxClientTypes.AdministrativeActionFailureDetails?
+        /// A detailed error message.
+        public var message: Swift.String?
         /// The percentage-complete status of a STORAGE_OPTIMIZATION or DOWNLOAD_DATA_FROM_BACKUP administrative action. Does not apply to any other administrative action type.
         public var progressPercent: Swift.Int?
         /// The remaining bytes to transfer for the FSx for OpenZFS snapshot that you're copying.
@@ -8646,6 +9397,7 @@ extension FSxClientTypes {
         public init(
             administrativeActionType: FSxClientTypes.AdministrativeActionType? = nil,
             failureDetails: FSxClientTypes.AdministrativeActionFailureDetails? = nil,
+            message: Swift.String? = nil,
             progressPercent: Swift.Int? = nil,
             remainingTransferBytes: Swift.Int? = nil,
             requestTime: Foundation.Date? = nil,
@@ -8657,6 +9409,7 @@ extension FSxClientTypes {
         ) {
             self.administrativeActionType = administrativeActionType
             self.failureDetails = failureDetails
+            self.message = message
             self.progressPercent = progressPercent
             self.remainingTransferBytes = remainingTransferBytes
             self.requestTime = requestTime
@@ -8717,6 +9470,8 @@ extension FSxClientTypes {
         public var lustreConfiguration: FSxClientTypes.LustreFileSystemConfiguration?
         /// The IDs of the elastic network interfaces from which a specific file system is accessible. The elastic network interface is automatically created in the same virtual private cloud (VPC) that the Amazon FSx file system was created in. For more information, see [Elastic Network Interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) in the Amazon EC2 User Guide. For an Amazon FSx for Windows File Server file system, you can have one network interface ID. For an Amazon FSx for Lustre file system, you can have more than one.
         public var networkInterfaceIds: [Swift.String]?
+        /// The network type of the file system.
+        public var networkType: FSxClientTypes.NetworkType?
         /// The configuration for this Amazon FSx for NetApp ONTAP file system.
         public var ontapConfiguration: FSxClientTypes.OntapFileSystemConfiguration?
         /// The configuration for this Amazon FSx for OpenZFS file system.
@@ -8727,7 +9482,13 @@ extension FSxClientTypes {
         public var resourceARN: Swift.String?
         /// The storage capacity of the file system in gibibytes (GiB). Amazon FSx responds with an HTTP status code 400 (Bad Request) if the value of StorageCapacity is outside of the minimum or maximum values.
         public var storageCapacity: Swift.Int?
-        /// The type of storage the file system is using. If set to SSD, the file system uses solid state drive storage. If set to HDD, the file system uses hard disk drive storage.
+        /// The type of storage the file system is using.
+        ///
+        /// * If set to SSD, the file system uses solid state drive storage.
+        ///
+        /// * If set to HDD, the file system uses hard disk drive storage.
+        ///
+        /// * If set to INTELLIGENT_TIERING, the file system uses fully elastic, intelligently-tiered storage.
         public var storageType: FSxClientTypes.StorageType?
         /// Specifies the IDs of the subnets that the file system is accessible from. For the Amazon FSx Windows and ONTAP MULTI_AZ_1 file system deployment type, there are two subnet IDs, one for the preferred file server and one for the standby file server. The preferred file server subnet identified in the PreferredSubnetID property. All other file systems have only one subnet ID. For FSx for Lustre file systems, and Single-AZ Windows file systems, this is the ID of the subnet that contains the file system's endpoint. For MULTI_AZ_1 Windows and ONTAP file systems, the file system endpoint is available in the PreferredSubnetID.
         public var subnetIds: [Swift.String]?
@@ -8750,6 +9511,7 @@ extension FSxClientTypes {
             lifecycle: FSxClientTypes.FileSystemLifecycle? = nil,
             lustreConfiguration: FSxClientTypes.LustreFileSystemConfiguration? = nil,
             networkInterfaceIds: [Swift.String]? = nil,
+            networkType: FSxClientTypes.NetworkType? = nil,
             ontapConfiguration: FSxClientTypes.OntapFileSystemConfiguration? = nil,
             openZFSConfiguration: FSxClientTypes.OpenZFSFileSystemConfiguration? = nil,
             ownerId: Swift.String? = nil,
@@ -8772,6 +9534,7 @@ extension FSxClientTypes {
             self.lifecycle = lifecycle
             self.lustreConfiguration = lustreConfiguration
             self.networkInterfaceIds = networkInterfaceIds
+            self.networkType = networkType
             self.ontapConfiguration = ontapConfiguration
             self.openZFSConfiguration = openZFSConfiguration
             self.ownerId = ownerId
@@ -9276,6 +10039,13 @@ extension CopySnapshotAndUpdateVolumeInput {
     }
 }
 
+extension CreateAndAttachS3AccessPointInput {
+
+    static func urlPathProvider(_ value: CreateAndAttachS3AccessPointInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateBackupInput {
 
     static func urlPathProvider(_ value: CreateBackupInput) -> Swift.String? {
@@ -9437,6 +10207,13 @@ extension DescribeFileSystemsInput {
     }
 }
 
+extension DescribeS3AccessPointAttachmentsInput {
+
+    static func urlPathProvider(_ value: DescribeS3AccessPointAttachmentsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeSharedVpcConfigurationInput {
 
     static func urlPathProvider(_ value: DescribeSharedVpcConfigurationInput) -> Swift.String? {
@@ -9461,6 +10238,13 @@ extension DescribeStorageVirtualMachinesInput {
 extension DescribeVolumesInput {
 
     static func urlPathProvider(_ value: DescribeVolumesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DetachAndDeleteS3AccessPointInput {
+
+    static func urlPathProvider(_ value: DetachAndDeleteS3AccessPointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9606,6 +10390,18 @@ extension CopySnapshotAndUpdateVolumeInput {
     }
 }
 
+extension CreateAndAttachS3AccessPointInput {
+
+    static func write(value: CreateAndAttachS3AccessPointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientRequestToken"].write(value.clientRequestToken)
+        try writer["Name"].write(value.name)
+        try writer["OpenZFSConfiguration"].write(value.openZFSConfiguration, with: FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration.write(value:to:))
+        try writer["S3AccessPoint"].write(value.s3AccessPoint, with: FSxClientTypes.CreateAndAttachS3AccessPointS3Configuration.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+}
+
 extension CreateBackupInput {
 
     static func write(value: CreateBackupInput?, to writer: SmithyJSON.Writer) throws {
@@ -9674,6 +10470,7 @@ extension CreateFileSystemInput {
         try writer["FileSystemTypeVersion"].write(value.fileSystemTypeVersion)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["LustreConfiguration"].write(value.lustreConfiguration, with: FSxClientTypes.CreateFileSystemLustreConfiguration.write(value:to:))
+        try writer["NetworkType"].write(value.networkType)
         try writer["OntapConfiguration"].write(value.ontapConfiguration, with: FSxClientTypes.CreateFileSystemOntapConfiguration.write(value:to:))
         try writer["OpenZFSConfiguration"].write(value.openZFSConfiguration, with: FSxClientTypes.CreateFileSystemOpenZFSConfiguration.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9694,6 +10491,7 @@ extension CreateFileSystemFromBackupInput {
         try writer["FileSystemTypeVersion"].write(value.fileSystemTypeVersion)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["LustreConfiguration"].write(value.lustreConfiguration, with: FSxClientTypes.CreateFileSystemLustreConfiguration.write(value:to:))
+        try writer["NetworkType"].write(value.networkType)
         try writer["OpenZFSConfiguration"].write(value.openZFSConfiguration, with: FSxClientTypes.CreateFileSystemOpenZFSConfiguration.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StorageCapacity"].write(value.storageCapacity)
@@ -9887,6 +10685,17 @@ extension DescribeFileSystemsInput {
     }
 }
 
+extension DescribeS3AccessPointAttachmentsInput {
+
+    static func write(value: DescribeS3AccessPointAttachmentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: FSxClientTypes.S3AccessPointAttachmentsFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["Names"].writeList(value.names, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension DescribeSharedVpcConfigurationInput {
 
     static func write(value: DescribeSharedVpcConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -9926,6 +10735,15 @@ extension DescribeVolumesInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["VolumeIds"].writeList(value.volumeIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DetachAndDeleteS3AccessPointInput {
+
+    static func write(value: DetachAndDeleteS3AccessPointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientRequestToken"].write(value.clientRequestToken)
+        try writer["Name"].write(value.name)
     }
 }
 
@@ -10023,7 +10841,9 @@ extension UpdateFileSystemInput {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["FileSystemId"].write(value.fileSystemId)
+        try writer["FileSystemTypeVersion"].write(value.fileSystemTypeVersion)
         try writer["LustreConfiguration"].write(value.lustreConfiguration, with: FSxClientTypes.UpdateFileSystemLustreConfiguration.write(value:to:))
+        try writer["NetworkType"].write(value.networkType)
         try writer["OntapConfiguration"].write(value.ontapConfiguration, with: FSxClientTypes.UpdateFileSystemOntapConfiguration.write(value:to:))
         try writer["OpenZFSConfiguration"].write(value.openZFSConfiguration, with: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration.write(value:to:))
         try writer["StorageCapacity"].write(value.storageCapacity)
@@ -10121,6 +10941,18 @@ extension CopySnapshotAndUpdateVolumeOutput {
         value.administrativeActions = try reader["AdministrativeActions"].readListIfPresent(memberReadingClosure: FSxClientTypes.AdministrativeAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lifecycle = try reader["Lifecycle"].readIfPresent()
         value.volumeId = try reader["VolumeId"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateAndAttachS3AccessPointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAndAttachS3AccessPointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAndAttachS3AccessPointOutput()
+        value.s3AccessPointAttachment = try reader["S3AccessPointAttachment"].readIfPresent(with: FSxClientTypes.S3AccessPointAttachment.read(from:))
         return value
     }
 }
@@ -10419,6 +11251,19 @@ extension DescribeFileSystemsOutput {
     }
 }
 
+extension DescribeS3AccessPointAttachmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeS3AccessPointAttachmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeS3AccessPointAttachmentsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.s3AccessPointAttachments = try reader["S3AccessPointAttachments"].readListIfPresent(memberReadingClosure: FSxClientTypes.S3AccessPointAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DescribeSharedVpcConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSharedVpcConfigurationOutput {
@@ -10466,6 +11311,19 @@ extension DescribeVolumesOutput {
         var value = DescribeVolumesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.volumes = try reader["Volumes"].readListIfPresent(memberReadingClosure: FSxClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DetachAndDeleteS3AccessPointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DetachAndDeleteS3AccessPointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DetachAndDeleteS3AccessPointOutput()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -10701,6 +11559,28 @@ enum CopySnapshotAndUpdateVolumeOutputError {
             case "IncompatibleParameterError": return try IncompatibleParameterError.makeError(baseError: baseError)
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "ServiceLimitExceeded": return try ServiceLimitExceeded.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAndAttachS3AccessPointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessPointAlreadyOwnedByYou": return try AccessPointAlreadyOwnedByYou.makeError(baseError: baseError)
+            case "BadRequest": return try BadRequest.makeError(baseError: baseError)
+            case "IncompatibleParameterError": return try IncompatibleParameterError.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidAccessPoint": return try InvalidAccessPoint.makeError(baseError: baseError)
+            case "InvalidRequest": return try InvalidRequest.makeError(baseError: baseError)
+            case "TooManyAccessPoints": return try TooManyAccessPoints.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            case "VolumeNotFound": return try VolumeNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11136,6 +12016,23 @@ enum DescribeFileSystemsOutputError {
     }
 }
 
+enum DescribeS3AccessPointAttachmentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequest": return try BadRequest.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "S3AccessPointAttachmentNotFound": return try S3AccessPointAttachmentNotFound.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeSharedVpcConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11194,6 +12091,24 @@ enum DescribeVolumesOutputError {
             case "BadRequest": return try BadRequest.makeError(baseError: baseError)
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "VolumeNotFound": return try VolumeNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DetachAndDeleteS3AccessPointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequest": return try BadRequest.makeError(baseError: baseError)
+            case "IncompatibleParameterError": return try IncompatibleParameterError.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "S3AccessPointAttachmentNotFound": return try S3AccessPointAttachmentNotFound.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11446,19 +12361,6 @@ enum UpdateVolumeOutputError {
     }
 }
 
-extension InternalServerError {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerError()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension BadRequest {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BadRequest {
@@ -11485,11 +12387,11 @@ extension FileSystemNotFound {
     }
 }
 
-extension DataRepositoryTaskNotFound {
+extension InternalServerError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataRepositoryTaskNotFound {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
-        var value = DataRepositoryTaskNotFound()
+        var value = InternalServerError()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11511,6 +12413,19 @@ extension DataRepositoryTaskEnded {
     }
 }
 
+extension DataRepositoryTaskNotFound {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataRepositoryTaskNotFound {
+        let reader = baseError.errorBodyReader
+        var value = DataRepositoryTaskNotFound()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension UnsupportedOperation {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperation {
@@ -11524,11 +12439,11 @@ extension UnsupportedOperation {
     }
 }
 
-extension InvalidSourceKmsKey {
+extension BackupNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSourceKmsKey {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupNotFound {
         let reader = baseError.errorBodyReader
-        var value = InvalidSourceKmsKey()
+        var value = BackupNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11551,12 +12466,24 @@ extension IncompatibleParameterError {
     }
 }
 
-extension SourceBackupUnavailable {
+extension IncompatibleRegionForMultiAZ {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SourceBackupUnavailable {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncompatibleRegionForMultiAZ {
         let reader = baseError.errorBodyReader
-        var value = SourceBackupUnavailable()
-        value.properties.backupId = try reader["BackupId"].readIfPresent()
+        var value = IncompatibleRegionForMultiAZ()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidDestinationKmsKey {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDestinationKmsKey {
+        let reader = baseError.errorBodyReader
+        var value = InvalidDestinationKmsKey()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11578,37 +12505,11 @@ extension InvalidRegion {
     }
 }
 
-extension IncompatibleRegionForMultiAZ {
+extension InvalidSourceKmsKey {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncompatibleRegionForMultiAZ {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSourceKmsKey {
         let reader = baseError.errorBodyReader
-        var value = IncompatibleRegionForMultiAZ()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension BackupNotFound {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupNotFound {
-        let reader = baseError.errorBodyReader
-        var value = BackupNotFound()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidDestinationKmsKey {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDestinationKmsKey {
-        let reader = baseError.errorBodyReader
-        var value = InvalidDestinationKmsKey()
+        var value = InvalidSourceKmsKey()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11631,11 +12532,68 @@ extension ServiceLimitExceeded {
     }
 }
 
-extension BackupInProgress {
+extension SourceBackupUnavailable {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupInProgress {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SourceBackupUnavailable {
         let reader = baseError.errorBodyReader
-        var value = BackupInProgress()
+        var value = SourceBackupUnavailable()
+        value.properties.backupId = try reader["BackupId"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AccessPointAlreadyOwnedByYou {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessPointAlreadyOwnedByYou {
+        let reader = baseError.errorBodyReader
+        var value = AccessPointAlreadyOwnedByYou()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidAccessPoint {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAccessPoint {
+        let reader = baseError.errorBodyReader
+        var value = InvalidAccessPoint()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRequest {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequest {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRequest()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyAccessPoints {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyAccessPoints {
+        let reader = baseError.errorBodyReader
+        var value = TooManyAccessPoints()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11657,11 +12615,11 @@ extension VolumeNotFound {
     }
 }
 
-extension DataRepositoryTaskExecuting {
+extension BackupInProgress {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataRepositoryTaskExecuting {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupInProgress {
         let reader = baseError.errorBodyReader
-        var value = DataRepositoryTaskExecuting()
+        var value = BackupInProgress()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11670,11 +12628,11 @@ extension DataRepositoryTaskExecuting {
     }
 }
 
-extension InvalidPerUnitStorageThroughput {
+extension DataRepositoryTaskExecuting {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPerUnitStorageThroughput {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataRepositoryTaskExecuting {
         let reader = baseError.errorBodyReader
-        var value = InvalidPerUnitStorageThroughput()
+        var value = DataRepositoryTaskExecuting()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11699,50 +12657,24 @@ extension InvalidNetworkSettings {
     }
 }
 
+extension InvalidPerUnitStorageThroughput {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPerUnitStorageThroughput {
+        let reader = baseError.errorBodyReader
+        var value = InvalidPerUnitStorageThroughput()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension MissingFileCacheConfiguration {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MissingFileCacheConfiguration {
         let reader = baseError.errorBodyReader
         var value = MissingFileCacheConfiguration()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidExportPath {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidExportPath {
-        let reader = baseError.errorBodyReader
-        var value = InvalidExportPath()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension MissingFileSystemConfiguration {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MissingFileSystemConfiguration {
-        let reader = baseError.errorBodyReader
-        var value = MissingFileSystemConfiguration()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidImportPath {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidImportPath {
-        let reader = baseError.errorBodyReader
-        var value = InvalidImportPath()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11766,11 +12698,37 @@ extension ActiveDirectoryError {
     }
 }
 
-extension StorageVirtualMachineNotFound {
+extension InvalidExportPath {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StorageVirtualMachineNotFound {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidExportPath {
         let reader = baseError.errorBodyReader
-        var value = StorageVirtualMachineNotFound()
+        var value = InvalidExportPath()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidImportPath {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidImportPath {
+        let reader = baseError.errorBodyReader
+        var value = InvalidImportPath()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MissingFileSystemConfiguration {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MissingFileSystemConfiguration {
+        let reader = baseError.errorBodyReader
+        var value = MissingFileSystemConfiguration()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11792,12 +12750,11 @@ extension MissingVolumeConfiguration {
     }
 }
 
-extension BackupRestoring {
+extension StorageVirtualMachineNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupRestoring {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StorageVirtualMachineNotFound {
         let reader = baseError.errorBodyReader
-        var value = BackupRestoring()
-        value.properties.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        var value = StorageVirtualMachineNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11812,6 +12769,20 @@ extension BackupBeingCopied {
         let reader = baseError.errorBodyReader
         var value = BackupBeingCopied()
         value.properties.backupId = try reader["BackupId"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BackupRestoring {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupRestoring {
+        let reader = baseError.errorBodyReader
+        var value = BackupRestoring()
+        value.properties.fileSystemId = try reader["FileSystemId"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11864,6 +12835,19 @@ extension InvalidDataRepositoryType {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDataRepositoryType {
         let reader = baseError.errorBodyReader
         var value = InvalidDataRepositoryType()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension S3AccessPointAttachmentNotFound {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> S3AccessPointAttachmentNotFound {
+        let reader = baseError.errorBodyReader
+        var value = S3AccessPointAttachmentNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12076,6 +13060,7 @@ extension FSxClientTypes.AdministrativeAction {
         value.targetSnapshotValues = try reader["TargetSnapshotValues"].readIfPresent(with: FSxClientTypes.Snapshot.read(from:))
         value.totalTransferBytes = try reader["TotalTransferBytes"].readIfPresent()
         value.remainingTransferBytes = try reader["RemainingTransferBytes"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -12161,6 +13146,7 @@ extension FSxClientTypes.FileSystem {
         value.ontapConfiguration = try reader["OntapConfiguration"].readIfPresent(with: FSxClientTypes.OntapFileSystemConfiguration.read(from:))
         value.fileSystemTypeVersion = try reader["FileSystemTypeVersion"].readIfPresent()
         value.openZFSConfiguration = try reader["OpenZFSConfiguration"].readIfPresent(with: FSxClientTypes.OpenZFSFileSystemConfiguration.read(from:))
+        value.networkType = try reader["NetworkType"].readIfPresent()
         return value
     }
 }
@@ -12181,8 +13167,10 @@ extension FSxClientTypes.OpenZFSFileSystemConfiguration {
         value.rootVolumeId = try reader["RootVolumeId"].readIfPresent()
         value.preferredSubnetId = try reader["PreferredSubnetId"].readIfPresent()
         value.endpointIpAddressRange = try reader["EndpointIpAddressRange"].readIfPresent()
+        value.endpointIpv6AddressRange = try reader["EndpointIpv6AddressRange"].readIfPresent()
         value.routeTableIds = try reader["RouteTableIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.endpointIpAddress = try reader["EndpointIpAddress"].readIfPresent()
+        value.endpointIpv6Address = try reader["EndpointIpv6Address"].readIfPresent()
         value.readCacheConfiguration = try reader["ReadCacheConfiguration"].readIfPresent(with: FSxClientTypes.OpenZFSReadCacheConfiguration.read(from:))
         return value
     }
@@ -12285,6 +13273,25 @@ extension FSxClientTypes.LustreFileSystemConfiguration {
         value.rootSquashConfiguration = try reader["RootSquashConfiguration"].readIfPresent(with: FSxClientTypes.LustreRootSquashConfiguration.read(from:))
         value.metadataConfiguration = try reader["MetadataConfiguration"].readIfPresent(with: FSxClientTypes.FileSystemLustreMetadataConfiguration.read(from:))
         value.efaEnabled = try reader["EfaEnabled"].readIfPresent()
+        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
+        value.dataReadCacheConfiguration = try reader["DataReadCacheConfiguration"].readIfPresent(with: FSxClientTypes.LustreReadCacheConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.LustreReadCacheConfiguration {
+
+    static func write(value: FSxClientTypes.LustreReadCacheConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SizeGiB"].write(value.sizeGiB)
+        try writer["SizingMode"].write(value.sizingMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LustreReadCacheConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.LustreReadCacheConfiguration()
+        value.sizingMode = try reader["SizingMode"].readIfPresent()
+        value.sizeGiB = try reader["SizeGiB"].readIfPresent()
         return value
     }
 }
@@ -12552,6 +13559,96 @@ extension FSxClientTypes.BackupFailureDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.BackupFailureDetails()
         value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.S3AccessPointAttachment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPointAttachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.S3AccessPointAttachment()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent()
+        value.lifecycleTransitionReason = try reader["LifecycleTransitionReason"].readIfPresent(with: FSxClientTypes.LifecycleTransitionReason.read(from:))
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.openZFSConfiguration = try reader["OpenZFSConfiguration"].readIfPresent(with: FSxClientTypes.S3AccessPointOpenZFSConfiguration.read(from:))
+        value.s3AccessPoint = try reader["S3AccessPoint"].readIfPresent(with: FSxClientTypes.S3AccessPoint.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.S3AccessPoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.S3AccessPoint()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.alias = try reader["Alias"].readIfPresent()
+        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: FSxClientTypes.S3AccessPointVpcConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.S3AccessPointVpcConfiguration {
+
+    static func write(value: FSxClientTypes.S3AccessPointVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VpcId"].write(value.vpcId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPointVpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.S3AccessPointVpcConfiguration()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.S3AccessPointOpenZFSConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPointOpenZFSConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.S3AccessPointOpenZFSConfiguration()
+        value.volumeId = try reader["VolumeId"].readIfPresent()
+        value.fileSystemIdentity = try reader["FileSystemIdentity"].readIfPresent(with: FSxClientTypes.OpenZFSFileSystemIdentity.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.OpenZFSFileSystemIdentity {
+
+    static func write(value: FSxClientTypes.OpenZFSFileSystemIdentity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PosixUser"].write(value.posixUser, with: FSxClientTypes.OpenZFSPosixFileSystemUser.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSFileSystemIdentity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OpenZFSFileSystemIdentity()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.posixUser = try reader["PosixUser"].readIfPresent(with: FSxClientTypes.OpenZFSPosixFileSystemUser.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.OpenZFSPosixFileSystemUser {
+
+    static func write(value: FSxClientTypes.OpenZFSPosixFileSystemUser?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Gid"].write(value.gid)
+        try writer["SecondaryGids"].writeList(value.secondaryGids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Uid"].write(value.uid)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSPosixFileSystemUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OpenZFSPosixFileSystemUser()
+        value.uid = try reader["Uid"].readIfPresent() ?? 0
+        value.gid = try reader["Gid"].readIfPresent() ?? 0
+        value.secondaryGids = try reader["SecondaryGids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12935,6 +14032,24 @@ extension FSxClientTypes.FileCache {
     }
 }
 
+extension FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration {
+
+    static func write(value: FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FileSystemIdentity"].write(value.fileSystemIdentity, with: FSxClientTypes.OpenZFSFileSystemIdentity.write(value:to:))
+        try writer["VolumeId"].write(value.volumeId)
+    }
+}
+
+extension FSxClientTypes.CreateAndAttachS3AccessPointS3Configuration {
+
+    static func write(value: FSxClientTypes.CreateAndAttachS3AccessPointS3Configuration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Policy"].write(value.policy)
+        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: FSxClientTypes.S3AccessPointVpcConfiguration.write(value:to:))
+    }
+}
+
 extension FSxClientTypes.CreateFileCacheLustreConfiguration {
 
     static func write(value: FSxClientTypes.CreateFileCacheLustreConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -13017,6 +14132,7 @@ extension FSxClientTypes.CreateFileSystemLustreConfiguration {
         try writer["CopyTagsToBackups"].write(value.copyTagsToBackups)
         try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
         try writer["DataCompressionType"].write(value.dataCompressionType)
+        try writer["DataReadCacheConfiguration"].write(value.dataReadCacheConfiguration, with: FSxClientTypes.LustreReadCacheConfiguration.write(value:to:))
         try writer["DeploymentType"].write(value.deploymentType)
         try writer["DriveCacheType"].write(value.driveCacheType)
         try writer["EfaEnabled"].write(value.efaEnabled)
@@ -13027,6 +14143,7 @@ extension FSxClientTypes.CreateFileSystemLustreConfiguration {
         try writer["MetadataConfiguration"].write(value.metadataConfiguration, with: FSxClientTypes.CreateFileSystemLustreMetadataConfiguration.write(value:to:))
         try writer["PerUnitStorageThroughput"].write(value.perUnitStorageThroughput)
         try writer["RootSquashConfiguration"].write(value.rootSquashConfiguration, with: FSxClientTypes.LustreRootSquashConfiguration.write(value:to:))
+        try writer["ThroughputCapacity"].write(value.throughputCapacity)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
 }
@@ -13079,6 +14196,7 @@ extension FSxClientTypes.CreateFileSystemOpenZFSConfiguration {
         try writer["DeploymentType"].write(value.deploymentType)
         try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
         try writer["EndpointIpAddressRange"].write(value.endpointIpAddressRange)
+        try writer["EndpointIpv6AddressRange"].write(value.endpointIpv6AddressRange)
         try writer["PreferredSubnetId"].write(value.preferredSubnetId)
         try writer["ReadCacheConfiguration"].write(value.readCacheConfiguration, with: FSxClientTypes.OpenZFSReadCacheConfiguration.write(value:to:))
         try writer["RootVolumeConfiguration"].write(value.rootVolumeConfiguration, with: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration.write(value:to:))
@@ -13242,6 +14360,15 @@ extension FSxClientTypes.DataRepositoryTaskFilter {
     }
 }
 
+extension FSxClientTypes.S3AccessPointAttachmentsFilter {
+
+    static func write(value: FSxClientTypes.S3AccessPointAttachmentsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension FSxClientTypes.SnapshotFilter {
 
     static func write(value: FSxClientTypes.SnapshotFilter?, to writer: SmithyJSON.Writer) throws {
@@ -13312,10 +14439,12 @@ extension FSxClientTypes.UpdateFileSystemLustreConfiguration {
         try writer["AutomaticBackupRetentionDays"].write(value.automaticBackupRetentionDays)
         try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
         try writer["DataCompressionType"].write(value.dataCompressionType)
+        try writer["DataReadCacheConfiguration"].write(value.dataReadCacheConfiguration, with: FSxClientTypes.LustreReadCacheConfiguration.write(value:to:))
         try writer["LogConfiguration"].write(value.logConfiguration, with: FSxClientTypes.LustreLogCreateConfiguration.write(value:to:))
         try writer["MetadataConfiguration"].write(value.metadataConfiguration, with: FSxClientTypes.UpdateFileSystemLustreMetadataConfiguration.write(value:to:))
         try writer["PerUnitStorageThroughput"].write(value.perUnitStorageThroughput)
         try writer["RootSquashConfiguration"].write(value.rootSquashConfiguration, with: FSxClientTypes.LustreRootSquashConfiguration.write(value:to:))
+        try writer["ThroughputCapacity"].write(value.throughputCapacity)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
 }
@@ -13356,6 +14485,7 @@ extension FSxClientTypes.UpdateFileSystemOpenZFSConfiguration {
         try writer["CopyTagsToVolumes"].write(value.copyTagsToVolumes)
         try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
         try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
+        try writer["EndpointIpv6AddressRange"].write(value.endpointIpv6AddressRange)
         try writer["ReadCacheConfiguration"].write(value.readCacheConfiguration, with: FSxClientTypes.OpenZFSReadCacheConfiguration.write(value:to:))
         try writer["RemoveRouteTableIds"].writeList(value.removeRouteTableIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ThroughputCapacity"].write(value.throughputCapacity)

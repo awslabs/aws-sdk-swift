@@ -5,9 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import AwsCommonRuntimeKit
+import struct AwsCommonRuntimeKit.CommonRuntimeKit
 import class AWSSDKHTTPAuth.AWSSigV4Signer
-import ClientRuntime
 import Smithy
 import SmithyHTTPAPI
 import SmithyHTTPAuth
@@ -51,7 +50,7 @@ public class AuthTokenGenerator {
     ///   - expiration: The expiration for the token in seconds. Default is 900 seconds (15 minutes).
     public func generateRDSAuthToken(
         endpoint: String,
-        port: Int16,
+        port: UInt16,
         region: String,
         username: String,
         expiration: TimeInterval = 900

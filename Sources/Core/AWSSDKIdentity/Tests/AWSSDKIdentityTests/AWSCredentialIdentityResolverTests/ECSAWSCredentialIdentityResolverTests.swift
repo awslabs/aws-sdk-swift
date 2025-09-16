@@ -6,10 +6,14 @@
 //
 
 import XCTest
-import protocol AWSClientRuntime.Environment
 import struct AWSSDKIdentity.ECSAWSCredentialIdentityResolver
+import Foundation
+#if os(Linux)
+import FoundationNetworking // For URLSession in Linux.
+#endif
 
 class ECSAWSCredentialIdentityResolverTests: XCTestCase {
+    private var session: URLSession!
 
     override func setUp() {
         super.setUp()
@@ -19,6 +23,16 @@ class ECSAWSCredentialIdentityResolverTests: XCTestCase {
         unsetenv("AWS_CONTAINER_CREDENTIALS_FULL_URI")
         unsetenv("AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE")
         unsetenv("AWS_CONTAINER_AUTHORIZATION_TOKEN")
+
+        // Clear out mocked URL protocol's values before each test.
+        MockURLProtocol.expectedURL = nil
+        MockURLProtocol.expectedHeaders = [:]
+        MockURLProtocol.unexpectedHeaders = [:]
+
+        // Instantiate URLSession to use.
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [MockURLProtocol.self]
+        session = URLSession(configuration: config)
     }
 
     override func tearDown() {
@@ -28,112 +42,147 @@ class ECSAWSCredentialIdentityResolverTests: XCTestCase {
         unsetenv("AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE")
         unsetenv("AWS_CONTAINER_AUTHORIZATION_TOKEN")
 
+        // Clear out mocked URL protocol's values after each test.
+        MockURLProtocol.expectedURL = nil
+        MockURLProtocol.expectedHeaders = [:]
+        MockURLProtocol.unexpectedHeaders = [:]
         super.tearDown()
     }
 
-    func testGetCredentialsWithRelativeURI() async throws {
-        // relative uri is preferred over absolute uri so we shouldn't get thrown an error
-        let resolver = try ECSAWSCredentialIdentityResolver(
-            relativeURI: "/subfolder/test.txt",
-            absoluteURI: "invalid absolute uri"
-        )
-        XCTAssertEqual(resolver.resolvedHost, "169.254.170.2")
-        XCTAssertEqual(resolver.resolvedPathAndQuery, "/subfolder/test.txt")
-    }
-
-    func testGetCredentialsWithAbsoluteURI() async throws {
-        let resolver = try ECSAWSCredentialIdentityResolver(
-            relativeURI: nil,
-            absoluteURI: "http://www.example.com/subfolder/test.txt"
-        )
-        XCTAssertEqual(resolver.resolvedHost, "www.example.com")
-        XCTAssertEqual(resolver.resolvedPathAndQuery, "/subfolder/test.txt")
-    }
-
-    func testGetCredentialsWithInvalidAbsoluteURI() async throws {
-        XCTAssertThrowsError(try ECSAWSCredentialIdentityResolver(relativeURI: nil, absoluteURI: "test"))
-    }
-
-    func testGetCredentialsWithMissingURI() async throws {
-        XCTAssertThrowsError(try ECSAWSCredentialIdentityResolver(relativeURI: nil, absoluteURI: nil))
-    }
-
     func testGetCredentialsWithRelativeURIEnv() async throws {
-        // relative uri is preferred over absolute uri so we shouldn't get thrown an error
+        MockURLProtocol.expectedURL = URL(string: "http://169.254.170.2/subfolder/test.txt")!
         setenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI", "/subfolder/test.txt", 1)
-        let resolver = try ECSAWSCredentialIdentityResolver()
-        XCTAssertEqual(resolver.resolvedHost, "169.254.170.2")
-        XCTAssertEqual(resolver.resolvedPathAndQuery, "/subfolder/test.txt")
+        let creds = try await ECSAWSCredentialIdentityResolver(urlSession: session).getIdentity()
+        XCTAssertEqual(creds.accessKey, "access-123")
     }
 
     func testGetCredentialsWithAbsoluteURIEnv() async throws {
-        setenv("AWS_CONTAINER_CREDENTIALS_FULL_URI", "http://www.example.com/subfolder/test.txt", 1)
-        let resolver = try ECSAWSCredentialIdentityResolver()
-        XCTAssertEqual(resolver.resolvedHost, "www.example.com")
-        XCTAssertEqual(resolver.resolvedPathAndQuery, "/subfolder/test.txt")
+        MockURLProtocol.expectedURL = URL(string: "http://127.0.0.1/subfolder/test.txt")!
+        setenv("AWS_CONTAINER_CREDENTIALS_FULL_URI", "http://127.0.0.1/subfolder/test.txt", 1)
+        let creds = try await ECSAWSCredentialIdentityResolver(urlSession: session).getIdentity()
+        XCTAssertEqual(creds.accessKey, "access-123")
     }
 
     func testGetCredentialsWithInvalidAbsoluteURIEnv() async throws {
         setenv("AWS_CONTAINER_CREDENTIALS_FULL_URI", "test", 1)
-        XCTAssertThrowsError(try ECSAWSCredentialIdentityResolver())
+        do {
+            _ = try await ECSAWSCredentialIdentityResolver(urlSession: session).getIdentity()
+            XCTFail()
+        } catch {
+            // no-op.
+        }
     }
 
     func testGetCredentialsWithMissingURIEnv() async throws {
-        XCTAssertThrowsError(try ECSAWSCredentialIdentityResolver())
+        do {
+            _ = try await ECSAWSCredentialIdentityResolver(urlSession: session).getIdentity()
+            XCTFail()
+        } catch {
+            // no-op.
+        }
     }
 
     func testGetCredentialsWithTokenFile() async throws {
-        // Simulating a token file
+        MockURLProtocol.expectedURL = URL(string: "http://127.0.0.1/subfolder/test.txt")!
+        MockURLProtocol.expectedHeaders.updateValue("sample-token", forKey: "Authorization")
 
+        // Simulating a token file
         let tokenFilePath = Bundle.module.url(forResource: "test_token", withExtension: "txt")!.path
 
         // Set the environment variable to point to the token file
         setenv("AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE", tokenFilePath, 1)
-        setenv("AWS_CONTAINER_CREDENTIALS_FULL_URI", "http://www.example.com/subfolder/test.txt", 1)
+        setenv("AWS_CONTAINER_CREDENTIALS_FULL_URI", "http://127.0.0.1/subfolder/test.txt", 1)
 
         // Ensure the resolver correctly loads the token from the file
-        let resolver = try ECSAWSCredentialIdentityResolver()
-        XCTAssertEqual(resolver.resolvedAuthorizationToken, "sample-token")
-        XCTAssertEqual(resolver.resolvedHost, "www.example.com")
-        XCTAssertEqual(resolver.resolvedPathAndQuery, "/subfolder/test.txt")
+        let creds = try await ECSAWSCredentialIdentityResolver(urlSession: session).getIdentity()
+        XCTAssertEqual(creds.accessKey, "access-123")
     }
 
     func testGetCredentialsWithTokenEnv() async throws {
+        MockURLProtocol.expectedURL = URL(string: "http://127.0.0.1/subfolder/test.txt")!
+        MockURLProtocol.expectedHeaders.updateValue("env-token", forKey: "Authorization")
+
         // Set the environment variable directly for the token
         setenv("AWS_CONTAINER_AUTHORIZATION_TOKEN", "env-token", 1)
-        setenv("AWS_CONTAINER_CREDENTIALS_FULL_URI", "http://www.example.com/subfolder/test.txt", 1)
+        setenv("AWS_CONTAINER_CREDENTIALS_FULL_URI", "http://127.0.0.1/subfolder/test.txt", 1)
 
         // Ensure the resolver correctly loads the token from the environment
-        let resolver = try ECSAWSCredentialIdentityResolver()
-        XCTAssertEqual(resolver.resolvedAuthorizationToken, "env-token")
-        XCTAssertEqual(resolver.resolvedHost, "www.example.com")
-        XCTAssertEqual(resolver.resolvedPathAndQuery, "/subfolder/test.txt")
-    }
-
-    func testGetCredentialsWithDirectToken() async throws {
-        // Pass the token directly to the resolver
-        let resolver = try ECSAWSCredentialIdentityResolver(
-            absoluteURI: "http://www.example.com/subfolder/test.txt",
-            authorizationToken: "direct-token"
-        )
-
-        // Ensure the resolver correctly uses the passed token
-        XCTAssertEqual(resolver.resolvedAuthorizationToken, "direct-token")
-        XCTAssertEqual(resolver.resolvedHost, "www.example.com")
-        XCTAssertEqual(resolver.resolvedPathAndQuery, "/subfolder/test.txt")
+        let creds = try await ECSAWSCredentialIdentityResolver(urlSession: session).getIdentity()
+        XCTAssertEqual(creds.accessKey, "access-123")
     }
 
     func testTokenNotResolvedWithRelativeURI() async throws {
+        // Checks Authorization token is not used with relative URI
+        MockURLProtocol.expectedURL = URL(string: "http://169.254.170.2/subfolder/test.txt")!
+        MockURLProtocol.unexpectedHeaders.updateValue("dummy", forKey: "Authorization")
+        // Set the environment variable directly for the token
+        setenv("AWS_CONTAINER_AUTHORIZATION_TOKEN", "env-token", 1)
+        setenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI", "/subfolder/test.txt", 1)
         // Pass the token directly to the resolver
-        let resolver = try ECSAWSCredentialIdentityResolver(
-            relativeURI: "/test",
-            authorizationToken: "direct-token"
-        )
-
-        // Ensure the resolver correctly uses the passed token
-        // Authorization token is not used with relative URI
-        XCTAssertEqual(resolver.resolvedAuthorizationToken, nil)
-        XCTAssertEqual(resolver.resolvedHost, "169.254.170.2")
-        XCTAssertEqual(resolver.resolvedPathAndQuery, "/test")
+        let creds = try await ECSAWSCredentialIdentityResolver(urlSession: session).getIdentity()
+        XCTAssertEqual(creds.accessKey, "access-123")
     }
+}
+
+private class MockURLProtocol: URLProtocol {
+    static var expectedURL: URL?
+    static var expectedHeaders: [String: String] = [:]
+    static var unexpectedHeaders: [String: String] = [:]
+    static var responseJSON: [String: Any] = [
+        "AccessKeyId": "access-123",
+        "SecretAccessKey": "secret-123",
+        "Token": "token-123",
+        "Expiration": "2025-05-28T15:30:00Z",
+        "AccountId": "123456789"
+    ]
+
+    override class func canInit(with request: URLRequest) -> Bool {
+        return true
+    }
+
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+        return request
+    }
+
+    override func startLoading() {
+        guard let expectedURL = Self.expectedURL else {
+            client?.urlProtocol(self, didFailWithError: NSError(domain: "MockError", code: 1))
+            return
+        }
+
+        // Validate URL.
+        guard request.url == expectedURL else {
+            client?.urlProtocol(self, didFailWithError: NSError(domain: "InvalidURL", code: 404))
+            return
+        }
+
+        // Validate headers.
+        for (expectedHeaderField, expectedHeaderValue) in Self.expectedHeaders {
+            guard request.value(forHTTPHeaderField: expectedHeaderField) == expectedHeaderValue else {
+                client?.urlProtocol(self, didFailWithError: NSError(domain: "InvalidHeader", code: 403))
+                return
+            }
+        }
+        for (unexpectedHeaderField, _) in Self.unexpectedHeaders {
+            guard request.value(forHTTPHeaderField: unexpectedHeaderField) == nil else {
+                client?.urlProtocol(self, didFailWithError: NSError(domain: "UnexpectedHeader", code: 403))
+                return
+            }
+        }
+
+        // Return dummy JSON response.
+        let data = try! JSONSerialization.data(withJSONObject: Self.responseJSON, options: [])
+        let response = HTTPURLResponse(
+            url: expectedURL,
+            statusCode: 200,
+            httpVersion: nil,
+            headerFields: ["Content-Type": "application/json"]
+        )!
+
+        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        client?.urlProtocol(self, didLoad: data)
+        client?.urlProtocolDidFinishLoading(self)
+    }
+
+    override func stopLoading() {}
 }

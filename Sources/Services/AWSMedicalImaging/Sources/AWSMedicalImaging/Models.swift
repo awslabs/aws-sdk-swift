@@ -286,8 +286,10 @@ public struct CopyImageSetInput: Swift.Sendable {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
-    /// Setting this flag will force the CopyImageSet operation, even if Patient, Study, or Series level metadata are mismatched across the sourceImageSet and destinationImageSet.
+    /// Providing this parameter will force completion of the CopyImageSet operation, even if there are inconsistent Patient, Study, and/or Series level metadata elements between the sourceImageSet and destinationImageSet.
     public var force: Swift.Bool?
+    /// Providing this parameter will configure the CopyImageSet operation to promote the given image set to the primary DICOM hierarchy. If successful, a new primary image set ID will be returned as the destination image set.
+    public var promoteToPrimary: Swift.Bool?
     /// The source image set identifier.
     /// This member is required.
     public var sourceImageSetId: Swift.String?
@@ -296,11 +298,13 @@ public struct CopyImageSetInput: Swift.Sendable {
         copyImageSetInformation: MedicalImagingClientTypes.CopyImageSetInformation? = nil,
         datastoreId: Swift.String? = nil,
         force: Swift.Bool? = nil,
+        promoteToPrimary: Swift.Bool? = nil,
         sourceImageSetId: Swift.String? = nil
     ) {
         self.copyImageSetInformation = copyImageSetInformation
         self.datastoreId = datastoreId
         self.force = force
+        self.promoteToPrimary = promoteToPrimary
         self.sourceImageSetId = sourceImageSetId
     }
 }
@@ -347,6 +351,9 @@ extension MedicalImagingClientTypes {
         case created
         case deleted
         case deleting
+        case imported
+        case importing
+        case importFailed
         case updated
         case updateFailed
         case updating
@@ -361,6 +368,9 @@ extension MedicalImagingClientTypes {
                 .created,
                 .deleted,
                 .deleting,
+                .imported,
+                .importing,
+                .importFailed,
                 .updated,
                 .updateFailed,
                 .updating
@@ -381,6 +391,9 @@ extension MedicalImagingClientTypes {
             case .created: return "CREATED"
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
+            case .imported: return "IMPORTED"
+            case .importing: return "IMPORTING"
+            case .importFailed: return "IMPORT_FAILED"
             case .updated: return "UPDATED"
             case .updateFailed: return "UPDATE_FAILED"
             case .updating: return "UPDATING"
@@ -502,6 +515,8 @@ public struct CreateDatastoreInput: Swift.Sendable {
     public var datastoreName: Swift.String?
     /// The Amazon Resource Name (ARN) assigned to the Key Management Service (KMS) key for accessing encrypted data.
     public var kmsKeyArn: Swift.String?
+    /// The ARN of the authorizer's Lambda function.
+    public var lambdaAuthorizerArn: Swift.String?
     /// The tags provided when creating a data store.
     public var tags: [Swift.String: Swift.String]?
 
@@ -509,11 +524,13 @@ public struct CreateDatastoreInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         datastoreName: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
+        lambdaAuthorizerArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.datastoreName = datastoreName
         self.kmsKeyArn = kmsKeyArn
+        self.lambdaAuthorizerArn = lambdaAuthorizerArn
         self.tags = tags
     }
 }
@@ -633,6 +650,8 @@ extension MedicalImagingClientTypes {
         public var datastoreStatus: MedicalImagingClientTypes.DatastoreStatus?
         /// The Amazon Resource Name (ARN) assigned to the Key Management Service (KMS) key for accessing encrypted data.
         public var kmsKeyArn: Swift.String?
+        /// The ARN of the authorizer's Lambda function.
+        public var lambdaAuthorizerArn: Swift.String?
         /// The timestamp when the data store was last updated.
         public var updatedAt: Foundation.Date?
 
@@ -643,6 +662,7 @@ extension MedicalImagingClientTypes {
             datastoreName: Swift.String? = nil,
             datastoreStatus: MedicalImagingClientTypes.DatastoreStatus? = nil,
             kmsKeyArn: Swift.String? = nil,
+            lambdaAuthorizerArn: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.createdAt = createdAt
@@ -651,6 +671,7 @@ extension MedicalImagingClientTypes {
             self.datastoreName = datastoreName
             self.datastoreStatus = datastoreStatus
             self.kmsKeyArn = kmsKeyArn
+            self.lambdaAuthorizerArn = lambdaAuthorizerArn
             self.updatedAt = updatedAt
         }
     }
@@ -946,6 +967,43 @@ public struct GetImageFrameInput: Swift.Sendable {
 
 public struct GetImageFrameOutput: Swift.Sendable {
     /// The format in which the image frame information is returned to the customer. Default is application/octet-stream.
+    ///
+    /// * If the stored transfer syntax is 1.2.840.10008.1.2.1, the returned contentType is application/octet-stream.
+    ///
+    ///
+    ///
+    ///
+    /// * If the stored transfer syntax is 1.2.840.10008.1.2.4.50, the returned contentType is image/jpeg.
+    ///
+    ///
+    ///
+    ///
+    /// * If the stored transfer syntax is 1.2.840.10008.1.2.4.91, the returned contentType is image/j2c.
+    ///
+    ///
+    ///
+    ///
+    /// * If the stored transfer syntax is MPEG2, 1.2.840.10008.1.2.4.100, 1.2.840.10008.1.2.4.100.1, 1.2.840.10008.1.2.4.101, or 1.2.840.10008.1.2.4.101.1, the returned contentType is video/mpeg.
+    ///
+    ///
+    ///
+    ///
+    /// * If the stored transfer syntax is MPEG-4 AVC/H.264, UID 1.2.840.10008.1.2.4.102, 1.2.840.10008.1.2.4.102.1, 1.2.840.10008.1.2.4.103, 1.2.840.10008.1.2.4.103.1, 1.2.840.10008.1.2.4.104, 1.2.840.10008.1.2.4.104.1, 1.2.840.10008.1.2.4.105, 1.2.840.10008.1.2.4.105.1, 1.2.840.10008.1.2.4.106, or 1.2.840.10008.1.2.4.106.1, the returned contentType is video/mp4.
+    ///
+    ///
+    ///
+    ///
+    /// * If the stored transfer syntax is HEVC/H.265, UID 1.2.840.10008.1.2.4.107 or 1.2.840.10008.1.2.4.108, the returned contentType is video/H256.
+    ///
+    ///
+    ///
+    ///
+    /// * If the stored transfer syntax is 1.2.840.10008.1.2.4.202 or if the stored transfer syntax is missing, the returned contentType is image/jph.
+    ///
+    ///
+    ///
+    ///
+    /// * If the stored transfer syntax is 1.2.840.10008.1.2.4.203, the returned contentType is image/jphc.
     public var contentType: Swift.String?
     /// The blob containing the aggregated image frame information.
     /// This member is required.
@@ -985,7 +1043,7 @@ extension MedicalImagingClientTypes {
 
     /// Specifies the overrides used in image set modification calls to CopyImageSet and UpdateImageSetMetadata.
     public struct Overrides: Swift.Sendable {
-        /// Setting this flag will force the CopyImageSet and UpdateImageSetMetadata operations, even if Patient, Study, or Series level metadata are mismatched.
+        /// Providing this parameter will force completion of the CopyImageSet and UpdateImageSetMetadata actions, even if metadata is inconsistent at the Patient, Study, and/or Series levels.
         public var forced: Swift.Bool?
 
         public init(
@@ -1014,6 +1072,8 @@ public struct GetImageSetOutput: Swift.Sendable {
     public var imageSetState: MedicalImagingClientTypes.ImageSetState?
     /// The image set workflow status.
     public var imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus?
+    /// The flag to determine whether the image set is primary or not.
+    public var isPrimary: Swift.Bool?
     /// The error message thrown if an image set action fails.
     public var message: Swift.String?
     /// This object contains the details of any overrides used while creating a specific image set version. If an image set was copied or updated using the force flag, this object will contain the forced flag.
@@ -1032,6 +1092,7 @@ public struct GetImageSetOutput: Swift.Sendable {
         imageSetId: Swift.String? = nil,
         imageSetState: MedicalImagingClientTypes.ImageSetState? = nil,
         imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus? = nil,
+        isPrimary: Swift.Bool? = nil,
         message: Swift.String? = nil,
         overrides: MedicalImagingClientTypes.Overrides? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -1044,6 +1105,7 @@ public struct GetImageSetOutput: Swift.Sendable {
         self.imageSetId = imageSetId
         self.imageSetState = imageSetState
         self.imageSetWorkflowStatus = imageSetWorkflowStatus
+        self.isPrimary = isPrimary
         self.message = message
         self.overrides = overrides
         self.updatedAt = updatedAt
@@ -1220,6 +1282,8 @@ extension MedicalImagingClientTypes {
         public var imageSetState: MedicalImagingClientTypes.ImageSetState?
         /// The image set workflow status.
         public var imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus?
+        /// The flag to determine whether the image set is primary or not.
+        public var isPrimary: Swift.Bool?
         /// The error message thrown if an image set action fails.
         public var message: Swift.String?
         /// Contains details on overrides used when creating the returned version of an image set. For example, if forced exists, the forced flag was used when creating the image set.
@@ -1236,6 +1300,7 @@ extension MedicalImagingClientTypes {
             imageSetId: Swift.String? = nil,
             imageSetState: MedicalImagingClientTypes.ImageSetState? = nil,
             imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus? = nil,
+            isPrimary: Swift.Bool? = nil,
             message: Swift.String? = nil,
             overrides: MedicalImagingClientTypes.Overrides? = nil,
             updatedAt: Foundation.Date? = nil,
@@ -1246,6 +1311,7 @@ extension MedicalImagingClientTypes {
             self.imageSetId = imageSetId
             self.imageSetState = imageSetState
             self.imageSetWorkflowStatus = imageSetWorkflowStatus
+            self.isPrimary = isPrimary
             self.message = message
             self.overrides = overrides
             self.updatedAt = updatedAt
@@ -1368,6 +1434,8 @@ extension MedicalImagingClientTypes {
         case updatedat(Foundation.Date)
         /// The aggregated structure containing DICOM study date and study time for search.
         case dicomstudydateandtime(MedicalImagingClientTypes.DICOMStudyDateAndTime)
+        /// The primary image set flag provided for search.
+        case isprimary(Swift.Bool)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1620,6 +1688,8 @@ extension MedicalImagingClientTypes {
         /// The image set identifier.
         /// This member is required.
         public var imageSetId: Swift.String?
+        /// The flag to determine whether the image set is primary or not.
+        public var isPrimary: Swift.Bool?
         /// The time an image set was last updated.
         public var updatedAt: Foundation.Date?
         /// The image set version.
@@ -1629,12 +1699,14 @@ extension MedicalImagingClientTypes {
             createdAt: Foundation.Date? = nil,
             dicomTags: MedicalImagingClientTypes.DICOMTags? = nil,
             imageSetId: Swift.String? = nil,
+            isPrimary: Swift.Bool? = nil,
             updatedAt: Foundation.Date? = nil,
             version: Swift.Int? = nil
         ) {
             self.createdAt = createdAt
             self.dicomTags = dicomTags
             self.imageSetId = imageSetId
+            self.isPrimary = isPrimary
             self.updatedAt = updatedAt
             self.version = version
         }
@@ -1906,6 +1978,10 @@ extension CopyImageSetInput {
         if let force = value.force {
             let forceQueryItem = Smithy.URIQueryItem(name: "force".urlPercentEncoding(), value: Swift.String(force).urlPercentEncoding())
             items.append(forceQueryItem)
+        }
+        if let promoteToPrimary = value.promoteToPrimary {
+            let promoteToPrimaryQueryItem = Smithy.URIQueryItem(name: "promoteToPrimary".urlPercentEncoding(), value: Swift.String(promoteToPrimary).urlPercentEncoding())
+            items.append(promoteToPrimaryQueryItem)
         }
         return items
     }
@@ -2241,6 +2317,7 @@ extension CreateDatastoreInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["datastoreName"].write(value.datastoreName)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["lambdaAuthorizerArn"].write(value.lambdaAuthorizerArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2402,6 +2479,7 @@ extension GetImageSetOutput {
         value.imageSetId = try reader["imageSetId"].readIfPresent() ?? ""
         value.imageSetState = try reader["imageSetState"].readIfPresent() ?? .sdkUnknown("")
         value.imageSetWorkflowStatus = try reader["imageSetWorkflowStatus"].readIfPresent()
+        value.isPrimary = try reader["isPrimary"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
         value.overrides = try reader["overrides"].readIfPresent(with: MedicalImagingClientTypes.Overrides.read(from:))
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -2576,6 +2654,7 @@ enum CreateDatastoreOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -2884,37 +2963,24 @@ enum UpdateImageSetMetadataOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2936,11 +3002,24 @@ extension InternalServerException {
     }
 }
 
-extension ValidationException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2962,11 +3041,11 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3016,6 +3095,7 @@ extension MedicalImagingClientTypes.DatastoreProperties {
         value.datastoreName = try reader["datastoreName"].readIfPresent() ?? ""
         value.datastoreStatus = try reader["datastoreStatus"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.lambdaAuthorizerArn = try reader["lambdaAuthorizerArn"].readIfPresent()
         value.datastoreArn = try reader["datastoreArn"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3098,6 +3178,7 @@ extension MedicalImagingClientTypes.ImageSetProperties {
         value.deletedAt = try reader["deletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.message = try reader["message"].readIfPresent()
         value.overrides = try reader["overrides"].readIfPresent(with: MedicalImagingClientTypes.Overrides.read(from:))
+        value.isPrimary = try reader["isPrimary"].readIfPresent()
         return value
     }
 }
@@ -3112,6 +3193,7 @@ extension MedicalImagingClientTypes.ImageSetsMetadataSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.dicomTags = try reader["DICOMTags"].readIfPresent(with: MedicalImagingClientTypes.DICOMTags.read(from:))
+        value.isPrimary = try reader["isPrimary"].readIfPresent()
         return value
     }
 }
@@ -3238,6 +3320,8 @@ extension MedicalImagingClientTypes.SearchByAttributeValue {
                 try writer["DICOMStudyInstanceUID"].write(dicomstudyinstanceuid)
             case let .createdat(createdat):
                 try writer["createdAt"].writeTimestamp(createdat, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+            case let .isprimary(isprimary):
+                try writer["isPrimary"].write(isprimary)
             case let .updatedat(updatedat):
                 try writer["updatedAt"].writeTimestamp(updatedat, format: SmithyTimestamps.TimestampFormat.epochSeconds)
             case let .sdkUnknown(sdkUnknown):

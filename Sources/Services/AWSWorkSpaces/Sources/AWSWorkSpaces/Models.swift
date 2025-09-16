@@ -242,6 +242,97 @@ public struct AcceptAccountLinkInvitationOutput: Swift.Sendable {
 
 extension WorkSpacesClientTypes {
 
+    public enum AccessEndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case streamingWsp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessEndpointType] {
+            return [
+                .streamingWsp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .streamingWsp: return "STREAMING_WSP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    /// Describes the access type and endpoint for a WorkSpace.
+    public struct AccessEndpoint: Swift.Sendable {
+        /// Indicates the type of access endpoint.
+        public var accessEndpointType: WorkSpacesClientTypes.AccessEndpointType?
+        /// Indicates the VPC endpoint to use for access.
+        public var vpcEndpointId: Swift.String?
+
+        public init(
+            accessEndpointType: WorkSpacesClientTypes.AccessEndpointType? = nil,
+            vpcEndpointId: Swift.String? = nil
+        ) {
+            self.accessEndpointType = accessEndpointType
+            self.vpcEndpointId = vpcEndpointId
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    public enum InternetFallbackProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case pcoip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InternetFallbackProtocol] {
+            return [
+                .pcoip
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .pcoip: return "PCOIP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    /// Describes the access endpoint configuration for a WorkSpace.
+    public struct AccessEndpointConfig: Swift.Sendable {
+        /// Indicates a list of access endpoints associated with this directory.
+        /// This member is required.
+        public var accessEndpoints: [WorkSpacesClientTypes.AccessEndpoint]?
+        /// Indicates a list of protocols that fallback to using the public Internet when streaming over a VPC endpoint is not available.
+        public var internetFallbackProtocols: [WorkSpacesClientTypes.InternetFallbackProtocol]?
+
+        public init(
+            accessEndpoints: [WorkSpacesClientTypes.AccessEndpoint]? = nil,
+            internetFallbackProtocols: [WorkSpacesClientTypes.InternetFallbackProtocol]? = nil
+        ) {
+            self.accessEndpoints = accessEndpoints
+            self.internetFallbackProtocols = internetFallbackProtocols
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     public enum AccessPropertyValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allow
         case deny
@@ -3278,6 +3369,35 @@ public struct CreateWorkspacesOutput: Swift.Sendable {
 
 extension WorkSpacesClientTypes {
 
+    public enum PoolsRunningMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alwaysOn
+        case autoStop
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PoolsRunningMode] {
+            return [
+                .alwaysOn,
+                .autoStop
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alwaysOn: return "ALWAYS_ON"
+            case .autoStop: return "AUTO_STOP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     /// Describes the timeout settings for a pool of WorkSpaces.
     public struct TimeoutSettings: Swift.Sendable {
         /// Specifies the amount of time, in seconds, that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within the time set, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance.
@@ -3317,6 +3437,8 @@ public struct CreateWorkspacesPoolInput: Swift.Sendable {
     /// The name of the pool.
     /// This member is required.
     public var poolName: Swift.String?
+    /// The running mode for the pool.
+    public var runningMode: WorkSpacesClientTypes.PoolsRunningMode?
     /// The tags for the pool.
     public var tags: [WorkSpacesClientTypes.Tag]?
     /// Indicates the timeout settings of the pool.
@@ -3329,6 +3451,7 @@ public struct CreateWorkspacesPoolInput: Swift.Sendable {
         description: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         poolName: Swift.String? = nil,
+        runningMode: WorkSpacesClientTypes.PoolsRunningMode? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil,
         timeoutSettings: WorkSpacesClientTypes.TimeoutSettings? = nil
     ) {
@@ -3338,6 +3461,7 @@ public struct CreateWorkspacesPoolInput: Swift.Sendable {
         self.description = description
         self.directoryId = directoryId
         self.poolName = poolName
+        self.runningMode = runningMode
         self.tags = tags
         self.timeoutSettings = timeoutSettings
     }
@@ -3577,9 +3701,12 @@ extension WorkSpacesClientTypes {
         /// The identifier of a pool.
         /// This member is required.
         public var poolId: Swift.String?
-        /// The name of the pool,
+        /// The name of the pool.
         /// This member is required.
         public var poolName: Swift.String?
+        /// The running mode of the pool.
+        /// This member is required.
+        public var runningMode: WorkSpacesClientTypes.PoolsRunningMode?
         /// The current state of the pool.
         /// This member is required.
         public var state: WorkSpacesClientTypes.WorkspacesPoolState?
@@ -3597,6 +3724,7 @@ extension WorkSpacesClientTypes {
             poolArn: Swift.String? = nil,
             poolId: Swift.String? = nil,
             poolName: Swift.String? = nil,
+            runningMode: WorkSpacesClientTypes.PoolsRunningMode? = .autoStop,
             state: WorkSpacesClientTypes.WorkspacesPoolState? = nil,
             timeoutSettings: WorkSpacesClientTypes.TimeoutSettings? = nil
         ) {
@@ -3610,6 +3738,7 @@ extension WorkSpacesClientTypes {
             self.poolArn = poolArn
             self.poolId = poolId
             self.poolName = poolName
+            self.runningMode = runningMode
             self.state = state
             self.timeoutSettings = timeoutSettings
         }
@@ -3624,6 +3753,92 @@ public struct CreateWorkspacesPoolOutput: Swift.Sendable {
         workspacesPool: WorkSpacesClientTypes.WorkspacesPool? = nil
     ) {
         self.workspacesPool = workspacesPool
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    public enum CustomImageProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case byop
+        case dcv
+        case pcoip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomImageProtocol] {
+            return [
+                .byop,
+                .dcv,
+                .pcoip
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .byop: return "BYOP"
+            case .dcv: return "DCV"
+            case .pcoip: return "PCOIP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    /// Describes in-depth details about the error. These details include the possible causes of the error and troubleshooting information.
+    public struct CustomWorkspaceImageImportErrorDetails: Swift.Sendable {
+        /// The error code that is returned for the image import.
+        public var errorCode: Swift.String?
+        /// The text of the error message that is returned for the image import.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    public enum CustomWorkspaceImageImportState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case error
+        case inProgress
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomWorkspaceImageImportState] {
+            return [
+                .completed,
+                .error,
+                .inProgress,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .error: return "ERROR"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -3772,8 +3987,6 @@ extension WorkSpacesClientTypes {
         public var enableInternetAccess: Swift.Bool?
         /// Specifies whether maintenance mode is enabled for WorkSpaces. For more information, see [WorkSpace Maintenance](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspace-maintenance.html).
         public var enableMaintenanceMode: Swift.Bool?
-        /// Specifies whether the directory is enabled for Amazon WorkDocs.
-        public var enableWorkDocs: Swift.Bool?
         /// Indicates the IAM role ARN of the instance.
         public var instanceIamRoleArn: Swift.String?
         /// Specifies whether WorkSpace users are local administrators on their WorkSpaces.
@@ -3784,7 +3997,6 @@ extension WorkSpacesClientTypes {
             defaultOu: Swift.String? = nil,
             enableInternetAccess: Swift.Bool? = nil,
             enableMaintenanceMode: Swift.Bool? = nil,
-            enableWorkDocs: Swift.Bool? = nil,
             instanceIamRoleArn: Swift.String? = nil,
             userEnabledAsLocalAdministrator: Swift.Bool? = nil
         ) {
@@ -3792,7 +4004,6 @@ extension WorkSpacesClientTypes {
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
             self.enableMaintenanceMode = enableMaintenanceMode
-            self.enableWorkDocs = enableWorkDocs
             self.instanceIamRoleArn = instanceIamRoleArn
             self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
         }
@@ -4085,15 +4296,19 @@ public struct DescribeAccountOutput: Swift.Sendable {
     public var dedicatedTenancyManagementCidrRange: Swift.String?
     /// The status of BYOL (whether BYOL is enabled or disabled).
     public var dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportResultEnum?
+    /// The text message to describe the status of BYOL.
+    public var message: Swift.String?
 
     public init(
         dedicatedTenancyAccountType: WorkSpacesClientTypes.DedicatedTenancyAccountType? = nil,
         dedicatedTenancyManagementCidrRange: Swift.String? = nil,
-        dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportResultEnum? = nil
+        dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportResultEnum? = nil,
+        message: Swift.String? = nil
     ) {
         self.dedicatedTenancyAccountType = dedicatedTenancyAccountType
         self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
         self.dedicatedTenancySupport = dedicatedTenancySupport
+        self.message = message
     }
 }
 
@@ -4577,6 +4792,71 @@ public struct DescribeConnectionAliasPermissionsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeCustomWorkspaceImageImportInput: Swift.Sendable {
+    /// The identifier of the WorkSpace image.
+    /// This member is required.
+    public var imageId: Swift.String?
+
+    public init(
+        imageId: Swift.String? = nil
+    ) {
+        self.imageId = imageId
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    /// Describes the image import source.
+    public enum ImageSourceIdentifier: Swift.Sendable {
+        /// The EC2 import task ID to import the image from the Amazon EC2 VM import process.
+        case ec2importtaskid(Swift.String)
+        /// The ARN of the EC2 Image Builder image.
+        case imagebuildversionarn(Swift.String)
+        /// The identifier of the EC2 image.
+        case ec2imageid(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct DescribeCustomWorkspaceImageImportOutput: Swift.Sendable {
+    /// The timestamp when the WorkSpace image import was created.
+    public var created: Foundation.Date?
+    /// Describes in-depth details about the error. These details include the possible causes of the error and troubleshooting information.
+    public var errorDetails: [WorkSpacesClientTypes.CustomWorkspaceImageImportErrorDetails]?
+    /// The image builder instance ID of the WorkSpace image.
+    public var imageBuilderInstanceId: Swift.String?
+    /// The identifier of the WorkSpace image.
+    public var imageId: Swift.String?
+    /// Describes the image import source.
+    public var imageSource: WorkSpacesClientTypes.ImageSourceIdentifier?
+    /// The infrastructure configuration ARN that specifies how the WorkSpace image is built.
+    public var infrastructureConfigurationArn: Swift.String?
+    /// The timestamp when the WorkSpace image import was last updated.
+    public var lastUpdatedTime: Foundation.Date?
+    /// The state of the WorkSpace image.
+    public var state: WorkSpacesClientTypes.CustomWorkspaceImageImportState?
+
+    public init(
+        created: Foundation.Date? = nil,
+        errorDetails: [WorkSpacesClientTypes.CustomWorkspaceImageImportErrorDetails]? = nil,
+        imageBuilderInstanceId: Swift.String? = nil,
+        imageId: Swift.String? = nil,
+        imageSource: WorkSpacesClientTypes.ImageSourceIdentifier? = nil,
+        infrastructureConfigurationArn: Swift.String? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
+        state: WorkSpacesClientTypes.CustomWorkspaceImageImportState? = nil
+    ) {
+        self.created = created
+        self.errorDetails = errorDetails
+        self.imageBuilderInstanceId = imageBuilderInstanceId
+        self.imageId = imageId
+        self.imageSource = imageSource
+        self.infrastructureConfigurationArn = infrastructureConfigurationArn
+        self.lastUpdatedTime = lastUpdatedTime
+        self.state = state
+    }
+}
+
 extension WorkSpacesClientTypes {
 
     public enum ImageAssociatedResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -4922,6 +5202,35 @@ extension WorkSpacesClientTypes {
             case .awsIamIdentityCenter: return "AWS_IAM_IDENTITY_CENTER"
             case .customerManaged: return "CUSTOMER_MANAGED"
             case .simpleAd: return "SIMPLE_AD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    public enum EndpointEncryptionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fipsValidated
+        case standardTls
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointEncryptionMode] {
+            return [
+                .fipsValidated,
+                .standardTls
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fipsValidated: return "FIPS_VALIDATED"
+            case .standardTls: return "STANDARD_TLS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5402,6 +5711,8 @@ extension WorkSpacesClientTypes {
 
     /// The device types and operating systems that can be used to access a WorkSpace. For more information, see [Amazon WorkSpaces Client Network Requirements](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-network-requirements.html).
     public struct WorkspaceAccessProperties: Swift.Sendable {
+        /// Specifies the configuration for accessing the WorkSpace.
+        public var accessEndpointConfig: WorkSpacesClientTypes.AccessEndpointConfig?
         /// Indicates whether users can use Android and Android-compatible Chrome OS devices to access their WorkSpaces.
         public var deviceTypeAndroid: WorkSpacesClientTypes.AccessPropertyValue?
         /// Indicates whether users can use Chromebooks to access their WorkSpaces.
@@ -5416,10 +5727,13 @@ extension WorkSpacesClientTypes {
         public var deviceTypeWeb: WorkSpacesClientTypes.AccessPropertyValue?
         /// Indicates whether users can use Windows clients to access their WorkSpaces.
         public var deviceTypeWindows: WorkSpacesClientTypes.AccessPropertyValue?
+        /// Indicates whether users can access their WorkSpaces through a WorkSpaces Thin Client.
+        public var deviceTypeWorkSpacesThinClient: WorkSpacesClientTypes.AccessPropertyValue?
         /// Indicates whether users can use zero client devices to access their WorkSpaces.
         public var deviceTypeZeroClient: WorkSpacesClientTypes.AccessPropertyValue?
 
         public init(
+            accessEndpointConfig: WorkSpacesClientTypes.AccessEndpointConfig? = nil,
             deviceTypeAndroid: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeChromeOs: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeIos: WorkSpacesClientTypes.AccessPropertyValue? = nil,
@@ -5427,8 +5741,10 @@ extension WorkSpacesClientTypes {
             deviceTypeOsx: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeWeb: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeWindows: WorkSpacesClientTypes.AccessPropertyValue? = nil,
+            deviceTypeWorkSpacesThinClient: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeZeroClient: WorkSpacesClientTypes.AccessPropertyValue? = nil
         ) {
+            self.accessEndpointConfig = accessEndpointConfig
             self.deviceTypeAndroid = deviceTypeAndroid
             self.deviceTypeChromeOs = deviceTypeChromeOs
             self.deviceTypeIos = deviceTypeIos
@@ -5436,6 +5752,7 @@ extension WorkSpacesClientTypes {
             self.deviceTypeOsx = deviceTypeOsx
             self.deviceTypeWeb = deviceTypeWeb
             self.deviceTypeWindows = deviceTypeWindows
+            self.deviceTypeWorkSpacesThinClient = deviceTypeWorkSpacesThinClient
             self.deviceTypeZeroClient = deviceTypeZeroClient
         }
     }
@@ -5490,6 +5807,8 @@ extension WorkSpacesClientTypes {
         public var directoryType: WorkSpacesClientTypes.WorkspaceDirectoryType?
         /// The IP addresses of the DNS servers for the directory.
         public var dnsIpAddresses: [Swift.String]?
+        /// Endpoint encryption mode that allows you to configure the specified directory between Standard TLS and FIPS 140-2 validated mode.
+        public var endpointEncryptionMode: WorkSpacesClientTypes.EndpointEncryptionMode?
         /// The error message returned.
         public var errorMessage: Swift.String?
         /// The identifier of the IAM role. This is the role that allows Amazon WorkSpaces to make calls to other services, such as Amazon EC2, on your behalf.
@@ -5538,6 +5857,7 @@ extension WorkSpacesClientTypes {
             directoryName: Swift.String? = nil,
             directoryType: WorkSpacesClientTypes.WorkspaceDirectoryType? = nil,
             dnsIpAddresses: [Swift.String]? = nil,
+            endpointEncryptionMode: WorkSpacesClientTypes.EndpointEncryptionMode? = nil,
             errorMessage: Swift.String? = nil,
             iamRoleId: Swift.String? = nil,
             idcConfig: WorkSpacesClientTypes.IDCConfig? = nil,
@@ -5566,6 +5886,7 @@ extension WorkSpacesClientTypes {
             self.directoryName = directoryName
             self.directoryType = directoryType
             self.dnsIpAddresses = dnsIpAddresses
+            self.endpointEncryptionMode = endpointEncryptionMode
             self.errorMessage = errorMessage
             self.iamRoleId = iamRoleId
             self.idcConfig = idcConfig
@@ -5728,7 +6049,9 @@ extension WorkSpacesClientTypes {
         case domainJoined
         case environmentVariablesPathMissingEntries
         case firewallEnabled
+        case incompatibleMemoryIntegrity
         case incompatiblePartitioning
+        case incompatibleProtocol
         case insufficientDiskSpace
         case insufficientRearmCount
         case invalidIp
@@ -5743,6 +6066,7 @@ extension WorkSpacesClientTypes {
         case realtimeUniversalDisabled
         case remoteDesktopServicesDisabled
         case reservedStorageInUse
+        case restrictedDriveLetter
         case sixtyFourBitOs
         case stagedAppxPackage
         case sysprepFileMissing
@@ -5777,7 +6101,9 @@ extension WorkSpacesClientTypes {
                 .domainJoined,
                 .environmentVariablesPathMissingEntries,
                 .firewallEnabled,
+                .incompatibleMemoryIntegrity,
                 .incompatiblePartitioning,
+                .incompatibleProtocol,
                 .insufficientDiskSpace,
                 .insufficientRearmCount,
                 .invalidIp,
@@ -5792,6 +6118,7 @@ extension WorkSpacesClientTypes {
                 .realtimeUniversalDisabled,
                 .remoteDesktopServicesDisabled,
                 .reservedStorageInUse,
+                .restrictedDriveLetter,
                 .sixtyFourBitOs,
                 .stagedAppxPackage,
                 .sysprepFileMissing,
@@ -5832,7 +6159,9 @@ extension WorkSpacesClientTypes {
             case .domainJoined: return "DomainJoined"
             case .environmentVariablesPathMissingEntries: return "EnvironmentVariablesPathMissingEntries"
             case .firewallEnabled: return "FirewallEnabled"
+            case .incompatibleMemoryIntegrity: return "MemoryIntegrityIncompatibility"
             case .incompatiblePartitioning: return "IncompatiblePartitioning"
+            case .incompatibleProtocol: return "ProtocolOSIncompatibility"
             case .insufficientDiskSpace: return "InsufficientDiskSpace"
             case .insufficientRearmCount: return "InsufficientRearmCount"
             case .invalidIp: return "InvalidIp"
@@ -5847,6 +6176,7 @@ extension WorkSpacesClientTypes {
             case .realtimeUniversalDisabled: return "RealTimeUniversalDisabled"
             case .remoteDesktopServicesDisabled: return "RemoteDesktopServicesDisabled"
             case .reservedStorageInUse: return "ReservedStorageInUse"
+            case .restrictedDriveLetter: return "RestrictedDriveLetterInUse"
             case .sixtyFourBitOs: return "Requires64BitOS"
             case .stagedAppxPackage: return "StagedAppxPackage"
             case .sysprepFileMissing: return "SysPrepFileMissing"
@@ -6255,7 +6585,7 @@ public struct DescribeWorkspacesPoolsOutput: Swift.Sendable {
 }
 
 public struct DescribeWorkspacesPoolSessionsInput: Swift.Sendable {
-    /// The maximum number of items to return.
+    /// The maximum size of each page of results. The default value is 20 and the maximum value is 50.
     public var limit: Swift.Int?
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
     public var nextToken: Swift.String?
@@ -6509,6 +6839,35 @@ public struct GetAccountLinkOutput: Swift.Sendable {
 
 extension WorkSpacesClientTypes {
 
+    public enum ImageComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case base
+        case graphicsG4dn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageComputeType] {
+            return [
+                .base,
+                .graphicsG4dn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .base: return "BASE"
+            case .graphicsG4dn: return "GRAPHICS_G4DN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     /// The client branding attributes to import for iOS device types. These attributes are displayed on the iOS client login screen. Client branding attributes are public facing. Ensure you do not include sensitive information.
     public struct IosImportClientBrandingAttributes: Swift.Sendable {
         /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
@@ -6623,6 +6982,127 @@ public struct ImportClientBrandingOutput: Swift.Sendable {
 
 extension WorkSpacesClientTypes {
 
+    public enum OSVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case windows10
+        case windows11
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OSVersion] {
+            return [
+                .windows10,
+                .windows11
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .windows10: return "Windows_10"
+            case .windows11: return "Windows_11"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    public enum Platform: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case windows
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Platform] {
+            return [
+                .windows
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .windows: return "WINDOWS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ImportCustomWorkspaceImageInput: Swift.Sendable {
+    /// The supported compute type for the WorkSpace image.
+    /// This member is required.
+    public var computeType: WorkSpacesClientTypes.ImageComputeType?
+    /// The description of the WorkSpace image.
+    /// This member is required.
+    public var imageDescription: Swift.String?
+    /// The name of the WorkSpace image.
+    /// This member is required.
+    public var imageName: Swift.String?
+    /// The options for image import source.
+    /// This member is required.
+    public var imageSource: WorkSpacesClientTypes.ImageSourceIdentifier?
+    /// The infrastructure configuration ARN that specifies how the WorkSpace image is built.
+    /// This member is required.
+    public var infrastructureConfigurationArn: Swift.String?
+    /// The OS version for the WorkSpace image source.
+    /// This member is required.
+    public var osVersion: WorkSpacesClientTypes.OSVersion?
+    /// The platform for the WorkSpace image source.
+    /// This member is required.
+    public var platform: WorkSpacesClientTypes.Platform?
+    /// The supported protocol for the WorkSpace image. Windows 11 does not support PCOIP protocol.
+    /// This member is required.
+    public var `protocol`: WorkSpacesClientTypes.CustomImageProtocol?
+    /// The resource tags. Each WorkSpaces resource can have a maximum of 50 tags.
+    public var tags: [WorkSpacesClientTypes.Tag]?
+
+    public init(
+        computeType: WorkSpacesClientTypes.ImageComputeType? = nil,
+        imageDescription: Swift.String? = nil,
+        imageName: Swift.String? = nil,
+        imageSource: WorkSpacesClientTypes.ImageSourceIdentifier? = nil,
+        infrastructureConfigurationArn: Swift.String? = nil,
+        osVersion: WorkSpacesClientTypes.OSVersion? = nil,
+        platform: WorkSpacesClientTypes.Platform? = nil,
+        `protocol`: WorkSpacesClientTypes.CustomImageProtocol? = nil,
+        tags: [WorkSpacesClientTypes.Tag]? = nil
+    ) {
+        self.computeType = computeType
+        self.imageDescription = imageDescription
+        self.imageName = imageName
+        self.imageSource = imageSource
+        self.infrastructureConfigurationArn = infrastructureConfigurationArn
+        self.osVersion = osVersion
+        self.platform = platform
+        self.`protocol` = `protocol`
+        self.tags = tags
+    }
+}
+
+public struct ImportCustomWorkspaceImageOutput: Swift.Sendable {
+    /// The identifier of the WorkSpace image.
+    public var imageId: Swift.String?
+    /// The state of the WorkSpace image.
+    public var state: WorkSpacesClientTypes.CustomWorkspaceImageImportState?
+
+    public init(
+        imageId: Swift.String? = nil,
+        state: WorkSpacesClientTypes.CustomWorkspaceImageImportState? = nil
+    ) {
+        self.imageId = imageId
+        self.state = state
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     public enum WorkspaceImageIngestionProcess: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case byolGraphics
         case byolGraphicspro
@@ -6715,6 +7195,30 @@ public struct ImportWorkspaceImageOutput: Swift.Sendable {
         imageId: Swift.String? = nil
     ) {
         self.imageId = imageId
+    }
+}
+
+/// Two or more of the selected parameter values cannot be used together.
+public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterCombinationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -6858,8 +7362,14 @@ public struct ModifyAccountInput: Swift.Sendable {
 }
 
 public struct ModifyAccountOutput: Swift.Sendable {
+    /// The text message to describe the status of BYOL modification.
+    public var message: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.message = message
+    }
 }
 
 public struct ModifyCertificateBasedAuthPropertiesInput: Swift.Sendable {
@@ -6905,6 +7415,28 @@ public struct ModifyClientPropertiesInput: Swift.Sendable {
 }
 
 public struct ModifyClientPropertiesOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct ModifyEndpointEncryptionModeInput: Swift.Sendable {
+    /// The identifier of the directory.
+    /// This member is required.
+    public var directoryId: Swift.String?
+    /// The encryption mode used for endpoint connections when streaming to WorkSpaces Personal or WorkSpace Pools.
+    /// This member is required.
+    public var endpointEncryptionMode: WorkSpacesClientTypes.EndpointEncryptionMode?
+
+    public init(
+        directoryId: Swift.String? = nil,
+        endpointEncryptionMode: WorkSpacesClientTypes.EndpointEncryptionMode? = nil
+    ) {
+        self.directoryId = directoryId
+        self.endpointEncryptionMode = endpointEncryptionMode
+    }
+}
+
+public struct ModifyEndpointEncryptionModeOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -7019,8 +7551,6 @@ extension WorkSpacesClientTypes {
         public var enableInternetAccess: Swift.Bool?
         /// Indicates whether maintenance mode is enabled for your WorkSpaces. For more information, see [WorkSpace Maintenance](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspace-maintenance.html).
         public var enableMaintenanceMode: Swift.Bool?
-        /// Indicates whether Amazon WorkDocs is enabled for your WorkSpaces. If WorkDocs is already enabled for a WorkSpaces directory and you disable it, new WorkSpaces launched in the directory will not have WorkDocs enabled. However, WorkDocs remains enabled for any existing WorkSpaces, unless you either disable users' access to WorkDocs or you delete the WorkDocs site. To disable users' access to WorkDocs, see [Disabling Users](https://docs.aws.amazon.com/workdocs/latest/adminguide/inactive-user.html) in the Amazon WorkDocs Administration Guide. To delete a WorkDocs site, see [Deleting a Site](https://docs.aws.amazon.com/workdocs/latest/adminguide/manage-sites.html) in the Amazon WorkDocs Administration Guide. If you enable WorkDocs on a directory that already has existing WorkSpaces, the existing WorkSpaces and any new WorkSpaces that are launched in the directory will have WorkDocs enabled.
-        public var enableWorkDocs: Swift.Bool?
         /// Indicates the IAM role ARN of the instance.
         public var instanceIamRoleArn: Swift.String?
         /// Indicates whether users are local administrators of their WorkSpaces.
@@ -7031,7 +7561,6 @@ extension WorkSpacesClientTypes {
             defaultOu: Swift.String? = nil,
             enableInternetAccess: Swift.Bool? = nil,
             enableMaintenanceMode: Swift.Bool? = nil,
-            enableWorkDocs: Swift.Bool? = nil,
             instanceIamRoleArn: Swift.String? = nil,
             userEnabledAsLocalAdministrator: Swift.Bool? = nil
         ) {
@@ -7039,7 +7568,6 @@ extension WorkSpacesClientTypes {
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
             self.enableMaintenanceMode = enableMaintenanceMode
-            self.enableWorkDocs = enableWorkDocs
             self.instanceIamRoleArn = instanceIamRoleArn
             self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
         }
@@ -7298,8 +7826,6 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
     public var directoryId: Swift.String?
     /// Indicates whether self-service capabilities are enabled or disabled.
     public var enableSelfService: Swift.Bool?
-    /// Indicates whether Amazon WorkDocs is enabled or disabled. If you have enabled this parameter and WorkDocs is not available in the Region, you will receive an OperationNotSupportedException error. Set EnableWorkDocs to disabled, and try again.
-    public var enableWorkDocs: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the identity center instance.
     public var idcInstanceArn: Swift.String?
     /// The details about Microsoft Entra config.
@@ -7323,7 +7849,6 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
         activeDirectoryConfig: WorkSpacesClientTypes.ActiveDirectoryConfig? = nil,
         directoryId: Swift.String? = nil,
         enableSelfService: Swift.Bool? = nil,
-        enableWorkDocs: Swift.Bool? = nil,
         idcInstanceArn: Swift.String? = nil,
         microsoftEntraConfig: WorkSpacesClientTypes.MicrosoftEntraConfig? = nil,
         subnetIds: [Swift.String]? = nil,
@@ -7337,7 +7862,6 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
         self.activeDirectoryConfig = activeDirectoryConfig
         self.directoryId = directoryId
         self.enableSelfService = enableSelfService
-        self.enableWorkDocs = enableWorkDocs
         self.idcInstanceArn = idcInstanceArn
         self.microsoftEntraConfig = microsoftEntraConfig
         self.subnetIds = subnetIds
@@ -7749,6 +8273,8 @@ public struct UpdateWorkspacesPoolInput: Swift.Sendable {
     /// The identifier of the specified pool to update.
     /// This member is required.
     public var poolId: Swift.String?
+    /// The desired running mode for the pool. The running mode can only be updated when the pool is in a stopped state.
+    public var runningMode: WorkSpacesClientTypes.PoolsRunningMode?
     /// Indicates the timeout settings of the specified pool.
     public var timeoutSettings: WorkSpacesClientTypes.TimeoutSettings?
 
@@ -7759,6 +8285,7 @@ public struct UpdateWorkspacesPoolInput: Swift.Sendable {
         description: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         poolId: Swift.String? = nil,
+        runningMode: WorkSpacesClientTypes.PoolsRunningMode? = nil,
         timeoutSettings: WorkSpacesClientTypes.TimeoutSettings? = nil
     ) {
         self.applicationSettings = applicationSettings
@@ -7767,6 +8294,7 @@ public struct UpdateWorkspacesPoolInput: Swift.Sendable {
         self.description = description
         self.directoryId = directoryId
         self.poolId = poolId
+        self.runningMode = runningMode
         self.timeoutSettings = timeoutSettings
     }
 }
@@ -8041,6 +8569,13 @@ extension DescribeConnectionAliasPermissionsInput {
     }
 }
 
+extension DescribeCustomWorkspaceImageImportInput {
+
+    static func urlPathProvider(_ value: DescribeCustomWorkspaceImageImportInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeImageAssociationsInput {
 
     static func urlPathProvider(_ value: DescribeImageAssociationsInput) -> Swift.String? {
@@ -8167,6 +8702,13 @@ extension ImportClientBrandingInput {
     }
 }
 
+extension ImportCustomWorkspaceImageInput {
+
+    static func urlPathProvider(_ value: ImportCustomWorkspaceImageInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ImportWorkspaceImageInput {
 
     static func urlPathProvider(_ value: ImportWorkspaceImageInput) -> Swift.String? {
@@ -8212,6 +8754,13 @@ extension ModifyCertificateBasedAuthPropertiesInput {
 extension ModifyClientPropertiesInput {
 
     static func urlPathProvider(_ value: ModifyClientPropertiesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyEndpointEncryptionModeInput {
+
+    static func urlPathProvider(_ value: ModifyEndpointEncryptionModeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8566,6 +9115,7 @@ extension CreateWorkspacesPoolInput {
         try writer["Description"].write(value.description)
         try writer["DirectoryId"].write(value.directoryId)
         try writer["PoolName"].write(value.poolName)
+        try writer["RunningMode"].write(value.runningMode)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: WorkSpacesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TimeoutSettings"].write(value.timeoutSettings, with: WorkSpacesClientTypes.TimeoutSettings.write(value:to:))
     }
@@ -8753,6 +9303,14 @@ extension DescribeConnectionAliasPermissionsInput {
     }
 }
 
+extension DescribeCustomWorkspaceImageImportInput {
+
+    static func write(value: DescribeCustomWorkspaceImageImportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImageId"].write(value.imageId)
+    }
+}
+
 extension DescribeImageAssociationsInput {
 
     static func write(value: DescribeImageAssociationsInput?, to writer: SmithyJSON.Writer) throws {
@@ -8934,6 +9492,22 @@ extension ImportClientBrandingInput {
     }
 }
 
+extension ImportCustomWorkspaceImageInput {
+
+    static func write(value: ImportCustomWorkspaceImageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComputeType"].write(value.computeType)
+        try writer["ImageDescription"].write(value.imageDescription)
+        try writer["ImageName"].write(value.imageName)
+        try writer["ImageSource"].write(value.imageSource, with: WorkSpacesClientTypes.ImageSourceIdentifier.write(value:to:))
+        try writer["InfrastructureConfigurationArn"].write(value.infrastructureConfigurationArn)
+        try writer["OsVersion"].write(value.osVersion)
+        try writer["Platform"].write(value.platform)
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: WorkSpacesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ImportWorkspaceImageInput {
 
     static func write(value: ImportWorkspaceImageInput?, to writer: SmithyJSON.Writer) throws {
@@ -9001,6 +9575,15 @@ extension ModifyClientPropertiesInput {
         guard let value else { return }
         try writer["ClientProperties"].write(value.clientProperties, with: WorkSpacesClientTypes.ClientProperties.write(value:to:))
         try writer["ResourceId"].write(value.resourceId)
+    }
+}
+
+extension ModifyEndpointEncryptionModeInput {
+
+    static func write(value: ModifyEndpointEncryptionModeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
+        try writer["EndpointEncryptionMode"].write(value.endpointEncryptionMode)
     }
 }
 
@@ -9092,7 +9675,6 @@ extension RegisterWorkspaceDirectoryInput {
         try writer["ActiveDirectoryConfig"].write(value.activeDirectoryConfig, with: WorkSpacesClientTypes.ActiveDirectoryConfig.write(value:to:))
         try writer["DirectoryId"].write(value.directoryId)
         try writer["EnableSelfService"].write(value.enableSelfService)
-        try writer["EnableWorkDocs"].write(value.enableWorkDocs)
         try writer["IdcInstanceArn"].write(value.idcInstanceArn)
         try writer["MicrosoftEntraConfig"].write(value.microsoftEntraConfig, with: WorkSpacesClientTypes.MicrosoftEntraConfig.write(value:to:))
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9245,6 +9827,7 @@ extension UpdateWorkspacesPoolInput {
         try writer["Description"].write(value.description)
         try writer["DirectoryId"].write(value.directoryId)
         try writer["PoolId"].write(value.poolId)
+        try writer["RunningMode"].write(value.runningMode)
         try writer["TimeoutSettings"].write(value.timeoutSettings, with: WorkSpacesClientTypes.TimeoutSettings.write(value:to:))
     }
 }
@@ -9537,6 +10120,7 @@ extension DescribeAccountOutput {
         value.dedicatedTenancyAccountType = try reader["DedicatedTenancyAccountType"].readIfPresent()
         value.dedicatedTenancyManagementCidrRange = try reader["DedicatedTenancyManagementCidrRange"].readIfPresent()
         value.dedicatedTenancySupport = try reader["DedicatedTenancySupport"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -9657,6 +10241,25 @@ extension DescribeConnectionAliasPermissionsOutput {
         value.aliasId = try reader["AliasId"].readIfPresent()
         value.connectionAliasPermissions = try reader["ConnectionAliasPermissions"].readListIfPresent(memberReadingClosure: WorkSpacesClientTypes.ConnectionAliasPermission.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeCustomWorkspaceImageImportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCustomWorkspaceImageImportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeCustomWorkspaceImageImportOutput()
+        value.created = try reader["Created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorDetails = try reader["ErrorDetails"].readListIfPresent(memberReadingClosure: WorkSpacesClientTypes.CustomWorkspaceImageImportErrorDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.imageBuilderInstanceId = try reader["ImageBuilderInstanceId"].readIfPresent()
+        value.imageId = try reader["ImageId"].readIfPresent()
+        value.imageSource = try reader["ImageSource"].readIfPresent(with: WorkSpacesClientTypes.ImageSourceIdentifier.read(from:))
+        value.infrastructureConfigurationArn = try reader["InfrastructureConfigurationArn"].readIfPresent()
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.state = try reader["State"].readIfPresent()
         return value
     }
 }
@@ -9883,6 +10486,19 @@ extension ImportClientBrandingOutput {
     }
 }
 
+extension ImportCustomWorkspaceImageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ImportCustomWorkspaceImageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ImportCustomWorkspaceImageOutput()
+        value.imageId = try reader["ImageId"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
 extension ImportWorkspaceImageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ImportWorkspaceImageOutput {
@@ -9937,7 +10553,12 @@ extension MigrateWorkspaceOutput {
 extension ModifyAccountOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyAccountOutput {
-        return ModifyAccountOutput()
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyAccountOutput()
+        value.message = try reader["Message"].readIfPresent()
+        return value
     }
 }
 
@@ -9952,6 +10573,13 @@ extension ModifyClientPropertiesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyClientPropertiesOutput {
         return ModifyClientPropertiesOutput()
+    }
+}
+
+extension ModifyEndpointEncryptionModeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyEndpointEncryptionModeOutput {
+        return ModifyEndpointEncryptionModeOutput()
     }
 }
 
@@ -10825,6 +11453,21 @@ enum DescribeConnectionAliasPermissionsOutputError {
     }
 }
 
+enum DescribeCustomWorkspaceImageImportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeImageAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11111,6 +11754,25 @@ enum ImportClientBrandingOutputError {
     }
 }
 
+enum ImportCustomWorkspaceImageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidParameterValuesException": return try InvalidParameterValuesException.makeError(baseError: baseError)
+            case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
+            case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "ResourceLimitExceededException": return try ResourceLimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ImportWorkspaceImageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11232,6 +11894,22 @@ enum ModifyClientPropertiesOutputError {
     }
 }
 
+enum ModifyEndpointEncryptionModeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ModifySamlPropertiesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11292,6 +11970,9 @@ enum ModifyWorkspaceAccessPropertiesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "InvalidParameterValuesException": return try InvalidParameterValuesException.makeError(baseError: baseError)
+            case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11677,20 +12358,6 @@ enum UpdateWorkspacesPoolOutputError {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
@@ -11717,11 +12384,11 @@ extension ConflictException {
     }
 }
 
-extension ValidationException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11730,11 +12397,25 @@ extension ValidationException {
     }
 }
 
-extension InternalServerException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = ResourceNotFoundException()
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11756,13 +12437,12 @@ extension InvalidParameterValuesException {
     }
 }
 
-extension OperationNotSupportedException {
+extension InvalidResourceStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationNotSupportedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResourceStateException {
         let reader = baseError.errorBodyReader
-        var value = OperationNotSupportedException()
+        var value = InvalidResourceStateException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11770,12 +12450,13 @@ extension OperationNotSupportedException {
     }
 }
 
-extension InvalidResourceStateException {
+extension OperationNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResourceStateException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationNotSupportedException {
         let reader = baseError.errorBodyReader
-        var value = InvalidResourceStateException()
+        var value = OperationNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11809,6 +12490,17 @@ extension ResourceLimitExceededException {
     }
 }
 
+extension ApplicationNotSupportedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ApplicationNotSupportedException {
+        var value = ApplicationNotSupportedException()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ComputeNotCompatibleException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ComputeNotCompatibleException {
@@ -11820,10 +12512,21 @@ extension ComputeNotCompatibleException {
     }
 }
 
-extension ApplicationNotSupportedException {
+extension IncompatibleApplicationsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ApplicationNotSupportedException {
-        var value = ApplicationNotSupportedException()
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncompatibleApplicationsException {
+        var value = IncompatibleApplicationsException()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OperatingSystemNotCompatibleException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperatingSystemNotCompatibleException {
+        var value = OperatingSystemNotCompatibleException()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11844,17 +12547,6 @@ extension ResourceAlreadyExistsException {
     }
 }
 
-extension OperatingSystemNotCompatibleException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperatingSystemNotCompatibleException {
-        var value = OperatingSystemNotCompatibleException()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ResourceInUseException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
@@ -11862,17 +12554,6 @@ extension ResourceInUseException {
         var value = ResourceInUseException()
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension IncompatibleApplicationsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncompatibleApplicationsException {
-        var value = IncompatibleApplicationsException()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11912,6 +12593,19 @@ extension OperationInProgressException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationInProgressException {
         let reader = baseError.errorBodyReader
         var value = OperationInProgressException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidParameterCombinationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterCombinationException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidParameterCombinationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12321,6 +13015,7 @@ extension WorkSpacesClientTypes.WorkspacesPool {
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: WorkSpacesClientTypes.WorkspacesPoolError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.applicationSettings = try reader["ApplicationSettings"].readIfPresent(with: WorkSpacesClientTypes.ApplicationSettingsResponse.read(from:))
         value.timeoutSettings = try reader["TimeoutSettings"].readIfPresent(with: WorkSpacesClientTypes.TimeoutSettings.read(from:))
+        value.runningMode = try reader["RunningMode"].readIfPresent() ?? WorkSpacesClientTypes.PoolsRunningMode.autoStop
         return value
     }
 }
@@ -12570,6 +13265,49 @@ extension WorkSpacesClientTypes.ConnectionAliasPermission {
     }
 }
 
+extension WorkSpacesClientTypes.ImageSourceIdentifier {
+
+    static func write(value: WorkSpacesClientTypes.ImageSourceIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .ec2imageid(ec2imageid):
+                try writer["Ec2ImageId"].write(ec2imageid)
+            case let .ec2importtaskid(ec2importtaskid):
+                try writer["Ec2ImportTaskId"].write(ec2importtaskid)
+            case let .imagebuildversionarn(imagebuildversionarn):
+                try writer["ImageBuildVersionArn"].write(imagebuildversionarn)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ImageSourceIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Ec2ImportTaskId":
+                return .ec2importtaskid(try reader["Ec2ImportTaskId"].read())
+            case "ImageBuildVersionArn":
+                return .imagebuildversionarn(try reader["ImageBuildVersionArn"].read())
+            case "Ec2ImageId":
+                return .ec2imageid(try reader["Ec2ImageId"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension WorkSpacesClientTypes.CustomWorkspaceImageImportErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.CustomWorkspaceImageImportErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesClientTypes.CustomWorkspaceImageImportErrorDetails()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension WorkSpacesClientTypes.ImageResourceAssociation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ImageResourceAssociation {
@@ -12639,6 +13377,7 @@ extension WorkSpacesClientTypes.WorkspaceDirectory {
         value.selfservicePermissions = try reader["SelfservicePermissions"].readIfPresent(with: WorkSpacesClientTypes.SelfservicePermissions.read(from:))
         value.samlProperties = try reader["SamlProperties"].readIfPresent(with: WorkSpacesClientTypes.SamlProperties.read(from:))
         value.certificateBasedAuthProperties = try reader["CertificateBasedAuthProperties"].readIfPresent(with: WorkSpacesClientTypes.CertificateBasedAuthProperties.read(from:))
+        value.endpointEncryptionMode = try reader["EndpointEncryptionMode"].readIfPresent()
         value.microsoftEntraConfig = try reader["MicrosoftEntraConfig"].readIfPresent(with: WorkSpacesClientTypes.MicrosoftEntraConfig.read(from:))
         value.workspaceDirectoryName = try reader["WorkspaceDirectoryName"].readIfPresent()
         value.workspaceDirectoryDescription = try reader["WorkspaceDirectoryDescription"].readIfPresent()
@@ -12834,6 +13573,7 @@ extension WorkSpacesClientTypes.WorkspaceAccessProperties {
 
     static func write(value: WorkSpacesClientTypes.WorkspaceAccessProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AccessEndpointConfig"].write(value.accessEndpointConfig, with: WorkSpacesClientTypes.AccessEndpointConfig.write(value:to:))
         try writer["DeviceTypeAndroid"].write(value.deviceTypeAndroid)
         try writer["DeviceTypeChromeOs"].write(value.deviceTypeChromeOs)
         try writer["DeviceTypeIos"].write(value.deviceTypeIos)
@@ -12841,6 +13581,7 @@ extension WorkSpacesClientTypes.WorkspaceAccessProperties {
         try writer["DeviceTypeOsx"].write(value.deviceTypeOsx)
         try writer["DeviceTypeWeb"].write(value.deviceTypeWeb)
         try writer["DeviceTypeWindows"].write(value.deviceTypeWindows)
+        try writer["DeviceTypeWorkSpacesThinClient"].write(value.deviceTypeWorkSpacesThinClient)
         try writer["DeviceTypeZeroClient"].write(value.deviceTypeZeroClient)
     }
 
@@ -12855,6 +13596,42 @@ extension WorkSpacesClientTypes.WorkspaceAccessProperties {
         value.deviceTypeChromeOs = try reader["DeviceTypeChromeOs"].readIfPresent()
         value.deviceTypeZeroClient = try reader["DeviceTypeZeroClient"].readIfPresent()
         value.deviceTypeLinux = try reader["DeviceTypeLinux"].readIfPresent()
+        value.deviceTypeWorkSpacesThinClient = try reader["DeviceTypeWorkSpacesThinClient"].readIfPresent()
+        value.accessEndpointConfig = try reader["AccessEndpointConfig"].readIfPresent(with: WorkSpacesClientTypes.AccessEndpointConfig.read(from:))
+        return value
+    }
+}
+
+extension WorkSpacesClientTypes.AccessEndpointConfig {
+
+    static func write(value: WorkSpacesClientTypes.AccessEndpointConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: WorkSpacesClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InternetFallbackProtocols"].writeList(value.internetFallbackProtocols, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkSpacesClientTypes.InternetFallbackProtocol>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.AccessEndpointConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesClientTypes.AccessEndpointConfig()
+        value.accessEndpoints = try reader["AccessEndpoints"].readListIfPresent(memberReadingClosure: WorkSpacesClientTypes.AccessEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.internetFallbackProtocols = try reader["InternetFallbackProtocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WorkSpacesClientTypes.InternetFallbackProtocol>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WorkSpacesClientTypes.AccessEndpoint {
+
+    static func write(value: WorkSpacesClientTypes.AccessEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessEndpointType"].write(value.accessEndpointType)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.AccessEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesClientTypes.AccessEndpoint()
+        value.accessEndpointType = try reader["AccessEndpointType"].readIfPresent()
+        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
         return value
     }
 }
@@ -12864,7 +13641,6 @@ extension WorkSpacesClientTypes.DefaultWorkspaceCreationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.DefaultWorkspaceCreationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.DefaultWorkspaceCreationProperties()
-        value.enableWorkDocs = try reader["EnableWorkDocs"].readIfPresent()
         value.enableInternetAccess = try reader["EnableInternetAccess"].readIfPresent()
         value.defaultOu = try reader["DefaultOu"].readIfPresent()
         value.customSecurityGroupId = try reader["CustomSecurityGroupId"].readIfPresent()
@@ -13062,7 +13838,6 @@ extension WorkSpacesClientTypes.WorkspaceCreationProperties {
         try writer["DefaultOu"].write(value.defaultOu)
         try writer["EnableInternetAccess"].write(value.enableInternetAccess)
         try writer["EnableMaintenanceMode"].write(value.enableMaintenanceMode)
-        try writer["EnableWorkDocs"].write(value.enableWorkDocs)
         try writer["InstanceIamRoleArn"].write(value.instanceIamRoleArn)
         try writer["UserEnabledAsLocalAdministrator"].write(value.userEnabledAsLocalAdministrator)
     }

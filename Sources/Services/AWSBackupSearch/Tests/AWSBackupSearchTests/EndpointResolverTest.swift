@@ -10,6 +10,7 @@
 @testable import AWSBackupSearch
 import XCTest
 import enum ClientRuntime.EndpointError
+import enum SmithyHTTPAPI.EndpointPropertyValue
 import enum SmithyTestUtil.TestInitializer
 import struct SmithyHTTPAPI.Endpoint
 import struct SmithyHTTPAPI.Headers
@@ -30,7 +31,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -67,15 +68,8 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search-fips.us-east-1.api.aws", headers: headers, properties: properties)
@@ -93,15 +87,8 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search.us-east-1.api.aws", headers: headers, properties: properties)
@@ -119,15 +106,8 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "cn-northwest-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search-fips.cn-northwest-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
@@ -145,15 +125,8 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "cn-northwest-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search.cn-northwest-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
@@ -171,15 +144,8 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-gov-west-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search-fips.us-gov-west-1.api.aws", headers: headers, properties: properties)
@@ -197,15 +163,8 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-gov-west-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search.us-gov-west-1.api.aws", headers: headers, properties: properties)
@@ -213,216 +172,8 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-iso-east-1 with FIPS enabled and DualStack enabled
-    func testResolve9() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-iso-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-iso-east-1 with FIPS disabled and DualStack enabled
-    func testResolve10() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-iso-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isob-east-1 with FIPS enabled and DualStack enabled
-    func testResolve11() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-isob-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isob-east-1 with FIPS disabled and DualStack enabled
-    func testResolve12() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-isob-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region eu-isoe-west-1 with FIPS enabled and DualStack enabled
-    func testResolve13() throws {
-        let endpointParams = EndpointParams(
-            region: "eu-isoe-west-1",
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "eu-isoe-west-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search-fips.eu-isoe-west-1.cloud.adc-e.uk", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region eu-isoe-west-1 with FIPS disabled and DualStack enabled
-    func testResolve14() throws {
-        let endpointParams = EndpointParams(
-            region: "eu-isoe-west-1",
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "eu-isoe-west-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search.eu-isoe-west-1.cloud.adc-e.uk", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isof-south-1 with FIPS enabled and DualStack enabled
-    func testResolve15() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isof-south-1",
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-isof-south-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search-fips.us-isof-south-1.csp.hci.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isof-south-1 with FIPS disabled and DualStack enabled
-    func testResolve16() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isof-south-1",
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-isof-south-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search.us-isof-south-1.csp.hci.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
     /// Missing region
-    func testResolve17() throws {
+    func testResolve9() throws {
         let endpointParams = EndpointParams(
         )
         let resolver = try DefaultEndpointResolver()

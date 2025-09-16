@@ -1143,6 +1143,25 @@ public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+extension DocDBClientTypes {
+
+    /// Sets the scaling configuration of an Amazon DocumentDB Serverless cluster.
+    public struct ServerlessV2ScalingConfiguration: Swift.Sendable {
+        /// The maximum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 32, 32.5, 33, and so on.
+        public var maxCapacity: Swift.Double?
+        /// The minimum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 8, 8.5, 9, and so on.
+        public var minCapacity: Swift.Double?
+
+        public init(
+            maxCapacity: Swift.Double? = nil,
+            minCapacity: Swift.Double? = nil
+        ) {
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+        }
+    }
+}
+
 /// Represents the input to [CreateDBCluster].
 public struct CreateDBClusterInput: Swift.Sendable {
     /// A list of Amazon EC2 Availability Zones that instances in the cluster can be created in.
@@ -1215,6 +1234,8 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var preferredBackupWindow: Swift.String?
     /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
+    /// Contains the scaling configuration of an Amazon DocumentDB Serverless cluster.
+    public var serverlessV2ScalingConfiguration: DocDBClientTypes.ServerlessV2ScalingConfiguration?
     /// Specifies whether the cluster is encrypted.
     public var storageEncrypted: Swift.Bool?
     /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard  When you create a DocumentDB DB cluster with the storage type set to iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to standard.
@@ -1244,6 +1265,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         preSignedUrl: Swift.String? = nil,
         preferredBackupWindow: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
+        serverlessV2ScalingConfiguration: DocDBClientTypes.ServerlessV2ScalingConfiguration? = nil,
         storageEncrypted: Swift.Bool? = nil,
         storageType: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil,
@@ -1268,6 +1290,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         self.preSignedUrl = preSignedUrl
         self.preferredBackupWindow = preferredBackupWindow
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
+        self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.storageEncrypted = storageEncrypted
         self.storageType = storageType
         self.tags = tags
@@ -1360,6 +1383,25 @@ extension DocDBClientTypes {
 
 extension DocDBClientTypes {
 
+    /// Retrieves the scaling configuration for an Amazon DocumentDB Serverless cluster.
+    public struct ServerlessV2ScalingConfigurationInfo: Swift.Sendable {
+        /// The maximum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 32, 32.5, 33, and so on.
+        public var maxCapacity: Swift.Double?
+        /// The minimum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 8, 8.5, 9, and so on.
+        public var minCapacity: Swift.Double?
+
+        public init(
+            maxCapacity: Swift.Double? = nil,
+            minCapacity: Swift.Double? = nil
+        ) {
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+        }
+    }
+}
+
+extension DocDBClientTypes {
+
     /// Used as a response element for queries on virtual private cloud (VPC) security group membership.
     public struct VpcSecurityGroupMembership: Swift.Sendable {
         /// The status of the VPC security group.
@@ -1441,11 +1483,13 @@ extension DocDBClientTypes {
         public var readerEndpoint: Swift.String?
         /// Contains the identifier of the source cluster if this cluster is a secondary cluster.
         public var replicationSourceIdentifier: Swift.String?
+        /// The scaling configuration of an Amazon DocumentDB Serverless cluster.
+        public var serverlessV2ScalingConfiguration: DocDBClientTypes.ServerlessV2ScalingConfigurationInfo?
         /// Specifies the current state of this cluster.
         public var status: Swift.String?
         /// Specifies whether the cluster is encrypted.
         public var storageEncrypted: Swift.Bool?
-        /// Storage type associated with your cluster Storage type associated with your cluster For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard
+        /// Storage type associated with your cluster For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard
         public var storageType: Swift.String?
         /// Provides a list of virtual private cloud (VPC) security groups that the cluster belongs to.
         public var vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]?
@@ -1481,6 +1525,7 @@ extension DocDBClientTypes {
             readReplicaIdentifiers: [Swift.String]? = nil,
             readerEndpoint: Swift.String? = nil,
             replicationSourceIdentifier: Swift.String? = nil,
+            serverlessV2ScalingConfiguration: DocDBClientTypes.ServerlessV2ScalingConfigurationInfo? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
@@ -1516,6 +1561,7 @@ extension DocDBClientTypes {
             self.readReplicaIdentifiers = readReplicaIdentifiers
             self.readerEndpoint = readerEndpoint
             self.replicationSourceIdentifier = replicationSourceIdentifier
+            self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.status = status
             self.storageEncrypted = storageEncrypted
             self.storageType = storageType
@@ -2601,7 +2647,7 @@ extension DocDBClientTypes {
         public var dbClusterArn: Swift.String?
         /// Specifies whether the Amazon DocumentDB cluster is the primary cluster (that is, has read-write capability) for the Amazon DocumentDB global cluster with which it is associated.
         public var isWriter: Swift.Bool?
-        /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Aurora global cluster.
+        /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Amazon DocumentDB global cluster.
         public var readers: [Swift.String]?
 
         public init(
@@ -2634,7 +2680,7 @@ extension DocDBClientTypes {
         public var globalClusterIdentifier: Swift.String?
         /// The list of cluster IDs for secondary clusters within the global cluster. Currently limited to one item.
         public var globalClusterMembers: [DocDBClientTypes.GlobalClusterMember]?
-        /// The Amazon Web Services Region-unique, immutable identifier for the global database cluster. This identifier is found in CloudTrail log entries whenever the KMS customer master key (CMK) for the cluster is accessed.
+        /// The Amazon Web Services RegionRegion-unique, immutable identifier for the global database cluster. This identifier is found in CloudTrail log entries whenever the KMS customer master key (CMK) for the cluster is accessed.
         public var globalClusterResourceId: Swift.String?
         /// Specifies the current state of this global cluster.
         public var status: Swift.String?
@@ -3459,6 +3505,25 @@ public struct DescribeDBEngineVersionsInput: Swift.Sendable {
 
 extension DocDBClientTypes {
 
+    /// Specifies any Amazon DocumentDB Serverless properties or limits that differ between Amazon DocumentDB engine versions. You can test the values of this attribute when deciding which Amazon DocumentDB version to use in a new or upgraded cluster. You can also retrieve the version of an existing cluster and check whether that version supports certain Amazon DocumentDB Serverless features before you attempt to use those features.
+    public struct ServerlessV2FeaturesSupport: Swift.Sendable {
+        /// The maximum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 32, 32.5, 33, and so on.
+        public var maxCapacity: Swift.Double?
+        /// The minimum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 8, 8.5, 9, and so on.
+        public var minCapacity: Swift.Double?
+
+        public init(
+            maxCapacity: Swift.Double? = nil,
+            minCapacity: Swift.Double? = nil
+        ) {
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+        }
+    }
+}
+
+extension DocDBClientTypes {
+
     /// The version of the database engine that an instance can be upgraded to.
     public struct UpgradeTarget: Swift.Sendable {
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
@@ -3504,6 +3569,8 @@ extension DocDBClientTypes {
         public var engineVersion: Swift.String?
         /// The types of logs that the database engine has available for export to Amazon CloudWatch Logs.
         public var exportableLogTypes: [Swift.String]?
+        /// Specifies any Amazon DocumentDB Serverless properties or limits that differ between Amazon DocumentDB engine versions. You can test the values of this attribute when deciding which Amazon DocumentDB version to use in a new or upgraded cluster. You can also retrieve the version of an existing cluster and check whether that version supports certain Amazon DocumentDB Serverless features before you attempt to use those features.
+        public var serverlessV2FeaturesSupport: DocDBClientTypes.ServerlessV2FeaturesSupport?
         /// A list of the supported CA certificate identifiers. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
         public var supportedCACertificateIdentifiers: [Swift.String]?
         /// Indicates whether the engine version supports rotating the server certificate without rebooting the DB instance.
@@ -3520,6 +3587,7 @@ extension DocDBClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             exportableLogTypes: [Swift.String]? = nil,
+            serverlessV2FeaturesSupport: DocDBClientTypes.ServerlessV2FeaturesSupport? = nil,
             supportedCACertificateIdentifiers: [Swift.String]? = nil,
             supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
             supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
@@ -3531,6 +3599,7 @@ extension DocDBClientTypes {
             self.engine = engine
             self.engineVersion = engineVersion
             self.exportableLogTypes = exportableLogTypes
+            self.serverlessV2FeaturesSupport = serverlessV2FeaturesSupport
             self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
             self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
             self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
@@ -4330,6 +4399,8 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var preferredMaintenanceWindow: Swift.String?
     /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the cluster. The secret value contains the updated password. Constraint: You must apply the change immediately when rotating the master user password.
     public var rotateMasterUserPassword: Swift.Bool?
+    /// Contains the scaling configuration of an Amazon DocumentDB Serverless cluster.
+    public var serverlessV2ScalingConfiguration: DocDBClientTypes.ServerlessV2ScalingConfiguration?
     /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard
     public var storageType: Swift.String?
     /// A list of virtual private cloud (VPC) security groups that the cluster will belong to.
@@ -4352,6 +4423,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         preferredBackupWindow: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         rotateMasterUserPassword: Swift.Bool? = nil,
+        serverlessV2ScalingConfiguration: DocDBClientTypes.ServerlessV2ScalingConfiguration? = nil,
         storageType: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
@@ -4371,6 +4443,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         self.preferredBackupWindow = preferredBackupWindow
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.rotateMasterUserPassword = rotateMasterUserPassword
+        self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.storageType = storageType
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -4977,6 +5050,8 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The port number on which the new cluster accepts connections. Constraints: Must be a value from 1150 to 65535. Default: The same port as the original cluster.
     public var port: Swift.Int?
+    /// Contains the scaling configuration of an Amazon DocumentDB Serverless cluster.
+    public var serverlessV2ScalingConfiguration: DocDBClientTypes.ServerlessV2ScalingConfiguration?
     /// The identifier for the snapshot or cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a cluster snapshot. However, you can use only the ARN to specify a snapshot. Constraints:
     ///
     /// * Must match the identifier of an existing snapshot.
@@ -5000,6 +5075,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         engineVersion: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         port: Swift.Int? = nil,
+        serverlessV2ScalingConfiguration: DocDBClientTypes.ServerlessV2ScalingConfiguration? = nil,
         snapshotIdentifier: Swift.String? = nil,
         storageType: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil,
@@ -5015,6 +5091,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         self.engineVersion = engineVersion
         self.kmsKeyId = kmsKeyId
         self.port = port
+        self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.snapshotIdentifier = snapshotIdentifier
         self.storageType = storageType
         self.tags = tags
@@ -5083,6 +5160,8 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     ///
     /// Constraints: You can't specify copy-on-write if the engine version of the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
     public var restoreType: Swift.String?
+    /// Contains the scaling configuration of an Amazon DocumentDB Serverless cluster.
+    public var serverlessV2ScalingConfiguration: DocDBClientTypes.ServerlessV2ScalingConfiguration?
     /// The identifier of the source cluster from which to restore. Constraints:
     ///
     /// * Must match the identifier of an existing DBCluster.
@@ -5106,6 +5185,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         port: Swift.Int? = nil,
         restoreToTime: Foundation.Date? = nil,
         restoreType: Swift.String? = nil,
+        serverlessV2ScalingConfiguration: DocDBClientTypes.ServerlessV2ScalingConfiguration? = nil,
         sourceDBClusterIdentifier: Swift.String? = nil,
         storageType: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil,
@@ -5120,6 +5200,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         self.port = port
         self.restoreToTime = restoreToTime
         self.restoreType = restoreType
+        self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
         self.storageType = storageType
         self.tags = tags
@@ -5697,6 +5778,7 @@ extension CreateDBClusterInput {
         try writer["PreSignedUrl"].write(value.preSignedUrl)
         try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
         try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
+        try writer["ServerlessV2ScalingConfiguration"].write(value.serverlessV2ScalingConfiguration, with: DocDBClientTypes.ServerlessV2ScalingConfiguration.write(value:to:))
         try writer["StorageEncrypted"].write(value.storageEncrypted)
         try writer["StorageType"].write(value.storageType)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: DocDBClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
@@ -6147,6 +6229,7 @@ extension ModifyDBClusterInput {
         try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
         try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
         try writer["RotateMasterUserPassword"].write(value.rotateMasterUserPassword)
+        try writer["ServerlessV2ScalingConfiguration"].write(value.serverlessV2ScalingConfiguration, with: DocDBClientTypes.ServerlessV2ScalingConfiguration.write(value:to:))
         try writer["StorageType"].write(value.storageType)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
         try writer["Action"].write("ModifyDBCluster")
@@ -6307,6 +6390,7 @@ extension RestoreDBClusterFromSnapshotInput {
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["Port"].write(value.port)
+        try writer["ServerlessV2ScalingConfiguration"].write(value.serverlessV2ScalingConfiguration, with: DocDBClientTypes.ServerlessV2ScalingConfiguration.write(value:to:))
         try writer["SnapshotIdentifier"].write(value.snapshotIdentifier)
         try writer["StorageType"].write(value.storageType)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: DocDBClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
@@ -6328,6 +6412,7 @@ extension RestoreDBClusterToPointInTimeInput {
         try writer["Port"].write(value.port)
         try writer["RestoreToTime"].writeTimestamp(value.restoreToTime, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["RestoreType"].write(value.restoreType)
+        try writer["ServerlessV2ScalingConfiguration"].write(value.serverlessV2ScalingConfiguration, with: DocDBClientTypes.ServerlessV2ScalingConfiguration.write(value:to:))
         try writer["SourceDBClusterIdentifier"].write(value.sourceDBClusterIdentifier)
         try writer["StorageType"].write(value.storageType)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: DocDBClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
@@ -7970,6 +8055,19 @@ extension SubscriptionNotFoundFault {
     }
 }
 
+extension DBClusterNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = DBClusterNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DBInstanceNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceNotFoundFault {
@@ -7988,32 +8086,6 @@ extension DBSnapshotNotFoundFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSnapshotNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBSnapshotNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DBClusterNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = DBClusterNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8048,11 +8120,11 @@ extension InvalidDBInstanceStateFault {
     }
 }
 
-extension DBParameterGroupQuotaExceededFault {
+extension ResourceNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBParameterGroupQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = DBParameterGroupQuotaExceededFault()
+        var value = ResourceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8087,6 +8159,32 @@ extension DBParameterGroupNotFoundFault {
     }
 }
 
+extension DBParameterGroupQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBParameterGroupQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = DBParameterGroupQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DBClusterSnapshotAlreadyExistsFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterSnapshotAlreadyExistsFault {
+        let reader = baseError.errorBodyReader
+        var value = DBClusterSnapshotAlreadyExistsFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DBClusterSnapshotNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterSnapshotNotFoundFault {
@@ -8113,11 +8211,11 @@ extension InvalidDBClusterSnapshotStateFault {
     }
 }
 
-extension DBClusterSnapshotAlreadyExistsFault {
+extension KMSKeyNotAccessibleFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterSnapshotAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSKeyNotAccessibleFault {
         let reader = baseError.errorBodyReader
-        var value = DBClusterSnapshotAlreadyExistsFault()
+        var value = KMSKeyNotAccessibleFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8139,37 +8237,24 @@ extension SnapshotQuotaExceededFault {
     }
 }
 
-extension KMSKeyNotAccessibleFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSKeyNotAccessibleFault {
-        let reader = baseError.errorBodyReader
-        var value = KMSKeyNotAccessibleFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidGlobalClusterStateFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidGlobalClusterStateFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidGlobalClusterStateFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DBClusterAlreadyExistsFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterAlreadyExistsFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DBClusterParameterGroupNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterParameterGroupNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = DBClusterParameterGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8191,11 +8276,11 @@ extension DBClusterQuotaExceededFault {
     }
 }
 
-extension InvalidVPCNetworkStateFault {
+extension DBSubnetGroupDoesNotCoverEnoughAZs {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidVPCNetworkStateFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupDoesNotCoverEnoughAZs {
         let reader = baseError.errorBodyReader
-        var value = InvalidVPCNetworkStateFault()
+        var value = DBSubnetGroupDoesNotCoverEnoughAZs()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8230,11 +8315,37 @@ extension GlobalClusterNotFoundFault {
     }
 }
 
+extension InsufficientStorageClusterCapacityFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientStorageClusterCapacityFault {
+        let reader = baseError.errorBodyReader
+        var value = InsufficientStorageClusterCapacityFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidDBSubnetGroupStateFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBSubnetGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBSubnetGroupStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidGlobalClusterStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidGlobalClusterStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidGlobalClusterStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8256,37 +8367,11 @@ extension InvalidSubnet {
     }
 }
 
-extension DBSubnetGroupDoesNotCoverEnoughAZs {
+extension InvalidVPCNetworkStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupDoesNotCoverEnoughAZs {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidVPCNetworkStateFault {
         let reader = baseError.errorBodyReader
-        var value = DBSubnetGroupDoesNotCoverEnoughAZs()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DBClusterParameterGroupNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterParameterGroupNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = DBClusterParameterGroupNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InsufficientStorageClusterCapacityFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientStorageClusterCapacityFault {
-        let reader = baseError.errorBodyReader
-        var value = InsufficientStorageClusterCapacityFault()
+        var value = InvalidVPCNetworkStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8300,6 +8385,32 @@ extension StorageQuotaExceededFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = StorageQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AuthorizationNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = AuthorizationNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DBInstanceAlreadyExistsFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceAlreadyExistsFault {
+        let reader = baseError.errorBodyReader
+        var value = DBInstanceAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8334,32 +8445,6 @@ extension InstanceQuotaExceededFault {
     }
 }
 
-extension StorageTypeNotSupportedFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageTypeNotSupportedFault {
-        let reader = baseError.errorBodyReader
-        var value = StorageTypeNotSupportedFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AuthorizationNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = AuthorizationNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InsufficientDBInstanceCapacityFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientDBInstanceCapacityFault {
@@ -8373,37 +8458,11 @@ extension InsufficientDBInstanceCapacityFault {
     }
 }
 
-extension DBInstanceAlreadyExistsFault {
+extension StorageTypeNotSupportedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageTypeNotSupportedFault {
         let reader = baseError.errorBodyReader
-        var value = DBInstanceAlreadyExistsFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DBSubnetQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = DBSubnetQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DBSubnetGroupQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = DBSubnetGroupQuotaExceededFault()
+        var value = StorageTypeNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8425,11 +8484,63 @@ extension DBSubnetGroupAlreadyExistsFault {
     }
 }
 
+extension DBSubnetGroupQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = DBSubnetGroupQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DBSubnetQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = DBSubnetQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EventSubscriptionQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EventSubscriptionQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = EventSubscriptionQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension SNSInvalidTopicFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SNSInvalidTopicFault {
         let reader = baseError.errorBodyReader
         var value = SNSInvalidTopicFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SNSNoAuthorizationFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SNSNoAuthorizationFault {
+        let reader = baseError.errorBodyReader
+        var value = SNSNoAuthorizationFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8469,32 +8580,6 @@ extension SubscriptionCategoryNotFoundFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionCategoryNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = SubscriptionCategoryNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EventSubscriptionQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EventSubscriptionQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = EventSubscriptionQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SNSNoAuthorizationFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SNSNoAuthorizationFault {
-        let reader = baseError.errorBodyReader
-        var value = SNSNoAuthorizationFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8808,6 +8893,7 @@ extension DocDBClientTypes.DBCluster {
         value.enabledCloudwatchLogsExports = try reader["EnabledCloudwatchLogsExports"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.storageType = try reader["StorageType"].readIfPresent()
+        value.serverlessV2ScalingConfiguration = try reader["ServerlessV2ScalingConfiguration"].readIfPresent(with: DocDBClientTypes.ServerlessV2ScalingConfigurationInfo.read(from:))
         value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: DocDBClientTypes.ClusterMasterUserSecret.read(from:))
         return value
     }
@@ -8821,6 +8907,17 @@ extension DocDBClientTypes.ClusterMasterUserSecret {
         value.secretArn = try reader["SecretArn"].readIfPresent()
         value.secretStatus = try reader["SecretStatus"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension DocDBClientTypes.ServerlessV2ScalingConfigurationInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.ServerlessV2ScalingConfigurationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.ServerlessV2ScalingConfigurationInfo()
+        value.minCapacity = try reader["MinCapacity"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
         return value
     }
 }
@@ -9122,6 +9219,18 @@ extension DocDBClientTypes.DBEngineVersion {
         value.supportsLogExportsToCloudwatchLogs = try reader["SupportsLogExportsToCloudwatchLogs"].readIfPresent()
         value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportsCertificateRotationWithoutRestart = try reader["SupportsCertificateRotationWithoutRestart"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: DocDBClientTypes.ServerlessV2FeaturesSupport.read(from:))
+        return value
+    }
+}
+
+extension DocDBClientTypes.ServerlessV2FeaturesSupport {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.ServerlessV2FeaturesSupport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.ServerlessV2FeaturesSupport()
+        value.minCapacity = try reader["MinCapacity"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
         return value
     }
 }
@@ -9208,6 +9317,15 @@ extension DocDBClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
         return value
+    }
+}
+
+extension DocDBClientTypes.ServerlessV2ScalingConfiguration {
+
+    static func write(value: DocDBClientTypes.ServerlessV2ScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MaxCapacity"].write(value.maxCapacity)
+        try writer["MinCapacity"].write(value.minCapacity)
     }
 }
 

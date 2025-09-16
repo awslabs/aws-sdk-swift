@@ -270,7 +270,7 @@ extension AmplifyClientTypes {
 
     /// Describes the cache configuration for an Amplify app. For more information about how Amplify applies an optimal cache configuration for your app based on the type of content that is being served, see [Managing cache configuration](https://docs.aws.amazon.com/amplify/latest/userguide/managing-cache-configuration) in the Amplify User guide.
     public struct CacheConfig: Swift.Sendable {
-        /// The type of cache configuration to use for an Amplify app. The AMPLIFY_MANAGED cache configuration automatically applies an optimized cache configuration for your app based on its platform, routing rules, and rewrite rules. This is the default setting. The AMPLIFY_MANAGED_NO_COOKIES cache configuration type is the same as AMPLIFY_MANAGED, except that it excludes all cookies from the cache key.
+        /// The type of cache configuration to use for an Amplify app. The AMPLIFY_MANAGED cache configuration automatically applies an optimized cache configuration for your app based on its platform, routing rules, and rewrite rules. The AMPLIFY_MANAGED_NO_COOKIES cache configuration type is the same as AMPLIFY_MANAGED, except that it excludes all cookies from the cache key. This is the default setting.
         /// This member is required.
         public var type: AmplifyClientTypes.CacheConfigType?
 
@@ -307,6 +307,78 @@ extension AmplifyClientTypes {
             self.source = source
             self.status = status
             self.target = target
+        }
+    }
+}
+
+extension AmplifyClientTypes {
+
+    public enum BuildComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case large16gb
+        case standard8gb
+        case xlarge72gb
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BuildComputeType] {
+            return [
+                .large16gb,
+                .standard8gb,
+                .xlarge72gb
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .large16gb: return "LARGE_16GB"
+            case .standard8gb: return "STANDARD_8GB"
+            case .xlarge72gb: return "XLARGE_72GB"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AmplifyClientTypes {
+
+    /// Describes the configuration details that apply to the jobs for an Amplify app. Use JobConfig to apply configuration to jobs, such as customizing the build instance size when you create or update an Amplify app. For more information about customizable build instances, see [Custom build instances](https://docs.aws.amazon.com/amplify/latest/userguide/custom-build-instance.html) in the Amplify User Guide.
+    public struct JobConfig: Swift.Sendable {
+        /// Specifies the size of the build instance. Amplify supports three instance sizes: STANDARD_8GB, LARGE_16GB, and XLARGE_72GB. If you don't specify a value, Amplify uses the STANDARD_8GB default. The following list describes the CPU, memory, and storage capacity for each build instance type: STANDARD_8GB
+        ///
+        /// * vCPUs: 4
+        ///
+        /// * Memory: 8 GiB
+        ///
+        /// * Disk space: 128 GB
+        ///
+        ///
+        /// LARGE_16GB
+        ///
+        /// * vCPUs: 8
+        ///
+        /// * Memory: 16 GiB
+        ///
+        /// * Disk space: 128 GB
+        ///
+        ///
+        /// XLARGE_72GB
+        ///
+        /// * vCPUs: 36
+        ///
+        /// * Memory: 72 GiB
+        ///
+        /// * Disk space: 256 GB
+        /// This member is required.
+        public var buildComputeType: AmplifyClientTypes.BuildComputeType?
+
+        public init(
+            buildComputeType: AmplifyClientTypes.BuildComputeType? = nil
+        ) {
+            self.buildComputeType = buildComputeType
         }
     }
 }
@@ -357,6 +429,8 @@ public struct CreateAppInput: Swift.Sendable {
     public var buildSpec: Swift.String?
     /// The cache configuration for the Amplify app.
     public var cacheConfig: AmplifyClientTypes.CacheConfig?
+    /// The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
+    public var computeRoleArn: Swift.String?
     /// The custom HTTP headers for an Amplify app.
     public var customHeaders: Swift.String?
     /// The custom rewrite and redirect rules for an Amplify app.
@@ -373,8 +447,10 @@ public struct CreateAppInput: Swift.Sendable {
     public var enableBranchAutoDeletion: Swift.Bool?
     /// The environment variables map for an Amplify app. For a list of the environment variables that are accessible to Amplify by default, see [Amplify Environment variables](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-console-environment-variables.html) in the Amplify Hosting User Guide.
     public var environmentVariables: [Swift.String: Swift.String]?
-    /// The AWS Identity and Access Management (IAM) service role for an Amplify app.
+    /// The Amazon Resource Name (ARN) of the IAM service role for the Amplify app.
     public var iamServiceRoleArn: Swift.String?
+    /// Describes the configuration details that apply to the jobs for an Amplify app.
+    public var jobConfig: AmplifyClientTypes.JobConfig?
     /// The name of the Amplify app.
     /// This member is required.
     public var name: Swift.String?
@@ -394,6 +470,7 @@ public struct CreateAppInput: Swift.Sendable {
         basicAuthCredentials: Swift.String? = nil,
         buildSpec: Swift.String? = nil,
         cacheConfig: AmplifyClientTypes.CacheConfig? = nil,
+        computeRoleArn: Swift.String? = nil,
         customHeaders: Swift.String? = nil,
         customRules: [AmplifyClientTypes.CustomRule]? = nil,
         description: Swift.String? = nil,
@@ -403,6 +480,7 @@ public struct CreateAppInput: Swift.Sendable {
         enableBranchAutoDeletion: Swift.Bool? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
         iamServiceRoleArn: Swift.String? = nil,
+        jobConfig: AmplifyClientTypes.JobConfig? = nil,
         name: Swift.String? = nil,
         oauthToken: Swift.String? = nil,
         platform: AmplifyClientTypes.Platform? = nil,
@@ -415,6 +493,7 @@ public struct CreateAppInput: Swift.Sendable {
         self.basicAuthCredentials = basicAuthCredentials
         self.buildSpec = buildSpec
         self.cacheConfig = cacheConfig
+        self.computeRoleArn = computeRoleArn
         self.customHeaders = customHeaders
         self.customRules = customRules
         self.description = description
@@ -424,6 +503,7 @@ public struct CreateAppInput: Swift.Sendable {
         self.enableBranchAutoDeletion = enableBranchAutoDeletion
         self.environmentVariables = environmentVariables
         self.iamServiceRoleArn = iamServiceRoleArn
+        self.jobConfig = jobConfig
         self.name = name
         self.oauthToken = oauthToken
         self.platform = platform
@@ -434,7 +514,7 @@ public struct CreateAppInput: Swift.Sendable {
 
 extension CreateAppInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAppInput(autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), cacheConfig: \(Swift.String(describing: cacheConfig)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), repository: \(Swift.String(describing: repository)), tags: \(Swift.String(describing: tags)), accessToken: \"CONTENT_REDACTED\", basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\", oauthToken: \"CONTENT_REDACTED\")"}
+        "CreateAppInput(autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), cacheConfig: \(Swift.String(describing: cacheConfig)), computeRoleArn: \(Swift.String(describing: computeRoleArn)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), jobConfig: \(Swift.String(describing: jobConfig)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), repository: \(Swift.String(describing: repository)), tags: \(Swift.String(describing: tags)), accessToken: \"CONTENT_REDACTED\", basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\", oauthToken: \"CONTENT_REDACTED\")"}
 }
 
 extension AmplifyClientTypes {
@@ -577,6 +657,8 @@ extension AmplifyClientTypes {
         public var buildSpec: Swift.String?
         /// The cache configuration for the Amplify app. If you don't specify the cache configuration type, Amplify uses the default AMPLIFY_MANAGED setting.
         public var cacheConfig: AmplifyClientTypes.CacheConfig?
+        /// The Amazon Resource Name (ARN) of the IAM role for an SSR app. The Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
+        public var computeRoleArn: Swift.String?
         /// A timestamp of when Amplify created the application.
         /// This member is required.
         public var createTime: Foundation.Date?
@@ -603,8 +685,10 @@ extension AmplifyClientTypes {
         /// The environment variables for the Amplify app. For a list of the environment variables that are accessible to Amplify by default, see [Amplify Environment variables](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-console-environment-variables.html) in the Amplify Hosting User Guide.
         /// This member is required.
         public var environmentVariables: [Swift.String: Swift.String]?
-        /// The AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) of the Amplify app.
+        /// The Amazon Resource Name (ARN) of the IAM service role for the Amplify app.
         public var iamServiceRoleArn: Swift.String?
+        /// The configuration details that apply to the jobs for an Amplify app.
+        public var jobConfig: AmplifyClientTypes.JobConfig?
         /// The name for the Amplify app.
         /// This member is required.
         public var name: Swift.String?
@@ -636,6 +720,7 @@ extension AmplifyClientTypes {
             basicAuthCredentials: Swift.String? = nil,
             buildSpec: Swift.String? = nil,
             cacheConfig: AmplifyClientTypes.CacheConfig? = nil,
+            computeRoleArn: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
             customHeaders: Swift.String? = nil,
             customRules: [AmplifyClientTypes.CustomRule]? = nil,
@@ -647,6 +732,7 @@ extension AmplifyClientTypes {
             enableBranchAutoDeletion: Swift.Bool? = nil,
             environmentVariables: [Swift.String: Swift.String]? = nil,
             iamServiceRoleArn: Swift.String? = nil,
+            jobConfig: AmplifyClientTypes.JobConfig? = nil,
             name: Swift.String? = nil,
             platform: AmplifyClientTypes.Platform? = nil,
             productionBranch: AmplifyClientTypes.ProductionBranch? = nil,
@@ -664,6 +750,7 @@ extension AmplifyClientTypes {
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
             self.cacheConfig = cacheConfig
+            self.computeRoleArn = computeRoleArn
             self.createTime = createTime
             self.customHeaders = customHeaders
             self.customRules = customRules
@@ -675,6 +762,7 @@ extension AmplifyClientTypes {
             self.enableBranchAutoDeletion = enableBranchAutoDeletion
             self.environmentVariables = environmentVariables
             self.iamServiceRoleArn = iamServiceRoleArn
+            self.jobConfig = jobConfig
             self.name = name
             self.platform = platform
             self.productionBranch = productionBranch
@@ -690,7 +778,7 @@ extension AmplifyClientTypes {
 
 extension AmplifyClientTypes.App: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "App(appArn: \(Swift.String(describing: appArn)), appId: \(Swift.String(describing: appId)), autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), cacheConfig: \(Swift.String(describing: cacheConfig)), createTime: \(Swift.String(describing: createTime)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), defaultDomain: \(Swift.String(describing: defaultDomain)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), productionBranch: \(Swift.String(describing: productionBranch)), repository: \(Swift.String(describing: repository)), repositoryCloneMethod: \(Swift.String(describing: repositoryCloneMethod)), tags: \(Swift.String(describing: tags)), updateTime: \(Swift.String(describing: updateTime)), wafConfiguration: \(Swift.String(describing: wafConfiguration)), webhookCreateTime: \(Swift.String(describing: webhookCreateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "App(appArn: \(Swift.String(describing: appArn)), appId: \(Swift.String(describing: appId)), autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), cacheConfig: \(Swift.String(describing: cacheConfig)), computeRoleArn: \(Swift.String(describing: computeRoleArn)), createTime: \(Swift.String(describing: createTime)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), defaultDomain: \(Swift.String(describing: defaultDomain)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), jobConfig: \(Swift.String(describing: jobConfig)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), productionBranch: \(Swift.String(describing: productionBranch)), repository: \(Swift.String(describing: repository)), repositoryCloneMethod: \(Swift.String(describing: repositoryCloneMethod)), tags: \(Swift.String(describing: tags)), updateTime: \(Swift.String(describing: updateTime)), wafConfiguration: \(Swift.String(describing: wafConfiguration)), webhookCreateTime: \(Swift.String(describing: webhookCreateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAppOutput: Swift.Sendable {
@@ -837,6 +925,8 @@ public struct CreateBranchInput: Swift.Sendable {
     public var branchName: Swift.String?
     /// The build specification (build spec) for the branch.
     public var buildSpec: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
+    public var computeRoleArn: Swift.String?
     /// The description for the branch.
     public var description: Swift.String?
     /// The display name for a branch. This is used as the default domain prefix.
@@ -851,6 +941,8 @@ public struct CreateBranchInput: Swift.Sendable {
     public var enablePerformanceMode: Swift.Bool?
     /// Enables pull request previews for this branch.
     public var enablePullRequestPreview: Swift.Bool?
+    /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see [Skew protection for Amplify deployments](https://docs.aws.amazon.com/amplify/latest/userguide/skew-protection.html) in the Amplify User Guide.
+    public var enableSkewProtection: Swift.Bool?
     /// The environment variables for the branch.
     public var environmentVariables: [Swift.String: Swift.String]?
     /// The framework for the branch.
@@ -871,6 +963,7 @@ public struct CreateBranchInput: Swift.Sendable {
         basicAuthCredentials: Swift.String? = nil,
         branchName: Swift.String? = nil,
         buildSpec: Swift.String? = nil,
+        computeRoleArn: Swift.String? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         enableAutoBuild: Swift.Bool? = nil,
@@ -878,6 +971,7 @@ public struct CreateBranchInput: Swift.Sendable {
         enableNotification: Swift.Bool? = nil,
         enablePerformanceMode: Swift.Bool? = nil,
         enablePullRequestPreview: Swift.Bool? = nil,
+        enableSkewProtection: Swift.Bool? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
         framework: Swift.String? = nil,
         pullRequestEnvironmentName: Swift.String? = nil,
@@ -891,6 +985,7 @@ public struct CreateBranchInput: Swift.Sendable {
         self.basicAuthCredentials = basicAuthCredentials
         self.branchName = branchName
         self.buildSpec = buildSpec
+        self.computeRoleArn = computeRoleArn
         self.description = description
         self.displayName = displayName
         self.enableAutoBuild = enableAutoBuild
@@ -898,6 +993,7 @@ public struct CreateBranchInput: Swift.Sendable {
         self.enableNotification = enableNotification
         self.enablePerformanceMode = enablePerformanceMode
         self.enablePullRequestPreview = enablePullRequestPreview
+        self.enableSkewProtection = enableSkewProtection
         self.environmentVariables = environmentVariables
         self.framework = framework
         self.pullRequestEnvironmentName = pullRequestEnvironmentName
@@ -909,7 +1005,7 @@ public struct CreateBranchInput: Swift.Sendable {
 
 extension CreateBranchInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateBranchInput(appId: \(Swift.String(describing: appId)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "CreateBranchInput(appId: \(Swift.String(describing: appId)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), computeRoleArn: \(Swift.String(describing: computeRoleArn)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), enableSkewProtection: \(Swift.String(describing: enableSkewProtection)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 extension AmplifyClientTypes {
@@ -935,6 +1031,8 @@ extension AmplifyClientTypes {
         public var branchName: Swift.String?
         /// The build specification (build spec) content for the branch of an Amplify app.
         public var buildSpec: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role for a branch of an SSR app. The Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
+        public var computeRoleArn: Swift.String?
         /// A timestamp of when Amplify created the branch.
         /// This member is required.
         public var createTime: Foundation.Date?
@@ -963,6 +1061,8 @@ extension AmplifyClientTypes {
         /// Enables pull request previews for the branch.
         /// This member is required.
         public var enablePullRequestPreview: Swift.Bool?
+        /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see [Skew protection for Amplify deployments](https://docs.aws.amazon.com/amplify/latest/userguide/skew-protection.html) in the Amplify User Guide.
+        public var enableSkewProtection: Swift.Bool?
         /// The environment variables specific to a branch of an Amplify app.
         /// This member is required.
         public var environmentVariables: [Swift.String: Swift.String]?
@@ -999,6 +1099,7 @@ extension AmplifyClientTypes {
             branchArn: Swift.String? = nil,
             branchName: Swift.String? = nil,
             buildSpec: Swift.String? = nil,
+            computeRoleArn: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
             customDomains: [Swift.String]? = nil,
             description: Swift.String? = nil,
@@ -1009,6 +1110,7 @@ extension AmplifyClientTypes {
             enableNotification: Swift.Bool? = nil,
             enablePerformanceMode: Swift.Bool? = nil,
             enablePullRequestPreview: Swift.Bool? = nil,
+            enableSkewProtection: Swift.Bool? = nil,
             environmentVariables: [Swift.String: Swift.String]? = nil,
             framework: Swift.String? = nil,
             pullRequestEnvironmentName: Swift.String? = nil,
@@ -1028,6 +1130,7 @@ extension AmplifyClientTypes {
             self.branchArn = branchArn
             self.branchName = branchName
             self.buildSpec = buildSpec
+            self.computeRoleArn = computeRoleArn
             self.createTime = createTime
             self.customDomains = customDomains
             self.description = description
@@ -1038,6 +1141,7 @@ extension AmplifyClientTypes {
             self.enableNotification = enableNotification
             self.enablePerformanceMode = enablePerformanceMode
             self.enablePullRequestPreview = enablePullRequestPreview
+            self.enableSkewProtection = enableSkewProtection
             self.environmentVariables = environmentVariables
             self.framework = framework
             self.pullRequestEnvironmentName = pullRequestEnvironmentName
@@ -1054,7 +1158,7 @@ extension AmplifyClientTypes {
 
 extension AmplifyClientTypes.Branch: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Branch(activeJobId: \(Swift.String(describing: activeJobId)), associatedResources: \(Swift.String(describing: associatedResources)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchArn: \(Swift.String(describing: branchArn)), branchName: \(Swift.String(describing: branchName)), createTime: \(Swift.String(describing: createTime)), customDomains: \(Swift.String(describing: customDomains)), description: \(Swift.String(describing: description)), destinationBranch: \(Swift.String(describing: destinationBranch)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), sourceBranch: \(Swift.String(describing: sourceBranch)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), thumbnailUrl: \(Swift.String(describing: thumbnailUrl)), totalNumberOfJobs: \(Swift.String(describing: totalNumberOfJobs)), ttl: \(Swift.String(describing: ttl)), updateTime: \(Swift.String(describing: updateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "Branch(activeJobId: \(Swift.String(describing: activeJobId)), associatedResources: \(Swift.String(describing: associatedResources)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchArn: \(Swift.String(describing: branchArn)), branchName: \(Swift.String(describing: branchName)), computeRoleArn: \(Swift.String(describing: computeRoleArn)), createTime: \(Swift.String(describing: createTime)), customDomains: \(Swift.String(describing: customDomains)), description: \(Swift.String(describing: description)), destinationBranch: \(Swift.String(describing: destinationBranch)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), enableSkewProtection: \(Swift.String(describing: enableSkewProtection)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), sourceBranch: \(Swift.String(describing: sourceBranch)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), thumbnailUrl: \(Swift.String(describing: thumbnailUrl)), totalNumberOfJobs: \(Swift.String(describing: totalNumberOfJobs)), ttl: \(Swift.String(describing: ttl)), updateTime: \(Swift.String(describing: updateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 /// The result structure for create branch request.
@@ -1470,6 +1574,8 @@ extension AmplifyClientTypes {
 
     /// Describes a webhook that connects repository events to an Amplify app.
     public struct Webhook: Swift.Sendable {
+        /// The unique ID of an Amplify app.
+        public var appId: Swift.String?
         /// The name for a branch that is part of an Amplify app.
         /// This member is required.
         public var branchName: Swift.String?
@@ -1493,6 +1599,7 @@ extension AmplifyClientTypes {
         public var webhookUrl: Swift.String?
 
         public init(
+            appId: Swift.String? = nil,
             branchName: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
@@ -1501,6 +1608,7 @@ extension AmplifyClientTypes {
             webhookId: Swift.String? = nil,
             webhookUrl: Swift.String? = nil
         ) {
+            self.appId = appId
             self.branchName = branchName
             self.createTime = createTime
             self.description = description
@@ -2092,7 +2200,7 @@ extension AmplifyClientTypes {
 
     /// Describes an execution step, for an execution job, for an Amplify app.
     public struct Step: Swift.Sendable {
-        /// The URL to the artifact for the execution step.
+        /// The URL to the build artifact for the execution step.
         public var artifactsUrl: Swift.String?
         /// The context for the current step. Includes a build image if the step is build.
         public var context: Swift.String?
@@ -2760,6 +2868,8 @@ public struct UpdateAppInput: Swift.Sendable {
     public var buildSpec: Swift.String?
     /// The cache configuration for the Amplify app.
     public var cacheConfig: AmplifyClientTypes.CacheConfig?
+    /// The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
+    public var computeRoleArn: Swift.String?
     /// The custom HTTP headers for an Amplify app.
     public var customHeaders: Swift.String?
     /// The custom redirect and rewrite rules for an Amplify app.
@@ -2776,8 +2886,10 @@ public struct UpdateAppInput: Swift.Sendable {
     public var enableBranchAutoDeletion: Swift.Bool?
     /// The environment variables for an Amplify app.
     public var environmentVariables: [Swift.String: Swift.String]?
-    /// The AWS Identity and Access Management (IAM) service role for an Amplify app.
+    /// The Amazon Resource Name (ARN) of the IAM service role for the Amplify app.
     public var iamServiceRoleArn: Swift.String?
+    /// Describes the configuration details that apply to the jobs for an Amplify app.
+    public var jobConfig: AmplifyClientTypes.JobConfig?
     /// The name for an Amplify app.
     public var name: Swift.String?
     /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
@@ -2795,6 +2907,7 @@ public struct UpdateAppInput: Swift.Sendable {
         basicAuthCredentials: Swift.String? = nil,
         buildSpec: Swift.String? = nil,
         cacheConfig: AmplifyClientTypes.CacheConfig? = nil,
+        computeRoleArn: Swift.String? = nil,
         customHeaders: Swift.String? = nil,
         customRules: [AmplifyClientTypes.CustomRule]? = nil,
         description: Swift.String? = nil,
@@ -2804,6 +2917,7 @@ public struct UpdateAppInput: Swift.Sendable {
         enableBranchAutoDeletion: Swift.Bool? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
         iamServiceRoleArn: Swift.String? = nil,
+        jobConfig: AmplifyClientTypes.JobConfig? = nil,
         name: Swift.String? = nil,
         oauthToken: Swift.String? = nil,
         platform: AmplifyClientTypes.Platform? = nil,
@@ -2816,6 +2930,7 @@ public struct UpdateAppInput: Swift.Sendable {
         self.basicAuthCredentials = basicAuthCredentials
         self.buildSpec = buildSpec
         self.cacheConfig = cacheConfig
+        self.computeRoleArn = computeRoleArn
         self.customHeaders = customHeaders
         self.customRules = customRules
         self.description = description
@@ -2825,6 +2940,7 @@ public struct UpdateAppInput: Swift.Sendable {
         self.enableBranchAutoDeletion = enableBranchAutoDeletion
         self.environmentVariables = environmentVariables
         self.iamServiceRoleArn = iamServiceRoleArn
+        self.jobConfig = jobConfig
         self.name = name
         self.oauthToken = oauthToken
         self.platform = platform
@@ -2834,7 +2950,7 @@ public struct UpdateAppInput: Swift.Sendable {
 
 extension UpdateAppInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAppInput(appId: \(Swift.String(describing: appId)), autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), cacheConfig: \(Swift.String(describing: cacheConfig)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), repository: \(Swift.String(describing: repository)), accessToken: \"CONTENT_REDACTED\", basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\", oauthToken: \"CONTENT_REDACTED\")"}
+        "UpdateAppInput(appId: \(Swift.String(describing: appId)), autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), cacheConfig: \(Swift.String(describing: cacheConfig)), computeRoleArn: \(Swift.String(describing: computeRoleArn)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), jobConfig: \(Swift.String(describing: jobConfig)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), repository: \(Swift.String(describing: repository)), accessToken: \"CONTENT_REDACTED\", basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\", oauthToken: \"CONTENT_REDACTED\")"}
 }
 
 /// The result structure for an Amplify app update request.
@@ -2866,6 +2982,8 @@ public struct UpdateBranchInput: Swift.Sendable {
     public var branchName: Swift.String?
     /// The build specification (build spec) for the branch.
     public var buildSpec: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
+    public var computeRoleArn: Swift.String?
     /// The description for the branch.
     public var description: Swift.String?
     /// The display name for a branch. This is used as the default domain prefix.
@@ -2880,6 +2998,8 @@ public struct UpdateBranchInput: Swift.Sendable {
     public var enablePerformanceMode: Swift.Bool?
     /// Enables pull request previews for this branch.
     public var enablePullRequestPreview: Swift.Bool?
+    /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see [Skew protection for Amplify deployments](https://docs.aws.amazon.com/amplify/latest/userguide/skew-protection.html) in the Amplify User Guide.
+    public var enableSkewProtection: Swift.Bool?
     /// The environment variables for the branch.
     public var environmentVariables: [Swift.String: Swift.String]?
     /// The framework for the branch.
@@ -2898,6 +3018,7 @@ public struct UpdateBranchInput: Swift.Sendable {
         basicAuthCredentials: Swift.String? = nil,
         branchName: Swift.String? = nil,
         buildSpec: Swift.String? = nil,
+        computeRoleArn: Swift.String? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         enableAutoBuild: Swift.Bool? = nil,
@@ -2905,6 +3026,7 @@ public struct UpdateBranchInput: Swift.Sendable {
         enableNotification: Swift.Bool? = nil,
         enablePerformanceMode: Swift.Bool? = nil,
         enablePullRequestPreview: Swift.Bool? = nil,
+        enableSkewProtection: Swift.Bool? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
         framework: Swift.String? = nil,
         pullRequestEnvironmentName: Swift.String? = nil,
@@ -2917,6 +3039,7 @@ public struct UpdateBranchInput: Swift.Sendable {
         self.basicAuthCredentials = basicAuthCredentials
         self.branchName = branchName
         self.buildSpec = buildSpec
+        self.computeRoleArn = computeRoleArn
         self.description = description
         self.displayName = displayName
         self.enableAutoBuild = enableAutoBuild
@@ -2924,6 +3047,7 @@ public struct UpdateBranchInput: Swift.Sendable {
         self.enableNotification = enableNotification
         self.enablePerformanceMode = enablePerformanceMode
         self.enablePullRequestPreview = enablePullRequestPreview
+        self.enableSkewProtection = enableSkewProtection
         self.environmentVariables = environmentVariables
         self.framework = framework
         self.pullRequestEnvironmentName = pullRequestEnvironmentName
@@ -2934,7 +3058,7 @@ public struct UpdateBranchInput: Swift.Sendable {
 
 extension UpdateBranchInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateBranchInput(appId: \(Swift.String(describing: appId)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "UpdateBranchInput(appId: \(Swift.String(describing: appId)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), computeRoleArn: \(Swift.String(describing: computeRoleArn)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), enableSkewProtection: \(Swift.String(describing: enableSkewProtection)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 /// The result structure for the update branch request.
@@ -3601,6 +3725,7 @@ extension CreateAppInput {
         try writer["basicAuthCredentials"].write(value.basicAuthCredentials)
         try writer["buildSpec"].write(value.buildSpec)
         try writer["cacheConfig"].write(value.cacheConfig, with: AmplifyClientTypes.CacheConfig.write(value:to:))
+        try writer["computeRoleArn"].write(value.computeRoleArn)
         try writer["customHeaders"].write(value.customHeaders)
         try writer["customRules"].writeList(value.customRules, memberWritingClosure: AmplifyClientTypes.CustomRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
@@ -3610,6 +3735,7 @@ extension CreateAppInput {
         try writer["enableBranchAutoDeletion"].write(value.enableBranchAutoDeletion)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["iamServiceRoleArn"].write(value.iamServiceRoleArn)
+        try writer["jobConfig"].write(value.jobConfig, with: AmplifyClientTypes.JobConfig.write(value:to:))
         try writer["name"].write(value.name)
         try writer["oauthToken"].write(value.oauthToken)
         try writer["platform"].write(value.platform)
@@ -3637,6 +3763,7 @@ extension CreateBranchInput {
         try writer["basicAuthCredentials"].write(value.basicAuthCredentials)
         try writer["branchName"].write(value.branchName)
         try writer["buildSpec"].write(value.buildSpec)
+        try writer["computeRoleArn"].write(value.computeRoleArn)
         try writer["description"].write(value.description)
         try writer["displayName"].write(value.displayName)
         try writer["enableAutoBuild"].write(value.enableAutoBuild)
@@ -3644,6 +3771,7 @@ extension CreateBranchInput {
         try writer["enableNotification"].write(value.enableNotification)
         try writer["enablePerformanceMode"].write(value.enablePerformanceMode)
         try writer["enablePullRequestPreview"].write(value.enablePullRequestPreview)
+        try writer["enableSkewProtection"].write(value.enableSkewProtection)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["framework"].write(value.framework)
         try writer["pullRequestEnvironmentName"].write(value.pullRequestEnvironmentName)
@@ -3734,6 +3862,7 @@ extension UpdateAppInput {
         try writer["basicAuthCredentials"].write(value.basicAuthCredentials)
         try writer["buildSpec"].write(value.buildSpec)
         try writer["cacheConfig"].write(value.cacheConfig, with: AmplifyClientTypes.CacheConfig.write(value:to:))
+        try writer["computeRoleArn"].write(value.computeRoleArn)
         try writer["customHeaders"].write(value.customHeaders)
         try writer["customRules"].writeList(value.customRules, memberWritingClosure: AmplifyClientTypes.CustomRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
@@ -3743,6 +3872,7 @@ extension UpdateAppInput {
         try writer["enableBranchAutoDeletion"].write(value.enableBranchAutoDeletion)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["iamServiceRoleArn"].write(value.iamServiceRoleArn)
+        try writer["jobConfig"].write(value.jobConfig, with: AmplifyClientTypes.JobConfig.write(value:to:))
         try writer["name"].write(value.name)
         try writer["oauthToken"].write(value.oauthToken)
         try writer["platform"].write(value.platform)
@@ -3758,6 +3888,7 @@ extension UpdateBranchInput {
         try writer["backendEnvironmentArn"].write(value.backendEnvironmentArn)
         try writer["basicAuthCredentials"].write(value.basicAuthCredentials)
         try writer["buildSpec"].write(value.buildSpec)
+        try writer["computeRoleArn"].write(value.computeRoleArn)
         try writer["description"].write(value.description)
         try writer["displayName"].write(value.displayName)
         try writer["enableAutoBuild"].write(value.enableAutoBuild)
@@ -3765,6 +3896,7 @@ extension UpdateBranchInput {
         try writer["enableNotification"].write(value.enableNotification)
         try writer["enablePerformanceMode"].write(value.enablePerformanceMode)
         try writer["enablePullRequestPreview"].write(value.enablePullRequestPreview)
+        try writer["enableSkewProtection"].write(value.enableSkewProtection)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["framework"].write(value.framework)
         try writer["pullRequestEnvironmentName"].write(value.pullRequestEnvironmentName)
@@ -4883,11 +5015,24 @@ enum UpdateWebhookOutputError {
     }
 }
 
-extension UnauthorizedException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = UnauthorizedException()
+        var value = BadRequestException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DependentServiceFailureException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependentServiceFailureException {
+        let reader = baseError.errorBodyReader
+        var value = DependentServiceFailureException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4909,19 +5054,6 @@ extension InternalFailureException {
     }
 }
 
-extension BadRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
-        let reader = baseError.errorBodyReader
-        var value = BadRequestException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension LimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
@@ -4935,11 +5067,11 @@ extension LimitExceededException {
     }
 }
 
-extension DependentServiceFailureException {
+extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependentServiceFailureException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
-        var value = DependentServiceFailureException()
+        var value = UnauthorizedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4989,6 +5121,7 @@ extension AmplifyClientTypes.App {
         value.platform = try reader["platform"].readIfPresent() ?? .sdkUnknown("")
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.computeRoleArn = try reader["computeRoleArn"].readIfPresent()
         value.iamServiceRoleArn = try reader["iamServiceRoleArn"].readIfPresent()
         value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.defaultDomain = try reader["defaultDomain"].readIfPresent() ?? ""
@@ -5007,6 +5140,22 @@ extension AmplifyClientTypes.App {
         value.cacheConfig = try reader["cacheConfig"].readIfPresent(with: AmplifyClientTypes.CacheConfig.read(from:))
         value.webhookCreateTime = try reader["webhookCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.wafConfiguration = try reader["wafConfiguration"].readIfPresent(with: AmplifyClientTypes.WafConfiguration.read(from:))
+        value.jobConfig = try reader["jobConfig"].readIfPresent(with: AmplifyClientTypes.JobConfig.read(from:))
+        return value
+    }
+}
+
+extension AmplifyClientTypes.JobConfig {
+
+    static func write(value: AmplifyClientTypes.JobConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["buildComputeType"].write(value.buildComputeType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.JobConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyClientTypes.JobConfig()
+        value.buildComputeType = try reader["buildComputeType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5136,6 +5285,7 @@ extension AmplifyClientTypes.Branch {
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.enableAutoBuild = try reader["enableAutoBuild"].readIfPresent() ?? false
+        value.enableSkewProtection = try reader["enableSkewProtection"].readIfPresent()
         value.customDomains = try reader["customDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.framework = try reader["framework"].readIfPresent() ?? ""
         value.activeJobId = try reader["activeJobId"].readIfPresent() ?? ""
@@ -5153,6 +5303,7 @@ extension AmplifyClientTypes.Branch {
         value.sourceBranch = try reader["sourceBranch"].readIfPresent()
         value.backendEnvironmentArn = try reader["backendEnvironmentArn"].readIfPresent()
         value.backend = try reader["backend"].readIfPresent(with: AmplifyClientTypes.Backend.read(from:))
+        value.computeRoleArn = try reader["computeRoleArn"].readIfPresent()
         return value
     }
 }
@@ -5241,6 +5392,7 @@ extension AmplifyClientTypes.Webhook {
         value.webhookArn = try reader["webhookArn"].readIfPresent() ?? ""
         value.webhookId = try reader["webhookId"].readIfPresent() ?? ""
         value.webhookUrl = try reader["webhookUrl"].readIfPresent() ?? ""
+        value.appId = try reader["appId"].readIfPresent()
         value.branchName = try reader["branchName"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent() ?? ""
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")

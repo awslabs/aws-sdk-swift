@@ -1491,17 +1491,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -1512,17 +1501,6 @@
                                 "Region": "us-iso-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -1539,17 +1517,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -1560,17 +1527,6 @@
                                 "Region": "us-isob-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -7322,6 +7278,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The updated phone number order time stamp, in ISO 8601 format.</p>"
                     }
+                },
+                "FocDate": {
+                    "target": "com.amazonaws.chimesdkvoice#Iso8601Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Firm Order Commitment (FOC) date for phone number porting orders. This field is null\n         if a phone number order is not a porting order.</p>"
+                    }
                 }
             },
             "traits": {
@@ -10939,6 +10901,9 @@
                 "target": "com.amazonaws.chimesdkvoice#ValidateE911AddressResponse"
             },
             "errors": [
+                {
+                    "target": "com.amazonaws.chimesdkvoice#AccessDeniedException"
+                },
                 {
                     "target": "com.amazonaws.chimesdkvoice#BadRequestException"
                 },

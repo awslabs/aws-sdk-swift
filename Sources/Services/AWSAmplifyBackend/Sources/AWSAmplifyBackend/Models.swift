@@ -4730,6 +4730,19 @@ enum UpdateBackendStorageOutputError {
     }
 }
 
+extension BadRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+        let reader = baseError.errorBodyReader
+        var value = BadRequestException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension GatewayTimeoutException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> GatewayTimeoutException {
@@ -4750,19 +4763,6 @@ extension NotFoundException {
         var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension BadRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
-        let reader = baseError.errorBodyReader
-        var value = BadRequestException()
-        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

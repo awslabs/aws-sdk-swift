@@ -17,7 +17,9 @@ import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.model.toOptional
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
-class AWSEndpointClientConfiguration(val ctx: ProtocolGenerator.GenerationContext) : ClientConfiguration {
+class AWSEndpointClientConfiguration(
+    val ctx: ProtocolGenerator.GenerationContext,
+) : ClientConfiguration {
     override val swiftProtocolName: Symbol?
         get() = null
 
@@ -25,15 +27,22 @@ class AWSEndpointClientConfiguration(val ctx: ProtocolGenerator.GenerationContex
         val properties: MutableSet<ConfigProperty> = mutableSetOf()
         val clientContextParams = ctx.service.getTrait<ClientContextParamsTrait>()
         clientContextParams?.parameters?.forEach {
-            properties.add(ConfigProperty(it.key.toLowerCamelCase(), it.value.type.toSwiftType().toOptional()))
+            properties.add(
+                ConfigProperty(
+                    it.key.toLowerCamelCase(),
+                    it.value.type
+                        .toSwiftType()
+                        .toOptional(),
+                ),
+            )
         }
         properties.add(
             ConfigProperty(
                 ENDPOINT_RESOLVER,
                 EndpointTypes.EndpointResolver,
                 { it.format("DefaultEndpointResolver()") },
-                true
-            )
+                true,
+            ),
         )
         return properties
     }

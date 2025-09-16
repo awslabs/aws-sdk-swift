@@ -1,0 +1,19 @@
+[
+    "AWSClientRuntime",
+    "AWSSDKChecksums",
+    "AWSSDKHTTPAuth",
+    "AWSSDKIdentity",
+    "ClientRuntime",
+    "Smithy",
+    "SmithyFormURL",
+    "SmithyHTTPAPI",
+    "SmithyHTTPAuthAPI",
+    "SmithyIdentity",
+    "SmithyReadWrite",
+    "SmithyRetries",
+    "SmithyRetriesAPI",
+    "SmithyTestUtil",
+    "SmithyTimestamps",
+    "SmithyWaitersAPI",
+    "SmithyXML"
+]

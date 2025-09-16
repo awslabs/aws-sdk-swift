@@ -1018,6 +1018,7 @@ extension ECRClientTypes {
     public enum UpstreamRegistry: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case azurecontainerregistry
         case dockerhub
+        case ecr
         case ecrpublic
         case githubcontainerregistry
         case gitlabcontainerregistry
@@ -1029,6 +1030,7 @@ extension ECRClientTypes {
             return [
                 .azurecontainerregistry,
                 .dockerhub,
+                .ecr,
                 .ecrpublic,
                 .githubcontainerregistry,
                 .gitlabcontainerregistry,
@@ -1046,6 +1048,7 @@ extension ECRClientTypes {
             switch self {
             case .azurecontainerregistry: return "azure-container-registry"
             case .dockerhub: return "docker-hub"
+            case .ecr: return "ecr"
             case .ecrpublic: return "ecr-public"
             case .githubcontainerregistry: return "github-container-registry"
             case .gitlabcontainerregistry: return "gitlab-container-registry"
@@ -1060,7 +1063,9 @@ extension ECRClientTypes {
 public struct CreatePullThroughCacheRuleInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry.
     public var credentialArn: Swift.String?
-    /// The repository name prefix to use when caching images from the source registry.
+    /// Amazon Resource Name (ARN) of the IAM role to be assumed by Amazon ECR to authenticate to the ECR upstream registry. This role must be in the same account as the registry that you are configuring.
+    public var customRoleArn: Swift.String?
+    /// The repository name prefix to use when caching images from the source registry. There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/.
     /// This member is required.
     public var ecrRepositoryPrefix: Swift.String?
     /// The Amazon Web Services account ID associated with the registry to create the pull through cache rule for. If you do not specify a registry, the default registry is assumed.
@@ -1069,32 +1074,42 @@ public struct CreatePullThroughCacheRuleInput: Swift.Sendable {
     public var upstreamRegistry: ECRClientTypes.UpstreamRegistry?
     /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.
     ///
-    /// * Amazon ECR Public (ecr-public) - public.ecr.aws
+    /// * Amazon ECR (ecr) – .dkr.ecr..amazonaws.com
     ///
-    /// * Docker Hub (docker-hub) - registry-1.docker.io
+    /// * Amazon ECR Public (ecr-public) – public.ecr.aws
     ///
-    /// * Quay (quay) - quay.io
+    /// * Docker Hub (docker-hub) – registry-1.docker.io
     ///
-    /// * Kubernetes (k8s) - registry.k8s.io
+    /// * GitHub Container Registry (github-container-registry) – ghcr.io
     ///
-    /// * GitHub Container Registry (github-container-registry) - ghcr.io
+    /// * GitLab Container Registry (gitlab-container-registry) – registry.gitlab.com
     ///
-    /// * Microsoft Azure Container Registry (azure-container-registry) - .azurecr.io
+    /// * Kubernetes (k8s) – registry.k8s.io
+    ///
+    /// * Microsoft Azure Container Registry (azure-container-registry) – .azurecr.io
+    ///
+    /// * Quay (quay) – quay.io
     /// This member is required.
     public var upstreamRegistryUrl: Swift.String?
+    /// The repository name prefix of the upstream registry to match with the upstream repository name. When this field isn't specified, Amazon ECR will use the ROOT.
+    public var upstreamRepositoryPrefix: Swift.String?
 
     public init(
         credentialArn: Swift.String? = nil,
+        customRoleArn: Swift.String? = nil,
         ecrRepositoryPrefix: Swift.String? = nil,
         registryId: Swift.String? = nil,
         upstreamRegistry: ECRClientTypes.UpstreamRegistry? = nil,
-        upstreamRegistryUrl: Swift.String? = nil
+        upstreamRegistryUrl: Swift.String? = nil,
+        upstreamRepositoryPrefix: Swift.String? = nil
     ) {
         self.credentialArn = credentialArn
+        self.customRoleArn = customRoleArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.registryId = registryId
         self.upstreamRegistry = upstreamRegistry
         self.upstreamRegistryUrl = upstreamRegistryUrl
+        self.upstreamRepositoryPrefix = upstreamRepositoryPrefix
     }
 }
 
@@ -1103,6 +1118,8 @@ public struct CreatePullThroughCacheRuleOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
     public var credentialArn: Swift.String?
+    /// The ARN of the IAM role associated with the pull through cache rule.
+    public var customRoleArn: Swift.String?
     /// The Amazon ECR repository prefix associated with the pull through cache rule.
     public var ecrRepositoryPrefix: Swift.String?
     /// The registry ID associated with the request.
@@ -1111,21 +1128,27 @@ public struct CreatePullThroughCacheRuleOutput: Swift.Sendable {
     public var upstreamRegistry: ECRClientTypes.UpstreamRegistry?
     /// The upstream registry URL associated with the pull through cache rule.
     public var upstreamRegistryUrl: Swift.String?
+    /// The upstream repository prefix associated with the pull through cache rule.
+    public var upstreamRepositoryPrefix: Swift.String?
 
     public init(
         createdAt: Foundation.Date? = nil,
         credentialArn: Swift.String? = nil,
+        customRoleArn: Swift.String? = nil,
         ecrRepositoryPrefix: Swift.String? = nil,
         registryId: Swift.String? = nil,
         upstreamRegistry: ECRClientTypes.UpstreamRegistry? = nil,
-        upstreamRegistryUrl: Swift.String? = nil
+        upstreamRegistryUrl: Swift.String? = nil,
+        upstreamRepositoryPrefix: Swift.String? = nil
     ) {
         self.createdAt = createdAt
         self.credentialArn = credentialArn
+        self.customRoleArn = customRoleArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.registryId = registryId
         self.upstreamRegistry = upstreamRegistry
         self.upstreamRegistryUrl = upstreamRegistryUrl
+        self.upstreamRepositoryPrefix = upstreamRepositoryPrefix
     }
 }
 
@@ -1270,13 +1293,17 @@ extension ECRClientTypes {
 
     public enum ImageTagMutability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case immutable
+        case immutableWithExclusion
         case mutable
+        case mutableWithExclusion
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ImageTagMutability] {
             return [
                 .immutable,
-                .mutable
+                .immutableWithExclusion,
+                .mutable,
+                .mutableWithExclusion
             ]
         }
 
@@ -1288,9 +1315,58 @@ extension ECRClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .immutable: return "IMMUTABLE"
+            case .immutableWithExclusion: return "IMMUTABLE_WITH_EXCLUSION"
             case .mutable: return "MUTABLE"
+            case .mutableWithExclusion: return "MUTABLE_WITH_EXCLUSION"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    public enum ImageTagMutabilityExclusionFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case wildcard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageTagMutabilityExclusionFilterType] {
+            return [
+                .wildcard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .wildcard: return "WILDCARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    /// Overrides the default image tag mutability setting of the repository for image tags that match the specified filters.
+    public struct ImageTagMutabilityExclusionFilter: Swift.Sendable {
+        /// The value to use when filtering image tags. Must be either a regular expression pattern or a tag prefix value based on the specified filter type.
+        /// This member is required.
+        public var filter: Swift.String?
+        /// Specifies the type of filter to use for excluding image tags from the repository's mutability setting.
+        /// This member is required.
+        public var filterType: ECRClientTypes.ImageTagMutabilityExclusionFilterType?
+
+        public init(
+            filter: Swift.String? = nil,
+            filterType: ECRClientTypes.ImageTagMutabilityExclusionFilterType? = nil
+        ) {
+            self.filter = filter
+            self.filterType = filterType
         }
     }
 }
@@ -1323,6 +1399,8 @@ public struct CreateRepositoryInput: Swift.Sendable {
     public var imageScanningConfiguration: ECRClientTypes.ImageScanningConfiguration?
     /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
     public var imageTagMutability: ECRClientTypes.ImageTagMutability?
+    /// Creates a repository with a list of filters that define which image tags can override the default image tag mutability setting.
+    public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
     /// The Amazon Web Services account ID associated with the registry to create the repository. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
     /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app). The repository name must start with a letter and can only contain lowercase letters, numbers, hyphens, underscores, and forward slashes.
@@ -1335,6 +1413,7 @@ public struct CreateRepositoryInput: Swift.Sendable {
         encryptionConfiguration: ECRClientTypes.EncryptionConfiguration? = nil,
         imageScanningConfiguration: ECRClientTypes.ImageScanningConfiguration? = nil,
         imageTagMutability: ECRClientTypes.ImageTagMutability? = nil,
+        imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         tags: [ECRClientTypes.Tag]? = nil
@@ -1342,6 +1421,7 @@ public struct CreateRepositoryInput: Swift.Sendable {
         self.encryptionConfiguration = encryptionConfiguration
         self.imageScanningConfiguration = imageScanningConfiguration
         self.imageTagMutability = imageTagMutability
+        self.imageTagMutabilityExclusionFilters = imageTagMutabilityExclusionFilters
         self.registryId = registryId
         self.repositoryName = repositoryName
         self.tags = tags
@@ -1360,6 +1440,8 @@ extension ECRClientTypes {
         public var imageScanningConfiguration: ECRClientTypes.ImageScanningConfiguration?
         /// The tag mutability setting for the repository.
         public var imageTagMutability: ECRClientTypes.ImageTagMutability?
+        /// The image tag mutability exclusion filters associated with the repository. These filters specify which image tags can override the repository's default image tag mutability setting.
+        public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
         /// The Amazon Web Services account ID associated with the registry that contains the repository.
         public var registryId: Swift.String?
         /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, Amazon Web Services account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository-namespace/repository-name.
@@ -1374,6 +1456,7 @@ extension ECRClientTypes {
             encryptionConfiguration: ECRClientTypes.EncryptionConfiguration? = nil,
             imageScanningConfiguration: ECRClientTypes.ImageScanningConfiguration? = nil,
             imageTagMutability: ECRClientTypes.ImageTagMutability? = nil,
+            imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]? = nil,
             registryId: Swift.String? = nil,
             repositoryArn: Swift.String? = nil,
             repositoryName: Swift.String? = nil,
@@ -1383,6 +1466,7 @@ extension ECRClientTypes {
             self.encryptionConfiguration = encryptionConfiguration
             self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTagMutability = imageTagMutability
+            self.imageTagMutabilityExclusionFilters = imageTagMutabilityExclusionFilters
             self.registryId = registryId
             self.repositoryArn = repositoryArn
             self.repositoryName = repositoryName
@@ -1486,6 +1570,8 @@ public struct CreateRepositoryCreationTemplateInput: Swift.Sendable {
     public var encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate?
     /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
     public var imageTagMutability: ECRClientTypes.ImageTagMutability?
+    /// Creates a repository creation template with a list of filters that define which image tags can override the default image tag mutability setting.
+    public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
     /// The lifecycle policy to use for repositories created using the template.
     public var lifecyclePolicy: Swift.String?
     /// The repository namespace prefix to associate with the template. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/. Similarly, a prefix of prod/team would apply to all repositories beginning with prod/team/. To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the prefix. There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/. When using a pull through cache rule, the repository prefix you specify during rule creation is what you should specify as your repository creation template prefix as well.
@@ -1502,6 +1588,7 @@ public struct CreateRepositoryCreationTemplateInput: Swift.Sendable {
         description: Swift.String? = nil,
         encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate? = nil,
         imageTagMutability: ECRClientTypes.ImageTagMutability? = nil,
+        imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]? = nil,
         lifecyclePolicy: Swift.String? = nil,
         `prefix`: Swift.String? = nil,
         repositoryPolicy: Swift.String? = nil,
@@ -1512,6 +1599,7 @@ public struct CreateRepositoryCreationTemplateInput: Swift.Sendable {
         self.description = description
         self.encryptionConfiguration = encryptionConfiguration
         self.imageTagMutability = imageTagMutability
+        self.imageTagMutabilityExclusionFilters = imageTagMutabilityExclusionFilters
         self.lifecyclePolicy = lifecyclePolicy
         self.`prefix` = `prefix`
         self.repositoryPolicy = repositoryPolicy
@@ -1535,11 +1623,13 @@ extension ECRClientTypes {
         public var encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate?
         /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public var imageTagMutability: ECRClientTypes.ImageTagMutability?
+        /// Defines the image tag mutability exclusion filters to apply when creating repositories from this template. These filters specify which image tags can override the repository's default image tag mutability setting.
+        public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
         /// The lifecycle policy to use for repositories created using the template.
         public var lifecyclePolicy: Swift.String?
         /// The repository namespace prefix associated with the repository creation template.
         public var `prefix`: Swift.String?
-        /// he repository policy to apply to repositories created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.
+        /// The repository policy to apply to repositories created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.
         public var repositoryPolicy: Swift.String?
         /// The metadata to apply to the repository to help you categorize and organize. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public var resourceTags: [ECRClientTypes.Tag]?
@@ -1553,6 +1643,7 @@ extension ECRClientTypes {
             description: Swift.String? = nil,
             encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate? = nil,
             imageTagMutability: ECRClientTypes.ImageTagMutability? = nil,
+            imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]? = nil,
             lifecyclePolicy: Swift.String? = nil,
             `prefix`: Swift.String? = nil,
             repositoryPolicy: Swift.String? = nil,
@@ -1565,6 +1656,7 @@ extension ECRClientTypes {
             self.description = description
             self.encryptionConfiguration = encryptionConfiguration
             self.imageTagMutability = imageTagMutability
+            self.imageTagMutabilityExclusionFilters = imageTagMutabilityExclusionFilters
             self.lifecyclePolicy = lifecyclePolicy
             self.`prefix` = `prefix`
             self.repositoryPolicy = repositoryPolicy
@@ -1695,25 +1787,33 @@ public struct DeletePullThroughCacheRuleOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
     public var credentialArn: Swift.String?
+    /// The ARN of the IAM role associated with the pull through cache rule.
+    public var customRoleArn: Swift.String?
     /// The Amazon ECR repository prefix associated with the request.
     public var ecrRepositoryPrefix: Swift.String?
     /// The registry ID associated with the request.
     public var registryId: Swift.String?
     /// The upstream registry URL associated with the pull through cache rule.
     public var upstreamRegistryUrl: Swift.String?
+    /// The upstream repository prefix associated with the pull through cache rule.
+    public var upstreamRepositoryPrefix: Swift.String?
 
     public init(
         createdAt: Foundation.Date? = nil,
         credentialArn: Swift.String? = nil,
+        customRoleArn: Swift.String? = nil,
         ecrRepositoryPrefix: Swift.String? = nil,
         registryId: Swift.String? = nil,
-        upstreamRegistryUrl: Swift.String? = nil
+        upstreamRegistryUrl: Swift.String? = nil,
+        upstreamRepositoryPrefix: Swift.String? = nil
     ) {
         self.createdAt = createdAt
         self.credentialArn = credentialArn
+        self.customRoleArn = customRoleArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.registryId = registryId
         self.upstreamRegistryUrl = upstreamRegistryUrl
+        self.upstreamRepositoryPrefix = upstreamRepositoryPrefix
     }
 }
 
@@ -2197,6 +2297,7 @@ extension ECRClientTypes {
         case failed
         case findingsUnavailable
         case inProgress
+        case limitExceeded
         case pending
         case scanEligibilityExpired
         case unsupportedImage
@@ -2209,6 +2310,7 @@ extension ECRClientTypes {
                 .failed,
                 .findingsUnavailable,
                 .inProgress,
+                .limitExceeded,
                 .pending,
                 .scanEligibilityExpired,
                 .unsupportedImage
@@ -2227,6 +2329,7 @@ extension ECRClientTypes {
             case .failed: return "FAILED"
             case .findingsUnavailable: return "FINDINGS_UNAVAILABLE"
             case .inProgress: return "IN_PROGRESS"
+            case .limitExceeded: return "LIMIT_EXCEEDED"
             case .pending: return "PENDING"
             case .scanEligibilityExpired: return "SCAN_ELIGIBILITY_EXPIRED"
             case .unsupportedImage: return "UNSUPPORTED_IMAGE"
@@ -2271,7 +2374,7 @@ extension ECRClientTypes {
         public var imageScanFindingsSummary: ECRClientTypes.ImageScanFindingsSummary?
         /// The current state of the scan.
         public var imageScanStatus: ECRClientTypes.ImageScanStatus?
-        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list. Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by [DescribeImages].
+        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list. Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console.
         public var imageSizeInBytes: Swift.Int?
         /// The list of tags associated with this image.
         public var imageTags: [Swift.String]?
@@ -2548,6 +2651,10 @@ extension ECRClientTypes {
         public var imageHash: Swift.String?
         /// The image tags attached to the Amazon ECR container image.
         public var imageTags: [Swift.String]?
+        /// The number of Amazon ECS or Amazon EKS clusters currently running the image.
+        public var inUseCount: Swift.Int?
+        /// The most recent date and time a cluster was running the image.
+        public var lastInUseAt: Foundation.Date?
         /// The platform of the Amazon ECR container image.
         public var platform: Swift.String?
         /// The date and time the Amazon ECR container image was pushed.
@@ -2562,6 +2669,8 @@ extension ECRClientTypes {
             author: Swift.String? = nil,
             imageHash: Swift.String? = nil,
             imageTags: [Swift.String]? = nil,
+            inUseCount: Swift.Int? = nil,
+            lastInUseAt: Foundation.Date? = nil,
             platform: Swift.String? = nil,
             pushedAt: Foundation.Date? = nil,
             registry: Swift.String? = nil,
@@ -2571,6 +2680,8 @@ extension ECRClientTypes {
             self.author = author
             self.imageHash = imageHash
             self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
             self.platform = platform
             self.pushedAt = pushedAt
             self.registry = registry
@@ -2909,6 +3020,8 @@ extension ECRClientTypes {
         public var createdAt: Foundation.Date?
         /// The ARN of the Secrets Manager secret associated with the pull through cache rule.
         public var credentialArn: Swift.String?
+        /// The ARN of the IAM role associated with the pull through cache rule.
+        public var customRoleArn: Swift.String?
         /// The Amazon ECR repository prefix associated with the pull through cache rule.
         public var ecrRepositoryPrefix: Swift.String?
         /// The Amazon Web Services account ID associated with the registry the pull through cache rule is associated with.
@@ -2919,23 +3032,29 @@ extension ECRClientTypes {
         public var upstreamRegistry: ECRClientTypes.UpstreamRegistry?
         /// The upstream registry URL associated with the pull through cache rule.
         public var upstreamRegistryUrl: Swift.String?
+        /// The upstream repository prefix associated with the pull through cache rule.
+        public var upstreamRepositoryPrefix: Swift.String?
 
         public init(
             createdAt: Foundation.Date? = nil,
             credentialArn: Swift.String? = nil,
+            customRoleArn: Swift.String? = nil,
             ecrRepositoryPrefix: Swift.String? = nil,
             registryId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             upstreamRegistry: ECRClientTypes.UpstreamRegistry? = nil,
-            upstreamRegistryUrl: Swift.String? = nil
+            upstreamRegistryUrl: Swift.String? = nil,
+            upstreamRepositoryPrefix: Swift.String? = nil
         ) {
             self.createdAt = createdAt
             self.credentialArn = credentialArn
+            self.customRoleArn = customRoleArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.registryId = registryId
             self.updatedAt = updatedAt
             self.upstreamRegistry = upstreamRegistry
             self.upstreamRegistryUrl = upstreamRegistryUrl
+            self.upstreamRepositoryPrefix = upstreamRepositoryPrefix
         }
     }
 }
@@ -3218,7 +3337,7 @@ extension ECRClientTypes {
 }
 
 public struct GetAuthorizationTokenOutput: Swift.Sendable {
-    /// A list of authorization token data objects that correspond to the registryIds values in the request.
+    /// A list of authorization token data objects that correspond to the registryIds values in the request. The size of the authorization token returned by Amazon ECR is not fixed. We recommend that you don't make assumptions about the maximum size.
     public var authorizationData: [ECRClientTypes.AuthorizationData]?
 
     public init(
@@ -3417,7 +3536,7 @@ public struct GetLifecyclePolicyPreviewInput: Swift.Sendable {
     public var filter: ECRClientTypes.LifecyclePolicyPreviewFilter?
     /// The list of imageIDs to be included.
     public var imageIds: [ECRClientTypes.ImageIdentifier]?
-    /// The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in  paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns  maxResults results in a single page along with a nextToken  response element. The remaining results of the initial request can be seen by sending  another GetLifecyclePolicyPreviewRequest request with the returned nextToken  value. This value can be between 1 and 1000. If this  parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to  100 results and a nextToken value, if  applicable. This option cannot be used when you specify images with imageIds.
+    /// The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in  paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns  maxResults results in a single page along with a nextToken  response element. The remaining results of the initial request can be seen by sending  another GetLifecyclePolicyPreviewRequest request with the returned nextToken  value. This value can be between 1 and 100. If this  parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to 100 results and a nextToken value, if  applicable. This option cannot be used when you specify images with imageIds.
     public var maxResults: Swift.Int?
     /// The nextToken value returned from a previous paginated  GetLifecyclePolicyPreviewRequest request where maxResults was used and the  results exceeded the value of that parameter. Pagination continues from the end of the  previous results that returned the nextToken value. This value is  null when there are no more results to return. This option cannot be used when you specify images with imageIds.
     public var nextToken: Swift.String?
@@ -4070,6 +4189,8 @@ public struct PutImageTagMutabilityInput: Swift.Sendable {
     /// The tag mutability setting for the repository. If MUTABLE is specified, image tags can be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
     /// This member is required.
     public var imageTagMutability: ECRClientTypes.ImageTagMutability?
+    /// Creates or updates a repository with filters that define which image tags can override the default image tag mutability setting.
+    public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
     /// The Amazon Web Services account ID associated with the registry that contains the repository in which to update the image tag mutability settings. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository in which to update the image tag mutability settings.
@@ -4078,10 +4199,12 @@ public struct PutImageTagMutabilityInput: Swift.Sendable {
 
     public init(
         imageTagMutability: ECRClientTypes.ImageTagMutability? = nil,
+        imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
     ) {
         self.imageTagMutability = imageTagMutability
+        self.imageTagMutabilityExclusionFilters = imageTagMutabilityExclusionFilters
         self.registryId = registryId
         self.repositoryName = repositoryName
     }
@@ -4090,6 +4213,8 @@ public struct PutImageTagMutabilityInput: Swift.Sendable {
 public struct PutImageTagMutabilityOutput: Swift.Sendable {
     /// The image tag mutability setting for the repository.
     public var imageTagMutability: ECRClientTypes.ImageTagMutability?
+    /// Returns a list of filters that were defined for a repository. These filters determine which image tags can override the default image tag mutability setting of the repository.
+    public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
     /// The registry ID associated with the request.
     public var registryId: Swift.String?
     /// The repository name associated with the request.
@@ -4097,10 +4222,12 @@ public struct PutImageTagMutabilityOutput: Swift.Sendable {
 
     public init(
         imageTagMutability: ECRClientTypes.ImageTagMutability? = nil,
+        imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
     ) {
         self.imageTagMutability = imageTagMutability
+        self.imageTagMutabilityExclusionFilters = imageTagMutabilityExclusionFilters
         self.registryId = registryId
         self.repositoryName = repositoryName
     }
@@ -4445,8 +4572,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 
 public struct UpdatePullThroughCacheRuleInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry.
-    /// This member is required.
     public var credentialArn: Swift.String?
+    /// Amazon Resource Name (ARN) of the IAM role to be assumed by Amazon ECR to authenticate to the ECR upstream registry. This role must be in the same account as the registry that you are configuring.
+    public var customRoleArn: Swift.String?
     /// The repository name prefix to use when caching images from the source registry.
     /// This member is required.
     public var ecrRepositoryPrefix: Swift.String?
@@ -4455,10 +4583,12 @@ public struct UpdatePullThroughCacheRuleInput: Swift.Sendable {
 
     public init(
         credentialArn: Swift.String? = nil,
+        customRoleArn: Swift.String? = nil,
         ecrRepositoryPrefix: Swift.String? = nil,
         registryId: Swift.String? = nil
     ) {
         self.credentialArn = credentialArn
+        self.customRoleArn = customRoleArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.registryId = registryId
     }
@@ -4467,23 +4597,31 @@ public struct UpdatePullThroughCacheRuleInput: Swift.Sendable {
 public struct UpdatePullThroughCacheRuleOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
     public var credentialArn: Swift.String?
+    /// The ARN of the IAM role associated with the pull through cache rule.
+    public var customRoleArn: Swift.String?
     /// The Amazon ECR repository prefix associated with the pull through cache rule.
     public var ecrRepositoryPrefix: Swift.String?
     /// The registry ID associated with the request.
     public var registryId: Swift.String?
     /// The date and time, in JavaScript date format, when the pull through cache rule was updated.
     public var updatedAt: Foundation.Date?
+    /// The upstream repository prefix associated with the pull through cache rule.
+    public var upstreamRepositoryPrefix: Swift.String?
 
     public init(
         credentialArn: Swift.String? = nil,
+        customRoleArn: Swift.String? = nil,
         ecrRepositoryPrefix: Swift.String? = nil,
         registryId: Swift.String? = nil,
-        updatedAt: Foundation.Date? = nil
+        updatedAt: Foundation.Date? = nil,
+        upstreamRepositoryPrefix: Swift.String? = nil
     ) {
         self.credentialArn = credentialArn
+        self.customRoleArn = customRoleArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.registryId = registryId
         self.updatedAt = updatedAt
+        self.upstreamRepositoryPrefix = upstreamRepositoryPrefix
     }
 }
 
@@ -4498,6 +4636,8 @@ public struct UpdateRepositoryCreationTemplateInput: Swift.Sendable {
     public var encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate?
     /// Updates the tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
     public var imageTagMutability: ECRClientTypes.ImageTagMutability?
+    /// Updates a repository with filters that define which image tags can override the default image tag mutability setting.
+    public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
     /// Updates the lifecycle policy associated with the specified repository creation template.
     public var lifecyclePolicy: Swift.String?
     /// The repository namespace prefix that matches an existing repository creation template in the registry. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/. This includes a repository named prod/team1 as well as a repository named prod/repository1. To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the prefix.
@@ -4514,6 +4654,7 @@ public struct UpdateRepositoryCreationTemplateInput: Swift.Sendable {
         description: Swift.String? = nil,
         encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate? = nil,
         imageTagMutability: ECRClientTypes.ImageTagMutability? = nil,
+        imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]? = nil,
         lifecyclePolicy: Swift.String? = nil,
         `prefix`: Swift.String? = nil,
         repositoryPolicy: Swift.String? = nil,
@@ -4524,6 +4665,7 @@ public struct UpdateRepositoryCreationTemplateInput: Swift.Sendable {
         self.description = description
         self.encryptionConfiguration = encryptionConfiguration
         self.imageTagMutability = imageTagMutability
+        self.imageTagMutabilityExclusionFilters = imageTagMutabilityExclusionFilters
         self.lifecyclePolicy = lifecyclePolicy
         self.`prefix` = `prefix`
         self.repositoryPolicy = repositoryPolicy
@@ -4664,6 +4806,8 @@ public struct ValidatePullThroughCacheRuleInput: Swift.Sendable {
 public struct ValidatePullThroughCacheRuleOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
     public var credentialArn: Swift.String?
+    /// The ARN of the IAM role associated with the pull through cache rule.
+    public var customRoleArn: Swift.String?
     /// The Amazon ECR repository prefix associated with the pull through cache rule.
     public var ecrRepositoryPrefix: Swift.String?
     /// The reason the validation failed. For more details about possible causes and how to address them, see [Using pull through cache rules](https://docs.aws.amazon.com/AmazonECR/latest/userguide/pull-through-cache.html) in the Amazon Elastic Container Registry User Guide.
@@ -4674,21 +4818,27 @@ public struct ValidatePullThroughCacheRuleOutput: Swift.Sendable {
     public var registryId: Swift.String?
     /// The upstream registry URL associated with the pull through cache rule.
     public var upstreamRegistryUrl: Swift.String?
+    /// The upstream repository prefix associated with the pull through cache rule.
+    public var upstreamRepositoryPrefix: Swift.String?
 
     public init(
         credentialArn: Swift.String? = nil,
+        customRoleArn: Swift.String? = nil,
         ecrRepositoryPrefix: Swift.String? = nil,
         failure: Swift.String? = nil,
         isValid: Swift.Bool = false,
         registryId: Swift.String? = nil,
-        upstreamRegistryUrl: Swift.String? = nil
+        upstreamRegistryUrl: Swift.String? = nil,
+        upstreamRepositoryPrefix: Swift.String? = nil
     ) {
         self.credentialArn = credentialArn
+        self.customRoleArn = customRoleArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.failure = failure
         self.isValid = isValid
         self.registryId = registryId
         self.upstreamRegistryUrl = upstreamRegistryUrl
+        self.upstreamRepositoryPrefix = upstreamRepositoryPrefix
     }
 }
 
@@ -5090,10 +5240,12 @@ extension CreatePullThroughCacheRuleInput {
     static func write(value: CreatePullThroughCacheRuleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["credentialArn"].write(value.credentialArn)
+        try writer["customRoleArn"].write(value.customRoleArn)
         try writer["ecrRepositoryPrefix"].write(value.ecrRepositoryPrefix)
         try writer["registryId"].write(value.registryId)
         try writer["upstreamRegistry"].write(value.upstreamRegistry)
         try writer["upstreamRegistryUrl"].write(value.upstreamRegistryUrl)
+        try writer["upstreamRepositoryPrefix"].write(value.upstreamRepositoryPrefix)
     }
 }
 
@@ -5104,6 +5256,7 @@ extension CreateRepositoryInput {
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: ECRClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["imageScanningConfiguration"].write(value.imageScanningConfiguration, with: ECRClientTypes.ImageScanningConfiguration.write(value:to:))
         try writer["imageTagMutability"].write(value.imageTagMutability)
+        try writer["imageTagMutabilityExclusionFilters"].writeList(value.imageTagMutabilityExclusionFilters, memberWritingClosure: ECRClientTypes.ImageTagMutabilityExclusionFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["registryId"].write(value.registryId)
         try writer["repositoryName"].write(value.repositoryName)
         try writer["tags"].writeList(value.tags, memberWritingClosure: ECRClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -5119,6 +5272,7 @@ extension CreateRepositoryCreationTemplateInput {
         try writer["description"].write(value.description)
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate.write(value:to:))
         try writer["imageTagMutability"].write(value.imageTagMutability)
+        try writer["imageTagMutabilityExclusionFilters"].writeList(value.imageTagMutabilityExclusionFilters, memberWritingClosure: ECRClientTypes.ImageTagMutabilityExclusionFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["lifecyclePolicy"].write(value.lifecyclePolicy)
         try writer["prefix"].write(value.`prefix`)
         try writer["repositoryPolicy"].write(value.repositoryPolicy)
@@ -5393,6 +5547,7 @@ extension PutImageTagMutabilityInput {
     static func write(value: PutImageTagMutabilityInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["imageTagMutability"].write(value.imageTagMutability)
+        try writer["imageTagMutabilityExclusionFilters"].writeList(value.imageTagMutabilityExclusionFilters, memberWritingClosure: ECRClientTypes.ImageTagMutabilityExclusionFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["registryId"].write(value.registryId)
         try writer["repositoryName"].write(value.repositoryName)
     }
@@ -5487,6 +5642,7 @@ extension UpdatePullThroughCacheRuleInput {
     static func write(value: UpdatePullThroughCacheRuleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["credentialArn"].write(value.credentialArn)
+        try writer["customRoleArn"].write(value.customRoleArn)
         try writer["ecrRepositoryPrefix"].write(value.ecrRepositoryPrefix)
         try writer["registryId"].write(value.registryId)
     }
@@ -5501,6 +5657,7 @@ extension UpdateRepositoryCreationTemplateInput {
         try writer["description"].write(value.description)
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate.write(value:to:))
         try writer["imageTagMutability"].write(value.imageTagMutability)
+        try writer["imageTagMutabilityExclusionFilters"].writeList(value.imageTagMutabilityExclusionFilters, memberWritingClosure: ECRClientTypes.ImageTagMutabilityExclusionFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["lifecyclePolicy"].write(value.lifecyclePolicy)
         try writer["prefix"].write(value.`prefix`)
         try writer["repositoryPolicy"].write(value.repositoryPolicy)
@@ -5606,10 +5763,12 @@ extension CreatePullThroughCacheRuleOutput {
         var value = CreatePullThroughCacheRuleOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.credentialArn = try reader["credentialArn"].readIfPresent()
+        value.customRoleArn = try reader["customRoleArn"].readIfPresent()
         value.ecrRepositoryPrefix = try reader["ecrRepositoryPrefix"].readIfPresent()
         value.registryId = try reader["registryId"].readIfPresent()
         value.upstreamRegistry = try reader["upstreamRegistry"].readIfPresent()
         value.upstreamRegistryUrl = try reader["upstreamRegistryUrl"].readIfPresent()
+        value.upstreamRepositoryPrefix = try reader["upstreamRepositoryPrefix"].readIfPresent()
         return value
     }
 }
@@ -5663,9 +5822,11 @@ extension DeletePullThroughCacheRuleOutput {
         var value = DeletePullThroughCacheRuleOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.credentialArn = try reader["credentialArn"].readIfPresent()
+        value.customRoleArn = try reader["customRoleArn"].readIfPresent()
         value.ecrRepositoryPrefix = try reader["ecrRepositoryPrefix"].readIfPresent()
         value.registryId = try reader["registryId"].readIfPresent()
         value.upstreamRegistryUrl = try reader["upstreamRegistryUrl"].readIfPresent()
+        value.upstreamRepositoryPrefix = try reader["upstreamRepositoryPrefix"].readIfPresent()
         return value
     }
 }
@@ -6015,6 +6176,7 @@ extension PutImageTagMutabilityOutput {
         let reader = responseReader
         var value = PutImageTagMutabilityOutput()
         value.imageTagMutability = try reader["imageTagMutability"].readIfPresent()
+        value.imageTagMutabilityExclusionFilters = try reader["imageTagMutabilityExclusionFilters"].readListIfPresent(memberReadingClosure: ECRClientTypes.ImageTagMutabilityExclusionFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.registryId = try reader["registryId"].readIfPresent()
         value.repositoryName = try reader["repositoryName"].readIfPresent()
         return value
@@ -6138,9 +6300,11 @@ extension UpdatePullThroughCacheRuleOutput {
         let reader = responseReader
         var value = UpdatePullThroughCacheRuleOutput()
         value.credentialArn = try reader["credentialArn"].readIfPresent()
+        value.customRoleArn = try reader["customRoleArn"].readIfPresent()
         value.ecrRepositoryPrefix = try reader["ecrRepositoryPrefix"].readIfPresent()
         value.registryId = try reader["registryId"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.upstreamRepositoryPrefix = try reader["upstreamRepositoryPrefix"].readIfPresent()
         return value
     }
 }
@@ -6181,11 +6345,13 @@ extension ValidatePullThroughCacheRuleOutput {
         let reader = responseReader
         var value = ValidatePullThroughCacheRuleOutput()
         value.credentialArn = try reader["credentialArn"].readIfPresent()
+        value.customRoleArn = try reader["customRoleArn"].readIfPresent()
         value.ecrRepositoryPrefix = try reader["ecrRepositoryPrefix"].readIfPresent()
         value.failure = try reader["failure"].readIfPresent()
         value.isValid = try reader["isValid"].readIfPresent() ?? false
         value.registryId = try reader["registryId"].readIfPresent()
         value.upstreamRegistryUrl = try reader["upstreamRegistryUrl"].readIfPresent()
+        value.upstreamRepositoryPrefix = try reader["upstreamRepositoryPrefix"].readIfPresent()
         return value
     }
 }
@@ -7050,6 +7216,19 @@ enum ValidatePullThroughCacheRuleOutputError {
     }
 }
 
+extension InvalidParameterException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidParameterException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension RepositoryNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RepositoryNotFoundException {
@@ -7068,19 +7247,6 @@ extension ServerException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServerException {
         let reader = baseError.errorBodyReader
         var value = ServerException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidParameterException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidParameterException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7141,37 +7307,11 @@ extension EmptyUploadException {
     }
 }
 
-extension LayerPartTooSmallException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LayerPartTooSmallException {
-        let reader = baseError.errorBodyReader
-        var value = LayerPartTooSmallException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidLayerException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLayerException {
         let reader = baseError.errorBodyReader
         var value = InvalidLayerException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UploadNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UploadNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = UploadNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7207,11 +7347,11 @@ extension LayerAlreadyExistsException {
     }
 }
 
-extension PullThroughCacheRuleAlreadyExistsException {
+extension LayerPartTooSmallException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PullThroughCacheRuleAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LayerPartTooSmallException {
         let reader = baseError.errorBodyReader
-        var value = PullThroughCacheRuleAlreadyExistsException()
+        var value = LayerPartTooSmallException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7220,11 +7360,24 @@ extension PullThroughCacheRuleAlreadyExistsException {
     }
 }
 
-extension UnsupportedUpstreamRegistryException {
+extension UploadNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedUpstreamRegistryException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UploadNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedUpstreamRegistryException()
+        var value = UploadNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PullThroughCacheRuleAlreadyExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PullThroughCacheRuleAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = PullThroughCacheRuleAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7264,6 +7417,19 @@ extension UnableToDecryptSecretValueException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnableToDecryptSecretValueException {
         let reader = baseError.errorBodyReader
         var value = UnableToDecryptSecretValueException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnsupportedUpstreamRegistryException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedUpstreamRegistryException {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedUpstreamRegistryException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7428,19 +7594,6 @@ extension ScanNotFoundException {
     }
 }
 
-extension UnableToGetUpstreamLayerException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnableToGetUpstreamLayerException {
-        let reader = baseError.errorBodyReader
-        var value = UnableToGetUpstreamLayerException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension LayerInaccessibleException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LayerInaccessibleException {
@@ -7467,11 +7620,37 @@ extension LayersNotFoundException {
     }
 }
 
+extension UnableToGetUpstreamLayerException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnableToGetUpstreamLayerException {
+        let reader = baseError.errorBodyReader
+        var value = UnableToGetUpstreamLayerException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension LifecyclePolicyPreviewNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LifecyclePolicyPreviewNotFoundException {
         let reader = baseError.errorBodyReader
         var value = LifecyclePolicyPreviewNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ImageAlreadyExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ImageAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = ImageAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7493,19 +7672,6 @@ extension ImageDigestDoesNotMatchException {
     }
 }
 
-extension ReferencedImagesNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReferencedImagesNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ReferencedImagesNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ImageTagAlreadyExistsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ImageTagAlreadyExistsException {
@@ -7519,11 +7685,11 @@ extension ImageTagAlreadyExistsException {
     }
 }
 
-extension ImageAlreadyExistsException {
+extension ReferencedImagesNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ImageAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReferencedImagesNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ImageAlreadyExistsException()
+        var value = ReferencedImagesNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7697,6 +7863,7 @@ extension ECRClientTypes.Repository {
         value.repositoryUri = try reader["repositoryUri"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.imageTagMutability = try reader["imageTagMutability"].readIfPresent()
+        value.imageTagMutabilityExclusionFilters = try reader["imageTagMutabilityExclusionFilters"].readListIfPresent(memberReadingClosure: ECRClientTypes.ImageTagMutabilityExclusionFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.imageScanningConfiguration = try reader["imageScanningConfiguration"].readIfPresent(with: ECRClientTypes.ImageScanningConfiguration.read(from:))
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: ECRClientTypes.EncryptionConfiguration.read(from:))
         return value
@@ -7735,6 +7902,23 @@ extension ECRClientTypes.ImageScanningConfiguration {
     }
 }
 
+extension ECRClientTypes.ImageTagMutabilityExclusionFilter {
+
+    static func write(value: ECRClientTypes.ImageTagMutabilityExclusionFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filter"].write(value.filter)
+        try writer["filterType"].write(value.filterType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ImageTagMutabilityExclusionFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRClientTypes.ImageTagMutabilityExclusionFilter()
+        value.filterType = try reader["filterType"].readIfPresent() ?? .sdkUnknown("")
+        value.filter = try reader["filter"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ECRClientTypes.RepositoryCreationTemplate {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.RepositoryCreationTemplate {
@@ -7745,6 +7929,7 @@ extension ECRClientTypes.RepositoryCreationTemplate {
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate.read(from:))
         value.resourceTags = try reader["resourceTags"].readListIfPresent(memberReadingClosure: ECRClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.imageTagMutability = try reader["imageTagMutability"].readIfPresent()
+        value.imageTagMutabilityExclusionFilters = try reader["imageTagMutabilityExclusionFilters"].readListIfPresent(memberReadingClosure: ECRClientTypes.ImageTagMutabilityExclusionFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.repositoryPolicy = try reader["repositoryPolicy"].readIfPresent()
         value.lifecyclePolicy = try reader["lifecyclePolicy"].readIfPresent()
         value.appliedFor = try reader["appliedFor"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ECRClientTypes.RCTAppliedFor>().read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7954,6 +8139,8 @@ extension ECRClientTypes.AwsEcrContainerImageDetails {
         value.imageTags = try reader["imageTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.platform = try reader["platform"].readIfPresent()
         value.pushedAt = try reader["pushedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastInUseAt = try reader["lastInUseAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inUseCount = try reader["inUseCount"].readIfPresent()
         value.registry = try reader["registry"].readIfPresent()
         value.repositoryName = try reader["repositoryName"].readIfPresent()
         return value
@@ -8066,6 +8253,8 @@ extension ECRClientTypes.PullThroughCacheRule {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.registryId = try reader["registryId"].readIfPresent()
         value.credentialArn = try reader["credentialArn"].readIfPresent()
+        value.customRoleArn = try reader["customRoleArn"].readIfPresent()
+        value.upstreamRepositoryPrefix = try reader["upstreamRepositoryPrefix"].readIfPresent()
         value.upstreamRegistry = try reader["upstreamRegistry"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value

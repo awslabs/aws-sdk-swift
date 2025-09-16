@@ -259,7 +259,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
     /// Information about the target group stickiness for a rule.
     public struct TargetGroupStickinessConfig: Swift.Sendable {
-        /// The time period, in seconds, during which requests from a client should be routed to the same target group. The range is 1-604800 seconds (7 days).
+        /// The time period, in seconds, during which requests from a client should be routed to the same target group. The range is 1-604800 seconds (7 days). You must specify this value when enabling target group stickiness.
         public var durationSeconds: Swift.Int?
         /// Indicates whether target group stickiness is enabled.
         public var enabled: Swift.Bool?
@@ -1833,7 +1833,7 @@ public struct CreateListenerInput: Swift.Sendable {
     /// * None
     ///
     ///
-    /// For more information, see [ALPN policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies) in the Network Load Balancers Guide.
+    /// For more information, see [ALPN policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-listeners.html#alpn-policies) in the Network Load Balancers Guide.
     public var alpnPolicy: [Swift.String]?
     /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault.
     public var certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]?
@@ -1849,7 +1849,7 @@ public struct CreateListenerInput: Swift.Sendable {
     public var port: Swift.Int?
     /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t specify the UDP or TCP_UDP protocol if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
     public var `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
-    /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies) in the Application Load Balancers Guide and [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies) in the Network Load Balancers Guide.
+    /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/describe-ssl-policies.html) in the Application Load Balancers Guide and [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/describe-ssl-policies.html) in the Network Load Balancers Guide.
     public var sslPolicy: Swift.String?
     /// The tags to assign to the listener.
     public var tags: [ElasticLoadBalancingv2ClientTypes.Tag]?
@@ -2182,6 +2182,21 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
+    /// An IPAM pool is a collection of IP address CIDRs. IPAM pools enable you to organize your IP addresses according to your routing and security needs.
+    public struct IpamPools: Swift.Sendable {
+        /// The ID of the IPv4 IPAM pool.
+        public var ipv4IpamPoolId: Swift.String?
+
+        public init(
+            ipv4IpamPoolId: Swift.String? = nil
+        ) {
+            self.ipv4IpamPoolId = ipv4IpamPoolId
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
     public enum LoadBalancerSchemeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `internal`
         case internetFacing
@@ -2279,6 +2294,8 @@ public struct CreateLoadBalancerInput: Swift.Sendable {
     public var enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum?
     /// The IP address type. Internal load balancers must use ipv4. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses), dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (public IPv6 addresses and private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4 (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses).
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
+    /// [Application Load Balancers] The IPAM pools to use with the load balancer.
+    public var ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools?
     /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, must not begin or end with a hyphen, and must not begin with "internal-".
     /// This member is required.
     public var name: Swift.String?
@@ -2299,6 +2316,7 @@ public struct CreateLoadBalancerInput: Swift.Sendable {
         customerOwnedIpv4Pool: Swift.String? = nil,
         enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum? = nil,
         ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType? = nil,
+        ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools? = nil,
         name: Swift.String? = nil,
         scheme: ElasticLoadBalancingv2ClientTypes.LoadBalancerSchemeEnum? = nil,
         securityGroups: [Swift.String]? = nil,
@@ -2310,6 +2328,7 @@ public struct CreateLoadBalancerInput: Swift.Sendable {
         self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
         self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
         self.ipAddressType = ipAddressType
+        self.ipamPools = ipamPools
         self.name = name
         self.scheme = scheme
         self.securityGroups = securityGroups
@@ -2394,6 +2413,8 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: Swift.String?
         /// The type of IP addresses used for public or private connections by the subnets attached to your load balancer. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses), dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (public IPv6 addresses and private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4 (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses).
         public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
+        /// [Application Load Balancers] The IPAM pool in use by the load balancer, if configured.
+        public var ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public var loadBalancerArn: Swift.String?
         /// The name of the load balancer.
@@ -2418,6 +2439,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum? = nil,
             enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: Swift.String? = nil,
             ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType? = nil,
+            ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools? = nil,
             loadBalancerArn: Swift.String? = nil,
             loadBalancerName: Swift.String? = nil,
             scheme: ElasticLoadBalancingv2ClientTypes.LoadBalancerSchemeEnum? = nil,
@@ -2434,6 +2456,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
             self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
             self.ipAddressType = ipAddressType
+            self.ipamPools = ipamPools
             self.loadBalancerArn = loadBalancerArn
             self.loadBalancerName = loadBalancerName
             self.scheme = scheme
@@ -2529,7 +2552,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
     /// Information about a host header condition.
     public struct HostHeaderConditionConfig: Swift.Sendable {
-        /// The host names. The maximum size of each name is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
+        /// The host names. The maximum size of each name is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). You must include at least one "." character. You can include only alphabetical characters after the final "." character. If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
         public var values: [Swift.String]?
 
         public init(
@@ -2544,7 +2567,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
     /// Information about an HTTP header condition. There is a set of standard HTTP header fields. You can also define custom HTTP header fields.
     public struct HttpHeaderConditionConfig: Swift.Sendable {
-        /// The name of the HTTP header field. The maximum size is 40 characters. The header name is case insensitive. The allowed characters are specified by RFC 7230. Wildcards are not supported. You can't use an HTTP header condition to specify the host header. Use [HostHeaderConditionConfig] to specify a host header condition.
+        /// The name of the HTTP header field. The maximum size is 40 characters. The header name is case insensitive. The allowed characters are specified by RFC 7230. Wildcards are not supported. You can't use an HTTP header condition to specify the host header. Instead, use a [host condition](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#host-conditions).
         public var httpHeaderName: Swift.String?
         /// The strings to compare against the value of the HTTP header. The maximum size of each string is 128 characters. The comparison strings are case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request, we search them in order until a match is found. If you specify multiple strings, the condition is satisfied if one of the strings matches the value of the HTTP header. To require that all of the strings are a match, create one condition per string.
         public var values: [Swift.String]?
@@ -2578,7 +2601,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
     /// Information about a path pattern condition.
     public struct PathPatternConditionConfig: Swift.Sendable {
-        /// The path patterns to compare against the request URL. The maximum size of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use [QueryStringConditionConfig].
+        /// The path patterns to compare against the request URL. The maximum size of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use a [query string condition](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#query-string-conditions).
         public var values: [Swift.String]?
 
         public init(
@@ -2627,7 +2650,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
     /// Information about a source IP condition. You can use this condition to route based on the IP address of the source that connects to the load balancer. If a client is behind a proxy, this is the IP address of the proxy not the IP address of the client.
     public struct SourceIpConditionConfig: Swift.Sendable {
-        /// The source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use [HttpHeaderConditionConfig]. The total number of values must be less than, or equal to five.
+        /// The source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use an [HTTP header condition](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#http-header-conditions). The total number of values must be less than, or equal to five.
         public var values: [Swift.String]?
 
         public init(
@@ -3591,9 +3614,9 @@ public struct DescribeCapacityReservationInput: Swift.Sendable {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    /// The capacity reservation status for each availability zone.
+    /// The capacity reservation status for each Availability Zone.
     public struct ZonalCapacityReservationState: Swift.Sendable {
-        /// Information about the availability zone.
+        /// Information about the Availability Zone.
         public var availabilityZone: Swift.String?
         /// The number of effective capacity units.
         public var effectiveCapacityUnits: Swift.Double?
@@ -3885,6 +3908,8 @@ extension ElasticLoadBalancingv2ClientTypes {
         /// The following attributes are supported by only Network Load Balancers:
         ///
         /// * dns_record.client_routing_policy - Indicates how traffic is distributed among the load balancer Availability Zones. The possible values are availability_zone_affinity with 100 percent zonal affinity, partial_availability_zone_affinity with 85 percent zonal affinity, and any_availability_zone with 0 percent zonal affinity.
+        ///
+        /// * secondary_ips.auto_assigned.per_subnet - The number of secondary IP addresses to configure for your load balancer nodes. Use to address port allocation errors if you can't add targets. The valid range is 0 to 7. The default is 0. After you set this value, you can't decrease it.
         public var key: Swift.String?
         /// The value of the attribute.
         public var value: Swift.String?
@@ -4131,7 +4156,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// * load_balancing.cross_zone.enabled - Indicates whether cross zone load balancing is enabled. The value is true, false or use_load_balancer_configuration. The default is use_load_balancer_configuration.
         ///
-        /// * target_group_health.dns_failover.minimum_healthy_targets.count - The minimum number of targets that must be healthy. If the number of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to the maximum number of targets. The default is off.
+        /// * target_group_health.dns_failover.minimum_healthy_targets.count - The minimum number of targets that must be healthy. If the number of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to the maximum number of targets. The default is 1.
         ///
         /// * target_group_health.dns_failover.minimum_healthy_targets.percentage - The minimum percentage of targets that must be healthy. If the percentage of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to 100. The default is off.
         ///
@@ -4168,7 +4193,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// * proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.
         ///
-        /// * target_health_state.unhealthy.connection_termination.enabled - Indicates whether the load balancer terminates connections to unhealthy targets. The value is true or false. The default is true.
+        /// * target_health_state.unhealthy.connection_termination.enabled - Indicates whether the load balancer terminates connections to unhealthy targets. The value is true or false. The default is true. This attribute can't be enabled for UDP and TCP_UDP target groups.
         ///
         /// * target_health_state.unhealthy.draining_interval_seconds - The amount of time for Elastic Load Balancing to wait before changing the state of an unhealthy target from unhealthy.draining to unhealthy. The range is 0-360000 seconds. The default value is 0 seconds. Note: This attribute can only be configured when target_health_state.unhealthy.connection_termination.enabled is false.
         ///
@@ -4886,6 +4911,63 @@ public struct ModifyCapacityReservationOutput: Swift.Sendable {
     }
 }
 
+extension ElasticLoadBalancingv2ClientTypes {
+
+    public enum RemoveIpamPoolEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RemoveIpamPoolEnum] {
+            return [
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "ipv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ModifyIpPoolsInput: Swift.Sendable {
+    /// The IPAM pools to be modified.
+    public var ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools?
+    /// The Amazon Resource Name (ARN) of the load balancer.
+    /// This member is required.
+    public var loadBalancerArn: Swift.String?
+    /// Remove the IP pools in use by the load balancer.
+    public var removeIpamPools: [ElasticLoadBalancingv2ClientTypes.RemoveIpamPoolEnum]?
+
+    public init(
+        ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools? = nil,
+        loadBalancerArn: Swift.String? = nil,
+        removeIpamPools: [ElasticLoadBalancingv2ClientTypes.RemoveIpamPoolEnum]? = nil
+    ) {
+        self.ipamPools = ipamPools
+        self.loadBalancerArn = loadBalancerArn
+        self.removeIpamPools = removeIpamPools
+    }
+}
+
+public struct ModifyIpPoolsOutput: Swift.Sendable {
+    /// The IPAM pool ID.
+    public var ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools?
+
+    public init(
+        ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools? = nil
+    ) {
+        self.ipamPools = ipamPools
+    }
+}
+
 public struct ModifyListenerInput: Swift.Sendable {
     /// [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:
     ///
@@ -4900,7 +4982,7 @@ public struct ModifyListenerInput: Swift.Sendable {
     /// * None
     ///
     ///
-    /// For more information, see [ALPN policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies) in the Network Load Balancers Guide.
+    /// For more information, see [ALPN policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-listeners.html#alpn-policies) in the Network Load Balancers Guide.
     public var alpnPolicy: [Swift.String]?
     /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault.
     public var certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]?
@@ -4915,7 +4997,7 @@ public struct ModifyListenerInput: Swift.Sendable {
     public var port: Swift.Int?
     /// The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
     public var `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
-    /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies) in the Application Load Balancers Guide or [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies) in the Network Load Balancers Guide.
+    /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/describe-ssl-policies.html) in the Application Load Balancers Guide or [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/describe-ssl-policies.html) in the Network Load Balancers Guide.
     public var sslPolicy: Swift.String?
 
     public init(
@@ -5676,6 +5758,13 @@ extension ModifyCapacityReservationInput {
     }
 }
 
+extension ModifyIpPoolsInput {
+
+    static func urlPathProvider(_ value: ModifyIpPoolsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ModifyListenerInput {
 
     static func urlPathProvider(_ value: ModifyListenerInput) -> Swift.String? {
@@ -5839,6 +5928,7 @@ extension CreateLoadBalancerInput {
         try writer["CustomerOwnedIpv4Pool"].write(value.customerOwnedIpv4Pool)
         try writer["EnablePrefixForIpv6SourceNat"].write(value.enablePrefixForIpv6SourceNat)
         try writer["IpAddressType"].write(value.ipAddressType)
+        try writer["IpamPools"].write(value.ipamPools, with: ElasticLoadBalancingv2ClientTypes.IpamPools.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["Scheme"].write(value.scheme)
         try writer["SecurityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6205,6 +6295,18 @@ extension ModifyCapacityReservationInput {
         try writer["MinimumLoadBalancerCapacity"].write(value.minimumLoadBalancerCapacity, with: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity.write(value:to:))
         try writer["ResetCapacityReservation"].write(value.resetCapacityReservation)
         try writer["Action"].write("ModifyCapacityReservation")
+        try writer["Version"].write("2015-12-01")
+    }
+}
+
+extension ModifyIpPoolsInput {
+
+    static func write(value: ModifyIpPoolsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["IpamPools"].write(value.ipamPools, with: ElasticLoadBalancingv2ClientTypes.IpamPools.write(value:to:))
+        try writer["LoadBalancerArn"].write(value.loadBalancerArn)
+        try writer["RemoveIpamPools"].writeList(value.removeIpamPools, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ElasticLoadBalancingv2ClientTypes.RemoveIpamPoolEnum>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Action"].write("ModifyIpPools")
         try writer["Version"].write("2015-12-01")
     }
 }
@@ -6786,6 +6888,18 @@ extension ModifyCapacityReservationOutput {
         value.decreaseRequestsRemaining = try reader["DecreaseRequestsRemaining"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.minimumLoadBalancerCapacity = try reader["MinimumLoadBalancerCapacity"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity.read(from:))
+        return value
+    }
+}
+
+extension ModifyIpPoolsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyIpPoolsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["ModifyIpPoolsResult"]
+        var value = ModifyIpPoolsOutput()
+        value.ipamPools = try reader["IpamPools"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.IpamPools.read(from:))
         return value
     }
 }
@@ -7534,6 +7648,20 @@ enum ModifyCapacityReservationOutputError {
     }
 }
 
+enum ModifyIpPoolsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "LoadBalancerNotFound": return try LoadBalancerNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ModifyListenerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7800,11 +7928,11 @@ enum SetSubnetsOutputError {
     }
 }
 
-extension ListenerNotFoundException {
+extension CertificateNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ListenerNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CertificateNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ListenerNotFoundException()
+        var value = CertificateNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7813,11 +7941,11 @@ extension ListenerNotFoundException {
     }
 }
 
-extension CertificateNotFoundException {
+extension ListenerNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CertificateNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ListenerNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = CertificateNotFoundException()
+        var value = ListenerNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7839,19 +7967,6 @@ extension TooManyCertificatesException {
     }
 }
 
-extension RuleNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RuleNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = RuleNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DuplicateTagKeysException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateTagKeysException {
@@ -7865,11 +7980,11 @@ extension DuplicateTagKeysException {
     }
 }
 
-extension TargetGroupNotFoundException {
+extension LoadBalancerNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TargetGroupNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> LoadBalancerNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = TargetGroupNotFoundException()
+        var value = LoadBalancerNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7878,11 +7993,24 @@ extension TargetGroupNotFoundException {
     }
 }
 
-extension LoadBalancerNotFoundException {
+extension RuleNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> LoadBalancerNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RuleNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = LoadBalancerNotFoundException()
+        var value = RuleNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TargetGroupNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TargetGroupNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = TargetGroupNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7969,11 +8097,11 @@ extension ALPNPolicyNotSupportedException {
     }
 }
 
-extension TooManyRegistrationsForTargetIdException {
+extension DuplicateListenerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyRegistrationsForTargetIdException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateListenerException {
         let reader = baseError.errorBodyReader
-        var value = TooManyRegistrationsForTargetIdException()
+        var value = DuplicateListenerException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7982,11 +8110,24 @@ extension TooManyRegistrationsForTargetIdException {
     }
 }
 
-extension TrustStoreNotReadyException {
+extension IncompatibleProtocolsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TrustStoreNotReadyException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IncompatibleProtocolsException {
         let reader = baseError.errorBodyReader
-        var value = TrustStoreNotReadyException()
+        var value = IncompatibleProtocolsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidConfigurationRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidConfigurationRequestException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidConfigurationRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8000,45 +8141,6 @@ extension InvalidLoadBalancerActionException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidLoadBalancerActionException {
         let reader = baseError.errorBodyReader
         var value = InvalidLoadBalancerActionException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyTargetsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTargetsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyTargetsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyActionsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyActionsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyActionsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DuplicateListenerException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateListenerException {
-        let reader = baseError.errorBodyReader
-        var value = DuplicateListenerException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8073,11 +8175,11 @@ extension TargetGroupAssociationLimitException {
     }
 }
 
-extension IncompatibleProtocolsException {
+extension TooManyActionsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IncompatibleProtocolsException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyActionsException {
         let reader = baseError.errorBodyReader
-        var value = IncompatibleProtocolsException()
+        var value = TooManyActionsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8086,11 +8188,37 @@ extension IncompatibleProtocolsException {
     }
 }
 
-extension UnsupportedProtocolException {
+extension TooManyListenersException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnsupportedProtocolException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyListenersException {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedProtocolException()
+        var value = TooManyListenersException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRegistrationsForTargetIdException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyRegistrationsForTargetIdException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRegistrationsForTargetIdException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyTargetsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTargetsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTargetsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8112,11 +8240,11 @@ extension TooManyUniqueTargetGroupsPerLoadBalancerException {
     }
 }
 
-extension InvalidConfigurationRequestException {
+extension TrustStoreNotReadyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidConfigurationRequestException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TrustStoreNotReadyException {
         let reader = baseError.errorBodyReader
-        var value = InvalidConfigurationRequestException()
+        var value = TrustStoreNotReadyException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8125,11 +8253,24 @@ extension InvalidConfigurationRequestException {
     }
 }
 
-extension TooManyListenersException {
+extension UnsupportedProtocolException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyListenersException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnsupportedProtocolException {
         let reader = baseError.errorBodyReader
-        var value = TooManyListenersException()
+        var value = UnsupportedProtocolException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AllocationIdNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AllocationIdNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = AllocationIdNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8164,71 +8305,6 @@ extension DuplicateLoadBalancerNameException {
     }
 }
 
-extension TooManyLoadBalancersException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyLoadBalancersException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyLoadBalancersException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidSubnetException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnetException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidSubnetException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceInUseException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceInUseException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AllocationIdNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AllocationIdNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = AllocationIdNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SubnetNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubnetNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = SubnetNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidSchemeException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSchemeException {
@@ -8255,6 +8331,19 @@ extension InvalidSecurityGroupException {
     }
 }
 
+extension InvalidSubnetException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnetException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidSubnetException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension OperationNotPermittedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationNotPermittedException {
@@ -8268,11 +8357,37 @@ extension OperationNotPermittedException {
     }
 }
 
-extension TooManyTargetGroupsException {
+extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTargetGroupsException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
-        var value = TooManyTargetGroupsException()
+        var value = ResourceInUseException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SubnetNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubnetNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = SubnetNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyLoadBalancersException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyLoadBalancersException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyLoadBalancersException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8307,6 +8422,19 @@ extension TooManyRulesException {
     }
 }
 
+extension TooManyTargetGroupsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTargetGroupsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTargetGroupsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DuplicateTargetGroupNameException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateTargetGroupNameException {
@@ -8320,11 +8448,11 @@ extension DuplicateTargetGroupNameException {
     }
 }
 
-extension InvalidCaCertificatesBundleException {
+extension CaCertificatesBundleNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCaCertificatesBundleException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CaCertificatesBundleNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InvalidCaCertificatesBundleException()
+        var value = CaCertificatesBundleNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8346,11 +8474,11 @@ extension DuplicateTrustStoreNameException {
     }
 }
 
-extension CaCertificatesBundleNotFoundException {
+extension InvalidCaCertificatesBundleException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CaCertificatesBundleNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCaCertificatesBundleException {
         let reader = baseError.errorBodyReader
-        var value = CaCertificatesBundleNotFoundException()
+        var value = InvalidCaCertificatesBundleException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8463,11 +8591,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension PriorRequestNotCompleteException {
+extension CapacityDecreaseRequestsLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PriorRequestNotCompleteException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CapacityDecreaseRequestsLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = PriorRequestNotCompleteException()
+        var value = CapacityDecreaseRequestsLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8489,19 +8617,6 @@ extension CapacityReservationPendingException {
     }
 }
 
-extension InsufficientCapacityException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientCapacityException {
-        let reader = baseError.errorBodyReader
-        var value = InsufficientCapacityException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension CapacityUnitsLimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CapacityUnitsLimitExceededException {
@@ -8515,11 +8630,24 @@ extension CapacityUnitsLimitExceededException {
     }
 }
 
-extension CapacityDecreaseRequestsLimitExceededException {
+extension InsufficientCapacityException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CapacityDecreaseRequestsLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientCapacityException {
         let reader = baseError.errorBodyReader
-        var value = CapacityDecreaseRequestsLimitExceededException()
+        var value = InsufficientCapacityException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PriorRequestNotCompleteException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PriorRequestNotCompleteException {
+        let reader = baseError.errorBodyReader
+        var value = PriorRequestNotCompleteException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8809,6 +8937,22 @@ extension ElasticLoadBalancingv2ClientTypes.LoadBalancer {
         value.customerOwnedIpv4Pool = try reader["CustomerOwnedIpv4Pool"].readIfPresent()
         value.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = try reader["EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"].readIfPresent()
         value.enablePrefixForIpv6SourceNat = try reader["EnablePrefixForIpv6SourceNat"].readIfPresent()
+        value.ipamPools = try reader["IpamPools"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.IpamPools.read(from:))
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.IpamPools {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.IpamPools?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Ipv4IpamPoolId"].write(value.ipv4IpamPoolId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.IpamPools {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.IpamPools()
+        value.ipv4IpamPoolId = try reader["Ipv4IpamPoolId"].readIfPresent()
         return value
     }
 }

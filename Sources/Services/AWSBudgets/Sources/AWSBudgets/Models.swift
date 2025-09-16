@@ -9,6 +9,7 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import class ClientRuntime.Indirect
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
@@ -26,6 +27,8 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You are not authorized to use this operation with the given parameters.
@@ -762,6 +765,30 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+/// We can’t locate the resource that you specified.
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The error message the exception carries.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// You've reached the limit on the number of tags you can associate with a resource.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -961,11 +988,393 @@ extension BudgetsClientTypes {
 
 extension BudgetsClientTypes {
 
+    public enum MatchOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case absent
+        case caseInsensitive
+        case caseSensitive
+        case contains
+        case endsWith
+        case equals
+        case greaterThanOrEqual
+        case startsWith
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MatchOption] {
+            return [
+                .absent,
+                .caseInsensitive,
+                .caseSensitive,
+                .contains,
+                .endsWith,
+                .equals,
+                .greaterThanOrEqual,
+                .startsWith
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .absent: return "ABSENT"
+            case .caseInsensitive: return "CASE_INSENSITIVE"
+            case .caseSensitive: return "CASE_SENSITIVE"
+            case .contains: return "CONTAINS"
+            case .endsWith: return "ENDS_WITH"
+            case .equals: return "EQUALS"
+            case .greaterThanOrEqual: return "GREATER_THAN_OR_EQUAL"
+            case .startsWith: return "STARTS_WITH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BudgetsClientTypes {
+
+    /// The cost category values used for filtering the costs.
+    public struct CostCategoryValues: Swift.Sendable {
+        /// The unique name of the cost category.
+        public var key: Swift.String?
+        /// The match options that you can use to filter your results.
+        public var matchOptions: [BudgetsClientTypes.MatchOption]?
+        /// The specific value of the cost category.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            matchOptions: [BudgetsClientTypes.MatchOption]? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.matchOptions = matchOptions
+            self.values = values
+        }
+    }
+}
+
+extension BudgetsClientTypes {
+
+    public enum Dimension: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case az
+        case billingEntity
+        case cacheEngine
+        case costCategoryName
+        case databaseEngine
+        case deploymentOption
+        case instanceType
+        case instanceTypeFamily
+        case invoicingEntity
+        case legalEntityName
+        case linkedAccount
+        case linkedAccountName
+        case operatingSystem
+        case operation
+        case paymentOption
+        case platform
+        case purchaseType
+        case recordType
+        case region
+        case reservationId
+        case reservationModified
+        case resourceId
+        case rightsizingType
+        case savingsPlansType
+        case savingsPlanArn
+        case scope
+        case service
+        case serviceCode
+        case subscriptionId
+        case tagKey
+        case tenancy
+        case usageType
+        case usageTypeGroup
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Dimension] {
+            return [
+                .az,
+                .billingEntity,
+                .cacheEngine,
+                .costCategoryName,
+                .databaseEngine,
+                .deploymentOption,
+                .instanceType,
+                .instanceTypeFamily,
+                .invoicingEntity,
+                .legalEntityName,
+                .linkedAccount,
+                .linkedAccountName,
+                .operatingSystem,
+                .operation,
+                .paymentOption,
+                .platform,
+                .purchaseType,
+                .recordType,
+                .region,
+                .reservationId,
+                .reservationModified,
+                .resourceId,
+                .rightsizingType,
+                .savingsPlansType,
+                .savingsPlanArn,
+                .scope,
+                .service,
+                .serviceCode,
+                .subscriptionId,
+                .tagKey,
+                .tenancy,
+                .usageType,
+                .usageTypeGroup
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .az: return "AZ"
+            case .billingEntity: return "BILLING_ENTITY"
+            case .cacheEngine: return "CACHE_ENGINE"
+            case .costCategoryName: return "COST_CATEGORY_NAME"
+            case .databaseEngine: return "DATABASE_ENGINE"
+            case .deploymentOption: return "DEPLOYMENT_OPTION"
+            case .instanceType: return "INSTANCE_TYPE"
+            case .instanceTypeFamily: return "INSTANCE_TYPE_FAMILY"
+            case .invoicingEntity: return "INVOICING_ENTITY"
+            case .legalEntityName: return "LEGAL_ENTITY_NAME"
+            case .linkedAccount: return "LINKED_ACCOUNT"
+            case .linkedAccountName: return "LINKED_ACCOUNT_NAME"
+            case .operatingSystem: return "OPERATING_SYSTEM"
+            case .operation: return "OPERATION"
+            case .paymentOption: return "PAYMENT_OPTION"
+            case .platform: return "PLATFORM"
+            case .purchaseType: return "PURCHASE_TYPE"
+            case .recordType: return "RECORD_TYPE"
+            case .region: return "REGION"
+            case .reservationId: return "RESERVATION_ID"
+            case .reservationModified: return "RESERVATION_MODIFIED"
+            case .resourceId: return "RESOURCE_ID"
+            case .rightsizingType: return "RIGHTSIZING_TYPE"
+            case .savingsPlansType: return "SAVINGS_PLANS_TYPE"
+            case .savingsPlanArn: return "SAVINGS_PLAN_ARN"
+            case .scope: return "SCOPE"
+            case .service: return "SERVICE"
+            case .serviceCode: return "SERVICE_CODE"
+            case .subscriptionId: return "SUBSCRIPTION_ID"
+            case .tagKey: return "TAG_KEY"
+            case .tenancy: return "TENANCY"
+            case .usageType: return "USAGE_TYPE"
+            case .usageTypeGroup: return "USAGE_TYPE_GROUP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BudgetsClientTypes {
+
+    /// Contains the specifications for the filters to use for your request.
+    public struct ExpressionDimensionValues: Swift.Sendable {
+        /// The name of the dimension that you want to filter on.
+        /// This member is required.
+        public var key: BudgetsClientTypes.Dimension?
+        /// The match options that you can use to filter your results. You can specify only one of these values in the array.
+        public var matchOptions: [BudgetsClientTypes.MatchOption]?
+        /// The metadata values you can specify to filter upon, so that the results all match at least one of the specified values.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            key: BudgetsClientTypes.Dimension? = nil,
+            matchOptions: [BudgetsClientTypes.MatchOption]? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.matchOptions = matchOptions
+            self.values = values
+        }
+    }
+}
+
+extension BudgetsClientTypes {
+
+    /// The values that are available for a tag.
+    public struct TagValues: Swift.Sendable {
+        /// The key for the tag.
+        public var key: Swift.String?
+        /// The match options that you can use to filter your results.
+        public var matchOptions: [BudgetsClientTypes.MatchOption]?
+        /// The specific value of the tag.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            matchOptions: [BudgetsClientTypes.MatchOption]? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.matchOptions = matchOptions
+            self.values = values
+        }
+    }
+}
+
+extension BudgetsClientTypes {
+
+    public enum HealthStatusValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case healthy
+        case unhealthy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HealthStatusValue] {
+            return [
+                .healthy,
+                .unhealthy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .healthy: return "HEALTHY"
+            case .unhealthy: return "UNHEALTHY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BudgetsClientTypes {
+
+    public enum HealthStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case billingViewNoAccess
+        case billingViewUnhealthy
+        case filterInvalid
+        case multiYearHistoricalDataDisabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HealthStatusReason] {
+            return [
+                .billingViewNoAccess,
+                .billingViewUnhealthy,
+                .filterInvalid,
+                .multiYearHistoricalDataDisabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .billingViewNoAccess: return "BILLING_VIEW_NO_ACCESS"
+            case .billingViewUnhealthy: return "BILLING_VIEW_UNHEALTHY"
+            case .filterInvalid: return "FILTER_INVALID"
+            case .multiYearHistoricalDataDisabled: return "MULTI_YEAR_HISTORICAL_DATA_DISABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BudgetsClientTypes {
+
+    /// Provides information about the current operational state of a billing view resource, including its ability to access and update based on its associated billing view.
+    public struct HealthStatus: Swift.Sendable {
+        /// A generic time stamp. In Java, it's transformed to a Date object.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The current status of the billing view resource.
+        public var status: BudgetsClientTypes.HealthStatusValue?
+        /// The reason for the current status.
+        ///
+        /// * BILLING_VIEW_NO_ACCESS: The billing view resource does not grant billing:GetBillingViewData permission to this account.
+        ///
+        /// * BILLING_VIEW_UNHEALTHY: The billing view associated with the budget is unhealthy.
+        ///
+        /// * FILTER_INVALID: The filter contains reference to an account you do not have access to.
+        ///
+        /// * MULTI_YEAR_HISTORICAL_DATA_DISABLED: The budget is not being updated. Enable multi-year historical data in your Cost Management preferences.
+        public var statusReason: BudgetsClientTypes.HealthStatusReason?
+
+        public init(
+            lastUpdatedTime: Foundation.Date? = nil,
+            status: BudgetsClientTypes.HealthStatusValue? = nil,
+            statusReason: BudgetsClientTypes.HealthStatusReason? = nil
+        ) {
+            self.lastUpdatedTime = lastUpdatedTime
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+}
+
+extension BudgetsClientTypes {
+
+    public enum Metric: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amortizedCost
+        case blendedCost
+        case hours
+        case netAmortizedCost
+        case netUnblendedCost
+        case normalizedUsageAmount
+        case unblendedCost
+        case usageQuantity
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Metric] {
+            return [
+                .amortizedCost,
+                .blendedCost,
+                .hours,
+                .netAmortizedCost,
+                .netUnblendedCost,
+                .normalizedUsageAmount,
+                .unblendedCost,
+                .usageQuantity
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amortizedCost: return "AmortizedCost"
+            case .blendedCost: return "BlendedCost"
+            case .hours: return "Hours"
+            case .netAmortizedCost: return "NetAmortizedCost"
+            case .netUnblendedCost: return "NetUnblendedCost"
+            case .normalizedUsageAmount: return "NormalizedUsageAmount"
+            case .unblendedCost: return "UnblendedCost"
+            case .usageQuantity: return "UsageQuantity"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BudgetsClientTypes {
+
     /// The period of time that's covered by a budget. The period has a start date and an end date. The start date must come before the end date. There are no restrictions on the end date.
     public struct TimePeriod: Swift.Sendable {
         /// The end date for a budget. If you didn't specify an end date, Amazon Web Services set your end date to 06/15/87 00:00 UTC. The defaults are the same for the Billing and Cost Management console and the API. After the end date, Amazon Web Services deletes the budget and all the associated notifications and subscribers. You can change your end date with the UpdateBudget operation.
         public var end: Foundation.Date?
-        /// The start date for a budget. If you created your budget and didn't specify a start date, Amazon Web Services defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, Amazon Web Services set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, Amazon Web Services set your start date to 01/01/18 00:00 UTC. The defaults are the same for the Billing and Cost Management console and the API. You can change your start date with the UpdateBudget operation.
+        /// The start date for a budget. If you created your budget and didn't specify a start date, Amazon Web Services defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, ANNUALLY, or CUSTOM). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, Amazon Web Services set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, Amazon Web Services set your start date to 01/01/18 00:00 UTC. The defaults are the same for the Billing and Cost Management console and the API. You can change your start date with the UpdateBudget operation.
         public var start: Foundation.Date?
 
         public init(
@@ -983,6 +1392,7 @@ extension BudgetsClientTypes {
     /// The time unit of the budget, such as MONTHLY or QUARTERLY.
     public enum TimeUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case annually
+        case custom
         case daily
         case monthly
         case quarterly
@@ -991,6 +1401,7 @@ extension BudgetsClientTypes {
         public static var allCases: [TimeUnit] {
             return [
                 .annually,
+                .custom,
                 .daily,
                 .monthly,
                 .quarterly
@@ -1005,79 +1416,12 @@ extension BudgetsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .annually: return "ANNUALLY"
+            case .custom: return "CUSTOM"
             case .daily: return "DAILY"
             case .monthly: return "MONTHLY"
             case .quarterly: return "QUARTERLY"
             case let .sdkUnknown(s): return s
             }
-        }
-    }
-}
-
-extension BudgetsClientTypes {
-
-    /// Represents the output of the CreateBudget operation. The content consists of the detailed metadata and data file information, and the current status of the budget object. This is the Amazon Resource Name (ARN) pattern for a budget: arn:aws:budgets::AccountId:budget/budgetName
-    public struct Budget: Swift.Sendable {
-        /// The parameters that determine the budget amount for an auto-adjusting budget.
-        public var autoAdjustData: BudgetsClientTypes.AutoAdjustData?
-        /// The total amount of cost, usage, RI utilization, RI coverage, Savings Plans utilization, or Savings Plans coverage that you want to track with your budget. BudgetLimit is required for cost or usage budgets, but optional for RI or Savings Plans utilization or coverage budgets. RI and Savings Plans utilization or coverage budgets default to 100. This is the only valid value for RI or Savings Plans utilization or coverage budgets. You can't use BudgetLimit with PlannedBudgetLimits for CreateBudget and UpdateBudget actions.
-        public var budgetLimit: BudgetsClientTypes.Spend?
-        /// The name of a budget. The name must be unique within an account. The : and \ characters, and the "/action/" substring, aren't allowed in BudgetName.
-        /// This member is required.
-        public var budgetName: Swift.String?
-        /// Specifies whether this budget tracks costs, usage, RI utilization, RI coverage, Savings Plans utilization, or Savings Plans coverage.
-        /// This member is required.
-        public var budgetType: BudgetsClientTypes.BudgetType?
-        /// The actual and forecasted cost or usage that the budget tracks.
-        public var calculatedSpend: BudgetsClientTypes.CalculatedSpend?
-        /// The cost filters, such as Region, Service, LinkedAccount, Tag, or CostCategory, that are applied to a budget. Amazon Web Services Budgets supports the following services as a Service filter for RI budgets:
-        ///
-        /// * Amazon EC2
-        ///
-        /// * Amazon Redshift
-        ///
-        /// * Amazon Relational Database Service
-        ///
-        /// * Amazon ElastiCache
-        ///
-        /// * Amazon OpenSearch Service
-        public var costFilters: [Swift.String: [Swift.String]]?
-        /// The types of costs that are included in this COST budget. USAGE, RI_UTILIZATION, RI_COVERAGE, SAVINGS_PLANS_UTILIZATION, and SAVINGS_PLANS_COVERAGE budgets do not have CostTypes.
-        public var costTypes: BudgetsClientTypes.CostTypes?
-        /// The last time that you updated this budget.
-        public var lastUpdatedTime: Foundation.Date?
-        /// A map containing multiple BudgetLimit, including current or future limits. PlannedBudgetLimits is available for cost or usage budget and supports both monthly and quarterly TimeUnit. For monthly budgets, provide 12 months of PlannedBudgetLimits values. This must start from the current month and include the next 11 months. The key is the start of the month, UTC in epoch seconds. For quarterly budgets, provide four quarters of PlannedBudgetLimits value entries in standard calendar quarter increments. This must start from the current quarter and include the next three quarters. The key is the start of the quarter, UTC in epoch seconds. If the planned budget expires before 12 months for monthly or four quarters for quarterly, provide the PlannedBudgetLimits values only for the remaining periods. If the budget begins at a date in the future, provide PlannedBudgetLimits values from the start date of the budget. After all of the BudgetLimit values in PlannedBudgetLimits are used, the budget continues to use the last limit as the BudgetLimit. At that point, the planned budget provides the same experience as a fixed budget. DescribeBudget and DescribeBudgets response along with PlannedBudgetLimits also contain BudgetLimit representing the current month or quarter limit present in PlannedBudgetLimits. This only applies to budgets that are created with PlannedBudgetLimits. Budgets that are created without PlannedBudgetLimits only contain BudgetLimit. They don't contain PlannedBudgetLimits.
-        public var plannedBudgetLimits: [Swift.String: BudgetsClientTypes.Spend]?
-        /// The period of time that's covered by a budget. You setthe start date and end date. The start date must come before the end date. The end date must come before 06/15/87 00:00 UTC. If you create your budget and don't specify a start date, Amazon Web Services defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, Amazon Web Services set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, Amazon Web Services set your start date to 01/01/18 00:00 UTC. If you didn't specify an end date, Amazon Web Services set your end date to 06/15/87 00:00 UTC. The defaults are the same for the Billing and Cost Management console and the API. You can change either date with the UpdateBudget operation. After the end date, Amazon Web Services deletes the budget and all the associated notifications and subscribers.
-        public var timePeriod: BudgetsClientTypes.TimePeriod?
-        /// The length of time until a budget resets the actual and forecasted spend.
-        /// This member is required.
-        public var timeUnit: BudgetsClientTypes.TimeUnit?
-
-        public init(
-            autoAdjustData: BudgetsClientTypes.AutoAdjustData? = nil,
-            budgetLimit: BudgetsClientTypes.Spend? = nil,
-            budgetName: Swift.String? = nil,
-            budgetType: BudgetsClientTypes.BudgetType? = nil,
-            calculatedSpend: BudgetsClientTypes.CalculatedSpend? = nil,
-            costFilters: [Swift.String: [Swift.String]]? = nil,
-            costTypes: BudgetsClientTypes.CostTypes? = nil,
-            lastUpdatedTime: Foundation.Date? = nil,
-            plannedBudgetLimits: [Swift.String: BudgetsClientTypes.Spend]? = nil,
-            timePeriod: BudgetsClientTypes.TimePeriod? = nil,
-            timeUnit: BudgetsClientTypes.TimeUnit? = nil
-        ) {
-            self.autoAdjustData = autoAdjustData
-            self.budgetLimit = budgetLimit
-            self.budgetName = budgetName
-            self.budgetType = budgetType
-            self.calculatedSpend = calculatedSpend
-            self.costFilters = costFilters
-            self.costTypes = costTypes
-            self.lastUpdatedTime = lastUpdatedTime
-            self.plannedBudgetLimits = plannedBudgetLimits
-            self.timePeriod = timePeriod
-            self.timeUnit = timeUnit
         }
     }
 }
@@ -1228,60 +1572,10 @@ extension BudgetsClientTypes {
     }
 }
 
-/// Request of CreateBudget
-public struct CreateBudgetInput: Swift.Sendable {
-    /// The accountId that is associated with the budget.
-    /// This member is required.
-    public var accountId: Swift.String?
-    /// The budget object that you want to create.
-    /// This member is required.
-    public var budget: BudgetsClientTypes.Budget?
-    /// A notification that you want to associate with a budget. A budget can have up to five notifications, and each notification can have one SNS subscriber and up to 10 email subscribers. If you include notifications and subscribers in your CreateBudget call, Amazon Web Services creates the notifications and subscribers for you.
-    public var notificationsWithSubscribers: [BudgetsClientTypes.NotificationWithSubscribers]?
-    /// An optional list of tags to associate with the specified budget. Each tag consists of a key and a value, and each key must be unique for the resource.
-    public var resourceTags: [BudgetsClientTypes.ResourceTag]?
-
-    public init(
-        accountId: Swift.String? = nil,
-        budget: BudgetsClientTypes.Budget? = nil,
-        notificationsWithSubscribers: [BudgetsClientTypes.NotificationWithSubscribers]? = nil,
-        resourceTags: [BudgetsClientTypes.ResourceTag]? = nil
-    ) {
-        self.accountId = accountId
-        self.budget = budget
-        self.notificationsWithSubscribers = notificationsWithSubscribers
-        self.resourceTags = resourceTags
-    }
-}
-
 /// Response of CreateBudget
 public struct CreateBudgetOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// We can’t locate the resource that you specified.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The error message the exception carries.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "NotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
 }
 
 public struct CreateBudgetActionInput: Swift.Sendable {
@@ -1593,25 +1887,17 @@ public struct DescribeBudgetInput: Swift.Sendable {
     /// The name of the budget that you want a description of.
     /// This member is required.
     public var budgetName: Swift.String?
+    /// Specifies whether the response includes the filter expression associated with the budget. By showing the filter expression, you can see detailed filtering logic applied to the budget, such as Amazon Web Services services or tags that are being tracked.
+    public var showFilterExpression: Swift.Bool?
 
     public init(
         accountId: Swift.String? = nil,
-        budgetName: Swift.String? = nil
+        budgetName: Swift.String? = nil,
+        showFilterExpression: Swift.Bool? = nil
     ) {
         self.accountId = accountId
         self.budgetName = budgetName
-    }
-}
-
-/// Response of DescribeBudget
-public struct DescribeBudgetOutput: Swift.Sendable {
-    /// The description of the budget.
-    public var budget: BudgetsClientTypes.Budget?
-
-    public init(
-        budget: BudgetsClientTypes.Budget? = nil
-    ) {
-        self.budget = budget
+        self.showFilterExpression = showFilterExpression
     }
 }
 
@@ -1944,6 +2230,8 @@ extension BudgetsClientTypes {
 
     /// A history of the state of a budget at the end of the budget's specified time period.
     public struct BudgetPerformanceHistory: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+        public var billingViewArn: Swift.String?
         /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
         public var budgetName: Swift.String?
         /// The type of a budget. It must be one of the following types: COST, USAGE, RI_UTILIZATION, RI_COVERAGE, SAVINGS_PLANS_UTILIZATION, or SAVINGS_PLANS_COVERAGE.
@@ -1958,6 +2246,7 @@ extension BudgetsClientTypes {
         public var timeUnit: BudgetsClientTypes.TimeUnit?
 
         public init(
+            billingViewArn: Swift.String? = nil,
             budgetName: Swift.String? = nil,
             budgetType: BudgetsClientTypes.BudgetType? = nil,
             budgetedAndActualAmountsList: [BudgetsClientTypes.BudgetedAndActualAmounts]? = nil,
@@ -1965,6 +2254,7 @@ extension BudgetsClientTypes {
             costTypes: BudgetsClientTypes.CostTypes? = nil,
             timeUnit: BudgetsClientTypes.TimeUnit? = nil
         ) {
+            self.billingViewArn = billingViewArn
             self.budgetName = budgetName
             self.budgetType = budgetType
             self.budgetedAndActualAmountsList = budgetedAndActualAmountsList
@@ -1999,31 +2289,19 @@ public struct DescribeBudgetsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
     public var nextToken: Swift.String?
+    /// Specifies whether the response includes the filter expression associated with the budgets. By showing the filter expression, you can see detailed filtering logic applied to the budgets, such as Amazon Web Services services or tags that are being tracked.
+    public var showFilterExpression: Swift.Bool?
 
     public init(
         accountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        showFilterExpression: Swift.Bool? = nil
     ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
-    }
-}
-
-/// Response of DescribeBudgets
-public struct DescribeBudgetsOutput: Swift.Sendable {
-    /// A list of budgets.
-    public var budgets: [BudgetsClientTypes.Budget]?
-    /// The pagination token in the service response that indicates the next set of results that you can retrieve.
-    public var nextToken: Swift.String?
-
-    public init(
-        budgets: [BudgetsClientTypes.Budget]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.budgets = budgets
-        self.nextToken = nextToken
+        self.showFilterExpression = showFilterExpression
     }
 }
 
@@ -2272,24 +2550,6 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
-/// Request of UpdateBudget
-public struct UpdateBudgetInput: Swift.Sendable {
-    /// The accountId that is associated with the budget that you want to update.
-    /// This member is required.
-    public var accountId: Swift.String?
-    /// The budget that you want to update your budget to.
-    /// This member is required.
-    public var newBudget: BudgetsClientTypes.Budget?
-
-    public init(
-        accountId: Swift.String? = nil,
-        newBudget: BudgetsClientTypes.Budget? = nil
-    ) {
-        self.accountId = accountId
-        self.newBudget = newBudget
-    }
-}
-
 /// Response of UpdateBudget
 public struct UpdateBudgetOutput: Swift.Sendable {
 
@@ -2440,6 +2700,199 @@ public struct UpdateSubscriberInput: Swift.Sendable {
 public struct UpdateSubscriberOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension BudgetsClientTypes {
+
+    /// Use Expression to filter in various Budgets APIs.
+    public struct Expression: Swift.Sendable {
+        /// Return results that match both Dimension objects.
+        public var and: [BudgetsClientTypes.Expression]?
+        /// The filter that's based on CostCategoryValues.
+        public var costCategories: BudgetsClientTypes.CostCategoryValues?
+        /// The specific Dimension to use for Expression.
+        public var dimensions: BudgetsClientTypes.ExpressionDimensionValues?
+        /// Return results that don't match a Dimension object.
+        @Indirect public var not: BudgetsClientTypes.Expression?
+        /// Return results that match either Dimension object.
+        public var or: [BudgetsClientTypes.Expression]?
+        /// The specific Tag to use for Expression.
+        public var tags: BudgetsClientTypes.TagValues?
+
+        public init(
+            and: [BudgetsClientTypes.Expression]? = nil,
+            costCategories: BudgetsClientTypes.CostCategoryValues? = nil,
+            dimensions: BudgetsClientTypes.ExpressionDimensionValues? = nil,
+            not: BudgetsClientTypes.Expression? = nil,
+            or: [BudgetsClientTypes.Expression]? = nil,
+            tags: BudgetsClientTypes.TagValues? = nil
+        ) {
+            self.and = and
+            self.costCategories = costCategories
+            self.dimensions = dimensions
+            self.not = not
+            self.or = or
+            self.tags = tags
+        }
+    }
+}
+
+extension BudgetsClientTypes {
+
+    /// Represents the output of the CreateBudget operation. The content consists of the detailed metadata and data file information, and the current status of the budget object. This is the Amazon Resource Name (ARN) pattern for a budget: arn:aws:budgets::AccountId:budget/budgetName
+    public struct Budget: Swift.Sendable {
+        /// The parameters that determine the budget amount for an auto-adjusting budget.
+        public var autoAdjustData: BudgetsClientTypes.AutoAdjustData?
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+        public var billingViewArn: Swift.String?
+        /// The total amount of cost, usage, RI utilization, RI coverage, Savings Plans utilization, or Savings Plans coverage that you want to track with your budget. BudgetLimit is required for cost or usage budgets, but optional for RI or Savings Plans utilization or coverage budgets. RI and Savings Plans utilization or coverage budgets default to 100. This is the only valid value for RI or Savings Plans utilization or coverage budgets. You can't use BudgetLimit with PlannedBudgetLimits for CreateBudget and UpdateBudget actions.
+        public var budgetLimit: BudgetsClientTypes.Spend?
+        /// The name of a budget. The name must be unique within an account. The : and \ characters, and the "/action/" substring, aren't allowed in BudgetName.
+        /// This member is required.
+        public var budgetName: Swift.String?
+        /// Specifies whether this budget tracks costs, usage, RI utilization, RI coverage, Savings Plans utilization, or Savings Plans coverage.
+        /// This member is required.
+        public var budgetType: BudgetsClientTypes.BudgetType?
+        /// The actual and forecasted cost or usage that the budget tracks.
+        public var calculatedSpend: BudgetsClientTypes.CalculatedSpend?
+        /// The cost filters, such as Region, Service, LinkedAccount, Tag, or CostCategory, that are applied to a budget. Amazon Web Services Budgets supports the following services as a Service filter for RI budgets:
+        ///
+        /// * Amazon EC2
+        ///
+        /// * Amazon Redshift
+        ///
+        /// * Amazon Relational Database Service
+        ///
+        /// * Amazon ElastiCache
+        ///
+        /// * Amazon OpenSearch Service
+        @available(*, deprecated, message: "CostFilters lack support for newer dimensions and filtering options. Please consider using the new 'FilterExpression' field. API deprecated since 2025-04-18")
+        public var costFilters: [Swift.String: [Swift.String]]?
+        /// The types of costs that are included in this COST budget. USAGE, RI_UTILIZATION, RI_COVERAGE, SAVINGS_PLANS_UTILIZATION, and SAVINGS_PLANS_COVERAGE budgets do not have CostTypes.
+        @available(*, deprecated, message: "CostTypes lack support for newer record type dimensions and filtering options. Please consider using the new 'Metrics' field. API deprecated since 2025-04-18")
+        public var costTypes: BudgetsClientTypes.CostTypes?
+        /// The filtering dimensions for the budget and their corresponding values.
+        public var filterExpression: BudgetsClientTypes.Expression?
+        /// The current operational state of a Billing View derived resource.
+        public var healthStatus: BudgetsClientTypes.HealthStatus?
+        /// The last time that you updated this budget.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The definition for how the budget data is aggregated.
+        public var metrics: [BudgetsClientTypes.Metric]?
+        /// A map containing multiple BudgetLimit, including current or future limits. PlannedBudgetLimits is available for cost or usage budget and supports both monthly and quarterly TimeUnit. For monthly budgets, provide 12 months of PlannedBudgetLimits values. This must start from the current month and include the next 11 months. The key is the start of the month, UTC in epoch seconds. For quarterly budgets, provide four quarters of PlannedBudgetLimits value entries in standard calendar quarter increments. This must start from the current quarter and include the next three quarters. The key is the start of the quarter, UTC in epoch seconds. If the planned budget expires before 12 months for monthly or four quarters for quarterly, provide the PlannedBudgetLimits values only for the remaining periods. If the budget begins at a date in the future, provide PlannedBudgetLimits values from the start date of the budget. After all of the BudgetLimit values in PlannedBudgetLimits are used, the budget continues to use the last limit as the BudgetLimit. At that point, the planned budget provides the same experience as a fixed budget. DescribeBudget and DescribeBudgets response along with PlannedBudgetLimits also contain BudgetLimit representing the current month or quarter limit present in PlannedBudgetLimits. This only applies to budgets that are created with PlannedBudgetLimits. Budgets that are created without PlannedBudgetLimits only contain BudgetLimit. They don't contain PlannedBudgetLimits.
+        public var plannedBudgetLimits: [Swift.String: BudgetsClientTypes.Spend]?
+        /// The period of time that's covered by a budget. You set the start date and end date. The start date must come before the end date. The end date must come before 06/15/87 00:00 UTC. If you create your budget and don't specify a start date, Amazon Web Services defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, ANNUALLY, or CUSTOM). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, Amazon Web Services set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, Amazon Web Services set your start date to 01/01/18 00:00 UTC. If you didn't specify an end date, Amazon Web Services set your end date to 06/15/87 00:00 UTC. The defaults are the same for the Billing and Cost Management console and the API. You can change either date with the UpdateBudget operation. After the end date, Amazon Web Services deletes the budget and all the associated notifications and subscribers.
+        public var timePeriod: BudgetsClientTypes.TimePeriod?
+        /// The length of time until a budget resets the actual and forecasted spend.
+        /// This member is required.
+        public var timeUnit: BudgetsClientTypes.TimeUnit?
+
+        public init(
+            autoAdjustData: BudgetsClientTypes.AutoAdjustData? = nil,
+            billingViewArn: Swift.String? = nil,
+            budgetLimit: BudgetsClientTypes.Spend? = nil,
+            budgetName: Swift.String? = nil,
+            budgetType: BudgetsClientTypes.BudgetType? = nil,
+            calculatedSpend: BudgetsClientTypes.CalculatedSpend? = nil,
+            costFilters: [Swift.String: [Swift.String]]? = nil,
+            costTypes: BudgetsClientTypes.CostTypes? = nil,
+            filterExpression: BudgetsClientTypes.Expression? = nil,
+            healthStatus: BudgetsClientTypes.HealthStatus? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            metrics: [BudgetsClientTypes.Metric]? = nil,
+            plannedBudgetLimits: [Swift.String: BudgetsClientTypes.Spend]? = nil,
+            timePeriod: BudgetsClientTypes.TimePeriod? = nil,
+            timeUnit: BudgetsClientTypes.TimeUnit? = nil
+        ) {
+            self.autoAdjustData = autoAdjustData
+            self.billingViewArn = billingViewArn
+            self.budgetLimit = budgetLimit
+            self.budgetName = budgetName
+            self.budgetType = budgetType
+            self.calculatedSpend = calculatedSpend
+            self.costFilters = costFilters
+            self.costTypes = costTypes
+            self.filterExpression = filterExpression
+            self.healthStatus = healthStatus
+            self.lastUpdatedTime = lastUpdatedTime
+            self.metrics = metrics
+            self.plannedBudgetLimits = plannedBudgetLimits
+            self.timePeriod = timePeriod
+            self.timeUnit = timeUnit
+        }
+    }
+}
+
+/// Request of CreateBudget
+public struct CreateBudgetInput: Swift.Sendable {
+    /// The accountId that is associated with the budget.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The budget object that you want to create.
+    /// This member is required.
+    public var budget: BudgetsClientTypes.Budget?
+    /// A notification that you want to associate with a budget. A budget can have up to five notifications, and each notification can have one SNS subscriber and up to 10 email subscribers. If you include notifications and subscribers in your CreateBudget call, Amazon Web Services creates the notifications and subscribers for you.
+    public var notificationsWithSubscribers: [BudgetsClientTypes.NotificationWithSubscribers]?
+    /// An optional list of tags to associate with the specified budget. Each tag consists of a key and a value, and each key must be unique for the resource.
+    public var resourceTags: [BudgetsClientTypes.ResourceTag]?
+
+    public init(
+        accountId: Swift.String? = nil,
+        budget: BudgetsClientTypes.Budget? = nil,
+        notificationsWithSubscribers: [BudgetsClientTypes.NotificationWithSubscribers]? = nil,
+        resourceTags: [BudgetsClientTypes.ResourceTag]? = nil
+    ) {
+        self.accountId = accountId
+        self.budget = budget
+        self.notificationsWithSubscribers = notificationsWithSubscribers
+        self.resourceTags = resourceTags
+    }
+}
+
+/// Response of DescribeBudget
+public struct DescribeBudgetOutput: Swift.Sendable {
+    /// The description of the budget.
+    public var budget: BudgetsClientTypes.Budget?
+
+    public init(
+        budget: BudgetsClientTypes.Budget? = nil
+    ) {
+        self.budget = budget
+    }
+}
+
+/// Request of UpdateBudget
+public struct UpdateBudgetInput: Swift.Sendable {
+    /// The accountId that is associated with the budget that you want to update.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The budget that you want to update your budget to.
+    /// This member is required.
+    public var newBudget: BudgetsClientTypes.Budget?
+
+    public init(
+        accountId: Swift.String? = nil,
+        newBudget: BudgetsClientTypes.Budget? = nil
+    ) {
+        self.accountId = accountId
+        self.newBudget = newBudget
+    }
+}
+
+/// Response of DescribeBudgets
+public struct DescribeBudgetsOutput: Swift.Sendable {
+    /// A list of budgets.
+    public var budgets: [BudgetsClientTypes.Budget]?
+    /// The pagination token in the service response that indicates the next set of results that you can retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        budgets: [BudgetsClientTypes.Budget]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.budgets = budgets
+        self.nextToken = nextToken
+    }
 }
 
 extension CreateBudgetInput {
@@ -2720,6 +3173,7 @@ extension DescribeBudgetInput {
         guard let value else { return }
         try writer["AccountId"].write(value.accountId)
         try writer["BudgetName"].write(value.budgetName)
+        try writer["ShowFilterExpression"].write(value.showFilterExpression)
     }
 }
 
@@ -2796,6 +3250,7 @@ extension DescribeBudgetsInput {
         try writer["AccountId"].write(value.accountId)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+        try writer["ShowFilterExpression"].write(value.showFilterExpression)
     }
 }
 
@@ -3197,6 +3652,7 @@ enum CreateBudgetOutputError {
             case "DuplicateRecordException": return try DuplicateRecordException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3679,63 +4135,11 @@ enum UpdateSubscriberOutputError {
     }
 }
 
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidParameterException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidParameterException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalErrorException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalErrorException {
-        let reader = baseError.errorBodyReader
-        var value = InternalErrorException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3770,11 +4174,63 @@ extension DuplicateRecordException {
     }
 }
 
+extension InternalErrorException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalErrorException {
+        let reader = baseError.errorBodyReader
+        var value = InternalErrorException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidParameterException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidParameterException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension NotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3956,13 +4412,17 @@ extension BudgetsClientTypes.Budget {
     static func write(value: BudgetsClientTypes.Budget?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AutoAdjustData"].write(value.autoAdjustData, with: BudgetsClientTypes.AutoAdjustData.write(value:to:))
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["BudgetLimit"].write(value.budgetLimit, with: BudgetsClientTypes.Spend.write(value:to:))
         try writer["BudgetName"].write(value.budgetName)
         try writer["BudgetType"].write(value.budgetType)
         try writer["CalculatedSpend"].write(value.calculatedSpend, with: BudgetsClientTypes.CalculatedSpend.write(value:to:))
         try writer["CostFilters"].writeMap(value.costFilters, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["CostTypes"].write(value.costTypes, with: BudgetsClientTypes.CostTypes.write(value:to:))
+        try writer["FilterExpression"].write(value.filterExpression, with: BudgetsClientTypes.Expression.write(value:to:))
+        try writer["HealthStatus"].write(value.healthStatus, with: BudgetsClientTypes.HealthStatus.write(value:to:))
         try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Metrics"].writeList(value.metrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BudgetsClientTypes.Metric>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PlannedBudgetLimits"].writeMap(value.plannedBudgetLimits, valueWritingClosure: BudgetsClientTypes.Spend.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TimePeriod"].write(value.timePeriod, with: BudgetsClientTypes.TimePeriod.write(value:to:))
         try writer["TimeUnit"].write(value.timeUnit)
@@ -3982,6 +4442,111 @@ extension BudgetsClientTypes.Budget {
         value.budgetType = try reader["BudgetType"].readIfPresent() ?? .sdkUnknown("")
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.autoAdjustData = try reader["AutoAdjustData"].readIfPresent(with: BudgetsClientTypes.AutoAdjustData.read(from:))
+        value.filterExpression = try reader["FilterExpression"].readIfPresent(with: BudgetsClientTypes.Expression.read(from:))
+        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BudgetsClientTypes.Metric>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.billingViewArn = try reader["BillingViewArn"].readIfPresent()
+        value.healthStatus = try reader["HealthStatus"].readIfPresent(with: BudgetsClientTypes.HealthStatus.read(from:))
+        return value
+    }
+}
+
+extension BudgetsClientTypes.HealthStatus {
+
+    static func write(value: BudgetsClientTypes.HealthStatus?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Status"].write(value.status)
+        try writer["StatusReason"].write(value.statusReason)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BudgetsClientTypes.HealthStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BudgetsClientTypes.HealthStatus()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension BudgetsClientTypes.Expression {
+
+    static func write(value: BudgetsClientTypes.Expression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["And"].writeList(value.and, memberWritingClosure: BudgetsClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CostCategories"].write(value.costCategories, with: BudgetsClientTypes.CostCategoryValues.write(value:to:))
+        try writer["Dimensions"].write(value.dimensions, with: BudgetsClientTypes.ExpressionDimensionValues.write(value:to:))
+        try writer["Not"].write(value.not, with: BudgetsClientTypes.Expression.write(value:to:))
+        try writer["Or"].writeList(value.or, memberWritingClosure: BudgetsClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].write(value.tags, with: BudgetsClientTypes.TagValues.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BudgetsClientTypes.Expression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BudgetsClientTypes.Expression()
+        value.or = try reader["Or"].readListIfPresent(memberReadingClosure: BudgetsClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.and = try reader["And"].readListIfPresent(memberReadingClosure: BudgetsClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.not = try reader["Not"].readIfPresent(with: BudgetsClientTypes.Expression.read(from:))
+        value.dimensions = try reader["Dimensions"].readIfPresent(with: BudgetsClientTypes.ExpressionDimensionValues.read(from:))
+        value.tags = try reader["Tags"].readIfPresent(with: BudgetsClientTypes.TagValues.read(from:))
+        value.costCategories = try reader["CostCategories"].readIfPresent(with: BudgetsClientTypes.CostCategoryValues.read(from:))
+        return value
+    }
+}
+
+extension BudgetsClientTypes.CostCategoryValues {
+
+    static func write(value: BudgetsClientTypes.CostCategoryValues?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["MatchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BudgetsClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BudgetsClientTypes.CostCategoryValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BudgetsClientTypes.CostCategoryValues()
+        value.key = try reader["Key"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchOptions = try reader["MatchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BudgetsClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BudgetsClientTypes.TagValues {
+
+    static func write(value: BudgetsClientTypes.TagValues?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["MatchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BudgetsClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BudgetsClientTypes.TagValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BudgetsClientTypes.TagValues()
+        value.key = try reader["Key"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchOptions = try reader["MatchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BudgetsClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BudgetsClientTypes.ExpressionDimensionValues {
+
+    static func write(value: BudgetsClientTypes.ExpressionDimensionValues?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["MatchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BudgetsClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BudgetsClientTypes.ExpressionDimensionValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BudgetsClientTypes.ExpressionDimensionValues()
+        value.key = try reader["Key"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.matchOptions = try reader["MatchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BudgetsClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4176,6 +4741,7 @@ extension BudgetsClientTypes.BudgetPerformanceHistory {
         value.costFilters = try reader["CostFilters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.costTypes = try reader["CostTypes"].readIfPresent(with: BudgetsClientTypes.CostTypes.read(from:))
         value.timeUnit = try reader["TimeUnit"].readIfPresent()
+        value.billingViewArn = try reader["BillingViewArn"].readIfPresent()
         value.budgetedAndActualAmountsList = try reader["BudgetedAndActualAmountsList"].readListIfPresent(memberReadingClosure: BudgetsClientTypes.BudgetedAndActualAmounts.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }

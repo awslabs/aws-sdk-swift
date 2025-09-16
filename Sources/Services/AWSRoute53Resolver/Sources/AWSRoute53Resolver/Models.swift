@@ -548,12 +548,14 @@ extension Route53ResolverClientTypes {
 
     public enum ResolverEndpointDirection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case inbound
+        case inbounddelegation
         case outbound
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResolverEndpointDirection] {
             return [
                 .inbound,
+                .inbounddelegation,
                 .outbound
             ]
         }
@@ -566,6 +568,7 @@ extension Route53ResolverClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .inbound: return "INBOUND"
+            case .inbounddelegation: return "INBOUND_DELEGATION"
             case .outbound: return "OUTBOUND"
             case let .sdkUnknown(s): return s
             }
@@ -693,6 +696,8 @@ extension Route53ResolverClientTypes {
         /// * INBOUND: allows DNS queries to your VPC from your network
         ///
         /// * OUTBOUND: allows DNS queries from your VPC to your network
+        ///
+        /// * INBOUND_DELEGATION: Resolver delegates queries to Route 53 private hosted zones from your network.
         public var direction: Route53ResolverClientTypes.ResolverEndpointDirection?
         /// The ID of the VPC that you want to create the Resolver endpoint in.
         public var hostVPCId: Swift.String?
@@ -708,7 +713,7 @@ extension Route53ResolverClientTypes {
         public var outpostArn: Swift.String?
         /// The Amazon EC2 instance type.
         public var preferredInstanceType: Swift.String?
-        /// Protocols used for the endpoint. DoH-FIPS is applicable for inbound endpoints only. For an inbound endpoint you can apply the protocols as follows:
+        /// Protocols used for the endpoint. DoH-FIPS is applicable for a default inbound endpoints only. For an inbound endpoint you can apply the protocols as follows:
         ///
         /// * Do53 and DoH in combination.
         ///
@@ -723,7 +728,7 @@ extension Route53ResolverClientTypes {
         /// * None, which is treated as Do53.
         ///
         ///
-        /// For an outbound endpoint you can apply the protocols as follows:
+        /// For a delegation inbound endpoint you can use Do53 only. For an outbound endpoint you can apply the protocols as follows:
         ///
         /// * Do53 and DoH in combination.
         ///
@@ -2004,9 +2009,11 @@ public struct CreateResolverEndpointInput: Swift.Sendable {
     public var creatorRequestId: Swift.String?
     /// Specify the applicable value:
     ///
-    /// * INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network
+    /// * INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network.
     ///
-    /// * OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network
+    /// * OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network.
+    ///
+    /// * INBOUND_DELEGATION: Resolver delegates queries to Route 53 private hosted zones from your network.
     /// This member is required.
     public var direction: Route53ResolverClientTypes.ResolverEndpointDirection?
     /// The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC. Even though the minimum is 1, Route 53 requires that you create at least two.
@@ -2018,7 +2025,7 @@ public struct CreateResolverEndpointInput: Swift.Sendable {
     public var outpostArn: Swift.String?
     /// The instance type. If you specify this, you must also specify a value for the OutpostArn.
     public var preferredInstanceType: Swift.String?
-    /// The protocols you want to use for the endpoint. DoH-FIPS is applicable for inbound endpoints only. For an inbound endpoint you can apply the protocols as follows:
+    /// The protocols you want to use for the endpoint. DoH-FIPS is applicable for default inbound endpoints only. For a default inbound endpoint you can apply the protocols as follows:
     ///
     /// * Do53 and DoH in combination.
     ///
@@ -2033,7 +2040,7 @@ public struct CreateResolverEndpointInput: Swift.Sendable {
     /// * None, which is treated as Do53.
     ///
     ///
-    /// For an outbound endpoint you can apply the protocols as follows:
+    /// For a delegation inbound endpoint you can use Do53 only. For an outbound endpoint you can apply the protocols as follows:
     ///
     /// * Do53 and DoH in combination.
     ///
@@ -2231,6 +2238,7 @@ public struct CreateResolverQueryLogConfigOutput: Swift.Sendable {
 extension Route53ResolverClientTypes {
 
     public enum RuleTypeOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case delegate
         case forward
         case recursive
         case system
@@ -2238,6 +2246,7 @@ extension Route53ResolverClientTypes {
 
         public static var allCases: [RuleTypeOption] {
             return [
+                .delegate,
                 .forward,
                 .recursive,
                 .system
@@ -2251,6 +2260,7 @@ extension Route53ResolverClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .delegate: return "DELEGATE"
             case .forward: return "FORWARD"
             case .recursive: return "RECURSIVE"
             case .system: return "SYSTEM"
@@ -2295,13 +2305,15 @@ public struct CreateResolverRuleInput: Swift.Sendable {
     /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
     /// This member is required.
     public var creatorRequestId: Swift.String?
+    /// DNS queries with the delegation records that match this domain name are forwarded to the resolvers on your network.
+    public var delegationRecord: Swift.String?
     /// DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps. If a query matches multiple Resolver rules (example.com and www.example.com), outbound DNS queries are routed using the Resolver rule that contains the most specific domain name (www.example.com).
     public var domainName: Swift.String?
     /// A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console.
     public var name: Swift.String?
     /// The ID of the outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps.
     public var resolverEndpointId: Swift.String?
-    /// When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD. When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for a subdomain of that domain, specify SYSTEM. For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD for RuleType. To then have Resolver process queries for apex.example.com, you create a rule and specify SYSTEM for RuleType. Currently, only Resolver can create rules that have a value of RECURSIVE for RuleType.
+    /// When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD or DELEGATE. When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for a subdomain of that domain, specify SYSTEM. For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD for RuleType. To then have Resolver process queries for apex.example.com, you create a rule and specify SYSTEM for RuleType. Currently, only Resolver can create rules that have a value of RECURSIVE for RuleType.
     /// This member is required.
     public var ruleType: Route53ResolverClientTypes.RuleTypeOption?
     /// A list of the tag keys and values that you want to associate with the endpoint.
@@ -2311,6 +2323,7 @@ public struct CreateResolverRuleInput: Swift.Sendable {
 
     public init(
         creatorRequestId: Swift.String? = nil,
+        delegationRecord: Swift.String? = nil,
         domainName: Swift.String? = nil,
         name: Swift.String? = nil,
         resolverEndpointId: Swift.String? = nil,
@@ -2319,6 +2332,7 @@ public struct CreateResolverRuleInput: Swift.Sendable {
         targetIps: [Route53ResolverClientTypes.TargetAddress]? = nil
     ) {
         self.creatorRequestId = creatorRequestId
+        self.delegationRecord = delegationRecord
         self.domainName = domainName
         self.name = name
         self.resolverEndpointId = resolverEndpointId
@@ -2373,6 +2387,8 @@ extension Route53ResolverClientTypes {
         public var creationTime: Swift.String?
         /// A unique string that you specified when you created the Resolver rule. CreatorRequestId identifies the request and allows failed requests to be retried without the risk of running the operation twice.
         public var creatorRequestId: Swift.String?
+        /// DNS queries with delegation records that point to this domain name are forwarded to resolvers on your network.
+        public var delegationRecord: Swift.String?
         /// DNS queries for this domain name are forwarded to the IP addresses that are specified in TargetIps. If a query matches multiple Resolver rules (example.com and www.example.com), the query is routed using the Resolver rule that contains the most specific domain name (www.example.com).
         public var domainName: Swift.String?
         /// The ID that Resolver assigned to the Resolver rule when you created it.
@@ -2385,7 +2401,7 @@ extension Route53ResolverClientTypes {
         public var ownerId: Swift.String?
         /// The ID of the endpoint that the rule is associated with.
         public var resolverEndpointId: Swift.String?
-        /// When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD. When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for a subdomain of that domain, specify SYSTEM. For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD for RuleType. To then have Resolver process queries for apex.example.com, you create a rule and specify SYSTEM for RuleType. Currently, only Resolver can create rules that have a value of RECURSIVE for RuleType.
+        /// When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD or DELEGATE. If a query matches multiple Resolver rules (example.com and www.example.com), outbound DNS queries are routed using the Resolver rule that contains the most specific domain name (www.example.com). When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for a subdomain of that domain, specify SYSTEM. For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD for RuleType. To then have Resolver process queries for apex.example.com, you create a rule and specify SYSTEM for RuleType. Currently, only Resolver can create rules that have a value of RECURSIVE for RuleType.
         public var ruleType: Route53ResolverClientTypes.RuleTypeOption?
         /// Whether the rule is shared and, if so, whether the current account is sharing the rule with another account, or another account is sharing the rule with the current account.
         public var shareStatus: Route53ResolverClientTypes.ShareStatus?
@@ -2400,6 +2416,7 @@ extension Route53ResolverClientTypes {
             arn: Swift.String? = nil,
             creationTime: Swift.String? = nil,
             creatorRequestId: Swift.String? = nil,
+            delegationRecord: Swift.String? = nil,
             domainName: Swift.String? = nil,
             id: Swift.String? = nil,
             modificationTime: Swift.String? = nil,
@@ -2415,6 +2432,7 @@ extension Route53ResolverClientTypes {
             self.arn = arn
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
+            self.delegationRecord = delegationRecord
             self.domainName = domainName
             self.id = id
             self.modificationTime = modificationTime
@@ -3283,7 +3301,7 @@ extension Route53ResolverClientTypes {
         public var id: Swift.String?
         /// The owner account ID of the Amazon Virtual Private Cloud VPC.
         public var ownerId: Swift.String?
-        /// The ID of the Amazon Virtual Private Cloud VPC that you're configuring Resolver for.
+        /// The ID of the Amazon Virtual Private Cloud VPC or a Route 53 Profile that you're configuring Resolver for.
         public var resourceId: Swift.String?
 
         public init(
@@ -3719,6 +3737,7 @@ extension Route53ResolverClientTypes {
         case detaching
         case failedcreation
         case failedresourcegone
+        case isolated
         case remapattaching
         case remapdetaching
         case updatefailed
@@ -3735,6 +3754,7 @@ extension Route53ResolverClientTypes {
                 .detaching,
                 .failedcreation,
                 .failedresourcegone,
+                .isolated,
                 .remapattaching,
                 .remapdetaching,
                 .updatefailed,
@@ -3757,6 +3777,7 @@ extension Route53ResolverClientTypes {
             case .detaching: return "DETACHING"
             case .failedcreation: return "FAILED_CREATION"
             case .failedresourcegone: return "FAILED_RESOURCE_GONE"
+            case .isolated: return "ISOLATED"
             case .remapattaching: return "REMAP_ATTACHING"
             case .remapdetaching: return "REMAP_DETACHING"
             case .updatefailed: return "UPDATE_FAILED"
@@ -4998,7 +5019,7 @@ public struct UpdateResolverConfigInput: Swift.Sendable {
     /// Indicates whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. Disabling this option will also affect EC2-Classic instances using ClassicLink. For more information, see [ClassicLink](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html) in the Amazon EC2 guide. We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon EC2 guide and the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/). It can take some time for the status change to be completed.
     /// This member is required.
     public var autodefinedReverseFlag: Route53ResolverClientTypes.AutodefinedReverseFlag?
-    /// Resource ID of the Amazon VPC that you want to update the Resolver configuration for.
+    /// The ID of the Amazon Virtual Private Cloud VPC or a Route 53 Profile that you're configuring Resolver for.
     /// This member is required.
     public var resourceId: Swift.String?
 
@@ -5106,7 +5127,7 @@ extension Route53ResolverClientTypes {
 public struct UpdateResolverEndpointInput: Swift.Sendable {
     /// The name of the Resolver endpoint that you want to update.
     public var name: Swift.String?
-    /// The protocols you want to use for the endpoint. DoH-FIPS is applicable for inbound endpoints only. For an inbound endpoint you can apply the protocols as follows:
+    /// The protocols you want to use for the endpoint. DoH-FIPS is applicable for default inbound endpoints only. For a default inbound endpoint you can apply the protocols as follows:
     ///
     /// * Do53 and DoH in combination.
     ///
@@ -5121,7 +5142,7 @@ public struct UpdateResolverEndpointInput: Swift.Sendable {
     /// * None, which is treated as Do53.
     ///
     ///
-    /// For an outbound endpoint you can apply the protocols as follows:
+    /// For a delegation inbound endpoint you can use Do53 only. For an outbound endpoint you can apply the protocols as follows:
     ///
     /// * Do53 and DoH in combination.
     ///
@@ -5801,6 +5822,7 @@ extension CreateResolverRuleInput {
     static func write(value: CreateResolverRuleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CreatorRequestId"].write(value.creatorRequestId)
+        try writer["DelegationRecord"].write(value.delegationRecord)
         try writer["DomainName"].write(value.domainName)
         try writer["Name"].write(value.name)
         try writer["ResolverEndpointId"].write(value.resolverEndpointId)
@@ -8477,13 +8499,12 @@ extension ConflictException {
     }
 }
 
-extension LimitExceededException {
+extension InternalServiceErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = InternalServiceErrorException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8491,12 +8512,13 @@ extension LimitExceededException {
     }
 }
 
-extension ValidationException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8531,11 +8553,11 @@ extension ThrottlingException {
     }
 }
 
-extension InternalServiceErrorException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceErrorException()
+        var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8558,13 +8580,12 @@ extension InvalidParameterException {
     }
 }
 
-extension ResourceExistsException {
+extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
-        var value = ResourceExistsException()
+        var value = InvalidRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8572,12 +8593,13 @@ extension ResourceExistsException {
     }
 }
 
-extension InvalidRequestException {
+extension ResourceExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceExistsException {
         let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
+        var value = ResourceExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8879,6 +8901,7 @@ extension Route53ResolverClientTypes.ResolverRule {
         value.shareStatus = try reader["ShareStatus"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readIfPresent()
         value.modificationTime = try reader["ModificationTime"].readIfPresent()
+        value.delegationRecord = try reader["DelegationRecord"].readIfPresent()
         return value
     }
 }

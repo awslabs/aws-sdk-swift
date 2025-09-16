@@ -412,6 +412,8 @@ public struct ServiceAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime
         /// The CreatorRequestId that was used to create the service.
         public internal(set) var creatorRequestId: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
+        /// The ARN of the existing service.
+        public internal(set) var serviceArn: Swift.String? = nil
         /// The ID of the existing service.
         public internal(set) var serviceId: Swift.String? = nil
     }
@@ -428,10 +430,12 @@ public struct ServiceAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         creatorRequestId: Swift.String? = nil,
         message: Swift.String? = nil,
+        serviceArn: Swift.String? = nil,
         serviceId: Swift.String? = nil
     ) {
         self.properties.creatorRequestId = creatorRequestId
         self.properties.message = message
+        self.properties.serviceArn = serviceArn
         self.properties.serviceId = serviceId
     }
 }
@@ -746,7 +750,7 @@ public struct CreateServiceInput: Swift.Sendable {
     /// When you register an instance, Cloud Map creates an SRV record and assigns a name to the record by concatenating the service name and the namespace name (for example, _exampleservice._tcp.example.com). For services that are accessible by DNS queries, you can't create multiple services with names that differ only by case (such as EXAMPLE and example). Otherwise, these services have the same DNS name and can't be distinguished. However, if you use a namespace that's only accessible by API calls, then you can create services that with names that differ only by case.
     /// This member is required.
     public var name: Swift.String?
-    /// The ID of the namespace that you want to use to create the service. The namespace ID must be specified, but it can be specified either here or in the DnsConfig object.
+    /// The ID or Amazon Resource Name (ARN) of the namespace that you want to use to create the service. For namespaces shared with your Amazon Web Services account, specify the namespace ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
     public var namespaceId: Swift.String?
     /// The tags to add to the service. Each tag consists of a key and an optional value that you define. Tags keys can be up to 128 characters in length, and tag values can be up to 256 characters in length.
     public var tags: [ServiceDiscoveryClientTypes.Tag]?
@@ -816,6 +820,8 @@ extension ServiceDiscoveryClientTypes {
         public var arn: Swift.String?
         /// The date and time that the service was created, in Unix format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var createDate: Foundation.Date?
+        /// The ID of the Amazon Web Services account that created the service. If this isn't your account ID, it is the ID of account of the namespace owner or of another account with which the namespace has been shared. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
+        public var createdByAccount: Swift.String?
         /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string (for example, a date/timestamp).
         public var creatorRequestId: Swift.String?
         /// The description of the service.
@@ -834,12 +840,15 @@ extension ServiceDiscoveryClientTypes {
         public var name: Swift.String?
         /// The ID of the namespace that was used to create the service.
         public var namespaceId: Swift.String?
+        /// The ID of the Amazon Web Services account that created the namespace with which the service is associated. If this isn't your account ID, it is the ID of the account that shared the namespace with your account. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
+        public var resourceOwner: Swift.String?
         /// Describes the systems that can be used to discover the service instances. DNS_HTTP The service instances can be discovered using either DNS queries or the DiscoverInstances API operation. HTTP The service instances can only be discovered using the DiscoverInstances API operation. DNS Reserved.
         public var type: ServiceDiscoveryClientTypes.ServiceType?
 
         public init(
             arn: Swift.String? = nil,
             createDate: Foundation.Date? = nil,
+            createdByAccount: Swift.String? = nil,
             creatorRequestId: Swift.String? = nil,
             description: Swift.String? = nil,
             dnsConfig: ServiceDiscoveryClientTypes.DnsConfig? = nil,
@@ -849,10 +858,12 @@ extension ServiceDiscoveryClientTypes {
             instanceCount: Swift.Int? = nil,
             name: Swift.String? = nil,
             namespaceId: Swift.String? = nil,
+            resourceOwner: Swift.String? = nil,
             type: ServiceDiscoveryClientTypes.ServiceType? = nil
         ) {
             self.arn = arn
             self.createDate = createDate
+            self.createdByAccount = createdByAccount
             self.creatorRequestId = creatorRequestId
             self.description = description
             self.dnsConfig = dnsConfig
@@ -862,6 +873,7 @@ extension ServiceDiscoveryClientTypes {
             self.instanceCount = instanceCount
             self.name = name
             self.namespaceId = namespaceId
+            self.resourceOwner = resourceOwner
             self.type = type
         }
     }
@@ -954,7 +966,7 @@ public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 public struct DeleteNamespaceInput: Swift.Sendable {
-    /// The ID of the namespace that you want to delete.
+    /// The ID or Amazon Resource Name (ARN) of the namespace that you want to delete.
     /// This member is required.
     public var id: Swift.String?
 
@@ -1000,7 +1012,7 @@ public struct ServiceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 public struct DeleteServiceInput: Swift.Sendable {
-    /// The ID of the service that you want to delete.
+    /// The ID or Amazon Resource Name (ARN) of the service that you want to delete. If the namespace associated with the service is shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html).
     /// This member is required.
     public var id: Swift.String?
 
@@ -1020,7 +1032,7 @@ public struct DeleteServiceAttributesInput: Swift.Sendable {
     /// A list of keys corresponding to each attribute that you want to delete.
     /// This member is required.
     public var attributes: [Swift.String]?
-    /// The ID of the service from which the attributes will be deleted.
+    /// The ID or Amazon Resource Name (ARN) of the service from which the attributes will be deleted. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
     /// This member is required.
     public var serviceId: Swift.String?
 
@@ -1065,7 +1077,7 @@ public struct DeregisterInstanceInput: Swift.Sendable {
     /// The value that you specified for Id in the [RegisterInstance](https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html) request.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The ID of the service that the instance is associated with.
+    /// The ID or Amazon Resource Name (ARN) of the service that the instance is associated with. If the namespace associated with the service is shared with your account, specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
     /// This member is required.
     public var serviceId: Swift.String?
 
@@ -1152,11 +1164,13 @@ public struct DiscoverInstancesInput: Swift.Sendable {
     public var healthStatus: ServiceDiscoveryClientTypes.HealthStatusFilter?
     /// The maximum number of instances that you want Cloud Map to return in the response to a DiscoverInstances request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 instances.
     public var maxResults: Swift.Int?
-    /// The HttpName name of the namespace. It's found in the HttpProperties member of the Properties member of the namespace. In most cases, Name and HttpName match. However, if you reuse Name for namespace creation, a generated hash is added to HttpName to distinguish the two.
+    /// The HttpName name of the namespace. The HttpName is found in the HttpProperties member of the Properties member of the namespace. In most cases, Name and HttpName match. However, if you reuse Name for namespace creation, a generated hash is added to HttpName to distinguish the two.
     /// This member is required.
     public var namespaceName: Swift.String?
     /// Opportunistic filters to scope the results based on custom attributes. If there are instances that match both the filters specified in both the QueryParameters parameter and this parameter, all of these instances are returned. Otherwise, the filters are ignored, and only instances that match the filters that are specified in the QueryParameters parameter are returned.
     public var optionalParameters: [Swift.String: Swift.String]?
+    /// The ID of the Amazon Web Services account that owns the namespace associated with the instance, as specified in the namespace ResourceOwner field. For instances associated with namespaces that are shared with your account, you must specify an OwnerAccount.
+    public var ownerAccount: Swift.String?
     /// Filters to scope the results based on custom attributes for the instance (for example, {version=v1, az=1a}). Only instances that match all the specified key-value pairs are returned.
     public var queryParameters: [Swift.String: Swift.String]?
     /// The name of the service that you specified when you registered the instance.
@@ -1168,6 +1182,7 @@ public struct DiscoverInstancesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namespaceName: Swift.String? = nil,
         optionalParameters: [Swift.String: Swift.String]? = nil,
+        ownerAccount: Swift.String? = nil,
         queryParameters: [Swift.String: Swift.String]? = nil,
         serviceName: Swift.String? = nil
     ) {
@@ -1175,6 +1190,7 @@ public struct DiscoverInstancesInput: Swift.Sendable {
         self.maxResults = maxResults
         self.namespaceName = namespaceName
         self.optionalParameters = optionalParameters
+        self.ownerAccount = ownerAccount
         self.queryParameters = queryParameters
         self.serviceName = serviceName
     }
@@ -1259,18 +1275,22 @@ public struct DiscoverInstancesOutput: Swift.Sendable {
 }
 
 public struct DiscoverInstancesRevisionInput: Swift.Sendable {
-    /// The HttpName name of the namespace. It's found in the HttpProperties member of the Properties member of the namespace.
+    /// The HttpName name of the namespace. The HttpName is found in the HttpProperties member of the Properties member of the namespace.
     /// This member is required.
     public var namespaceName: Swift.String?
+    /// The ID of the Amazon Web Services account that owns the namespace associated with the instance, as specified in the namespace ResourceOwner field. For instances associated with namespaces that are shared with your account, you must specify an OwnerAccount. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
+    public var ownerAccount: Swift.String?
     /// The name of the service that you specified when you registered the instance.
     /// This member is required.
     public var serviceName: Swift.String?
 
     public init(
         namespaceName: Swift.String? = nil,
+        ownerAccount: Swift.String? = nil,
         serviceName: Swift.String? = nil
     ) {
         self.namespaceName = namespaceName
+        self.ownerAccount = ownerAccount
         self.serviceName = serviceName
     }
 }
@@ -1360,7 +1380,7 @@ public struct GetInstanceInput: Swift.Sendable {
     /// The ID of the instance that you want to get information about.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The ID of the service that the instance is associated with.
+    /// The ID or Amazon Resource Name (ARN) of the service that the instance is associated with. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
     /// This member is required.
     public var serviceId: Swift.String?
 
@@ -1399,6 +1419,8 @@ extension ServiceDiscoveryClientTypes {
         ///
         /// AWS_EC2_INSTANCE_ID HTTP namespaces only. The Amazon EC2 instance ID for the instance. The AWS_INSTANCE_IPV4 attribute contains the primary private IPv4 address. AWS_INIT_HEALTH_STATUS If the service configuration includes HealthCheckCustomConfig, you can optionally use AWS_INIT_HEALTH_STATUS to specify the initial status of the custom health check, HEALTHY or UNHEALTHY. If you don't specify a value for AWS_INIT_HEALTH_STATUS, the initial status is HEALTHY. AWS_INSTANCE_CNAME If the service configuration includes a CNAME record, the domain name that you want Route 53 to return in response to DNS queries (for example, example.com). This value is required if the service specified by ServiceId includes settings for an CNAME record. AWS_INSTANCE_IPV4 If the service configuration includes an A record, the IPv4 address that you want Route 53 to return in response to DNS queries (for example, 192.0.2.44). This value is required if the service specified by ServiceId includes settings for an A record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both. AWS_INSTANCE_IPV6 If the service configuration includes an AAAA record, the IPv6 address that you want Route 53 to return in response to DNS queries (for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345). This value is required if the service specified by ServiceId includes settings for an AAAA record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both. AWS_INSTANCE_PORT If the service includes an SRV record, the value that you want Route 53 to return for the port. If the service includes HealthCheckConfig, the port on the endpoint that you want Route 53 to send requests to. This value is required if you specified settings for an SRV record or a Route 53 health check when you created the service.
         public var attributes: [Swift.String: Swift.String]?
+        /// The ID of the Amazon Web Services account that registered the instance. If this isn't your account ID, it's the ID of the account that shared the namespace with your account or the ID of another account with which the namespace has been shared. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
+        public var createdByAccount: Swift.String?
         /// A unique string that identifies the request and that allows failed RegisterInstance requests to be retried without the risk of executing the operation twice. You must use a unique CreatorRequestId string every time you submit a RegisterInstance request if you're registering additional instances for the same namespace and service. CreatorRequestId can be any unique string (for example, a date/time stamp).
         public var creatorRequestId: Swift.String?
         /// An identifier that you want to associate with the instance. Note the following:
@@ -1415,10 +1437,12 @@ extension ServiceDiscoveryClientTypes {
 
         public init(
             attributes: [Swift.String: Swift.String]? = nil,
+            createdByAccount: Swift.String? = nil,
             creatorRequestId: Swift.String? = nil,
             id: Swift.String? = nil
         ) {
             self.attributes = attributes
+            self.createdByAccount = createdByAccount
             self.creatorRequestId = creatorRequestId
             self.id = id
         }
@@ -1428,11 +1452,15 @@ extension ServiceDiscoveryClientTypes {
 public struct GetInstanceOutput: Swift.Sendable {
     /// A complex type that contains information about a specified instance.
     public var instance: ServiceDiscoveryClientTypes.Instance?
+    /// The ID of the Amazon Web Services account that created the namespace that contains the service that the instance is associated with. If this isn't your account ID, it's the ID of the account that shared the namespace with your account.
+    public var resourceOwner: Swift.String?
 
     public init(
-        instance: ServiceDiscoveryClientTypes.Instance? = nil
+        instance: ServiceDiscoveryClientTypes.Instance? = nil,
+        resourceOwner: Swift.String? = nil
     ) {
         self.instance = instance
+        self.resourceOwner = resourceOwner
     }
 }
 
@@ -1443,7 +1471,7 @@ public struct GetInstancesHealthStatusInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// For the first GetInstancesHealthStatus request, omit this value. If more than MaxResults instances match the specified criteria, you can submit another GetInstancesHealthStatus request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
     public var nextToken: Swift.String?
-    /// The ID of the service that the instance is associated with.
+    /// The ID or Amazon Resource Name (ARN) of the service that the instance is associated with. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
     /// This member is required.
     public var serviceId: Swift.String?
 
@@ -1476,7 +1504,7 @@ public struct GetInstancesHealthStatusOutput: Swift.Sendable {
 }
 
 public struct GetNamespaceInput: Swift.Sendable {
-    /// The ID of the namespace that you want to get information about.
+    /// The ID or Amazon Resource Name (ARN) of the namespace that you want to get information about. For namespaces shared with your Amazon Web Services account, specify the namespace ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide
     /// This member is required.
     public var id: Swift.String?
 
@@ -1571,6 +1599,8 @@ extension ServiceDiscoveryClientTypes {
         public var name: Swift.String?
         /// A complex type that contains information that's specific to the type of the namespace.
         public var properties: ServiceDiscoveryClientTypes.NamespaceProperties?
+        /// The ID of the Amazon Web Services account that created the namespace. If this isn't your account ID, it's the ID of the account that shared the namespace with your account. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
+        public var resourceOwner: Swift.String?
         /// The number of services that are associated with the namespace.
         public var serviceCount: Swift.Int?
         /// The type of the namespace. The methods for discovering instances depends on the value that you specify: HTTP Instances can be discovered only programmatically, using the Cloud Map DiscoverInstances API. DNS_PUBLIC Instances can be discovered using public DNS queries and using the DiscoverInstances API. DNS_PRIVATE Instances can be discovered using DNS queries in VPCs and using the DiscoverInstances API.
@@ -1584,6 +1614,7 @@ extension ServiceDiscoveryClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             properties: ServiceDiscoveryClientTypes.NamespaceProperties? = nil,
+            resourceOwner: Swift.String? = nil,
             serviceCount: Swift.Int? = nil,
             type: ServiceDiscoveryClientTypes.NamespaceType? = nil
         ) {
@@ -1594,6 +1625,7 @@ extension ServiceDiscoveryClientTypes {
             self.id = id
             self.name = name
             self.properties = properties
+            self.resourceOwner = resourceOwner
             self.serviceCount = serviceCount
             self.type = type
         }
@@ -1638,11 +1670,15 @@ public struct GetOperationInput: Swift.Sendable {
     /// The ID of the operation that you want to get more information about.
     /// This member is required.
     public var operationId: Swift.String?
+    /// The ID of the Amazon Web Services account that owns the namespace associated with the operation, as specified in the namespace ResourceOwner field. For operations associated with namespaces that are shared with your account, you must specify an OwnerAccount.
+    public var ownerAccount: Swift.String?
 
     public init(
-        operationId: Swift.String? = nil
+        operationId: Swift.String? = nil,
+        ownerAccount: Swift.String? = nil
     ) {
         self.operationId = operationId
+        self.ownerAccount = ownerAccount
     }
 }
 
@@ -1780,6 +1816,8 @@ extension ServiceDiscoveryClientTypes {
         public var errorMessage: Swift.String?
         /// The ID of the operation that you want to get information about.
         public var id: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the namespace associated with the operation.
+        public var ownerAccount: Swift.String?
         /// The status of the operation. Values include the following: SUBMITTED This is the initial state that occurs immediately after you submit a request. PENDING Cloud Map is performing the operation. SUCCESS The operation succeeded. FAIL The operation failed. For the failure reason, see ErrorMessage.
         public var status: ServiceDiscoveryClientTypes.OperationStatus?
         /// The name of the target entity that's associated with the operation: NAMESPACE The namespace ID is returned in the ResourceId property. SERVICE The service ID is returned in the ResourceId property. INSTANCE The instance ID is returned in the ResourceId property.
@@ -1794,6 +1832,7 @@ extension ServiceDiscoveryClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil,
+            ownerAccount: Swift.String? = nil,
             status: ServiceDiscoveryClientTypes.OperationStatus? = nil,
             targets: [Swift.String: Swift.String]? = nil,
             type: ServiceDiscoveryClientTypes.OperationType? = nil,
@@ -1803,6 +1842,7 @@ extension ServiceDiscoveryClientTypes {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
+            self.ownerAccount = ownerAccount
             self.status = status
             self.targets = targets
             self.type = type
@@ -1823,7 +1863,7 @@ public struct GetOperationOutput: Swift.Sendable {
 }
 
 public struct GetServiceInput: Swift.Sendable {
-    /// The ID of the service that you want to get settings for.
+    /// The ID or Amazon Resource Name (ARN) of the service that you want to get settings for. For services created by consumers in a shared namespace, specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
     /// This member is required.
     public var id: Swift.String?
 
@@ -1846,7 +1886,7 @@ public struct GetServiceOutput: Swift.Sendable {
 }
 
 public struct GetServiceAttributesInput: Swift.Sendable {
-    /// The ID of the service that you want to get attributes for.
+    /// The ID or Amazon Resource Name (ARN) of the service that you want to get attributes for. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
     /// This member is required.
     public var serviceId: Swift.String?
 
@@ -1870,14 +1910,18 @@ extension ServiceDiscoveryClientTypes {
         ///
         /// You can specify a total of 30 attributes.
         public var attributes: [Swift.String: Swift.String]?
+        /// The ID of the Amazon Web Services account that created the namespace with which the service is associated. If this isn't your account ID, it is the ID of the account that shared the namespace with your account. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
+        public var resourceOwner: Swift.String?
         /// The ARN of the service that the attributes are associated with.
         public var serviceArn: Swift.String?
 
         public init(
             attributes: [Swift.String: Swift.String]? = nil,
+            resourceOwner: Swift.String? = nil,
             serviceArn: Swift.String? = nil
         ) {
             self.attributes = attributes
+            self.resourceOwner = resourceOwner
             self.serviceArn = serviceArn
         }
     }
@@ -1923,14 +1967,18 @@ extension ServiceDiscoveryClientTypes {
         ///
         /// Supported attribute keys include the following: AWS_ALIAS_DNS_NAME For an alias record that routes traffic to an Elastic Load Balancing load balancer, the DNS name that's associated with the load balancer. AWS_EC2_INSTANCE_ID (HTTP namespaces only) The Amazon EC2 instance ID for the instance. When the AWS_EC2_INSTANCE_ID attribute is specified, then the AWS_INSTANCE_IPV4 attribute contains the primary private IPv4 address. AWS_INIT_HEALTH_STATUS If the service configuration includes HealthCheckCustomConfig, you can optionally use AWS_INIT_HEALTH_STATUS to specify the initial status of the custom health check, HEALTHY or UNHEALTHY. If you don't specify a value for AWS_INIT_HEALTH_STATUS, the initial status is HEALTHY. AWS_INSTANCE_CNAME For a CNAME record, the domain name that Route 53 returns in response to DNS queries (for example, example.com). AWS_INSTANCE_IPV4 For an A record, the IPv4 address that Route 53 returns in response to DNS queries (for example, 192.0.2.44). AWS_INSTANCE_IPV6 For an AAAA record, the IPv6 address that Route 53 returns in response to DNS queries (for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345). AWS_INSTANCE_PORT For an SRV record, the value that Route 53 returns for the port. In addition, if the service includes HealthCheckConfig, the port on the endpoint that Route 53 sends requests to.
         public var attributes: [Swift.String: Swift.String]?
+        /// The ID of the Amazon Web Services account that registered the instance. If this isn't your account ID, it's the ID of the account that shared the namespace with your account or the ID of another account with which the namespace has been shared. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
+        public var createdByAccount: Swift.String?
         /// The ID for an instance that you created by using a specified service.
         public var id: Swift.String?
 
         public init(
             attributes: [Swift.String: Swift.String]? = nil,
+            createdByAccount: Swift.String? = nil,
             id: Swift.String? = nil
         ) {
             self.attributes = attributes
+            self.createdByAccount = createdByAccount
             self.id = id
         }
     }
@@ -1941,7 +1989,7 @@ public struct ListInstancesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// For the first ListInstances request, omit this value. If more than MaxResults instances match the specified criteria, you can submit another ListInstances request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
     public var nextToken: Swift.String?
-    /// The ID of the service that you want to list instances for.
+    /// The ID or Amazon Resource Name (ARN) of the service that you want to list instances for. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
     /// This member is required.
     public var serviceId: Swift.String?
 
@@ -1961,13 +2009,17 @@ public struct ListInstancesOutput: Swift.Sendable {
     public var instances: [ServiceDiscoveryClientTypes.InstanceSummary]?
     /// If more than MaxResults instances match the specified criteria, you can submit another ListInstances request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
     public var nextToken: Swift.String?
+    /// The ID of the Amazon Web Services account that created the namespace that contains the specified service. If this isn't your account ID, it's the ID of the account that shared the namespace with your account.
+    public var resourceOwner: Swift.String?
 
     public init(
         instances: [ServiceDiscoveryClientTypes.InstanceSummary]? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        resourceOwner: Swift.String? = nil
     ) {
         self.instances = instances
         self.nextToken = nextToken
+        self.resourceOwner = resourceOwner
     }
 }
 
@@ -1976,6 +2028,7 @@ extension ServiceDiscoveryClientTypes {
     public enum NamespaceFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case httpName
         case name
+        case resourceOwner
         case type
         case sdkUnknown(Swift.String)
 
@@ -1983,6 +2036,7 @@ extension ServiceDiscoveryClientTypes {
             return [
                 .httpName,
                 .name,
+                .resourceOwner,
                 .type
             ]
         }
@@ -1996,6 +2050,7 @@ extension ServiceDiscoveryClientTypes {
             switch self {
             case .httpName: return "HTTP_NAME"
             case .name: return "NAME"
+            case .resourceOwner: return "RESOURCE_OWNER"
             case .type: return "TYPE"
             case let .sdkUnknown(s): return s
             }
@@ -2009,7 +2064,7 @@ extension ServiceDiscoveryClientTypes {
     public struct NamespaceFilter: Swift.Sendable {
         /// Specify the operator that you want to use to determine whether a namespace matches the specified value. Valid values for Condition are one of the following.
         ///
-        /// * EQ: When you specify EQ for Condition, you can specify only one value. EQ is supported for TYPE, NAME, and HTTP_NAME. EQ is the default condition and can be omitted.
+        /// * EQ: When you specify EQ for Condition, you can specify only one value. EQ is supported for TYPE, NAME, RESOURCE_OWNER and HTTP_NAME. EQ is the default condition and can be omitted.
         ///
         /// * BEGINS_WITH: When you specify BEGINS_WITH for Condition, you can specify only one value. BEGINS_WITH is supported for TYPE, NAME, and HTTP_NAME.
         public var condition: ServiceDiscoveryClientTypes.FilterCondition?
@@ -2020,6 +2075,8 @@ extension ServiceDiscoveryClientTypes {
         /// * NAME: Gets the namespaces with the specified name.
         ///
         /// * HTTP_NAME: Gets the namespaces with the specified HTTP name.
+        ///
+        /// * RESOURCE_OWNER: Gets the namespaces created by your Amazon Web Services account or by other accounts. This can be used to filter for shared namespaces. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
         /// This member is required.
         public var name: ServiceDiscoveryClientTypes.NamespaceFilterName?
         /// Specify the values that are applicable to the value that you specify for Name.
@@ -2029,6 +2086,8 @@ extension ServiceDiscoveryClientTypes {
         /// * NAME: Specify the name of the namespace, which is found in Namespace.Name.
         ///
         /// * HTTP_NAME: Specify the HTTP name of the namespace, which is found in Namespace.Properties.HttpProperties.HttpName.
+        ///
+        /// * RESOURCE_OWNER: Specify one of SELF or OTHER_ACCOUNTS. SELF can be used to filter namespaces created by you and OTHER_ACCOUNTS can be used to filter namespaces shared with you that were created by other accounts.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -2079,6 +2138,8 @@ extension ServiceDiscoveryClientTypes {
         public var name: Swift.String?
         /// The properties of the namespace.
         public var properties: ServiceDiscoveryClientTypes.NamespaceProperties?
+        /// The ID of the Amazon Web Services account that created the namespace. If this isn't your account ID, it's the ID of the account that shared the namespace with your account. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
+        public var resourceOwner: Swift.String?
         /// The number of services that were created using the namespace.
         public var serviceCount: Swift.Int?
         /// The type of the namespace, either public or private.
@@ -2091,6 +2152,7 @@ extension ServiceDiscoveryClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             properties: ServiceDiscoveryClientTypes.NamespaceProperties? = nil,
+            resourceOwner: Swift.String? = nil,
             serviceCount: Swift.Int? = nil,
             type: ServiceDiscoveryClientTypes.NamespaceType? = nil
         ) {
@@ -2100,6 +2162,7 @@ extension ServiceDiscoveryClientTypes {
             self.id = id
             self.name = name
             self.properties = properties
+            self.resourceOwner = resourceOwner
             self.serviceCount = serviceCount
             self.type = type
         }
@@ -2275,11 +2338,13 @@ extension ServiceDiscoveryClientTypes {
 
     public enum ServiceFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case namespaceId
+        case resourceOwner
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ServiceFilterName] {
             return [
-                .namespaceId
+                .namespaceId,
+                .resourceOwner
             ]
         }
 
@@ -2291,6 +2356,7 @@ extension ServiceDiscoveryClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .namespaceId: return "NAMESPACE_ID"
+            case .resourceOwner: return "RESOURCE_OWNER"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2303,12 +2369,20 @@ extension ServiceDiscoveryClientTypes {
     public struct ServiceFilter: Swift.Sendable {
         /// The operator that you want to use to determine whether a service is returned by ListServices. Valid values for Condition include the following:
         ///
-        /// * EQ: When you specify EQ, specify one namespace ID for Values. EQ is the default condition and can be omitted.
+        /// * EQ: When you specify EQ, specify one value. EQ is the default condition and can be omitted.
         public var condition: ServiceDiscoveryClientTypes.FilterCondition?
-        /// Specify NAMESPACE_ID.
+        /// Specify the services that you want to get using one of the following.
+        ///
+        /// * NAMESPACE_ID: Gets the services associated with the specified namespace.
+        ///
+        /// * RESOURCE_OWNER: Gets the services associated with the namespaces created by your Amazon Web Services account or by other accounts. This can be used to filter for services created in a shared namespace. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
         /// This member is required.
         public var name: ServiceDiscoveryClientTypes.ServiceFilterName?
         /// The values that are applicable to the value that you specify for Condition to filter the list of services.
+        ///
+        /// * NAMESPACE_ID: Specify one namespace ID or ARN. Specify the namespace ARN for namespaces that are shared with your Amazon Web Services account.
+        ///
+        /// * RESOURCE_OWNER: Specify one of SELF or OTHER_ACCOUNTS. SELF can be used to filter services associated with namespaces created by you and OTHER_ACCOUNTS can be used to filter services associated with namespaces that were shared with you.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -2351,6 +2425,8 @@ extension ServiceDiscoveryClientTypes {
         public var arn: Swift.String?
         /// The date and time that the service was created.
         public var createDate: Foundation.Date?
+        /// The ID of the Amazon Web Services account that created the service. If this isn't your account ID, it is the account ID of the namespace owner or of another account with which the namespace has been shared. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
+        public var createdByAccount: Swift.String?
         /// The description that you specify when you create the service.
         public var description: Swift.String?
         /// Information about the Route 53 DNS records that you want Cloud Map to create when you register an instance.
@@ -2372,12 +2448,15 @@ extension ServiceDiscoveryClientTypes {
         public var instanceCount: Swift.Int?
         /// The name of the service.
         public var name: Swift.String?
+        /// The ID of the Amazon Web Services account that created the namespace with which the service is associated. If this isn't your account ID, it is the ID of the account that shared the namespace with your account. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
+        public var resourceOwner: Swift.String?
         /// Describes the systems that can be used to discover the service instances. DNS_HTTP The service instances can be discovered using either DNS queries or the DiscoverInstances API operation. HTTP The service instances can only be discovered using the DiscoverInstances API operation. DNS Reserved.
         public var type: ServiceDiscoveryClientTypes.ServiceType?
 
         public init(
             arn: Swift.String? = nil,
             createDate: Foundation.Date? = nil,
+            createdByAccount: Swift.String? = nil,
             description: Swift.String? = nil,
             dnsConfig: ServiceDiscoveryClientTypes.DnsConfig? = nil,
             healthCheckConfig: ServiceDiscoveryClientTypes.HealthCheckConfig? = nil,
@@ -2385,10 +2464,12 @@ extension ServiceDiscoveryClientTypes {
             id: Swift.String? = nil,
             instanceCount: Swift.Int? = nil,
             name: Swift.String? = nil,
+            resourceOwner: Swift.String? = nil,
             type: ServiceDiscoveryClientTypes.ServiceType? = nil
         ) {
             self.arn = arn
             self.createDate = createDate
+            self.createdByAccount = createdByAccount
             self.description = description
             self.dnsConfig = dnsConfig
             self.healthCheckConfig = healthCheckConfig
@@ -2396,6 +2477,7 @@ extension ServiceDiscoveryClientTypes {
             self.id = id
             self.instanceCount = instanceCount
             self.name = name
+            self.resourceOwner = resourceOwner
             self.type = type
         }
     }
@@ -2622,7 +2704,7 @@ public struct RegisterInstanceInput: Swift.Sendable {
     /// Do not include sensitive information in InstanceId if the namespace is discoverable by public DNS queries and any Type member of DnsRecord for the service contains SRV because the InstanceId is discoverable by public DNS queries.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The ID of the service that you want to use for settings for the instance.
+    /// The ID or Amazon Resource Name (ARN) of the service that you want to use for settings for the instance. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
     /// This member is required.
     public var serviceId: Swift.String?
 
@@ -2695,7 +2777,7 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateHttpNamespaceInput: Swift.Sendable {
-    /// The ID of the namespace that you want to update.
+    /// The ID or Amazon Resource Name (ARN) of the namespace that you want to update.
     /// This member is required.
     public var id: Swift.String?
     /// Updated properties for the the HTTP namespace.
@@ -2730,7 +2812,7 @@ public struct UpdateInstanceCustomHealthStatusInput: Swift.Sendable {
     /// The ID of the instance that you want to change the health status for.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The ID of the service that includes the configuration for the custom health check that you want to change the status for.
+    /// The ID or Amazon Resource Name (ARN) of the service that includes the configuration for the custom health check that you want to change the status for. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide.
     /// This member is required.
     public var serviceId: Swift.String?
     /// The new status of the instance, HEALTHY or UNHEALTHY.
@@ -2749,7 +2831,7 @@ public struct UpdateInstanceCustomHealthStatusInput: Swift.Sendable {
 }
 
 public struct UpdatePrivateDnsNamespaceInput: Swift.Sendable {
-    /// The ID of the namespace that you want to update.
+    /// The ID or Amazon Resource Name (ARN) of the namespace that you want to update.
     /// This member is required.
     public var id: Swift.String?
     /// Updated properties for the private DNS namespace.
@@ -2781,7 +2863,7 @@ public struct UpdatePrivateDnsNamespaceOutput: Swift.Sendable {
 }
 
 public struct UpdatePublicDnsNamespaceInput: Swift.Sendable {
-    /// The ID of the namespace being updated.
+    /// The ID or Amazon Resource Name (ARN) of the namespace being updated.
     /// This member is required.
     public var id: Swift.String?
     /// Updated properties for the public DNS namespace.
@@ -2836,7 +2918,7 @@ extension ServiceDiscoveryClientTypes {
 }
 
 public struct UpdateServiceInput: Swift.Sendable {
-    /// The ID of the service that you want to update.
+    /// The ID or Amazon Resource Name (ARN) of the service that you want to update. If the namespace associated with the service is shared with your Amazon Web Services account, specify the service ARN. For more information about shared namespaces, see [Cross-account Cloud Map namespace sharing](https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html) in the Cloud Map Developer Guide
     /// This member is required.
     public var id: Swift.String?
     /// A complex type that contains the new settings for the service. You can specify a maximum of 30 attributes (key-value pairs).
@@ -2890,7 +2972,7 @@ public struct UpdateServiceAttributesInput: Swift.Sendable {
     /// A string map that contains attribute key-value pairs.
     /// This member is required.
     public var attributes: [Swift.String: Swift.String]?
-    /// The ID of the service that you want to update.
+    /// The ID or Amazon Resource Name (ARN) of the service that you want to update. For services created in a namespace shared with your Amazon Web Services account, specify the service ARN.
     /// This member is required.
     public var serviceId: Swift.String?
 
@@ -3212,6 +3294,7 @@ extension DiscoverInstancesInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NamespaceName"].write(value.namespaceName)
         try writer["OptionalParameters"].writeMap(value.optionalParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["OwnerAccount"].write(value.ownerAccount)
         try writer["QueryParameters"].writeMap(value.queryParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ServiceName"].write(value.serviceName)
     }
@@ -3222,6 +3305,7 @@ extension DiscoverInstancesRevisionInput {
     static func write(value: DiscoverInstancesRevisionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["NamespaceName"].write(value.namespaceName)
+        try writer["OwnerAccount"].write(value.ownerAccount)
         try writer["ServiceName"].write(value.serviceName)
     }
 }
@@ -3259,6 +3343,7 @@ extension GetOperationInput {
     static func write(value: GetOperationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["OperationId"].write(value.operationId)
+        try writer["OwnerAccount"].write(value.ownerAccount)
     }
 }
 
@@ -3532,6 +3617,7 @@ extension GetInstanceOutput {
         let reader = responseReader
         var value = GetInstanceOutput()
         value.instance = try reader["Instance"].readIfPresent(with: ServiceDiscoveryClientTypes.Instance.read(from:))
+        value.resourceOwner = try reader["ResourceOwner"].readIfPresent()
         return value
     }
 }
@@ -3606,6 +3692,7 @@ extension ListInstancesOutput {
         var value = ListInstancesOutput()
         value.instances = try reader["Instances"].readListIfPresent(memberReadingClosure: ServiceDiscoveryClientTypes.InstanceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        value.resourceOwner = try reader["ResourceOwner"].readIfPresent()
         return value
     }
 }
@@ -4234,13 +4321,13 @@ enum UpdateServiceAttributesOutputError {
     }
 }
 
-extension TooManyTagsException {
+extension DuplicateRequest {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateRequest {
         let reader = baseError.errorBodyReader
-        var value = TooManyTagsException()
+        var value = DuplicateRequest()
+        value.properties.duplicateOperationId = try reader["DuplicateOperationId"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceName = try reader["ResourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4253,19 +4340,6 @@ extension InvalidInput {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInput {
         let reader = baseError.errorBodyReader
         var value = InvalidInput()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceLimitExceeded {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceLimitExceeded {
-        let reader = baseError.errorBodyReader
-        var value = ResourceLimitExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4289,13 +4363,26 @@ extension NamespaceAlreadyExists {
     }
 }
 
-extension DuplicateRequest {
+extension ResourceLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateRequest {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceLimitExceeded {
         let reader = baseError.errorBodyReader
-        var value = DuplicateRequest()
-        value.properties.duplicateOperationId = try reader["DuplicateOperationId"].readIfPresent()
+        var value = ResourceLimitExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyTagsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTagsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.resourceName = try reader["ResourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4323,6 +4410,7 @@ extension ServiceAlreadyExists {
         var value = ServiceAlreadyExists()
         value.properties.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.serviceArn = try reader["ServiceArn"].readIfPresent()
         value.properties.serviceId = try reader["ServiceId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4442,6 +4530,7 @@ extension ServiceDiscoveryClientTypes.Service {
         var value = ServiceDiscoveryClientTypes.Service()
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        value.resourceOwner = try reader["ResourceOwner"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.namespaceId = try reader["NamespaceId"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
@@ -4452,6 +4541,7 @@ extension ServiceDiscoveryClientTypes.Service {
         value.healthCheckCustomConfig = try reader["HealthCheckCustomConfig"].readIfPresent(with: ServiceDiscoveryClientTypes.HealthCheckCustomConfig.read(from:))
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
+        value.createdByAccount = try reader["CreatedByAccount"].readIfPresent()
         return value
     }
 }
@@ -4548,6 +4638,7 @@ extension ServiceDiscoveryClientTypes.Instance {
         value.id = try reader["Id"].readIfPresent() ?? ""
         value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createdByAccount = try reader["CreatedByAccount"].readIfPresent()
         return value
     }
 }
@@ -4559,6 +4650,7 @@ extension ServiceDiscoveryClientTypes.Namespace {
         var value = ServiceDiscoveryClientTypes.Namespace()
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        value.resourceOwner = try reader["ResourceOwner"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
@@ -4623,6 +4715,7 @@ extension ServiceDiscoveryClientTypes.Operation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceDiscoveryClientTypes.Operation()
         value.id = try reader["Id"].readIfPresent()
+        value.ownerAccount = try reader["OwnerAccount"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
@@ -4640,6 +4733,7 @@ extension ServiceDiscoveryClientTypes.ServiceAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ServiceDiscoveryClientTypes.ServiceAttributes()
         value.serviceArn = try reader["ServiceArn"].readIfPresent()
+        value.resourceOwner = try reader["ResourceOwner"].readIfPresent()
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -4652,6 +4746,7 @@ extension ServiceDiscoveryClientTypes.InstanceSummary {
         var value = ServiceDiscoveryClientTypes.InstanceSummary()
         value.id = try reader["Id"].readIfPresent()
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createdByAccount = try reader["CreatedByAccount"].readIfPresent()
         return value
     }
 }
@@ -4663,6 +4758,7 @@ extension ServiceDiscoveryClientTypes.NamespaceSummary {
         var value = ServiceDiscoveryClientTypes.NamespaceSummary()
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        value.resourceOwner = try reader["ResourceOwner"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
@@ -4691,6 +4787,7 @@ extension ServiceDiscoveryClientTypes.ServiceSummary {
         var value = ServiceDiscoveryClientTypes.ServiceSummary()
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        value.resourceOwner = try reader["ResourceOwner"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
@@ -4699,6 +4796,7 @@ extension ServiceDiscoveryClientTypes.ServiceSummary {
         value.healthCheckConfig = try reader["HealthCheckConfig"].readIfPresent(with: ServiceDiscoveryClientTypes.HealthCheckConfig.read(from:))
         value.healthCheckCustomConfig = try reader["HealthCheckCustomConfig"].readIfPresent(with: ServiceDiscoveryClientTypes.HealthCheckCustomConfig.read(from:))
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdByAccount = try reader["CreatedByAccount"].readIfPresent()
         return value
     }
 }

@@ -11,6 +11,7 @@ import Foundation
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
 import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
+import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
@@ -40,7 +41,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -59,14 +60,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PaymentCryptographyClient: ClientRuntime.Client {
     public static let clientName = "PaymentCryptographyClient"
-    public static let version = "1.2.13"
+    public static let version = "1.5.43"
     let client: ClientRuntime.SdkHttpClient
     let config: PaymentCryptographyClient.PaymentCryptographyClientConfiguration
     let serviceName = "Payment Cryptography"
@@ -110,11 +111,12 @@ extension PaymentCryptographyClient {
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        internal let logger: Smithy.LogAgent
+        public let logger: Smithy.LogAgent
 
         private init(
             _ useFIPS: Swift.Bool?,
@@ -137,6 +139,7 @@ extension PaymentCryptographyClient {
             _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
             _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
             _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemePreference: [String]?,
             _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
             _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
             _ interceptorProviders: [ClientRuntime.InterceptorProvider],
@@ -162,6 +165,7 @@ extension PaymentCryptographyClient {
             self.httpClientEngine = httpClientEngine
             self.httpClientConfiguration = httpClientConfiguration
             self.authSchemes = authSchemes
+            self.authSchemePreference = authSchemePreference
             self.authSchemeResolver = authSchemeResolver
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
             self.interceptorProviders = interceptorProviders
@@ -190,6 +194,7 @@ extension PaymentCryptographyClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -199,7 +204,7 @@ extension PaymentCryptographyClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -213,9 +218,10 @@ extension PaymentCryptographyClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultPaymentCryptographyAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -244,6 +250,7 @@ extension PaymentCryptographyClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -253,7 +260,7 @@ extension PaymentCryptographyClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -267,9 +274,10 @@ extension PaymentCryptographyClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultPaymentCryptographyAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -299,6 +307,7 @@ extension PaymentCryptographyClient {
                 httpClientEngine: nil,
                 httpClientConfiguration: nil,
                 authSchemes: nil,
+                authSchemePreference: nil,
                 authSchemeResolver: nil,
                 bearerTokenIdentityResolver: nil,
                 interceptorProviders: nil,
@@ -311,7 +320,7 @@ extension PaymentCryptographyClient {
                 nil,
                 nil,
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
+                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 nil,
                 try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
@@ -328,6 +337,7 @@ extension PaymentCryptographyClient {
                 AWSClientConfigDefaultsProvider.httpClientEngine(),
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                nil,
                 DefaultPaymentCryptographyAuthSchemeResolver(),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
@@ -359,6 +369,86 @@ extension PaymentCryptographyClient {
 }
 
 extension PaymentCryptographyClient {
+    /// Performs the `AddKeyReplicationRegions` operation on the `PaymentCryptography` service.
+    ///
+    /// Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions. Multi-region keys allow you to use the same key material across multiple Amazon Web Services Regions, providing lower latency for applications distributed across regions. When you add Replication Regions, Amazon Web Services Payment Cryptography securely replicates the key material to the specified Amazon Web Services Regions. The key must be in an active state to add Replication Regions. You can add multiple regions in a single operation, and the key will be available for use in those regions once replication is complete. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
+    ///
+    /// * [RemoveKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_RemoveKeyReplicationRegions.html)
+    ///
+    /// * [EnableDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_EnableDefaultKeyReplicationRegions.html)
+    ///
+    /// * [GetDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetDefaultKeyReplicationRegions.html)
+    ///
+    /// - Parameter AddKeyReplicationRegionsInput : Input parameters for adding replication regions to a specific key.
+    ///
+    /// - Returns: `AddKeyReplicationRegionsOutput` : Output from adding replication regions to a key.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
+    public func addKeyReplicationRegions(input: AddKeyReplicationRegionsInput) async throws -> AddKeyReplicationRegionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "addKeyReplicationRegions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "payment-cryptography")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>(AddKeyReplicationRegionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddKeyReplicationRegionsOutput>(AddKeyReplicationRegionsOutput.httpOutput(from:), AddKeyReplicationRegionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AddKeyReplicationRegionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddKeyReplicationRegionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>(xAmzTarget: "PaymentCryptographyControlPlane.AddKeyReplicationRegions"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddKeyReplicationRegionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddKeyReplicationRegionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>(serviceID: serviceName, version: PaymentCryptographyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptography")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AddKeyReplicationRegions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateAlias` operation on the `PaymentCryptography` service.
     ///
     /// Creates an alias, or a friendly name, for an Amazon Web Services Payment Cryptography key. You can use an alias to identify a key in the console and when you call cryptographic operations such as [EncryptData](https://docs.aws.amazon.com/payment-cryptography/latest/DataAPIReference/API_EncryptData.html) or [DecryptData](https://docs.aws.amazon.com/payment-cryptography/latest/DataAPIReference/API_DecryptData.html). You can associate the alias with any key in the same Amazon Web Services Region. Each alias is associated with only one key at a time, but a key can have multiple aliases. You can't create an alias without a key. The alias must be unique in the account and Amazon Web Services Region, but you can create another alias with the same name in a different Amazon Web Services Region. To change the key that's associated with the alias, call [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html). To delete the alias, call [DeleteAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteAlias.html). These operations don't affect the underlying key. To get the alias that you created, call [ListAliases](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListAliases.html). Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
@@ -378,28 +468,21 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createAlias")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -451,7 +534,7 @@ extension PaymentCryptographyClient {
 
     /// Performs the `CreateKey` operation on the `PaymentCryptography` service.
     ///
-    /// Creates an Amazon Web Services Payment Cryptography key, a logical representation of a cryptographic key, that is unique in your account and Amazon Web Services Region. You use keys for cryptographic functions such as encryption and decryption. In addition to the key material used in cryptographic operations, an Amazon Web Services Payment Cryptography key includes metadata such as the key ARN, key usage, key origin, creation date, description, and key state. When you create a key, you specify both immutable and mutable data about the key. The immutable data contains key attributes that define the scope and cryptographic operations that you can perform using the key, for example key class (example: SYMMETRIC_KEY), key algorithm (example: TDES_2KEY), key usage (example: TR31_P0_PIN_ENCRYPTION_KEY) and key modes of use (example: Encrypt). For information about valid combinations of key attributes, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) in the Amazon Web Services Payment Cryptography User Guide. The mutable data contained within a key includes usage timestamp and key deletion timestamp and can be modified after creation. Amazon Web Services Payment Cryptography binds key attributes to keys using key blocks when you store or export them. Amazon Web Services Payment Cryptography stores the key contents wrapped and never stores or transmits them in the clear. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
+    /// Creates an Amazon Web Services Payment Cryptography key, a logical representation of a cryptographic key, that is unique in your account and Amazon Web Services Region. You use keys for cryptographic functions such as encryption and decryption. In addition to the key material used in cryptographic operations, an Amazon Web Services Payment Cryptography key includes metadata such as the key ARN, key usage, key origin, creation date, description, and key state. When you create a key, you specify both immutable and mutable data about the key. The immutable data contains key attributes that define the scope and cryptographic operations that you can perform using the key, for example key class (example: SYMMETRIC_KEY), key algorithm (example: TDES_2KEY), key usage (example: TR31_P0_PIN_ENCRYPTION_KEY) and key modes of use (example: Encrypt). Amazon Web Services Payment Cryptography binds key attributes to keys using key blocks when you store or export them. Amazon Web Services Payment Cryptography stores the key contents wrapped and never stores or transmits them in the clear. For information about valid combinations of key attributes, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) in the Amazon Web Services Payment Cryptography User Guide. The mutable data contained within a key includes usage timestamp and key deletion timestamp and can be modified after creation. You can use the CreateKey operation to generate an ECC (Elliptic Curve Cryptography) key pair used for establishing an ECDH (Elliptic Curve Diffie-Hellman) key agreement between two parties. In the ECDH key agreement process, both parties generate their own ECC key pair with key usage K3 and exchange the public keys. Each party then use their private key, the received public key from the other party, and the key derivation parameters including key derivation function, hash algorithm, derivation data, and key algorithm to derive a shared key. To maintain the single-use principle of cryptographic keys in payments, ECDH derived keys should not be used for multiple purposes, such as a TR31_P0_PIN_ENCRYPTION_KEY and TR31_K1_KEY_BLOCK_PROTECTION_KEY. When creating ECC key pairs in Amazon Web Services Payment Cryptography you can optionally set the DeriveKeyUsage parameter, which defines the key usage bound to the symmetric key that will be derived using the ECC key pair. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [DeleteKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html)
     ///
@@ -466,28 +549,21 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func createKey(input: CreateKeyInput) async throws -> CreateKeyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createKey")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -556,27 +632,20 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteAlias")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -643,27 +712,20 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteKey")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -713,9 +775,165 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisableDefaultKeyReplicationRegions` operation on the `PaymentCryptography` service.
+    ///
+    /// Disables multi-region key replication settings for the specified Amazon Web Services Regions in your account, preventing new keys from being automatically replicated to those regions. After disabling default replication for specific regions, new keys created in your account will not be automatically replicated to those regions. You can still manually add replication to those regions for individual keys using the AddKeyReplicationRegions operation. This operation does not affect existing keys or their current replication configuration. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
+    ///
+    /// * [EnableDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_EnableDefaultKeyReplicationRegions.html)
+    ///
+    /// * [GetDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetDefaultKeyReplicationRegions.html)
+    ///
+    /// - Parameter DisableDefaultKeyReplicationRegionsInput : Input parameters for disabling default key replication regions for the account.
+    ///
+    /// - Returns: `DisableDefaultKeyReplicationRegionsOutput` : Output from disabling default key replication regions for the account.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
+    public func disableDefaultKeyReplicationRegions(input: DisableDefaultKeyReplicationRegionsInput) async throws -> DisableDefaultKeyReplicationRegionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disableDefaultKeyReplicationRegions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "payment-cryptography")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>(DisableDefaultKeyReplicationRegionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableDefaultKeyReplicationRegionsOutput>(DisableDefaultKeyReplicationRegionsOutput.httpOutput(from:), DisableDefaultKeyReplicationRegionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisableDefaultKeyReplicationRegionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableDefaultKeyReplicationRegionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>(xAmzTarget: "PaymentCryptographyControlPlane.DisableDefaultKeyReplicationRegions"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableDefaultKeyReplicationRegionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableDefaultKeyReplicationRegionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>(serviceID: serviceName, version: PaymentCryptographyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptography")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableDefaultKeyReplicationRegions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `EnableDefaultKeyReplicationRegions` operation on the `PaymentCryptography` service.
+    ///
+    /// Enables multi-region key replication settings for your account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When default Replication Regions are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simplifies key management for applications that operate across multiple regions. Existing keys are not affected by this operation - only keys created after enabling default replication will be automatically replicated. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
+    ///
+    /// * [DisableDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DisableDefaultKeyReplicationRegions.html)
+    ///
+    /// * [GetDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetDefaultKeyReplicationRegions.html)
+    ///
+    /// - Parameter EnableDefaultKeyReplicationRegionsInput : Input parameters for enabling default key replication regions for the account.
+    ///
+    /// - Returns: `EnableDefaultKeyReplicationRegionsOutput` : Output from enabling default key replication regions for the account.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
+    public func enableDefaultKeyReplicationRegions(input: EnableDefaultKeyReplicationRegionsInput) async throws -> EnableDefaultKeyReplicationRegionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "enableDefaultKeyReplicationRegions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "payment-cryptography")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>(EnableDefaultKeyReplicationRegionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableDefaultKeyReplicationRegionsOutput>(EnableDefaultKeyReplicationRegionsOutput.httpOutput(from:), EnableDefaultKeyReplicationRegionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<EnableDefaultKeyReplicationRegionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableDefaultKeyReplicationRegionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>(xAmzTarget: "PaymentCryptographyControlPlane.EnableDefaultKeyReplicationRegions"))
+        builder.serialize(ClientRuntime.BodyMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableDefaultKeyReplicationRegionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableDefaultKeyReplicationRegionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>(serviceID: serviceName, version: PaymentCryptographyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptography")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableDefaultKeyReplicationRegions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ExportKey` operation on the `PaymentCryptography` service.
     ///
-    /// Exports a key from Amazon Web Services Payment Cryptography. Amazon Web Services Payment Cryptography simplifies key exchange by replacing the existing paper-based approach with a modern electronic approach. With ExportKey you can export symmetric keys using either symmetric and asymmetric key exchange mechanisms. Using this operation, you can share your Amazon Web Services Payment Cryptography generated keys with other service partners to perform cryptographic operations outside of Amazon Web Services Payment Cryptography For symmetric key exchange, Amazon Web Services Payment Cryptography uses the ANSI X9 TR-31 norm in accordance with PCI PIN guidelines. And for asymmetric key exchange, Amazon Web Services Payment Cryptography supports ANSI X9 TR-34 norm and RSA wrap and unwrap key exchange mechanism. Asymmetric key exchange methods are typically used to establish bi-directional trust between the two parties exhanging keys and are used for initial key exchange such as Key Encryption Key (KEK). After which you can export working keys using symmetric method to perform various cryptographic operations within Amazon Web Services Payment Cryptography. The TR-34 norm is intended for exchanging 3DES keys only and keys are imported in a WrappedKeyBlock format. Key attributes (such as KeyUsage, KeyAlgorithm, KeyModesOfUse, Exportability) are contained within the key block. With RSA wrap and unwrap, you can exchange both 3DES and AES-128 keys. The keys are imported in a WrappedKeyCryptogram format and you will need to specify the key attributes during import. You can also use ExportKey functionality to generate and export an IPEK (Initial Pin Encryption Key) from Amazon Web Services Payment Cryptography using either TR-31 or TR-34 export key exchange. IPEK is generated from BDK (Base Derivation Key) and ExportDukptInitialKey attribute KSN (KeySerialNumber). The generated IPEK does not persist within Amazon Web Services Payment Cryptography and has to be re-generated each time during export. For key exchange using TR-31 or TR-34 key blocks, you can also export optional blocks within the key block header which contain additional attribute information about the key. The KeyVersion within KeyBlockHeaders indicates the version of the key within the key block. Furthermore, KeyExportability within KeyBlockHeaders can be used to further restrict exportability of the key after export from Amazon Web Services Payment Cryptography. The OptionalBlocks contain the additional data related to the key. For information on data type that can be included within optional blocks, refer to [ASC X9.143-2022](https://webstore.ansi.org/standards/ascx9/ansix91432022). Data included in key block headers is signed but transmitted in clear text. Sensitive or confidential information should not be included in optional blocks. Refer to ASC X9.143-2022 standard for information on allowed data type. To export initial keys (KEK) or IPEK using TR-34 Using this operation, you can export initial key using TR-34 asymmetric key exchange. You can only export KEK generated within Amazon Web Services Payment Cryptography. In TR-34 terminology, the sending party of the key is called Key Distribution Host (KDH) and the receiving party of the key is called Key Receiving Device (KRD). During key export process, KDH is Amazon Web Services Payment Cryptography which initiates key export and KRD is the user receiving the key. To initiate TR-34 key export, the KRD must obtain an export token by calling [GetParametersForExport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForExport.html). This operation also generates a key pair for the purpose of key export, signs the key and returns back the signing public key certificate (also known as KDH signing certificate) and root certificate chain. The KDH uses the private key to sign the the export payload and the signing public key certificate is provided to KRD to verify the signature. The KRD can import the root certificate into its Hardware Security Module (HSM), as required. The export token and the associated KDH signing certificate expires after 7 days. Next the KRD generates a key pair for the the purpose of encrypting the KDH key and provides the public key cerificate (also known as KRD wrapping certificate) back to KDH. The KRD will also import the root cerificate chain into Amazon Web Services Payment Cryptography by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html) for RootCertificatePublicKey. The KDH, Amazon Web Services Payment Cryptography, will use the KRD wrapping cerificate to encrypt (wrap) the key under export and signs it with signing private key to generate a TR-34 WrappedKeyBlock. For more information on TR-34 key export, see section [Exporting symmetric keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-export.html) in the Amazon Web Services Payment Cryptography User Guide. Set the following parameters:
+    /// Exports a key from Amazon Web Services Payment Cryptography. Amazon Web Services Payment Cryptography simplifies key exchange by replacing the existing paper-based approach with a modern electronic approach. With ExportKey you can export symmetric keys using either symmetric and asymmetric key exchange mechanisms. Using this operation, you can share your Amazon Web Services Payment Cryptography generated keys with other service partners to perform cryptographic operations outside of Amazon Web Services Payment Cryptography For symmetric key exchange, Amazon Web Services Payment Cryptography uses the ANSI X9 TR-31 norm in accordance with PCI PIN guidelines. And for asymmetric key exchange, Amazon Web Services Payment Cryptography supports ANSI X9 TR-34 norm, RSA unwrap, and ECDH (Elliptic Curve Diffie-Hellman) key exchange mechanisms. Asymmetric key exchange methods are typically used to establish bi-directional trust between the two parties exhanging keys and are used for initial key exchange such as Key Encryption Key (KEK). After which you can export working keys using symmetric method to perform various cryptographic operations within Amazon Web Services Payment Cryptography. PCI requires specific minimum key strength of wrapping keys used to protect the keys being exchanged electronically. These requirements can change when PCI standards are revised. The rules specify that wrapping keys used for transport must be at least as strong as the key being protected. For more information on recommended key strength of wrapping keys and key exchange mechanism, see [Importing and exporting keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-importexport.html) in the Amazon Web Services Payment Cryptography User Guide. You can also use ExportKey functionality to generate and export an IPEK (Initial Pin Encryption Key) from Amazon Web Services Payment Cryptography using either TR-31 or TR-34 export key exchange. IPEK is generated from BDK (Base Derivation Key) and ExportDukptInitialKey attribute KSN (KeySerialNumber). The generated IPEK does not persist within Amazon Web Services Payment Cryptography and has to be re-generated each time during export. For key exchange using TR-31 or TR-34 key blocks, you can also export optional blocks within the key block header which contain additional attribute information about the key. The KeyVersion within KeyBlockHeaders indicates the version of the key within the key block. Furthermore, KeyExportability within KeyBlockHeaders can be used to further restrict exportability of the key after export from Amazon Web Services Payment Cryptography. The OptionalBlocks contain the additional data related to the key. For information on data type that can be included within optional blocks, refer to [ASC X9.143-2022](https://webstore.ansi.org/standards/ascx9/ansix91432022). Data included in key block headers is signed but transmitted in clear text. Sensitive or confidential information should not be included in optional blocks. Refer to ASC X9.143-2022 standard for information on allowed data type. To export initial keys (KEK) or IPEK using TR-34 Using this operation, you can export initial key using TR-34 asymmetric key exchange. You can only export KEK generated within Amazon Web Services Payment Cryptography. In TR-34 terminology, the sending party of the key is called Key Distribution Host (KDH) and the receiving party of the key is called Key Receiving Device (KRD). During key export process, KDH is Amazon Web Services Payment Cryptography which initiates key export and KRD is the user receiving the key. To initiate TR-34 key export, the KRD must obtain an export token by calling [GetParametersForExport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForExport.html). This operation also generates a key pair for the purpose of key export, signs the key and returns back the signing public key certificate (also known as KDH signing certificate) and root certificate chain. The KDH uses the private key to sign the the export payload and the signing public key certificate is provided to KRD to verify the signature. The KRD can import the root certificate into its Hardware Security Module (HSM), as required. The export token and the associated KDH signing certificate expires after 30 days. Next the KRD generates a key pair for the the purpose of encrypting the KDH key and provides the public key cerificate (also known as KRD wrapping certificate) back to KDH. The KRD will also import the root cerificate chain into Amazon Web Services Payment Cryptography by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html) for RootCertificatePublicKey. The KDH, Amazon Web Services Payment Cryptography, will use the KRD wrapping cerificate to encrypt (wrap) the key under export and signs it with signing private key to generate a TR-34 WrappedKeyBlock. For more information on TR-34 key export, see section [Exporting symmetric keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-export.html) in the Amazon Web Services Payment Cryptography User Guide. Set the following parameters:
     ///
     /// * ExportAttributes: Specify export attributes in case of IPEK export. This parameter is optional for KEK export.
     ///
@@ -748,7 +966,18 @@ extension PaymentCryptographyClient {
     /// * KeyMaterial: Use Tr31KeyBlock parameters.
     ///
     ///
-    /// When this operation is successful, Amazon Web Services Payment Cryptography returns the working key or IPEK as a TR-31 WrappedKeyBlock. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
+    /// To export working keys using ECDH You can also use ECDH key agreement to export working keys in a TR-31 keyblock, where the wrapping key is an ECDH derived key. To initiate a TR-31 key export using ECDH, both sides must create an ECC key pair with key usage K3 and exchange public key certificates. In Amazon Web Services Payment Cryptography, you can do this by calling CreateKey. If you have not already done so, you must import the CA chain that issued the receiving public key certificate by calling ImportKey with input RootCertificatePublicKey for root CA or TrustedPublicKey for intermediate CA. You can then complete a TR-31 key export by deriving a shared wrapping key using the service ECC key pair, public certificate of your ECC key pair outside of Amazon Web Services Payment Cryptography, and the key derivation parameters including key derivation function, hash algorithm, derivation data, key algorithm.
+    ///
+    /// * KeyMaterial: Use DiffieHellmanTr31KeyBlock parameters.
+    ///
+    /// * PrivateKeyIdentifier: The KeyArn of the ECC key pair created within Amazon Web Services Payment Cryptography to derive a shared KEK.
+    ///
+    /// * PublicKeyCertificate: The public key certificate of the receiving ECC key pair in PEM format (base64 encoded) to derive a shared KEK.
+    ///
+    /// * CertificateAuthorityPublicKeyIdentifier: The keyARN of the CA that signed the public key certificate of the receiving ECC key pair.
+    ///
+    ///
+    /// When this operation is successful, Amazon Web Services Payment Cryptography returns the working key as a TR-31 WrappedKeyBlock, where the wrapping key is the ECDH derived key. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [GetParametersForExport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForExport.html)
     ///
@@ -761,27 +990,20 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func exportKey(input: ExportKeyInput) async throws -> ExportKeyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "exportKey")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -850,26 +1072,19 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func getAlias(input: GetAliasInput) async throws -> GetAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getAlias")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -919,9 +1134,160 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetCertificateSigningRequest` operation on the `PaymentCryptography` service.
+    ///
+    /// Used to retrieve the public key for a keypair.
+    ///
+    /// - Parameter GetCertificateSigningRequestInput : [no documentation found]
+    ///
+    /// - Returns: `GetCertificateSigningRequestOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
+    public func getCertificateSigningRequest(input: GetCertificateSigningRequestInput) async throws -> GetCertificateSigningRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCertificateSigningRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "payment-cryptography")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>(GetCertificateSigningRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCertificateSigningRequestOutput>(GetCertificateSigningRequestOutput.httpOutput(from:), GetCertificateSigningRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCertificateSigningRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCertificateSigningRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>(xAmzTarget: "PaymentCryptographyControlPlane.GetCertificateSigningRequest"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCertificateSigningRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCertificateSigningRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>(serviceID: serviceName, version: PaymentCryptographyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptography")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCertificateSigningRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetDefaultKeyReplicationRegions` operation on the `PaymentCryptography` service.
+    ///
+    /// Retrieves the list of regions where default key replication is currently enabled for your account. This operation returns the current configuration of default Replication Regions. New keys created in your account will be automatically replicated to these regions unless explicitly overridden during key creation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
+    ///
+    /// * [EnableDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_EnableDefaultKeyReplicationRegions.html)
+    ///
+    /// * [DisableDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DisableDefaultKeyReplicationRegions.html)
+    ///
+    /// - Parameter GetDefaultKeyReplicationRegionsInput : Input parameters for retrieving the account's default key replication regions. This operation requires no input parameters.
+    ///
+    /// - Returns: `GetDefaultKeyReplicationRegionsOutput` : Output containing the account's current default key replication configuration.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
+    public func getDefaultKeyReplicationRegions(input: GetDefaultKeyReplicationRegionsInput) async throws -> GetDefaultKeyReplicationRegionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDefaultKeyReplicationRegions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "payment-cryptography")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>(GetDefaultKeyReplicationRegionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDefaultKeyReplicationRegionsOutput>(GetDefaultKeyReplicationRegionsOutput.httpOutput(from:), GetDefaultKeyReplicationRegionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDefaultKeyReplicationRegionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDefaultKeyReplicationRegionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>(xAmzTarget: "PaymentCryptographyControlPlane.GetDefaultKeyReplicationRegions"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDefaultKeyReplicationRegionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDefaultKeyReplicationRegionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>(serviceID: serviceName, version: PaymentCryptographyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptography")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDefaultKeyReplicationRegions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetKey` operation on the `PaymentCryptography` service.
     ///
-    /// Gets the key material for an Amazon Web Services Payment Cryptography key, including the immutable and mutable data specified when the key was created. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
+    /// Gets the key metadata for an Amazon Web Services Payment Cryptography key, including the immutable and mutable attributes specified when the key was created. Returns key metadata including attributes, state, and timestamps, but does not return the actual cryptographic key material. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html)
     ///
@@ -936,26 +1302,19 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func getKey(input: GetKeyInput) async throws -> GetKeyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getKey")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1007,7 +1366,7 @@ extension PaymentCryptographyClient {
 
     /// Performs the `GetParametersForExport` operation on the `PaymentCryptography` service.
     ///
-    /// Gets the export token and the signing key certificate to initiate a TR-34 key export from Amazon Web Services Payment Cryptography. The signing key certificate signs the wrapped key under export within the TR-34 key payload. The export token and signing key certificate must be in place and operational before calling [ExportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ExportKey.html). The export token expires in 7 days. You can use the same export token to export multiple keys from your service account. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
+    /// Gets the export token and the signing key certificate to initiate a TR-34 key export from Amazon Web Services Payment Cryptography. The signing key certificate signs the wrapped key under export within the TR-34 key payload. The export token and signing key certificate must be in place and operational before calling [ExportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ExportKey.html). The export token expires in 30 days. You can use the same export token to export multiple keys from your service account. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [ExportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ExportKey.html)
     ///
@@ -1020,28 +1379,21 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func getParametersForExport(input: GetParametersForExportInput) async throws -> GetParametersForExportOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getParametersForExport")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1093,7 +1445,7 @@ extension PaymentCryptographyClient {
 
     /// Performs the `GetParametersForImport` operation on the `PaymentCryptography` service.
     ///
-    /// Gets the import token and the wrapping key certificate in PEM format (base64 encoded) to initiate a TR-34 WrappedKeyBlock or a RSA WrappedKeyCryptogram import into Amazon Web Services Payment Cryptography. The wrapping key certificate wraps the key under import. The import token and wrapping key certificate must be in place and operational before calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html). The import token expires in 7 days. You can use the same import token to import multiple keys into your service account. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
+    /// Gets the import token and the wrapping key certificate in PEM format (base64 encoded) to initiate a TR-34 WrappedKeyBlock or a RSA WrappedKeyCryptogram import into Amazon Web Services Payment Cryptography. The wrapping key certificate wraps the key under import. The import token and wrapping key certificate must be in place and operational before calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html). The import token expires in 30 days. You can use the same import token to import multiple keys into your service account. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [GetParametersForExport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForExport.html)
     ///
@@ -1106,28 +1458,21 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func getParametersForImport(input: GetParametersForImportInput) async throws -> GetParametersForImportOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getParametersForImport")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1188,26 +1533,19 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func getPublicKeyCertificate(input: GetPublicKeyCertificateInput) async throws -> GetPublicKeyCertificateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getPublicKeyCertificate")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1259,7 +1597,7 @@ extension PaymentCryptographyClient {
 
     /// Performs the `ImportKey` operation on the `PaymentCryptography` service.
     ///
-    /// Imports symmetric keys and public key certificates in PEM format (base64 encoded) into Amazon Web Services Payment Cryptography. Amazon Web Services Payment Cryptography simplifies key exchange by replacing the existing paper-based approach with a modern electronic approach. With ImportKey you can import symmetric keys using either symmetric and asymmetric key exchange mechanisms. For symmetric key exchange, Amazon Web Services Payment Cryptography uses the ANSI X9 TR-31 norm in accordance with PCI PIN guidelines. And for asymmetric key exchange, Amazon Web Services Payment Cryptography supports ANSI X9 TR-34 norm and RSA wrap and unwrap key exchange mechanisms. Asymmetric key exchange methods are typically used to establish bi-directional trust between the two parties exhanging keys and are used for initial key exchange such as Key Encryption Key (KEK) or Zone Master Key (ZMK). After which you can import working keys using symmetric method to perform various cryptographic operations within Amazon Web Services Payment Cryptography. The TR-34 norm is intended for exchanging 3DES keys only and keys are imported in a WrappedKeyBlock format. Key attributes (such as KeyUsage, KeyAlgorithm, KeyModesOfUse, Exportability) are contained within the key block. With RSA wrap and unwrap, you can exchange both 3DES and AES-128 keys. The keys are imported in a WrappedKeyCryptogram format and you will need to specify the key attributes during import. You can also import a root public key certificate, used to sign other public key certificates, or a trusted public key certificate under an already established root public key certificate. To import a public root key certificate You can also import a root public key certificate, used to sign other public key certificates, or a trusted public key certificate under an already established root public key certificate. To import a public root key certificate Using this operation, you can import the public component (in PEM cerificate format) of your private root key. You can use the imported public root key certificate for digital signatures, for example signing wrapping key or signing key in TR-34, within your Amazon Web Services Payment Cryptography account. Set the following parameters:
+    /// Imports symmetric keys and public key certificates in PEM format (base64 encoded) into Amazon Web Services Payment Cryptography. Amazon Web Services Payment Cryptography simplifies key exchange by replacing the existing paper-based approach with a modern electronic approach. With ImportKey you can import symmetric keys using either symmetric and asymmetric key exchange mechanisms. For symmetric key exchange, Amazon Web Services Payment Cryptography uses the ANSI X9 TR-31 norm in accordance with PCI PIN guidelines. And for asymmetric key exchange, Amazon Web Services Payment Cryptography supports ANSI X9 TR-34 norm, RSA unwrap, and ECDH (Elliptic Curve Diffie-Hellman) key exchange mechanisms. Asymmetric key exchange methods are typically used to establish bi-directional trust between the two parties exhanging keys and are used for initial key exchange such as Key Encryption Key (KEK) or Zone Master Key (ZMK). After which you can import working keys using symmetric method to perform various cryptographic operations within Amazon Web Services Payment Cryptography. PCI requires specific minimum key strength of wrapping keys used to protect the keys being exchanged electronically. These requirements can change when PCI standards are revised. The rules specify that wrapping keys used for transport must be at least as strong as the key being protected. For more information on recommended key strength of wrapping keys and key exchange mechanism, see [Importing and exporting keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-importexport.html) in the Amazon Web Services Payment Cryptography User Guide. You can also import a root public key certificate, used to sign other public key certificates, or a trusted public key certificate under an already established root public key certificate. To import a public root key certificate Using this operation, you can import the public component (in PEM cerificate format) of your private root key. You can use the imported public root key certificate for digital signatures, for example signing wrapping key or signing key in TR-34, within your Amazon Web Services Payment Cryptography account. Set the following parameters:
     ///
     /// * KeyMaterial: RootCertificatePublicKey
     ///
@@ -1283,7 +1621,7 @@ extension PaymentCryptographyClient {
     /// * PublicKeyCertificate: The trusted public key certificate in PEM format (base64 encoded) under import.
     ///
     ///
-    /// To import initial keys (KEK or ZMK or similar) using TR-34 Using this operation, you can import initial key using TR-34 asymmetric key exchange. In TR-34 terminology, the sending party of the key is called Key Distribution Host (KDH) and the receiving party of the key is called Key Receiving Device (KRD). During the key import process, KDH is the user who initiates the key import and KRD is Amazon Web Services Payment Cryptography who receives the key. To initiate TR-34 key import, the KDH must obtain an import token by calling [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html). This operation generates an encryption keypair for the purpose of key import, signs the key and returns back the wrapping key certificate (also known as KRD wrapping certificate) and the root certificate chain. The KDH must trust and install the KRD wrapping certificate on its HSM and use it to encrypt (wrap) the KDH key during TR-34 WrappedKeyBlock generation. The import token and associated KRD wrapping certificate expires after 7 days. Next the KDH generates a key pair for the purpose of signing the encrypted KDH key and provides the public certificate of the signing key to Amazon Web Services Payment Cryptography. The KDH will also need to import the root certificate chain of the KDH signing certificate by calling ImportKey for RootCertificatePublicKey. For more information on TR-34 key import, see section [Importing symmetric keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-import.html) in the Amazon Web Services Payment Cryptography User Guide. Set the following parameters:
+    /// To import initial keys (KEK or ZMK or similar) using TR-34 Using this operation, you can import initial key using TR-34 asymmetric key exchange. In TR-34 terminology, the sending party of the key is called Key Distribution Host (KDH) and the receiving party of the key is called Key Receiving Device (KRD). During the key import process, KDH is the user who initiates the key import and KRD is Amazon Web Services Payment Cryptography who receives the key. To initiate TR-34 key import, the KDH must obtain an import token by calling [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html). This operation generates an encryption keypair for the purpose of key import, signs the key and returns back the wrapping key certificate (also known as KRD wrapping certificate) and the root certificate chain. The KDH must trust and install the KRD wrapping certificate on its HSM and use it to encrypt (wrap) the KDH key during TR-34 WrappedKeyBlock generation. The import token and associated KRD wrapping certificate expires after 30 days. Next the KDH generates a key pair for the purpose of signing the encrypted KDH key and provides the public certificate of the signing key to Amazon Web Services Payment Cryptography. The KDH will also need to import the root certificate chain of the KDH signing certificate by calling ImportKey for RootCertificatePublicKey. For more information on TR-34 key import, see section [Importing symmetric keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-import.html) in the Amazon Web Services Payment Cryptography User Guide. Set the following parameters:
     ///
     /// * KeyMaterial: Use Tr34KeyBlock parameters.
     ///
@@ -1296,13 +1634,24 @@ extension PaymentCryptographyClient {
     /// * SigningKeyCertificate: The public key certificate in PEM format (base64 encoded) of the KDH signing key generated under the root certificate (CertificateAuthorityPublicKeyIdentifier) imported in Amazon Web Services Payment Cryptography.
     ///
     ///
-    /// To import initial keys (KEK or ZMK or similar) using RSA Wrap and Unwrap Using this operation, you can import initial key using asymmetric RSA wrap and unwrap key exchange method. To initiate import, call [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html) with KeyMaterial set to KEY_CRYPTOGRAM to generate an import token. This operation also generates an encryption keypair for the purpose of key import, signs the key and returns back the wrapping key certificate in PEM format (base64 encoded) and its root certificate chain. The import token and associated KRD wrapping certificate expires after 7 days. You must trust and install the wrapping certificate and its certificate chain on the sending HSM and use it to wrap the key under export for WrappedKeyCryptogram generation. Next call ImportKey with KeyMaterial set to KEY_CRYPTOGRAM and provide the ImportToken and KeyAttributes for the key under import. To import working keys using TR-31 Amazon Web Services Payment Cryptography uses TR-31 symmetric key exchange norm to import working keys. A KEK must be established within Amazon Web Services Payment Cryptography by using TR-34 key import or by using [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html). To initiate a TR-31 key import, set the following parameters:
+    /// To import initial keys (KEK or ZMK or similar) using RSA Wrap and Unwrap Using this operation, you can import initial key using asymmetric RSA wrap and unwrap key exchange method. To initiate import, call [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html) with KeyMaterial set to KEY_CRYPTOGRAM to generate an import token. This operation also generates an encryption keypair for the purpose of key import, signs the key and returns back the wrapping key certificate in PEM format (base64 encoded) and its root certificate chain. The import token and associated KRD wrapping certificate expires after 30 days. You must trust and install the wrapping certificate and its certificate chain on the sending HSM and use it to wrap the key under export for WrappedKeyCryptogram generation. Next call ImportKey with KeyMaterial set to KEY_CRYPTOGRAM and provide the ImportToken and KeyAttributes for the key under import. To import working keys using TR-31 Amazon Web Services Payment Cryptography uses TR-31 symmetric key exchange norm to import working keys. A KEK must be established within Amazon Web Services Payment Cryptography by using TR-34 key import or by using [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html). To initiate a TR-31 key import, set the following parameters:
     ///
     /// * KeyMaterial: Use Tr31KeyBlock parameters.
     ///
     /// * WrappedKeyBlock: The TR-31 wrapped key material. It contains the key under import, encrypted using KEK. The TR-31 key block is typically generated by a HSM outside of Amazon Web Services Payment Cryptography.
     ///
     /// * WrappingKeyIdentifier: The KeyArn of the KEK that Amazon Web Services Payment Cryptography uses to decrypt or unwrap the key under import.
+    ///
+    ///
+    /// To import working keys using ECDH You can also use ECDH key agreement to import working keys as a TR-31 keyblock, where the wrapping key is an ECDH derived key. To initiate a TR-31 key import using ECDH, both sides must create an ECC key pair with key usage K3 and exchange public key certificates. In Amazon Web Services Payment Cryptography, you can do this by calling CreateKey and then GetPublicKeyCertificate to retrieve its public key certificate. Next, you can then generate a TR-31 WrappedKeyBlock using your own ECC key pair, the public certificate of the service's ECC key pair, and the key derivation parameters including key derivation function, hash algorithm, derivation data, and key algorithm. If you have not already done so, you must import the CA chain that issued the receiving public key certificate by calling ImportKey with input RootCertificatePublicKey for root CA or TrustedPublicKey for intermediate CA. To complete the TR-31 key import, you can use the following parameters. It is important that the ECDH key derivation parameters you use should match those used during import to derive the same shared wrapping key within Amazon Web Services Payment Cryptography.
+    ///
+    /// * KeyMaterial: Use DiffieHellmanTr31KeyBlock parameters.
+    ///
+    /// * PrivateKeyIdentifier: The KeyArn of the ECC key pair created within Amazon Web Services Payment Cryptography to derive a shared KEK.
+    ///
+    /// * PublicKeyCertificate: The public key certificate of the receiving ECC key pair in PEM format (base64 encoded) to derive a shared KEK.
+    ///
+    /// * CertificateAuthorityPublicKeyIdentifier: The keyARN of the CA that signed the public key certificate of the receiving ECC key pair.
     ///
     ///
     /// Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
@@ -1318,28 +1667,21 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func importKey(input: ImportKeyInput) async throws -> ImportKeyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "importKey")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1408,26 +1750,19 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listAliases")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1494,26 +1829,19 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func listKeys(input: ListKeysInput) async throws -> ListKeysOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listKeys")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1578,26 +1906,19 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listTagsForResource")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1647,6 +1968,84 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RemoveKeyReplicationRegions` operation on the `PaymentCryptography` service.
+    ///
+    /// Removes Replication Regions from an existing Amazon Web Services Payment Cryptography key, disabling the key's availability for cryptographic operations in the specified Amazon Web Services Regions. When you remove Replication Regions, the key material is securely deleted from those regions and can no longer be used for cryptographic operations there. This operation is irreversible for the specified Amazon Web Services Regions. Ensure that no active cryptographic operations or applications depend on the key in the regions you're removing before performing this operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
+    ///
+    /// * [AddKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_AddKeyReplicationRegions.html)
+    ///
+    /// * [DisableDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DisableDefaultKeyReplicationRegions.html)
+    ///
+    /// - Parameter RemoveKeyReplicationRegionsInput : Input parameters for removing replication regions from a specific key.
+    ///
+    /// - Returns: `RemoveKeyReplicationRegionsOutput` : Output from removing replication regions from a key.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
+    public func removeKeyReplicationRegions(input: RemoveKeyReplicationRegionsInput) async throws -> RemoveKeyReplicationRegionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "removeKeyReplicationRegions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "payment-cryptography")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>(RemoveKeyReplicationRegionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveKeyReplicationRegionsOutput>(RemoveKeyReplicationRegionsOutput.httpOutput(from:), RemoveKeyReplicationRegionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RemoveKeyReplicationRegionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Payment Cryptography", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveKeyReplicationRegionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>(xAmzTarget: "PaymentCryptographyControlPlane.RemoveKeyReplicationRegions"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveKeyReplicationRegionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveKeyReplicationRegionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>(serviceID: serviceName, version: PaymentCryptographyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PaymentCryptography")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RemoveKeyReplicationRegions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RestoreKey` operation on the `PaymentCryptography` service.
     ///
     /// Cancels a scheduled key deletion during the waiting period. Use this operation to restore a Key that is scheduled for deletion. During the waiting period, the KeyState is DELETE_PENDING and deletePendingTimestamp contains the date and time after which the Key will be deleted. After Key is restored, the KeyState is CREATE_COMPLETE, and the value for deletePendingTimestamp is removed. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
@@ -1664,28 +2063,21 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func restoreKey(input: RestoreKeyInput) async throws -> RestoreKeyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "restoreKey")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1748,28 +2140,21 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func startKeyUsage(input: StartKeyUsageInput) async throws -> StartKeyUsageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "startKeyUsage")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1834,28 +2219,21 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func stopKeyUsage(input: StopKeyUsageInput) async throws -> StopKeyUsageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "stopKeyUsage")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1920,28 +2298,21 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "tagResource")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2006,27 +2377,20 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "untagResource")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2095,27 +2459,20 @@ extension PaymentCryptographyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
-    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
-    /// - `ServiceUnavailableException` : The service cannot complete the request.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The request was denied due to an invalid request error.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
+    /// - `ResourceNotFoundException` : The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
+    /// - `ServiceUnavailableException` : The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+    /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
+    /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateAlias")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2164,5 +2521,4 @@ extension PaymentCryptographyClient {
             .build()
         return try await op.execute(input: input)
     }
-
 }

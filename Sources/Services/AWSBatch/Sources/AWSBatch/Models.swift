@@ -397,7 +397,7 @@ extension BatchClientTypes {
         public var imageIdOverride: Swift.String?
         /// The Kubernetes version for the compute environment. If you don't specify a value, the latest version that Batch supports is used.
         public var imageKubernetesVersion: Swift.String?
-        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources. ECS If the imageIdOverride parameter isn't specified, then a recent [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami) (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used. ECS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami): Default for all non-GPU instance families. ECS_AL2_NVIDIA [Amazon Linux 2 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types. ECS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html): Batch supports Amazon Linux 2023. Amazon Linux 2023 does not support A1 instances. ECS_AL1 [Amazon Linux](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#alami). Amazon Linux has reached the end-of-life of standard support. For more information, see [Amazon Linux AMI](http://aws.amazon.com/amazon-linux-ami/). EKS If the imageIdOverride parameter isn't specified, then a recent [Amazon EKS-optimized Amazon Linux AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) (EKS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used. EKS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for all non-GPU instance families. EKS_AL2_NVIDIA [Amazon Linux 2 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for all GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.
+        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources. ECS If the imageIdOverride parameter isn't specified, then a recent [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami) (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used. ECS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami): Default for all non-GPU instance families. ECS_AL2_NVIDIA [Amazon Linux 2 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types. ECS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html): Batch supports Amazon Linux 2023. Amazon Linux 2023 does not support A1 instances. ECS_AL2023_NVIDIA [Amazon Linux 2023 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): For all GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types. ECS_AL2023_NVIDIA doesn't support p3 and g3 instance types. ECS_AL1 [Amazon Linux](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#alami). Amazon Linux has reached the end-of-life of standard support. For more information, see [Amazon Linux AMI](http://aws.amazon.com/amazon-linux-ami/). EKS If the imageIdOverride parameter isn't specified, then a recent [Amazon EKS-optimized Amazon Linux AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) (EKS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used. Starting end of October 2025 Amazon EKS optimized Amazon Linux 2023 AMIs will be the default on Batch for EKS versions prior to 1.33. Starting from Kubernetes version 1.33, EKS optimized Amazon Linux 2023 AMIs will be the default when it becomes supported on Batch. Amazon Web Services will end support for Amazon EKS AL2-optimized and AL2-accelerated AMIs, starting 11/26/25. You can continue using Batch-provided Amazon EKS optimized Amazon Linux 2 AMIs on your Amazon EKS compute environments beyond the 11/26/25 end-of-support date, these compute environments will no longer receive any new software updates, security patches, or bug fixes from Amazon Web Services. For more information on upgrading from AL2 to AL2023, see [How to upgrade from EKS AL2 to EKS AL2023] in the Batch User Guide. EKS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for all non-GPU instance families. EKS_AL2_NVIDIA [Amazon Linux 2 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for all GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types. EKS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Batch supports Amazon Linux 2023. Amazon Linux 2023 does not support A1 instances. EKS_AL2023_NVIDIA [Amazon Linux 2023 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types.
         /// This member is required.
         public var imageType: Swift.String?
 
@@ -415,6 +415,35 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    public enum UserdataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eksBootstrapSh
+        case eksNodeadm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UserdataType] {
+            return [
+                .eksBootstrapSh,
+                .eksNodeadm
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eksBootstrapSh: return "EKS_BOOTSTRAP_SH"
+            case .eksNodeadm: return "EKS_NODEADM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// An object that represents a launch template to use in place of the default launch template. You must specify either the launch template ID or launch template name in the request, but not both. If security groups are specified using both the securityGroupIds parameter of CreateComputeEnvironment and the launch template, the values in the securityGroupIds parameter of CreateComputeEnvironment will be used. You can define up to ten (10) overrides for each compute environment. This object isn't applicable to jobs that are running on Fargate resources. To unset all override templates for a compute environment, you can pass an empty array to the [UpdateComputeEnvironment.overrides](https://docs.aws.amazon.com/batch/latest/APIReference/API_UpdateComputeEnvironment.html) parameter, or not include the overrides parameter when submitting the UpdateComputeEnvironment API operation.
     public struct LaunchTemplateSpecificationOverride: Swift.Sendable {
         /// The ID of the launch template. Note: If you specify the launchTemplateId you can't specify the launchTemplateName as well.
@@ -425,12 +454,14 @@ extension BatchClientTypes {
         ///
         /// * Must be a valid Amazon EC2 instance type or family.
         ///
-        /// * optimal isn't allowed.
+        /// * The following Batch InstanceTypes are not allowed: optimal, default_x86_64, and default_arm64.
         ///
         /// * targetInstanceTypes can target only instance types and families that are included within the [ComputeResource.instanceTypes](https://docs.aws.amazon.com/batch/latest/APIReference/API_ComputeResource.html#Batch-Type-ComputeResource-instanceTypes) set. targetInstanceTypes doesn't need to include all of the instances from the instanceType set, but at least a subset. For example, if ComputeResource.instanceTypes includes [m5, g5], targetInstanceTypes can include [m5.2xlarge] and [m5.large] but not [c5.large].
         ///
         /// * targetInstanceTypes included within the same launch template override or across launch template overrides can't overlap for the same compute environment. For example, you can't define one launch template override to target an instance family and another define an instance type within this same family.
         public var targetInstanceTypes: [Swift.String]?
+        /// The EKS node initialization process to use. You only need to specify this value if you are using a custom AMI. The default value is EKS_BOOTSTRAP_SH. If imageType is a custom AMI based on EKS_AL2023 or EKS_AL2023_NVIDIA then you must choose EKS_NODEADM.
+        public var userdataType: BatchClientTypes.UserdataType?
         /// The version number of the launch template, $Default, or $Latest. If the value is $Default, the default version of the launch template is used. If the value is $Latest, the latest version of the launch template is used. If the AMI ID that's used in a compute environment is from the launch template, the AMI isn't changed when the compute environment is updated. It's only changed if the updateToLatestImageVersion parameter for the compute environment is set to true. During an infrastructure update, if either $Default or $Latest is specified, Batch re-evaluates the launch template version, and it might use a different version of the launch template. This is the case even if the launch template isn't specified in the update. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. Default: $Default Latest: $Latest
         public var version: Swift.String?
 
@@ -438,11 +469,13 @@ extension BatchClientTypes {
             launchTemplateId: Swift.String? = nil,
             launchTemplateName: Swift.String? = nil,
             targetInstanceTypes: [Swift.String]? = nil,
+            userdataType: BatchClientTypes.UserdataType? = nil,
             version: Swift.String? = nil
         ) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.targetInstanceTypes = targetInstanceTypes
+            self.userdataType = userdataType
             self.version = version
         }
     }
@@ -458,6 +491,8 @@ extension BatchClientTypes {
         public var launchTemplateName: Swift.String?
         /// A launch template to use in place of the default launch template. You must specify either the launch template ID or launch template name in the request, but not both. You can specify up to ten (10) launch template overrides that are associated to unique instance types or families for each compute environment. To unset all override templates for a compute environment, you can pass an empty array to the [UpdateComputeEnvironment.overrides](https://docs.aws.amazon.com/batch/latest/APIReference/API_UpdateComputeEnvironment.html) parameter, or not include the overrides parameter when submitting the UpdateComputeEnvironment API operation.
         public var overrides: [BatchClientTypes.LaunchTemplateSpecificationOverride]?
+        /// The EKS node initialization process to use. You only need to specify this value if you are using a custom AMI. The default value is EKS_BOOTSTRAP_SH. If imageType is a custom AMI based on EKS_AL2023 or EKS_AL2023_NVIDIA then you must choose EKS_NODEADM.
+        public var userdataType: BatchClientTypes.UserdataType?
         /// The version number of the launch template, $Default, or $Latest. If the value is $Default, the default version of the launch template is used. If the value is $Latest, the latest version of the launch template is used. If the AMI ID that's used in a compute environment is from the launch template, the AMI isn't changed when the compute environment is updated. It's only changed if the updateToLatestImageVersion parameter for the compute environment is set to true. During an infrastructure update, if either $Default or $Latest is specified, Batch re-evaluates the launch template version, and it might use a different version of the launch template. This is the case even if the launch template isn't specified in the update. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. Default: $Default Latest: $Latest
         public var version: Swift.String?
 
@@ -465,11 +500,13 @@ extension BatchClientTypes {
             launchTemplateId: Swift.String? = nil,
             launchTemplateName: Swift.String? = nil,
             overrides: [BatchClientTypes.LaunchTemplateSpecificationOverride]? = nil,
+            userdataType: BatchClientTypes.UserdataType? = nil,
             version: Swift.String? = nil
         ) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.overrides = overrides
+            self.userdataType = userdataType
             self.version = version
         }
     }
@@ -529,7 +566,16 @@ extension BatchClientTypes {
         public var imageId: Swift.String?
         /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. This parameter is required for Amazon EC2 instances types. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole  or arn:aws:iam:::instance-profile/ecsInstanceRole . For more information, see [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var instanceRole: Swift.String?
-        /// The instances types that can be launched. You can specify instance families to launch any instance type within those families (for example, c5 or p3), or you can specify specific sizes within a family (such as c5.8xlarge). You can also choose optimal to select instance types (from the C4, M4, and R4 instance families) that match the demand of your job queues. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. When you create a compute environment, the instance types that you select for the compute environment must share the same architecture. For example, you can't mix x86 and ARM instances in the same compute environment. Currently, optimal uses instance types from the C4, M4, and R4 instance families. In Regions that don't have instance types from those instance families, instance types from the C5, M5, and R5 instance families are used.
+        /// The instances types that can be launched. You can specify instance families to launch any instance type within those families (for example, c5 or p3), or you can specify specific sizes within a family (such as c5.8xlarge). Batch can select the instance type for you if you choose one of the following:
+        ///
+        /// * optimal to select instance types (from the c4, m4, r4, c5, m5, and r5 instance families) that match the demand of your job queues.
+        ///
+        /// * default_x86_64 to choose x86 based instance types (from the m6i, c6i, r6i, and c7i instance families) that matches the resource demands of the job queue.
+        ///
+        /// * default_arm64 to choose x86 based instance types (from the m6g, c6g, r6g, and c7g instance families) that matches the resource demands of the job queue.
+        ///
+        ///
+        /// Starting on 11/01/2025 the behavior of optimal is going to be changed to match default_x86_64. During the change your instance families could be updated to a newer generation. You do not need to perform any actions for the upgrade to happen. For more information about change, see [Optimal instance type configuration to receive automatic instance family updates](https://docs.aws.amazon.com/batch/latest/userguide/optimal-default-instance-troubleshooting.html). Instance family availability varies by Amazon Web Services Region. For example, some Amazon Web Services Regions may not have any fourth generation instance families but have fifth and sixth generation instance families. When using default_x86_64 or default_arm64 instance bundles, Batch selects instance families based on a balance of cost-effectiveness and performance. While newer generation instances often provide better price-performance, Batch may choose an earlier generation instance family if it provides the optimal combination of availability, cost, and performance for your workload. For example, in an Amazon Web Services Region where both c6i and c7i instances are available, Batch might select c6i instances if they offer better cost-effectiveness for your specific job requirements. For more information on Batch instance types and Amazon Web Services Region availability, see [Instance type compute table](https://docs.aws.amazon.com/batch/latest/userguide/instance-type-compute-table.html) in the Batch User Guide. Batch periodically updates your instances in default bundles to newer, more cost-effective options. Updates happen automatically without requiring any action from you. Your workloads continue running during updates with no interruption This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. When you create a compute environment, the instance types that you select for the compute environment must share the same architecture. For example, you can't mix x86 and ARM instances in the same compute environment.
         public var instanceTypes: [Swift.String]?
         /// The launch template to use for your compute resources. Any other compute resource parameters that you specify in a [CreateComputeEnvironment](https://docs.aws.amazon.com/batch/latest/APIReference/API_CreateComputeEnvironment.html) API operation override the same parameters in the launch template. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see [Launch template support](https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var launchTemplate: BatchClientTypes.LaunchTemplateSpecification?
@@ -547,7 +593,7 @@ extension BatchClientTypes {
         /// The VPC subnets where the compute resources are launched. These subnets must be within the same VPC. Fargate compute resources can contain up to 16 subnets. For more information, see [VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html) in the Amazon VPC User Guide. Batch on Amazon EC2 and Batch on Amazon EKS support Local Zones. For more information, see [ Local Zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-local-zones) in the Amazon EC2 User Guide for Linux Instances, [Amazon EKS and Amazon Web Services Local Zones](https://docs.aws.amazon.com/eks/latest/userguide/local-zones.html) in the Amazon EKS User Guide and [ Amazon ECS clusters in Local Zones, Wavelength Zones, and Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-regions-zones.html#clusters-local-zones) in the Amazon ECS Developer Guide. Batch on Fargate doesn't currently support Local Zones.
         /// This member is required.
         public var subnets: [Swift.String]?
-        /// Key-value pair tags to be applied to Amazon EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value-for example, { "Name": "Batch Instance - C4OnDemand" }. This is helpful for recognizing your Batch instances in the Amazon EC2 console. Updating these tags requires an infrastructure update to the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. These tags aren't seen when using the Batch ListTagsForResource API operation. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// Key-value pair tags to be applied to Amazon EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value (for example, { "Name": "Batch Instance - C4OnDemand" }). This is helpful for recognizing your Batch instances in the Amazon EC2 console. Updating these tags requires an infrastructure update to the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. These tags aren't seen when using the Batch ListTagsForResource API operation. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var tags: [Swift.String: Swift.String]?
         /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see [Compute environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see [Amazon EC2 spot fleet role](https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html) in the Batch User Guide.
         /// This member is required.
@@ -692,7 +738,7 @@ public struct CreateComputeEnvironmentInput: Swift.Sendable {
     /// The type of the compute environment: MANAGED or UNMANAGED. For more information, see [Compute Environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide.
     /// This member is required.
     public var type: BatchClientTypes.CEType?
-    /// The maximum number of vCPUs for an unmanaged compute environment. This parameter is only used for fair share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair share job queue, no vCPU capacity is reserved. This parameter is only supported when the type parameter is set to UNMANAGED.
+    /// The maximum number of vCPUs for an unmanaged compute environment. This parameter is only used for fair-share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair-share job queue, no vCPU capacity is reserved. This parameter is only supported when the type parameter is set to UNMANAGED.
     public var unmanagedvCpus: Swift.Int?
 
     public init(
@@ -733,6 +779,51 @@ public struct CreateComputeEnvironmentOutput: Swift.Sendable {
     }
 }
 
+public struct CreateConsumableResourceInput: Swift.Sendable {
+    /// The name of the consumable resource. Must be unique.
+    /// This member is required.
+    public var consumableResourceName: Swift.String?
+    /// Indicates whether the resource is available to be re-used after a job completes. Can be one of:
+    ///
+    /// * REPLENISHABLE (default)
+    ///
+    /// * NON_REPLENISHABLE
+    public var resourceType: Swift.String?
+    /// The tags that you apply to the consumable resource to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html).
+    public var tags: [Swift.String: Swift.String]?
+    /// The total amount of the consumable resource that is available. Must be non-negative.
+    public var totalQuantity: Swift.Int?
+
+    public init(
+        consumableResourceName: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        totalQuantity: Swift.Int? = nil
+    ) {
+        self.consumableResourceName = consumableResourceName
+        self.resourceType = resourceType
+        self.tags = tags
+        self.totalQuantity = totalQuantity
+    }
+}
+
+public struct CreateConsumableResourceOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the consumable resource.
+    /// This member is required.
+    public var consumableResourceArn: Swift.String?
+    /// The name of the consumable resource.
+    /// This member is required.
+    public var consumableResourceName: Swift.String?
+
+    public init(
+        consumableResourceArn: Swift.String? = nil,
+        consumableResourceName: Swift.String? = nil
+    ) {
+        self.consumableResourceArn = consumableResourceArn
+        self.consumableResourceName = consumableResourceName
+    }
+}
+
 extension BatchClientTypes {
 
     /// The order that compute environments are tried in for job placement within a queue. Compute environments are tried in ascending order. For example, if two compute environments are associated with a job queue, the compute environment with a lower order integer value is tried for job placement first. Compute environments must be in the VALID state before you can associate them with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); Amazon EC2 and Fargate compute environments can't be mixed. All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mixing compute environment architecture types in a single job queue.
@@ -756,13 +847,50 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    public enum JobQueueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ecs
+        case ecsFargate
+        case eks
+        case sagemakerTraining
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobQueueType] {
+            return [
+                .ecs,
+                .ecsFargate,
+                .eks,
+                .sagemakerTraining
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ecs: return "ECS"
+            case .ecsFargate: return "ECS_FARGATE"
+            case .eks: return "EKS"
+            case .sagemakerTraining: return "SAGEMAKER_TRAINING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     public enum JobStateTimeLimitActionsAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancel
+        case terminate
         case sdkUnknown(Swift.String)
 
         public static var allCases: [JobStateTimeLimitActionsAction] {
             return [
-                .cancel
+                .cancel,
+                .terminate
             ]
         }
 
@@ -774,6 +902,7 @@ extension BatchClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cancel: return "CANCEL"
+            case .terminate: return "TERMINATE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -839,6 +968,27 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// Specifies the order of a service environment for a job queue. This determines the priority order when multiple service environments are associated with the same job queue.
+    public struct ServiceEnvironmentOrder: Swift.Sendable {
+        /// The order of the service environment. Job queues with a higher priority are evaluated first when associated with the same service environment.
+        /// This member is required.
+        public var order: Swift.Int?
+        /// The name or ARN of the service environment.
+        /// This member is required.
+        public var serviceEnvironment: Swift.String?
+
+        public init(
+            order: Swift.Int? = nil,
+            serviceEnvironment: Swift.String? = nil
+        ) {
+            self.order = order
+            self.serviceEnvironment = serviceEnvironment
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     public enum JQState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -869,18 +1019,21 @@ extension BatchClientTypes {
 /// Contains the parameters for CreateJobQueue.
 public struct CreateJobQueueInput: Swift.Sendable {
     /// The set of compute environments mapped to a job queue and their order relative to each other. The job scheduler uses this parameter to determine which compute environment runs a specific job. Compute environments must be in the VALID state before you can associate them with a job queue. You can associate up to three compute environments with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments can't be mixed. All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mixing compute environment architecture types in a single job queue.
-    /// This member is required.
     public var computeEnvironmentOrder: [BatchClientTypes.ComputeEnvironmentOrder]?
     /// The name of the job queue. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
     /// This member is required.
     public var jobQueueName: Swift.String?
+    /// The type of job queue. For service jobs that run on SageMaker Training, this value is SAGEMAKER_TRAINING. For regular container jobs, this value is EKS, ECS, or ECS_FARGATE depending on the compute environment.
+    public var jobQueueType: BatchClientTypes.JobQueueType?
     /// The set of actions that Batch performs on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed. (Note: The minimum value for maxTimeSeconds is 600 (10 minutes) and its maximum value is 86,400 (24 hours).)
     public var jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]?
     /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments can't be mixed.
     /// This member is required.
     public var priority: Swift.Int?
-    /// The Amazon Resource Name (ARN) of the fair share scheduling policy. Job queues that don't have a scheduling policy are scheduled in a first-in, first-out (FIFO) model. After a job queue has a scheduling policy, it can be replaced but can't be removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . An example is aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy. A job queue without a scheduling policy is scheduled as a FIFO job queue and can't have a scheduling policy added. Jobs queues with a scheduling policy can have a maximum of 500 active fair share identifiers. When the limit has been reached, submissions of any jobs that add a new fair share identifier fail.
+    /// The Amazon Resource Name (ARN) of the fair-share scheduling policy. Job queues that don't have a fair-share scheduling policy are scheduled in a first-in, first-out (FIFO) model. After a job queue has a fair-share scheduling policy, it can be replaced but can't be removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . An example is aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy. A job queue without a fair-share scheduling policy is scheduled as a FIFO job queue and can't have a fair-share scheduling policy added. Jobs queues with a fair-share scheduling policy can have a maximum of 500 active share identifiers. When the limit has been reached, submissions of any jobs that add a new share identifier fail.
     public var schedulingPolicyArn: Swift.String?
+    /// A list of service environments that this job queue can use to allocate jobs. All serviceEnvironments must have the same type. A job queue can't have both a serviceEnvironmentOrder and a computeEnvironmentOrder field.
+    public var serviceEnvironmentOrder: [BatchClientTypes.ServiceEnvironmentOrder]?
     /// The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
     public var state: BatchClientTypes.JQState?
     /// The tags that you apply to the job queue to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html) in Batch User Guide.
@@ -889,17 +1042,21 @@ public struct CreateJobQueueInput: Swift.Sendable {
     public init(
         computeEnvironmentOrder: [BatchClientTypes.ComputeEnvironmentOrder]? = nil,
         jobQueueName: Swift.String? = nil,
+        jobQueueType: BatchClientTypes.JobQueueType? = nil,
         jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]? = nil,
         priority: Swift.Int? = nil,
         schedulingPolicyArn: Swift.String? = nil,
+        serviceEnvironmentOrder: [BatchClientTypes.ServiceEnvironmentOrder]? = nil,
         state: BatchClientTypes.JQState? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.computeEnvironmentOrder = computeEnvironmentOrder
         self.jobQueueName = jobQueueName
+        self.jobQueueType = jobQueueType
         self.jobStateTimeLimitActions = jobStateTimeLimitActions
         self.priority = priority
         self.schedulingPolicyArn = schedulingPolicyArn
+        self.serviceEnvironmentOrder = serviceEnvironmentOrder
         self.state = state
         self.tags = tags
     }
@@ -924,12 +1081,12 @@ public struct CreateJobQueueOutput: Swift.Sendable {
 
 extension BatchClientTypes {
 
-    /// Specifies the weights for the fair share identifiers for the fair share policy. Fair share identifiers that aren't included have a default weight of 1.0.
+    /// Specifies the weights for the share identifiers for the fair-share policy. Share identifiers that aren't included have a default weight of 1.0.
     public struct ShareAttributes: Swift.Sendable {
-        /// A fair share identifier or fair share identifier prefix. If the string ends with an asterisk (*), this entry specifies the weight factor to use for fair share identifiers that start with that prefix. The list of fair share identifiers in a fair share policy can't overlap. For example, you can't have one that specifies a shareIdentifier of UserA* and another that specifies a shareIdentifier of UserA-1. There can be no more than 500 fair share identifiers active in a job queue. The string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
+        /// A share identifier or share identifier prefix. If the string ends with an asterisk (*), this entry specifies the weight factor to use for share identifiers that start with that prefix. The list of share identifiers in a fair-share policy can't overlap. For example, you can't have one that specifies a shareIdentifier of UserA* and another that specifies a shareIdentifier of UserA1. There can be no more than 500 share identifiers active in a job queue. The string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
         /// This member is required.
         public var shareIdentifier: Swift.String?
-        /// The weight factor for the fair share identifier. The default value is 1.0. A lower value has a higher priority for compute resources. For example, jobs that use a share identifier with a weight factor of 0.125 (1/8) get 8 times the compute resources of jobs that use a share identifier with a weight factor of 1. The smallest supported value is 0.0001, and the largest supported value is 999.9999.
+        /// The weight factor for the share identifier. The default value is 1.0. A lower value has a higher priority for compute resources. For example, jobs that use a share identifier with a weight factor of 0.125 (1/8) get 8 times the compute resources of jobs that use a share identifier with a weight factor of 1. The smallest supported value is 0.0001, and the largest supported value is 999.9999.
         public var weightFactor: Swift.Float?
 
         public init(
@@ -944,13 +1101,13 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
-    /// The fair share policy for a scheduling policy.
+    /// The fair-share scheduling policy details.
     public struct FairsharePolicy: Swift.Sendable {
-        /// A value used to reserve some of the available maximum vCPU for fair share identifiers that aren't already used. The reserved ratio is (computeReservation/100)^ActiveFairShares  where  ActiveFairShares  is the number of active fair share identifiers. For example, a computeReservation value of 50 indicates that Batch reserves 50% of the maximum available vCPU if there's only one fair share identifier. It reserves 25% if there are two fair share identifiers. It reserves 12.5% if there are three fair share identifiers. A computeReservation value of 25 indicates that Batch should reserve 25% of the maximum available vCPU if there's only one fair share identifier, 6.25% if there are two fair share identifiers, and 1.56% if there are three fair share identifiers. The minimum value is 0 and the maximum value is 99.
+        /// A value used to reserve some of the available maximum vCPU for share identifiers that aren't already used. The reserved ratio is (computeReservation/100)^ActiveFairShares  where  ActiveFairShares  is the number of active share identifiers. For example, a computeReservation value of 50 indicates that Batch reserves 50% of the maximum available vCPU if there's only one share identifier. It reserves 25% if there are two share identifiers. It reserves 12.5% if there are three share identifiers. A computeReservation value of 25 indicates that Batch should reserve 25% of the maximum available vCPU if there's only one share identifier, 6.25% if there are two fair share identifiers, and 1.56% if there are three share identifiers. The minimum value is 0 and the maximum value is 99.
         public var computeReservation: Swift.Int?
-        /// The amount of time (in seconds) to use to calculate a fair share percentage for each fair share identifier in use. A value of zero (0) indicates the default minimum time window (600 seconds). The maximum supported value is 604800 (1 week). The decay allows for more recently run jobs to have more weight than jobs that ran earlier. Consider adjusting this number if you have jobs that (on average) run longer than ten minutes, or a large difference in job count or job run times between share identifiers, and the allocation of resources doesn’t meet your needs.
+        /// The amount of time (in seconds) to use to calculate a fair-share percentage for each share identifier in use. A value of zero (0) indicates the default minimum time window (600 seconds). The maximum supported value is 604800 (1 week). The decay allows for more recently run jobs to have more weight than jobs that ran earlier. Consider adjusting this number if you have jobs that (on average) run longer than ten minutes, or a large difference in job count or job run times between share identifiers, and the allocation of resources doesn't meet your needs.
         public var shareDecaySeconds: Swift.Int?
-        /// An array of SharedIdentifier objects that contain the weights for the fair share identifiers for the fair share policy. Fair share identifiers that aren't included have a default weight of 1.0.
+        /// An array of SharedIdentifier objects that contain the weights for the share identifiers for the fair-share policy. Share identifiers that aren't included have a default weight of 1.0.
         public var shareDistribution: [BatchClientTypes.ShareAttributes]?
 
         public init(
@@ -967,9 +1124,9 @@ extension BatchClientTypes {
 
 /// Contains the parameters for CreateSchedulingPolicy.
 public struct CreateSchedulingPolicyInput: Swift.Sendable {
-    /// The fair share policy of the scheduling policy.
+    /// The fair-share scheduling policy details.
     public var fairsharePolicy: BatchClientTypes.FairsharePolicy?
-    /// The name of the scheduling policy. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+    /// The name of the fair-share scheduling policy. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
     /// This member is required.
     public var name: Swift.String?
     /// The tags that you apply to the scheduling policy to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in Amazon Web Services General Reference. These tags can be updated or removed using the [TagResource](https://docs.aws.amazon.com/batch/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/batch/latest/APIReference/API_UntagResource.html) API operations.
@@ -1003,6 +1160,127 @@ public struct CreateSchedulingPolicyOutput: Swift.Sendable {
     }
 }
 
+extension BatchClientTypes {
+
+    /// Defines the capacity limit for a service environment. This structure specifies the maximum amount of resources that can be used by service jobs in the environment.
+    public struct CapacityLimit: Swift.Sendable {
+        /// The unit of measure for the capacity limit. This defines how the maxCapacity value should be interpreted. For SAGEMAKER_TRAINING jobs, use NUM_INSTANCES.
+        public var capacityUnit: Swift.String?
+        /// The maximum capacity available for the service environment. This value represents the maximum amount of resources that can be allocated to service jobs. For example, maxCapacity=50, capacityUnit=NUM_INSTANCES. This indicates that the maximum number of instances that can be run on this service environment is 50. You could then run 5 SageMaker Training jobs that each use 10 instances. However, if you submit another job that requires 10 instances, it will wait in the queue.
+        public var maxCapacity: Swift.Int?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            maxCapacity: Swift.Int? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.maxCapacity = maxCapacity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum ServiceEnvironmentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sagemakerTraining
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceEnvironmentType] {
+            return [
+                .sagemakerTraining
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sagemakerTraining: return "SAGEMAKER_TRAINING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum ServiceEnvironmentState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceEnvironmentState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateServiceEnvironmentInput: Swift.Sendable {
+    /// The capacity limits for the service environment. The number of instances a job consumes is the total number of instances requested in the submit training job request resource configuration.
+    /// This member is required.
+    public var capacityLimits: [BatchClientTypes.CapacityLimit]?
+    /// The name for the service environment. It can be up to 128 characters long and can contain letters, numbers, hyphens (-), and underscores (_).
+    /// This member is required.
+    public var serviceEnvironmentName: Swift.String?
+    /// The type of service environment. For SageMaker Training jobs, specify SAGEMAKER_TRAINING.
+    /// This member is required.
+    public var serviceEnvironmentType: BatchClientTypes.ServiceEnvironmentType?
+    /// The state of the service environment. Valid values are ENABLED and DISABLED. The default value is ENABLED.
+    public var state: BatchClientTypes.ServiceEnvironmentState?
+    /// The tags that you apply to the service environment to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html).
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        capacityLimits: [BatchClientTypes.CapacityLimit]? = nil,
+        serviceEnvironmentName: Swift.String? = nil,
+        serviceEnvironmentType: BatchClientTypes.ServiceEnvironmentType? = nil,
+        state: BatchClientTypes.ServiceEnvironmentState? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.capacityLimits = capacityLimits
+        self.serviceEnvironmentName = serviceEnvironmentName
+        self.serviceEnvironmentType = serviceEnvironmentType
+        self.state = state
+        self.tags = tags
+    }
+}
+
+public struct CreateServiceEnvironmentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the service environment.
+    /// This member is required.
+    public var serviceEnvironmentArn: Swift.String?
+    /// The name of the service environment.
+    /// This member is required.
+    public var serviceEnvironmentName: Swift.String?
+
+    public init(
+        serviceEnvironmentArn: Swift.String? = nil,
+        serviceEnvironmentName: Swift.String? = nil
+    ) {
+        self.serviceEnvironmentArn = serviceEnvironmentArn
+        self.serviceEnvironmentName = serviceEnvironmentName
+    }
+}
+
 /// Contains the parameters for DeleteComputeEnvironment.
 public struct DeleteComputeEnvironmentInput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) of the compute environment to delete.
@@ -1017,6 +1295,23 @@ public struct DeleteComputeEnvironmentInput: Swift.Sendable {
 }
 
 public struct DeleteComputeEnvironmentOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteConsumableResourceInput: Swift.Sendable {
+    /// The name or ARN of the consumable resource that will be deleted.
+    /// This member is required.
+    public var consumableResource: Swift.String?
+
+    public init(
+        consumableResource: Swift.String? = nil
+    ) {
+        self.consumableResource = consumableResource
+    }
+}
+
+public struct DeleteConsumableResourceOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -1053,6 +1348,23 @@ public struct DeleteSchedulingPolicyInput: Swift.Sendable {
 }
 
 public struct DeleteSchedulingPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteServiceEnvironmentInput: Swift.Sendable {
+    /// The name or ARN of the service environment to delete.
+    /// This member is required.
+    public var serviceEnvironment: Swift.String?
+
+    public init(
+        serviceEnvironment: Swift.String? = nil
+    ) {
+        self.serviceEnvironment = serviceEnvironment
+    }
+}
+
+public struct DeleteServiceEnvironmentOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -1166,11 +1478,11 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
-    /// Specifies the infrastructure update policy for the compute environment. For more information about infrastructure updates, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
+    /// Specifies the infrastructure update policy for the Amazon EC2 compute environment. For more information about infrastructure updates, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
     public struct UpdatePolicy: Swift.Sendable {
         /// Specifies the job timeout (in minutes) when the compute environment infrastructure is updated. The default value is 30.
         public var jobExecutionTimeoutMinutes: Swift.Int?
-        /// Specifies whether jobs are automatically terminated when the computer environment infrastructure is updated. The default value is false.
+        /// Specifies whether jobs are automatically terminated when the compute environment infrastructure is updated. The default value is false.
         public var terminateJobsOnUpdate: Swift.Bool?
 
         public init(
@@ -1275,6 +1587,63 @@ public struct DescribeComputeEnvironmentsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeConsumableResourceInput: Swift.Sendable {
+    /// The name or ARN of the consumable resource whose description will be returned.
+    /// This member is required.
+    public var consumableResource: Swift.String?
+
+    public init(
+        consumableResource: Swift.String? = nil
+    ) {
+        self.consumableResource = consumableResource
+    }
+}
+
+public struct DescribeConsumableResourceOutput: Swift.Sendable {
+    /// The amount of the consumable resource that is currently available to use.
+    public var availableQuantity: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the consumable resource.
+    /// This member is required.
+    public var consumableResourceArn: Swift.String?
+    /// The name of the consumable resource.
+    /// This member is required.
+    public var consumableResourceName: Swift.String?
+    /// The Unix timestamp (in milliseconds) for when the consumable resource was created.
+    public var createdAt: Swift.Int?
+    /// The amount of the consumable resource that is currently in use.
+    public var inUseQuantity: Swift.Int?
+    /// Indicates whether the resource is available to be re-used after a job completes. Can be one of:
+    ///
+    /// * REPLENISHABLE
+    ///
+    /// * NON_REPLENISHABLE
+    public var resourceType: Swift.String?
+    /// The tags that you apply to the consumable resource to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html).
+    public var tags: [Swift.String: Swift.String]?
+    /// The total amount of the consumable resource that is available.
+    public var totalQuantity: Swift.Int?
+
+    public init(
+        availableQuantity: Swift.Int? = nil,
+        consumableResourceArn: Swift.String? = nil,
+        consumableResourceName: Swift.String? = nil,
+        createdAt: Swift.Int? = nil,
+        inUseQuantity: Swift.Int? = nil,
+        resourceType: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        totalQuantity: Swift.Int? = nil
+    ) {
+        self.availableQuantity = availableQuantity
+        self.consumableResourceArn = consumableResourceArn
+        self.consumableResourceName = consumableResourceName
+        self.createdAt = createdAt
+        self.inUseQuantity = inUseQuantity
+        self.resourceType = resourceType
+        self.tags = tags
+        self.totalQuantity = totalQuantity
+    }
+}
+
 /// Contains the parameters for DescribeJobDefinitions.
 public struct DescribeJobDefinitionsInput: Swift.Sendable {
     /// The name of the job definition to describe.
@@ -1300,6 +1669,40 @@ public struct DescribeJobDefinitionsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Information about a consumable resource required to run a job.
+    public struct ConsumableResourceRequirement: Swift.Sendable {
+        /// The name or ARN of the consumable resource.
+        public var consumableResource: Swift.String?
+        /// The quantity of the consumable resource that is needed.
+        public var quantity: Swift.Int?
+
+        public init(
+            consumableResource: Swift.String? = nil,
+            quantity: Swift.Int? = nil
+        ) {
+            self.consumableResource = consumableResource
+            self.quantity = quantity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Contains a list of consumable resources required by a job.
+    public struct ConsumableResourceProperties: Swift.Sendable {
+        /// The list of consumable resources required by a job.
+        public var consumableResourceList: [BatchClientTypes.ConsumableResourceRequirement]?
+
+        public init(
+            consumableResourceList: [BatchClientTypes.ConsumableResourceRequirement]? = nil
+        ) {
+            self.consumableResourceList = consumableResourceList
+        }
     }
 }
 
@@ -1442,7 +1845,7 @@ extension BatchClientTypes {
         public var devices: [BatchClientTypes.Device]?
         /// If true, run an init process inside the container that forwards signals and reaps processes. This parameter maps to the --init option to [docker run](https://docs.docker.com/engine/reference/run/). This parameter requires version 1.25 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version"
         public var initProcessEnabled: Swift.Bool?
-        /// The total amount of swap memory (in MiB) a container can use. This parameter is translated to the --memory-swap option to [docker run](https://docs.docker.com/engine/reference/run/) where the value is the sum of the container memory plus the maxSwap value. For more information, see [--memory-swap] details(https://docs.docker.com/config/containers/resource_constraints/#--memory-swap-details) in the Docker documentation. If a maxSwap value of 0 is specified, the container doesn't use swap. Accepted values are 0 or any positive integer. If the maxSwap parameter is omitted, the container doesn't use the swap configuration for the container instance that it's running on. A maxSwap value must be set for the swappiness parameter to be used. This parameter isn't applicable to jobs that are running on Fargate resources. Don't provide it for these jobs.
+        /// The total amount of swap memory (in MiB) a container can use. This parameter is translated to the --memory-swap option to [docker run](https://docs.docker.com/engine/reference/run/) where the value is the sum of the container memory plus the maxSwap value. For more information, see [--memory-swap] details(https://docs.docker.com/config/containers/resource_constraints/#--memory-swap-details) in the Docker documentation. If a maxSwap value of 0 is specified, the container doesn't use swap. Accepted values are 0 or any positive integer. If the maxSwap parameter is omitted, the container doesn't use the swap configuration for the container instance on which it runs. A maxSwap value must be set for the swappiness parameter to be used. This parameter isn't applicable to jobs that are running on Fargate resources. Don't provide it for these jobs.
         public var maxSwap: Swift.Int?
         /// The value for the size (in MiB) of the /dev/shm volume. This parameter maps to the --shm-size option to [docker run](https://docs.docker.com/engine/reference/run/). This parameter isn't applicable to jobs that are running on Fargate resources. Don't provide it for these jobs.
         public var sharedMemorySize: Swift.Int?
@@ -1481,6 +1884,7 @@ extension BatchClientTypes {
 extension BatchClientTypes {
 
     public enum LogDriver: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsfirelens
         case awslogs
         case fluentd
         case gelf
@@ -1492,6 +1896,7 @@ extension BatchClientTypes {
 
         public static var allCases: [LogDriver] {
             return [
+                .awsfirelens,
                 .awslogs,
                 .fluentd,
                 .gelf,
@@ -1509,6 +1914,7 @@ extension BatchClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .awsfirelens: return "awsfirelens"
             case .awslogs: return "awslogs"
             case .fluentd: return "fluentd"
             case .gelf: return "gelf"
@@ -1554,7 +1960,7 @@ extension BatchClientTypes {
 
     /// Log configuration options to send to a custom log driver for the container.
     public struct LogConfiguration: Swift.Sendable {
-        /// The log driver to use for the container. The valid values that are listed for this parameter are log drivers that the Amazon ECS container agent can communicate with by default. The supported log drivers are awslogs, fluentd, gelf, json-file, journald, logentries, syslog, and splunk. Jobs that are running on Fargate resources are restricted to the awslogs and splunk log drivers. awslogs Specifies the Amazon CloudWatch Logs logging driver. For more information, see [Using the awslogs log driver](https://docs.aws.amazon.com/batch/latest/userguide/using_awslogs.html) in the Batch User Guide and [Amazon CloudWatch Logs logging driver](https://docs.docker.com/config/containers/logging/awslogs/) in the Docker documentation. fluentd Specifies the Fluentd logging driver. For more information including usage and options, see [Fluentd logging driver](https://docs.docker.com/config/containers/logging/fluentd/) in the Docker documentation. gelf Specifies the Graylog Extended Format (GELF) logging driver. For more information including usage and options, see [Graylog Extended Format logging driver](https://docs.docker.com/config/containers/logging/gelf/) in the Docker documentation. journald Specifies the journald logging driver. For more information including usage and options, see [Journald logging driver](https://docs.docker.com/config/containers/logging/journald/) in the Docker documentation. json-file Specifies the JSON file logging driver. For more information including usage and options, see [JSON File logging driver](https://docs.docker.com/config/containers/logging/json-file/) in the Docker documentation. splunk Specifies the Splunk logging driver. For more information including usage and options, see [Splunk logging driver](https://docs.docker.com/config/containers/logging/splunk/) in the Docker documentation. syslog Specifies the syslog logging driver. For more information including usage and options, see [Syslog logging driver](https://docs.docker.com/config/containers/logging/syslog/) in the Docker documentation. If you have a custom driver that's not listed earlier that you want to work with the Amazon ECS container agent, you can fork the Amazon ECS container agent project that's [available on GitHub](https://github.com/aws/amazon-ecs-agent) and customize it to work with that driver. We encourage you to submit pull requests for changes that you want to have included. However, Amazon Web Services doesn't currently support running modified copies of this software. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version"
+        /// The log driver to use for the container. The valid values that are listed for this parameter are log drivers that the Amazon ECS container agent can communicate with by default. The supported log drivers are awslogs, fluentd, gelf, json-file, journald, logentries, syslog, and splunk. Jobs that are running on Fargate resources are restricted to the awslogs and splunk log drivers. awsfirelens Specifies the firelens logging driver. For more information on configuring Firelens, see [Send Amazon ECS logs to an Amazon Web Services service or Amazon Web Services Partner](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html) in the Amazon Elastic Container Service Developer Guide. awslogs Specifies the Amazon CloudWatch Logs logging driver. For more information, see [Using the awslogs log driver](https://docs.aws.amazon.com/batch/latest/userguide/using_awslogs.html) in the Batch User Guide and [Amazon CloudWatch Logs logging driver](https://docs.docker.com/config/containers/logging/awslogs/) in the Docker documentation. fluentd Specifies the Fluentd logging driver. For more information including usage and options, see [Fluentd logging driver](https://docs.docker.com/config/containers/logging/fluentd/) in the Docker documentation. gelf Specifies the Graylog Extended Format (GELF) logging driver. For more information including usage and options, see [Graylog Extended Format logging driver](https://docs.docker.com/config/containers/logging/gelf/) in the Docker documentation. journald Specifies the journald logging driver. For more information including usage and options, see [Journald logging driver](https://docs.docker.com/config/containers/logging/journald/) in the Docker documentation. json-file Specifies the JSON file logging driver. For more information including usage and options, see [JSON File logging driver](https://docs.docker.com/config/containers/logging/json-file/) in the Docker documentation. splunk Specifies the Splunk logging driver. For more information including usage and options, see [Splunk logging driver](https://docs.docker.com/config/containers/logging/splunk/) in the Docker documentation. syslog Specifies the syslog logging driver. For more information including usage and options, see [Syslog logging driver](https://docs.docker.com/config/containers/logging/syslog/) in the Docker documentation. If you have a custom driver that's not listed earlier that you want to work with the Amazon ECS container agent, you can fork the Amazon ECS container agent project that's [available on GitHub](https://github.com/aws/amazon-ecs-agent) and customize it to work with that driver. We encourage you to submit pull requests for changes that you want to have included. However, Amazon Web Services doesn't currently support running modified copies of this software. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version"
         /// This member is required.
         public var logDriver: BatchClientTypes.LogDriver?
         /// The configuration options to send to the log driver. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version"
@@ -1685,9 +2091,9 @@ extension BatchClientTypes {
 
     /// An object that represents the compute environment architecture for Batch jobs on Fargate.
     public struct RuntimePlatform: Swift.Sendable {
-        /// The vCPU architecture. The default value is X86_64. Valid values are X86_64 and ARM64. This parameter must be set to X86_64 for Windows containers. Fargate Spot is not supported for ARM64 and Windows-based containers on Fargate. A job queue will be blocked if a Fargate ARM64 or Windows job is submitted to a job queue with only Fargate Spot compute environments. However, you can attach both FARGATE and FARGATE_SPOT compute environments to the same job queue.
+        /// The vCPU architecture. The default value is X86_64. Valid values are X86_64 and ARM64. This parameter must be set to X86_64 for Windows containers. Fargate Spot is not supported on Windows-based containers on Fargate. A job queue will be blocked if a Windows job is submitted to a job queue with only Fargate Spot compute environments. However, you can attach both FARGATE and FARGATE_SPOT compute environments to the same job queue.
         public var cpuArchitecture: Swift.String?
-        /// The operating system for the compute environment. Valid values are: LINUX (default), WINDOWS_SERVER_2019_CORE, WINDOWS_SERVER_2019_FULL, WINDOWS_SERVER_2022_CORE, and WINDOWS_SERVER_2022_FULL. The following parameters can’t be set for Windows containers: linuxParameters, privileged, user, ulimits, readonlyRootFilesystem, and efsVolumeConfiguration. The Batch Scheduler checks the compute environments that are attached to the job queue before registering a task definition with Fargate. In this scenario, the job queue is where the job is submitted. If the job requires a Windows container and the first compute environment is LINUX, the compute environment is skipped and the next compute environment is checked until a Windows-based compute environment is found. Fargate Spot is not supported for ARM64 and Windows-based containers on Fargate. A job queue will be blocked if a Fargate ARM64 or Windows job is submitted to a job queue with only Fargate Spot compute environments. However, you can attach both FARGATE and FARGATE_SPOT compute environments to the same job queue.
+        /// The operating system for the compute environment. Valid values are: LINUX (default), WINDOWS_SERVER_2019_CORE, WINDOWS_SERVER_2019_FULL, WINDOWS_SERVER_2022_CORE, and WINDOWS_SERVER_2022_FULL. The following parameters can’t be set for Windows containers: linuxParameters, privileged, user, ulimits, readonlyRootFilesystem, and efsVolumeConfiguration. The Batch Scheduler checks the compute environments that are attached to the job queue before registering a task definition with Fargate. In this scenario, the job queue is where the job is submitted. If the job requires a Windows container and the first compute environment is LINUX, the compute environment is skipped and the next compute environment is checked until a Windows-based compute environment is found. Fargate Spot is not supported on Windows-based containers on Fargate. A job queue will be blocked if a Windows job is submitted to a job queue with only Fargate Spot compute environments. However, you can attach both FARGATE and FARGATE_SPOT compute environments to the same job queue.
         public var operatingSystemFamily: Swift.String?
 
         public init(
@@ -1879,6 +2285,8 @@ extension BatchClientTypes {
     public struct ContainerProperties: Swift.Sendable {
         /// The command that's passed to the container. This parameter maps to Cmd in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the COMMAND parameter to [docker run](https://docs.docker.com/engine/reference/run/). For more information, see [https://docs.docker.com/engine/reference/builder/#cmd](https://docs.docker.com/engine/reference/builder/#cmd).
         public var command: [Swift.String]?
+        /// Determines whether execute command functionality is turned on for this task. If true, execute command functionality is turned on all the containers in the task.
+        public var enableExecuteCommand: Swift.Bool?
         /// The environment variables to pass to a container. This parameter maps to Env in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --env option to [docker run](https://docs.docker.com/engine/reference/run/). We don't recommend using plaintext environment variables for sensitive information, such as credential data. Environment variables cannot start with "AWS_BATCH". This naming convention is reserved for variables that Batch sets.
         public var environment: [BatchClientTypes.KeyValuePair]?
         /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate.
@@ -1938,6 +2346,7 @@ extension BatchClientTypes {
 
         public init(
             command: [Swift.String]? = nil,
+            enableExecuteCommand: Swift.Bool? = nil,
             environment: [BatchClientTypes.KeyValuePair]? = nil,
             ephemeralStorage: BatchClientTypes.EphemeralStorage? = nil,
             executionRoleArn: Swift.String? = nil,
@@ -1962,6 +2371,7 @@ extension BatchClientTypes {
             volumes: [BatchClientTypes.Volume]? = nil
         ) {
             self.command = command
+            self.enableExecuteCommand = enableExecuteCommand
             self.environment = environment
             self.ephemeralStorage = ephemeralStorage
             self.executionRoleArn = executionRoleArn
@@ -2015,6 +2425,55 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    public enum FirelensConfigurationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fluentbit
+        case fluentd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FirelensConfigurationType] {
+            return [
+                .fluentbit,
+                .fluentd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fluentbit: return "fluentbit"
+            case .fluentd: return "fluentd"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The FireLens configuration for the container. This is used to specify and configure a log router for container logs. For more information, see [Custom log](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html) routing in the Amazon Elastic Container Service Developer Guide.
+    public struct FirelensConfiguration: Swift.Sendable {
+        /// The options to use when configuring the log router. This field is optional and can be used to specify a custom configuration file or to add additional metadata, such as the task, task definition, cluster, and container instance details to the log event. If specified, the syntax to use is "options":{"enable-ecs-log-metadata":"true|false","config-file-type:"s3|file","config-file-value":"arn:aws:s3:::mybucket/fluent.conf|filepath"}. For more information, see [Creating a task definition that uses a FireLens configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html#firelens-taskdef) in the Amazon Elastic Container Service Developer Guide.
+        public var options: [Swift.String: Swift.String]?
+        /// The log router to use. The valid values are fluentd or fluentbit.
+        /// This member is required.
+        public var type: BatchClientTypes.FirelensConfigurationType?
+
+        public init(
+            options: [Swift.String: Swift.String]? = nil,
+            type: BatchClientTypes.FirelensConfigurationType? = nil
+        ) {
+            self.options = options
+            self.type = type
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// Container properties are used for Amazon ECS-based job definitions. These properties to describe the container that's launched as part of a job.
     public struct TaskContainerProperties: Swift.Sendable {
         /// The command that's passed to the container. This parameter maps to Cmd in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the COMMAND parameter to [docker run](https://docs.docker.com/engine/reference/run/). For more information, see [Dockerfile reference: CMD](https://docs.docker.com/engine/reference/builder/#cmd).
@@ -2025,6 +2484,8 @@ extension BatchClientTypes {
         public var environment: [BatchClientTypes.KeyValuePair]?
         /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, its failure doesn't affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All jobs must have at least one essential container. If you have an application that's composed of multiple containers, group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see [Application Architecture](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/application_architecture.html) in the Amazon Elastic Container Service Developer Guide.
         public var essential: Swift.Bool?
+        /// The FireLens configuration for the container. This is used to specify and configure a log router for container logs. For more information, see [Custom log](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html) routing in the Amazon Elastic Container Service Developer Guide.
+        public var firelensConfiguration: BatchClientTypes.FirelensConfiguration?
         /// The image used to start a container. This string is passed directly to the Docker daemon. By default, images in the Docker Hub registry are available. Other repositories are specified with either repository-url/image:tag or repository-url/image@digest. Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the IMAGE parameter of the [ docker run ](https://docs.docker.com/engine/reference/run/#security-configuration).
         /// This member is required.
         public var image: Swift.String?
@@ -2071,6 +2532,7 @@ extension BatchClientTypes {
             dependsOn: [BatchClientTypes.TaskContainerDependency]? = nil,
             environment: [BatchClientTypes.KeyValuePair]? = nil,
             essential: Swift.Bool? = nil,
+            firelensConfiguration: BatchClientTypes.FirelensConfiguration? = nil,
             image: Swift.String? = nil,
             linuxParameters: BatchClientTypes.LinuxParameters? = nil,
             logConfiguration: BatchClientTypes.LogConfiguration? = nil,
@@ -2088,6 +2550,7 @@ extension BatchClientTypes {
             self.dependsOn = dependsOn
             self.environment = environment
             self.essential = essential
+            self.firelensConfiguration = firelensConfiguration
             self.image = image
             self.linuxParameters = linuxParameters
             self.logConfiguration = logConfiguration
@@ -2111,6 +2574,8 @@ extension BatchClientTypes {
         /// This object is a list of containers.
         /// This member is required.
         public var containers: [BatchClientTypes.TaskContainerProperties]?
+        /// Determines whether execute command functionality is turned on for this task. If true, execute command functionality is turned on all the containers in the task.
+        public var enableExecuteCommand: Swift.Bool?
         /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate.
         public var ephemeralStorage: BatchClientTypes.EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the execution role that Batch can assume. For jobs that run on Fargate resources, you must provide an execution role. For more information, see [Batch execution IAM role](https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html) in the Batch User Guide.
@@ -2132,6 +2597,7 @@ extension BatchClientTypes {
 
         public init(
             containers: [BatchClientTypes.TaskContainerProperties]? = nil,
+            enableExecuteCommand: Swift.Bool? = nil,
             ephemeralStorage: BatchClientTypes.EphemeralStorage? = nil,
             executionRoleArn: Swift.String? = nil,
             ipcMode: Swift.String? = nil,
@@ -2143,6 +2609,7 @@ extension BatchClientTypes {
             volumes: [BatchClientTypes.Volume]? = nil
         ) {
             self.containers = containers
+            self.enableExecuteCommand = enableExecuteCommand
             self.ephemeralStorage = ephemeralStorage
             self.executionRoleArn = executionRoleArn
             self.ipcMode = ipcMode
@@ -2550,6 +3017,8 @@ extension BatchClientTypes {
 
     /// This is an object that represents the properties of the node range for a multi-node parallel job.
     public struct NodeRangeProperty: Swift.Sendable {
+        /// Contains a list of consumable resources required by a job.
+        public var consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties?
         /// The container details for the node range.
         public var container: BatchClientTypes.ContainerProperties?
         /// This is an object that represents the properties of the node range for a multi-node parallel job.
@@ -2563,12 +3032,14 @@ extension BatchClientTypes {
         public var targetNodes: Swift.String?
 
         public init(
+            consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties? = nil,
             container: BatchClientTypes.ContainerProperties? = nil,
             ecsProperties: BatchClientTypes.EcsProperties? = nil,
             eksProperties: BatchClientTypes.EksProperties? = nil,
             instanceTypes: [Swift.String]? = nil,
             targetNodes: Swift.String? = nil
         ) {
+            self.consumableResourceProperties = consumableResourceProperties
             self.container = container
             self.ecsProperties = ecsProperties
             self.eksProperties = eksProperties
@@ -2728,6 +3199,8 @@ extension BatchClientTypes {
 
     /// An object that represents an Batch job definition.
     public struct JobDefinition: Swift.Sendable {
+        /// Contains a list of consumable resources required by the job.
+        public var consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties?
         /// The orchestration type of the compute environment. The valid values are ECS (default) or EKS.
         public var containerOrchestrationType: BatchClientTypes.OrchestrationType?
         /// An object with properties specific to Amazon ECS-based jobs. When containerProperties is used in the job definition, it can't be used in addition to eksProperties, ecsProperties, or nodeProperties.
@@ -2755,7 +3228,7 @@ extension BatchClientTypes {
         /// The revision of the job definition.
         /// This member is required.
         public var revision: Swift.Int?
-        /// The scheduling priority of the job definition. This only affects jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority.
+        /// The scheduling priority of the job definition. This only affects jobs in job queues with a fair-share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority.
         public var schedulingPriority: Swift.Int?
         /// The status of the job definition.
         public var status: Swift.String?
@@ -2768,6 +3241,7 @@ extension BatchClientTypes {
         public var type: Swift.String?
 
         public init(
+            consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties? = nil,
             containerOrchestrationType: BatchClientTypes.OrchestrationType? = nil,
             containerProperties: BatchClientTypes.ContainerProperties? = nil,
             ecsProperties: BatchClientTypes.EcsProperties? = nil,
@@ -2786,6 +3260,7 @@ extension BatchClientTypes {
             timeout: BatchClientTypes.JobTimeout? = nil,
             type: Swift.String? = nil
         ) {
+            self.consumableResourceProperties = consumableResourceProperties
             self.containerOrchestrationType = containerOrchestrationType
             self.containerProperties = containerProperties
             self.ecsProperties = ecsProperties
@@ -2896,6 +3371,8 @@ extension BatchClientTypes {
         /// The job queue name.
         /// This member is required.
         public var jobQueueName: Swift.String?
+        /// The type of job queue. For service jobs that run on SageMaker Training, this value is SAGEMAKER_TRAINING. For regular container jobs, this value is EKS, ECS, or ECS_FARGATE depending on the compute environment.
+        public var jobQueueType: BatchClientTypes.JobQueueType?
         /// The set of actions that Batch perform on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed.
         public var jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]?
         /// The priority of the job queue. Job queue priority determines the order that job queues are evaluated when multiple queues dispatch jobs within a shared compute environment. A higher value for priority indicates a higher priority. Queues are evaluated in cycles, in descending order by priority. For example, a job queue with a priority value of 10 is evaluated before a queue with a priority value of 1. All of the compute environments must be either Amazon EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). Amazon EC2 and Fargate compute environments can't be mixed. Job queue priority doesn't guarantee that a particular job executes before a job in a lower priority queue. Jobs added to higher priority queues during the queue evaluation cycle might not be evaluated until the next cycle. A job is dispatched from a queue only if resources are available when the queue is evaluated. If there are insufficient resources available at that time, the cycle proceeds to the next queue. This means that jobs added to higher priority queues might have to wait for jobs in multiple lower priority queues to complete before they are dispatched. You can use job dependencies to control the order for jobs from queues with different priorities. For more information, see [Job Dependencies](https://docs.aws.amazon.com/batch/latest/userguide/job_dependencies.html) in the Batch User Guide.
@@ -2903,6 +3380,8 @@ extension BatchClientTypes {
         public var priority: Swift.Int?
         /// The Amazon Resource Name (ARN) of the scheduling policy. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
         public var schedulingPolicyArn: Swift.String?
+        /// The order of the service environment associated with the job queue. Job queues with a higher priority are evaluated first when associated with the same service environment.
+        public var serviceEnvironmentOrder: [BatchClientTypes.ServiceEnvironmentOrder]?
         /// Describes the ability of the queue to accept new jobs. If the job queue state is ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
         /// This member is required.
         public var state: BatchClientTypes.JQState?
@@ -2917,9 +3396,11 @@ extension BatchClientTypes {
             computeEnvironmentOrder: [BatchClientTypes.ComputeEnvironmentOrder]? = nil,
             jobQueueArn: Swift.String? = nil,
             jobQueueName: Swift.String? = nil,
+            jobQueueType: BatchClientTypes.JobQueueType? = nil,
             jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]? = nil,
             priority: Swift.Int? = nil,
             schedulingPolicyArn: Swift.String? = nil,
+            serviceEnvironmentOrder: [BatchClientTypes.ServiceEnvironmentOrder]? = nil,
             state: BatchClientTypes.JQState? = nil,
             status: BatchClientTypes.JQStatus? = nil,
             statusReason: Swift.String? = nil,
@@ -2928,9 +3409,11 @@ extension BatchClientTypes {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueArn = jobQueueArn
             self.jobQueueName = jobQueueName
+            self.jobQueueType = jobQueueType
             self.jobStateTimeLimitActions = jobStateTimeLimitActions
             self.priority = priority
             self.schedulingPolicyArn = schedulingPolicyArn
+            self.serviceEnvironmentOrder = serviceEnvironmentOrder
             self.state = state
             self.status = status
             self.statusReason = statusReason
@@ -2975,6 +3458,8 @@ extension BatchClientTypes {
         public var command: [Swift.String]?
         /// The Amazon Resource Name (ARN) of the container instance that the container is running on.
         public var containerInstanceArn: Swift.String?
+        /// Determines whether execute command functionality is turned on for this task. If true, execute command functionality is turned on all the containers in the task.
+        public var enableExecuteCommand: Swift.Bool?
         /// The environment variables to pass to a container. Environment variables cannot start with "AWS_BATCH". This naming convention is reserved for variables that Batch sets.
         public var environment: [BatchClientTypes.KeyValuePair]?
         /// The amount of ephemeral storage allocated for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate.
@@ -3033,6 +3518,7 @@ extension BatchClientTypes {
         public init(
             command: [Swift.String]? = nil,
             containerInstanceArn: Swift.String? = nil,
+            enableExecuteCommand: Swift.Bool? = nil,
             environment: [BatchClientTypes.KeyValuePair]? = nil,
             ephemeralStorage: BatchClientTypes.EphemeralStorage? = nil,
             executionRoleArn: Swift.String? = nil,
@@ -3063,6 +3549,7 @@ extension BatchClientTypes {
         ) {
             self.command = command
             self.containerInstanceArn = containerInstanceArn
+            self.enableExecuteCommand = enableExecuteCommand
             self.environment = environment
             self.ephemeralStorage = ephemeralStorage
             self.executionRoleArn = executionRoleArn
@@ -3127,6 +3614,8 @@ extension BatchClientTypes {
         public var essential: Swift.Bool?
         /// The exit code returned upon completion.
         public var exitCode: Swift.Int?
+        /// The FireLens configuration for the container. This is used to specify and configure a log router for container logs. For more information, see [Custom log](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html) routing in the Amazon Elastic Container Service Developer Guide.
+        public var firelensConfiguration: BatchClientTypes.FirelensConfiguration?
         /// The image used to start a container. This string is passed directly to the Docker daemon. By default, images in the Docker Hub registry are available. Other repositories are specified with either repository-url/image:tag or repository-url/image@digest. Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the IMAGE parameter of the [ docker run ](https://docs.docker.com/engine/reference/run/#security-configuration).
         public var image: Swift.String?
         /// Linux-specific modifications that are applied to the container, such as Linux kernel capabilities. For more information, see [KernelCapabilities](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_KernelCapabilities.html). This parameter is not supported for Windows containers.
@@ -3180,6 +3669,7 @@ extension BatchClientTypes {
             environment: [BatchClientTypes.KeyValuePair]? = nil,
             essential: Swift.Bool? = nil,
             exitCode: Swift.Int? = nil,
+            firelensConfiguration: BatchClientTypes.FirelensConfiguration? = nil,
             image: Swift.String? = nil,
             linuxParameters: BatchClientTypes.LinuxParameters? = nil,
             logConfiguration: BatchClientTypes.LogConfiguration? = nil,
@@ -3201,6 +3691,7 @@ extension BatchClientTypes {
             self.environment = environment
             self.essential = essential
             self.exitCode = exitCode
+            self.firelensConfiguration = firelensConfiguration
             self.image = image
             self.linuxParameters = linuxParameters
             self.logConfiguration = logConfiguration
@@ -3228,6 +3719,8 @@ extension BatchClientTypes {
         public var containerInstanceArn: Swift.String?
         /// A list of containers that are included in the taskProperties list.
         public var containers: [BatchClientTypes.TaskContainerDetails]?
+        /// Determines whether execute command functionality is turned on for this task. If true, execute command functionality is turned on all the containers in the task.
+        public var enableExecuteCommand: Swift.Bool?
         /// The amount of ephemeral storage allocated for the task.
         public var ephemeralStorage: BatchClientTypes.EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the execution role that Batch can assume. For more information, see [Batch execution IAM role](https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html) in the Batch User Guide.
@@ -3252,6 +3745,7 @@ extension BatchClientTypes {
         public init(
             containerInstanceArn: Swift.String? = nil,
             containers: [BatchClientTypes.TaskContainerDetails]? = nil,
+            enableExecuteCommand: Swift.Bool? = nil,
             ephemeralStorage: BatchClientTypes.EphemeralStorage? = nil,
             executionRoleArn: Swift.String? = nil,
             ipcMode: Swift.String? = nil,
@@ -3265,6 +3759,7 @@ extension BatchClientTypes {
         ) {
             self.containerInstanceArn = containerInstanceArn
             self.containers = containers
+            self.enableExecuteCommand = enableExecuteCommand
             self.ephemeralStorage = ephemeralStorage
             self.executionRoleArn = executionRoleArn
             self.ipcMode = ipcMode
@@ -3564,6 +4059,8 @@ extension BatchClientTypes {
         public var arrayProperties: BatchClientTypes.ArrayPropertiesDetail?
         /// A list of job attempts that are associated with this job.
         public var attempts: [BatchClientTypes.AttemptDetail]?
+        /// Contains a list of consumable resources required by the job.
+        public var consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties?
         /// An object that represents the details for the container that's associated with the job. If the details are for a multiple-container job, this object will be empty.
         public var container: BatchClientTypes.ContainerDetail?
         /// The Unix timestamp (in milliseconds) for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state. This is specifically at the time [SubmitJob](https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html) was called. For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
@@ -3606,7 +4103,7 @@ extension BatchClientTypes {
         public var propagateTags: Swift.Bool?
         /// The retry strategy to use for this job if an attempt fails.
         public var retryStrategy: BatchClientTypes.RetryStrategy?
-        /// The scheduling policy of the job definition. This only affects jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority.
+        /// The scheduling policy of the job definition. This only affects jobs in job queues with a fair-share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority.
         public var schedulingPriority: Swift.Int?
         /// The share identifier for the job.
         public var shareIdentifier: Swift.String?
@@ -3636,6 +4133,7 @@ extension BatchClientTypes {
         public init(
             arrayProperties: BatchClientTypes.ArrayPropertiesDetail? = nil,
             attempts: [BatchClientTypes.AttemptDetail]? = nil,
+            consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties? = nil,
             container: BatchClientTypes.ContainerDetail? = nil,
             createdAt: Swift.Int? = nil,
             dependsOn: [BatchClientTypes.JobDependency]? = nil,
@@ -3666,6 +4164,7 @@ extension BatchClientTypes {
         ) {
             self.arrayProperties = arrayProperties
             self.attempts = attempts
+            self.consumableResourceProperties = consumableResourceProperties
             self.container = container
             self.createdAt = createdAt
             self.dependsOn = dependsOn
@@ -3728,12 +4227,12 @@ extension BatchClientTypes {
         /// The Amazon Resource Name (ARN) of the scheduling policy. An example is arn:aws:batch:us-east-1:123456789012:scheduling-policy/HighPriority .
         /// This member is required.
         public var arn: Swift.String?
-        /// The fair share policy for the scheduling policy.
+        /// The fair-share scheduling policy details.
         public var fairsharePolicy: BatchClientTypes.FairsharePolicy?
-        /// The name of the scheduling policy.
+        /// The name of the fair-share scheduling policy.
         /// This member is required.
         public var name: Swift.String?
-        /// The tags that you apply to the scheduling policy to categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in Amazon Web Services General Reference.
+        /// The tags that you apply to the fair-share scheduling policy to categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in Amazon Web Services General Reference.
         public var tags: [Swift.String: Swift.String]?
 
         public init(
@@ -3758,6 +4257,470 @@ public struct DescribeSchedulingPoliciesOutput: Swift.Sendable {
         schedulingPolicies: [BatchClientTypes.SchedulingPolicyDetail]? = nil
     ) {
         self.schedulingPolicies = schedulingPolicies
+    }
+}
+
+public struct DescribeServiceEnvironmentsInput: Swift.Sendable {
+    /// The maximum number of results returned by DescribeServiceEnvironments in paginated output. When this parameter is used, DescribeServiceEnvironments only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeServiceEnvironments request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then DescribeServiceEnvironments returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated DescribeServiceEnvironments request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// An array of service environment names or ARN entries.
+    public var serviceEnvironments: [Swift.String]?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        serviceEnvironments: [Swift.String]? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.serviceEnvironments = serviceEnvironments
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum ServiceEnvironmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case deleted
+        case deleting
+        case invalid
+        case updating
+        case valid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceEnvironmentStatus] {
+            return [
+                .creating,
+                .deleted,
+                .deleting,
+                .invalid,
+                .updating,
+                .valid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .invalid: return "INVALID"
+            case .updating: return "UPDATING"
+            case .valid: return "VALID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Detailed information about a service environment, including its configuration, state, and capacity limits.
+    public struct ServiceEnvironmentDetail: Swift.Sendable {
+        /// The capacity limits for the service environment. This defines the maximum resources that can be used by service jobs in this environment.
+        /// This member is required.
+        public var capacityLimits: [BatchClientTypes.CapacityLimit]?
+        /// The Amazon Resource Name (ARN) of the service environment.
+        /// This member is required.
+        public var serviceEnvironmentArn: Swift.String?
+        /// The name of the service environment.
+        /// This member is required.
+        public var serviceEnvironmentName: Swift.String?
+        /// The type of service environment. For SageMaker Training jobs, this value is SAGEMAKER_TRAINING.
+        /// This member is required.
+        public var serviceEnvironmentType: BatchClientTypes.ServiceEnvironmentType?
+        /// The state of the service environment. Valid values are ENABLED and DISABLED.
+        public var state: BatchClientTypes.ServiceEnvironmentState?
+        /// The current status of the service environment.
+        public var status: BatchClientTypes.ServiceEnvironmentStatus?
+        /// The tags associated with the service environment. Each tag consists of a key and an optional value. For more information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html).
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            capacityLimits: [BatchClientTypes.CapacityLimit]? = nil,
+            serviceEnvironmentArn: Swift.String? = nil,
+            serviceEnvironmentName: Swift.String? = nil,
+            serviceEnvironmentType: BatchClientTypes.ServiceEnvironmentType? = nil,
+            state: BatchClientTypes.ServiceEnvironmentState? = nil,
+            status: BatchClientTypes.ServiceEnvironmentStatus? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.capacityLimits = capacityLimits
+            self.serviceEnvironmentArn = serviceEnvironmentArn
+            self.serviceEnvironmentName = serviceEnvironmentName
+            self.serviceEnvironmentType = serviceEnvironmentType
+            self.state = state
+            self.status = status
+            self.tags = tags
+        }
+    }
+}
+
+public struct DescribeServiceEnvironmentsOutput: Swift.Sendable {
+    /// The nextToken value to include in a future DescribeServiceEnvironments request. When the results of a DescribeServiceEnvironments request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The list of service environments that match the request.
+    public var serviceEnvironments: [BatchClientTypes.ServiceEnvironmentDetail]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        serviceEnvironments: [BatchClientTypes.ServiceEnvironmentDetail]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.serviceEnvironments = serviceEnvironments
+    }
+}
+
+public struct DescribeServiceJobInput: Swift.Sendable {
+    /// The job ID for the service job to describe.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum ServiceResourceIdName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sagemakerTrainingJobArn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceResourceIdName] {
+            return [
+                .sagemakerTrainingJobArn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sagemakerTrainingJobArn: return "TrainingJobArn"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The Batch unique identifier.
+    public struct ServiceResourceId: Swift.Sendable {
+        /// The name of the resource identifier.
+        /// This member is required.
+        public var name: BatchClientTypes.ServiceResourceIdName?
+        /// The value of the resource identifier.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: BatchClientTypes.ServiceResourceIdName? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Detailed information about an attempt to run a service job.
+    public struct ServiceJobAttemptDetail: Swift.Sendable {
+        /// The service resource identifier associated with the service job attempt.
+        public var serviceResourceId: BatchClientTypes.ServiceResourceId?
+        /// The Unix timestamp (in milliseconds) for when the service job attempt was started.
+        public var startedAt: Swift.Int?
+        /// A string that provides additional details for the current status of the service job attempt.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp (in milliseconds) for when the service job attempt stopped running.
+        public var stoppedAt: Swift.Int?
+
+        public init(
+            serviceResourceId: BatchClientTypes.ServiceResourceId? = nil,
+            startedAt: Swift.Int? = nil,
+            statusReason: Swift.String? = nil,
+            stoppedAt: Swift.Int? = nil
+        ) {
+            self.serviceResourceId = serviceResourceId
+            self.startedAt = startedAt
+            self.statusReason = statusReason
+            self.stoppedAt = stoppedAt
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Information about the latest attempt of a service job. A Service job can transition from SCHEDULED back to RUNNABLE state when they encounter capacity constraints.
+    public struct LatestServiceJobAttempt: Swift.Sendable {
+        /// The service resource identifier associated with the service job attempt.
+        public var serviceResourceId: BatchClientTypes.ServiceResourceId?
+
+        public init(
+            serviceResourceId: BatchClientTypes.ServiceResourceId? = nil
+        ) {
+            self.serviceResourceId = serviceResourceId
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum ServiceJobRetryAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exit
+        case retry
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceJobRetryAction] {
+            return [
+                .exit,
+                .retry
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exit: return "EXIT"
+            case .retry: return "RETRY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Specifies conditions for when to exit or retry a service job based on the exit status or status reason.
+    public struct ServiceJobEvaluateOnExit: Swift.Sendable {
+        /// The action to take if the service job exits with the specified condition. Valid values are RETRY and EXIT.
+        public var action: BatchClientTypes.ServiceJobRetryAction?
+        /// Contains a glob pattern to match against the StatusReason returned for a job. The pattern can contain up to 512 characters and can contain all printable characters. It can optionally end with an asterisk (*) so that only the start of the string needs to be an exact match.
+        public var onStatusReason: Swift.String?
+
+        public init(
+            action: BatchClientTypes.ServiceJobRetryAction? = nil,
+            onStatusReason: Swift.String? = nil
+        ) {
+            self.action = action
+            self.onStatusReason = onStatusReason
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The retry strategy for service jobs. This defines how many times to retry a failed service job and under what conditions. For more information, see [Service job retry strategies](https://docs.aws.amazon.com/batch/latest/userguide/service-job-retries.html) in the Batch User Guide.
+    public struct ServiceJobRetryStrategy: Swift.Sendable {
+        /// The number of times to move a service job to RUNNABLE status. You can specify between 1 and 10 attempts.
+        /// This member is required.
+        public var attempts: Swift.Int?
+        /// Array of ServiceJobEvaluateOnExit objects that specify conditions under which the service job should be retried or failed.
+        public var evaluateOnExit: [BatchClientTypes.ServiceJobEvaluateOnExit]?
+
+        public init(
+            attempts: Swift.Int? = nil,
+            evaluateOnExit: [BatchClientTypes.ServiceJobEvaluateOnExit]? = nil
+        ) {
+            self.attempts = attempts
+            self.evaluateOnExit = evaluateOnExit
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum ServiceJobType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sagemakerTraining
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceJobType] {
+            return [
+                .sagemakerTraining
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sagemakerTraining: return "SAGEMAKER_TRAINING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum ServiceJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case pending
+        case runnable
+        case running
+        case scheduled
+        case starting
+        case submitted
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceJobStatus] {
+            return [
+                .failed,
+                .pending,
+                .runnable,
+                .running,
+                .scheduled,
+                .starting,
+                .submitted,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .runnable: return "RUNNABLE"
+            case .running: return "RUNNING"
+            case .scheduled: return "SCHEDULED"
+            case .starting: return "STARTING"
+            case .submitted: return "SUBMITTED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The timeout configuration for service jobs.
+    public struct ServiceJobTimeout: Swift.Sendable {
+        /// The maximum duration in seconds that a service job attempt can run. After this time is reached, Batch terminates the service job attempt.
+        public var attemptDurationSeconds: Swift.Int?
+
+        public init(
+            attemptDurationSeconds: Swift.Int? = nil
+        ) {
+            self.attemptDurationSeconds = attemptDurationSeconds
+        }
+    }
+}
+
+public struct DescribeServiceJobOutput: Swift.Sendable {
+    /// A list of job attempts associated with the service job.
+    public var attempts: [BatchClientTypes.ServiceJobAttemptDetail]?
+    /// The Unix timestamp (in milliseconds) for when the service job was created.
+    public var createdAt: Swift.Int?
+    /// Indicates whether the service job has been terminated.
+    public var isTerminated: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the service job.
+    public var jobArn: Swift.String?
+    /// The job ID for the service job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The name of the service job.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// The ARN of the job queue that the service job is associated with.
+    /// This member is required.
+    public var jobQueue: Swift.String?
+    /// The latest attempt associated with the service job.
+    public var latestAttempt: BatchClientTypes.LatestServiceJobAttempt?
+    /// The retry strategy to use for failed service jobs that are submitted with this service job.
+    public var retryStrategy: BatchClientTypes.ServiceJobRetryStrategy?
+    /// The scheduling priority of the service job.
+    public var schedulingPriority: Swift.Int?
+    /// The type of service job. For SageMaker Training jobs, this value is SAGEMAKER_TRAINING.
+    /// This member is required.
+    public var serviceJobType: BatchClientTypes.ServiceJobType?
+    /// The request, in JSON, for the service that the SubmitServiceJob operation is queueing.
+    public var serviceRequestPayload: Swift.String?
+    /// The share identifier for the service job. This is used for fair-share scheduling.
+    public var shareIdentifier: Swift.String?
+    /// The Unix timestamp (in milliseconds) for when the service job was started.
+    /// This member is required.
+    public var startedAt: Swift.Int?
+    /// The current status of the service job.
+    /// This member is required.
+    public var status: BatchClientTypes.ServiceJobStatus?
+    /// A short, human-readable string to provide more details for the current status of the service job.
+    public var statusReason: Swift.String?
+    /// The Unix timestamp (in milliseconds) for when the service job stopped running.
+    public var stoppedAt: Swift.Int?
+    /// The tags that are associated with the service job. Each tag consists of a key and an optional value. For more information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html).
+    public var tags: [Swift.String: Swift.String]?
+    /// The timeout configuration for the service job.
+    public var timeoutConfig: BatchClientTypes.ServiceJobTimeout?
+
+    public init(
+        attempts: [BatchClientTypes.ServiceJobAttemptDetail]? = nil,
+        createdAt: Swift.Int? = nil,
+        isTerminated: Swift.Bool? = nil,
+        jobArn: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        jobQueue: Swift.String? = nil,
+        latestAttempt: BatchClientTypes.LatestServiceJobAttempt? = nil,
+        retryStrategy: BatchClientTypes.ServiceJobRetryStrategy? = nil,
+        schedulingPriority: Swift.Int? = nil,
+        serviceJobType: BatchClientTypes.ServiceJobType? = nil,
+        serviceRequestPayload: Swift.String? = nil,
+        shareIdentifier: Swift.String? = nil,
+        startedAt: Swift.Int? = nil,
+        status: BatchClientTypes.ServiceJobStatus? = nil,
+        statusReason: Swift.String? = nil,
+        stoppedAt: Swift.Int? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        timeoutConfig: BatchClientTypes.ServiceJobTimeout? = nil
+    ) {
+        self.attempts = attempts
+        self.createdAt = createdAt
+        self.isTerminated = isTerminated
+        self.jobArn = jobArn
+        self.jobId = jobId
+        self.jobName = jobName
+        self.jobQueue = jobQueue
+        self.latestAttempt = latestAttempt
+        self.retryStrategy = retryStrategy
+        self.schedulingPriority = schedulingPriority
+        self.serviceJobType = serviceJobType
+        self.serviceRequestPayload = serviceRequestPayload
+        self.shareIdentifier = shareIdentifier
+        self.startedAt = startedAt
+        self.status = status
+        self.statusReason = statusReason
+        self.stoppedAt = stoppedAt
+        self.tags = tags
+        self.timeoutConfig = timeoutConfig
     }
 }
 
@@ -3796,7 +4759,7 @@ extension BatchClientTypes {
 
     /// Contains a list of the first 100 RUNNABLE jobs associated to a single job queue.
     public struct FrontOfQueueDetail: Swift.Sendable {
-        /// The Amazon Resource Names (ARNs) of the first 100 RUNNABLE jobs in a named job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
+        /// The Amazon Resource Names (ARNs) of the first 100 RUNNABLE jobs in a named job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair-share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
         public var jobs: [BatchClientTypes.FrontOfQueueJobSummary]?
         /// The Unix timestamp (in milliseconds) for when each of the first 100 RUNNABLE jobs were last updated.
         public var lastUpdatedAt: Swift.Int?
@@ -3812,7 +4775,7 @@ extension BatchClientTypes {
 }
 
 public struct GetJobQueueSnapshotOutput: Swift.Sendable {
-    /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
+    /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair-share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
     public var frontOfQueue: BatchClientTypes.FrontOfQueueDetail?
 
     public init(
@@ -3824,7 +4787,7 @@ public struct GetJobQueueSnapshotOutput: Swift.Sendable {
 
 extension BatchClientTypes {
 
-    /// A filter name and value pair that's used to return a more specific list of results from a ListJobs API operation.
+    /// A filter name and value pair that's used to return a more specific list of results from a ListJobs or ListJobsByConsumableResource API operation.
     public struct KeyValuesPair: Swift.Sendable {
         /// The name of the filter. Filter names are case sensitive.
         public var name: Swift.String?
@@ -3838,6 +4801,80 @@ extension BatchClientTypes {
             self.name = name
             self.values = values
         }
+    }
+}
+
+public struct ListConsumableResourcesInput: Swift.Sendable {
+    /// The filters to apply to the consumable resource list query. If used, only those consumable resources that match the filter are listed. Filter names and values can be:
+    ///
+    /// * name: CONSUMABLE_RESOURCE_NAME  values: case-insensitive matches for the consumable resource name. If a filter value ends with an asterisk (*), it matches any consumable resource name that begins with the string before the '*'.
+    public var filters: [BatchClientTypes.KeyValuesPair]?
+    /// The maximum number of results returned by ListConsumableResources in paginated output. When this parameter is used, ListConsumableResources only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListConsumableResources request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListConsumableResources returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated ListConsumableResources request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [BatchClientTypes.KeyValuesPair]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Current information about a consumable resource.
+    public struct ConsumableResourceSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the consumable resource.
+        /// This member is required.
+        public var consumableResourceArn: Swift.String?
+        /// The name of the consumable resource.
+        /// This member is required.
+        public var consumableResourceName: Swift.String?
+        /// The amount of the consumable resource that is currently in use.
+        public var inUseQuantity: Swift.Int?
+        /// Indicates whether the resource is available to be re-used after a job completes. Can be one of:
+        ///
+        /// * REPLENISHABLE
+        ///
+        /// * NON_REPLENISHABLE
+        public var resourceType: Swift.String?
+        /// The total amount of the consumable resource that is available.
+        public var totalQuantity: Swift.Int?
+
+        public init(
+            consumableResourceArn: Swift.String? = nil,
+            consumableResourceName: Swift.String? = nil,
+            inUseQuantity: Swift.Int? = nil,
+            resourceType: Swift.String? = nil,
+            totalQuantity: Swift.Int? = nil
+        ) {
+            self.consumableResourceArn = consumableResourceArn
+            self.consumableResourceName = consumableResourceName
+            self.inUseQuantity = inUseQuantity
+            self.resourceType = resourceType
+            self.totalQuantity = totalQuantity
+        }
+    }
+}
+
+public struct ListConsumableResourcesOutput: Swift.Sendable {
+    /// A list of consumable resources that match the request.
+    /// This member is required.
+    public var consumableResources: [BatchClientTypes.ConsumableResourceSummary]?
+    /// The nextToken value to include in a future ListConsumableResources request. When the results of a ListConsumableResources request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        consumableResources: [BatchClientTypes.ConsumableResourceSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.consumableResources = consumableResources
+        self.nextToken = nextToken
     }
 }
 
@@ -4004,6 +5041,126 @@ public struct ListJobsOutput: Swift.Sendable {
     }
 }
 
+public struct ListJobsByConsumableResourceInput: Swift.Sendable {
+    /// The name or ARN of the consumable resource.
+    /// This member is required.
+    public var consumableResource: Swift.String?
+    /// The filters to apply to the job list query. If used, only those jobs requiring the specified consumable resource (consumableResource) and that match the value of the filters are listed. The filter names and values can be:
+    ///
+    /// * name: JOB_STATUS values: SUBMITTED | PENDING | RUNNABLE | STARTING | RUNNING | SUCCEEDED | FAILED
+    ///
+    /// * name: JOB_NAME  The values are case-insensitive matches for the job name. If a filter value ends with an asterisk (*), it matches any job name that begins with the string before the '*'.
+    public var filters: [BatchClientTypes.KeyValuesPair]?
+    /// The maximum number of results returned by ListJobsByConsumableResource in paginated output. When this parameter is used, ListJobsByConsumableResource only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListJobsByConsumableResource request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListJobsByConsumableResource returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated ListJobsByConsumableResource request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+
+    public init(
+        consumableResource: Swift.String? = nil,
+        filters: [BatchClientTypes.KeyValuesPair]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.consumableResource = consumableResource
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Current information about a consumable resource required by a job.
+    public struct ListJobsByConsumableResourceSummary: Swift.Sendable {
+        /// Contains a list of consumable resources required by the job.
+        /// This member is required.
+        public var consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties?
+        /// The Unix timestamp (in milliseconds) for when the consumable resource was created.
+        /// This member is required.
+        public var createdAt: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the job.
+        /// This member is required.
+        public var jobArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the job definition.
+        public var jobDefinitionArn: Swift.String?
+        /// The name of the job.
+        /// This member is required.
+        public var jobName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the job queue.
+        /// This member is required.
+        public var jobQueueArn: Swift.String?
+        /// The status of the job. Can be one of:
+        ///
+        /// * SUBMITTED
+        ///
+        /// * PENDING
+        ///
+        /// * RUNNABLE
+        ///
+        /// * STARTING
+        ///
+        /// * RUNNING
+        ///
+        /// * SUCCEEDED
+        ///
+        /// * FAILED
+        /// This member is required.
+        public var jobStatus: Swift.String?
+        /// The total amount of the consumable resource that is available.
+        /// This member is required.
+        public var quantity: Swift.Int?
+        /// The fair-share scheduling policy identifier for the job.
+        public var shareIdentifier: Swift.String?
+        /// The Unix timestamp for when the job was started. More specifically, it's when the job transitioned from the STARTING state to the RUNNING state.
+        public var startedAt: Swift.Int?
+        /// A short, human-readable string to provide more details for the current status of the job.
+        public var statusReason: Swift.String?
+
+        public init(
+            consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties? = nil,
+            createdAt: Swift.Int? = nil,
+            jobArn: Swift.String? = nil,
+            jobDefinitionArn: Swift.String? = nil,
+            jobName: Swift.String? = nil,
+            jobQueueArn: Swift.String? = nil,
+            jobStatus: Swift.String? = nil,
+            quantity: Swift.Int? = nil,
+            shareIdentifier: Swift.String? = nil,
+            startedAt: Swift.Int? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.consumableResourceProperties = consumableResourceProperties
+            self.createdAt = createdAt
+            self.jobArn = jobArn
+            self.jobDefinitionArn = jobDefinitionArn
+            self.jobName = jobName
+            self.jobQueueArn = jobQueueArn
+            self.jobStatus = jobStatus
+            self.quantity = quantity
+            self.shareIdentifier = shareIdentifier
+            self.startedAt = startedAt
+            self.statusReason = statusReason
+        }
+    }
+}
+
+public struct ListJobsByConsumableResourceOutput: Swift.Sendable {
+    /// The list of jobs that require the specified consumable resources.
+    /// This member is required.
+    public var jobs: [BatchClientTypes.ListJobsByConsumableResourceSummary]?
+    /// The nextToken value to include in a future ListJobsByConsumableResource request. When the results of a ListJobsByConsumableResource request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobs: [BatchClientTypes.ListJobsByConsumableResourceSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobs = jobs
+        self.nextToken = nextToken
+    }
+}
+
 /// Contains the parameters for ListSchedulingPolicies.
 public struct ListSchedulingPoliciesInput: Swift.Sendable {
     /// The maximum number of results that's returned by ListSchedulingPolicies in paginated output. When this parameter is used, ListSchedulingPolicies only returns maxResults results in a single page and a nextToken response element. You can see the remaining results of the initial request by sending another ListSchedulingPolicies request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, ListSchedulingPolicies returns up to 100 results and a nextToken value if applicable.
@@ -4048,6 +5205,107 @@ public struct ListSchedulingPoliciesOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.schedulingPolicies = schedulingPolicies
+    }
+}
+
+public struct ListServiceJobsInput: Swift.Sendable {
+    /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored. The results are sorted by the createdAt field, with the most recent jobs being first. JOB_NAME The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version. BEFORE_CREATED_AT The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. AFTER_CREATED_AT The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.
+    public var filters: [BatchClientTypes.KeyValuesPair]?
+    /// The name or ARN of the job queue with which to list service jobs.
+    public var jobQueue: Swift.String?
+    /// The job status with which to filter service jobs.
+    public var jobStatus: BatchClientTypes.ServiceJobStatus?
+    /// The maximum number of results returned by ListServiceJobs in paginated output. When this parameter is used, ListServiceJobs only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListServiceJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServiceJobs returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated ListServiceJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [BatchClientTypes.KeyValuesPair]? = nil,
+        jobQueue: Swift.String? = nil,
+        jobStatus: BatchClientTypes.ServiceJobStatus? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.jobQueue = jobQueue
+        self.jobStatus = jobStatus
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Summary information about a service job.
+    public struct ServiceJobSummary: Swift.Sendable {
+        /// The Unix timestamp (in milliseconds) for when the service job was created.
+        public var createdAt: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the service job.
+        public var jobArn: Swift.String?
+        /// The job ID for the service job.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The name of the service job.
+        /// This member is required.
+        public var jobName: Swift.String?
+        /// Information about the latest attempt for the service job.
+        public var latestAttempt: BatchClientTypes.LatestServiceJobAttempt?
+        /// The type of service job. For SageMaker Training jobs, this value is SAGEMAKER_TRAINING.
+        /// This member is required.
+        public var serviceJobType: BatchClientTypes.ServiceJobType?
+        /// The share identifier for the job.
+        public var shareIdentifier: Swift.String?
+        /// The Unix timestamp (in milliseconds) for when the service job was started.
+        public var startedAt: Swift.Int?
+        /// The current status of the service job.
+        public var status: BatchClientTypes.ServiceJobStatus?
+        /// A short string to provide more details on the current status of the service job.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp (in milliseconds) for when the service job stopped running.
+        public var stoppedAt: Swift.Int?
+
+        public init(
+            createdAt: Swift.Int? = nil,
+            jobArn: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            jobName: Swift.String? = nil,
+            latestAttempt: BatchClientTypes.LatestServiceJobAttempt? = nil,
+            serviceJobType: BatchClientTypes.ServiceJobType? = nil,
+            shareIdentifier: Swift.String? = nil,
+            startedAt: Swift.Int? = nil,
+            status: BatchClientTypes.ServiceJobStatus? = nil,
+            statusReason: Swift.String? = nil,
+            stoppedAt: Swift.Int? = nil
+        ) {
+            self.createdAt = createdAt
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.jobName = jobName
+            self.latestAttempt = latestAttempt
+            self.serviceJobType = serviceJobType
+            self.shareIdentifier = shareIdentifier
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.stoppedAt = stoppedAt
+        }
+    }
+}
+
+public struct ListServiceJobsOutput: Swift.Sendable {
+    /// A list of service job summaries.
+    /// This member is required.
+    public var jobSummaryList: [BatchClientTypes.ServiceJobSummary]?
+    /// The nextToken value to include in a future ListServiceJobs request. When the results of a ListServiceJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobSummaryList: [BatchClientTypes.ServiceJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobSummaryList = jobSummaryList
+        self.nextToken = nextToken
     }
 }
 
@@ -4106,6 +5364,8 @@ extension BatchClientTypes {
 
 /// Contains the parameters for RegisterJobDefinition.
 public struct RegisterJobDefinitionInput: Swift.Sendable {
+    /// Contains a list of consumable resources required by the job.
+    public var consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties?
     /// An object with properties specific to Amazon ECS-based single-node container-based jobs. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties. This must not be specified for Amazon EKS-based job definitions. If the job runs on Fargate resources, then you must not specify nodeProperties; use only containerProperties.
     public var containerProperties: BatchClientTypes.ContainerProperties?
     /// An object with properties that are specific to Amazon ECS-based jobs. This must not be specified for Amazon EKS-based job definitions.
@@ -4125,7 +5385,7 @@ public struct RegisterJobDefinitionInput: Swift.Sendable {
     public var propagateTags: Swift.Bool?
     /// The retry strategy to use for failed jobs that are submitted with this job definition. Any retry strategy that's specified during a [SubmitJob] operation overrides the retry strategy defined here. If a job is terminated due to a timeout, it isn't retried.
     public var retryStrategy: BatchClientTypes.RetryStrategy?
-    /// The scheduling priority for jobs that are submitted with this job definition. This only affects jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority. The minimum supported value is 0 and the maximum supported value is 9999.
+    /// The scheduling priority for jobs that are submitted with this job definition. This only affects jobs in job queues with a fair-share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority. The minimum supported value is 0 and the maximum supported value is 9999.
     public var schedulingPriority: Swift.Int?
     /// The tags that you apply to the job definition to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html) in Batch User Guide.
     public var tags: [Swift.String: Swift.String]?
@@ -4143,6 +5403,7 @@ public struct RegisterJobDefinitionInput: Swift.Sendable {
     public var type: BatchClientTypes.JobDefinitionType?
 
     public init(
+        consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties? = nil,
         containerProperties: BatchClientTypes.ContainerProperties? = nil,
         ecsProperties: BatchClientTypes.EcsProperties? = nil,
         eksProperties: BatchClientTypes.EksProperties? = nil,
@@ -4157,6 +5418,7 @@ public struct RegisterJobDefinitionInput: Swift.Sendable {
         timeout: BatchClientTypes.JobTimeout? = nil,
         type: BatchClientTypes.JobDefinitionType? = nil
     ) {
+        self.consumableResourceProperties = consumableResourceProperties
         self.containerProperties = containerProperties
         self.ecsProperties = ecsProperties
         self.eksProperties = eksProperties
@@ -4330,7 +5592,7 @@ extension BatchClientTypes {
     public struct EksPodPropertiesOverride: Swift.Sendable {
         /// The overrides for the container that's used on the Amazon EKS pod.
         public var containers: [BatchClientTypes.EksContainerOverride]?
-        /// The overrides for the initContainers defined in the Amazon EKS pod. These containers run before application containers, always runs to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store. For more information, see [Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) in the Kubernetes documentation.
+        /// The overrides for the initContainers defined in the Amazon EKS pod. These containers run before application containers, always run to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store. For more information, see [Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) in the Kubernetes documentation.
         public var initContainers: [BatchClientTypes.EksContainerOverride]?
         /// Metadata about the overrides for the container that's used on the Amazon EKS pod.
         public var metadata: BatchClientTypes.EksMetadata?
@@ -4366,6 +5628,8 @@ extension BatchClientTypes {
 
     /// The object that represents any node overrides to a job definition that's used in a [SubmitJob](https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html) API operation.
     public struct NodePropertyOverride: Swift.Sendable {
+        /// An object that contains overrides for the consumable resources of a job.
+        public var consumableResourcePropertiesOverride: BatchClientTypes.ConsumableResourceProperties?
         /// The overrides that are sent to a node range.
         public var containerOverrides: BatchClientTypes.ContainerOverrides?
         /// An object that contains the properties that you want to replace for the existing Amazon ECS resources of a job.
@@ -4379,12 +5643,14 @@ extension BatchClientTypes {
         public var targetNodes: Swift.String?
 
         public init(
+            consumableResourcePropertiesOverride: BatchClientTypes.ConsumableResourceProperties? = nil,
             containerOverrides: BatchClientTypes.ContainerOverrides? = nil,
             ecsPropertiesOverride: BatchClientTypes.EcsPropertiesOverride? = nil,
             eksPropertiesOverride: BatchClientTypes.EksPropertiesOverride? = nil,
             instanceTypes: [Swift.String]? = nil,
             targetNodes: Swift.String? = nil
         ) {
+            self.consumableResourcePropertiesOverride = consumableResourcePropertiesOverride
             self.containerOverrides = containerOverrides
             self.ecsPropertiesOverride = ecsPropertiesOverride
             self.eksPropertiesOverride = eksPropertiesOverride
@@ -4423,6 +5689,8 @@ extension BatchClientTypes {
 public struct SubmitJobInput: Swift.Sendable {
     /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. For more information, see [Array Jobs](https://docs.aws.amazon.com/batch/latest/userguide/array_jobs.html) in the Batch User Guide.
     public var arrayProperties: BatchClientTypes.ArrayProperties?
+    /// An object that contains overrides for the consumable resources of a job.
+    public var consumableResourcePropertiesOverride: BatchClientTypes.ConsumableResourceProperties?
     /// An object with properties that override the defaults for the job definition that specify the name of a container in the specified job definition and the overrides it should receive. You can override the default command for a container, which is specified in the job definition or the Docker image, with a command override. You can also override existing environment variables on a container or add new environment variables to it with an environment override.
     public var containerOverrides: BatchClientTypes.ContainerOverrides?
     /// A list of dependencies for the job. A job can depend upon a maximum of 20 jobs. You can specify a SEQUENTIAL type dependency without specifying a job ID for array jobs so that each child array job completes sequentially, starting at index 0. You can also specify an N_TO_N type dependency with a job ID for array jobs. In that case, each index child of this job must wait for the corresponding index child of each dependency to complete before it can begin.
@@ -4448,9 +5716,9 @@ public struct SubmitJobInput: Swift.Sendable {
     public var propagateTags: Swift.Bool?
     /// The retry strategy to use for failed jobs from this [SubmitJob] operation. When a retry strategy is specified here, it overrides the retry strategy defined in the job definition.
     public var retryStrategy: BatchClientTypes.RetryStrategy?
-    /// The scheduling priority for the job. This only affects jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority. This overrides any scheduling priority in the job definition and works only within a single share identifier. The minimum supported value is 0 and the maximum supported value is 9999.
+    /// The scheduling priority for the job. This only affects jobs in job queues with a fair-share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority. This overrides any scheduling priority in the job definition and works only within a single share identifier. The minimum supported value is 0 and the maximum supported value is 9999.
     public var schedulingPriorityOverride: Swift.Int?
-    /// The share identifier for the job. Don't specify this parameter if the job queue doesn't have a scheduling policy. If the job queue has a scheduling policy, then this parameter must be specified. This string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
+    /// The share identifier for the job. Don't specify this parameter if the job queue doesn't have a fair-share scheduling policy. If the job queue has a fair-share scheduling policy, then this parameter must be specified. This string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
     public var shareIdentifier: Swift.String?
     /// The tags that you apply to the job request to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in Amazon Web Services General Reference.
     public var tags: [Swift.String: Swift.String]?
@@ -4459,6 +5727,7 @@ public struct SubmitJobInput: Swift.Sendable {
 
     public init(
         arrayProperties: BatchClientTypes.ArrayProperties? = nil,
+        consumableResourcePropertiesOverride: BatchClientTypes.ConsumableResourceProperties? = nil,
         containerOverrides: BatchClientTypes.ContainerOverrides? = nil,
         dependsOn: [BatchClientTypes.JobDependency]? = nil,
         ecsPropertiesOverride: BatchClientTypes.EcsPropertiesOverride? = nil,
@@ -4476,6 +5745,7 @@ public struct SubmitJobInput: Swift.Sendable {
         timeout: BatchClientTypes.JobTimeout? = nil
     ) {
         self.arrayProperties = arrayProperties
+        self.consumableResourcePropertiesOverride = consumableResourcePropertiesOverride
         self.containerOverrides = containerOverrides
         self.dependsOn = dependsOn
         self.ecsPropertiesOverride = ecsPropertiesOverride
@@ -4501,6 +5771,78 @@ public struct SubmitJobOutput: Swift.Sendable {
     /// This member is required.
     public var jobId: Swift.String?
     /// The name of the job.
+    /// This member is required.
+    public var jobName: Swift.String?
+
+    public init(
+        jobArn: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.jobArn = jobArn
+        self.jobId = jobId
+        self.jobName = jobName
+    }
+}
+
+public struct SubmitServiceJobInput: Swift.Sendable {
+    /// A unique identifier for the request. This token is used to ensure idempotency of requests. If this parameter is specified and two submit requests with identical payloads and clientTokens are received, these requests are considered the same request and the second request is rejected.
+    public var clientToken: Swift.String?
+    /// The name of the service job. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// The job queue into which the service job is submitted. You can specify either the name or the ARN of the queue. The job queue must have the type SAGEMAKER_TRAINING.
+    /// This member is required.
+    public var jobQueue: Swift.String?
+    /// The retry strategy to use for failed service jobs that are submitted with this service job request.
+    public var retryStrategy: BatchClientTypes.ServiceJobRetryStrategy?
+    /// The scheduling priority of the service job. Valid values are integers between 0 and 9999.
+    public var schedulingPriority: Swift.Int?
+    /// The type of service job. For SageMaker Training jobs, specify SAGEMAKER_TRAINING.
+    /// This member is required.
+    public var serviceJobType: BatchClientTypes.ServiceJobType?
+    /// The request, in JSON, for the service that the SubmitServiceJob operation is queueing.
+    /// This member is required.
+    public var serviceRequestPayload: Swift.String?
+    /// The share identifier for the service job. Don't specify this parameter if the job queue doesn't have a fair- share scheduling policy. If the job queue has a fair-share scheduling policy, then this parameter must be specified.
+    public var shareIdentifier: Swift.String?
+    /// The tags that you apply to the service job request. Each tag consists of a key and an optional value. For more information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html).
+    public var tags: [Swift.String: Swift.String]?
+    /// The timeout configuration for the service job. If none is specified, Batch defers to the default timeout of the underlying service handling the job.
+    public var timeoutConfig: BatchClientTypes.ServiceJobTimeout?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        jobQueue: Swift.String? = nil,
+        retryStrategy: BatchClientTypes.ServiceJobRetryStrategy? = nil,
+        schedulingPriority: Swift.Int? = nil,
+        serviceJobType: BatchClientTypes.ServiceJobType? = nil,
+        serviceRequestPayload: Swift.String? = nil,
+        shareIdentifier: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        timeoutConfig: BatchClientTypes.ServiceJobTimeout? = nil
+    ) {
+        self.clientToken = clientToken
+        self.jobName = jobName
+        self.jobQueue = jobQueue
+        self.retryStrategy = retryStrategy
+        self.schedulingPriority = schedulingPriority
+        self.serviceJobType = serviceJobType
+        self.serviceRequestPayload = serviceRequestPayload
+        self.shareIdentifier = shareIdentifier
+        self.tags = tags
+        self.timeoutConfig = timeoutConfig
+    }
+}
+
+public struct SubmitServiceJobOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) for the service job.
+    public var jobArn: Swift.String?
+    /// The unique identifier for the service job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The name of the service job.
     /// This member is required.
     public var jobName: Swift.String?
 
@@ -4557,6 +5899,28 @@ public struct TerminateJobInput: Swift.Sendable {
 }
 
 public struct TerminateJobOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct TerminateServiceJobInput: Swift.Sendable {
+    /// The service job ID of the service job to terminate.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// A message to attach to the service job that explains the reason for canceling it. This message is returned by DescribeServiceJob operations on the service job.
+    /// This member is required.
+    public var reason: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil,
+        reason: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+        self.reason = reason
+    }
+}
+
+public struct TerminateServiceJobOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -4634,7 +5998,16 @@ extension BatchClientTypes {
         public var imageId: Swift.String?
         /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. Required for Amazon EC2 instances. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole  or arn:aws:iam:::instance-profile/ecsInstanceRole . For more information, see [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html) in the Batch User Guide. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var instanceRole: Swift.String?
-        /// The instances types that can be launched. You can specify instance families to launch any instance type within those families (for example, c5 or p3), or you can specify specific sizes within a family (such as c5.8xlarge). You can also choose optimal to select instance types (from the C4, M4, and R4 instance families) that match the demand of your job queues. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. When you create a compute environment, the instance types that you select for the compute environment must share the same architecture. For example, you can't mix x86 and ARM instances in the same compute environment. Currently, optimal uses instance types from the C4, M4, and R4 instance families. In Regions that don't have instance types from those instance families, instance types from the C5, M5, and R5 instance families are used.
+        /// The instances types that can be launched. You can specify instance families to launch any instance type within those families (for example, c5 or p3), or you can specify specific sizes within a family (such as c5.8xlarge). Batch can select the instance type for you if you choose one of the following:
+        ///
+        /// * optimal to select instance types (from the c4, m4, r4, c5, m5, and r5 instance families) that match the demand of your job queues.
+        ///
+        /// * default_x86_64 to choose x86 based instance types (from the m6i, c6i, r6i, and c7i instance families) that matches the resource demands of the job queue.
+        ///
+        /// * default_arm64 to choose x86 based instance types (from the m6g, c6g, r6g, and c7g instance families) that matches the resource demands of the job queue.
+        ///
+        ///
+        /// Starting on 11/01/2025 the behavior of optimal is going to be changed to match default_x86_64. During the change your instance families could be updated to a newer generation. You do not need to perform any actions for the upgrade to happen. For more information about change, see [Optimal instance type configuration to receive automatic instance family updates](https://docs.aws.amazon.com/batch/latest/userguide/optimal-default-instance-troubleshooting.html). Instance family availability varies by Amazon Web Services Region. For example, some Amazon Web Services Regions may not have any fourth generation instance families but have fifth and sixth generation instance families. When using default_x86_64 or default_arm64 instance bundles, Batch selects instance families based on a balance of cost-effectiveness and performance. While newer generation instances often provide better price-performance, Batch may choose an earlier generation instance family if it provides the optimal combination of availability, cost, and performance for your workload. For example, in an Amazon Web Services Region where both c6i and c7i instances are available, Batch might select c6i instances if they offer better cost-effectiveness for your specific job requirements. For more information on Batch instance types and Amazon Web Services Region availability, see [Instance type compute table](https://docs.aws.amazon.com/batch/latest/userguide/instance-type-compute-table.html) in the Batch User Guide. Batch periodically updates your instances in default bundles to newer, more cost-effective options. Updates happen automatically without requiring any action from you. Your workloads continue running during updates with no interruption This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. When you create a compute environment, the instance types that you select for the compute environment must share the same architecture. For example, you can't mix x86 and ARM instances in the same compute environment.
         public var instanceTypes: [Swift.String]?
         /// The updated launch template to use for your compute resources. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see [Launch template support](https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html) in the Batch User Guide. To remove the custom launch template and use the default launch template, set launchTemplateId or launchTemplateName member of the launch template specification to an empty string. Removing the launch template from a compute environment will not remove the AMI specified in the launch template. In order to update the AMI specified in a launch template, the updateToLatestImageVersion parameter must be set to true. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var launchTemplate: BatchClientTypes.LaunchTemplateSpecification?
@@ -4648,7 +6021,7 @@ extension BatchClientTypes {
         public var securityGroupIds: [Swift.String]?
         /// The VPC subnets where the compute resources are launched. Fargate compute resources can contain up to 16 subnets. For Fargate compute resources, providing an empty list will be handled as if this parameter wasn't specified and no change is made. For Amazon EC2 compute resources, providing an empty list removes the VPC subnets from the compute resource. For more information, see [VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html) in the Amazon VPC User Guide. When updating a compute environment, changing the VPC subnets requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. Batch on Amazon EC2 and Batch on Amazon EKS support Local Zones. For more information, see [ Local Zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-local-zones) in the Amazon EC2 User Guide for Linux Instances, [Amazon EKS and Amazon Web Services Local Zones](https://docs.aws.amazon.com/eks/latest/userguide/local-zones.html) in the Amazon EKS User Guide and [ Amazon ECS clusters in Local Zones, Wavelength Zones, and Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-regions-zones.html#clusters-local-zones) in the Amazon ECS Developer Guide. Batch on Fargate doesn't currently support Local Zones.
         public var subnets: [Swift.String]?
-        /// Key-value pair tags to be applied to Amazon EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value-for example, { "Name": "Batch Instance - C4OnDemand" }. This is helpful for recognizing your Batch instances in the Amazon EC2 console. These tags aren't seen when using the Batch ListTagsForResource API operation. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// Key-value pair tags to be applied to Amazon EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value (for example, { "Name": "Batch Instance - C4OnDemand" }). This is helpful for recognizing your Batch instances in the Amazon EC2 console. These tags aren't seen when using the Batch ListTagsForResource API operation. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var tags: [Swift.String: Swift.String]?
         /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see [Compute environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see [Amazon EC2 spot fleet role](https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html) in the Batch User Guide. When updating a compute environment, changing the type of a compute environment requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
         public var type: BatchClientTypes.CRType?
@@ -4708,7 +6081,7 @@ public struct UpdateComputeEnvironmentInput: Swift.Sendable {
     public var serviceRole: Swift.String?
     /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see [State](https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state) in the Batch User Guide. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
     public var state: BatchClientTypes.CEState?
-    /// The maximum number of vCPUs expected to be used for an unmanaged compute environment. Don't specify this parameter for a managed compute environment. This parameter is only used for fair share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair share job queue, no vCPU capacity is reserved.
+    /// The maximum number of vCPUs expected to be used for an unmanaged compute environment. Don't specify this parameter for a managed compute environment. This parameter is only used for fair-share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair-share job queue, no vCPU capacity is reserved.
     public var unmanagedvCpus: Swift.Int?
     /// Specifies the updated infrastructure update policy for the compute environment. For more information about infrastructure updates, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
     public var updatePolicy: BatchClientTypes.UpdatePolicy?
@@ -4747,6 +6120,57 @@ public struct UpdateComputeEnvironmentOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateConsumableResourceInput: Swift.Sendable {
+    /// If this parameter is specified and two update requests with identical payloads and clientTokens are received, these requests are considered the same request. Both requests will succeed, but the update will only happen once. A clientToken is valid for 8 hours.
+    public var clientToken: Swift.String?
+    /// The name or ARN of the consumable resource to be updated.
+    /// This member is required.
+    public var consumableResource: Swift.String?
+    /// Indicates how the quantity of the consumable resource will be updated. Must be one of:
+    ///
+    /// * SET Sets the quantity of the resource to the value specified by the quantity parameter.
+    ///
+    /// * ADD Increases the quantity of the resource by the value specified by the quantity parameter.
+    ///
+    /// * REMOVE Reduces the quantity of the resource by the value specified by the quantity parameter.
+    public var operation: Swift.String?
+    /// The change in the total quantity of the consumable resource. The operation parameter determines whether the value specified here will be the new total quantity, or the amount by which the total quantity will be increased or reduced. Must be a non-negative value.
+    public var quantity: Swift.Int?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        consumableResource: Swift.String? = nil,
+        operation: Swift.String? = nil,
+        quantity: Swift.Int? = nil
+    ) {
+        self.clientToken = clientToken
+        self.consumableResource = consumableResource
+        self.operation = operation
+        self.quantity = quantity
+    }
+}
+
+public struct UpdateConsumableResourceOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the consumable resource.
+    /// This member is required.
+    public var consumableResourceArn: Swift.String?
+    /// The name of the consumable resource to be updated.
+    /// This member is required.
+    public var consumableResourceName: Swift.String?
+    /// The total amount of the consumable resource that is available.
+    public var totalQuantity: Swift.Int?
+
+    public init(
+        consumableResourceArn: Swift.String? = nil,
+        consumableResourceName: Swift.String? = nil,
+        totalQuantity: Swift.Int? = nil
+    ) {
+        self.consumableResourceArn = consumableResourceArn
+        self.consumableResourceName = consumableResourceName
+        self.totalQuantity = totalQuantity
+    }
+}
+
 /// Contains the parameters for UpdateJobQueue.
 public struct UpdateJobQueueInput: Swift.Sendable {
     /// Details the set of compute environments mapped to a job queue and their order relative to each other. This is one of the parameters used by the job scheduler to determine which compute environment runs a given job. Compute environments must be in the VALID state before you can associate them with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). EC2 and Fargate compute environments can't be mixed. All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mixing compute environment architecture types in a single job queue.
@@ -4758,8 +6182,10 @@ public struct UpdateJobQueueInput: Swift.Sendable {
     public var jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]?
     /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). EC2 and Fargate compute environments can't be mixed.
     public var priority: Swift.Int?
-    /// Amazon Resource Name (ARN) of the fair share scheduling policy. Once a job queue is created, the fair share scheduling policy can be replaced but not removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
+    /// Amazon Resource Name (ARN) of the fair-share scheduling policy. Once a job queue is created, the fair-share scheduling policy can be replaced but not removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
     public var schedulingPolicyArn: Swift.String?
+    /// The order of the service environment associated with the job queue. Job queues with a higher priority are evaluated first when associated with the same service environment.
+    public var serviceEnvironmentOrder: [BatchClientTypes.ServiceEnvironmentOrder]?
     /// Describes the queue's ability to accept new jobs. If the job queue state is ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
     public var state: BatchClientTypes.JQState?
 
@@ -4769,6 +6195,7 @@ public struct UpdateJobQueueInput: Swift.Sendable {
         jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]? = nil,
         priority: Swift.Int? = nil,
         schedulingPolicyArn: Swift.String? = nil,
+        serviceEnvironmentOrder: [BatchClientTypes.ServiceEnvironmentOrder]? = nil,
         state: BatchClientTypes.JQState? = nil
     ) {
         self.computeEnvironmentOrder = computeEnvironmentOrder
@@ -4776,6 +6203,7 @@ public struct UpdateJobQueueInput: Swift.Sendable {
         self.jobStateTimeLimitActions = jobStateTimeLimitActions
         self.priority = priority
         self.schedulingPolicyArn = schedulingPolicyArn
+        self.serviceEnvironmentOrder = serviceEnvironmentOrder
         self.state = state
     }
 }
@@ -4800,7 +6228,7 @@ public struct UpdateSchedulingPolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the scheduling policy to update.
     /// This member is required.
     public var arn: Swift.String?
-    /// The fair share policy.
+    /// The fair-share policy scheduling details.
     public var fairsharePolicy: BatchClientTypes.FairsharePolicy?
 
     public init(
@@ -4817,6 +6245,43 @@ public struct UpdateSchedulingPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateServiceEnvironmentInput: Swift.Sendable {
+    /// The capacity limits for the service environment. This defines the maximum resources that can be used by service jobs in this environment.
+    public var capacityLimits: [BatchClientTypes.CapacityLimit]?
+    /// The name or ARN of the service environment to update.
+    /// This member is required.
+    public var serviceEnvironment: Swift.String?
+    /// The state of the service environment.
+    public var state: BatchClientTypes.ServiceEnvironmentState?
+
+    public init(
+        capacityLimits: [BatchClientTypes.CapacityLimit]? = nil,
+        serviceEnvironment: Swift.String? = nil,
+        state: BatchClientTypes.ServiceEnvironmentState? = nil
+    ) {
+        self.capacityLimits = capacityLimits
+        self.serviceEnvironment = serviceEnvironment
+        self.state = state
+    }
+}
+
+public struct UpdateServiceEnvironmentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the service environment that was updated.
+    /// This member is required.
+    public var serviceEnvironmentArn: Swift.String?
+    /// The name of the service environment that was updated.
+    /// This member is required.
+    public var serviceEnvironmentName: Swift.String?
+
+    public init(
+        serviceEnvironmentArn: Swift.String? = nil,
+        serviceEnvironmentName: Swift.String? = nil
+    ) {
+        self.serviceEnvironmentArn = serviceEnvironmentArn
+        self.serviceEnvironmentName = serviceEnvironmentName
+    }
+}
+
 extension CancelJobInput {
 
     static func urlPathProvider(_ value: CancelJobInput) -> Swift.String? {
@@ -4828,6 +6293,13 @@ extension CreateComputeEnvironmentInput {
 
     static func urlPathProvider(_ value: CreateComputeEnvironmentInput) -> Swift.String? {
         return "/v1/createcomputeenvironment"
+    }
+}
+
+extension CreateConsumableResourceInput {
+
+    static func urlPathProvider(_ value: CreateConsumableResourceInput) -> Swift.String? {
+        return "/v1/createconsumableresource"
     }
 }
 
@@ -4845,10 +6317,24 @@ extension CreateSchedulingPolicyInput {
     }
 }
 
+extension CreateServiceEnvironmentInput {
+
+    static func urlPathProvider(_ value: CreateServiceEnvironmentInput) -> Swift.String? {
+        return "/v1/createserviceenvironment"
+    }
+}
+
 extension DeleteComputeEnvironmentInput {
 
     static func urlPathProvider(_ value: DeleteComputeEnvironmentInput) -> Swift.String? {
         return "/v1/deletecomputeenvironment"
+    }
+}
+
+extension DeleteConsumableResourceInput {
+
+    static func urlPathProvider(_ value: DeleteConsumableResourceInput) -> Swift.String? {
+        return "/v1/deleteconsumableresource"
     }
 }
 
@@ -4866,6 +6352,13 @@ extension DeleteSchedulingPolicyInput {
     }
 }
 
+extension DeleteServiceEnvironmentInput {
+
+    static func urlPathProvider(_ value: DeleteServiceEnvironmentInput) -> Swift.String? {
+        return "/v1/deleteserviceenvironment"
+    }
+}
+
 extension DeregisterJobDefinitionInput {
 
     static func urlPathProvider(_ value: DeregisterJobDefinitionInput) -> Swift.String? {
@@ -4877,6 +6370,13 @@ extension DescribeComputeEnvironmentsInput {
 
     static func urlPathProvider(_ value: DescribeComputeEnvironmentsInput) -> Swift.String? {
         return "/v1/describecomputeenvironments"
+    }
+}
+
+extension DescribeConsumableResourceInput {
+
+    static func urlPathProvider(_ value: DescribeConsumableResourceInput) -> Swift.String? {
+        return "/v1/describeconsumableresource"
     }
 }
 
@@ -4908,10 +6408,31 @@ extension DescribeSchedulingPoliciesInput {
     }
 }
 
+extension DescribeServiceEnvironmentsInput {
+
+    static func urlPathProvider(_ value: DescribeServiceEnvironmentsInput) -> Swift.String? {
+        return "/v1/describeserviceenvironments"
+    }
+}
+
+extension DescribeServiceJobInput {
+
+    static func urlPathProvider(_ value: DescribeServiceJobInput) -> Swift.String? {
+        return "/v1/describeservicejob"
+    }
+}
+
 extension GetJobQueueSnapshotInput {
 
     static func urlPathProvider(_ value: GetJobQueueSnapshotInput) -> Swift.String? {
         return "/v1/getjobqueuesnapshot"
+    }
+}
+
+extension ListConsumableResourcesInput {
+
+    static func urlPathProvider(_ value: ListConsumableResourcesInput) -> Swift.String? {
+        return "/v1/listconsumableresources"
     }
 }
 
@@ -4922,10 +6443,24 @@ extension ListJobsInput {
     }
 }
 
+extension ListJobsByConsumableResourceInput {
+
+    static func urlPathProvider(_ value: ListJobsByConsumableResourceInput) -> Swift.String? {
+        return "/v1/listjobsbyconsumableresource"
+    }
+}
+
 extension ListSchedulingPoliciesInput {
 
     static func urlPathProvider(_ value: ListSchedulingPoliciesInput) -> Swift.String? {
         return "/v1/listschedulingpolicies"
+    }
+}
+
+extension ListServiceJobsInput {
+
+    static func urlPathProvider(_ value: ListServiceJobsInput) -> Swift.String? {
+        return "/v1/listservicejobs"
     }
 }
 
@@ -4953,6 +6488,13 @@ extension SubmitJobInput {
     }
 }
 
+extension SubmitServiceJobInput {
+
+    static func urlPathProvider(_ value: SubmitServiceJobInput) -> Swift.String? {
+        return "/v1/submitservicejob"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -4967,6 +6509,13 @@ extension TerminateJobInput {
 
     static func urlPathProvider(_ value: TerminateJobInput) -> Swift.String? {
         return "/v1/terminatejob"
+    }
+}
+
+extension TerminateServiceJobInput {
+
+    static func urlPathProvider(_ value: TerminateServiceJobInput) -> Swift.String? {
+        return "/v1/terminateservicejob"
     }
 }
 
@@ -5003,6 +6552,13 @@ extension UpdateComputeEnvironmentInput {
     }
 }
 
+extension UpdateConsumableResourceInput {
+
+    static func urlPathProvider(_ value: UpdateConsumableResourceInput) -> Swift.String? {
+        return "/v1/updateconsumableresource"
+    }
+}
+
 extension UpdateJobQueueInput {
 
     static func urlPathProvider(_ value: UpdateJobQueueInput) -> Swift.String? {
@@ -5014,6 +6570,13 @@ extension UpdateSchedulingPolicyInput {
 
     static func urlPathProvider(_ value: UpdateSchedulingPolicyInput) -> Swift.String? {
         return "/v1/updateschedulingpolicy"
+    }
+}
+
+extension UpdateServiceEnvironmentInput {
+
+    static func urlPathProvider(_ value: UpdateServiceEnvironmentInput) -> Swift.String? {
+        return "/v1/updateserviceenvironment"
     }
 }
 
@@ -5042,15 +6605,28 @@ extension CreateComputeEnvironmentInput {
     }
 }
 
+extension CreateConsumableResourceInput {
+
+    static func write(value: CreateConsumableResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumableResourceName"].write(value.consumableResourceName)
+        try writer["resourceType"].write(value.resourceType)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["totalQuantity"].write(value.totalQuantity)
+    }
+}
+
 extension CreateJobQueueInput {
 
     static func write(value: CreateJobQueueInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["computeEnvironmentOrder"].writeList(value.computeEnvironmentOrder, memberWritingClosure: BatchClientTypes.ComputeEnvironmentOrder.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["jobQueueName"].write(value.jobQueueName)
+        try writer["jobQueueType"].write(value.jobQueueType)
         try writer["jobStateTimeLimitActions"].writeList(value.jobStateTimeLimitActions, memberWritingClosure: BatchClientTypes.JobStateTimeLimitAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["priority"].write(value.priority)
         try writer["schedulingPolicyArn"].write(value.schedulingPolicyArn)
+        try writer["serviceEnvironmentOrder"].writeList(value.serviceEnvironmentOrder, memberWritingClosure: BatchClientTypes.ServiceEnvironmentOrder.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["state"].write(value.state)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -5066,11 +6642,31 @@ extension CreateSchedulingPolicyInput {
     }
 }
 
+extension CreateServiceEnvironmentInput {
+
+    static func write(value: CreateServiceEnvironmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityLimits"].writeList(value.capacityLimits, memberWritingClosure: BatchClientTypes.CapacityLimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["serviceEnvironmentName"].write(value.serviceEnvironmentName)
+        try writer["serviceEnvironmentType"].write(value.serviceEnvironmentType)
+        try writer["state"].write(value.state)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension DeleteComputeEnvironmentInput {
 
     static func write(value: DeleteComputeEnvironmentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["computeEnvironment"].write(value.computeEnvironment)
+    }
+}
+
+extension DeleteConsumableResourceInput {
+
+    static func write(value: DeleteConsumableResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumableResource"].write(value.consumableResource)
     }
 }
 
@@ -5090,6 +6686,14 @@ extension DeleteSchedulingPolicyInput {
     }
 }
 
+extension DeleteServiceEnvironmentInput {
+
+    static func write(value: DeleteServiceEnvironmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["serviceEnvironment"].write(value.serviceEnvironment)
+    }
+}
+
 extension DeregisterJobDefinitionInput {
 
     static func write(value: DeregisterJobDefinitionInput?, to writer: SmithyJSON.Writer) throws {
@@ -5105,6 +6709,14 @@ extension DescribeComputeEnvironmentsInput {
         try writer["computeEnvironments"].writeList(value.computeEnvironments, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension DescribeConsumableResourceInput {
+
+    static func write(value: DescribeConsumableResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumableResource"].write(value.consumableResource)
     }
 }
 
@@ -5146,11 +6758,39 @@ extension DescribeSchedulingPoliciesInput {
     }
 }
 
+extension DescribeServiceEnvironmentsInput {
+
+    static func write(value: DescribeServiceEnvironmentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["serviceEnvironments"].writeList(value.serviceEnvironments, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DescribeServiceJobInput {
+
+    static func write(value: DescribeServiceJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobId"].write(value.jobId)
+    }
+}
+
 extension GetJobQueueSnapshotInput {
 
     static func write(value: GetJobQueueSnapshotInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["jobQueue"].write(value.jobQueue)
+    }
+}
+
+extension ListConsumableResourcesInput {
+
+    static func write(value: ListConsumableResourcesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: BatchClientTypes.KeyValuesPair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -5168,6 +6808,17 @@ extension ListJobsInput {
     }
 }
 
+extension ListJobsByConsumableResourceInput {
+
+    static func write(value: ListJobsByConsumableResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumableResource"].write(value.consumableResource)
+        try writer["filters"].writeList(value.filters, memberWritingClosure: BatchClientTypes.KeyValuesPair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension ListSchedulingPoliciesInput {
 
     static func write(value: ListSchedulingPoliciesInput?, to writer: SmithyJSON.Writer) throws {
@@ -5177,10 +6828,23 @@ extension ListSchedulingPoliciesInput {
     }
 }
 
+extension ListServiceJobsInput {
+
+    static func write(value: ListServiceJobsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: BatchClientTypes.KeyValuesPair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["jobQueue"].write(value.jobQueue)
+        try writer["jobStatus"].write(value.jobStatus)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension RegisterJobDefinitionInput {
 
     static func write(value: RegisterJobDefinitionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["consumableResourceProperties"].write(value.consumableResourceProperties, with: BatchClientTypes.ConsumableResourceProperties.write(value:to:))
         try writer["containerProperties"].write(value.containerProperties, with: BatchClientTypes.ContainerProperties.write(value:to:))
         try writer["ecsProperties"].write(value.ecsProperties, with: BatchClientTypes.EcsProperties.write(value:to:))
         try writer["eksProperties"].write(value.eksProperties, with: BatchClientTypes.EksProperties.write(value:to:))
@@ -5202,6 +6866,7 @@ extension SubmitJobInput {
     static func write(value: SubmitJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["arrayProperties"].write(value.arrayProperties, with: BatchClientTypes.ArrayProperties.write(value:to:))
+        try writer["consumableResourcePropertiesOverride"].write(value.consumableResourcePropertiesOverride, with: BatchClientTypes.ConsumableResourceProperties.write(value:to:))
         try writer["containerOverrides"].write(value.containerOverrides, with: BatchClientTypes.ContainerOverrides.write(value:to:))
         try writer["dependsOn"].writeList(value.dependsOn, memberWritingClosure: BatchClientTypes.JobDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ecsPropertiesOverride"].write(value.ecsPropertiesOverride, with: BatchClientTypes.EcsPropertiesOverride.write(value:to:))
@@ -5217,6 +6882,23 @@ extension SubmitJobInput {
         try writer["shareIdentifier"].write(value.shareIdentifier)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["timeout"].write(value.timeout, with: BatchClientTypes.JobTimeout.write(value:to:))
+    }
+}
+
+extension SubmitServiceJobInput {
+
+    static func write(value: SubmitServiceJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["jobName"].write(value.jobName)
+        try writer["jobQueue"].write(value.jobQueue)
+        try writer["retryStrategy"].write(value.retryStrategy, with: BatchClientTypes.ServiceJobRetryStrategy.write(value:to:))
+        try writer["schedulingPriority"].write(value.schedulingPriority)
+        try writer["serviceJobType"].write(value.serviceJobType)
+        try writer["serviceRequestPayload"].write(value.serviceRequestPayload)
+        try writer["shareIdentifier"].write(value.shareIdentifier)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["timeoutConfig"].write(value.timeoutConfig, with: BatchClientTypes.ServiceJobTimeout.write(value:to:))
     }
 }
 
@@ -5237,6 +6919,15 @@ extension TerminateJobInput {
     }
 }
 
+extension TerminateServiceJobInput {
+
+    static func write(value: TerminateServiceJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobId"].write(value.jobId)
+        try writer["reason"].write(value.reason)
+    }
+}
+
 extension UpdateComputeEnvironmentInput {
 
     static func write(value: UpdateComputeEnvironmentInput?, to writer: SmithyJSON.Writer) throws {
@@ -5251,6 +6942,17 @@ extension UpdateComputeEnvironmentInput {
     }
 }
 
+extension UpdateConsumableResourceInput {
+
+    static func write(value: UpdateConsumableResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["consumableResource"].write(value.consumableResource)
+        try writer["operation"].write(value.operation)
+        try writer["quantity"].write(value.quantity)
+    }
+}
+
 extension UpdateJobQueueInput {
 
     static func write(value: UpdateJobQueueInput?, to writer: SmithyJSON.Writer) throws {
@@ -5260,6 +6962,7 @@ extension UpdateJobQueueInput {
         try writer["jobStateTimeLimitActions"].writeList(value.jobStateTimeLimitActions, memberWritingClosure: BatchClientTypes.JobStateTimeLimitAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["priority"].write(value.priority)
         try writer["schedulingPolicyArn"].write(value.schedulingPolicyArn)
+        try writer["serviceEnvironmentOrder"].writeList(value.serviceEnvironmentOrder, memberWritingClosure: BatchClientTypes.ServiceEnvironmentOrder.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["state"].write(value.state)
     }
 }
@@ -5270,6 +6973,16 @@ extension UpdateSchedulingPolicyInput {
         guard let value else { return }
         try writer["arn"].write(value.arn)
         try writer["fairsharePolicy"].write(value.fairsharePolicy, with: BatchClientTypes.FairsharePolicy.write(value:to:))
+    }
+}
+
+extension UpdateServiceEnvironmentInput {
+
+    static func write(value: UpdateServiceEnvironmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityLimits"].writeList(value.capacityLimits, memberWritingClosure: BatchClientTypes.CapacityLimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["serviceEnvironment"].write(value.serviceEnvironment)
+        try writer["state"].write(value.state)
     }
 }
 
@@ -5289,6 +7002,19 @@ extension CreateComputeEnvironmentOutput {
         var value = CreateComputeEnvironmentOutput()
         value.computeEnvironmentArn = try reader["computeEnvironmentArn"].readIfPresent()
         value.computeEnvironmentName = try reader["computeEnvironmentName"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateConsumableResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConsumableResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateConsumableResourceOutput()
+        value.consumableResourceArn = try reader["consumableResourceArn"].readIfPresent() ?? ""
+        value.consumableResourceName = try reader["consumableResourceName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5319,10 +7045,30 @@ extension CreateSchedulingPolicyOutput {
     }
 }
 
+extension CreateServiceEnvironmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateServiceEnvironmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateServiceEnvironmentOutput()
+        value.serviceEnvironmentArn = try reader["serviceEnvironmentArn"].readIfPresent() ?? ""
+        value.serviceEnvironmentName = try reader["serviceEnvironmentName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DeleteComputeEnvironmentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteComputeEnvironmentOutput {
         return DeleteComputeEnvironmentOutput()
+    }
+}
+
+extension DeleteConsumableResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConsumableResourceOutput {
+        return DeleteConsumableResourceOutput()
     }
 }
 
@@ -5337,6 +7083,13 @@ extension DeleteSchedulingPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSchedulingPolicyOutput {
         return DeleteSchedulingPolicyOutput()
+    }
+}
+
+extension DeleteServiceEnvironmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteServiceEnvironmentOutput {
+        return DeleteServiceEnvironmentOutput()
     }
 }
 
@@ -5356,6 +7109,25 @@ extension DescribeComputeEnvironmentsOutput {
         var value = DescribeComputeEnvironmentsOutput()
         value.computeEnvironments = try reader["computeEnvironments"].readListIfPresent(memberReadingClosure: BatchClientTypes.ComputeEnvironmentDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeConsumableResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeConsumableResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeConsumableResourceOutput()
+        value.availableQuantity = try reader["availableQuantity"].readIfPresent()
+        value.consumableResourceArn = try reader["consumableResourceArn"].readIfPresent() ?? ""
+        value.consumableResourceName = try reader["consumableResourceName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readIfPresent()
+        value.inUseQuantity = try reader["inUseQuantity"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.totalQuantity = try reader["totalQuantity"].readIfPresent()
         return value
     }
 }
@@ -5410,6 +7182,49 @@ extension DescribeSchedulingPoliciesOutput {
     }
 }
 
+extension DescribeServiceEnvironmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeServiceEnvironmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeServiceEnvironmentsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.serviceEnvironments = try reader["serviceEnvironments"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceEnvironmentDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeServiceJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeServiceJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeServiceJobOutput()
+        value.attempts = try reader["attempts"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceJobAttemptDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readIfPresent()
+        value.isTerminated = try reader["isTerminated"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.jobQueue = try reader["jobQueue"].readIfPresent() ?? ""
+        value.latestAttempt = try reader["latestAttempt"].readIfPresent(with: BatchClientTypes.LatestServiceJobAttempt.read(from:))
+        value.retryStrategy = try reader["retryStrategy"].readIfPresent(with: BatchClientTypes.ServiceJobRetryStrategy.read(from:))
+        value.schedulingPriority = try reader["schedulingPriority"].readIfPresent()
+        value.serviceJobType = try reader["serviceJobType"].readIfPresent() ?? .sdkUnknown("")
+        value.serviceRequestPayload = try reader["serviceRequestPayload"].readIfPresent()
+        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.timeoutConfig = try reader["timeoutConfig"].readIfPresent(with: BatchClientTypes.ServiceJobTimeout.read(from:))
+        return value
+    }
+}
+
 extension GetJobQueueSnapshotOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetJobQueueSnapshotOutput {
@@ -5418,6 +7233,19 @@ extension GetJobQueueSnapshotOutput {
         let reader = responseReader
         var value = GetJobQueueSnapshotOutput()
         value.frontOfQueue = try reader["frontOfQueue"].readIfPresent(with: BatchClientTypes.FrontOfQueueDetail.read(from:))
+        return value
+    }
+}
+
+extension ListConsumableResourcesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConsumableResourcesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConsumableResourcesOutput()
+        value.consumableResources = try reader["consumableResources"].readListIfPresent(memberReadingClosure: BatchClientTypes.ConsumableResourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -5435,6 +7263,19 @@ extension ListJobsOutput {
     }
 }
 
+extension ListJobsByConsumableResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListJobsByConsumableResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListJobsByConsumableResourceOutput()
+        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: BatchClientTypes.ListJobsByConsumableResourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListSchedulingPoliciesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSchedulingPoliciesOutput {
@@ -5444,6 +7285,19 @@ extension ListSchedulingPoliciesOutput {
         var value = ListSchedulingPoliciesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.schedulingPolicies = try reader["schedulingPolicies"].readListIfPresent(memberReadingClosure: BatchClientTypes.SchedulingPolicyListingDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListServiceJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListServiceJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListServiceJobsOutput()
+        value.jobSummaryList = try reader["jobSummaryList"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -5488,6 +7342,20 @@ extension SubmitJobOutput {
     }
 }
 
+extension SubmitServiceJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SubmitServiceJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SubmitServiceJobOutput()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -5499,6 +7367,13 @@ extension TerminateJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TerminateJobOutput {
         return TerminateJobOutput()
+    }
+}
+
+extension TerminateServiceJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TerminateServiceJobOutput {
+        return TerminateServiceJobOutput()
     }
 }
 
@@ -5518,6 +7393,20 @@ extension UpdateComputeEnvironmentOutput {
         var value = UpdateComputeEnvironmentOutput()
         value.computeEnvironmentArn = try reader["computeEnvironmentArn"].readIfPresent()
         value.computeEnvironmentName = try reader["computeEnvironmentName"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateConsumableResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConsumableResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateConsumableResourceOutput()
+        value.consumableResourceArn = try reader["consumableResourceArn"].readIfPresent() ?? ""
+        value.consumableResourceName = try reader["consumableResourceName"].readIfPresent() ?? ""
+        value.totalQuantity = try reader["totalQuantity"].readIfPresent()
         return value
     }
 }
@@ -5542,6 +7431,19 @@ extension UpdateSchedulingPolicyOutput {
     }
 }
 
+extension UpdateServiceEnvironmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateServiceEnvironmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateServiceEnvironmentOutput()
+        value.serviceEnvironmentArn = try reader["serviceEnvironmentArn"].readIfPresent() ?? ""
+        value.serviceEnvironmentName = try reader["serviceEnvironmentName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 enum CancelJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5558,6 +7460,21 @@ enum CancelJobOutputError {
 }
 
 enum CreateComputeEnvironmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateConsumableResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5602,7 +7519,37 @@ enum CreateSchedulingPolicyOutputError {
     }
 }
 
+enum CreateServiceEnvironmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteComputeEnvironmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteConsumableResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5647,6 +7594,21 @@ enum DeleteSchedulingPolicyOutputError {
     }
 }
 
+enum DeleteServiceEnvironmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeregisterJobDefinitionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5663,6 +7625,21 @@ enum DeregisterJobDefinitionOutputError {
 }
 
 enum DescribeComputeEnvironmentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeConsumableResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5737,7 +7714,52 @@ enum DescribeSchedulingPoliciesOutputError {
     }
 }
 
+enum DescribeServiceEnvironmentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeServiceJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetJobQueueSnapshotOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListConsumableResourcesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5767,7 +7789,37 @@ enum ListJobsOutputError {
     }
 }
 
+enum ListJobsByConsumableResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListSchedulingPoliciesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListServiceJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5827,6 +7879,21 @@ enum SubmitJobOutputError {
     }
 }
 
+enum SubmitServiceJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5843,6 +7910,21 @@ enum TagResourceOutputError {
 }
 
 enum TerminateJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TerminateServiceJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5887,6 +7969,21 @@ enum UpdateComputeEnvironmentOutputError {
     }
 }
 
+enum UpdateConsumableResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateJobQueueOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5903,6 +8000,21 @@ enum UpdateJobQueueOutputError {
 }
 
 enum UpdateSchedulingPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateServiceEnvironmentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6075,6 +8187,7 @@ extension BatchClientTypes.LaunchTemplateSpecification {
         try writer["launchTemplateId"].write(value.launchTemplateId)
         try writer["launchTemplateName"].write(value.launchTemplateName)
         try writer["overrides"].writeList(value.overrides, memberWritingClosure: BatchClientTypes.LaunchTemplateSpecificationOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["userdataType"].write(value.userdataType)
         try writer["version"].write(value.version)
     }
 
@@ -6085,6 +8198,7 @@ extension BatchClientTypes.LaunchTemplateSpecification {
         value.launchTemplateName = try reader["launchTemplateName"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
         value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: BatchClientTypes.LaunchTemplateSpecificationOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userdataType = try reader["userdataType"].readIfPresent()
         return value
     }
 }
@@ -6096,6 +8210,7 @@ extension BatchClientTypes.LaunchTemplateSpecificationOverride {
         try writer["launchTemplateId"].write(value.launchTemplateId)
         try writer["launchTemplateName"].write(value.launchTemplateName)
         try writer["targetInstanceTypes"].writeList(value.targetInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["userdataType"].write(value.userdataType)
         try writer["version"].write(value.version)
     }
 
@@ -6106,6 +8221,7 @@ extension BatchClientTypes.LaunchTemplateSpecificationOverride {
         value.launchTemplateName = try reader["launchTemplateName"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
         value.targetInstanceTypes = try reader["targetInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userdataType = try reader["userdataType"].readIfPresent()
         return value
     }
 }
@@ -6132,6 +8248,39 @@ extension BatchClientTypes.JobDefinition {
         value.ecsProperties = try reader["ecsProperties"].readIfPresent(with: BatchClientTypes.EcsProperties.read(from:))
         value.eksProperties = try reader["eksProperties"].readIfPresent(with: BatchClientTypes.EksProperties.read(from:))
         value.containerOrchestrationType = try reader["containerOrchestrationType"].readIfPresent()
+        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.ConsumableResourceProperties {
+
+    static func write(value: BatchClientTypes.ConsumableResourceProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumableResourceList"].writeList(value.consumableResourceList, memberWritingClosure: BatchClientTypes.ConsumableResourceRequirement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ConsumableResourceProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ConsumableResourceProperties()
+        value.consumableResourceList = try reader["consumableResourceList"].readListIfPresent(memberReadingClosure: BatchClientTypes.ConsumableResourceRequirement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.ConsumableResourceRequirement {
+
+    static func write(value: BatchClientTypes.ConsumableResourceRequirement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumableResource"].write(value.consumableResource)
+        try writer["quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ConsumableResourceRequirement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ConsumableResourceRequirement()
+        value.consumableResource = try reader["consumableResource"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent()
         return value
     }
 }
@@ -6436,6 +8585,7 @@ extension BatchClientTypes.EcsTaskProperties {
     static func write(value: BatchClientTypes.EcsTaskProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.TaskContainerProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["enableExecuteCommand"].write(value.enableExecuteCommand)
         try writer["ephemeralStorage"].write(value.ephemeralStorage, with: BatchClientTypes.EphemeralStorage.write(value:to:))
         try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["ipcMode"].write(value.ipcMode)
@@ -6460,6 +8610,7 @@ extension BatchClientTypes.EcsTaskProperties {
         value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BatchClientTypes.NetworkConfiguration.read(from:))
         value.runtimePlatform = try reader["runtimePlatform"].readIfPresent(with: BatchClientTypes.RuntimePlatform.read(from:))
         value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent()
         return value
     }
 }
@@ -6593,6 +8744,7 @@ extension BatchClientTypes.TaskContainerProperties {
         try writer["dependsOn"].writeList(value.dependsOn, memberWritingClosure: BatchClientTypes.TaskContainerDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["environment"].writeList(value.environment, memberWritingClosure: BatchClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["essential"].write(value.essential)
+        try writer["firelensConfiguration"].write(value.firelensConfiguration, with: BatchClientTypes.FirelensConfiguration.write(value:to:))
         try writer["image"].write(value.image)
         try writer["linuxParameters"].write(value.linuxParameters, with: BatchClientTypes.LinuxParameters.write(value:to:))
         try writer["logConfiguration"].write(value.logConfiguration, with: BatchClientTypes.LogConfiguration.write(value:to:))
@@ -6614,6 +8766,7 @@ extension BatchClientTypes.TaskContainerProperties {
         value.dependsOn = try reader["dependsOn"].readListIfPresent(memberReadingClosure: BatchClientTypes.TaskContainerDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.environment = try reader["environment"].readListIfPresent(memberReadingClosure: BatchClientTypes.KeyValuePair.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.essential = try reader["essential"].readIfPresent()
+        value.firelensConfiguration = try reader["firelensConfiguration"].readIfPresent(with: BatchClientTypes.FirelensConfiguration.read(from:))
         value.image = try reader["image"].readIfPresent() ?? ""
         value.linuxParameters = try reader["linuxParameters"].readIfPresent(with: BatchClientTypes.LinuxParameters.read(from:))
         value.logConfiguration = try reader["logConfiguration"].readIfPresent(with: BatchClientTypes.LogConfiguration.read(from:))
@@ -6799,6 +8952,23 @@ extension BatchClientTypes.Device {
     }
 }
 
+extension BatchClientTypes.FirelensConfiguration {
+
+    static func write(value: BatchClientTypes.FirelensConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["options"].writeMap(value.options, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FirelensConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FirelensConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.options = try reader["options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension BatchClientTypes.KeyValuePair {
 
     static func write(value: BatchClientTypes.KeyValuePair?, to writer: SmithyJSON.Writer) throws {
@@ -6856,6 +9026,7 @@ extension BatchClientTypes.NodeRangeProperty {
 
     static func write(value: BatchClientTypes.NodeRangeProperty?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["consumableResourceProperties"].write(value.consumableResourceProperties, with: BatchClientTypes.ConsumableResourceProperties.write(value:to:))
         try writer["container"].write(value.container, with: BatchClientTypes.ContainerProperties.write(value:to:))
         try writer["ecsProperties"].write(value.ecsProperties, with: BatchClientTypes.EcsProperties.write(value:to:))
         try writer["eksProperties"].write(value.eksProperties, with: BatchClientTypes.EksProperties.write(value:to:))
@@ -6871,6 +9042,7 @@ extension BatchClientTypes.NodeRangeProperty {
         value.instanceTypes = try reader["instanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.ecsProperties = try reader["ecsProperties"].readIfPresent(with: BatchClientTypes.EcsProperties.read(from:))
         value.eksProperties = try reader["eksProperties"].readIfPresent(with: BatchClientTypes.EksProperties.read(from:))
+        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
         return value
     }
 }
@@ -6880,6 +9052,7 @@ extension BatchClientTypes.ContainerProperties {
     static func write(value: BatchClientTypes.ContainerProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["enableExecuteCommand"].write(value.enableExecuteCommand)
         try writer["environment"].writeList(value.environment, memberWritingClosure: BatchClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ephemeralStorage"].write(value.ephemeralStorage, with: BatchClientTypes.EphemeralStorage.write(value:to:))
         try writer["executionRoleArn"].write(value.executionRoleArn)
@@ -6927,6 +9100,7 @@ extension BatchClientTypes.ContainerProperties {
         value.secrets = try reader["secrets"].readListIfPresent(memberReadingClosure: BatchClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BatchClientTypes.NetworkConfiguration.read(from:))
         value.fargatePlatformConfiguration = try reader["fargatePlatformConfiguration"].readIfPresent(with: BatchClientTypes.FargatePlatformConfiguration.read(from:))
+        value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent()
         value.ephemeralStorage = try reader["ephemeralStorage"].readIfPresent(with: BatchClientTypes.EphemeralStorage.read(from:))
         value.runtimePlatform = try reader["runtimePlatform"].readIfPresent(with: BatchClientTypes.RuntimePlatform.read(from:))
         value.repositoryCredentials = try reader["repositoryCredentials"].readIfPresent(with: BatchClientTypes.RepositoryCredentials.read(from:))
@@ -7015,6 +9189,8 @@ extension BatchClientTypes.JobQueueDetail {
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.priority = try reader["priority"].readIfPresent() ?? 0
         value.computeEnvironmentOrder = try reader["computeEnvironmentOrder"].readListIfPresent(memberReadingClosure: BatchClientTypes.ComputeEnvironmentOrder.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.serviceEnvironmentOrder = try reader["serviceEnvironmentOrder"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceEnvironmentOrder.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobQueueType = try reader["jobQueueType"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.jobStateTimeLimitActions = try reader["jobStateTimeLimitActions"].readListIfPresent(memberReadingClosure: BatchClientTypes.JobStateTimeLimitAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -7038,6 +9214,23 @@ extension BatchClientTypes.JobStateTimeLimitAction {
         value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         value.maxTimeSeconds = try reader["maxTimeSeconds"].readIfPresent() ?? 0
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceEnvironmentOrder {
+
+    static func write(value: BatchClientTypes.ServiceEnvironmentOrder?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["order"].write(value.order)
+        try writer["serviceEnvironment"].write(value.serviceEnvironment)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceEnvironmentOrder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceEnvironmentOrder()
+        value.order = try reader["order"].readIfPresent() ?? 0
+        value.serviceEnvironment = try reader["serviceEnvironment"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7093,6 +9286,7 @@ extension BatchClientTypes.JobDetail {
         value.ecsProperties = try reader["ecsProperties"].readIfPresent(with: BatchClientTypes.EcsPropertiesDetail.read(from:))
         value.isCancelled = try reader["isCancelled"].readIfPresent()
         value.isTerminated = try reader["isTerminated"].readIfPresent()
+        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
         return value
     }
 }
@@ -7124,6 +9318,7 @@ extension BatchClientTypes.EcsTaskDetails {
         value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BatchClientTypes.NetworkConfiguration.read(from:))
         value.runtimePlatform = try reader["runtimePlatform"].readIfPresent(with: BatchClientTypes.RuntimePlatform.read(from:))
         value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent()
         return value
     }
 }
@@ -7137,6 +9332,7 @@ extension BatchClientTypes.TaskContainerDetails {
         value.dependsOn = try reader["dependsOn"].readListIfPresent(memberReadingClosure: BatchClientTypes.TaskContainerDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.environment = try reader["environment"].readListIfPresent(memberReadingClosure: BatchClientTypes.KeyValuePair.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.essential = try reader["essential"].readIfPresent()
+        value.firelensConfiguration = try reader["firelensConfiguration"].readIfPresent(with: BatchClientTypes.FirelensConfiguration.read(from:))
         value.image = try reader["image"].readIfPresent()
         value.linuxParameters = try reader["linuxParameters"].readIfPresent(with: BatchClientTypes.LinuxParameters.read(from:))
         value.logConfiguration = try reader["logConfiguration"].readIfPresent(with: BatchClientTypes.LogConfiguration.read(from:))
@@ -7307,6 +9503,7 @@ extension BatchClientTypes.ContainerDetail {
         value.ephemeralStorage = try reader["ephemeralStorage"].readIfPresent(with: BatchClientTypes.EphemeralStorage.read(from:))
         value.runtimePlatform = try reader["runtimePlatform"].readIfPresent(with: BatchClientTypes.RuntimePlatform.read(from:))
         value.repositoryCredentials = try reader["repositoryCredentials"].readIfPresent(with: BatchClientTypes.RepositoryCredentials.read(from:))
+        value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent()
         return value
     }
 }
@@ -7432,6 +9629,122 @@ extension BatchClientTypes.ShareAttributes {
     }
 }
 
+extension BatchClientTypes.ServiceEnvironmentDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceEnvironmentDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceEnvironmentDetail()
+        value.serviceEnvironmentName = try reader["serviceEnvironmentName"].readIfPresent() ?? ""
+        value.serviceEnvironmentArn = try reader["serviceEnvironmentArn"].readIfPresent() ?? ""
+        value.serviceEnvironmentType = try reader["serviceEnvironmentType"].readIfPresent() ?? .sdkUnknown("")
+        value.state = try reader["state"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.capacityLimits = try reader["capacityLimits"].readListIfPresent(memberReadingClosure: BatchClientTypes.CapacityLimit.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.CapacityLimit {
+
+    static func write(value: BatchClientTypes.CapacityLimit?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityUnit"].write(value.capacityUnit)
+        try writer["maxCapacity"].write(value.maxCapacity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.CapacityLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.CapacityLimit()
+        value.maxCapacity = try reader["maxCapacity"].readIfPresent()
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobAttemptDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobAttemptDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobAttemptDetail()
+        value.serviceResourceId = try reader["serviceResourceId"].readIfPresent(with: BatchClientTypes.ServiceResourceId.read(from:))
+        value.startedAt = try reader["startedAt"].readIfPresent()
+        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceResourceId {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceResourceId {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceResourceId()
+        value.name = try reader["name"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BatchClientTypes.LatestServiceJobAttempt {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.LatestServiceJobAttempt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.LatestServiceJobAttempt()
+        value.serviceResourceId = try reader["serviceResourceId"].readIfPresent(with: BatchClientTypes.ServiceResourceId.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobRetryStrategy {
+
+    static func write(value: BatchClientTypes.ServiceJobRetryStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attempts"].write(value.attempts)
+        try writer["evaluateOnExit"].writeList(value.evaluateOnExit, memberWritingClosure: BatchClientTypes.ServiceJobEvaluateOnExit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobRetryStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobRetryStrategy()
+        value.attempts = try reader["attempts"].readIfPresent() ?? 0
+        value.evaluateOnExit = try reader["evaluateOnExit"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceJobEvaluateOnExit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobEvaluateOnExit {
+
+    static func write(value: BatchClientTypes.ServiceJobEvaluateOnExit?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["onStatusReason"].write(value.onStatusReason)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobEvaluateOnExit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobEvaluateOnExit()
+        value.action = try reader["action"].readIfPresent()
+        value.onStatusReason = try reader["onStatusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobTimeout {
+
+    static func write(value: BatchClientTypes.ServiceJobTimeout?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attemptDurationSeconds"].write(value.attemptDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobTimeout {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobTimeout()
+        value.attemptDurationSeconds = try reader["attemptDurationSeconds"].readIfPresent()
+        return value
+    }
+}
+
 extension BatchClientTypes.FrontOfQueueDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FrontOfQueueDetail {
@@ -7450,6 +9763,20 @@ extension BatchClientTypes.FrontOfQueueJobSummary {
         var value = BatchClientTypes.FrontOfQueueJobSummary()
         value.jobArn = try reader["jobArn"].readIfPresent()
         value.earliestTimeAtPosition = try reader["earliestTimeAtPosition"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ConsumableResourceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ConsumableResourceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ConsumableResourceSummary()
+        value.consumableResourceArn = try reader["consumableResourceArn"].readIfPresent() ?? ""
+        value.consumableResourceName = try reader["consumableResourceName"].readIfPresent() ?? ""
+        value.totalQuantity = try reader["totalQuantity"].readIfPresent()
+        value.inUseQuantity = try reader["inUseQuantity"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
         return value
     }
 }
@@ -7509,12 +9836,52 @@ extension BatchClientTypes.ContainerSummary {
     }
 }
 
+extension BatchClientTypes.ListJobsByConsumableResourceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ListJobsByConsumableResourceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ListJobsByConsumableResourceSummary()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobQueueArn = try reader["jobQueueArn"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.jobDefinitionArn = try reader["jobDefinitionArn"].readIfPresent()
+        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? ""
+        value.quantity = try reader["quantity"].readIfPresent() ?? 0
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readIfPresent() ?? 0
+        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
+        return value
+    }
+}
+
 extension BatchClientTypes.SchedulingPolicyListingDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.SchedulingPolicyListingDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.SchedulingPolicyListingDetail()
         value.arn = try reader["arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobSummary()
+        value.latestAttempt = try reader["latestAttempt"].readIfPresent(with: BatchClientTypes.LatestServiceJobAttempt.read(from:))
+        value.createdAt = try reader["createdAt"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.serviceJobType = try reader["serviceJobType"].readIfPresent() ?? .sdkUnknown("")
+        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readIfPresent()
+        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
         return value
     }
 }
@@ -7562,6 +9929,7 @@ extension BatchClientTypes.NodePropertyOverride {
 
     static func write(value: BatchClientTypes.NodePropertyOverride?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["consumableResourcePropertiesOverride"].write(value.consumableResourcePropertiesOverride, with: BatchClientTypes.ConsumableResourceProperties.write(value:to:))
         try writer["containerOverrides"].write(value.containerOverrides, with: BatchClientTypes.ContainerOverrides.write(value:to:))
         try writer["ecsPropertiesOverride"].write(value.ecsPropertiesOverride, with: BatchClientTypes.EcsPropertiesOverride.write(value:to:))
         try writer["eksPropertiesOverride"].write(value.eksPropertiesOverride, with: BatchClientTypes.EksPropertiesOverride.write(value:to:))

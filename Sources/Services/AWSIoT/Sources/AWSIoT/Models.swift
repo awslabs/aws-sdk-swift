@@ -2819,14 +2819,47 @@ extension IoTClientTypes {
 
 extension IoTClientTypes {
 
+    public enum ConfigName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case certAgeThresholdInDays
+        case certExpirationThresholdInDays
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigName] {
+            return [
+                .certAgeThresholdInDays,
+                .certExpirationThresholdInDays
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .certAgeThresholdInDays: return "CERT_AGE_THRESHOLD_IN_DAYS"
+            case .certExpirationThresholdInDays: return "CERT_EXPIRATION_THRESHOLD_IN_DAYS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     /// Which audit checks are enabled and disabled for this account.
     public struct AuditCheckConfiguration: Swift.Sendable {
+        /// A structure containing the configName and corresponding configValue for configuring audit checks.
+        public var configuration: [Swift.String: Swift.String]?
         /// True if this audit check is enabled for this account.
         public var enabled: Swift.Bool
 
         public init(
+            configuration: [Swift.String: Swift.String]? = nil,
             enabled: Swift.Bool = false
         ) {
+            self.configuration = configuration
             self.enabled = enabled
         }
     }
@@ -9994,6 +10027,119 @@ public struct DescribeDomainConfigurationOutput: Swift.Sendable {
         self.serverCertificates = serverCertificates
         self.serviceType = serviceType
         self.tlsConfig = tlsConfig
+    }
+}
+
+public struct DescribeEncryptionConfigurationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension IoTClientTypes {
+
+    public enum ConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case healthy
+        case unhealthy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigurationStatus] {
+            return [
+                .healthy,
+                .unhealthy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .healthy: return "HEALTHY"
+            case .unhealthy: return "UNHEALTHY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// The encryption configuration details that include the status information of the Amazon Web Services Key Management Service (KMS) key and the KMS access role.
+    public struct ConfigurationDetails: Swift.Sendable {
+        /// The health status of KMS key and KMS access role. If either KMS key or KMS access role is UNHEALTHY, the return value will be UNHEALTHY. To use a customer-managed KMS key, the value of configurationStatus must be HEALTHY.
+        public var configurationStatus: IoTClientTypes.ConfigurationStatus?
+        /// The error code that indicates either the KMS key or the KMS access role is UNHEALTHY. Valid values: KMS_KEY_VALIDATION_ERROR and ROLE_VALIDATION_ERROR.
+        public var errorCode: Swift.String?
+        /// The detailed error message that corresponds to the errorCode.
+        public var errorMessage: Swift.String?
+
+        public init(
+            configurationStatus: IoTClientTypes.ConfigurationStatus? = nil,
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        ) {
+            self.configurationStatus = configurationStatus
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    public enum EncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsOwnedKmsKey
+        case customerManagedKmsKey
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionType] {
+            return [
+                .awsOwnedKmsKey,
+                .customerManagedKmsKey
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsOwnedKmsKey: return "AWS_OWNED_KMS_KEY"
+            case .customerManagedKmsKey: return "CUSTOMER_MANAGED_KMS_KEY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeEncryptionConfigurationOutput: Swift.Sendable {
+    /// The encryption configuration details that include the status information of the KMS key and the KMS access role.
+    public var configurationDetails: IoTClientTypes.ConfigurationDetails?
+    /// The type of the Amazon Web Services Key Management Service (KMS) key.
+    public var encryptionType: IoTClientTypes.EncryptionType?
+    /// The ARN of the customer-managed KMS key.
+    public var kmsAccessRoleArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role assumed by Amazon Web Services IoT Core to call KMS on behalf of the customer.
+    public var kmsKeyArn: Swift.String?
+    /// The date when encryption configuration is last updated.
+    public var lastModifiedDate: Foundation.Date?
+
+    public init(
+        configurationDetails: IoTClientTypes.ConfigurationDetails? = nil,
+        encryptionType: IoTClientTypes.EncryptionType? = nil,
+        kmsAccessRoleArn: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        lastModifiedDate: Foundation.Date? = nil
+    ) {
+        self.configurationDetails = configurationDetails
+        self.encryptionType = encryptionType
+        self.kmsAccessRoleArn = kmsAccessRoleArn
+        self.kmsKeyArn = kmsKeyArn
+        self.lastModifiedDate = lastModifiedDate
     }
 }
 
@@ -18957,6 +19103,31 @@ public struct UpdateDynamicThingGroupOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateEncryptionConfigurationInput: Swift.Sendable {
+    /// The type of the Amazon Web Services Key Management Service (KMS) key.
+    /// This member is required.
+    public var encryptionType: IoTClientTypes.EncryptionType?
+    /// The Amazon Resource Name (ARN) of the IAM role assumed by Amazon Web Services IoT Core to call KMS on behalf of the customer.
+    public var kmsAccessRoleArn: Swift.String?
+    /// The ARN of the customer-managed KMS key.
+    public var kmsKeyArn: Swift.String?
+
+    public init(
+        encryptionType: IoTClientTypes.EncryptionType? = nil,
+        kmsAccessRoleArn: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil
+    ) {
+        self.encryptionType = encryptionType
+        self.kmsAccessRoleArn = kmsAccessRoleArn
+        self.kmsKeyArn = kmsKeyArn
+    }
+}
+
+public struct UpdateEncryptionConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateEventConfigurationsInput: Swift.Sendable {
     /// The new event configuration values.
     public var eventConfigurations: [Swift.String: IoTClientTypes.Configuration]?
@@ -21085,6 +21256,13 @@ extension DescribeDomainConfigurationInput {
             return nil
         }
         return "/domainConfigurations/\(domainConfigurationName.urlPercentEncoding())"
+    }
+}
+
+extension DescribeEncryptionConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeEncryptionConfigurationInput) -> Swift.String? {
+        return "/encryption-configuration"
     }
 }
 
@@ -24043,6 +24221,13 @@ extension UpdateDynamicThingGroupInput {
     }
 }
 
+extension UpdateEncryptionConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateEncryptionConfigurationInput) -> Swift.String? {
+        return "/encryption-configuration"
+    }
+}
+
 extension UpdateEventConfigurationsInput {
 
     static func urlPathProvider(_ value: UpdateEventConfigurationsInput) -> Swift.String? {
@@ -25172,6 +25357,16 @@ extension UpdateDynamicThingGroupInput {
         try writer["queryString"].write(value.queryString)
         try writer["queryVersion"].write(value.queryVersion)
         try writer["thingGroupProperties"].write(value.thingGroupProperties, with: IoTClientTypes.ThingGroupProperties.write(value:to:))
+    }
+}
+
+extension UpdateEncryptionConfigurationInput {
+
+    static func write(value: UpdateEncryptionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionType"].write(value.encryptionType)
+        try writer["kmsAccessRoleArn"].write(value.kmsAccessRoleArn)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
     }
 }
 
@@ -26439,6 +26634,22 @@ extension DescribeDomainConfigurationOutput {
         value.serverCertificates = try reader["serverCertificates"].readListIfPresent(memberReadingClosure: IoTClientTypes.ServerCertificateSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.serviceType = try reader["serviceType"].readIfPresent()
         value.tlsConfig = try reader["tlsConfig"].readIfPresent(with: IoTClientTypes.TlsConfig.read(from:))
+        return value
+    }
+}
+
+extension DescribeEncryptionConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEncryptionConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeEncryptionConfigurationOutput()
+        value.configurationDetails = try reader["configurationDetails"].readIfPresent(with: IoTClientTypes.ConfigurationDetails.read(from:))
+        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.kmsAccessRoleArn = try reader["kmsAccessRoleArn"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.lastModifiedDate = try reader["lastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -28385,6 +28596,13 @@ extension UpdateDynamicThingGroupOutput {
     }
 }
 
+extension UpdateEncryptionConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEncryptionConfigurationOutput {
+        return UpdateEncryptionConfigurationOutput()
+    }
+}
+
 extension UpdateEventConfigurationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEventConfigurationsOutput {
@@ -29471,6 +29689,7 @@ enum CreateTopicRuleOutputError {
             case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "SqlParseException": return try SqlParseException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -29489,6 +29708,7 @@ enum CreateTopicRuleDestinationOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30424,6 +30644,24 @@ enum DescribeDomainConfigurationOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeEncryptionConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
@@ -32386,6 +32624,7 @@ enum ListTopicRulesOutputError {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -33113,6 +33352,24 @@ enum UpdateDynamicThingGroupOutputError {
     }
 }
 
+enum UpdateEncryptionConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateEventConfigurationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33457,11 +33714,11 @@ enum ValidateSecurityProfileBehaviorsOutputError {
     }
 }
 
-extension TransferAlreadyCompletedException {
+extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TransferAlreadyCompletedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
-        var value = TransferAlreadyCompletedException()
+        var value = InternalFailureException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33483,11 +33740,11 @@ extension InvalidRequestException {
     }
 }
 
-extension InternalFailureException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InternalFailureException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33509,19 +33766,6 @@ extension ServiceUnavailableException {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -33535,11 +33779,11 @@ extension ThrottlingException {
     }
 }
 
-extension UnauthorizedException {
+extension TransferAlreadyCompletedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TransferAlreadyCompletedException {
         let reader = baseError.errorBodyReader
-        var value = UnauthorizedException()
+        var value = TransferAlreadyCompletedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33548,11 +33792,11 @@ extension UnauthorizedException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = UnauthorizedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33580,6 +33824,19 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33996,6 +34253,7 @@ extension IoTClientTypes.AuditCheckConfiguration {
 
     static func write(value: IoTClientTypes.AuditCheckConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["configuration"].writeMap(value.configuration, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["enabled"].write(value.enabled)
     }
 
@@ -34003,6 +34261,7 @@ extension IoTClientTypes.AuditCheckConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AuditCheckConfiguration()
         value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.configuration = try reader["configuration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -34590,6 +34849,18 @@ extension IoTClientTypes.ClientCertificateConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ClientCertificateConfig()
         value.clientCertificateCallbackArn = try reader["clientCertificateCallbackArn"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.ConfigurationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ConfigurationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.ConfigurationDetails()
+        value.configurationStatus = try reader["configurationStatus"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
 }

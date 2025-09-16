@@ -910,7 +910,6 @@ extension IoTWirelessClientTypes {
         /// This member is required.
         public var earfcn: Swift.Int?
         /// E-UTRAN (Evolved Universal Terrestrial Radio Access Network) cell global identifier (EUTRANCID).
-        /// This member is required.
         public var eutranCid: Swift.Int?
         /// Physical cell ID.
         /// This member is required.
@@ -922,7 +921,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             earfcn: Swift.Int? = nil,
-            eutranCid: Swift.Int? = nil,
+            eutranCid: Swift.Int? = 0,
             pci: Swift.Int? = nil,
             rsrp: Swift.Int? = nil,
             rsrq: Swift.Float? = nil
@@ -1583,7 +1582,7 @@ public struct CreateDeviceProfileInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// The device profile information to use to create the device profile.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANDeviceProfile?
-    /// The name of the new resource.
+    /// The name of the new resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// The Sidewalk-related information for creating the Sidewalk device profile.
     public var sidewalk: IoTWirelessClientTypes.SidewalkCreateDeviceProfile?
@@ -1703,7 +1702,7 @@ public struct CreateFuotaTaskInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// The description of the new resource.
     public var description: Swift.String?
-    /// The Descriptor specifies some metadata about the File being transferred using FUOTA e.g. the software version. It is sent transparently to the device. It is a binary field encoded in base64
+    /// The descriptor is the metadata about the file that is transferred to the device using FUOTA, such as the software version. It is a binary field encoded in base64.
     public var descriptor: Swift.String?
     /// The S3 URI points to a firmware update image that is to be used with a FUOTA task.
     /// This member is required.
@@ -1798,11 +1797,11 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
-    /// Specify the list of gateways to which you want to send the multicast downlink messages. The multicast message will be sent to each gateway in the sequence provided in the list.
+    /// Specify the list of gateways to which you want to send the multicast downlink messages. The multicast message will be sent to each gateway in the list, with the transmission interval as the time interval between each message.
     public struct ParticipatingGatewaysMulticast: Swift.Sendable {
-        /// The list of gateways that you want to use for sending the multicast downlink. Each downlink will be sent to all the gateways in the list with transmission interval between them. If list is empty the gateway list will be dynamically selected similar to the case of no ParticipatingGateways
+        /// The list of gateways that you want to use for sending the multicast downlink message. Each downlink message will be sent to all the gateways in the list in the order that you provided. If the gateway list is empty, then AWS IoT Core for LoRaWAN chooses the gateways that were most recently used by the devices to send an uplink message.
         public var gatewayList: [Swift.String]?
-        /// The duration of time for which AWS IoT Core for LoRaWAN will wait before transmitting the multicast payload to the next gateway in the list.
+        /// The duration of time in milliseconds for which AWS IoT Core for LoRaWAN will wait before transmitting the multicast payload to the next gateway in the list.
         public var transmissionInterval: Swift.Int?
 
         public init(
@@ -1821,7 +1820,7 @@ extension IoTWirelessClientTypes {
     public struct LoRaWANMulticast: Swift.Sendable {
         /// DlClass for LoRaWAM, valid values are ClassB and ClassC.
         public var dlClass: IoTWirelessClientTypes.DlClass?
-        /// Specify the list of gateways to which you want to send the multicast downlink messages. The multicast message will be sent to each gateway in the sequence provided in the list.
+        /// Specify the list of gateways to which you want to send the multicast downlink messages. The multicast message will be sent to each gateway in the list, with the transmission interval as the time interval between each message.
         public var participatingGateways: IoTWirelessClientTypes.ParticipatingGatewaysMulticast?
         /// Supported RfRegions
         public var rfRegion: IoTWirelessClientTypes.SupportedRfRegion?
@@ -2062,23 +2061,39 @@ extension IoTWirelessClientTypes {
         public var drMax: Swift.Int?
         /// The DrMin value.
         public var drMin: Swift.Int?
+        /// The maximum number of transmissions. Default: 3
+        public var nbTransMax: Swift.Int?
+        /// The minimum number of transmissions. Default: 0
+        public var nbTransMin: Swift.Int?
         /// The PRAllowed value that describes whether passive roaming is allowed.
         public var prAllowed: Swift.Bool
         /// The RAAllowed value that describes whether roaming activation is allowed.
         public var raAllowed: Swift.Bool
+        /// The Transmit Power Index maximum. Default: 15
+        public var txPowerIndexMax: Swift.Int?
+        /// The Transmit Power Index minimum. Default: 0
+        public var txPowerIndexMin: Swift.Int?
 
         public init(
             addGwMetadata: Swift.Bool = false,
             drMax: Swift.Int? = nil,
             drMin: Swift.Int? = nil,
+            nbTransMax: Swift.Int? = nil,
+            nbTransMin: Swift.Int? = nil,
             prAllowed: Swift.Bool = false,
-            raAllowed: Swift.Bool = false
+            raAllowed: Swift.Bool = false,
+            txPowerIndexMax: Swift.Int? = nil,
+            txPowerIndexMin: Swift.Int? = nil
         ) {
             self.addGwMetadata = addGwMetadata
             self.drMax = drMax
             self.drMin = drMin
+            self.nbTransMax = nbTransMax
+            self.nbTransMin = nbTransMin
             self.prAllowed = prAllowed
             self.raAllowed = raAllowed
+            self.txPowerIndexMax = txPowerIndexMax
+            self.txPowerIndexMin = txPowerIndexMin
         }
     }
 }
@@ -2088,7 +2103,7 @@ public struct CreateServiceProfileInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// The service profile information to use to create the service profile.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANServiceProfile?
-    /// The name of the new resource.
+    /// The name of the new resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// The tags to attach to the new service profile. Tags are metadata that you can use to manage a resource.
     public var tags: [IoTWirelessClientTypes.Tag]?
@@ -2351,7 +2366,7 @@ public struct CreateWirelessDeviceInput: Swift.Sendable {
     public var destinationName: Swift.String?
     /// The device configuration information to use to create the wireless device.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANDevice?
-    /// The name of the new resource.
+    /// The name of the new resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
     public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
@@ -2448,7 +2463,7 @@ public struct CreateWirelessGatewayInput: Swift.Sendable {
     /// The gateway configuration information to use to create the wireless gateway.
     /// This member is required.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANGateway?
-    /// The name of the new resource.
+    /// The name of the new resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// The tags to attach to the new wireless gateway. Tags are metadata that you can use to manage a resource.
     public var tags: [IoTWirelessClientTypes.Tag]?
@@ -3609,7 +3624,6 @@ extension IoTWirelessClientTypes {
 
     public enum IdentifierType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deveui
-        case fuotataskid
         case gatewayeui
         case partneraccountid
         case wirelessdeviceid
@@ -3619,7 +3633,6 @@ extension IoTWirelessClientTypes {
         public static var allCases: [IdentifierType] {
             return [
                 .deveui,
-                .fuotataskid,
                 .gatewayeui,
                 .partneraccountid,
                 .wirelessdeviceid,
@@ -3635,7 +3648,6 @@ extension IoTWirelessClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .deveui: return "DevEui"
-            case .fuotataskid: return "FuotaTaskId"
             case .gatewayeui: return "GatewayEui"
             case .partneraccountid: return "PartnerAccountId"
             case .wirelessdeviceid: return "WirelessDeviceId"
@@ -3702,7 +3714,6 @@ extension IoTWirelessClientTypes {
 extension IoTWirelessClientTypes {
 
     public enum EventNotificationResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case fuotatask
         case sidewalkaccount
         case wirelessdevice
         case wirelessgateway
@@ -3710,7 +3721,6 @@ extension IoTWirelessClientTypes {
 
         public static var allCases: [EventNotificationResourceType] {
             return [
-                .fuotatask,
                 .sidewalkaccount,
                 .wirelessdevice,
                 .wirelessgateway
@@ -3724,7 +3734,6 @@ extension IoTWirelessClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .fuotatask: return "FuotaTask"
             case .sidewalkaccount: return "SidewalkAccount"
             case .wirelessdevice: return "WirelessDevice"
             case .wirelessgateway: return "WirelessGateway"
@@ -3819,7 +3828,7 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
-    /// The event for a log message, if the log message is tied to a fuota task.
+    /// The event for a log message, if the log message is tied to a FUOTA task.
     public enum FuotaTaskEvent: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fuota
         case sdkUnknown(Swift.String)
@@ -3846,9 +3855,9 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
-    /// The log options for a FUOTA task event and can be used to set log levels for a specific fuota task event. For a LoRaWAN FuotaTask type, possible event for a log message is Fuota.
+    /// The log options for a FUOTA task event and can be used to set log levels for a specific FUOTA task event. For a LoRaWAN FUOTA task, the only possible event for a log message is Fuota.
     public struct FuotaTaskEventLogOption: Swift.Sendable {
-        /// The event for a log message, if the log message is tied to a fuota task.
+        /// The event for a log message, if the log message is tied to a FUOTA task.
         /// This member is required.
         public var event: IoTWirelessClientTypes.FuotaTaskEvent?
         /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs.
@@ -3867,7 +3876,7 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
-    /// The fuota task type.
+    /// The FUOTA task type.
     public enum FuotaTaskType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case lorawan
         case sdkUnknown(Swift.String)
@@ -3894,14 +3903,14 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
-    /// The log options for fuota tasks and can be used to set log levels for a specific type of fuota task.
+    /// The log options for FUOTA tasks and can be used to set log levels for a specific type of FUOTA task.
     public struct FuotaTaskLogOption: Swift.Sendable {
         /// The list of FUOTA task event log options.
         public var events: [IoTWirelessClientTypes.FuotaTaskEventLogOption]?
         /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs.
         /// This member is required.
         public var logLevel: IoTWirelessClientTypes.LogLevel?
-        /// The fuota task type.
+        /// The FUOTA task type.
         /// This member is required.
         public var type: IoTWirelessClientTypes.FuotaTaskType?
 
@@ -4196,7 +4205,7 @@ public struct GetFuotaTaskOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The description of the new resource.
     public var description: Swift.String?
-    /// The Descriptor specifies some metadata about the File being transferred using FUOTA e.g. the software version. It is sent transparently to the device. It is a binary field encoded in base64
+    /// The descriptor is the metadata about the file that is transferred to the device using FUOTA, such as the software version. It is a binary field encoded in base64.
     public var descriptor: Swift.String?
     /// The S3 URI points to a firmware update image that is to be used with a FUOTA task.
     public var firmwareUpdateImage: Swift.String?
@@ -4444,7 +4453,7 @@ extension IoTWirelessClientTypes {
 public struct GetLogLevelsByResourceTypesOutput: Swift.Sendable {
     /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs.
     public var defaultLogLevel: IoTWirelessClientTypes.LogLevel?
-    /// The list of fuota task log options.
+    /// The list of FUOTA task log options.
     public var fuotaTaskLogOptions: [IoTWirelessClientTypes.FuotaTaskLogOption]?
     /// The list of wireless device log options.
     public var wirelessDeviceLogOptions: [IoTWirelessClientTypes.WirelessDeviceLogOption]?
@@ -4841,7 +4850,7 @@ extension IoTWirelessClientTypes {
         public var numberOfDevicesInGroup: Swift.Int?
         /// Number of devices that are requested to be associated with the multicast group.
         public var numberOfDevicesRequested: Swift.Int?
-        /// Specify the list of gateways to which you want to send the multicast downlink messages. The multicast message will be sent to each gateway in the sequence provided in the list.
+        /// Specify the list of gateways to which you want to send the multicast downlink messages. The multicast message will be sent to each gateway in the list, with the transmission interval as the time interval between each message.
         public var participatingGateways: IoTWirelessClientTypes.ParticipatingGatewaysMulticast?
         /// Supported RfRegions
         public var rfRegion: IoTWirelessClientTypes.SupportedRfRegion?
@@ -4921,7 +4930,7 @@ extension IoTWirelessClientTypes {
         public var pingSlotPeriod: Swift.Int?
         /// Timestamp of when the multicast group session is to start.
         public var sessionStartTime: Foundation.Date?
-        /// How long before a multicast group session is to timeout.
+        /// How long before a multicast group session is to timeout. We recommend that you provide a timeout value that is a power-of-two (such as 64, 128, 256). If a non-power-of-two value is provided, it will automatically be rounded up to the next supported power-of-two within the allowed range.
         public var sessionTimeout: Swift.Int?
 
         public init(
@@ -5483,10 +5492,10 @@ public struct GetResourceEventConfigurationOutput: Swift.Sendable {
 }
 
 public struct GetResourceLogLevelInput: Swift.Sendable {
-    /// The identifier of the resource. For a Wireless Device, it is the wireless device ID. For a wireless gateway, it is the wireless gateway ID.
+    /// The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
-    /// The type of the resource, which can be WirelessDevice, WirelessGateway or FuotaTask.
+    /// The type of resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
     /// This member is required.
     public var resourceType: Swift.String?
 
@@ -5568,7 +5577,7 @@ extension IoTWirelessClientTypes {
 }
 
 public struct GetServiceEndpointInput: Swift.Sendable {
-    /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint or CLAIM for the global endpoint.
+    /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint.
     public var serviceType: IoTWirelessClientTypes.WirelessGatewayServiceType?
 
     public init(
@@ -5633,6 +5642,10 @@ extension IoTWirelessClientTypes {
         public var hrAllowed: Swift.Bool
         /// The MinGwDiversity value.
         public var minGwDiversity: Swift.Int?
+        /// The maximum number of transmissions. Default: 3
+        public var nbTransMax: Swift.Int?
+        /// The minimum number of transmissions. Default: 0
+        public var nbTransMin: Swift.Int?
         /// The NwkGeoLoc value.
         public var nwkGeoLoc: Swift.Bool
         /// The PRAllowed value that describes whether passive roaming is allowed.
@@ -5645,6 +5658,10 @@ extension IoTWirelessClientTypes {
         public var reportDevStatusMargin: Swift.Bool
         /// The TargetPER value.
         public var targetPer: Swift.Int
+        /// The Transmit Power Index maximum value. Default: 15
+        public var txPowerIndexMax: Swift.Int?
+        /// The Transmit Power Index minimum value. Default: 0
+        public var txPowerIndexMin: Swift.Int?
         /// The ULBucketSize value.
         public var ulBucketSize: Swift.Int?
         /// The ULRate value.
@@ -5663,12 +5680,16 @@ extension IoTWirelessClientTypes {
             drMin: Swift.Int = 0,
             hrAllowed: Swift.Bool = false,
             minGwDiversity: Swift.Int? = nil,
+            nbTransMax: Swift.Int? = nil,
+            nbTransMin: Swift.Int? = nil,
             nwkGeoLoc: Swift.Bool = false,
             prAllowed: Swift.Bool = false,
             raAllowed: Swift.Bool = false,
             reportDevStatusBattery: Swift.Bool = false,
             reportDevStatusMargin: Swift.Bool = false,
             targetPer: Swift.Int = 0,
+            txPowerIndexMax: Swift.Int? = nil,
+            txPowerIndexMin: Swift.Int? = nil,
             ulBucketSize: Swift.Int? = nil,
             ulRate: Swift.Int? = nil,
             ulRatePolicy: Swift.String? = nil
@@ -5683,12 +5704,16 @@ extension IoTWirelessClientTypes {
             self.drMin = drMin
             self.hrAllowed = hrAllowed
             self.minGwDiversity = minGwDiversity
+            self.nbTransMax = nbTransMax
+            self.nbTransMin = nbTransMin
             self.nwkGeoLoc = nwkGeoLoc
             self.prAllowed = prAllowed
             self.raAllowed = raAllowed
             self.reportDevStatusBattery = reportDevStatusBattery
             self.reportDevStatusMargin = reportDevStatusMargin
             self.targetPer = targetPer
+            self.txPowerIndexMax = txPowerIndexMax
+            self.txPowerIndexMin = txPowerIndexMin
             self.ulBucketSize = ulBucketSize
             self.ulRate = ulRate
             self.ulRatePolicy = ulRatePolicy
@@ -7528,10 +7553,10 @@ public struct PutResourceLogLevelInput: Swift.Sendable {
     /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs.
     /// This member is required.
     public var logLevel: IoTWirelessClientTypes.LogLevel?
-    /// The identifier of the resource. For a Wireless Device, it is the wireless device ID. For a wireless gateway, it is the wireless gateway ID.
+    /// The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
-    /// The type of the resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
+    /// The type of resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
     /// This member is required.
     public var resourceType: Swift.String?
 
@@ -7562,10 +7587,10 @@ public struct ResetAllResourceLogLevelsOutput: Swift.Sendable {
 }
 
 public struct ResetResourceLogLevelInput: Swift.Sendable {
-    /// The identifier of the resource. For a Wireless Device, it is the wireless device ID. For a wireless gateway, it is the wireless gateway ID.
+    /// The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
-    /// The type of the resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
+    /// The type of resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
     /// This member is required.
     public var resourceType: Swift.String?
 
@@ -8149,7 +8174,7 @@ public struct UpdateEventConfigurationByResourceTypesOutput: Swift.Sendable {
 public struct UpdateFuotaTaskInput: Swift.Sendable {
     /// The description of the new resource.
     public var description: Swift.String?
-    /// The Descriptor specifies some metadata about the File being transferred using FUOTA e.g. the software version. It is sent transparently to the device. It is a binary field encoded in base64
+    /// The descriptor is the metadata about the file that is transferred to the device using FUOTA, such as the software version. It is a binary field encoded in base64.
     public var descriptor: Swift.String?
     /// The S3 URI points to a firmware update image that is to be used with a FUOTA task.
     public var firmwareUpdateImage: Swift.String?
@@ -8202,7 +8227,7 @@ public struct UpdateFuotaTaskOutput: Swift.Sendable {
 public struct UpdateLogLevelsByResourceTypesInput: Swift.Sendable {
     /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs.
     public var defaultLogLevel: IoTWirelessClientTypes.LogLevel?
-    /// The list of fuota task log options.
+    /// The list of FUOTA task log options.
     public var fuotaTaskLogOptions: [IoTWirelessClientTypes.FuotaTaskLogOption]?
     /// The list of wireless device log options.
     public var wirelessDeviceLogOptions: [IoTWirelessClientTypes.WirelessDeviceLogOption]?
@@ -8559,7 +8584,7 @@ public struct UpdateWirelessDeviceInput: Swift.Sendable {
     public var id: Swift.String?
     /// The updated wireless device's configuration.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANUpdateDevice?
-    /// The new name of the resource.
+    /// The new name of the resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
     public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
@@ -8633,7 +8658,7 @@ public struct UpdateWirelessGatewayInput: Swift.Sendable {
     public var joinEuiFilters: [[Swift.String]]?
     /// The MaxEIRP value.
     public var maxEirp: Swift.Float?
-    /// The new name of the resource.
+    /// The new name of the resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// A list of NetId values that are used by LoRa gateways to filter the uplink frames.
     public var netIdFilters: [Swift.String]?
@@ -14030,34 +14055,6 @@ enum UpdateWirelessGatewayOutputError {
     }
 }
 
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
@@ -14091,6 +14088,34 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14799,6 +14824,10 @@ extension IoTWirelessClientTypes.LoRaWANGetServiceProfileInfo {
         value.nwkGeoLoc = try reader["NwkGeoLoc"].readIfPresent() ?? false
         value.targetPer = try reader["TargetPer"].readIfPresent() ?? 0
         value.minGwDiversity = try reader["MinGwDiversity"].readIfPresent()
+        value.txPowerIndexMin = try reader["TxPowerIndexMin"].readIfPresent()
+        value.txPowerIndexMax = try reader["TxPowerIndexMax"].readIfPresent()
+        value.nbTransMin = try reader["NbTransMin"].readIfPresent()
+        value.nbTransMax = try reader["NbTransMax"].readIfPresent()
         return value
     }
 }
@@ -15583,8 +15612,12 @@ extension IoTWirelessClientTypes.LoRaWANServiceProfile {
         try writer["AddGwMetadata"].write(value.addGwMetadata)
         try writer["DrMax"].write(value.drMax)
         try writer["DrMin"].write(value.drMin)
+        try writer["NbTransMax"].write(value.nbTransMax)
+        try writer["NbTransMin"].write(value.nbTransMin)
         try writer["PrAllowed"].write(value.prAllowed)
         try writer["RaAllowed"].write(value.raAllowed)
+        try writer["TxPowerIndexMax"].write(value.txPowerIndexMax)
+        try writer["TxPowerIndexMin"].write(value.txPowerIndexMin)
     }
 }
 

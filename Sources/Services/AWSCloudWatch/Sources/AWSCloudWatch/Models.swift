@@ -98,6 +98,36 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes {
 
+    /// Represents an individual contributor to a multi-timeseries alarm, containing information about a specific time series and its contribution to the alarm's state.
+    public struct AlarmContributor: Swift.Sendable {
+        /// A map of attributes that describe the contributor, such as metric dimensions and other identifying characteristics.
+        /// This member is required.
+        public var contributorAttributes: [Swift.String: Swift.String]?
+        /// The unique identifier for this alarm contributor.
+        /// This member is required.
+        public var contributorId: Swift.String?
+        /// An explanation for the contributor's current state, providing context about why it is in its current condition.
+        /// This member is required.
+        public var stateReason: Swift.String?
+        /// The timestamp when the contributor last transitioned to its current state.
+        public var stateTransitionedTimestamp: Foundation.Date?
+
+        public init(
+            contributorAttributes: [Swift.String: Swift.String]? = nil,
+            contributorId: Swift.String? = nil,
+            stateReason: Swift.String? = nil,
+            stateTransitionedTimestamp: Foundation.Date? = nil
+        ) {
+            self.contributorAttributes = contributorAttributes
+            self.contributorId = contributorId
+            self.stateReason = stateReason
+            self.stateTransitionedTimestamp = stateTransitionedTimestamp
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
     public enum AlarmType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compositealarm
         case metricalarm
@@ -129,6 +159,8 @@ extension CloudWatchClientTypes {
 
     public enum HistoryItemType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case action
+        case alarmcontributoraction
+        case alarmcontributorstateupdate
         case configurationupdate
         case stateupdate
         case sdkUnknown(Swift.String)
@@ -136,6 +168,8 @@ extension CloudWatchClientTypes {
         public static var allCases: [HistoryItemType] {
             return [
                 .action,
+                .alarmcontributoraction,
+                .alarmcontributorstateupdate,
                 .configurationupdate,
                 .stateupdate
             ]
@@ -149,6 +183,8 @@ extension CloudWatchClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .action: return "Action"
+            case .alarmcontributoraction: return "AlarmContributorAction"
+            case .alarmcontributorstateupdate: return "AlarmContributorStateUpdate"
             case .configurationupdate: return "ConfigurationUpdate"
             case .stateupdate: return "StateUpdate"
             case let .sdkUnknown(s): return s
@@ -161,6 +197,10 @@ extension CloudWatchClientTypes {
 
     /// Represents the history of a specific alarm.
     public struct AlarmHistoryItem: Swift.Sendable {
+        /// A map of attributes that describe the alarm contributor associated with this history item, providing context about the contributor's characteristics at the time of the event.
+        public var alarmContributorAttributes: [Swift.String: Swift.String]?
+        /// The unique identifier of the alarm contributor associated with this history item, if applicable.
+        public var alarmContributorId: Swift.String?
         /// The descriptive name for the alarm.
         public var alarmName: Swift.String?
         /// The type of alarm, either metric alarm or composite alarm.
@@ -175,6 +215,8 @@ extension CloudWatchClientTypes {
         public var timestamp: Foundation.Date?
 
         public init(
+            alarmContributorAttributes: [Swift.String: Swift.String]? = nil,
+            alarmContributorId: Swift.String? = nil,
             alarmName: Swift.String? = nil,
             alarmType: CloudWatchClientTypes.AlarmType? = nil,
             historyData: Swift.String? = nil,
@@ -182,6 +224,8 @@ extension CloudWatchClientTypes {
             historySummary: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
         ) {
+            self.alarmContributorAttributes = alarmContributorAttributes
+            self.alarmContributorId = alarmContributorId
             self.alarmName = alarmName
             self.alarmType = alarmType
             self.historyData = historyData
@@ -402,7 +446,7 @@ extension CloudWatchClientTypes {
         /// The metric to return, including the metric name, namespace, and dimensions.
         /// This member is required.
         public var metric: CloudWatchClientTypes.Metric?
-        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData call that includes a StorageResolution of 1 second. If the StartTime parameter specifies a time stamp that is greater than 3 hours ago, you must specify the period as follows or no data points in that time range is returned:
+        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 20, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData call that includes a StorageResolution of 1 second. If the StartTime parameter specifies a time stamp that is greater than 3 hours ago, you must specify the period as follows or no data points in that time range is returned:
         ///
         /// * Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1 minute).
         ///
@@ -446,7 +490,7 @@ extension CloudWatchClientTypes {
         public var label: Swift.String?
         /// The metric to be returned, along with statistics, period, and units. Use this parameter only if this object is retrieving a metric and not performing a math expression on returned data. Within one MetricDataQuery object, you must specify either Expression or MetricStat but not both.
         public var metricStat: CloudWatchClientTypes.MetricStat?
-        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData operation that includes a StorageResolution of 1 second.
+        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 20, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData operation that includes a StorageResolution of 1 second.
         public var period: Swift.Int?
         /// When used in GetMetricData, this option indicates whether to return the timestamps and raw data values of this metric. If you are performing this call just to do math expressions and do not also need the raw data returned, you can specify false. If you omit this, the default of true is used. When used in PutMetricAlarm, specify true for the one expression result to use as the alarm. For all other metrics and expressions in the same PutMetricAlarm operation, specify ReturnData as False.
         public var returnData: Swift.Bool?
@@ -828,6 +872,29 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ConcurrentModificationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// This operation attempted to create a resource that already exists.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -1288,6 +1355,38 @@ public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
+public struct DescribeAlarmContributorsInput: Swift.Sendable {
+    /// The name of the alarm for which to retrieve contributor information.
+    /// This member is required.
+    public var alarmName: Swift.String?
+    /// The token returned by a previous call to indicate that there is more data available.
+    public var nextToken: Swift.String?
+
+    public init(
+        alarmName: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.alarmName = alarmName
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeAlarmContributorsOutput: Swift.Sendable {
+    /// A list of alarm contributors that provide details about the individual time series contributing to the alarm's state.
+    /// This member is required.
+    public var alarmContributors: [CloudWatchClientTypes.AlarmContributor]?
+    /// The token that marks the start of the next batch of returned results.
+    public var nextToken: Swift.String?
+
+    public init(
+        alarmContributors: [CloudWatchClientTypes.AlarmContributor]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.alarmContributors = alarmContributors
+        self.nextToken = nextToken
+    }
+}
+
 extension CloudWatchClientTypes {
 
     public enum ScanBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -1318,6 +1417,8 @@ extension CloudWatchClientTypes {
 }
 
 public struct DescribeAlarmHistoryInput: Swift.Sendable {
+    /// The unique identifier of a specific alarm contributor to filter the alarm history results.
+    public var alarmContributorId: Swift.String?
     /// The name of the alarm.
     public var alarmName: Swift.String?
     /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned.
@@ -1336,6 +1437,7 @@ public struct DescribeAlarmHistoryInput: Swift.Sendable {
     public var startDate: Foundation.Date?
 
     public init(
+        alarmContributorId: Swift.String? = nil,
         alarmName: Swift.String? = nil,
         alarmTypes: [CloudWatchClientTypes.AlarmType]? = nil,
         endDate: Foundation.Date? = nil,
@@ -1345,6 +1447,7 @@ public struct DescribeAlarmHistoryInput: Swift.Sendable {
         scanBy: CloudWatchClientTypes.ScanBy? = nil,
         startDate: Foundation.Date? = nil
     ) {
+        self.alarmContributorId = alarmContributorId
         self.alarmName = alarmName
         self.alarmTypes = alarmTypes
         self.endDate = endDate
@@ -1737,6 +1840,8 @@ extension CloudWatchClientTypes {
 
     /// This structure contains the definition for a Contributor Insights rule. For more information about this rule, see[ Using Constributor Insights to analyze high-cardinality data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights.html) in the Amazon CloudWatch User Guide.
     public struct InsightRule: Swift.Sendable {
+        /// Displays whether the rule is evaluated on the transformed versions of logs, for log groups that have [Log transformation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html) enabled. If this is false, log events are evaluated before they are transformed.
+        public var applyOnTransformedLogs: Swift.Bool?
         /// The definition of the rule, as a JSON object. The definition contains the keywords used to define contributors, the value to aggregate on if this rule returns a sum instead of a count, and the filters. For details on the valid syntax, see [Contributor Insights Rule Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights-RuleSyntax.html).
         /// This member is required.
         public var definition: Swift.String?
@@ -1753,12 +1858,14 @@ extension CloudWatchClientTypes {
         public var state: Swift.String?
 
         public init(
+            applyOnTransformedLogs: Swift.Bool? = nil,
             definition: Swift.String? = nil,
             managedRule: Swift.Bool? = nil,
             name: Swift.String? = nil,
             schema: Swift.String? = nil,
             state: Swift.String? = nil
         ) {
+            self.applyOnTransformedLogs = applyOnTransformedLogs
             self.definition = definition
             self.managedRule = managedRule
             self.name = name
@@ -2258,7 +2365,7 @@ public struct GetMetricDataInput: Swift.Sendable {
     /// * Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.
     ///
     ///
-    /// If you set Period to 5, 10, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as StartTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the StartTime.
+    /// If you set Period to 5, 10, 20, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, 20-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as StartTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the StartTime.
     /// This member is required.
     public var startTime: Foundation.Date?
 
@@ -2403,7 +2510,7 @@ public struct GetMetricStatisticsInput: Swift.Sendable {
     /// The namespace of the metric, with or without spaces.
     /// This member is required.
     public var namespace: Swift.String?
-    /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData call that includes a StorageResolution of 1 second. If the StartTime parameter specifies a time stamp that is greater than 3 hours ago, you must specify the period as follows or no data points in that time range is returned:
+    /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 20, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData call that includes a StorageResolution of 1 second. If the StartTime parameter specifies a time stamp that is greater than 3 hours ago, you must specify the period as follows or no data points in that time range is returned:
     ///
     /// * Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1 minute).
     ///
@@ -2421,7 +2528,7 @@ public struct GetMetricStatisticsInput: Swift.Sendable {
     /// * Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.
     ///
     ///
-    /// If you set Period to 5, 10, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.
+    /// If you set Period to 5, 10, 20, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, 20-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.
     /// This member is required.
     public var startTime: Foundation.Date?
     /// The metric statistics, other than percentile. For percentile statistics, use ExtendedStatistics. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both.
@@ -2814,7 +2921,7 @@ extension CloudWatchClientTypes {
 }
 
 public struct ListMetricsInput: Swift.Sendable {
-    /// The dimensions to filter against. Only the dimensions that match exactly will be returned.
+    /// The dimensions to filter against. Only the dimension with names that match exactly will be returned. If you specify one dimension name and a metric has that dimension and also other dimensions, it will be returned.
     public var dimensions: [CloudWatchClientTypes.DimensionFilter]?
     /// If you are using this operation in a monitoring account, specify true to include metrics from source accounts in the returned data. The default is false.
     public var includeLinkedAccounts: Swift.Bool?
@@ -3096,7 +3203,7 @@ public struct PutCompositeAlarmInput: Swift.Sendable {
     /// * Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
     ///
     ///
-    /// Systems Manager actions: arn:aws:ssm:region:account-id:opsitem:severity  Start a Amazon Q Developer operational investigation arn:aws:aiops:region:account-id:investigation-group:ingestigation-group-id
+    /// Systems Manager actions: arn:aws:ssm:region:account-id:opsitem:severity  Start a Amazon Q Developer operational investigation arn:aws:aiops:region:account-id:investigation-group:investigation-group-id
     public var alarmActions: [Swift.String]?
     /// The description for the composite alarm.
     public var alarmDescription: Swift.String?
@@ -3203,6 +3310,8 @@ public struct PutDashboardOutput: Swift.Sendable {
 }
 
 public struct PutInsightRuleInput: Swift.Sendable {
+    /// Specify true to have this rule evaluate log events after they have been transformed by [Log transformation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html). If you specify true, then the log events in log groups that have transformers will be evaluated by Contributor Insights after being transformed. Log groups that don't have transformers will still have their original log events evaluated by Contributor Insights. The default is false If a log group has a transformer, and transformation fails for some log events, those log events won't be evaluated by Contributor Insights. For information about investigating log transformation failures, see [Transformation metrics and errors](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Transformation-Errors-Metrics.html).
+    public var applyOnTransformedLogs: Swift.Bool?
     /// The definition of the rule, as a JSON object. For details on the valid syntax, see [Contributor Insights Rule Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights-RuleSyntax.html).
     /// This member is required.
     public var ruleDefinition: Swift.String?
@@ -3215,11 +3324,13 @@ public struct PutInsightRuleInput: Swift.Sendable {
     public var tags: [CloudWatchClientTypes.Tag]?
 
     public init(
+        applyOnTransformedLogs: Swift.Bool? = nil,
         ruleDefinition: Swift.String? = nil,
         ruleName: Swift.String? = nil,
         ruleState: Swift.String? = nil,
         tags: [CloudWatchClientTypes.Tag]? = nil
     ) {
+        self.applyOnTransformedLogs = applyOnTransformedLogs
         self.ruleDefinition = ruleDefinition
         self.ruleName = ruleName
         self.ruleState = ruleState
@@ -3328,7 +3439,7 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     /// * arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
     ///
     ///
-    /// Start a Amazon Q Developer operational investigation arn:aws:aiops:region:account-id:investigation-group:ingestigation-group-id
+    /// Start a Amazon Q Developer operational investigation arn:aws:aiops:region:account-id:investigation-group:investigation-group-id
     public var alarmActions: [Swift.String]?
     /// The description for the alarm.
     public var alarmDescription: Swift.String?
@@ -3344,7 +3455,7 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     public var dimensions: [CloudWatchClientTypes.Dimension]?
     /// Used only for alarms based on percentiles. If you specify ignore, the alarm state does not change during periods with too few data points to be statistically significant. If you specify evaluate or omit this parameter, the alarm is always evaluated and possibly changes state no matter how many data points are available. For more information, see [Percentile-Based CloudWatch Alarms and Low Data Samples](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#percentiles-with-low-samples). Valid Values: evaluate | ignore
     public var evaluateLowSampleCountPercentile: Swift.String?
-    /// The number of periods over which data is compared to the specified threshold. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies that number. If you are setting an "M out of N" alarm, this value is the N. An alarm's total current evaluation period can be no longer than one day, so this number multiplied by Period cannot be more than 86,400 seconds.
+    /// The number of periods over which data is compared to the specified threshold. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies that number. If you are setting an "M out of N" alarm, this value is the N.
     /// This member is required.
     public var evaluationPeriods: Swift.Int?
     /// The extended statistic for the metric specified in MetricName. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic but not both. If you specify ExtendedStatistic, the following are valid values:
@@ -3468,7 +3579,7 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     ///
     /// * arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
     public var okActions: [Swift.String]?
-    /// The length, in seconds, used each time the metric specified in MetricName is evaluated. Valid values are 10, 30, and any multiple of 60. Period is required for alarms based on static thresholds. If you are creating an alarm based on a metric math expression, you specify the period for each metric within the objects in the Metrics array. Be sure to specify 10 or 30 only for metrics that are stored by a PutMetricData call with a StorageResolution of 1. If you specify a period of 10 or 30 for a metric that does not have sub-minute resolution, the alarm still attempts to gather data at the period rate that you specify. In this case, it does not receive data for the attempts that do not correspond to a one-minute data resolution, and the alarm might often lapse into INSUFFICENT_DATA status. Specifying 10 or 30 also sets this alarm as a high-resolution alarm, which has a higher charge than other alarms. For more information about pricing, see [Amazon CloudWatch Pricing](https://aws.amazon.com/cloudwatch/pricing/). An alarm's total current evaluation period can be no longer than one day, so Period multiplied by EvaluationPeriods cannot be more than 86,400 seconds.
+    /// The length, in seconds, used each time the metric specified in MetricName is evaluated. Valid values are 10, 20, 30, and any multiple of 60. Period is required for alarms based on static thresholds. If you are creating an alarm based on a metric math expression, you specify the period for each metric within the objects in the Metrics array. Be sure to specify 10, 20, or 30 only for metrics that are stored by a PutMetricData call with a StorageResolution of 1. If you specify a period of 10, 20, or 30 for a metric that does not have sub-minute resolution, the alarm still attempts to gather data at the period rate that you specify. In this case, it does not receive data for the attempts that do not correspond to a one-minute data resolution, and the alarm might often lapse into INSUFFICENT_DATA status. Specifying 10, 20, or 30 also sets this alarm as a high-resolution alarm, which has a higher charge than other alarms. For more information about pricing, see [Amazon CloudWatch Pricing](https://aws.amazon.com/cloudwatch/pricing/). An alarm's total current evaluation period can be no longer than seven days, so Period multiplied by EvaluationPeriods can't be more than 604,800 seconds. For alarms with a period of less than one hour (3,600 seconds), the total evaluation period can't be longer than one day (86,400 seconds).
     public var period: Swift.Int?
     /// The statistic for the metric specified in MetricName, other than percentile. For percentile statistics, use ExtendedStatistic. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
     public var statistic: CloudWatchClientTypes.Statistic?
@@ -3559,7 +3670,7 @@ public struct PutMetricDataInput: Swift.Sendable {
     /// * MissingRequiredFields - There are missing required fields in the KeyAttributes for the provided Type.
     ///
     ///
-    /// For details of the requirements for specifying an entity, see [How to add related information to telemetry](https://docs.aws.amazon.com/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
+    /// For details of the requirements for specifying an entity, see [How to add related information to telemetry](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
     ///
     ///
     /// This parameter is required when EntityMetricData is included.
@@ -3799,6 +3910,13 @@ extension DeleteInsightRulesInput {
 extension DeleteMetricStreamInput {
 
     static func urlPathProvider(_ value: DeleteMetricStreamInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeAlarmContributorsInput {
+
+    static func urlPathProvider(_ value: DescribeAlarmContributorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4089,10 +4207,22 @@ extension DeleteMetricStreamInput {
     }
 }
 
+extension DescribeAlarmContributorsInput {
+
+    static func write(value: DescribeAlarmContributorsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AlarmName"].write(value.alarmName)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeAlarmContributors")
+        try writer["Version"].write("2010-08-01")
+    }
+}
+
 extension DescribeAlarmHistoryInput {
 
     static func write(value: DescribeAlarmHistoryInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AlarmContributorId"].write(value.alarmContributorId)
         try writer["AlarmName"].write(value.alarmName)
         try writer["AlarmTypes"].writeList(value.alarmTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudWatchClientTypes.AlarmType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EndDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -4399,6 +4529,7 @@ extension PutInsightRuleInput {
 
     static func write(value: PutInsightRuleInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["ApplyOnTransformedLogs"].write(value.applyOnTransformedLogs)
         try writer["RuleDefinition"].write(value.ruleDefinition)
         try writer["RuleName"].write(value.ruleName)
         try writer["RuleState"].write(value.ruleState)
@@ -4572,6 +4703,19 @@ extension DeleteMetricStreamOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteMetricStreamOutput {
         return DeleteMetricStreamOutput()
+    }
+}
+
+extension DescribeAlarmContributorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAlarmContributorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DescribeAlarmContributorsResult"]
+        var value = DescribeAlarmContributorsOutput()
+        value.alarmContributors = try reader["AlarmContributors"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.AlarmContributor.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
     }
 }
 
@@ -4982,6 +5126,7 @@ enum DeleteDashboardsOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFound": return try DashboardNotFoundError.makeError(baseError: baseError)
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5016,6 +5161,21 @@ enum DeleteMetricStreamOutputError {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameter": return try MissingRequiredParameterException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeAlarmContributorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5363,6 +5523,7 @@ enum PutDashboardOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InvalidParameterInput": return try DashboardInvalidInputError.makeError(baseError: baseError)
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5506,6 +5667,7 @@ enum TagResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -5523,6 +5685,7 @@ enum UntagResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -5544,14 +5707,12 @@ extension ResourceNotFound {
     }
 }
 
-extension ResourceNotFoundException {
+extension InternalServiceFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InternalServiceFault {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = InternalServiceFault()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5585,12 +5746,12 @@ extension InvalidParameterValueException {
     }
 }
 
-extension InternalServiceFault {
+extension MissingRequiredParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InternalServiceFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MissingRequiredParameterException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceFault()
-        value.properties.message = try reader["Message"].readIfPresent()
+        var value = MissingRequiredParameterException()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5598,12 +5759,27 @@ extension InternalServiceFault {
     }
 }
 
-extension MissingRequiredParameterException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MissingRequiredParameterException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = MissingRequiredParameterException()
-        value.properties.message = try reader["message"].readIfPresent()
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5716,17 +5892,32 @@ extension CloudWatchClientTypes.PartialFailure {
     }
 }
 
+extension CloudWatchClientTypes.AlarmContributor {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.AlarmContributor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.AlarmContributor()
+        value.contributorId = try reader["ContributorId"].readIfPresent() ?? ""
+        value.contributorAttributes = try reader["ContributorAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.stateReason = try reader["StateReason"].readIfPresent() ?? ""
+        value.stateTransitionedTimestamp = try reader["StateTransitionedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension CloudWatchClientTypes.AlarmHistoryItem {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudWatchClientTypes.AlarmHistoryItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchClientTypes.AlarmHistoryItem()
         value.alarmName = try reader["AlarmName"].readIfPresent()
+        value.alarmContributorId = try reader["AlarmContributorId"].readIfPresent()
         value.alarmType = try reader["AlarmType"].readIfPresent()
         value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.historyItemType = try reader["HistoryItemType"].readIfPresent()
         value.historySummary = try reader["HistorySummary"].readIfPresent()
         value.historyData = try reader["HistoryData"].readIfPresent()
+        value.alarmContributorAttributes = try reader["AlarmContributorAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -5996,6 +6187,7 @@ extension CloudWatchClientTypes.InsightRule {
         value.schema = try reader["Schema"].readIfPresent() ?? ""
         value.definition = try reader["Definition"].readIfPresent() ?? ""
         value.managedRule = try reader["ManagedRule"].readIfPresent()
+        value.applyOnTransformedLogs = try reader["ApplyOnTransformedLogs"].readIfPresent()
         return value
     }
 }

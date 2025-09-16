@@ -11,6 +11,37 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension OutpostsClient {
+    /// Paginate over `[GetOutpostBillingInformationOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetOutpostBillingInformationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetOutpostBillingInformationOutput`
+    public func getOutpostBillingInformationPaginated(input: GetOutpostBillingInformationInput) -> ClientRuntime.PaginatorSequence<GetOutpostBillingInformationInput, GetOutpostBillingInformationOutput> {
+        return ClientRuntime.PaginatorSequence<GetOutpostBillingInformationInput, GetOutpostBillingInformationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getOutpostBillingInformation(input:))
+    }
+}
+
+extension GetOutpostBillingInformationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetOutpostBillingInformationInput {
+        return GetOutpostBillingInformationInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            outpostIdentifier: self.outpostIdentifier
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetOutpostBillingInformationInput, OperationStackOutput == GetOutpostBillingInformationOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getOutpostBillingInformationPaginated`
+    /// to access the nested member `[OutpostsClientTypes.Subscription]`
+    /// - Returns: `[OutpostsClientTypes.Subscription]`
+    public func subscriptions() async throws -> [OutpostsClientTypes.Subscription] {
+        return try await self.asyncCompactMap { item in item.subscriptions }
+    }
+}
+extension OutpostsClient {
     /// Paginate over `[GetOutpostInstanceTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -58,6 +89,7 @@ extension OutpostsClient {
 extension GetOutpostSupportedInstanceTypesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetOutpostSupportedInstanceTypesInput {
         return GetOutpostSupportedInstanceTypesInput(
+            assetId: self.assetId,
             maxResults: self.maxResults,
             nextToken: token,
             orderId: self.orderId,

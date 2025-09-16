@@ -11,6 +11,7 @@ import Foundation
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
 import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
+import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
@@ -40,7 +41,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -60,14 +61,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LightsailClient: ClientRuntime.Client {
     public static let clientName = "LightsailClient"
-    public static let version = "1.2.13"
+    public static let version = "1.5.43"
     let client: ClientRuntime.SdkHttpClient
     let config: LightsailClient.LightsailClientConfiguration
     let serviceName = "Lightsail"
@@ -111,11 +112,12 @@ extension LightsailClient {
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        internal let logger: Smithy.LogAgent
+        public let logger: Smithy.LogAgent
 
         private init(
             _ useFIPS: Swift.Bool?,
@@ -138,6 +140,7 @@ extension LightsailClient {
             _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
             _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
             _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemePreference: [String]?,
             _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
             _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
             _ interceptorProviders: [ClientRuntime.InterceptorProvider],
@@ -163,6 +166,7 @@ extension LightsailClient {
             self.httpClientEngine = httpClientEngine
             self.httpClientConfiguration = httpClientConfiguration
             self.authSchemes = authSchemes
+            self.authSchemePreference = authSchemePreference
             self.authSchemeResolver = authSchemeResolver
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
             self.interceptorProviders = interceptorProviders
@@ -191,6 +195,7 @@ extension LightsailClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -200,7 +205,7 @@ extension LightsailClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -214,9 +219,10 @@ extension LightsailClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultLightsailAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -245,6 +251,7 @@ extension LightsailClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -254,7 +261,7 @@ extension LightsailClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -268,9 +275,10 @@ extension LightsailClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultLightsailAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -300,6 +308,7 @@ extension LightsailClient {
                 httpClientEngine: nil,
                 httpClientConfiguration: nil,
                 authSchemes: nil,
+                authSchemePreference: nil,
                 authSchemeResolver: nil,
                 bearerTokenIdentityResolver: nil,
                 interceptorProviders: nil,
@@ -312,7 +321,7 @@ extension LightsailClient {
                 nil,
                 nil,
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
+                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 nil,
                 try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
@@ -329,6 +338,7 @@ extension LightsailClient {
                 AWSClientConfigDefaultsProvider.httpClientEngine(),
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                nil,
                 DefaultLightsailAuthSchemeResolver(),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
@@ -376,6 +386,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func allocateStaticIp(input: AllocateStaticIpInput) async throws -> AllocateStaticIpOutput {
@@ -383,15 +394,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "allocateStaticIp")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -463,15 +467,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "attachCertificateToDistribution")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -523,7 +520,7 @@ extension LightsailClient {
 
     /// Performs the `AttachDisk` operation on the `Lightsail` service.
     ///
-    /// Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to the instance with the specified disk name. The attach disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to the instance with the specified disk name. The attach disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter AttachDiskInput : [no documentation found]
     ///
@@ -537,6 +534,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func attachDisk(input: AttachDiskInput) async throws -> AttachDiskOutput {
@@ -544,15 +542,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "attachDisk")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -604,7 +595,7 @@ extension LightsailClient {
 
     /// Performs the `AttachInstancesToLoadBalancer` operation on the `Lightsail` service.
     ///
-    /// Attaches one or more Lightsail instances to a load balancer. After some time, the instances are attached to the load balancer and the health check status is available. The attach instances to load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Attaches one or more Lightsail instances to a load balancer. After some time, the instances are attached to the load balancer and the health check status is available. The attach instances to load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter AttachInstancesToLoadBalancerInput : [no documentation found]
     ///
@@ -618,6 +609,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func attachInstancesToLoadBalancer(input: AttachInstancesToLoadBalancerInput) async throws -> AttachInstancesToLoadBalancerOutput {
@@ -625,15 +617,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "attachInstancesToLoadBalancer")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -685,7 +670,7 @@ extension LightsailClient {
 
     /// Performs the `AttachLoadBalancerTlsCertificate` operation on the `Lightsail` service.
     ///
-    /// Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certificates on your account. Use the AttachLoadBalancerTlsCertificate action with the non-attached certificate, and it will replace the existing one and become the attached certificate. The AttachLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certificates on your account. Use the AttachLoadBalancerTlsCertificate action with the non-attached certificate, and it will replace the existing one and become the attached certificate. The AttachLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter AttachLoadBalancerTlsCertificateInput : [no documentation found]
     ///
@@ -699,6 +684,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func attachLoadBalancerTlsCertificate(input: AttachLoadBalancerTlsCertificateInput) async throws -> AttachLoadBalancerTlsCertificateOutput {
@@ -706,15 +692,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "attachLoadBalancerTlsCertificate")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -780,6 +759,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func attachStaticIp(input: AttachStaticIpInput) async throws -> AttachStaticIpOutput {
@@ -787,15 +767,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "attachStaticIp")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -847,7 +820,7 @@ extension LightsailClient {
 
     /// Performs the `CloseInstancePublicPorts` operation on the `Lightsail` service.
     ///
-    /// Closes ports for a specific Amazon Lightsail instance. The CloseInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Closes ports for a specific Amazon Lightsail instance. The CloseInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CloseInstancePublicPortsInput : [no documentation found]
     ///
@@ -861,6 +834,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func closeInstancePublicPorts(input: CloseInstancePublicPortsInput) async throws -> CloseInstancePublicPortsOutput {
@@ -868,15 +842,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "closeInstancePublicPorts")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -942,6 +909,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput {
@@ -949,15 +917,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "copySnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1009,7 +970,7 @@ extension LightsailClient {
 
     /// Performs the `CreateBucket` operation on the `Lightsail` service.
     ///
-    /// Creates an Amazon Lightsail bucket. A bucket is a cloud storage resource available in the Lightsail object storage service. Use buckets to store objects such as data and its descriptive metadata. For more information about buckets, see [Buckets in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/buckets-in-amazon-lightsail) in the Amazon Lightsail Developer Guide.
+    /// Creates an Amazon Lightsail bucket. A bucket is a cloud storage resource available in the Lightsail object storage service. Use buckets to store objects such as data and its descriptive metadata. For more information about buckets, see [Buckets in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/buckets-in-amazon-lightsail) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter CreateBucketInput : [no documentation found]
     ///
@@ -1020,6 +981,7 @@ extension LightsailClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput {
@@ -1027,15 +989,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createBucket")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1087,7 +1042,7 @@ extension LightsailClient {
 
     /// Performs the `CreateBucketAccessKey` operation on the `Lightsail` service.
     ///
-    /// Creates a new access key for the specified Amazon Lightsail bucket. Access keys consist of an access key ID and corresponding secret access key. Access keys grant full programmatic access to the specified bucket and its objects. You can have a maximum of two access keys per bucket. Use the [GetBucketAccessKeys](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBucketAccessKeys.html) action to get a list of current access keys for a specific bucket. For more information about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-bucket-access-keys) in the Amazon Lightsail Developer Guide. The secretAccessKey value is returned only in response to the CreateBucketAccessKey action. You can get a secret access key only when you first create an access key; you cannot get the secret access key later. If you lose the secret access key, you must create a new access key.
+    /// Creates a new access key for the specified Amazon Lightsail bucket. Access keys consist of an access key ID and corresponding secret access key. Access keys grant full programmatic access to the specified bucket and its objects. You can have a maximum of two access keys per bucket. Use the [GetBucketAccessKeys](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBucketAccessKeys.html) action to get a list of current access keys for a specific bucket. For more information about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-creating-bucket-access-keys) in the Amazon Lightsail Developer Guide. The secretAccessKey value is returned only in response to the CreateBucketAccessKey action. You can get a secret access key only when you first create an access key; you cannot get the secret access key later. If you lose the secret access key, you must create a new access key.
     ///
     /// - Parameter CreateBucketAccessKeyInput : [no documentation found]
     ///
@@ -1099,6 +1054,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createBucketAccessKey(input: CreateBucketAccessKeyInput) async throws -> CreateBucketAccessKeyOutput {
@@ -1106,15 +1062,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createBucketAccessKey")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1178,6 +1127,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createCertificate(input: CreateCertificateInput) async throws -> CreateCertificateOutput {
@@ -1185,15 +1135,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createCertificate")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1259,6 +1202,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createCloudFormationStack(input: CreateCloudFormationStackInput) async throws -> CreateCloudFormationStackOutput {
@@ -1266,15 +1210,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createCloudFormationStack")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1326,7 +1263,7 @@ extension LightsailClient {
 
     /// Performs the `CreateContactMethod` operation on the `Lightsail` service.
     ///
-    /// Creates an email or SMS text message contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
+    /// Creates an email or SMS text message contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
     ///
     /// - Parameter CreateContactMethodInput : [no documentation found]
     ///
@@ -1339,6 +1276,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createContactMethod(input: CreateContactMethodInput) async throws -> CreateContactMethodOutput {
@@ -1346,15 +1284,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createContactMethod")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1406,7 +1337,7 @@ extension LightsailClient {
 
     /// Performs the `CreateContainerService` operation on the `Lightsail` service.
     ///
-    /// Creates an Amazon Lightsail container service. A Lightsail container service is a compute resource to which you can deploy containers. For more information, see [Container services in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-services) in the Lightsail Dev Guide.
+    /// Creates an Amazon Lightsail container service. A Lightsail container service is a compute resource to which you can deploy containers. For more information, see [Container services in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-services) in the Lightsail Dev Guide.
     ///
     /// - Parameter CreateContainerServiceInput : [no documentation found]
     ///
@@ -1418,6 +1349,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createContainerService(input: CreateContainerServiceInput) async throws -> CreateContainerServiceOutput {
@@ -1425,15 +1357,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createContainerService")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1485,7 +1410,7 @@ extension LightsailClient {
 
     /// Performs the `CreateContainerServiceDeployment` operation on the `Lightsail` service.
     ///
-    /// Creates a deployment for your Amazon Lightsail container service. A deployment specifies the containers that will be launched on the container service and their settings, such as the ports to open, the environment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration. You can deploy containers to your container service using container images from a public registry such as Amazon ECR Public, or from your local machine. For more information, see [Creating container images for your Amazon Lightsail container services](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-container-images) in the Amazon Lightsail Developer Guide.
+    /// Creates a deployment for your Amazon Lightsail container service. A deployment specifies the containers that will be launched on the container service and their settings, such as the ports to open, the environment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration. You can deploy containers to your container service using container images from a public registry such as Amazon ECR Public, or from your local machine. For more information, see [Creating container images for your Amazon Lightsail container services](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-creating-container-images) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter CreateContainerServiceDeploymentInput : [no documentation found]
     ///
@@ -1497,6 +1422,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createContainerServiceDeployment(input: CreateContainerServiceDeploymentInput) async throws -> CreateContainerServiceDeploymentOutput {
@@ -1504,15 +1430,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createContainerServiceDeployment")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1564,7 +1483,7 @@ extension LightsailClient {
 
     /// Performs the `CreateContainerServiceRegistryLogin` operation on the `Lightsail` service.
     ///
-    /// Creates a temporary set of log in credentials that you can use to log in to the Docker process on your local machine. After you're logged in, you can use the native Docker commands to push your local container images to the container image registry of your Amazon Lightsail account so that you can use them with your Lightsail container service. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials. You can only push container images to the container service registry of your Lightsail account. You cannot pull container images or perform any other container image management actions on the container service registry. After you push your container images to the container image registry of your Lightsail account, use the RegisterContainerImage action to register the pushed images to a specific Lightsail container service. This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see [Pushing and managing container images on your Amazon Lightsail container services](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-pushing-container-images) in the Amazon Lightsail Developer Guide.
+    /// Creates a temporary set of log in credentials that you can use to log in to the Docker process on your local machine. After you're logged in, you can use the native Docker commands to push your local container images to the container image registry of your Amazon Lightsail account so that you can use them with your Lightsail container service. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials. You can only push container images to the container service registry of your Lightsail account. You cannot pull container images or perform any other container image management actions on the container service registry. After you push your container images to the container image registry of your Lightsail account, use the RegisterContainerImage action to register the pushed images to a specific Lightsail container service. This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see [Pushing and managing container images on your Amazon Lightsail container services](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-pushing-container-images) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter CreateContainerServiceRegistryLoginInput : [no documentation found]
     ///
@@ -1576,6 +1495,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createContainerServiceRegistryLogin(input: CreateContainerServiceRegistryLoginInput) async throws -> CreateContainerServiceRegistryLoginOutput {
@@ -1583,15 +1503,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createContainerServiceRegistryLogin")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1643,7 +1556,7 @@ extension LightsailClient {
 
     /// Performs the `CreateDisk` operation on the `Lightsail` service.
     ///
-    /// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateDiskInput : [no documentation found]
     ///
@@ -1657,6 +1570,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createDisk(input: CreateDiskInput) async throws -> CreateDiskOutput {
@@ -1664,15 +1578,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createDisk")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1724,7 +1631,7 @@ extension LightsailClient {
 
     /// Performs the `CreateDiskFromSnapshot` operation on the `Lightsail` service.
     ///
-    /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting disk can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by disk snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting disk can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by disk snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateDiskFromSnapshotInput : [no documentation found]
     ///
@@ -1738,6 +1645,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createDiskFromSnapshot(input: CreateDiskFromSnapshotInput) async throws -> CreateDiskFromSnapshotOutput {
@@ -1745,15 +1653,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createDiskFromSnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1805,7 +1706,7 @@ extension LightsailClient {
 
     /// Performs the `CreateDiskSnapshot` operation on the `Lightsail` service.
     ///
-    /// Creates a snapshot of a block storage disk. You can use snapshots for backups, to make copies of disks, and to save data before shutting down a Lightsail instance. You can take a snapshot of an attached disk that is in use; however, snapshots only capture data that has been written to your disk at the time the snapshot command is issued. This may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the disk long enough to take a snapshot, your snapshot should be complete. Nevertheless, if you cannot pause all file writes to the disk, you should unmount the disk from within the Lightsail instance, issue the create disk snapshot command, and then remount the disk to ensure a consistent and complete snapshot. You may remount and use your disk while the snapshot status is pending. You can also use this operation to create a snapshot of an instance's system volume. You might want to do this, for example, to recover data from the system volume of a botched instance or to create a backup of the system volume like you would for a block storage disk. To create a snapshot of a system volume, just define the instance name parameter when issuing the snapshot command, and a snapshot of the defined instance's system volume will be created. After the snapshot is available, you can create a block storage disk from the snapshot and attach it to a running instance to access the data on the disk. The create disk snapshot operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates a snapshot of a block storage disk. You can use snapshots for backups, to make copies of disks, and to save data before shutting down a Lightsail instance. You can take a snapshot of an attached disk that is in use; however, snapshots only capture data that has been written to your disk at the time the snapshot command is issued. This may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the disk long enough to take a snapshot, your snapshot should be complete. Nevertheless, if you cannot pause all file writes to the disk, you should unmount the disk from within the Lightsail instance, issue the create disk snapshot command, and then remount the disk to ensure a consistent and complete snapshot. You may remount and use your disk while the snapshot status is pending. You can also use this operation to create a snapshot of an instance's system volume. You might want to do this, for example, to recover data from the system volume of a botched instance or to create a backup of the system volume like you would for a block storage disk. To create a snapshot of a system volume, just define the instance name parameter when issuing the snapshot command, and a snapshot of the defined instance's system volume will be created. After the snapshot is available, you can create a block storage disk from the snapshot and attach it to a running instance to access the data on the disk. The create disk snapshot operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateDiskSnapshotInput : [no documentation found]
     ///
@@ -1819,6 +1720,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createDiskSnapshot(input: CreateDiskSnapshotInput) async throws -> CreateDiskSnapshotOutput {
@@ -1826,15 +1728,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createDiskSnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1886,7 +1781,7 @@ extension LightsailClient {
 
     /// Performs the `CreateDistribution` operation on the `Lightsail` service.
     ///
-    /// Creates an Amazon Lightsail content delivery network (CDN) distribution. A distribution is a globally distributed network of caching servers that improve the performance of your website or web application hosted on a Lightsail instance. For more information, see [Content delivery networks in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-content-delivery-network-distributions).
+    /// Creates an Amazon Lightsail content delivery network (CDN) distribution. A distribution is a globally distributed network of caching servers that improve the performance of your website or web application hosted on a Lightsail instance. For more information, see [Content delivery networks in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-content-delivery-network-distributions).
     ///
     /// - Parameter CreateDistributionInput : [no documentation found]
     ///
@@ -1906,15 +1801,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createDistribution")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1966,7 +1854,7 @@ extension LightsailClient {
 
     /// Performs the `CreateDomain` operation on the `Lightsail` service.
     ///
-    /// Creates a domain resource for the specified domain (example.com). The create domain operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates a domain resource for the specified domain (example.com). The create domain operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateDomainInput : [no documentation found]
     ///
@@ -1980,6 +1868,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput {
@@ -1987,15 +1876,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createDomain")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2047,7 +1929,7 @@ extension LightsailClient {
 
     /// Performs the `CreateDomainEntry` operation on the `Lightsail` service.
     ///
-    /// Creates one of the following domain name system (DNS) records in a domain DNS zone: Address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The create domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates one of the following domain name system (DNS) records in a domain DNS zone: Address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The create domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateDomainEntryInput : [no documentation found]
     ///
@@ -2061,6 +1943,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createDomainEntry(input: CreateDomainEntryInput) async throws -> CreateDomainEntryOutput {
@@ -2068,15 +1951,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createDomainEntry")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2128,7 +2004,7 @@ extension LightsailClient {
 
     /// Performs the `CreateGUISessionAccessDetails` operation on the `Lightsail` service.
     ///
-    /// Creates two URLs that are used to access a virtual computer’s graphical user interface (GUI) session. The primary URL initiates a web-based NICE DCV session to the virtual computer's application. The secondary URL initiates a web-based NICE DCV session to the virtual computer's operating session. Use StartGUISession to open the session.
+    /// Creates two URLs that are used to access a virtual computer’s graphical user interface (GUI) session. The primary URL initiates a web-based Amazon DCV session to the virtual computer's application. The secondary URL initiates a web-based Amazon DCV session to the virtual computer's operating session. Use StartGUISession to open the session.
     ///
     /// - Parameter CreateGUISessionAccessDetailsInput : [no documentation found]
     ///
@@ -2140,6 +2016,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createGUISessionAccessDetails(input: CreateGUISessionAccessDetailsInput) async throws -> CreateGUISessionAccessDetailsOutput {
@@ -2147,15 +2024,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createGUISessionAccessDetails")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2207,7 +2077,7 @@ extension LightsailClient {
 
     /// Performs the `CreateInstanceSnapshot` operation on the `Lightsail` service.
     ///
-    /// Creates a snapshot of a specific virtual private server, or instance. You can use a snapshot to create a new instance that is based on that snapshot. The create instance snapshot operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates a snapshot of a specific virtual private server, or instance. You can use a snapshot to create a new instance that is based on that snapshot. The create instance snapshot operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateInstanceSnapshotInput : [no documentation found]
     ///
@@ -2221,6 +2091,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createInstanceSnapshot(input: CreateInstanceSnapshotInput) async throws -> CreateInstanceSnapshotOutput {
@@ -2228,15 +2099,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createInstanceSnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2288,7 +2152,7 @@ extension LightsailClient {
 
     /// Performs the `CreateInstances` operation on the `Lightsail` service.
     ///
-    /// Creates one or more Amazon Lightsail instances. The create instances operation supports tag-based access control via request tags. For more information, see the [Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates one or more Amazon Lightsail instances. The create instances operation supports tag-based access control via request tags. For more information, see the [Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateInstancesInput : [no documentation found]
     ///
@@ -2302,6 +2166,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createInstances(input: CreateInstancesInput) async throws -> CreateInstancesOutput {
@@ -2309,15 +2174,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createInstances")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2369,7 +2227,7 @@ extension LightsailClient {
 
     /// Performs the `CreateInstancesFromSnapshot` operation on the `Lightsail` service.
     ///
-    /// Creates one or more new instances from a manual or automatic snapshot of an instance. The create instances from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by instance snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates one or more new instances from a manual or automatic snapshot of an instance. The create instances from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by instance snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateInstancesFromSnapshotInput : [no documentation found]
     ///
@@ -2383,6 +2241,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createInstancesFromSnapshot(input: CreateInstancesFromSnapshotInput) async throws -> CreateInstancesFromSnapshotOutput {
@@ -2390,15 +2249,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createInstancesFromSnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2450,7 +2302,7 @@ extension LightsailClient {
 
     /// Performs the `CreateKeyPair` operation on the `Lightsail` service.
     ///
-    /// Creates a custom SSH key pair that you can use with an Amazon Lightsail instance. Use the [DownloadDefaultKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_DownloadDefaultKeyPair.html) action to create a Lightsail default key pair in an Amazon Web Services Region where a default key pair does not currently exist. The create key pair operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates a custom SSH key pair that you can use with an Amazon Lightsail instance. Use the [DownloadDefaultKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_DownloadDefaultKeyPair.html) action to create a Lightsail default key pair in an Amazon Web Services Region where a default key pair does not currently exist. The create key pair operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateKeyPairInput : [no documentation found]
     ///
@@ -2464,6 +2316,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createKeyPair(input: CreateKeyPairInput) async throws -> CreateKeyPairOutput {
@@ -2471,15 +2324,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createKeyPair")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2531,7 +2377,7 @@ extension LightsailClient {
 
     /// Performs the `CreateLoadBalancer` operation on the `Lightsail` service.
     ///
-    /// Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see [Configure your Lightsail instances for load balancing](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/configure-lightsail-instances-for-load-balancing). You can create up to 5 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the UpdateLoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see [Configure your Lightsail instances for load balancing](https://docs.aws.amazon.com/lightsail/latest/userguide/configure-lightsail-instances-for-load-balancing). You can create up to 5 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the UpdateLoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateLoadBalancerInput : [no documentation found]
     ///
@@ -2545,6 +2391,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createLoadBalancer(input: CreateLoadBalancerInput) async throws -> CreateLoadBalancerOutput {
@@ -2552,15 +2399,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLoadBalancer")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2612,7 +2452,7 @@ extension LightsailClient {
 
     /// Performs the `CreateLoadBalancerTlsCertificate` operation on the `Lightsail` service.
     ///
-    /// Creates an SSL/TLS certificate for an Amazon Lightsail load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). The CreateLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates an SSL/TLS certificate for an Amazon Lightsail load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). The CreateLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateLoadBalancerTlsCertificateInput : [no documentation found]
     ///
@@ -2626,6 +2466,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createLoadBalancerTlsCertificate(input: CreateLoadBalancerTlsCertificateInput) async throws -> CreateLoadBalancerTlsCertificateOutput {
@@ -2633,15 +2474,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLoadBalancerTlsCertificate")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2693,7 +2527,7 @@ extension LightsailClient {
 
     /// Performs the `CreateRelationalDatabase` operation on the `Lightsail` service.
     ///
-    /// Creates a new database in Amazon Lightsail. The create relational database operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates a new database in Amazon Lightsail. The create relational database operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateRelationalDatabaseInput : [no documentation found]
     ///
@@ -2707,6 +2541,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createRelationalDatabase(input: CreateRelationalDatabaseInput) async throws -> CreateRelationalDatabaseOutput {
@@ -2714,15 +2549,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createRelationalDatabase")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2774,7 +2602,7 @@ extension LightsailClient {
 
     /// Performs the `CreateRelationalDatabaseFromSnapshot` operation on the `Lightsail` service.
     ///
-    /// Creates a new database from an existing database snapshot in Amazon Lightsail. You can create a new database from a snapshot in if something goes wrong with your original database, or to change it to a different plan, such as a high availability or standard plan. The create relational database from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by relationalDatabaseSnapshotName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates a new database from an existing database snapshot in Amazon Lightsail. You can create a new database from a snapshot in if something goes wrong with your original database, or to change it to a different plan, such as a high availability or standard plan. The create relational database from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by relationalDatabaseSnapshotName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateRelationalDatabaseFromSnapshotInput : [no documentation found]
     ///
@@ -2788,6 +2616,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createRelationalDatabaseFromSnapshot(input: CreateRelationalDatabaseFromSnapshotInput) async throws -> CreateRelationalDatabaseFromSnapshotOutput {
@@ -2795,15 +2624,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createRelationalDatabaseFromSnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2855,7 +2677,7 @@ extension LightsailClient {
 
     /// Performs the `CreateRelationalDatabaseSnapshot` operation on the `Lightsail` service.
     ///
-    /// Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups, to make copies of a database, and to save data before deleting a database. The create relational database snapshot operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups, to make copies of a database, and to save data before deleting a database. The create relational database snapshot operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateRelationalDatabaseSnapshotInput : [no documentation found]
     ///
@@ -2869,6 +2691,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createRelationalDatabaseSnapshot(input: CreateRelationalDatabaseSnapshotInput) async throws -> CreateRelationalDatabaseSnapshotOutput {
@@ -2876,15 +2699,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createRelationalDatabaseSnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2936,7 +2752,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteAlarm` operation on the `Lightsail` service.
     ///
-    /// Deletes an alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
+    /// Deletes an alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
     ///
     /// - Parameter DeleteAlarmInput : [no documentation found]
     ///
@@ -2949,6 +2765,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteAlarm(input: DeleteAlarmInput) async throws -> DeleteAlarmOutput {
@@ -2956,15 +2773,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteAlarm")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3016,7 +2826,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteAutoSnapshot` operation on the `Lightsail` service.
     ///
-    /// Deletes an automatic snapshot of an instance or disk. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    /// Deletes an automatic snapshot of an instance or disk. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
     ///
     /// - Parameter DeleteAutoSnapshotInput : [no documentation found]
     ///
@@ -3029,6 +2839,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteAutoSnapshot(input: DeleteAutoSnapshotInput) async throws -> DeleteAutoSnapshotOutput {
@@ -3036,15 +2847,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteAutoSnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3108,6 +2912,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
@@ -3115,15 +2920,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucket")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3175,7 +2973,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteBucketAccessKey` operation on the `Lightsail` service.
     ///
-    /// Deletes an access key for the specified Amazon Lightsail bucket. We recommend that you delete an access key if the secret access key is compromised. For more information about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-bucket-access-keys) in the Amazon Lightsail Developer Guide.
+    /// Deletes an access key for the specified Amazon Lightsail bucket. We recommend that you delete an access key if the secret access key is compromised. For more information about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-creating-bucket-access-keys) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter DeleteBucketAccessKeyInput : [no documentation found]
     ///
@@ -3187,6 +2985,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteBucketAccessKey(input: DeleteBucketAccessKeyInput) async throws -> DeleteBucketAccessKeyOutput {
@@ -3194,15 +2993,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketAccessKey")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3266,6 +3058,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput {
@@ -3273,15 +3066,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteCertificate")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3333,7 +3119,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteContactMethod` operation on the `Lightsail` service.
     ///
-    /// Deletes a contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
+    /// Deletes a contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
     ///
     /// - Parameter DeleteContactMethodInput : [no documentation found]
     ///
@@ -3346,6 +3132,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteContactMethod(input: DeleteContactMethodInput) async throws -> DeleteContactMethodOutput {
@@ -3353,15 +3140,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteContactMethod")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3425,6 +3205,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteContainerImage(input: DeleteContainerImageInput) async throws -> DeleteContainerImageOutput {
@@ -3432,15 +3213,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteContainerImage")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3504,6 +3278,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteContainerService(input: DeleteContainerServiceInput) async throws -> DeleteContainerServiceOutput {
@@ -3511,15 +3286,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteContainerService")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3571,7 +3339,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteDisk` operation on the `Lightsail` service.
     ///
-    /// Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance). The disk may remain in the deleting state for several minutes. The delete disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance). The disk may remain in the deleting state for several minutes. The delete disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteDiskInput : [no documentation found]
     ///
@@ -3585,6 +3353,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteDisk(input: DeleteDiskInput) async throws -> DeleteDiskOutput {
@@ -3592,15 +3361,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteDisk")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3652,7 +3414,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteDiskSnapshot` operation on the `Lightsail` service.
     ///
-    /// Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the disk. The delete disk snapshot operation supports tag-based access control via resource tags applied to the resource identified by disk snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the disk. The delete disk snapshot operation supports tag-based access control via resource tags applied to the resource identified by disk snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteDiskSnapshotInput : [no documentation found]
     ///
@@ -3666,6 +3428,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteDiskSnapshot(input: DeleteDiskSnapshotInput) async throws -> DeleteDiskSnapshotOutput {
@@ -3673,15 +3436,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteDiskSnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3753,15 +3509,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteDistribution")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3813,7 +3562,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteDomain` operation on the `Lightsail` service.
     ///
-    /// Deletes the specified domain recordset and all of its domain records. The delete domain operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Deletes the specified domain recordset and all of its domain records. The delete domain operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteDomainInput : [no documentation found]
     ///
@@ -3827,6 +3576,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput {
@@ -3834,15 +3584,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteDomain")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3894,7 +3637,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteDomainEntry` operation on the `Lightsail` service.
     ///
-    /// Deletes a specific domain entry. The delete domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Deletes a specific domain entry. The delete domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteDomainEntryInput : [no documentation found]
     ///
@@ -3908,6 +3651,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteDomainEntry(input: DeleteDomainEntryInput) async throws -> DeleteDomainEntryOutput {
@@ -3915,15 +3659,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteDomainEntry")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3975,7 +3712,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteInstance` operation on the `Lightsail` service.
     ///
-    /// Deletes an Amazon Lightsail instance. The delete instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Deletes an Amazon Lightsail instance. The delete instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteInstanceInput : [no documentation found]
     ///
@@ -3989,6 +3726,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteInstance(input: DeleteInstanceInput) async throws -> DeleteInstanceOutput {
@@ -3996,15 +3734,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteInstance")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4056,7 +3787,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteInstanceSnapshot` operation on the `Lightsail` service.
     ///
-    /// Deletes a specific snapshot of a virtual private server (or instance). The delete instance snapshot operation supports tag-based access control via resource tags applied to the resource identified by instance snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Deletes a specific snapshot of a virtual private server (or instance). The delete instance snapshot operation supports tag-based access control via resource tags applied to the resource identified by instance snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteInstanceSnapshotInput : [no documentation found]
     ///
@@ -4070,6 +3801,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteInstanceSnapshot(input: DeleteInstanceSnapshotInput) async throws -> DeleteInstanceSnapshotOutput {
@@ -4077,15 +3809,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteInstanceSnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4137,7 +3862,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteKeyPair` operation on the `Lightsail` service.
     ///
-    /// Deletes the specified key pair by removing the public key from Amazon Lightsail. You can delete key pairs that were created using the [ImportKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_ImportKeyPair.html) and [CreateKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateKeyPair.html) actions, as well as the Lightsail default key pair. A new default key pair will not be created unless you launch an instance without specifying a custom key pair, or you call the [DownloadDefaultKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_DownloadDefaultKeyPair.html) API. The delete key pair operation supports tag-based access control via resource tags applied to the resource identified by key pair name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Deletes the specified key pair by removing the public key from Amazon Lightsail. You can delete key pairs that were created using the [ImportKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_ImportKeyPair.html) and [CreateKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateKeyPair.html) actions, as well as the Lightsail default key pair. A new default key pair will not be created unless you launch an instance without specifying a custom key pair, or you call the [DownloadDefaultKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_DownloadDefaultKeyPair.html) API. The delete key pair operation supports tag-based access control via resource tags applied to the resource identified by key pair name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteKeyPairInput : [no documentation found]
     ///
@@ -4151,6 +3876,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteKeyPair(input: DeleteKeyPairInput) async throws -> DeleteKeyPairOutput {
@@ -4158,15 +3884,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteKeyPair")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4218,7 +3937,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteKnownHostKeys` operation on the `Lightsail` service.
     ///
-    /// Deletes the known host key or certificate used by the Amazon Lightsail browser-based SSH or RDP clients to authenticate an instance. This operation enables the Lightsail browser-based SSH or RDP clients to connect to the instance after a host key mismatch. Perform this operation only if you were expecting the host key or certificate mismatch or if you are familiar with the new host key or certificate on the instance. For more information, see [Troubleshooting connection issues when using the Amazon Lightsail browser-based SSH or RDP client](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-troubleshooting-browser-based-ssh-rdp-client-connection).
+    /// Deletes the known host key or certificate used by the Amazon Lightsail browser-based SSH or RDP clients to authenticate an instance. This operation enables the Lightsail browser-based SSH or RDP clients to connect to the instance after a host key mismatch. Perform this operation only if you were expecting the host key or certificate mismatch or if you are familiar with the new host key or certificate on the instance. For more information, see [Troubleshooting connection issues when using the Amazon Lightsail browser-based SSH or RDP client](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-troubleshooting-browser-based-ssh-rdp-client-connection).
     ///
     /// - Parameter DeleteKnownHostKeysInput : [no documentation found]
     ///
@@ -4232,6 +3951,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteKnownHostKeys(input: DeleteKnownHostKeysInput) async throws -> DeleteKnownHostKeysOutput {
@@ -4239,15 +3959,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteKnownHostKeys")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4299,7 +4012,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteLoadBalancer` operation on the `Lightsail` service.
     ///
-    /// Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain ownership again. The delete load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain ownership again. The delete load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteLoadBalancerInput : [no documentation found]
     ///
@@ -4313,6 +4026,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteLoadBalancer(input: DeleteLoadBalancerInput) async throws -> DeleteLoadBalancerOutput {
@@ -4320,15 +4034,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteLoadBalancer")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4380,7 +4087,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteLoadBalancerTlsCertificate` operation on the `Lightsail` service.
     ///
-    /// Deletes an SSL/TLS certificate associated with a Lightsail load balancer. The DeleteLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Deletes an SSL/TLS certificate associated with a Lightsail load balancer. The DeleteLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteLoadBalancerTlsCertificateInput : [no documentation found]
     ///
@@ -4394,6 +4101,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteLoadBalancerTlsCertificate(input: DeleteLoadBalancerTlsCertificateInput) async throws -> DeleteLoadBalancerTlsCertificateOutput {
@@ -4401,15 +4109,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteLoadBalancerTlsCertificate")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4461,7 +4162,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteRelationalDatabase` operation on the `Lightsail` service.
     ///
-    /// Deletes a database in Amazon Lightsail. The delete relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Deletes a database in Amazon Lightsail. The delete relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteRelationalDatabaseInput : [no documentation found]
     ///
@@ -4475,6 +4176,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteRelationalDatabase(input: DeleteRelationalDatabaseInput) async throws -> DeleteRelationalDatabaseOutput {
@@ -4482,15 +4184,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteRelationalDatabase")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4542,7 +4237,7 @@ extension LightsailClient {
 
     /// Performs the `DeleteRelationalDatabaseSnapshot` operation on the `Lightsail` service.
     ///
-    /// Deletes a database snapshot in Amazon Lightsail. The delete relational database snapshot operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Deletes a database snapshot in Amazon Lightsail. The delete relational database snapshot operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DeleteRelationalDatabaseSnapshotInput : [no documentation found]
     ///
@@ -4556,6 +4251,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteRelationalDatabaseSnapshot(input: DeleteRelationalDatabaseSnapshotInput) async throws -> DeleteRelationalDatabaseSnapshotOutput {
@@ -4563,15 +4259,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteRelationalDatabaseSnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4643,15 +4332,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "detachCertificateFromDistribution")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4703,7 +4385,7 @@ extension LightsailClient {
 
     /// Performs the `DetachDisk` operation on the `Lightsail` service.
     ///
-    /// Detaches a stopped block storage disk from a Lightsail instance. Make sure to unmount any file systems on the device within your operating system before stopping the instance and detaching the disk. The detach disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Detaches a stopped block storage disk from a Lightsail instance. Make sure to unmount any file systems on the device within your operating system before stopping the instance and detaching the disk. The detach disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DetachDiskInput : [no documentation found]
     ///
@@ -4717,6 +4399,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func detachDisk(input: DetachDiskInput) async throws -> DetachDiskOutput {
@@ -4724,15 +4407,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "detachDisk")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4784,7 +4460,7 @@ extension LightsailClient {
 
     /// Performs the `DetachInstancesFromLoadBalancer` operation on the `Lightsail` service.
     ///
-    /// Detaches the specified instances from a Lightsail load balancer. This operation waits until the instances are no longer needed before they are detached from the load balancer. The detach instances from load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Detaches the specified instances from a Lightsail load balancer. This operation waits until the instances are no longer needed before they are detached from the load balancer. The detach instances from load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter DetachInstancesFromLoadBalancerInput : [no documentation found]
     ///
@@ -4798,6 +4474,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func detachInstancesFromLoadBalancer(input: DetachInstancesFromLoadBalancerInput) async throws -> DetachInstancesFromLoadBalancerOutput {
@@ -4805,15 +4482,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "detachInstancesFromLoadBalancer")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4879,6 +4549,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func detachStaticIp(input: DetachStaticIpInput) async throws -> DetachStaticIpOutput {
@@ -4886,15 +4557,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "detachStaticIp")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4946,7 +4610,7 @@ extension LightsailClient {
 
     /// Performs the `DisableAddOn` operation on the `Lightsail` service.
     ///
-    /// Disables an add-on for an Amazon Lightsail resource. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    /// Disables an add-on for an Amazon Lightsail resource. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
     ///
     /// - Parameter DisableAddOnInput : [no documentation found]
     ///
@@ -4959,6 +4623,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func disableAddOn(input: DisableAddOnInput) async throws -> DisableAddOnOutput {
@@ -4966,15 +4631,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "disableAddOn")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5040,6 +4698,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func downloadDefaultKeyPair(input: DownloadDefaultKeyPairInput) async throws -> DownloadDefaultKeyPairOutput {
@@ -5047,15 +4706,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "downloadDefaultKeyPair")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5107,7 +4759,7 @@ extension LightsailClient {
 
     /// Performs the `EnableAddOn` operation on the `Lightsail` service.
     ///
-    /// Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    /// Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
     ///
     /// - Parameter EnableAddOnInput : [no documentation found]
     ///
@@ -5120,6 +4772,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func enableAddOn(input: EnableAddOnInput) async throws -> EnableAddOnOutput {
@@ -5127,15 +4780,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "enableAddOn")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5187,7 +4833,7 @@ extension LightsailClient {
 
     /// Performs the `ExportSnapshot` operation on the `Lightsail` service.
     ///
-    /// Exports an Amazon Lightsail instance or block storage disk snapshot to Amazon Elastic Compute Cloud (Amazon EC2). This operation results in an export snapshot record that can be used with the create cloud formation stack operation to create new Amazon EC2 instances. Exported instance snapshots appear in Amazon EC2 as Amazon Machine Images (AMIs), and the instance system disk appears as an Amazon Elastic Block Store (Amazon EBS) volume. Exported disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots are exported to the same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot. The export snapshot operation supports tag-based access control via resource tags applied to the resource identified by source snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags). Use the get instance snapshots or get disk snapshots operations to get a list of snapshots that you can export to Amazon EC2.
+    /// Exports an Amazon Lightsail instance or block storage disk snapshot to Amazon Elastic Compute Cloud (Amazon EC2). This operation results in an export snapshot record that can be used with the create cloud formation stack operation to create new Amazon EC2 instances. Exported instance snapshots appear in Amazon EC2 as Amazon Machine Images (AMIs), and the instance system disk appears as an Amazon Elastic Block Store (Amazon EBS) volume. Exported disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots are exported to the same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot. The export snapshot operation supports tag-based access control via resource tags applied to the resource identified by source snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags). Use the get instance snapshots or get disk snapshots operations to get a list of snapshots that you can export to Amazon EC2.
     ///
     /// - Parameter ExportSnapshotInput : [no documentation found]
     ///
@@ -5201,6 +4847,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func exportSnapshot(input: ExportSnapshotInput) async throws -> ExportSnapshotOutput {
@@ -5208,15 +4855,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "exportSnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5282,6 +4922,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getActiveNames(input: GetActiveNamesInput) async throws -> GetActiveNamesOutput {
@@ -5289,15 +4930,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getActiveNames")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5349,7 +4983,7 @@ extension LightsailClient {
 
     /// Performs the `GetAlarms` operation on the `Lightsail` service.
     ///
-    /// Returns information about the configured alarms. Specify an alarm name in your request to return information about a specific alarm, or specify a monitored resource name to return information about all alarms for a specific resource. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
+    /// Returns information about the configured alarms. Specify an alarm name in your request to return information about a specific alarm, or specify a monitored resource name to return information about all alarms for a specific resource. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
     ///
     /// - Parameter GetAlarmsInput : [no documentation found]
     ///
@@ -5362,6 +4996,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getAlarms(input: GetAlarmsInput) async throws -> GetAlarmsOutput {
@@ -5369,15 +5004,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getAlarms")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5429,7 +5057,7 @@ extension LightsailClient {
 
     /// Performs the `GetAutoSnapshots` operation on the `Lightsail` service.
     ///
-    /// Returns the available automatic snapshots for an instance or disk. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    /// Returns the available automatic snapshots for an instance or disk. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
     ///
     /// - Parameter GetAutoSnapshotsInput : [no documentation found]
     ///
@@ -5442,6 +5070,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getAutoSnapshots(input: GetAutoSnapshotsInput) async throws -> GetAutoSnapshotsOutput {
@@ -5449,15 +5078,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getAutoSnapshots")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5523,6 +5145,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getBlueprints(input: GetBlueprintsInput) async throws -> GetBlueprintsOutput {
@@ -5530,15 +5153,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBlueprints")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5602,6 +5218,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getBucketAccessKeys(input: GetBucketAccessKeysInput) async throws -> GetBucketAccessKeysOutput {
@@ -5609,15 +5226,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketAccessKeys")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5680,6 +5290,7 @@ extension LightsailClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getBucketBundles(input: GetBucketBundlesInput) async throws -> GetBucketBundlesOutput {
@@ -5687,15 +5298,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketBundles")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5759,6 +5363,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getBucketMetricData(input: GetBucketMetricDataInput) async throws -> GetBucketMetricDataOutput {
@@ -5766,15 +5371,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketMetricData")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5826,7 +5424,7 @@ extension LightsailClient {
 
     /// Performs the `GetBuckets` operation on the `Lightsail` service.
     ///
-    /// Returns information about one or more Amazon Lightsail buckets. The information returned includes the synchronization status of the Amazon Simple Storage Service (Amazon S3) account-level block public access feature for your Lightsail buckets. For more information about buckets, see [Buckets in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/buckets-in-amazon-lightsail) in the Amazon Lightsail Developer Guide.
+    /// Returns information about one or more Amazon Lightsail buckets. The information returned includes the synchronization status of the Amazon Simple Storage Service (Amazon S3) account-level block public access feature for your Lightsail buckets. For more information about buckets, see [Buckets in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/buckets-in-amazon-lightsail) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter GetBucketsInput : [no documentation found]
     ///
@@ -5838,6 +5436,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getBuckets(input: GetBucketsInput) async throws -> GetBucketsOutput {
@@ -5845,15 +5444,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBuckets")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5919,6 +5511,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getBundles(input: GetBundlesInput) async throws -> GetBundlesOutput {
@@ -5926,15 +5519,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBundles")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5998,6 +5584,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getCertificates(input: GetCertificatesInput) async throws -> GetCertificatesOutput {
@@ -6005,15 +5592,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getCertificates")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6079,6 +5659,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getCloudFormationStackRecords(input: GetCloudFormationStackRecordsInput) async throws -> GetCloudFormationStackRecordsOutput {
@@ -6086,15 +5667,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getCloudFormationStackRecords")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6146,7 +5720,7 @@ extension LightsailClient {
 
     /// Performs the `GetContactMethods` operation on the `Lightsail` service.
     ///
-    /// Returns information about the configured contact methods. Specify a protocol in your request to return information about a specific contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
+    /// Returns information about the configured contact methods. Specify a protocol in your request to return information about a specific contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
     ///
     /// - Parameter GetContactMethodsInput : [no documentation found]
     ///
@@ -6159,6 +5733,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContactMethods(input: GetContactMethodsInput) async throws -> GetContactMethodsOutput {
@@ -6166,15 +5741,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getContactMethods")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6236,6 +5804,7 @@ extension LightsailClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContainerAPIMetadata(input: GetContainerAPIMetadataInput) async throws -> GetContainerAPIMetadataOutput {
@@ -6243,15 +5812,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getContainerAPIMetadata")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6315,6 +5877,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContainerImages(input: GetContainerImagesInput) async throws -> GetContainerImagesOutput {
@@ -6322,15 +5885,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getContainerImages")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6394,6 +5950,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContainerLog(input: GetContainerLogInput) async throws -> GetContainerLogOutput {
@@ -6401,15 +5958,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getContainerLog")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6474,6 +6024,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContainerServiceDeployments(input: GetContainerServiceDeploymentsInput) async throws -> GetContainerServiceDeploymentsOutput {
@@ -6481,15 +6032,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getContainerServiceDeployments")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6553,6 +6097,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContainerServiceMetricData(input: GetContainerServiceMetricDataInput) async throws -> GetContainerServiceMetricDataOutput {
@@ -6560,15 +6105,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getContainerServiceMetricData")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6633,6 +6171,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContainerServicePowers(input: GetContainerServicePowersInput) async throws -> GetContainerServicePowersOutput {
@@ -6640,15 +6179,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getContainerServicePowers")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6712,6 +6244,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContainerServices(input: GetContainerServicesInput) async throws -> GetContainerServicesOutput {
@@ -6719,15 +6252,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getContainerServices")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6792,6 +6318,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getCostEstimate(input: GetCostEstimateInput) async throws -> GetCostEstimateOutput {
@@ -6799,15 +6326,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getCostEstimate")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6873,6 +6393,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getDisk(input: GetDiskInput) async throws -> GetDiskOutput {
@@ -6880,15 +6401,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getDisk")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -6954,6 +6468,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getDiskSnapshot(input: GetDiskSnapshotInput) async throws -> GetDiskSnapshotOutput {
@@ -6961,15 +6476,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getDiskSnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -7035,6 +6543,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getDiskSnapshots(input: GetDiskSnapshotsInput) async throws -> GetDiskSnapshotsOutput {
@@ -7042,15 +6551,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getDiskSnapshots")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -7116,6 +6618,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getDisks(input: GetDisksInput) async throws -> GetDisksOutput {
@@ -7123,15 +6626,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getDisks")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -7203,15 +6699,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getDistributionBundles")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -7283,15 +6772,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getDistributionLatestCacheReset")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -7363,15 +6845,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getDistributionMetricData")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -7443,15 +6918,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getDistributions")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -7517,6 +6985,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getDomain(input: GetDomainInput) async throws -> GetDomainOutput {
@@ -7524,15 +6993,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getDomain")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -7598,6 +7060,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getDomains(input: GetDomainsInput) async throws -> GetDomainsOutput {
@@ -7605,15 +7068,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getDomains")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -7679,6 +7135,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getExportSnapshotRecords(input: GetExportSnapshotRecordsInput) async throws -> GetExportSnapshotRecordsOutput {
@@ -7686,15 +7143,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getExportSnapshotRecords")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -7760,6 +7210,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstance(input: GetInstanceInput) async throws -> GetInstanceOutput {
@@ -7767,15 +7218,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getInstance")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -7827,7 +7271,7 @@ extension LightsailClient {
 
     /// Performs the `GetInstanceAccessDetails` operation on the `Lightsail` service.
     ///
-    /// Returns temporary SSH keys you can use to connect to a specific virtual private server, or instance. The get instance access details operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Returns temporary SSH keys you can use to connect to a specific virtual private server, or instance. The get instance access details operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter GetInstanceAccessDetailsInput : [no documentation found]
     ///
@@ -7841,6 +7285,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstanceAccessDetails(input: GetInstanceAccessDetailsInput) async throws -> GetInstanceAccessDetailsOutput {
@@ -7848,15 +7293,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getInstanceAccessDetails")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -7922,6 +7360,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstanceMetricData(input: GetInstanceMetricDataInput) async throws -> GetInstanceMetricDataOutput {
@@ -7929,15 +7368,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getInstanceMetricData")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -8003,6 +7435,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstancePortStates(input: GetInstancePortStatesInput) async throws -> GetInstancePortStatesOutput {
@@ -8010,15 +7443,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getInstancePortStates")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -8084,6 +7510,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstanceSnapshot(input: GetInstanceSnapshotInput) async throws -> GetInstanceSnapshotOutput {
@@ -8091,15 +7518,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getInstanceSnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -8165,6 +7585,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstanceSnapshots(input: GetInstanceSnapshotsInput) async throws -> GetInstanceSnapshotsOutput {
@@ -8172,15 +7593,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getInstanceSnapshots")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -8246,6 +7660,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstanceState(input: GetInstanceStateInput) async throws -> GetInstanceStateOutput {
@@ -8253,15 +7668,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getInstanceState")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -8327,6 +7735,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstances(input: GetInstancesInput) async throws -> GetInstancesOutput {
@@ -8334,15 +7743,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getInstances")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -8408,6 +7810,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getKeyPair(input: GetKeyPairInput) async throws -> GetKeyPairOutput {
@@ -8415,15 +7818,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getKeyPair")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -8489,6 +7885,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getKeyPairs(input: GetKeyPairsInput) async throws -> GetKeyPairsOutput {
@@ -8496,15 +7893,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getKeyPairs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -8570,6 +7960,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getLoadBalancer(input: GetLoadBalancerInput) async throws -> GetLoadBalancerOutput {
@@ -8577,15 +7968,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getLoadBalancer")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -8651,6 +8035,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getLoadBalancerMetricData(input: GetLoadBalancerMetricDataInput) async throws -> GetLoadBalancerMetricDataOutput {
@@ -8658,15 +8043,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getLoadBalancerMetricData")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -8732,6 +8110,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getLoadBalancerTlsCertificates(input: GetLoadBalancerTlsCertificatesInput) async throws -> GetLoadBalancerTlsCertificatesOutput {
@@ -8739,15 +8118,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getLoadBalancerTlsCertificates")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -8799,7 +8171,7 @@ extension LightsailClient {
 
     /// Performs the `GetLoadBalancerTlsPolicies` operation on the `Lightsail` service.
     ///
-    /// Returns a list of TLS security policies that you can apply to Lightsail load balancers. For more information about load balancer TLS security policies, see [Configuring TLS security policies on your Amazon Lightsail load balancers](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configure-load-balancer-tls-security-policy) in the Amazon Lightsail Developer Guide.
+    /// Returns a list of TLS security policies that you can apply to Lightsail load balancers. For more information about load balancer TLS security policies, see [Configuring TLS security policies on your Amazon Lightsail load balancers](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configure-load-balancer-tls-security-policy) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter GetLoadBalancerTlsPoliciesInput : [no documentation found]
     ///
@@ -8811,6 +8183,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `AccountSetupInProgressException` : Lightsail throws this exception when an account is still in the setup in progress state.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getLoadBalancerTlsPolicies(input: GetLoadBalancerTlsPoliciesInput) async throws -> GetLoadBalancerTlsPoliciesOutput {
@@ -8818,15 +8191,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getLoadBalancerTlsPolicies")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -8892,6 +8258,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getLoadBalancers(input: GetLoadBalancersInput) async throws -> GetLoadBalancersOutput {
@@ -8899,15 +8266,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getLoadBalancers")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -8973,6 +8333,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getOperation(input: GetOperationInput) async throws -> GetOperationOutput {
@@ -8980,15 +8341,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getOperation")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -9054,6 +8408,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getOperations(input: GetOperationsInput) async throws -> GetOperationsOutput {
@@ -9061,15 +8416,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getOperations")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -9135,6 +8483,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getOperationsForResource(input: GetOperationsForResourceInput) async throws -> GetOperationsForResourceOutput {
@@ -9142,15 +8491,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getOperationsForResource")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -9216,6 +8558,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRegions(input: GetRegionsInput) async throws -> GetRegionsOutput {
@@ -9223,15 +8566,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRegions")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -9297,6 +8633,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabase(input: GetRelationalDatabaseInput) async throws -> GetRelationalDatabaseOutput {
@@ -9304,15 +8641,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRelationalDatabase")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -9378,6 +8708,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseBlueprints(input: GetRelationalDatabaseBlueprintsInput) async throws -> GetRelationalDatabaseBlueprintsOutput {
@@ -9385,15 +8716,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRelationalDatabaseBlueprints")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -9459,6 +8783,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseBundles(input: GetRelationalDatabaseBundlesInput) async throws -> GetRelationalDatabaseBundlesOutput {
@@ -9466,15 +8791,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRelationalDatabaseBundles")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -9540,6 +8858,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseEvents(input: GetRelationalDatabaseEventsInput) async throws -> GetRelationalDatabaseEventsOutput {
@@ -9547,15 +8866,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRelationalDatabaseEvents")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -9621,6 +8933,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseLogEvents(input: GetRelationalDatabaseLogEventsInput) async throws -> GetRelationalDatabaseLogEventsOutput {
@@ -9628,15 +8941,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRelationalDatabaseLogEvents")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -9702,6 +9008,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseLogStreams(input: GetRelationalDatabaseLogStreamsInput) async throws -> GetRelationalDatabaseLogStreamsOutput {
@@ -9709,15 +9016,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRelationalDatabaseLogStreams")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -9783,6 +9083,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseMasterUserPassword(input: GetRelationalDatabaseMasterUserPasswordInput) async throws -> GetRelationalDatabaseMasterUserPasswordOutput {
@@ -9790,15 +9091,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRelationalDatabaseMasterUserPassword")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -9864,6 +9158,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseMetricData(input: GetRelationalDatabaseMetricDataInput) async throws -> GetRelationalDatabaseMetricDataOutput {
@@ -9871,15 +9166,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRelationalDatabaseMetricData")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -9945,6 +9233,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseParameters(input: GetRelationalDatabaseParametersInput) async throws -> GetRelationalDatabaseParametersOutput {
@@ -9952,15 +9241,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRelationalDatabaseParameters")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -10026,6 +9308,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseSnapshot(input: GetRelationalDatabaseSnapshotInput) async throws -> GetRelationalDatabaseSnapshotOutput {
@@ -10033,15 +9316,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRelationalDatabaseSnapshot")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -10107,6 +9383,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseSnapshots(input: GetRelationalDatabaseSnapshotsInput) async throws -> GetRelationalDatabaseSnapshotsOutput {
@@ -10114,15 +9391,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRelationalDatabaseSnapshots")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -10188,6 +9458,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabases(input: GetRelationalDatabasesInput) async throws -> GetRelationalDatabasesOutput {
@@ -10195,15 +9466,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getRelationalDatabases")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -10267,6 +9531,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getSetupHistory(input: GetSetupHistoryInput) async throws -> GetSetupHistoryOutput {
@@ -10274,15 +9539,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getSetupHistory")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -10348,6 +9606,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getStaticIp(input: GetStaticIpInput) async throws -> GetStaticIpOutput {
@@ -10355,15 +9614,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getStaticIp")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -10429,6 +9681,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getStaticIps(input: GetStaticIpsInput) async throws -> GetStaticIpsOutput {
@@ -10436,15 +9689,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getStaticIps")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -10510,6 +9756,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func importKeyPair(input: ImportKeyPairInput) async throws -> ImportKeyPairOutput {
@@ -10517,15 +9764,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "importKeyPair")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -10591,6 +9831,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func isVpcPeered(input: IsVpcPeeredInput) async throws -> IsVpcPeeredOutput {
@@ -10598,15 +9839,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "isVpcPeered")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -10658,7 +9892,7 @@ extension LightsailClient {
 
     /// Performs the `OpenInstancePublicPorts` operation on the `Lightsail` service.
     ///
-    /// Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses allowed to connect to the instance through the ports, and the protocol. The OpenInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses allowed to connect to the instance through the ports, and the protocol. The OpenInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter OpenInstancePublicPortsInput : [no documentation found]
     ///
@@ -10672,6 +9906,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func openInstancePublicPorts(input: OpenInstancePublicPortsInput) async throws -> OpenInstancePublicPortsOutput {
@@ -10679,15 +9914,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "openInstancePublicPorts")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -10753,6 +9981,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func peerVpc(input: PeerVpcInput) async throws -> PeerVpcOutput {
@@ -10760,15 +9989,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "peerVpc")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -10820,7 +10042,7 @@ extension LightsailClient {
 
     /// Performs the `PutAlarm` operation on the `Lightsail` service.
     ///
-    /// Creates or updates an alarm, and associates it with the specified metric. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms). When this action creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. The alarm is then evaluated with the updated configuration.
+    /// Creates or updates an alarm, and associates it with the specified metric. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms). When this action creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. The alarm is then evaluated with the updated configuration.
     ///
     /// - Parameter PutAlarmInput : [no documentation found]
     ///
@@ -10833,6 +10055,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func putAlarm(input: PutAlarmInput) async throws -> PutAlarmOutput {
@@ -10840,15 +10063,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putAlarm")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -10900,7 +10116,7 @@ extension LightsailClient {
 
     /// Performs the `PutInstancePublicPorts` operation on the `Lightsail` service.
     ///
-    /// Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses allowed to connect to the instance through the ports, and the protocol. This action also closes all currently open ports that are not included in the request. Include all of the ports and the protocols you want to open in your PutInstancePublicPortsrequest. Or use the OpenInstancePublicPorts action to open ports without closing currently open ports. The PutInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses allowed to connect to the instance through the ports, and the protocol. This action also closes all currently open ports that are not included in the request. Include all of the ports and the protocols you want to open in your PutInstancePublicPortsrequest. Or use the OpenInstancePublicPorts action to open ports without closing currently open ports. The PutInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter PutInstancePublicPortsInput : [no documentation found]
     ///
@@ -10914,6 +10130,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func putInstancePublicPorts(input: PutInstancePublicPortsInput) async throws -> PutInstancePublicPortsOutput {
@@ -10921,15 +10138,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putInstancePublicPorts")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -10981,7 +10191,7 @@ extension LightsailClient {
 
     /// Performs the `RebootInstance` operation on the `Lightsail` service.
     ///
-    /// Restarts a specific instance. The reboot instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Restarts a specific instance. The reboot instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter RebootInstanceInput : [no documentation found]
     ///
@@ -10995,6 +10205,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func rebootInstance(input: RebootInstanceInput) async throws -> RebootInstanceOutput {
@@ -11002,15 +10213,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "rebootInstance")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -11062,7 +10266,7 @@ extension LightsailClient {
 
     /// Performs the `RebootRelationalDatabase` operation on the `Lightsail` service.
     ///
-    /// Restarts a specific database in Amazon Lightsail. The reboot relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Restarts a specific database in Amazon Lightsail. The reboot relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter RebootRelationalDatabaseInput : [no documentation found]
     ///
@@ -11076,6 +10280,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func rebootRelationalDatabase(input: RebootRelationalDatabaseInput) async throws -> RebootRelationalDatabaseOutput {
@@ -11083,15 +10288,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "rebootRelationalDatabase")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -11143,7 +10341,7 @@ extension LightsailClient {
 
     /// Performs the `RegisterContainerImage` operation on the `Lightsail` service.
     ///
-    /// Registers a container image to your Amazon Lightsail container service. This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see [Pushing and managing container images on your Amazon Lightsail container services](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-pushing-container-images) in the Amazon Lightsail Developer Guide.
+    /// Registers a container image to your Amazon Lightsail container service. This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see [Pushing and managing container images on your Amazon Lightsail container services](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-pushing-container-images) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter RegisterContainerImageInput : [no documentation found]
     ///
@@ -11155,6 +10353,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func registerContainerImage(input: RegisterContainerImageInput) async throws -> RegisterContainerImageOutput {
@@ -11162,15 +10361,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "registerContainerImage")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -11236,6 +10428,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func releaseStaticIp(input: ReleaseStaticIpInput) async throws -> ReleaseStaticIpOutput {
@@ -11243,15 +10436,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "releaseStaticIp")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -11323,15 +10509,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "resetDistributionCache")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -11383,7 +10562,7 @@ extension LightsailClient {
 
     /// Performs the `SendContactMethodVerification` operation on the `Lightsail` service.
     ///
-    /// Sends a verification request to an email contact method to ensure it's owned by the requester. SMS contact methods don't need to be verified. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications). A verification request is sent to the contact method when you initially create it. Use this action to send another verification request if a previous verification request was deleted, or has expired. Notifications are not sent to an email contact method until after it is verified, and confirmed as valid.
+    /// Sends a verification request to an email contact method to ensure it's owned by the requester. SMS contact methods don't need to be verified. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications). A verification request is sent to the contact method when you initially create it. Use this action to send another verification request if a previous verification request was deleted, or has expired. Notifications are not sent to an email contact method until after it is verified, and confirmed as valid.
     ///
     /// - Parameter SendContactMethodVerificationInput : [no documentation found]
     ///
@@ -11396,6 +10575,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func sendContactMethodVerification(input: SendContactMethodVerificationInput) async throws -> SendContactMethodVerificationOutput {
@@ -11403,15 +10583,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "sendContactMethodVerification")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -11477,6 +10650,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func setIpAddressType(input: SetIpAddressTypeInput) async throws -> SetIpAddressTypeOutput {
@@ -11484,15 +10658,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "setIpAddressType")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -11556,6 +10723,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func setResourceAccessForBucket(input: SetResourceAccessForBucketInput) async throws -> SetResourceAccessForBucketOutput {
@@ -11563,15 +10731,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "setResourceAccessForBucket")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -11635,6 +10796,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func setupInstanceHttps(input: SetupInstanceHttpsInput) async throws -> SetupInstanceHttpsOutput {
@@ -11642,15 +10804,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "setupInstanceHttps")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -11714,6 +10869,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func startGUISession(input: StartGUISessionInput) async throws -> StartGUISessionOutput {
@@ -11721,15 +10877,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "startGUISession")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -11781,7 +10930,7 @@ extension LightsailClient {
 
     /// Performs the `StartInstance` operation on the `Lightsail` service.
     ///
-    /// Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance, use the reboot instance operation. When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-create-static-ip). The start instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance, use the reboot instance operation. When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/lightsail-create-static-ip). The start instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter StartInstanceInput : [no documentation found]
     ///
@@ -11795,6 +10944,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func startInstance(input: StartInstanceInput) async throws -> StartInstanceOutput {
@@ -11802,15 +10952,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "startInstance")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -11862,7 +11005,7 @@ extension LightsailClient {
 
     /// Performs the `StartRelationalDatabase` operation on the `Lightsail` service.
     ///
-    /// Starts a specific database from a stopped state in Amazon Lightsail. To restart a database, use the reboot relational database operation. The start relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Starts a specific database from a stopped state in Amazon Lightsail. To restart a database, use the reboot relational database operation. The start relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter StartRelationalDatabaseInput : [no documentation found]
     ///
@@ -11876,6 +11019,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func startRelationalDatabase(input: StartRelationalDatabaseInput) async throws -> StartRelationalDatabaseOutput {
@@ -11883,15 +11027,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "startRelationalDatabase")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -11943,7 +11080,7 @@ extension LightsailClient {
 
     /// Performs the `StopGUISession` operation on the `Lightsail` service.
     ///
-    /// Terminates a web-based NICE DCV session that’s used to access a virtual computer’s operating system or application. The session will close and any unsaved data will be lost.
+    /// Terminates a web-based Amazon DCV session that’s used to access a virtual computer’s operating system or application. The session will close and any unsaved data will be lost.
     ///
     /// - Parameter StopGUISessionInput : [no documentation found]
     ///
@@ -11955,6 +11092,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func stopGUISession(input: StopGUISessionInput) async throws -> StopGUISessionOutput {
@@ -11962,15 +11100,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "stopGUISession")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -12022,7 +11153,7 @@ extension LightsailClient {
 
     /// Performs the `StopInstance` operation on the `Lightsail` service.
     ///
-    /// Stops a specific Amazon Lightsail instance that is currently running. When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-create-static-ip). The stop instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Stops a specific Amazon Lightsail instance that is currently running. When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/lightsail-create-static-ip). The stop instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter StopInstanceInput : [no documentation found]
     ///
@@ -12036,6 +11167,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func stopInstance(input: StopInstanceInput) async throws -> StopInstanceOutput {
@@ -12043,15 +11175,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "stopInstance")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -12103,7 +11228,7 @@ extension LightsailClient {
 
     /// Performs the `StopRelationalDatabase` operation on the `Lightsail` service.
     ///
-    /// Stops a specific database that is currently running in Amazon Lightsail. The stop relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Stops a specific database that is currently running in Amazon Lightsail. If you don't manually start your database instance after it has been stopped for seven consecutive days, Amazon Lightsail automatically starts it for you. This action helps ensure that your database instance doesn't fall behind on any required maintenance updates. The stop relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter StopRelationalDatabaseInput : [no documentation found]
     ///
@@ -12117,6 +11242,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func stopRelationalDatabase(input: StopRelationalDatabaseInput) async throws -> StopRelationalDatabaseOutput {
@@ -12124,15 +11250,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "stopRelationalDatabase")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -12184,7 +11303,7 @@ extension LightsailClient {
 
     /// Performs the `TagResource` operation on the `Lightsail` service.
     ///
-    /// Adds one or more tags to the specified Amazon Lightsail resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags). The tag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Adds one or more tags to the specified Amazon Lightsail resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags). The tag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -12198,6 +11317,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
@@ -12205,15 +11325,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "tagResource")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -12265,7 +11378,7 @@ extension LightsailClient {
 
     /// Performs the `TestAlarm` operation on the `Lightsail` service.
     ///
-    /// Tests an alarm by displaying a banner on the Amazon Lightsail console. If a notification trigger is configured for the specified alarm, the test also sends a notification to the notification protocol (Email and/or SMS) configured for the alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
+    /// Tests an alarm by displaying a banner on the Amazon Lightsail console. If a notification trigger is configured for the specified alarm, the test also sends a notification to the notification protocol (Email and/or SMS) configured for the alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
     ///
     /// - Parameter TestAlarmInput : [no documentation found]
     ///
@@ -12278,6 +11391,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func testAlarm(input: TestAlarmInput) async throws -> TestAlarmOutput {
@@ -12285,15 +11399,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "testAlarm")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -12359,6 +11466,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func unpeerVpc(input: UnpeerVpcInput) async throws -> UnpeerVpcOutput {
@@ -12366,15 +11474,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "unpeerVpc")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -12426,7 +11527,7 @@ extension LightsailClient {
 
     /// Performs the `UntagResource` operation on the `Lightsail` service.
     ///
-    /// Deletes the specified set of tag keys and their values from the specified Amazon Lightsail resource. The untag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Deletes the specified set of tag keys and their values from the specified Amazon Lightsail resource. The untag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -12440,6 +11541,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
@@ -12447,15 +11549,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "untagResource")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -12519,6 +11614,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateBucket(input: UpdateBucketInput) async throws -> UpdateBucketOutput {
@@ -12526,15 +11622,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateBucket")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -12598,6 +11687,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateBucketBundle(input: UpdateBucketBundleInput) async throws -> UpdateBucketBundleOutput {
@@ -12605,15 +11695,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateBucketBundle")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -12677,6 +11760,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateContainerService(input: UpdateContainerServiceInput) async throws -> UpdateContainerServiceOutput {
@@ -12684,15 +11768,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateContainerService")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -12764,15 +11841,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateDistribution")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -12844,15 +11914,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateDistributionBundle")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -12904,7 +11967,7 @@ extension LightsailClient {
 
     /// Performs the `UpdateDomainEntry` operation on the `Lightsail` service.
     ///
-    /// Updates a domain recordset after it is created. The update domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Updates a domain recordset after it is created. The update domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter UpdateDomainEntryInput : [no documentation found]
     ///
@@ -12918,6 +11981,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateDomainEntry(input: UpdateDomainEntryInput) async throws -> UpdateDomainEntryOutput {
@@ -12925,15 +11989,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateDomainEntry")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -12985,7 +12042,7 @@ extension LightsailClient {
 
     /// Performs the `UpdateInstanceMetadataOptions` operation on the `Lightsail` service.
     ///
-    /// Modifies the Amazon Lightsail instance metadata parameters on a running or stopped instance. When you modify the parameters on a running instance, the GetInstance or GetInstances API operation initially responds with a state of pending. After the parameter modifications are successfully applied, the state changes to applied in subsequent GetInstance or GetInstances API calls. For more information, see [Use IMDSv2 with an Amazon Lightsail instance](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-instance-metadata-service) in the Amazon Lightsail Developer Guide.
+    /// Modifies the Amazon Lightsail instance metadata parameters on a running or stopped instance. When you modify the parameters on a running instance, the GetInstance or GetInstances API operation initially responds with a state of pending. After the parameter modifications are successfully applied, the state changes to applied in subsequent GetInstance or GetInstances API calls. For more information, see [Use IMDSv2 with an Amazon Lightsail instance](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-instance-metadata-service) in the Amazon Lightsail Developer Guide.
     ///
     /// - Parameter UpdateInstanceMetadataOptionsInput : [no documentation found]
     ///
@@ -12999,6 +12056,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateInstanceMetadataOptions(input: UpdateInstanceMetadataOptionsInput) async throws -> UpdateInstanceMetadataOptionsOutput {
@@ -13006,15 +12064,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateInstanceMetadataOptions")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -13066,7 +12117,7 @@ extension LightsailClient {
 
     /// Performs the `UpdateLoadBalancerAttribute` operation on the `Lightsail` service.
     ///
-    /// Updates the specified attribute for a load balancer. You can only update one attribute at a time. The update load balancer attribute operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Updates the specified attribute for a load balancer. You can only update one attribute at a time. The update load balancer attribute operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter UpdateLoadBalancerAttributeInput : [no documentation found]
     ///
@@ -13080,6 +12131,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateLoadBalancerAttribute(input: UpdateLoadBalancerAttributeInput) async throws -> UpdateLoadBalancerAttributeOutput {
@@ -13087,15 +12139,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateLoadBalancerAttribute")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -13147,7 +12192,7 @@ extension LightsailClient {
 
     /// Performs the `UpdateRelationalDatabase` operation on the `Lightsail` service.
     ///
-    /// Allows the update of one or more attributes of a database in Amazon Lightsail. Updates are applied immediately, or in cases where the updates could result in an outage, are applied during the database's predefined maintenance window. The update relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Allows the update of one or more attributes of a database in Amazon Lightsail. Updates are applied immediately, or in cases where the updates could result in an outage, are applied during the database's predefined maintenance window. The update relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter UpdateRelationalDatabaseInput : [no documentation found]
     ///
@@ -13161,6 +12206,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateRelationalDatabase(input: UpdateRelationalDatabaseInput) async throws -> UpdateRelationalDatabaseOutput {
@@ -13168,15 +12214,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateRelationalDatabase")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -13228,7 +12267,7 @@ extension LightsailClient {
 
     /// Performs the `UpdateRelationalDatabaseParameters` operation on the `Lightsail` service.
     ///
-    /// Allows the update of one or more parameters of a database in Amazon Lightsail. Parameter updates don't cause outages; therefore, their application is not subject to the preferred maintenance window. However, there are two ways in which parameter updates are applied: dynamic or pending-reboot. Parameters marked with a dynamic apply type are applied immediately. Parameters marked with a pending-reboot apply type are applied only after the database is rebooted using the reboot relational database operation. The update relational database parameters operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Allows the update of one or more parameters of a database in Amazon Lightsail. Parameter updates don't cause outages; therefore, their application is not subject to the preferred maintenance window. However, there are two ways in which parameter updates are applied: dynamic or pending-reboot. Parameters marked with a dynamic apply type are applied immediately. Parameters marked with a pending-reboot apply type are applied only after the database is rebooted using the reboot relational database operation. The update relational database parameters operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter UpdateRelationalDatabaseParametersInput : [no documentation found]
     ///
@@ -13242,6 +12281,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateRelationalDatabaseParameters(input: UpdateRelationalDatabaseParametersInput) async throws -> UpdateRelationalDatabaseParametersOutput {
@@ -13249,15 +12289,8 @@ extension LightsailClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateRelationalDatabaseParameters")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -13306,5 +12339,4 @@ extension LightsailClient {
             .build()
         return try await op.execute(input: input)
     }
-
 }

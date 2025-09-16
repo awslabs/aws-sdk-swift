@@ -8,7 +8,6 @@
 import SmithyEventStreamsAPI
 import SmithyEventStreams
 import XCTest
-import ClientRuntime
 import class SmithyStreams.BufferedStream
 
 final class AWSMessageDecoderStreamTests: XCTestCase {

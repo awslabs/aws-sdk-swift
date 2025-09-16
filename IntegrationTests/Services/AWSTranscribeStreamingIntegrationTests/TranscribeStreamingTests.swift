@@ -11,7 +11,7 @@ import Foundation
 import AWSTranscribeStreaming
 import protocol AWSClientRuntime.AWSServiceError
 
-final class TranscribeStreamingTests: XCTestCase {
+final class TranscribeStreamingTests: XCTestCase, @unchecked Sendable {
 
     // MARK: - Test transcription
 
@@ -52,7 +52,7 @@ final class TranscribeStreamingTests: XCTestCase {
         let dataRate = Double(audioDataSize) / duration
         let delay = Double(chunkSize) / dataRate
 
-        let client = try TranscribeStreamingClient(region: "us-west-2")
+        let client = try TranscribeStreamingClient(region: "us-east-2")
 
         let audioStream = AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Error> { continuation in
             Task {
@@ -90,8 +90,10 @@ final class TranscribeStreamingTests: XCTestCase {
                         fullMessage.append(transcript)
                     }
                 }
-            case .sdkUnknown(let data):
-                XCTFail(data)
+            default:
+                // adding default here accommodates future addition of new event types by the service
+                // the .sdkUnknown() event is ignored by this case as well
+                break
             }
         }
 

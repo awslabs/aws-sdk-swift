@@ -28,7 +28,7 @@ extension RedshiftClient {
                     let clusterStatus = original.clusterStatus
                     return clusterStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeClustersInput, result: Swift.Result<DescribeClustersOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Clusters[].ClusterStatus"
@@ -129,7 +129,7 @@ extension RedshiftClient {
                     let status = restoreStatus?.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "completed") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "completed") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeClustersInput, result: Swift.Result<DescribeClustersOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Clusters[].ClusterStatus"
@@ -175,7 +175,7 @@ extension RedshiftClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeClusterSnapshotsInput, result: Swift.Result<DescribeClusterSnapshotsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Snapshots[].Status"

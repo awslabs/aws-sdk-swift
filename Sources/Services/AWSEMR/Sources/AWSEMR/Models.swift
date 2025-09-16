@@ -25,6 +25,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -268,7 +269,7 @@ extension EMRClientTypes {
     public struct EbsConfiguration: Swift.Sendable {
         /// An array of Amazon EBS volume specifications attached to a cluster instance.
         public var ebsBlockDeviceConfigs: [EMRClientTypes.EbsBlockDeviceConfig]?
-        /// Indicates whether an Amazon EBS volume is EBS-optimized.
+        /// Indicates whether an Amazon EBS volume is EBS-optimized. The default is false. You should explicitly set this value to true to enable the Amazon EBS-optimized setting for an EC2 instance.
         public var ebsOptimized: Swift.Bool?
 
         public init(
@@ -2226,6 +2227,96 @@ extension EMRClientTypes {
     }
 }
 
+extension EMRClientTypes {
+
+    /// The EMR container configuration.
+    public struct EMRContainersConfig: Swift.Sendable {
+        /// The Job run ID for the container configuration.
+        public var jobRunId: Swift.String?
+
+        public init(
+            jobRunId: Swift.String? = nil
+        ) {
+            self.jobRunId = jobRunId
+        }
+    }
+}
+
+extension EMRClientTypes {
+
+    public enum ProfilerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case shs
+        case tezui
+        case yts
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProfilerType] {
+            return [
+                .shs,
+                .tezui,
+                .yts
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .shs: return "SHS"
+            case .tezui: return "TEZUI"
+            case .yts: return "YTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePersistentAppUIInput: Swift.Sendable {
+    /// The EMR containers configuration.
+    public var emrContainersConfig: EMRClientTypes.EMRContainersConfig?
+    /// The profiler type for the persistent application user interface.
+    public var profilerType: EMRClientTypes.ProfilerType?
+    /// Tags for the persistent application user interface.
+    public var tags: [EMRClientTypes.Tag]?
+    /// The unique Amazon Resource Name (ARN) of the target resource.
+    /// This member is required.
+    public var targetResourceArn: Swift.String?
+    /// The cross reference for the persistent application user interface.
+    public var xReferer: Swift.String?
+
+    public init(
+        emrContainersConfig: EMRClientTypes.EMRContainersConfig? = nil,
+        profilerType: EMRClientTypes.ProfilerType? = nil,
+        tags: [EMRClientTypes.Tag]? = nil,
+        targetResourceArn: Swift.String? = nil,
+        xReferer: Swift.String? = nil
+    ) {
+        self.emrContainersConfig = emrContainersConfig
+        self.profilerType = profilerType
+        self.tags = tags
+        self.targetResourceArn = targetResourceArn
+        self.xReferer = xReferer
+    }
+}
+
+public struct CreatePersistentAppUIOutput: Swift.Sendable {
+    /// The persistent application user interface identifier.
+    public var persistentAppUIId: Swift.String?
+    /// Represents if the EMR on EC2 cluster that the persisent application user interface is created for is a runtime role enabled cluster or not.
+    public var runtimeRoleEnabledCluster: Swift.Bool?
+
+    public init(
+        persistentAppUIId: Swift.String? = nil,
+        runtimeRoleEnabledCluster: Swift.Bool? = nil
+    ) {
+        self.persistentAppUIId = persistentAppUIId
+        self.runtimeRoleEnabledCluster = runtimeRoleEnabledCluster
+    }
+}
+
 public struct CreateSecurityConfigurationInput: Swift.Sendable {
     /// The name of the security configuration.
     /// This member is required.
@@ -3358,6 +3449,104 @@ public struct DescribeNotebookExecutionOutput: Swift.Sendable {
     }
 }
 
+public struct DescribePersistentAppUIInput: Swift.Sendable {
+    /// The identifier for the persistent application user interface.
+    /// This member is required.
+    public var persistentAppUIId: Swift.String?
+
+    public init(
+        persistentAppUIId: Swift.String? = nil
+    ) {
+        self.persistentAppUIId = persistentAppUIId
+    }
+}
+
+extension EMRClientTypes {
+
+    public enum PersistentAppUIType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case shs
+        case tez
+        case yts
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PersistentAppUIType] {
+            return [
+                .shs,
+                .tez,
+                .yts
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .shs: return "SHS"
+            case .tez: return "TEZ"
+            case .yts: return "YTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EMRClientTypes {
+
+    /// Holds persistent application user interface information. Applications installed on the Amazon EMR cluster publish user interfaces as web sites to monitor cluster activity.
+    public struct PersistentAppUI: Swift.Sendable {
+        /// The author ID for the persistent application user interface object.
+        public var authorId: Swift.String?
+        /// The creation date and time for the persistent application user interface object.
+        public var creationTime: Foundation.Date?
+        /// The date and time the persistent application user interface object was last changed.
+        public var lastModifiedTime: Foundation.Date?
+        /// The reason the persistent application user interface object was last changed.
+        public var lastStateChangeReason: Swift.String?
+        /// The identifier for the persistent application user interface object.
+        public var persistentAppUIId: Swift.String?
+        /// The status for the persistent application user interface object.
+        public var persistentAppUIStatus: Swift.String?
+        /// The type list for the persistent application user interface object. Valid values include SHS, YTS, or TEZ.
+        public var persistentAppUITypeList: [EMRClientTypes.PersistentAppUIType]?
+        /// A collection of tags for the persistent application user interface object.
+        public var tags: [EMRClientTypes.Tag]?
+
+        public init(
+            authorId: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            lastStateChangeReason: Swift.String? = nil,
+            persistentAppUIId: Swift.String? = nil,
+            persistentAppUIStatus: Swift.String? = nil,
+            persistentAppUITypeList: [EMRClientTypes.PersistentAppUIType]? = nil,
+            tags: [EMRClientTypes.Tag]? = nil
+        ) {
+            self.authorId = authorId
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.lastStateChangeReason = lastStateChangeReason
+            self.persistentAppUIId = persistentAppUIId
+            self.persistentAppUIStatus = persistentAppUIStatus
+            self.persistentAppUITypeList = persistentAppUITypeList
+            self.tags = tags
+        }
+    }
+}
+
+public struct DescribePersistentAppUIOutput: Swift.Sendable {
+    /// The persistent application user interface.
+    public var persistentAppUI: EMRClientTypes.PersistentAppUI?
+
+    public init(
+        persistentAppUI: EMRClientTypes.PersistentAppUI? = nil
+    ) {
+        self.persistentAppUI = persistentAppUI
+    }
+}
+
 public struct DescribeReleaseLabelInput: Swift.Sendable {
     /// Reserved for future use. Currently set to null.
     public var maxResults: Swift.Int?
@@ -4006,6 +4195,133 @@ public struct GetManagedScalingPolicyOutput: Swift.Sendable {
         managedScalingPolicy: EMRClientTypes.ManagedScalingPolicy? = nil
     ) {
         self.managedScalingPolicy = managedScalingPolicy
+    }
+}
+
+extension EMRClientTypes {
+
+    public enum OnClusterAppUIType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case applicationmaster
+        case jobhistoryserver
+        case resourcemanager
+        case sparkhistoryserver
+        case tezui
+        case yarntimelineservice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OnClusterAppUIType] {
+            return [
+                .applicationmaster,
+                .jobhistoryserver,
+                .resourcemanager,
+                .sparkhistoryserver,
+                .tezui,
+                .yarntimelineservice
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .applicationmaster: return "ApplicationMaster"
+            case .jobhistoryserver: return "JobHistoryServer"
+            case .resourcemanager: return "ResourceManager"
+            case .sparkhistoryserver: return "SparkHistoryServer"
+            case .tezui: return "TezUI"
+            case .yarntimelineservice: return "YarnTimelineService"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetOnClusterAppUIPresignedURLInput: Swift.Sendable {
+    /// The application ID associated with the cluster's application user interface presigned URL.
+    public var applicationId: Swift.String?
+    /// The cluster ID associated with the cluster's application user interface presigned URL.
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// Determines if the user interface presigned URL is for a dry run.
+    public var dryRun: Swift.Bool?
+    /// The execution role ARN associated with the cluster's application user interface presigned URL.
+    public var executionRoleArn: Swift.String?
+    /// The application UI type associated with the cluster's application user interface presigned URL.
+    public var onClusterAppUIType: EMRClientTypes.OnClusterAppUIType?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        clusterId: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        executionRoleArn: Swift.String? = nil,
+        onClusterAppUIType: EMRClientTypes.OnClusterAppUIType? = nil
+    ) {
+        self.applicationId = applicationId
+        self.clusterId = clusterId
+        self.dryRun = dryRun
+        self.executionRoleArn = executionRoleArn
+        self.onClusterAppUIType = onClusterAppUIType
+    }
+}
+
+public struct GetOnClusterAppUIPresignedURLOutput: Swift.Sendable {
+    /// The cluster's generated presigned URL.
+    public var presignedURL: Swift.String?
+    /// Used to determine if the presigned URL is ready.
+    public var presignedURLReady: Swift.Bool?
+
+    public init(
+        presignedURL: Swift.String? = nil,
+        presignedURLReady: Swift.Bool? = nil
+    ) {
+        self.presignedURL = presignedURL
+        self.presignedURLReady = presignedURLReady
+    }
+}
+
+public struct GetPersistentAppUIPresignedURLInput: Swift.Sendable {
+    /// The application ID associated with the presigned URL.
+    public var applicationId: Swift.String?
+    /// A boolean that represents if the caller is an authentication proxy call.
+    public var authProxyCall: Swift.Bool?
+    /// The execution role ARN associated with the presigned URL.
+    public var executionRoleArn: Swift.String?
+    /// The persistent application user interface ID associated with the presigned URL.
+    /// This member is required.
+    public var persistentAppUIId: Swift.String?
+    /// The persistent application user interface type associated with the presigned URL.
+    public var persistentAppUIType: EMRClientTypes.PersistentAppUIType?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        authProxyCall: Swift.Bool? = nil,
+        executionRoleArn: Swift.String? = nil,
+        persistentAppUIId: Swift.String? = nil,
+        persistentAppUIType: EMRClientTypes.PersistentAppUIType? = nil
+    ) {
+        self.applicationId = applicationId
+        self.authProxyCall = authProxyCall
+        self.executionRoleArn = executionRoleArn
+        self.persistentAppUIId = persistentAppUIId
+        self.persistentAppUIType = persistentAppUIType
+    }
+}
+
+public struct GetPersistentAppUIPresignedURLOutput: Swift.Sendable {
+    /// The returned presigned URL.
+    public var presignedURL: Swift.String?
+    /// Used to determine if the presigned URL is ready.
+    public var presignedURLReady: Swift.Bool?
+
+    public init(
+        presignedURL: Swift.String? = nil,
+        presignedURLReady: Swift.Bool? = nil
+    ) {
+        self.presignedURL = presignedURL
+        self.presignedURLReady = presignedURLReady
     }
 }
 
@@ -5298,25 +5614,33 @@ public struct ModifyClusterInput: Swift.Sendable {
     /// The unique identifier of the cluster.
     /// This member is required.
     public var clusterId: Swift.String?
+    /// Reserved.
+    public var extendedSupport: Swift.Bool?
     /// The number of steps that can be executed concurrently. You can specify a minimum of 1 step and a maximum of 256 steps. We recommend that you do not change this parameter while steps are running or the ActionOnFailure setting may not behave as expected. For more information see [Step$ActionOnFailure].
     public var stepConcurrencyLevel: Swift.Int?
 
     public init(
         clusterId: Swift.String? = nil,
+        extendedSupport: Swift.Bool? = nil,
         stepConcurrencyLevel: Swift.Int? = nil
     ) {
         self.clusterId = clusterId
+        self.extendedSupport = extendedSupport
         self.stepConcurrencyLevel = stepConcurrencyLevel
     }
 }
 
 public struct ModifyClusterOutput: Swift.Sendable {
+    /// Reserved.
+    public var extendedSupport: Swift.Bool?
     /// The number of steps that can be executed concurrently.
     public var stepConcurrencyLevel: Swift.Int?
 
     public init(
+        extendedSupport: Swift.Bool? = nil,
         stepConcurrencyLevel: Swift.Int? = nil
     ) {
+        self.extendedSupport = extendedSupport
         self.stepConcurrencyLevel = stepConcurrencyLevel
     }
 }
@@ -5900,6 +6224,8 @@ extension EMRClientTypes {
         public var ebsRootVolumeThroughput: Swift.Int?
         /// Provides information about the Amazon EC2 instances in a cluster grouped by category. For example, key name, subnet ID, IAM instance profile, and so on.
         public var ec2InstanceAttributes: EMRClientTypes.Ec2InstanceAttributes?
+        /// Reserved.
+        public var extendedSupport: Swift.Bool?
         /// The unique identifier for the cluster.
         public var id: Swift.String?
         /// The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. The instance group configuration of the cluster. A value of INSTANCE_GROUP indicates a uniform instance group configuration. A value of INSTANCE_FLEET indicates an instance fleets configuration.
@@ -5960,6 +6286,7 @@ extension EMRClientTypes {
             ebsRootVolumeSize: Swift.Int? = nil,
             ebsRootVolumeThroughput: Swift.Int? = nil,
             ec2InstanceAttributes: EMRClientTypes.Ec2InstanceAttributes? = nil,
+            extendedSupport: Swift.Bool? = nil,
             id: Swift.String? = nil,
             instanceCollectionType: EMRClientTypes.InstanceCollectionType? = nil,
             kerberosAttributes: EMRClientTypes.KerberosAttributes? = nil,
@@ -5995,6 +6322,7 @@ extension EMRClientTypes {
             self.ebsRootVolumeSize = ebsRootVolumeSize
             self.ebsRootVolumeThroughput = ebsRootVolumeThroughput
             self.ec2InstanceAttributes = ec2InstanceAttributes
+            self.extendedSupport = extendedSupport
             self.id = id
             self.instanceCollectionType = instanceCollectionType
             self.kerberosAttributes = kerberosAttributes
@@ -6673,6 +7001,8 @@ public struct RunJobFlowInput: Swift.Sendable {
     public var ebsRootVolumeSize: Swift.Int?
     /// The throughput, in MiB/s, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and later.
     public var ebsRootVolumeThroughput: Swift.Int?
+    /// Reserved.
+    public var extendedSupport: Swift.Bool?
     /// A specification of the number and type of Amazon EC2 instances.
     /// This member is required.
     public var instances: EMRClientTypes.JobFlowInstancesConfig?
@@ -6748,6 +7078,7 @@ public struct RunJobFlowInput: Swift.Sendable {
         ebsRootVolumeIops: Swift.Int? = nil,
         ebsRootVolumeSize: Swift.Int? = nil,
         ebsRootVolumeThroughput: Swift.Int? = nil,
+        extendedSupport: Swift.Bool? = nil,
         instances: EMRClientTypes.JobFlowInstancesConfig? = nil,
         jobFlowRole: Swift.String? = nil,
         kerberosAttributes: EMRClientTypes.KerberosAttributes? = nil,
@@ -6780,6 +7111,7 @@ public struct RunJobFlowInput: Swift.Sendable {
         self.ebsRootVolumeIops = ebsRootVolumeIops
         self.ebsRootVolumeSize = ebsRootVolumeSize
         self.ebsRootVolumeThroughput = ebsRootVolumeThroughput
+        self.extendedSupport = extendedSupport
         self.instances = instances
         self.jobFlowRole = jobFlowRole
         self.kerberosAttributes = kerberosAttributes
@@ -6834,6 +7166,13 @@ extension AddTagsInput {
 extension CancelStepsInput {
 
     static func urlPathProvider(_ value: CancelStepsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreatePersistentAppUIInput {
+
+    static func urlPathProvider(_ value: CreatePersistentAppUIInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6901,6 +7240,13 @@ extension DescribeNotebookExecutionInput {
     }
 }
 
+extension DescribePersistentAppUIInput {
+
+    static func urlPathProvider(_ value: DescribePersistentAppUIInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeReleaseLabelInput {
 
     static func urlPathProvider(_ value: DescribeReleaseLabelInput) -> Swift.String? {
@@ -6953,6 +7299,20 @@ extension GetClusterSessionCredentialsInput {
 extension GetManagedScalingPolicyInput {
 
     static func urlPathProvider(_ value: GetManagedScalingPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetOnClusterAppUIPresignedURLInput {
+
+    static func urlPathProvider(_ value: GetOnClusterAppUIPresignedURLInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetPersistentAppUIPresignedURLInput {
+
+    static func urlPathProvider(_ value: GetPersistentAppUIPresignedURLInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7242,6 +7602,18 @@ extension CancelStepsInput {
     }
 }
 
+extension CreatePersistentAppUIInput {
+
+    static func write(value: CreatePersistentAppUIInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EMRContainersConfig"].write(value.emrContainersConfig, with: EMRClientTypes.EMRContainersConfig.write(value:to:))
+        try writer["ProfilerType"].write(value.profilerType)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: EMRClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetResourceArn"].write(value.targetResourceArn)
+        try writer["XReferer"].write(value.xReferer)
+    }
+}
+
 extension CreateSecurityConfigurationInput {
 
     static func write(value: CreateSecurityConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -7341,6 +7713,14 @@ extension DescribeNotebookExecutionInput {
     }
 }
 
+extension DescribePersistentAppUIInput {
+
+    static func write(value: DescribePersistentAppUIInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PersistentAppUIId"].write(value.persistentAppUIId)
+    }
+}
+
 extension DescribeReleaseLabelInput {
 
     static func write(value: DescribeReleaseLabelInput?, to writer: SmithyJSON.Writer) throws {
@@ -7406,6 +7786,30 @@ extension GetManagedScalingPolicyInput {
     static func write(value: GetManagedScalingPolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ClusterId"].write(value.clusterId)
+    }
+}
+
+extension GetOnClusterAppUIPresignedURLInput {
+
+    static func write(value: GetOnClusterAppUIPresignedURLInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationId"].write(value.applicationId)
+        try writer["ClusterId"].write(value.clusterId)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["ExecutionRoleArn"].write(value.executionRoleArn)
+        try writer["OnClusterAppUIType"].write(value.onClusterAppUIType)
+    }
+}
+
+extension GetPersistentAppUIPresignedURLInput {
+
+    static func write(value: GetPersistentAppUIPresignedURLInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationId"].write(value.applicationId)
+        try writer["AuthProxyCall"].write(value.authProxyCall)
+        try writer["ExecutionRoleArn"].write(value.executionRoleArn)
+        try writer["PersistentAppUIId"].write(value.persistentAppUIId)
+        try writer["PersistentAppUIType"].write(value.persistentAppUIType)
     }
 }
 
@@ -7546,6 +7950,7 @@ extension ModifyClusterInput {
     static func write(value: ModifyClusterInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ClusterId"].write(value.clusterId)
+        try writer["ExtendedSupport"].write(value.extendedSupport)
         try writer["StepConcurrencyLevel"].write(value.stepConcurrencyLevel)
     }
 }
@@ -7653,6 +8058,7 @@ extension RunJobFlowInput {
         try writer["EbsRootVolumeIops"].write(value.ebsRootVolumeIops)
         try writer["EbsRootVolumeSize"].write(value.ebsRootVolumeSize)
         try writer["EbsRootVolumeThroughput"].write(value.ebsRootVolumeThroughput)
+        try writer["ExtendedSupport"].write(value.extendedSupport)
         try writer["Instances"].write(value.instances, with: EMRClientTypes.JobFlowInstancesConfig.write(value:to:))
         try writer["JobFlowRole"].write(value.jobFlowRole)
         try writer["KerberosAttributes"].write(value.kerberosAttributes, with: EMRClientTypes.KerberosAttributes.write(value:to:))
@@ -7831,6 +8237,19 @@ extension CancelStepsOutput {
     }
 }
 
+extension CreatePersistentAppUIOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePersistentAppUIOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePersistentAppUIOutput()
+        value.persistentAppUIId = try reader["PersistentAppUIId"].readIfPresent()
+        value.runtimeRoleEnabledCluster = try reader["RuntimeRoleEnabledCluster"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateSecurityConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSecurityConfigurationOutput {
@@ -7917,6 +8336,18 @@ extension DescribeNotebookExecutionOutput {
         let reader = responseReader
         var value = DescribeNotebookExecutionOutput()
         value.notebookExecution = try reader["NotebookExecution"].readIfPresent(with: EMRClientTypes.NotebookExecution.read(from:))
+        return value
+    }
+}
+
+extension DescribePersistentAppUIOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribePersistentAppUIOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribePersistentAppUIOutput()
+        value.persistentAppUI = try reader["PersistentAppUI"].readIfPresent(with: EMRClientTypes.PersistentAppUI.read(from:))
         return value
     }
 }
@@ -8020,6 +8451,32 @@ extension GetManagedScalingPolicyOutput {
         let reader = responseReader
         var value = GetManagedScalingPolicyOutput()
         value.managedScalingPolicy = try reader["ManagedScalingPolicy"].readIfPresent(with: EMRClientTypes.ManagedScalingPolicy.read(from:))
+        return value
+    }
+}
+
+extension GetOnClusterAppUIPresignedURLOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetOnClusterAppUIPresignedURLOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetOnClusterAppUIPresignedURLOutput()
+        value.presignedURL = try reader["PresignedURL"].readIfPresent()
+        value.presignedURLReady = try reader["PresignedURLReady"].readIfPresent()
+        return value
+    }
+}
+
+extension GetPersistentAppUIPresignedURLOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPersistentAppUIPresignedURLOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPersistentAppUIPresignedURLOutput()
+        value.presignedURL = try reader["PresignedURL"].readIfPresent()
+        value.presignedURLReady = try reader["PresignedURLReady"].readIfPresent()
         return value
     }
 }
@@ -8199,6 +8656,7 @@ extension ModifyClusterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ModifyClusterOutput()
+        value.extendedSupport = try reader["ExtendedSupport"].readIfPresent()
         value.stepConcurrencyLevel = try reader["StepConcurrencyLevel"].readIfPresent()
         return value
     }
@@ -8436,6 +8894,21 @@ enum CancelStepsOutputError {
     }
 }
 
+enum CreatePersistentAppUIOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateSecurityConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8570,6 +9043,21 @@ enum DescribeNotebookExecutionOutputError {
     }
 }
 
+enum DescribePersistentAppUIOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeReleaseLabelOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8681,6 +9169,36 @@ enum GetManagedScalingPolicyOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetOnClusterAppUIPresignedURLOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailure": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPersistentAppUIPresignedURLOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailure": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9266,6 +9784,7 @@ extension EMRClientTypes.Cluster {
         value.osReleaseLabel = try reader["OSReleaseLabel"].readIfPresent()
         value.ebsRootVolumeIops = try reader["EbsRootVolumeIops"].readIfPresent()
         value.ebsRootVolumeThroughput = try reader["EbsRootVolumeThroughput"].readIfPresent()
+        value.extendedSupport = try reader["ExtendedSupport"].readIfPresent()
         return value
     }
 }
@@ -9729,6 +10248,23 @@ extension EMRClientTypes.ExecutionEngineConfig {
         value.type = try reader["Type"].readIfPresent()
         value.masterInstanceSecurityGroupId = try reader["MasterInstanceSecurityGroupId"].readIfPresent()
         value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRClientTypes.PersistentAppUI {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRClientTypes.PersistentAppUI {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRClientTypes.PersistentAppUI()
+        value.persistentAppUIId = try reader["PersistentAppUIId"].readIfPresent()
+        value.persistentAppUITypeList = try reader["PersistentAppUITypeList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EMRClientTypes.PersistentAppUIType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.persistentAppUIStatus = try reader["PersistentAppUIStatus"].readIfPresent()
+        value.authorId = try reader["AuthorId"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastStateChangeReason = try reader["LastStateChangeReason"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EMRClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10769,6 +11305,14 @@ extension EMRClientTypes.AutoScalingPolicy {
         guard let value else { return }
         try writer["Constraints"].write(value.constraints, with: EMRClientTypes.ScalingConstraints.write(value:to:))
         try writer["Rules"].writeList(value.rules, memberWritingClosure: EMRClientTypes.ScalingRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension EMRClientTypes.EMRContainersConfig {
+
+    static func write(value: EMRClientTypes.EMRContainersConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JobRunId"].write(value.jobRunId)
     }
 }
 

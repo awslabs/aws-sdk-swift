@@ -269,6 +269,111 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension RepostspaceClientTypes {
 
+    public enum ChannelRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asker
+        case expert
+        case moderator
+        case supportrequestor
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelRole] {
+            return [
+                .asker,
+                .expert,
+                .moderator,
+                .supportrequestor
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asker: return "ASKER"
+            case .expert: return "EXPERT"
+            case .moderator: return "MODERATOR"
+            case .supportrequestor: return "SUPPORTREQUESTOR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct BatchAddChannelRoleToAccessorsInput: Swift.Sendable {
+    /// The user or group identifiers to add the role to.
+    /// This member is required.
+    public var accessorIds: [Swift.String]?
+    /// The unique ID of the private re:Post channel.
+    /// This member is required.
+    public var channelId: Swift.String?
+    /// The channel role to add to the users or groups.
+    /// This member is required.
+    public var channelRole: RepostspaceClientTypes.ChannelRole?
+    /// The unique ID of the private re:Post.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        accessorIds: [Swift.String]? = nil,
+        channelId: Swift.String? = nil,
+        channelRole: RepostspaceClientTypes.ChannelRole? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.accessorIds = accessorIds
+        self.channelId = channelId
+        self.channelRole = channelRole
+        self.spaceId = spaceId
+    }
+}
+
+extension RepostspaceClientTypes {
+
+    /// An error that occurred during a batch operation.
+    public struct BatchError: Swift.Sendable {
+        /// The accessor identifier that's related to the error.
+        /// This member is required.
+        public var accessorId: Swift.String?
+        /// The error code.
+        /// This member is required.
+        public var error: Swift.Int?
+        /// Description of the error.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            accessorId: Swift.String? = nil,
+            error: Swift.Int? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.accessorId = accessorId
+            self.error = error
+            self.message = message
+        }
+    }
+}
+
+public struct BatchAddChannelRoleToAccessorsOutput: Swift.Sendable {
+    /// An array of successfully updated identifiers.
+    /// This member is required.
+    public var addedAccessorIds: [Swift.String]?
+    /// An array of errors that occurred when roles were added.
+    /// This member is required.
+    public var errors: [RepostspaceClientTypes.BatchError]?
+
+    public init(
+        addedAccessorIds: [Swift.String]? = nil,
+        errors: [RepostspaceClientTypes.BatchError]? = nil
+    ) {
+        self.addedAccessorIds = addedAccessorIds
+        self.errors = errors
+    }
+}
+
+extension RepostspaceClientTypes {
+
     public enum Role: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case administrator
         case expert
@@ -324,32 +429,6 @@ public struct BatchAddRoleInput: Swift.Sendable {
     }
 }
 
-extension RepostspaceClientTypes {
-
-    /// An error that occurred during a batch operation.
-    public struct BatchError: Swift.Sendable {
-        /// The accessor identifier that's related to the error.
-        /// This member is required.
-        public var accessorId: Swift.String?
-        /// The error code.
-        /// This member is required.
-        public var error: Swift.Int?
-        /// Description of the error.
-        /// This member is required.
-        public var message: Swift.String?
-
-        public init(
-            accessorId: Swift.String? = nil,
-            error: Swift.Int? = nil,
-            message: Swift.String? = nil
-        ) {
-            self.accessorId = accessorId
-            self.error = error
-            self.message = message
-        }
-    }
-}
-
 public struct BatchAddRoleOutput: Swift.Sendable {
     /// An array of successfully updated accessor identifiers.
     /// This member is required.
@@ -364,6 +443,50 @@ public struct BatchAddRoleOutput: Swift.Sendable {
     ) {
         self.addedAccessorIds = addedAccessorIds
         self.errors = errors
+    }
+}
+
+public struct BatchRemoveChannelRoleFromAccessorsInput: Swift.Sendable {
+    /// The users or groups identifiers to remove the role from.
+    /// This member is required.
+    public var accessorIds: [Swift.String]?
+    /// The unique ID of the private re:Post channel.
+    /// This member is required.
+    public var channelId: Swift.String?
+    /// The channel role to remove from the users or groups.
+    /// This member is required.
+    public var channelRole: RepostspaceClientTypes.ChannelRole?
+    /// The unique ID of the private re:Post.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        accessorIds: [Swift.String]? = nil,
+        channelId: Swift.String? = nil,
+        channelRole: RepostspaceClientTypes.ChannelRole? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.accessorIds = accessorIds
+        self.channelId = channelId
+        self.channelRole = channelRole
+        self.spaceId = spaceId
+    }
+}
+
+public struct BatchRemoveChannelRoleFromAccessorsOutput: Swift.Sendable {
+    /// An array of errors that occurred when roles were removed.
+    /// This member is required.
+    public var errors: [RepostspaceClientTypes.BatchError]?
+    /// An array of successfully updated identifiers.
+    /// This member is required.
+    public var removedAccessorIds: [Swift.String]?
+
+    public init(
+        errors: [RepostspaceClientTypes.BatchError]? = nil,
+        removedAccessorIds: [Swift.String]? = nil
+    ) {
+        self.errors = errors
+        self.removedAccessorIds = removedAccessorIds
     }
 }
 
@@ -404,6 +527,106 @@ public struct BatchRemoveRoleOutput: Swift.Sendable {
         self.errors = errors
         self.removedAccessorIds = removedAccessorIds
     }
+}
+
+extension RepostspaceClientTypes {
+
+    public enum ChannelStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case createFailed
+        case creating
+        case deleted
+        case deleteFailed
+        case deleting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelStatus] {
+            return [
+                .created,
+                .createFailed,
+                .creating,
+                .deleted,
+                .deleteFailed,
+                .deleting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RepostspaceClientTypes {
+
+    /// A structure that contains some information about a channel in a private re:Post.
+    public struct ChannelData: Swift.Sendable {
+        /// A description for the channel. This is used only to help you identify this channel.
+        public var channelDescription: Swift.String?
+        /// The unique ID of the private re:Post channel.
+        /// This member is required.
+        public var channelId: Swift.String?
+        /// The name for the channel. This must be unique per private re:Post.
+        /// This member is required.
+        public var channelName: Swift.String?
+        /// The status pf the channel.
+        /// This member is required.
+        public var channelStatus: RepostspaceClientTypes.ChannelStatus?
+        /// The date when the channel was created.
+        /// This member is required.
+        public var createDateTime: Foundation.Date?
+        /// The date when the channel was deleted.
+        public var deleteDateTime: Foundation.Date?
+        /// The number of groups that are part of the channel.
+        /// This member is required.
+        public var groupCount: Swift.Int?
+        /// The unique ID of the private re:Post.
+        /// This member is required.
+        public var spaceId: Swift.String?
+        /// The number of users that are part of the channel.
+        /// This member is required.
+        public var userCount: Swift.Int?
+
+        public init(
+            channelDescription: Swift.String? = nil,
+            channelId: Swift.String? = nil,
+            channelName: Swift.String? = nil,
+            channelStatus: RepostspaceClientTypes.ChannelStatus? = nil,
+            createDateTime: Foundation.Date? = nil,
+            deleteDateTime: Foundation.Date? = nil,
+            groupCount: Swift.Int? = nil,
+            spaceId: Swift.String? = nil,
+            userCount: Swift.Int? = nil
+        ) {
+            self.channelDescription = channelDescription
+            self.channelId = channelId
+            self.channelName = channelName
+            self.channelStatus = channelStatus
+            self.createDateTime = createDateTime
+            self.deleteDateTime = deleteDateTime
+            self.groupCount = groupCount
+            self.spaceId = spaceId
+            self.userCount = userCount
+        }
+    }
+}
+
+extension RepostspaceClientTypes.ChannelData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ChannelData(channelId: \(Swift.String(describing: channelId)), channelStatus: \(Swift.String(describing: channelStatus)), createDateTime: \(Swift.String(describing: createDateTime)), deleteDateTime: \(Swift.String(describing: deleteDateTime)), groupCount: \(Swift.String(describing: groupCount)), spaceId: \(Swift.String(describing: spaceId)), userCount: \(Swift.String(describing: userCount)), channelDescription: \"CONTENT_REDACTED\", channelName: \"CONTENT_REDACTED\")"}
 }
 
 extension RepostspaceClientTypes {
@@ -513,6 +736,97 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
+public struct CreateChannelInput: Swift.Sendable {
+    /// A description for the channel. This is used only to help you identify this channel.
+    public var channelDescription: Swift.String?
+    /// The name for the channel. This must be unique per private re:Post.
+    /// This member is required.
+    public var channelName: Swift.String?
+    /// The unique ID of the private re:Post.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        channelDescription: Swift.String? = nil,
+        channelName: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.channelDescription = channelDescription
+        self.channelName = channelName
+        self.spaceId = spaceId
+    }
+}
+
+extension CreateChannelInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateChannelInput(spaceId: \(Swift.String(describing: spaceId)), channelDescription: \"CONTENT_REDACTED\", channelName: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateChannelOutput: Swift.Sendable {
+    /// The unique ID of the private re:Post channel.
+    /// This member is required.
+    public var channelId: Swift.String?
+
+    public init(
+        channelId: Swift.String? = nil
+    ) {
+        self.channelId = channelId
+    }
+}
+
+extension RepostspaceClientTypes {
+
+    public enum FeatureEnableParameter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeatureEnableParameter] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RepostspaceClientTypes {
+
+    ///
+    public struct SupportedEmailDomainsParameters: Swift.Sendable {
+        ///
+        public var allowedDomains: [Swift.String]?
+        ///
+        public var enabled: RepostspaceClientTypes.FeatureEnableParameter?
+
+        public init(
+            allowedDomains: [Swift.String]? = nil,
+            enabled: RepostspaceClientTypes.FeatureEnableParameter? = nil
+        ) {
+            self.allowedDomains = allowedDomains
+            self.enabled = enabled
+        }
+    }
+}
+
+extension RepostspaceClientTypes.SupportedEmailDomainsParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SupportedEmailDomainsParameters(enabled: \(Swift.String(describing: enabled)), allowedDomains: \"CONTENT_REDACTED\")"}
+}
+
 extension RepostspaceClientTypes {
 
     public enum TierLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -553,6 +867,8 @@ public struct CreateSpaceInput: Swift.Sendable {
     /// The subdomain that you use to access your AWS re:Post Private private re:Post. All custom subdomains must be approved by AWS before use. In addition to your custom subdomain, all private re:Posts are issued an AWS generated subdomain for immediate use.
     /// This member is required.
     public var subdomain: Swift.String?
+    ///
+    public var supportedEmailDomains: RepostspaceClientTypes.SupportedEmailDomainsParameters?
     /// The list of tags associated with the private re:Post.
     public var tags: [Swift.String: Swift.String]?
     /// The pricing tier for the private re:Post.
@@ -566,6 +882,7 @@ public struct CreateSpaceInput: Swift.Sendable {
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         subdomain: Swift.String? = nil,
+        supportedEmailDomains: RepostspaceClientTypes.SupportedEmailDomainsParameters? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         tier: RepostspaceClientTypes.TierLevel? = nil,
         userKMSKey: Swift.String? = nil
@@ -574,6 +891,7 @@ public struct CreateSpaceInput: Swift.Sendable {
         self.name = name
         self.roleArn = roleArn
         self.subdomain = subdomain
+        self.supportedEmailDomains = supportedEmailDomains
         self.tags = tags
         self.tier = tier
         self.userKMSKey = userKMSKey
@@ -582,7 +900,7 @@ public struct CreateSpaceInput: Swift.Sendable {
 
 extension CreateSpaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateSpaceInput(roleArn: \(Swift.String(describing: roleArn)), subdomain: \(Swift.String(describing: subdomain)), tier: \(Swift.String(describing: tier)), userKMSKey: \(Swift.String(describing: userKMSKey)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateSpaceInput(roleArn: \(Swift.String(describing: roleArn)), subdomain: \(Swift.String(describing: subdomain)), supportedEmailDomains: \(Swift.String(describing: supportedEmailDomains)), tier: \(Swift.String(describing: tier)), userKMSKey: \(Swift.String(describing: userKMSKey)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateSpaceOutput: Swift.Sendable {
@@ -626,6 +944,104 @@ public struct DeregisterAdminInput: Swift.Sendable {
     }
 }
 
+extension RepostspaceClientTypes {
+
+    public enum FeatureEnableStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case notAllowed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeatureEnableStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .notAllowed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case .notAllowed: return "NOT_ALLOWED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetChannelInput: Swift.Sendable {
+    /// The unique ID of the private re:Post channel.
+    /// This member is required.
+    public var channelId: Swift.String?
+    /// The unique ID of the private re:Post.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        channelId: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.channelId = channelId
+        self.spaceId = spaceId
+    }
+}
+
+public struct GetChannelOutput: Swift.Sendable {
+    /// A description for the channel. This is used only to help you identify this channel.
+    public var channelDescription: Swift.String?
+    /// The unique ID of the private re:Post channel.
+    /// This member is required.
+    public var channelId: Swift.String?
+    /// The name for the channel. This must be unique per private re:Post.
+    /// This member is required.
+    public var channelName: Swift.String?
+    /// The channel roles associated to the users and groups of the channel.
+    public var channelRoles: [Swift.String: [RepostspaceClientTypes.ChannelRole]]?
+    /// The status pf the channel.
+    /// This member is required.
+    public var channelStatus: RepostspaceClientTypes.ChannelStatus?
+    /// The date when the channel was created.
+    /// This member is required.
+    public var createDateTime: Foundation.Date?
+    /// The date when the channel was deleted.
+    public var deleteDateTime: Foundation.Date?
+    /// The unique ID of the private re:Post.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        channelDescription: Swift.String? = nil,
+        channelId: Swift.String? = nil,
+        channelName: Swift.String? = nil,
+        channelRoles: [Swift.String: [RepostspaceClientTypes.ChannelRole]]? = nil,
+        channelStatus: RepostspaceClientTypes.ChannelStatus? = nil,
+        createDateTime: Foundation.Date? = nil,
+        deleteDateTime: Foundation.Date? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.channelDescription = channelDescription
+        self.channelId = channelId
+        self.channelName = channelName
+        self.channelRoles = channelRoles
+        self.channelStatus = channelStatus
+        self.createDateTime = createDateTime
+        self.deleteDateTime = deleteDateTime
+        self.spaceId = spaceId
+    }
+}
+
+extension GetChannelOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetChannelOutput(channelId: \(Swift.String(describing: channelId)), channelRoles: \(Swift.String(describing: channelRoles)), channelStatus: \(Swift.String(describing: channelStatus)), createDateTime: \(Swift.String(describing: createDateTime)), deleteDateTime: \(Swift.String(describing: deleteDateTime)), spaceId: \(Swift.String(describing: spaceId)), channelDescription: \"CONTENT_REDACTED\", channelName: \"CONTENT_REDACTED\")"}
+}
+
 public struct GetSpaceInput: Swift.Sendable {
     /// The ID of the private re:Post.
     /// This member is required.
@@ -636,6 +1052,30 @@ public struct GetSpaceInput: Swift.Sendable {
     ) {
         self.spaceId = spaceId
     }
+}
+
+extension RepostspaceClientTypes {
+
+    ///
+    public struct SupportedEmailDomainsStatus: Swift.Sendable {
+        ///
+        public var allowedDomains: [Swift.String]?
+        ///
+        public var enabled: RepostspaceClientTypes.FeatureEnableStatus?
+
+        public init(
+            allowedDomains: [Swift.String]? = nil,
+            enabled: RepostspaceClientTypes.FeatureEnableStatus? = nil
+        ) {
+            self.allowedDomains = allowedDomains
+            self.enabled = enabled
+        }
+    }
+}
+
+extension RepostspaceClientTypes.SupportedEmailDomainsStatus: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SupportedEmailDomainsStatus(enabled: \(Swift.String(describing: enabled)), allowedDomains: \"CONTENT_REDACTED\")"}
 }
 
 extension RepostspaceClientTypes {
@@ -671,6 +1111,8 @@ extension RepostspaceClientTypes {
 }
 
 public struct GetSpaceOutput: Swift.Sendable {
+    ///
+    public var applicationArn: Swift.String?
     /// The ARN of the private re:Post.
     /// This member is required.
     public var arn: Swift.String?
@@ -694,6 +1136,8 @@ public struct GetSpaceOutput: Swift.Sendable {
     /// The list of groups that are administrators of the private re:Post.
     @available(*, deprecated, message: "This property has been depracted and will be replaced by the roles property.")
     public var groupAdmins: [Swift.String]?
+    ///
+    public var identityStoreId: Swift.String?
     /// The name of the private re:Post.
     /// This member is required.
     public var name: Swift.String?
@@ -711,6 +1155,8 @@ public struct GetSpaceOutput: Swift.Sendable {
     /// The storage limit of the private re:Post.
     /// This member is required.
     public var storageLimit: Swift.Int?
+    ///
+    public var supportedEmailDomains: RepostspaceClientTypes.SupportedEmailDomainsStatus?
     /// The pricing tier of the private re:Post.
     /// This member is required.
     public var tier: RepostspaceClientTypes.TierLevel?
@@ -729,6 +1175,7 @@ public struct GetSpaceOutput: Swift.Sendable {
     public var vanityDomainStatus: RepostspaceClientTypes.VanityDomainStatus?
 
     public init(
+        applicationArn: Swift.String? = nil,
         arn: Swift.String? = nil,
         clientId: Swift.String? = nil,
         configurationStatus: RepostspaceClientTypes.ConfigurationStatus? = nil,
@@ -738,12 +1185,14 @@ public struct GetSpaceOutput: Swift.Sendable {
         deleteDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         groupAdmins: [Swift.String]? = nil,
+        identityStoreId: Swift.String? = nil,
         name: Swift.String? = nil,
         randomDomain: Swift.String? = nil,
         roles: [Swift.String: [RepostspaceClientTypes.Role]]? = nil,
         spaceId: Swift.String? = nil,
         status: Swift.String? = nil,
         storageLimit: Swift.Int? = nil,
+        supportedEmailDomains: RepostspaceClientTypes.SupportedEmailDomainsStatus? = nil,
         tier: RepostspaceClientTypes.TierLevel? = nil,
         userAdmins: [Swift.String]? = nil,
         userCount: Swift.Int? = nil,
@@ -751,6 +1200,7 @@ public struct GetSpaceOutput: Swift.Sendable {
         vanityDomain: Swift.String? = nil,
         vanityDomainStatus: RepostspaceClientTypes.VanityDomainStatus? = nil
     ) {
+        self.applicationArn = applicationArn
         self.arn = arn
         self.clientId = clientId
         self.configurationStatus = configurationStatus
@@ -760,12 +1210,14 @@ public struct GetSpaceOutput: Swift.Sendable {
         self.deleteDateTime = deleteDateTime
         self.description = description
         self.groupAdmins = groupAdmins
+        self.identityStoreId = identityStoreId
         self.name = name
         self.randomDomain = randomDomain
         self.roles = roles
         self.spaceId = spaceId
         self.status = status
         self.storageLimit = storageLimit
+        self.supportedEmailDomains = supportedEmailDomains
         self.tier = tier
         self.userAdmins = userAdmins
         self.userCount = userCount
@@ -777,7 +1229,43 @@ public struct GetSpaceOutput: Swift.Sendable {
 
 extension GetSpaceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSpaceOutput(arn: \(Swift.String(describing: arn)), clientId: \(Swift.String(describing: clientId)), configurationStatus: \(Swift.String(describing: configurationStatus)), contentSize: \(Swift.String(describing: contentSize)), createDateTime: \(Swift.String(describing: createDateTime)), customerRoleArn: \(Swift.String(describing: customerRoleArn)), deleteDateTime: \(Swift.String(describing: deleteDateTime)), groupAdmins: \(Swift.String(describing: groupAdmins)), randomDomain: \(Swift.String(describing: randomDomain)), roles: \(Swift.String(describing: roles)), spaceId: \(Swift.String(describing: spaceId)), status: \(Swift.String(describing: status)), storageLimit: \(Swift.String(describing: storageLimit)), tier: \(Swift.String(describing: tier)), userAdmins: \(Swift.String(describing: userAdmins)), userCount: \(Swift.String(describing: userCount)), userKMSKey: \(Swift.String(describing: userKMSKey)), vanityDomain: \(Swift.String(describing: vanityDomain)), vanityDomainStatus: \(Swift.String(describing: vanityDomainStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetSpaceOutput(applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), clientId: \(Swift.String(describing: clientId)), configurationStatus: \(Swift.String(describing: configurationStatus)), contentSize: \(Swift.String(describing: contentSize)), createDateTime: \(Swift.String(describing: createDateTime)), customerRoleArn: \(Swift.String(describing: customerRoleArn)), deleteDateTime: \(Swift.String(describing: deleteDateTime)), groupAdmins: \(Swift.String(describing: groupAdmins)), identityStoreId: \(Swift.String(describing: identityStoreId)), randomDomain: \(Swift.String(describing: randomDomain)), roles: \(Swift.String(describing: roles)), spaceId: \(Swift.String(describing: spaceId)), status: \(Swift.String(describing: status)), storageLimit: \(Swift.String(describing: storageLimit)), supportedEmailDomains: \(Swift.String(describing: supportedEmailDomains)), tier: \(Swift.String(describing: tier)), userAdmins: \(Swift.String(describing: userAdmins)), userCount: \(Swift.String(describing: userCount)), userKMSKey: \(Swift.String(describing: userKMSKey)), vanityDomain: \(Swift.String(describing: vanityDomain)), vanityDomainStatus: \(Swift.String(describing: vanityDomainStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListChannelsInput: Swift.Sendable {
+    /// The maximum number of channels to include in the results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of channel to return. You receive this token from a previous ListChannels operation.
+    public var nextToken: Swift.String?
+    /// The unique ID of the private re:Post.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = 10,
+        nextToken: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.spaceId = spaceId
+    }
+}
+
+public struct ListChannelsOutput: Swift.Sendable {
+    /// An array of structures that contain some information about the channels in the private re:Post.
+    /// This member is required.
+    public var channels: [RepostspaceClientTypes.ChannelData]?
+    /// The token that you use when you request the next set of channels.
+    public var nextToken: Swift.String?
+
+    public init(
+        channels: [RepostspaceClientTypes.ChannelData]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.channels = channels
+        self.nextToken = nextToken
+    }
 }
 
 public struct ListSpacesInput: Swift.Sendable {
@@ -829,6 +1317,8 @@ extension RepostspaceClientTypes {
         /// The storage limit of the private re:Post.
         /// This member is required.
         public var storageLimit: Swift.Int?
+        ///
+        public var supportedEmailDomains: RepostspaceClientTypes.SupportedEmailDomainsStatus?
         /// The pricing tier of the private re:Post.
         /// This member is required.
         public var tier: RepostspaceClientTypes.TierLevel?
@@ -855,6 +1345,7 @@ extension RepostspaceClientTypes {
             spaceId: Swift.String? = nil,
             status: Swift.String? = nil,
             storageLimit: Swift.Int? = nil,
+            supportedEmailDomains: RepostspaceClientTypes.SupportedEmailDomainsStatus? = nil,
             tier: RepostspaceClientTypes.TierLevel? = nil,
             userCount: Swift.Int? = nil,
             userKMSKey: Swift.String? = nil,
@@ -872,6 +1363,7 @@ extension RepostspaceClientTypes {
             self.spaceId = spaceId
             self.status = status
             self.storageLimit = storageLimit
+            self.supportedEmailDomains = supportedEmailDomains
             self.tier = tier
             self.userCount = userCount
             self.userKMSKey = userKMSKey
@@ -883,7 +1375,7 @@ extension RepostspaceClientTypes {
 
 extension RepostspaceClientTypes.SpaceData: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SpaceData(arn: \(Swift.String(describing: arn)), configurationStatus: \(Swift.String(describing: configurationStatus)), contentSize: \(Swift.String(describing: contentSize)), createDateTime: \(Swift.String(describing: createDateTime)), deleteDateTime: \(Swift.String(describing: deleteDateTime)), randomDomain: \(Swift.String(describing: randomDomain)), spaceId: \(Swift.String(describing: spaceId)), status: \(Swift.String(describing: status)), storageLimit: \(Swift.String(describing: storageLimit)), tier: \(Swift.String(describing: tier)), userCount: \(Swift.String(describing: userCount)), userKMSKey: \(Swift.String(describing: userKMSKey)), vanityDomain: \(Swift.String(describing: vanityDomain)), vanityDomainStatus: \(Swift.String(describing: vanityDomainStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "SpaceData(arn: \(Swift.String(describing: arn)), configurationStatus: \(Swift.String(describing: configurationStatus)), contentSize: \(Swift.String(describing: contentSize)), createDateTime: \(Swift.String(describing: createDateTime)), deleteDateTime: \(Swift.String(describing: deleteDateTime)), randomDomain: \(Swift.String(describing: randomDomain)), spaceId: \(Swift.String(describing: spaceId)), status: \(Swift.String(describing: status)), storageLimit: \(Swift.String(describing: storageLimit)), supportedEmailDomains: \(Swift.String(describing: supportedEmailDomains)), tier: \(Swift.String(describing: tier)), userCount: \(Swift.String(describing: userCount)), userKMSKey: \(Swift.String(describing: userKMSKey)), vanityDomain: \(Swift.String(describing: vanityDomain)), vanityDomainStatus: \(Swift.String(describing: vanityDomainStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListSpacesOutput: Swift.Sendable {
@@ -1028,6 +1520,42 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateChannelInput: Swift.Sendable {
+    /// A description for the channel. This is used only to help you identify this channel.
+    public var channelDescription: Swift.String?
+    /// The unique ID of the private re:Post channel.
+    /// This member is required.
+    public var channelId: Swift.String?
+    /// The name for the channel. This must be unique per private re:Post.
+    /// This member is required.
+    public var channelName: Swift.String?
+    /// The unique ID of the private re:Post.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        channelDescription: Swift.String? = nil,
+        channelId: Swift.String? = nil,
+        channelName: Swift.String? = nil,
+        spaceId: Swift.String? = nil
+    ) {
+        self.channelDescription = channelDescription
+        self.channelId = channelId
+        self.channelName = channelName
+        self.spaceId = spaceId
+    }
+}
+
+extension UpdateChannelInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateChannelInput(channelId: \(Swift.String(describing: channelId)), spaceId: \(Swift.String(describing: spaceId)), channelDescription: \"CONTENT_REDACTED\", channelName: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateChannelOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateSpaceInput: Swift.Sendable {
     /// A description for the private re:Post. This is used only to help you identify this private re:Post.
     public var description: Swift.String?
@@ -1036,6 +1564,8 @@ public struct UpdateSpaceInput: Swift.Sendable {
     /// The unique ID of this private re:Post.
     /// This member is required.
     public var spaceId: Swift.String?
+    ///
+    public var supportedEmailDomains: RepostspaceClientTypes.SupportedEmailDomainsParameters?
     /// The pricing tier of this private re:Post.
     public var tier: RepostspaceClientTypes.TierLevel?
 
@@ -1043,18 +1573,33 @@ public struct UpdateSpaceInput: Swift.Sendable {
         description: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         spaceId: Swift.String? = nil,
+        supportedEmailDomains: RepostspaceClientTypes.SupportedEmailDomainsParameters? = nil,
         tier: RepostspaceClientTypes.TierLevel? = nil
     ) {
         self.description = description
         self.roleArn = roleArn
         self.spaceId = spaceId
+        self.supportedEmailDomains = supportedEmailDomains
         self.tier = tier
     }
 }
 
 extension UpdateSpaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateSpaceInput(roleArn: \(Swift.String(describing: roleArn)), spaceId: \(Swift.String(describing: spaceId)), tier: \(Swift.String(describing: tier)), description: \"CONTENT_REDACTED\")"}
+        "UpdateSpaceInput(roleArn: \(Swift.String(describing: roleArn)), spaceId: \(Swift.String(describing: spaceId)), supportedEmailDomains: \(Swift.String(describing: supportedEmailDomains)), tier: \(Swift.String(describing: tier)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension BatchAddChannelRoleToAccessorsInput {
+
+    static func urlPathProvider(_ value: BatchAddChannelRoleToAccessorsInput) -> Swift.String? {
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        guard let channelId = value.channelId else {
+            return nil
+        }
+        return "/spaces/\(spaceId.urlPercentEncoding())/channels/\(channelId.urlPercentEncoding())/roles"
+    }
 }
 
 extension BatchAddRoleInput {
@@ -1067,6 +1612,19 @@ extension BatchAddRoleInput {
     }
 }
 
+extension BatchRemoveChannelRoleFromAccessorsInput {
+
+    static func urlPathProvider(_ value: BatchRemoveChannelRoleFromAccessorsInput) -> Swift.String? {
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        guard let channelId = value.channelId else {
+            return nil
+        }
+        return "/spaces/\(spaceId.urlPercentEncoding())/channels/\(channelId.urlPercentEncoding())/roles"
+    }
+}
+
 extension BatchRemoveRoleInput {
 
     static func urlPathProvider(_ value: BatchRemoveRoleInput) -> Swift.String? {
@@ -1074,6 +1632,16 @@ extension BatchRemoveRoleInput {
             return nil
         }
         return "/spaces/\(spaceId.urlPercentEncoding())/roles"
+    }
+}
+
+extension CreateChannelInput {
+
+    static func urlPathProvider(_ value: CreateChannelInput) -> Swift.String? {
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        return "/spaces/\(spaceId.urlPercentEncoding())/channels"
     }
 }
 
@@ -1107,6 +1675,19 @@ extension DeregisterAdminInput {
     }
 }
 
+extension GetChannelInput {
+
+    static func urlPathProvider(_ value: GetChannelInput) -> Swift.String? {
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        guard let channelId = value.channelId else {
+            return nil
+        }
+        return "/spaces/\(spaceId.urlPercentEncoding())/channels/\(channelId.urlPercentEncoding())"
+    }
+}
+
 extension GetSpaceInput {
 
     static func urlPathProvider(_ value: GetSpaceInput) -> Swift.String? {
@@ -1114,6 +1695,32 @@ extension GetSpaceInput {
             return nil
         }
         return "/spaces/\(spaceId.urlPercentEncoding())"
+    }
+}
+
+extension ListChannelsInput {
+
+    static func urlPathProvider(_ value: ListChannelsInput) -> Swift.String? {
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        return "/spaces/\(spaceId.urlPercentEncoding())/channels"
+    }
+}
+
+extension ListChannelsInput {
+
+    static func queryItemProvider(_ value: ListChannelsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
@@ -1209,6 +1816,19 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateChannelInput {
+
+    static func urlPathProvider(_ value: UpdateChannelInput) -> Swift.String? {
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        guard let channelId = value.channelId else {
+            return nil
+        }
+        return "/spaces/\(spaceId.urlPercentEncoding())/channels/\(channelId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateSpaceInput {
 
     static func urlPathProvider(_ value: UpdateSpaceInput) -> Swift.String? {
@@ -1216,6 +1836,15 @@ extension UpdateSpaceInput {
             return nil
         }
         return "/spaces/\(spaceId.urlPercentEncoding())"
+    }
+}
+
+extension BatchAddChannelRoleToAccessorsInput {
+
+    static func write(value: BatchAddChannelRoleToAccessorsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessorIds"].writeList(value.accessorIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["channelRole"].write(value.channelRole)
     }
 }
 
@@ -1228,12 +1857,30 @@ extension BatchAddRoleInput {
     }
 }
 
+extension BatchRemoveChannelRoleFromAccessorsInput {
+
+    static func write(value: BatchRemoveChannelRoleFromAccessorsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessorIds"].writeList(value.accessorIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["channelRole"].write(value.channelRole)
+    }
+}
+
 extension BatchRemoveRoleInput {
 
     static func write(value: BatchRemoveRoleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["accessorIds"].writeList(value.accessorIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["role"].write(value.role)
+    }
+}
+
+extension CreateChannelInput {
+
+    static func write(value: CreateChannelInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["channelDescription"].write(value.channelDescription)
+        try writer["channelName"].write(value.channelName)
     }
 }
 
@@ -1245,6 +1892,7 @@ extension CreateSpaceInput {
         try writer["name"].write(value.name)
         try writer["roleArn"].write(value.roleArn)
         try writer["subdomain"].write(value.subdomain)
+        try writer["supportedEmailDomains"].write(value.supportedEmailDomains, with: RepostspaceClientTypes.SupportedEmailDomainsParameters.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["tier"].write(value.tier)
         try writer["userKMSKey"].write(value.userKMSKey)
@@ -1269,13 +1917,36 @@ extension TagResourceInput {
     }
 }
 
+extension UpdateChannelInput {
+
+    static func write(value: UpdateChannelInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["channelDescription"].write(value.channelDescription)
+        try writer["channelName"].write(value.channelName)
+    }
+}
+
 extension UpdateSpaceInput {
 
     static func write(value: UpdateSpaceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["roleArn"].write(value.roleArn)
+        try writer["supportedEmailDomains"].write(value.supportedEmailDomains, with: RepostspaceClientTypes.SupportedEmailDomainsParameters.write(value:to:))
         try writer["tier"].write(value.tier)
+    }
+}
+
+extension BatchAddChannelRoleToAccessorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchAddChannelRoleToAccessorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchAddChannelRoleToAccessorsOutput()
+        value.addedAccessorIds = try reader["addedAccessorIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: RepostspaceClientTypes.BatchError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -1292,6 +1963,19 @@ extension BatchAddRoleOutput {
     }
 }
 
+extension BatchRemoveChannelRoleFromAccessorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchRemoveChannelRoleFromAccessorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchRemoveChannelRoleFromAccessorsOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: RepostspaceClientTypes.BatchError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.removedAccessorIds = try reader["removedAccessorIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BatchRemoveRoleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchRemoveRoleOutput {
@@ -1301,6 +1985,18 @@ extension BatchRemoveRoleOutput {
         var value = BatchRemoveRoleOutput()
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: RepostspaceClientTypes.BatchError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.removedAccessorIds = try reader["removedAccessorIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CreateChannelOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateChannelOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateChannelOutput()
+        value.channelId = try reader["channelId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1331,6 +2027,25 @@ extension DeregisterAdminOutput {
     }
 }
 
+extension GetChannelOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetChannelOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetChannelOutput()
+        value.channelDescription = try reader["channelDescription"].readIfPresent()
+        value.channelId = try reader["channelId"].readIfPresent() ?? ""
+        value.channelName = try reader["channelName"].readIfPresent() ?? ""
+        value.channelRoles = try reader["channelRoles"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RepostspaceClientTypes.ChannelRole>().read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.channelStatus = try reader["channelStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.createDateTime = try reader["createDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deleteDateTime = try reader["deleteDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension GetSpaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSpaceOutput {
@@ -1338,6 +2053,7 @@ extension GetSpaceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSpaceOutput()
+        value.applicationArn = try reader["applicationArn"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.clientId = try reader["clientId"].readIfPresent() ?? ""
         value.configurationStatus = try reader["configurationStatus"].readIfPresent() ?? .sdkUnknown("")
@@ -1347,18 +2063,33 @@ extension GetSpaceOutput {
         value.deleteDateTime = try reader["deleteDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["description"].readIfPresent()
         value.groupAdmins = try reader["groupAdmins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.identityStoreId = try reader["identityStoreId"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.randomDomain = try reader["randomDomain"].readIfPresent() ?? ""
         value.roles = try reader["roles"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RepostspaceClientTypes.Role>().read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? ""
         value.storageLimit = try reader["storageLimit"].readIfPresent() ?? 0
+        value.supportedEmailDomains = try reader["supportedEmailDomains"].readIfPresent(with: RepostspaceClientTypes.SupportedEmailDomainsStatus.read(from:))
         value.tier = try reader["tier"].readIfPresent() ?? .sdkUnknown("")
         value.userAdmins = try reader["userAdmins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.userCount = try reader["userCount"].readIfPresent()
         value.userKMSKey = try reader["userKMSKey"].readIfPresent()
         value.vanityDomain = try reader["vanityDomain"].readIfPresent() ?? ""
         value.vanityDomainStatus = try reader["vanityDomainStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ListChannelsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListChannelsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListChannelsOutput()
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: RepostspaceClientTypes.ChannelData.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -1416,6 +2147,13 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdateChannelOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateChannelOutput {
+        return UpdateChannelOutput()
+    }
+}
+
 extension UpdateSpaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSpaceOutput {
@@ -1423,7 +2161,43 @@ extension UpdateSpaceOutput {
     }
 }
 
+enum BatchAddChannelRoleToAccessorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchAddRoleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchRemoveChannelRoleFromAccessorsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1452,6 +2226,26 @@ enum BatchRemoveRoleOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateChannelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1515,6 +2309,24 @@ enum DeregisterAdminOutputError {
     }
 }
 
+enum GetChannelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetSpaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1526,6 +2338,23 @@ enum GetSpaceOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListChannelsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1640,6 +2469,25 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateChannelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateSpaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1659,14 +2507,12 @@ enum UpdateSpaceOutputError {
     }
 }
 
-extension ResourceNotFoundException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1691,14 +2537,14 @@ extension InternalServerException {
     }
 }
 
-extension ValidationException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: RepostspaceClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1725,12 +2571,14 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: RepostspaceClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1782,6 +2630,35 @@ extension RepostspaceClientTypes.BatchError {
     }
 }
 
+extension RepostspaceClientTypes.SupportedEmailDomainsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RepostspaceClientTypes.SupportedEmailDomainsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RepostspaceClientTypes.SupportedEmailDomainsStatus()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.allowedDomains = try reader["allowedDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RepostspaceClientTypes.ChannelData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RepostspaceClientTypes.ChannelData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RepostspaceClientTypes.ChannelData()
+        value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
+        value.channelId = try reader["channelId"].readIfPresent() ?? ""
+        value.channelName = try reader["channelName"].readIfPresent() ?? ""
+        value.channelDescription = try reader["channelDescription"].readIfPresent()
+        value.createDateTime = try reader["createDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deleteDateTime = try reader["deleteDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.channelStatus = try reader["channelStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.userCount = try reader["userCount"].readIfPresent() ?? 0
+        value.groupCount = try reader["groupCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension RepostspaceClientTypes.SpaceData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RepostspaceClientTypes.SpaceData {
@@ -1803,6 +2680,7 @@ extension RepostspaceClientTypes.SpaceData {
         value.userKMSKey = try reader["userKMSKey"].readIfPresent()
         value.userCount = try reader["userCount"].readIfPresent()
         value.contentSize = try reader["contentSize"].readIfPresent()
+        value.supportedEmailDomains = try reader["supportedEmailDomains"].readIfPresent(with: RepostspaceClientTypes.SupportedEmailDomainsStatus.read(from:))
         return value
     }
 }
@@ -1815,6 +2693,15 @@ extension RepostspaceClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension RepostspaceClientTypes.SupportedEmailDomainsParameters {
+
+    static func write(value: RepostspaceClientTypes.SupportedEmailDomainsParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedDomains"].writeList(value.allowedDomains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["enabled"].write(value.enabled)
     }
 }
 

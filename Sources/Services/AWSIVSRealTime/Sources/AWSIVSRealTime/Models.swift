@@ -33,8 +33,24 @@ import struct Smithy.URIQueryItem
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var accessControlAllowOrigin: Swift.String? = nil
+        ///
+        public internal(set) var accessControlExposeHeaders: Swift.String? = nil
+        ///
+        public internal(set) var cacheControl: Swift.String? = nil
+        ///
+        public internal(set) var contentSecurityPolicy: Swift.String? = nil
         /// User does not have sufficient access to perform this action.
         public internal(set) var exceptionMessage: Swift.String? = nil
+        ///
+        public internal(set) var strictTransportSecurity: Swift.String? = nil
+        ///
+        public internal(set) var xAmznErrorType: Swift.String? = nil
+        ///
+        public internal(set) var xContentTypeOptions: Swift.String? = nil
+        ///
+        public internal(set) var xFrameOptions: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -47,9 +63,25 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public internal(set) var requestID: Swift.String?
 
     public init(
-        exceptionMessage: Swift.String? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        exceptionMessage: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xAmznErrorType: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.properties.accessControlAllowOrigin = accessControlAllowOrigin
+        self.properties.accessControlExposeHeaders = accessControlExposeHeaders
+        self.properties.cacheControl = cacheControl
+        self.properties.contentSecurityPolicy = contentSecurityPolicy
         self.properties.exceptionMessage = exceptionMessage
+        self.properties.strictTransportSecurity = strictTransportSecurity
+        self.properties.xAmznErrorType = xAmznErrorType
+        self.properties.xContentTypeOptions = xContentTypeOptions
+        self.properties.xFrameOptions = xFrameOptions
     }
 }
 
@@ -57,8 +89,24 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var accessControlAllowOrigin: Swift.String? = nil
+        ///
+        public internal(set) var accessControlExposeHeaders: Swift.String? = nil
+        ///
+        public internal(set) var cacheControl: Swift.String? = nil
+        ///
+        public internal(set) var contentSecurityPolicy: Swift.String? = nil
         /// Updating or deleting a resource can cause an inconsistent state.
         public internal(set) var exceptionMessage: Swift.String? = nil
+        ///
+        public internal(set) var strictTransportSecurity: Swift.String? = nil
+        ///
+        public internal(set) var xAmznErrorType: Swift.String? = nil
+        ///
+        public internal(set) var xContentTypeOptions: Swift.String? = nil
+        ///
+        public internal(set) var xFrameOptions: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -71,9 +119,25 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public internal(set) var requestID: Swift.String?
 
     public init(
-        exceptionMessage: Swift.String? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        exceptionMessage: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xAmznErrorType: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.properties.accessControlAllowOrigin = accessControlAllowOrigin
+        self.properties.accessControlExposeHeaders = accessControlExposeHeaders
+        self.properties.cacheControl = cacheControl
+        self.properties.contentSecurityPolicy = contentSecurityPolicy
         self.properties.exceptionMessage = exceptionMessage
+        self.properties.strictTransportSecurity = strictTransportSecurity
+        self.properties.xAmznErrorType = xAmznErrorType
+        self.properties.xContentTypeOptions = xContentTypeOptions
+        self.properties.xFrameOptions = xFrameOptions
     }
 }
 
@@ -81,8 +145,24 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var accessControlAllowOrigin: Swift.String? = nil
+        ///
+        public internal(set) var accessControlExposeHeaders: Swift.String? = nil
+        ///
+        public internal(set) var cacheControl: Swift.String? = nil
+        ///
+        public internal(set) var contentSecurityPolicy: Swift.String? = nil
         /// Unexpected error during processing of request.
         public internal(set) var exceptionMessage: Swift.String? = nil
+        ///
+        public internal(set) var strictTransportSecurity: Swift.String? = nil
+        ///
+        public internal(set) var xAmznErrorType: Swift.String? = nil
+        ///
+        public internal(set) var xContentTypeOptions: Swift.String? = nil
+        ///
+        public internal(set) var xFrameOptions: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -95,9 +175,25 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public internal(set) var requestID: Swift.String?
 
     public init(
-        exceptionMessage: Swift.String? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        exceptionMessage: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xAmznErrorType: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.properties.accessControlAllowOrigin = accessControlAllowOrigin
+        self.properties.accessControlExposeHeaders = accessControlExposeHeaders
+        self.properties.cacheControl = cacheControl
+        self.properties.contentSecurityPolicy = contentSecurityPolicy
         self.properties.exceptionMessage = exceptionMessage
+        self.properties.strictTransportSecurity = strictTransportSecurity
+        self.properties.xAmznErrorType = xAmznErrorType
+        self.properties.xContentTypeOptions = xContentTypeOptions
+        self.properties.xFrameOptions = xFrameOptions
     }
 }
 
@@ -105,8 +201,24 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var accessControlAllowOrigin: Swift.String? = nil
+        ///
+        public internal(set) var accessControlExposeHeaders: Swift.String? = nil
+        ///
+        public internal(set) var cacheControl: Swift.String? = nil
+        ///
+        public internal(set) var contentSecurityPolicy: Swift.String? = nil
         /// Your account is pending verification.
         public internal(set) var exceptionMessage: Swift.String? = nil
+        ///
+        public internal(set) var strictTransportSecurity: Swift.String? = nil
+        ///
+        public internal(set) var xAmznErrorType: Swift.String? = nil
+        ///
+        public internal(set) var xContentTypeOptions: Swift.String? = nil
+        ///
+        public internal(set) var xFrameOptions: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -119,9 +231,25 @@ public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.
     public internal(set) var requestID: Swift.String?
 
     public init(
-        exceptionMessage: Swift.String? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        exceptionMessage: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xAmznErrorType: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.properties.accessControlAllowOrigin = accessControlAllowOrigin
+        self.properties.accessControlExposeHeaders = accessControlExposeHeaders
+        self.properties.cacheControl = cacheControl
+        self.properties.contentSecurityPolicy = contentSecurityPolicy
         self.properties.exceptionMessage = exceptionMessage
+        self.properties.strictTransportSecurity = strictTransportSecurity
+        self.properties.xAmznErrorType = xAmznErrorType
+        self.properties.xContentTypeOptions = xContentTypeOptions
+        self.properties.xFrameOptions = xFrameOptions
     }
 }
 
@@ -129,8 +257,24 @@ public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var accessControlAllowOrigin: Swift.String? = nil
+        ///
+        public internal(set) var accessControlExposeHeaders: Swift.String? = nil
+        ///
+        public internal(set) var cacheControl: Swift.String? = nil
+        ///
+        public internal(set) var contentSecurityPolicy: Swift.String? = nil
         /// Request references a resource which does not exist.
         public internal(set) var exceptionMessage: Swift.String? = nil
+        ///
+        public internal(set) var strictTransportSecurity: Swift.String? = nil
+        ///
+        public internal(set) var xAmznErrorType: Swift.String? = nil
+        ///
+        public internal(set) var xContentTypeOptions: Swift.String? = nil
+        ///
+        public internal(set) var xFrameOptions: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -143,9 +287,25 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public internal(set) var requestID: Swift.String?
 
     public init(
-        exceptionMessage: Swift.String? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        exceptionMessage: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xAmznErrorType: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.properties.accessControlAllowOrigin = accessControlAllowOrigin
+        self.properties.accessControlExposeHeaders = accessControlExposeHeaders
+        self.properties.cacheControl = cacheControl
+        self.properties.contentSecurityPolicy = contentSecurityPolicy
         self.properties.exceptionMessage = exceptionMessage
+        self.properties.strictTransportSecurity = strictTransportSecurity
+        self.properties.xAmznErrorType = xAmznErrorType
+        self.properties.xContentTypeOptions = xContentTypeOptions
+        self.properties.xFrameOptions = xFrameOptions
     }
 }
 
@@ -153,8 +313,24 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var accessControlAllowOrigin: Swift.String? = nil
+        ///
+        public internal(set) var accessControlExposeHeaders: Swift.String? = nil
+        ///
+        public internal(set) var cacheControl: Swift.String? = nil
+        ///
+        public internal(set) var contentSecurityPolicy: Swift.String? = nil
         /// Request would cause a service quota to be exceeded.
         public internal(set) var exceptionMessage: Swift.String? = nil
+        ///
+        public internal(set) var strictTransportSecurity: Swift.String? = nil
+        ///
+        public internal(set) var xAmznErrorType: Swift.String? = nil
+        ///
+        public internal(set) var xContentTypeOptions: Swift.String? = nil
+        ///
+        public internal(set) var xFrameOptions: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -167,9 +343,25 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public internal(set) var requestID: Swift.String?
 
     public init(
-        exceptionMessage: Swift.String? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        exceptionMessage: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xAmznErrorType: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.properties.accessControlAllowOrigin = accessControlAllowOrigin
+        self.properties.accessControlExposeHeaders = accessControlExposeHeaders
+        self.properties.cacheControl = cacheControl
+        self.properties.contentSecurityPolicy = contentSecurityPolicy
         self.properties.exceptionMessage = exceptionMessage
+        self.properties.strictTransportSecurity = strictTransportSecurity
+        self.properties.xAmznErrorType = xAmznErrorType
+        self.properties.xContentTypeOptions = xContentTypeOptions
+        self.properties.xFrameOptions = xFrameOptions
     }
 }
 
@@ -177,8 +369,24 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var accessControlAllowOrigin: Swift.String? = nil
+        ///
+        public internal(set) var accessControlExposeHeaders: Swift.String? = nil
+        ///
+        public internal(set) var cacheControl: Swift.String? = nil
+        ///
+        public internal(set) var contentSecurityPolicy: Swift.String? = nil
         /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
         public internal(set) var exceptionMessage: Swift.String? = nil
+        ///
+        public internal(set) var strictTransportSecurity: Swift.String? = nil
+        ///
+        public internal(set) var xAmznErrorType: Swift.String? = nil
+        ///
+        public internal(set) var xContentTypeOptions: Swift.String? = nil
+        ///
+        public internal(set) var xFrameOptions: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -191,9 +399,25 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public internal(set) var requestID: Swift.String?
 
     public init(
-        exceptionMessage: Swift.String? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        exceptionMessage: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xAmznErrorType: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.properties.accessControlAllowOrigin = accessControlAllowOrigin
+        self.properties.accessControlExposeHeaders = accessControlExposeHeaders
+        self.properties.cacheControl = cacheControl
+        self.properties.contentSecurityPolicy = contentSecurityPolicy
         self.properties.exceptionMessage = exceptionMessage
+        self.properties.strictTransportSecurity = strictTransportSecurity
+        self.properties.xAmznErrorType = xAmznErrorType
+        self.properties.xContentTypeOptions = xContentTypeOptions
+        self.properties.xFrameOptions = xFrameOptions
     }
 }
 
@@ -563,6 +787,21 @@ public struct CreateParticipantTokenOutput: Swift.Sendable {
 
 extension IVSRealTimeClientTypes {
 
+    /// An object representing a configuration of participant HLS recordings for individual participant recording.
+    public struct ParticipantRecordingHlsConfiguration: Swift.Sendable {
+        /// Defines the target duration for recorded segments generated when recording a stage participant. Segments may have durations longer than the specified value when needed to ensure each segment begins with a keyframe. Default: 6.
+        public var targetSegmentDurationSeconds: Swift.Int?
+
+        public init(
+            targetSegmentDurationSeconds: Swift.Int? = 6
+        ) {
+            self.targetSegmentDurationSeconds = targetSegmentDurationSeconds
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
     public enum ParticipantRecordingMediaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case audioOnly
         case audioVideo
@@ -678,20 +917,32 @@ extension IVSRealTimeClientTypes {
 
     /// Object specifying a configuration for individual participant recording.
     public struct AutoParticipantRecordingConfiguration: Swift.Sendable {
+        /// HLS configuration object for individual participant recording.
+        public var hlsConfiguration: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration?
         /// Types of media to be recorded. Default: AUDIO_VIDEO.
         public var mediaTypes: [IVSRealTimeClientTypes.ParticipantRecordingMediaType]?
-        /// ARN of the [StorageConfiguration] resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a [Stage] is created or updated.
+        /// Optional field to disable replica participant recording. If this is set to false when a participant is a replica, replica participants are not recorded. Default: true.
+        public var recordParticipantReplicas: Swift.Bool
+        /// If a stage publisher disconnects and then reconnects within the specified interval, the multiple recordings will be considered a single recording and merged together. The default value is 0, which disables merging.
+        public var recordingReconnectWindowSeconds: Swift.Int
+        /// ARN of the [StorageConfiguration] resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a [Stage] is created or updated. To disable individual participant recording, set this to ""; other fields in this object will get reset to their defaults when sending "".
         /// This member is required.
         public var storageConfigurationArn: Swift.String?
         /// A complex type that allows you to enable/disable the recording of thumbnails for individual participant recording and modify the interval at which thumbnails are generated for the live session.
         public var thumbnailConfiguration: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration?
 
         public init(
+            hlsConfiguration: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration? = nil,
             mediaTypes: [IVSRealTimeClientTypes.ParticipantRecordingMediaType]? = nil,
+            recordParticipantReplicas: Swift.Bool = false,
+            recordingReconnectWindowSeconds: Swift.Int = 0,
             storageConfigurationArn: Swift.String? = nil,
             thumbnailConfiguration: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration? = nil
         ) {
+            self.hlsConfiguration = hlsConfiguration
             self.mediaTypes = mediaTypes
+            self.recordParticipantReplicas = recordParticipantReplicas
+            self.recordingReconnectWindowSeconds = recordingReconnectWindowSeconds
             self.storageConfigurationArn = storageConfigurationArn
             self.thumbnailConfiguration = thumbnailConfiguration
         }
@@ -1076,15 +1327,34 @@ extension IVSRealTimeClientTypes {
 
 extension IVSRealTimeClientTypes {
 
+    /// An object representing a configuration of HLS recordings for server-side composition.
+    public struct CompositionRecordingHlsConfiguration: Swift.Sendable {
+        /// Defines the target duration for recorded segments generated when using composite recording. Default: 2.
+        public var targetSegmentDurationSeconds: Swift.Int?
+
+        public init(
+            targetSegmentDurationSeconds: Swift.Int? = 2
+        ) {
+            self.targetSegmentDurationSeconds = targetSegmentDurationSeconds
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
     /// An object representing a configuration to record a stage stream.
     public struct RecordingConfiguration: Swift.Sendable {
         /// The recording format for storing a recording in Amazon S3.
         public var format: IVSRealTimeClientTypes.RecordingConfigurationFormat?
+        /// An HLS configuration object to return information about how the recording will be configured.
+        public var hlsConfiguration: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration?
 
         public init(
-            format: IVSRealTimeClientTypes.RecordingConfigurationFormat? = nil
+            format: IVSRealTimeClientTypes.RecordingConfigurationFormat? = nil,
+            hlsConfiguration: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration? = nil
         ) {
             self.format = format
+            self.hlsConfiguration = hlsConfiguration
         }
     }
 }
@@ -1347,6 +1617,8 @@ extension IVSRealTimeClientTypes {
         public var gridGap: Swift.Int
         /// Determines whether to omit participants with stopped video in the composition. Default: false.
         public var omitStoppedVideo: Swift.Bool
+        /// Attribute name in [ParticipantTokenConfiguration] identifying the participant ordering key. Participants with participantOrderAttribute set to "" or not specified are ordered based on their arrival time into the stage.
+        public var participantOrderAttribute: Swift.String?
         /// Sets the non-featured participant display mode, to control the aspect ratio of video tiles. VIDEO is 16:9, SQUARE is 1:1, and PORTRAIT is 3:4. Default: VIDEO.
         public var videoAspectRatio: IVSRealTimeClientTypes.VideoAspectRatio?
         /// Defines how video content fits within the participant tile: FILL (stretched), COVER (cropped), or CONTAIN (letterboxed). When not set, videoFillMode defaults to COVER fill mode for participants in the grid and to CONTAIN fill mode for featured participants.
@@ -1356,12 +1628,14 @@ extension IVSRealTimeClientTypes {
             featuredParticipantAttribute: Swift.String? = nil,
             gridGap: Swift.Int = 0,
             omitStoppedVideo: Swift.Bool = false,
+            participantOrderAttribute: Swift.String? = nil,
             videoAspectRatio: IVSRealTimeClientTypes.VideoAspectRatio? = nil,
             videoFillMode: IVSRealTimeClientTypes.VideoFillMode? = nil
         ) {
             self.featuredParticipantAttribute = featuredParticipantAttribute
             self.gridGap = gridGap
             self.omitStoppedVideo = omitStoppedVideo
+            self.participantOrderAttribute = participantOrderAttribute
             self.videoAspectRatio = videoAspectRatio
             self.videoFillMode = videoFillMode
         }
@@ -1442,6 +1716,8 @@ extension IVSRealTimeClientTypes {
         public var gridGap: Swift.Int
         /// Determines whether to omit participants with stopped video in the composition. Default: false.
         public var omitStoppedVideo: Swift.Bool
+        /// Attribute name in [ParticipantTokenConfiguration] identifying the participant ordering key. Participants with participantOrderAttribute set to "" or not specified are ordered based on their arrival time into the stage.
+        public var participantOrderAttribute: Swift.String?
         /// Defines PiP behavior when all participants have left: STATIC (maintains original position/size) or DYNAMIC (expands to full composition). Default: STATIC.
         public var pipBehavior: IVSRealTimeClientTypes.PipBehavior?
         /// Specifies the height of the PiP window in pixels. When this is not set explicitly, pipHeight’s value will be based on the size of the composition and the aspect ratio of the participant’s video.
@@ -1461,6 +1737,7 @@ extension IVSRealTimeClientTypes {
             featuredParticipantAttribute: Swift.String? = nil,
             gridGap: Swift.Int = 0,
             omitStoppedVideo: Swift.Bool = false,
+            participantOrderAttribute: Swift.String? = nil,
             pipBehavior: IVSRealTimeClientTypes.PipBehavior? = nil,
             pipHeight: Swift.Int? = nil,
             pipOffset: Swift.Int = 0,
@@ -1472,6 +1749,7 @@ extension IVSRealTimeClientTypes {
             self.featuredParticipantAttribute = featuredParticipantAttribute
             self.gridGap = gridGap
             self.omitStoppedVideo = omitStoppedVideo
+            self.participantOrderAttribute = participantOrderAttribute
             self.pipBehavior = pipBehavior
             self.pipHeight = pipHeight
             self.pipOffset = pipOffset
@@ -1745,6 +2023,67 @@ extension IVSRealTimeClientTypes {
 
 extension IVSRealTimeClientTypes {
 
+    public enum ReplicationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationState] {
+            return [
+                .active,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .stopped: return "STOPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
+    public enum ReplicationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case replica
+        case source
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationType] {
+            return [
+                .none,
+                .replica,
+                .source
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .replica: return "REPLICA"
+            case .source: return "SOURCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
     public enum ParticipantState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case connected
         case disconnected
@@ -1798,12 +2137,20 @@ extension IVSRealTimeClientTypes {
         public var published: Swift.Bool
         /// Name of the S3 bucket to where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
         public var recordingS3BucketName: Swift.String?
-        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
+        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled. If individual participant recording merge is enabled, and if a stage publisher disconnects from a stage and then reconnects, IVS tries to record to the same S3 prefix as the previous session. See [ Merge Fragmented Individual Participant Recordings].
         public var recordingS3Prefix: Swift.String?
         /// The participant’s recording state.
         public var recordingState: IVSRealTimeClientTypes.ParticipantRecordingState?
+        /// The participant's replication state.
+        public var replicationState: IVSRealTimeClientTypes.ReplicationState?
+        /// Indicates if the participant has been replicated to another stage or is a replica from another stage. Default: NONE.
+        public var replicationType: IVSRealTimeClientTypes.ReplicationType?
         /// The participant’s SDK version.
         public var sdkVersion: Swift.String?
+        /// ID of the session within the source stage, if replicationType is REPLICA.
+        public var sourceSessionId: Swift.String?
+        /// Source stage ARN from which this participant is replicated, if replicationType is REPLICA.
+        public var sourceStageArn: Swift.String?
         /// Whether the participant is connected to or disconnected from the stage.
         public var state: IVSRealTimeClientTypes.ParticipantState?
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
@@ -1823,7 +2170,11 @@ extension IVSRealTimeClientTypes {
             recordingS3BucketName: Swift.String? = nil,
             recordingS3Prefix: Swift.String? = nil,
             recordingState: IVSRealTimeClientTypes.ParticipantRecordingState? = nil,
+            replicationState: IVSRealTimeClientTypes.ReplicationState? = nil,
+            replicationType: IVSRealTimeClientTypes.ReplicationType? = nil,
             sdkVersion: Swift.String? = nil,
+            sourceSessionId: Swift.String? = nil,
+            sourceStageArn: Swift.String? = nil,
             state: IVSRealTimeClientTypes.ParticipantState? = nil,
             userId: Swift.String? = nil
         ) {
@@ -1840,7 +2191,11 @@ extension IVSRealTimeClientTypes {
             self.recordingS3BucketName = recordingS3BucketName
             self.recordingS3Prefix = recordingS3Prefix
             self.recordingState = recordingState
+            self.replicationState = replicationState
+            self.replicationType = replicationType
             self.sdkVersion = sdkVersion
+            self.sourceSessionId = sourceSessionId
+            self.sourceStageArn = sourceStageArn
             self.state = state
             self.userId = userId
         }
@@ -2393,6 +2748,8 @@ extension IVSRealTimeClientTypes {
         case publishError
         case publishStarted
         case publishStopped
+        case replicationStarted
+        case replicationStopped
         case subscribeError
         case subscribeStarted
         case subscribeStopped
@@ -2406,6 +2763,8 @@ extension IVSRealTimeClientTypes {
                 .publishError,
                 .publishStarted,
                 .publishStopped,
+                .replicationStarted,
+                .replicationStopped,
                 .subscribeError,
                 .subscribeStarted,
                 .subscribeStopped
@@ -2425,6 +2784,8 @@ extension IVSRealTimeClientTypes {
             case .publishError: return "PUBLISH_ERROR"
             case .publishStarted: return "PUBLISH_STARTED"
             case .publishStopped: return "PUBLISH_STOPPED"
+            case .replicationStarted: return "REPLICATION_STARTED"
+            case .replicationStopped: return "REPLICATION_STOPPED"
             case .subscribeError: return "SUBSCRIBE_ERROR"
             case .subscribeStarted: return "SUBSCRIBE_STARTED"
             case .subscribeStopped: return "SUBSCRIBE_STOPPED"
@@ -2438,6 +2799,10 @@ extension IVSRealTimeClientTypes {
 
     /// An occurrence during a stage session.
     public struct Event: Swift.Sendable {
+        /// ID of the session within the destination stage. Applicable only if the event name is REPLICATION_STARTED or REPLICATION_STOPPED.
+        public var destinationSessionId: Swift.String?
+        /// ARN of the stage where the participant is replicated. Applicable only if the event name is REPLICATION_STARTED or REPLICATION_STOPPED.
+        public var destinationStageArn: Swift.String?
         /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null.
         ///
         /// * B_FRAME_PRESENT — The participant's stream includes B-frames. For details, see [ IVS RTMP Publishing](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/rt-rtmp-publishing.html).
@@ -2476,19 +2841,27 @@ extension IVSRealTimeClientTypes {
         public var participantId: Swift.String?
         /// Unique identifier for the remote participant. For a subscribe event, this is the publisher. For a publish or join event, this is null. This is assigned by IVS.
         public var remoteParticipantId: Swift.String?
+        /// If true, this indicates the participantId is a replicated participant. If this is a subscribe event, then this flag refers to remoteParticipantId. Default: false.
+        public var replica: Swift.Bool
 
         public init(
+            destinationSessionId: Swift.String? = nil,
+            destinationStageArn: Swift.String? = nil,
             errorCode: IVSRealTimeClientTypes.EventErrorCode? = nil,
             eventTime: Foundation.Date? = nil,
             name: IVSRealTimeClientTypes.EventName? = nil,
             participantId: Swift.String? = nil,
-            remoteParticipantId: Swift.String? = nil
+            remoteParticipantId: Swift.String? = nil,
+            replica: Swift.Bool = false
         ) {
+            self.destinationSessionId = destinationSessionId
+            self.destinationStageArn = destinationStageArn
             self.errorCode = errorCode
             self.eventTime = eventTime
             self.name = name
             self.participantId = participantId
             self.remoteParticipantId = remoteParticipantId
+            self.replica = replica
         }
     }
 }
@@ -2506,6 +2879,88 @@ public struct ListParticipantEventsOutput: Swift.Sendable {
     ) {
         self.events = events
         self.nextToken = nextToken
+    }
+}
+
+public struct ListParticipantReplicasInput: Swift.Sendable {
+    /// Maximum number of results to return. Default: 50.
+    public var maxResults: Swift.Int?
+    /// The first participant to retrieve. This is used for pagination; see the nextToken response field.
+    public var nextToken: Swift.String?
+    /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by [CreateParticipantToken] or the jti (JWT ID) used to [create a self signed token](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started-distribute-tokens.html#getting-started-distribute-tokens-self-signed).
+    /// This member is required.
+    public var participantId: Swift.String?
+    /// ARN of the stage where the participant is publishing.
+    /// This member is required.
+    public var sourceStageArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        participantId: Swift.String? = nil,
+        sourceStageArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.participantId = participantId
+        self.sourceStageArn = sourceStageArn
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
+    /// Information about the replicated destination stage for a participant.
+    public struct ParticipantReplica: Swift.Sendable {
+        /// ID of the session within the destination stage.
+        /// This member is required.
+        public var destinationSessionId: Swift.String?
+        /// ARN of the stage where the participant is replicated.
+        /// This member is required.
+        public var destinationStageArn: Swift.String?
+        /// Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by [CreateParticipantToken] or the jti (JWT ID) used to [ create a self signed token](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started-distribute-tokens.html#getting-started-distribute-tokens-self-signed).
+        /// This member is required.
+        public var participantId: Swift.String?
+        /// Replica’s current replication state.
+        /// This member is required.
+        public var replicationState: IVSRealTimeClientTypes.ReplicationState?
+        /// ID of the session within the source stage.
+        /// This member is required.
+        public var sourceSessionId: Swift.String?
+        /// ARN of the stage from which this participant is replicated.
+        /// This member is required.
+        public var sourceStageArn: Swift.String?
+
+        public init(
+            destinationSessionId: Swift.String? = nil,
+            destinationStageArn: Swift.String? = nil,
+            participantId: Swift.String? = nil,
+            replicationState: IVSRealTimeClientTypes.ReplicationState? = nil,
+            sourceSessionId: Swift.String? = nil,
+            sourceStageArn: Swift.String? = nil
+        ) {
+            self.destinationSessionId = destinationSessionId
+            self.destinationStageArn = destinationStageArn
+            self.participantId = participantId
+            self.replicationState = replicationState
+            self.sourceSessionId = sourceSessionId
+            self.sourceStageArn = sourceStageArn
+        }
+    }
+}
+
+public struct ListParticipantReplicasOutput: Swift.Sendable {
+    /// If there are more participants than maxResults, use nextToken in the request to get the next set.
+    public var nextToken: Swift.String?
+    /// List of all participant replicas.
+    /// This member is required.
+    public var replicas: [IVSRealTimeClientTypes.ParticipantReplica]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        replicas: [IVSRealTimeClientTypes.ParticipantReplica]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.replicas = replicas
     }
 }
 
@@ -2600,6 +3055,14 @@ extension IVSRealTimeClientTypes {
         public var published: Swift.Bool
         /// The participant’s recording state.
         public var recordingState: IVSRealTimeClientTypes.ParticipantRecordingState?
+        /// The participant's replication state.
+        public var replicationState: IVSRealTimeClientTypes.ReplicationState?
+        /// Indicates if the participant has been replicated to another stage or is a replica from another stage. Default: NONE.
+        public var replicationType: IVSRealTimeClientTypes.ReplicationType?
+        /// ID of the session within the source stage, if replicationType is REPLICA.
+        public var sourceSessionId: Swift.String?
+        /// Source stage ARN from which this participant is replicated, if replicationType is REPLICA.
+        public var sourceStageArn: Swift.String?
         /// Whether the participant is connected to or disconnected from the stage.
         public var state: IVSRealTimeClientTypes.ParticipantState?
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
@@ -2610,6 +3073,10 @@ extension IVSRealTimeClientTypes {
             participantId: Swift.String? = nil,
             published: Swift.Bool = false,
             recordingState: IVSRealTimeClientTypes.ParticipantRecordingState? = nil,
+            replicationState: IVSRealTimeClientTypes.ReplicationState? = nil,
+            replicationType: IVSRealTimeClientTypes.ReplicationType? = nil,
+            sourceSessionId: Swift.String? = nil,
+            sourceStageArn: Swift.String? = nil,
             state: IVSRealTimeClientTypes.ParticipantState? = nil,
             userId: Swift.String? = nil
         ) {
@@ -2617,6 +3084,10 @@ extension IVSRealTimeClientTypes {
             self.participantId = participantId
             self.published = published
             self.recordingState = recordingState
+            self.replicationState = replicationState
+            self.replicationType = replicationType
+            self.sourceSessionId = sourceSessionId
+            self.sourceStageArn = sourceStageArn
             self.state = state
             self.userId = userId
         }
@@ -2934,6 +3405,71 @@ public struct StartCompositionOutput: Swift.Sendable {
     }
 }
 
+public struct StartParticipantReplicationInput: Swift.Sendable {
+    /// Application-provided attributes to set on the replicated participant in the destination stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information. These attributes are merged with any attributes set for this participant when creating the token. If there is overlap in keys, the values in these attributes are replaced.
+    public var attributes: [Swift.String: Swift.String]?
+    /// ARN of the stage to which the participant will be replicated.
+    /// This member is required.
+    public var destinationStageArn: Swift.String?
+    /// Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by [CreateParticipantToken] or the jti (JWT ID) used to [create a self signed token](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started-distribute-tokens.html#getting-started-distribute-tokens-self-signed).
+    /// This member is required.
+    public var participantId: Swift.String?
+    /// If the participant disconnects and then reconnects within the specified interval, replication will continue to be ACTIVE. Default: 0.
+    public var reconnectWindowSeconds: Swift.Int?
+    /// ARN of the stage where the participant is publishing.
+    /// This member is required.
+    public var sourceStageArn: Swift.String?
+
+    public init(
+        attributes: [Swift.String: Swift.String]? = nil,
+        destinationStageArn: Swift.String? = nil,
+        participantId: Swift.String? = nil,
+        reconnectWindowSeconds: Swift.Int? = nil,
+        sourceStageArn: Swift.String? = nil
+    ) {
+        self.attributes = attributes
+        self.destinationStageArn = destinationStageArn
+        self.participantId = participantId
+        self.reconnectWindowSeconds = reconnectWindowSeconds
+        self.sourceStageArn = sourceStageArn
+    }
+}
+
+public struct StartParticipantReplicationOutput: Swift.Sendable {
+    ///
+    public var accessControlAllowOrigin: Swift.String?
+    ///
+    public var accessControlExposeHeaders: Swift.String?
+    ///
+    public var cacheControl: Swift.String?
+    ///
+    public var contentSecurityPolicy: Swift.String?
+    ///
+    public var strictTransportSecurity: Swift.String?
+    ///
+    public var xContentTypeOptions: Swift.String?
+    ///
+    public var xFrameOptions: Swift.String?
+
+    public init(
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
+    ) {
+        self.accessControlAllowOrigin = accessControlAllowOrigin
+        self.accessControlExposeHeaders = accessControlExposeHeaders
+        self.cacheControl = cacheControl
+        self.contentSecurityPolicy = contentSecurityPolicy
+        self.strictTransportSecurity = strictTransportSecurity
+        self.xContentTypeOptions = xContentTypeOptions
+        self.xFrameOptions = xFrameOptions
+    }
+}
+
 public struct StopCompositionInput: Swift.Sendable {
     /// ARN of the Composition.
     /// This member is required.
@@ -2949,6 +3485,63 @@ public struct StopCompositionInput: Swift.Sendable {
 public struct StopCompositionOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct StopParticipantReplicationInput: Swift.Sendable {
+    /// ARN of the stage where the participant has been replicated.
+    /// This member is required.
+    public var destinationStageArn: Swift.String?
+    /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by [CreateParticipantToken] or the jti (JWT ID) used to [ create a self signed token](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started-distribute-tokens.html#getting-started-distribute-tokens-self-signed).
+    /// This member is required.
+    public var participantId: Swift.String?
+    /// ARN of the stage where the participant is publishing.
+    /// This member is required.
+    public var sourceStageArn: Swift.String?
+
+    public init(
+        destinationStageArn: Swift.String? = nil,
+        participantId: Swift.String? = nil,
+        sourceStageArn: Swift.String? = nil
+    ) {
+        self.destinationStageArn = destinationStageArn
+        self.participantId = participantId
+        self.sourceStageArn = sourceStageArn
+    }
+}
+
+public struct StopParticipantReplicationOutput: Swift.Sendable {
+    ///
+    public var accessControlAllowOrigin: Swift.String?
+    ///
+    public var accessControlExposeHeaders: Swift.String?
+    ///
+    public var cacheControl: Swift.String?
+    ///
+    public var contentSecurityPolicy: Swift.String?
+    ///
+    public var strictTransportSecurity: Swift.String?
+    ///
+    public var xContentTypeOptions: Swift.String?
+    ///
+    public var xFrameOptions: Swift.String?
+
+    public init(
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
+    ) {
+        self.accessControlAllowOrigin = accessControlAllowOrigin
+        self.accessControlExposeHeaders = accessControlExposeHeaders
+        self.cacheControl = cacheControl
+        self.contentSecurityPolicy = contentSecurityPolicy
+        self.strictTransportSecurity = strictTransportSecurity
+        self.xContentTypeOptions = xContentTypeOptions
+        self.xFrameOptions = xFrameOptions
+    }
 }
 
 public struct TagResourceInput: Swift.Sendable {
@@ -2977,7 +3570,7 @@ public struct UntagResourceInput: Swift.Sendable {
     /// The ARN of the resource to be untagged. The ARN must be URL-encoded.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+    /// Array of tag keys (strings) for the tags to be removed. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
@@ -3221,6 +3814,13 @@ extension ListParticipantEventsInput {
     }
 }
 
+extension ListParticipantReplicasInput {
+
+    static func urlPathProvider(_ value: ListParticipantReplicasInput) -> Swift.String? {
+        return "/ListParticipantReplicas"
+    }
+}
+
 extension ListParticipantsInput {
 
     static func urlPathProvider(_ value: ListParticipantsInput) -> Swift.String? {
@@ -3273,10 +3873,24 @@ extension StartCompositionInput {
     }
 }
 
+extension StartParticipantReplicationInput {
+
+    static func urlPathProvider(_ value: StartParticipantReplicationInput) -> Swift.String? {
+        return "/StartParticipantReplication"
+    }
+}
+
 extension StopCompositionInput {
 
     static func urlPathProvider(_ value: StopCompositionInput) -> Swift.String? {
         return "/StopComposition"
+    }
+}
+
+extension StopParticipantReplicationInput {
+
+    static func urlPathProvider(_ value: StopParticipantReplicationInput) -> Swift.String? {
+        return "/StopParticipantReplication"
     }
 }
 
@@ -3558,6 +4172,17 @@ extension ListParticipantEventsInput {
     }
 }
 
+extension ListParticipantReplicasInput {
+
+    static func write(value: ListParticipantReplicasInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["participantId"].write(value.participantId)
+        try writer["sourceStageArn"].write(value.sourceStageArn)
+    }
+}
+
 extension ListParticipantsInput {
 
     static func write(value: ListParticipantsInput?, to writer: SmithyJSON.Writer) throws {
@@ -3622,11 +4247,33 @@ extension StartCompositionInput {
     }
 }
 
+extension StartParticipantReplicationInput {
+
+    static func write(value: StartParticipantReplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["destinationStageArn"].write(value.destinationStageArn)
+        try writer["participantId"].write(value.participantId)
+        try writer["reconnectWindowSeconds"].write(value.reconnectWindowSeconds)
+        try writer["sourceStageArn"].write(value.sourceStageArn)
+    }
+}
+
 extension StopCompositionInput {
 
     static func write(value: StopCompositionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["arn"].write(value.arn)
+    }
+}
+
+extension StopParticipantReplicationInput {
+
+    static func write(value: StopParticipantReplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationStageArn"].write(value.destinationStageArn)
+        try writer["participantId"].write(value.participantId)
+        try writer["sourceStageArn"].write(value.sourceStageArn)
     }
 }
 
@@ -3920,6 +4567,19 @@ extension ListParticipantEventsOutput {
     }
 }
 
+extension ListParticipantReplicasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListParticipantReplicasOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListParticipantReplicasOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.replicas = try reader["replicas"].readListIfPresent(memberReadingClosure: IVSRealTimeClientTypes.ParticipantReplica.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListParticipantsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListParticipantsOutput {
@@ -4009,10 +4669,68 @@ extension StartCompositionOutput {
     }
 }
 
+extension StartParticipantReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartParticipantReplicationOutput {
+        var value = StartParticipantReplicationOutput()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.xFrameOptions = xFrameOptionsHeaderValue
+        }
+        return value
+    }
+}
+
 extension StopCompositionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopCompositionOutput {
         return StopCompositionOutput()
+    }
+}
+
+extension StopParticipantReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopParticipantReplicationOutput {
+        var value = StopParticipantReplicationOutput()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.xFrameOptions = xFrameOptionsHeaderValue
+        }
+        return value
     }
 }
 
@@ -4476,6 +5194,21 @@ enum ListParticipantEventsOutputError {
     }
 }
 
+enum ListParticipantReplicasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListParticipantsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4591,6 +5324,26 @@ enum StartCompositionOutputError {
     }
 }
 
+enum StartParticipantReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "PendingVerification": return try PendingVerification.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopCompositionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4604,6 +5357,23 @@ enum StopCompositionOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopParticipantReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4683,20 +5453,32 @@ extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
         var value = AccessDeniedException()
-        value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4709,7 +5491,32 @@ extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
         var value = ConflictException()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4718,24 +5525,36 @@ extension ConflictException {
     }
 }
 
-extension ResourceNotFoundException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        let httpResponse = baseError.httpResponse
+        var value = InternalServerException()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4748,7 +5567,108 @@ extension PendingVerification {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PendingVerification {
         let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
         var value = PendingVerification()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
+        value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
+        var value = ResourceNotFoundException()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
+        value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
+        var value = ServiceQuotaExceededException()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4761,7 +5681,32 @@ extension ValidationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
         var value = ValidationException()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4871,7 +5816,10 @@ extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
 
     static func write(value: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["hlsConfiguration"].write(value.hlsConfiguration, with: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration.write(value:to:))
         try writer["mediaTypes"].writeList(value.mediaTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ParticipantRecordingMediaType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["recordParticipantReplicas"].write(value.recordParticipantReplicas)
+        try writer["recordingReconnectWindowSeconds"].write(value.recordingReconnectWindowSeconds)
         try writer["storageConfigurationArn"].write(value.storageConfigurationArn)
         try writer["thumbnailConfiguration"].write(value.thumbnailConfiguration, with: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration.write(value:to:))
     }
@@ -4882,6 +5830,24 @@ extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
         value.storageConfigurationArn = try reader["storageConfigurationArn"].readIfPresent() ?? ""
         value.mediaTypes = try reader["mediaTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ParticipantRecordingMediaType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.thumbnailConfiguration = try reader["thumbnailConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration.read(from:))
+        value.recordingReconnectWindowSeconds = try reader["recordingReconnectWindowSeconds"].readIfPresent() ?? 0
+        value.hlsConfiguration = try reader["hlsConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration.read(from:))
+        value.recordParticipantReplicas = try reader["recordParticipantReplicas"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetSegmentDurationSeconds"].write(value.targetSegmentDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration()
+        value.targetSegmentDurationSeconds = try reader["targetSegmentDurationSeconds"].readIfPresent()
         return value
     }
 }
@@ -5047,12 +6013,29 @@ extension IVSRealTimeClientTypes.RecordingConfiguration {
     static func write(value: IVSRealTimeClientTypes.RecordingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["format"].write(value.format)
+        try writer["hlsConfiguration"].write(value.hlsConfiguration, with: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.RecordingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IVSRealTimeClientTypes.RecordingConfiguration()
+        value.hlsConfiguration = try reader["hlsConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration.read(from:))
         value.format = try reader["format"].readIfPresent()
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetSegmentDurationSeconds"].write(value.targetSegmentDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration()
+        value.targetSegmentDurationSeconds = try reader["targetSegmentDurationSeconds"].readIfPresent()
         return value
     }
 }
@@ -5098,6 +6081,7 @@ extension IVSRealTimeClientTypes.PipConfiguration {
         try writer["featuredParticipantAttribute"].write(value.featuredParticipantAttribute)
         try writer["gridGap"].write(value.gridGap)
         try writer["omitStoppedVideo"].write(value.omitStoppedVideo)
+        try writer["participantOrderAttribute"].write(value.participantOrderAttribute)
         try writer["pipBehavior"].write(value.pipBehavior)
         try writer["pipHeight"].write(value.pipHeight)
         try writer["pipOffset"].write(value.pipOffset)
@@ -5120,6 +6104,7 @@ extension IVSRealTimeClientTypes.PipConfiguration {
         value.pipPosition = try reader["pipPosition"].readIfPresent()
         value.pipWidth = try reader["pipWidth"].readIfPresent()
         value.pipHeight = try reader["pipHeight"].readIfPresent()
+        value.participantOrderAttribute = try reader["participantOrderAttribute"].readIfPresent()
         return value
     }
 }
@@ -5131,6 +6116,7 @@ extension IVSRealTimeClientTypes.GridConfiguration {
         try writer["featuredParticipantAttribute"].write(value.featuredParticipantAttribute)
         try writer["gridGap"].write(value.gridGap)
         try writer["omitStoppedVideo"].write(value.omitStoppedVideo)
+        try writer["participantOrderAttribute"].write(value.participantOrderAttribute)
         try writer["videoAspectRatio"].write(value.videoAspectRatio)
         try writer["videoFillMode"].write(value.videoFillMode)
     }
@@ -5143,6 +6129,7 @@ extension IVSRealTimeClientTypes.GridConfiguration {
         value.videoAspectRatio = try reader["videoAspectRatio"].readIfPresent()
         value.videoFillMode = try reader["videoFillMode"].readIfPresent()
         value.gridGap = try reader["gridGap"].readIfPresent() ?? 0
+        value.participantOrderAttribute = try reader["participantOrderAttribute"].readIfPresent()
         return value
     }
 }
@@ -5168,6 +6155,10 @@ extension IVSRealTimeClientTypes.Participant {
         value.recordingS3Prefix = try reader["recordingS3Prefix"].readIfPresent()
         value.recordingState = try reader["recordingState"].readIfPresent()
         value.`protocol` = try reader["protocol"].readIfPresent()
+        value.replicationType = try reader["replicationType"].readIfPresent()
+        value.replicationState = try reader["replicationState"].readIfPresent()
+        value.sourceStageArn = try reader["sourceStageArn"].readIfPresent()
+        value.sourceSessionId = try reader["sourceSessionId"].readIfPresent()
         return value
     }
 }
@@ -5265,6 +6256,24 @@ extension IVSRealTimeClientTypes.Event {
         value.eventTime = try reader["eventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.remoteParticipantId = try reader["remoteParticipantId"].readIfPresent()
         value.errorCode = try reader["errorCode"].readIfPresent()
+        value.destinationStageArn = try reader["destinationStageArn"].readIfPresent()
+        value.destinationSessionId = try reader["destinationSessionId"].readIfPresent()
+        value.replica = try reader["replica"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.ParticipantReplica {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ParticipantReplica {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.ParticipantReplica()
+        value.sourceStageArn = try reader["sourceStageArn"].readIfPresent() ?? ""
+        value.participantId = try reader["participantId"].readIfPresent() ?? ""
+        value.sourceSessionId = try reader["sourceSessionId"].readIfPresent() ?? ""
+        value.destinationStageArn = try reader["destinationStageArn"].readIfPresent() ?? ""
+        value.destinationSessionId = try reader["destinationSessionId"].readIfPresent() ?? ""
+        value.replicationState = try reader["replicationState"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5280,6 +6289,10 @@ extension IVSRealTimeClientTypes.ParticipantSummary {
         value.firstJoinTime = try reader["firstJoinTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.published = try reader["published"].readIfPresent() ?? false
         value.recordingState = try reader["recordingState"].readIfPresent()
+        value.replicationType = try reader["replicationType"].readIfPresent()
+        value.replicationState = try reader["replicationState"].readIfPresent()
+        value.sourceStageArn = try reader["sourceStageArn"].readIfPresent()
+        value.sourceSessionId = try reader["sourceSessionId"].readIfPresent()
         return value
     }
 }

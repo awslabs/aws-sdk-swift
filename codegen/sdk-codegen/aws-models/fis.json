@@ -1447,7 +1447,7 @@
                     }
                 },
                 "prefix": {
-                    "target": "com.amazonaws.fis#S3ObjectKey",
+                    "target": "com.amazonaws.fis#ReportConfigurationS3OutputPrefix",
                     "traits": {
                         "smithy.api#documentation": "<p>The prefix of the S3 bucket where the experiment report will be stored.</p>"
                     }
@@ -3341,17 +3341,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -3362,17 +3351,6 @@
                                 "Region": "us-iso-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -3389,17 +3367,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -3410,17 +3377,6 @@
                                 "Region": "us-isob-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -3922,6 +3878,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
+                    "items": "actions",
                     "pageSize": "maxResults"
                 }
             }
@@ -4003,6 +3960,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
+                    "items": "resolvedTargets",
                     "pageSize": "maxResults"
                 }
             }
@@ -4164,6 +4122,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
+                    "items": "experimentTemplates",
                     "pageSize": "maxResults"
                 }
             }
@@ -4242,6 +4201,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
+                    "items": "experiments",
                     "pageSize": "maxResults"
                 }
             }
@@ -4377,6 +4337,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
+                    "items": "targetAccountConfigurations",
                     "pageSize": "maxResults"
                 }
             }
@@ -4463,6 +4424,7 @@
                 "smithy.api#paginated": {
                     "inputToken": "nextToken",
                     "outputToken": "nextToken",
+                    "items": "targetResourceTypes",
                     "pageSize": "maxResults"
                 }
             }
@@ -4581,7 +4543,7 @@
                     }
                 },
                 "prefix": {
-                    "target": "com.amazonaws.fis#S3ObjectKey",
+                    "target": "com.amazonaws.fis#ReportConfigurationS3OutputPrefix",
                     "traits": {
                         "smithy.api#documentation": "<p>The prefix of the S3 bucket where the experiment report will be stored.</p>"
                     }
@@ -4601,7 +4563,7 @@
                     }
                 },
                 "prefix": {
-                    "target": "com.amazonaws.fis#S3ObjectKey",
+                    "target": "com.amazonaws.fis#ReportConfigurationS3OutputPrefix",
                     "traits": {
                         "smithy.api#documentation": "<p>The prefix of the S3 bucket where the experiment report will be stored.</p>"
                     }
@@ -4609,6 +4571,16 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Specifies the S3 destination for the experiment report.</p>"
+            }
+        },
+        "com.amazonaws.fis#ReportConfigurationS3OutputPrefix": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^[\\S]+$"
             }
         },
         "com.amazonaws.fis#ResolvedTarget": {
@@ -4707,7 +4679,7 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 1,
-                    "max": 1024
+                    "max": 700
                 },
                 "smithy.api#pattern": "^[\\s\\S]+$"
             }

@@ -32,6 +32,7 @@ import struct Smithy.URIQueryItem
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// The ID of the resource which lead to the access denial.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -57,6 +58,7 @@ extension SecurityIRClientTypes {
     public enum AwsRegion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afSouth1
         case apEast1
+        case apEast2
         case apNortheast1
         case apNortheast2
         case apNortheast3
@@ -65,6 +67,7 @@ extension SecurityIRClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast7
         case apSouth1
         case apSouth2
         case caCentral1
@@ -82,6 +85,7 @@ extension SecurityIRClientTypes {
         case ilCentral1
         case meCentral1
         case meSouth1
+        case mxCentral1
         case saEast1
         case usEast1
         case usEast2
@@ -93,6 +97,7 @@ extension SecurityIRClientTypes {
             return [
                 .afSouth1,
                 .apEast1,
+                .apEast2,
                 .apNortheast1,
                 .apNortheast2,
                 .apNortheast3,
@@ -101,6 +106,7 @@ extension SecurityIRClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast7,
                 .apSouth1,
                 .apSouth2,
                 .caCentral1,
@@ -118,6 +124,7 @@ extension SecurityIRClientTypes {
                 .ilCentral1,
                 .meCentral1,
                 .meSouth1,
+                .mxCentral1,
                 .saEast1,
                 .usEast1,
                 .usEast2,
@@ -135,6 +142,7 @@ extension SecurityIRClientTypes {
             switch self {
             case .afSouth1: return "af-south-1"
             case .apEast1: return "ap-east-1"
+            case .apEast2: return "ap-east-2"
             case .apNortheast1: return "ap-northeast-1"
             case .apNortheast2: return "ap-northeast-2"
             case .apNortheast3: return "ap-northeast-3"
@@ -143,6 +151,7 @@ extension SecurityIRClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast7: return "ap-southeast-7"
             case .apSouth1: return "ap-south-1"
             case .apSouth2: return "ap-south-2"
             case .caCentral1: return "ca-central-1"
@@ -160,6 +169,7 @@ extension SecurityIRClientTypes {
             case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
+            case .mxCentral1: return "mx-central-1"
             case .saEast1: return "sa-east-1"
             case .usEast1: return "us-east-1"
             case .usEast2: return "us-east-2"
@@ -172,7 +182,7 @@ extension SecurityIRClientTypes {
 }
 
 public struct BatchGetMemberAccountDetailsInput: Swift.Sendable {
-    /// Optional element to query the membership relationship status to a provided list of account IDs.
+    /// Optional element to query the membership relationship status to a provided list of account IDs. AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
     /// This member is required.
     public var accountIds: [Swift.String]?
     /// Required element used in combination with BatchGetMemberAccountDetails to identify the membership ID to query.
@@ -219,12 +229,14 @@ extension SecurityIRClientTypes {
     public enum MembershipAccountRelationshipStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case associated
         case disassociated
+        case unassociated
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MembershipAccountRelationshipStatus] {
             return [
                 .associated,
-                .disassociated
+                .disassociated,
+                .unassociated
             ]
         }
 
@@ -237,6 +249,7 @@ extension SecurityIRClientTypes {
             switch self {
             case .associated: return "Associated"
             case .disassociated: return "Disassociated"
+            case .unassociated: return "Unassociated"
             case let .sdkUnknown(s): return s
             }
         }
@@ -247,11 +260,13 @@ extension SecurityIRClientTypes {
 
     public enum MembershipAccountRelationshipType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case organization
+        case unrelated
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MembershipAccountRelationshipType] {
             return [
-                .organization
+                .organization,
+                .unrelated
             ]
         }
 
@@ -263,6 +278,7 @@ extension SecurityIRClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .organization: return "Organization"
+            case .unrelated: return "Unrelated"
             case let .sdkUnknown(s): return s
             }
         }
@@ -293,7 +309,7 @@ extension SecurityIRClientTypes {
 }
 
 public struct BatchGetMemberAccountDetailsOutput: Swift.Sendable {
-    /// The response element providing errors messages for requests to GetMembershipAccountDetails.
+    /// The response element providing error messages for requests to GetMembershipAccountDetails.
     public var errors: [SecurityIRClientTypes.GetMembershipAccountDetailError]?
     /// The response element providing responses for requests to GetMembershipAccountDetails.
     public var items: [SecurityIRClientTypes.GetMembershipAccountDetailItem]?
@@ -388,9 +404,9 @@ extension SecurityIRClientTypes {
 }
 
 public struct CloseCaseOutput: Swift.Sendable {
-    /// A response element providing responses for requests to CloseCase. This element responds with the case status following the action.
+    /// A response element providing responses for requests to CloseCase. This element responds Closed  if successful.
     public var caseStatus: SecurityIRClientTypes.CaseStatus?
-    /// A response element providing responses for requests to CloseCase. This element responds with the case closure date following the action.
+    /// A response element providing responses for requests to CloseCase. This element responds with the ISO-8601 formatted timestamp of the moment when the case was closed.
     public var closedDate: Foundation.Date?
 
     public init(
@@ -531,7 +547,7 @@ extension SecurityIRClientTypes.Watcher: Swift.CustomDebugStringConvertible {
 }
 
 public struct CreateCaseInput: Swift.Sendable {
-    /// Required element used in combination with CreateCase.
+    /// The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided.
     public var clientToken: Swift.String?
     /// Required element used in combination with CreateCase to provide a description for the new case.
     /// This member is required.
@@ -539,7 +555,7 @@ public struct CreateCaseInput: Swift.Sendable {
     /// Required element used in combination with CreateCase to provide an engagement type for the new cases. Available engagement types include Security Incident | Investigation
     /// This member is required.
     public var engagementType: SecurityIRClientTypes.EngagementType?
-    /// Required element used in combination with CreateCase to provide a list of impacted accounts.
+    /// Required element used in combination with CreateCase to provide a list of impacted accounts. AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
     /// This member is required.
     public var impactedAccounts: [Swift.String]?
     /// An optional element used in combination with CreateCase to provide a list of impacted regions.
@@ -549,7 +565,7 @@ public struct CreateCaseInput: Swift.Sendable {
     /// Required element used in combination with CreateCase to provide an initial start date for the unauthorized activity.
     /// This member is required.
     public var reportedIncidentStartDate: Foundation.Date?
-    /// Required element used in combination with CreateCase to identify the resolver type. Available resolvers include self-supported | aws-supported.
+    /// Required element used in combination with CreateCase to identify the resolver type.
     /// This member is required.
     public var resolverType: SecurityIRClientTypes.ResolverType?
     /// An optional element used in combination with CreateCase to add customer specified tags to a case.
@@ -616,7 +632,7 @@ public struct CreateCaseCommentInput: Swift.Sendable {
     /// Required element used in combination with CreateCaseComment to specify a case ID.
     /// This member is required.
     public var caseId: Swift.String?
-    /// An optional element used in combination with CreateCaseComment.
+    /// The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided.
     public var clientToken: Swift.String?
 
     public init(
@@ -823,11 +839,11 @@ public struct GetCaseOutput: Swift.Sendable {
     public var impactedServices: [Swift.String]?
     /// Response element for GetCase that provides the date a case was last modified.
     public var lastUpdatedDate: Foundation.Date?
-    /// Response element for GetCase that provides identifies the case is waiting on customer input.
+    /// Response element for GetCase that identifies the case is waiting on customer input.
     public var pendingAction: SecurityIRClientTypes.PendingAction?
     /// Response element for GetCase that provides the customer provided incident start date.
     public var reportedIncidentStartDate: Foundation.Date?
-    /// Response element for GetCase that provides the current resolver types. Options include  self-supported | AWS-supported.
+    /// Response element for GetCase that provides the current resolver types.
     public var resolverType: SecurityIRClientTypes.ResolverType?
     /// Response element for GetCase that provides a list of suspicious IP addresses associated with unauthorized activity.
     public var threatActorIpAddresses: [SecurityIRClientTypes.ThreatActorIp]?
@@ -919,12 +935,12 @@ extension GetCaseAttachmentDownloadUrlOutput: Swift.CustomDebugStringConvertible
 }
 
 public struct GetCaseAttachmentUploadUrlInput: Swift.Sendable {
-    /// Required element for GetCaseAttachmentUploadUrl to identify the case ID for uploading an attachment to.
+    /// Required element for GetCaseAttachmentUploadUrl to identify the case ID for uploading an attachment.
     /// This member is required.
     public var caseId: Swift.String?
-    /// Optional element for customer provided token.
+    /// The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided.
     public var clientToken: Swift.String?
-    /// Required element for GetCaseAttachmentUploadUrl to identify the size od the file attachment.
+    /// Required element for GetCaseAttachmentUploadUrl to identify the size of the file attachment.
     /// This member is required.
     public var contentLength: Swift.Int?
     /// Required element for GetCaseAttachmentUploadUrl to identify the file name of the attachment to upload.
@@ -950,7 +966,7 @@ extension GetCaseAttachmentUploadUrlInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct GetCaseAttachmentUploadUrlOutput: Swift.Sendable {
-    /// Response element providing the Amazon S3 presigned UTL to upload the attachment.
+    /// Response element providing the Amazon S3 presigned URL to upload the attachment.
     /// This member is required.
     public var attachmentPresignedUrl: Swift.String?
 
@@ -972,7 +988,7 @@ public struct ListCaseEditsInput: Swift.Sendable {
     public var caseId: Swift.String?
     /// Optional element to identify how many results to obtain. There is a maximum value of 25.
     public var maxResults: Swift.Int?
-    /// Optional element for a customer provided token.
+    /// An optional string that, if supplied, must be copied from the output of a previous call to ListCaseEdits. When provided in this manner, the API fetches the next page of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -1014,9 +1030,9 @@ extension SecurityIRClientTypes {
 }
 
 public struct ListCaseEditsOutput: Swift.Sendable {
-    /// Response element for ListCaseEdits that includes the action, eventtimestamp, message, and principal for the response.
+    /// Response element for ListCaseEdits that includes the action, event timestamp, message, and principal for the response.
     public var items: [SecurityIRClientTypes.CaseEditItem]?
-    /// Optional element.
+    /// An optional string that, if supplied on subsequent calls to ListCaseEdits, allows the API to fetch the next page of results.
     public var nextToken: Swift.String?
     /// Response element for ListCaseEdits that identifies the total number of edits.
     public var total: Swift.Int?
@@ -1035,7 +1051,7 @@ public struct ListCaseEditsOutput: Swift.Sendable {
 public struct ListCasesInput: Swift.Sendable {
     /// Optional element for ListCases to limit the number of responses.
     public var maxResults: Swift.Int?
-    /// Optional element.
+    /// An optional string that, if supplied, must be copied from the output of a previous call to ListCases. When provided in this manner, the API fetches the next page of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -1107,7 +1123,7 @@ extension SecurityIRClientTypes.ListCasesItem: Swift.CustomDebugStringConvertibl
 public struct ListCasesOutput: Swift.Sendable {
     /// Response element for ListCases that includes caseARN, caseID, caseStatus, closedDate, createdDate, engagementType, lastUpdatedDate, pendingAction, resolverType, and title for each response.
     public var items: [SecurityIRClientTypes.ListCasesItem]?
-    /// Optional element.
+    /// An optional string that, if supplied on subsequent calls to ListCases, allows the API to fetch the next page of results.
     public var nextToken: Swift.String?
     /// Response element for ListCases providing the total number of responses.
     public var total: Swift.Int?
@@ -1129,7 +1145,7 @@ public struct ListCommentsInput: Swift.Sendable {
     public var caseId: Swift.String?
     /// Optional element for ListComments to limit the number of responses.
     public var maxResults: Swift.Int?
-    /// Optional element.
+    /// An optional string that, if supplied, must be copied from the output of a previous call to ListComments. When provided in this manner, the API fetches the next page of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -1187,7 +1203,7 @@ extension SecurityIRClientTypes.ListCommentsItem: Swift.CustomDebugStringConvert
 public struct ListCommentsOutput: Swift.Sendable {
     /// Response element for ListComments providing the body, commentID, createDate, creator, lastUpdatedBy and lastUpdatedDate for each response.
     public var items: [SecurityIRClientTypes.ListCommentsItem]?
-    /// Optional request elements.
+    /// An optional string that, if supplied on subsequent calls to ListComments, allows the API to fetch the next page of results.
     public var nextToken: Swift.String?
     /// Response element for ListComments identifying the number of responses.
     public var total: Swift.Int?
@@ -1213,9 +1229,9 @@ public struct UpdateCaseInput: Swift.Sendable {
     public var description: Swift.String?
     /// Optional element for UpdateCase to provide content for the engagement type field. Available engagement types include Security Incident | Investigation.
     public var engagementType: SecurityIRClientTypes.EngagementType?
-    /// Optional element for UpdateCase to provide content to add accounts impacted.
+    /// Optional element for UpdateCase to provide content to add accounts impacted. AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
     public var impactedAccountsToAdd: [Swift.String]?
-    /// Optional element for UpdateCase to provide content to add accounts impacted.
+    /// Optional element for UpdateCase to provide content to add accounts impacted. AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
     public var impactedAccountsToDelete: [Swift.String]?
     /// Optional element for UpdateCase to provide content to add regions impacted.
     public var impactedAwsRegionsToAdd: [SecurityIRClientTypes.ImpactedAwsRegion]?
@@ -1437,12 +1453,13 @@ public struct UpdateResolverTypeOutput: Swift.Sendable {
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// The exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// Element providing the ID of the resource affected.
+        /// The ID of the conflicting resource.
         /// This member is required.
         public internal(set) var resourceId: Swift.String? = nil
-        /// Element providing the type of the resource affected.
+        /// The type of the conflicting resource.
         /// This member is required.
         public internal(set) var resourceType: Swift.String? = nil
     }
@@ -1546,12 +1563,18 @@ extension SecurityIRClientTypes {
 }
 
 public struct CreateMembershipInput: Swift.Sendable {
-    /// An optional element used in combination with CreateMembership.
+    /// The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided.
     public var clientToken: Swift.String?
-    /// Required element use in combination with CreateMembership to add customer incident response team members and trusted partners to the membership.
+    /// The coverEntireOrganization parameter is a boolean flag that determines whether the membership should be applied to the entire Amazon Web Services Organization. When set to true, the membership will be created for all accounts within the organization. When set to false, the membership will only be created for specified accounts. This parameter is optional. If not specified, the default value is false.
+    ///
+    /// * If set to true: The membership will automatically include all existing and future accounts in the Amazon Web Services Organization.
+    ///
+    /// * If set to false: The membership will only apply to explicitly specified accounts.
+    public var coverEntireOrganization: Swift.Bool?
+    /// Required element used in combination with CreateMembership to add customer incident response team members and trusted partners to the membership.
     /// This member is required.
     public var incidentResponseTeam: [SecurityIRClientTypes.IncidentResponder]?
-    /// Required element use in combination with CreateMembership to create a name for the membership.
+    /// Required element used in combination with CreateMembership to create a name for the membership.
     /// This member is required.
     public var membershipName: Swift.String?
     /// Optional element to enable the monitoring and investigation opt-in features for the service.
@@ -1561,12 +1584,14 @@ public struct CreateMembershipInput: Swift.Sendable {
 
     public init(
         clientToken: Swift.String? = nil,
+        coverEntireOrganization: Swift.Bool? = nil,
         incidentResponseTeam: [SecurityIRClientTypes.IncidentResponder]? = nil,
         membershipName: Swift.String? = nil,
         optInFeatures: [SecurityIRClientTypes.OptInFeature]? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
+        self.coverEntireOrganization = coverEntireOrganization
         self.incidentResponseTeam = incidentResponseTeam
         self.membershipName = membershipName
         self.optInFeatures = optInFeatures
@@ -1576,7 +1601,7 @@ public struct CreateMembershipInput: Swift.Sendable {
 
 extension CreateMembershipInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateMembershipInput(clientToken: \(Swift.String(describing: clientToken)), incidentResponseTeam: \(Swift.String(describing: incidentResponseTeam)), optInFeatures: \(Swift.String(describing: optInFeatures)), tags: \(Swift.String(describing: tags)), membershipName: \"CONTENT_REDACTED\")"}
+        "CreateMembershipInput(clientToken: \(Swift.String(describing: clientToken)), coverEntireOrganization: \(Swift.String(describing: coverEntireOrganization)), incidentResponseTeam: \(Swift.String(describing: incidentResponseTeam)), optInFeatures: \(Swift.String(describing: optInFeatures)), tags: \(Swift.String(describing: tags)), membershipName: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateMembershipOutput: Swift.Sendable {
@@ -1634,6 +1659,40 @@ public struct GetMembershipInput: Swift.Sendable {
 
 extension SecurityIRClientTypes {
 
+    /// The MembershipAccountsConfigurations structure defines the configuration settings for managing membership accounts withinAmazon Web Services. This structure contains settings that determine how member accounts are configured and managed within your organization, including:
+    ///
+    /// * Account configuration preferences
+    ///
+    /// * Membership validation rules
+    ///
+    /// * Account access settings
+    ///
+    ///
+    /// You can use this structure to define and maintain standardized configurations across multiple member accounts in your organization.
+    public struct MembershipAccountsConfigurations: Swift.Sendable {
+        /// The coverEntireOrganization field is a boolean value that determines whether the membership configuration applies to all accounts within an Amazon Web Services Organization. When set to true, the configuration will be applied across all accounts in the organization. When set to false, the configuration will only apply to specifically designated accounts under the AWS Organizational Units specificied.
+        public var coverEntireOrganization: Swift.Bool?
+        /// A list of organizational unit IDs that follow the pattern ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}. These IDs represent the organizational units within an Amazon Web Services Organizations structure that are covered by the membership. Each organizational unit ID in the list must:
+        ///
+        /// * Begin with the prefix 'ou-'
+        ///
+        /// * Contain between 4 and 32 alphanumeric characters in the first segment
+        ///
+        /// * Contain between 8 and 32 alphanumeric characters in the second segment
+        public var organizationalUnits: [Swift.String]?
+
+        public init(
+            coverEntireOrganization: Swift.Bool? = nil,
+            organizationalUnits: [Swift.String]? = nil
+        ) {
+            self.coverEntireOrganization = coverEntireOrganization
+            self.organizationalUnits = organizationalUnits
+        }
+    }
+}
+
+extension SecurityIRClientTypes {
+
     public enum MembershipStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case cancelled
@@ -1665,12 +1724,20 @@ extension SecurityIRClientTypes {
 }
 
 public struct GetMembershipOutput: Swift.Sendable {
-    /// Response element for GetMembership that provides the configured account for managing the membership.
+    /// Response element for GetMembership that provides the account configured to manage the membership.
     public var accountId: Swift.String?
     /// Response element for GetMembership that provides the configured membership type. Options include  Standalone | Organizations.
     public var customerType: SecurityIRClientTypes.CustomerType?
     /// Response element for GetMembership that provides the configured membership incident response team members.
     public var incidentResponseTeam: [SecurityIRClientTypes.IncidentResponder]?
+    /// The membershipAccountsConfigurations field contains the configuration details for member accounts within the Amazon Web Services Organizations membership structure. This field returns a structure containing information about:
+    ///
+    /// * Account configurations for member accounts
+    ///
+    /// * Membership settings and preferences
+    ///
+    /// * Account-level permissions and roles
+    public var membershipAccountsConfigurations: SecurityIRClientTypes.MembershipAccountsConfigurations?
     /// Response element for GetMembership that provides the configured membership activation timestamp.
     public var membershipActivationTimestamp: Foundation.Date?
     /// Response element for GetMembership that provides the membership ARN.
@@ -1688,13 +1755,14 @@ public struct GetMembershipOutput: Swift.Sendable {
     public var numberOfAccountsCovered: Swift.Int?
     /// Response element for GetMembership that provides the if opt-in features have been enabled.
     public var optInFeatures: [SecurityIRClientTypes.OptInFeature]?
-    /// Response element for GetMembership that provides the configured region for managing the membership.
+    /// Response element for GetMembership that provides the region configured to manage the membership.
     public var region: SecurityIRClientTypes.AwsRegion?
 
     public init(
         accountId: Swift.String? = nil,
         customerType: SecurityIRClientTypes.CustomerType? = nil,
         incidentResponseTeam: [SecurityIRClientTypes.IncidentResponder]? = nil,
+        membershipAccountsConfigurations: SecurityIRClientTypes.MembershipAccountsConfigurations? = nil,
         membershipActivationTimestamp: Foundation.Date? = nil,
         membershipArn: Swift.String? = nil,
         membershipDeactivationTimestamp: Foundation.Date? = nil,
@@ -1708,6 +1776,7 @@ public struct GetMembershipOutput: Swift.Sendable {
         self.accountId = accountId
         self.customerType = customerType
         self.incidentResponseTeam = incidentResponseTeam
+        self.membershipAccountsConfigurations = membershipAccountsConfigurations
         self.membershipActivationTimestamp = membershipActivationTimestamp
         self.membershipArn = membershipArn
         self.membershipDeactivationTimestamp = membershipDeactivationTimestamp
@@ -1722,16 +1791,17 @@ public struct GetMembershipOutput: Swift.Sendable {
 
 extension GetMembershipOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetMembershipOutput(accountId: \(Swift.String(describing: accountId)), customerType: \(Swift.String(describing: customerType)), incidentResponseTeam: \(Swift.String(describing: incidentResponseTeam)), membershipActivationTimestamp: \(Swift.String(describing: membershipActivationTimestamp)), membershipArn: \(Swift.String(describing: membershipArn)), membershipDeactivationTimestamp: \(Swift.String(describing: membershipDeactivationTimestamp)), membershipId: \(Swift.String(describing: membershipId)), membershipStatus: \(Swift.String(describing: membershipStatus)), numberOfAccountsCovered: \(Swift.String(describing: numberOfAccountsCovered)), optInFeatures: \(Swift.String(describing: optInFeatures)), region: \(Swift.String(describing: region)), membershipName: \"CONTENT_REDACTED\")"}
+        "GetMembershipOutput(accountId: \(Swift.String(describing: accountId)), customerType: \(Swift.String(describing: customerType)), incidentResponseTeam: \(Swift.String(describing: incidentResponseTeam)), membershipAccountsConfigurations: \(Swift.String(describing: membershipAccountsConfigurations)), membershipActivationTimestamp: \(Swift.String(describing: membershipActivationTimestamp)), membershipArn: \(Swift.String(describing: membershipArn)), membershipDeactivationTimestamp: \(Swift.String(describing: membershipDeactivationTimestamp)), membershipId: \(Swift.String(describing: membershipId)), membershipStatus: \(Swift.String(describing: membershipStatus)), numberOfAccountsCovered: \(Swift.String(describing: numberOfAccountsCovered)), optInFeatures: \(Swift.String(describing: optInFeatures)), region: \(Swift.String(describing: region)), membershipName: \"CONTENT_REDACTED\")"}
 }
 
 ///
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// The exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// Element providing advice to clients on when the call can be safely retried.
+        /// The number of seconds after which to retry the request.
         public internal(set) var retryAfterSeconds: Swift.Int? = nil
     }
 
@@ -1757,6 +1827,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// The exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1812,7 +1883,7 @@ extension SecurityIRClientTypes {
 public struct ListMembershipsInput: Swift.Sendable {
     /// Request element for ListMemberships to limit the number of responses.
     public var maxResults: Swift.Int?
-    /// Optional element.
+    /// An optional string that, if supplied, must be copied from the output of a previous call to ListMemberships. When provided in this manner, the API fetches the next page of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -1827,7 +1898,7 @@ public struct ListMembershipsInput: Swift.Sendable {
 public struct ListMembershipsOutput: Swift.Sendable {
     /// Request element for ListMemberships including the accountID, membershipARN, membershipID, membershipStatus, and region for each response.
     public var items: [SecurityIRClientTypes.ListMembershipItem]?
-    /// Optional element.
+    /// An optional string that, if supplied on subsequent calls to ListMemberships, allows the API to fetch the next page of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -1843,6 +1914,7 @@ public struct ListMembershipsOutput: Swift.Sendable {
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// The exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1923,11 +1995,12 @@ extension SecurityIRClientTypes {
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// Element that provides the list of field(s) that caused the error, if applicable.
+        /// The fields which lead to the exception.
         public internal(set) var fieldList: [SecurityIRClientTypes.ValidationExceptionField]? = nil
+        /// The exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// Element that provides the reason the request failed validation.
+        /// The reason for the exception.
         /// This member is required.
         public internal(set) var reason: SecurityIRClientTypes.ValidationExceptionReason? = nil
     }
@@ -1976,9 +2049,40 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+extension SecurityIRClientTypes {
+
+    /// The MembershipAccountsConfigurationsUpdatestructure represents the configuration updates for member accounts within an Amazon Web Services organization. This structure is used to modify existing account configurations and settings for members in the organization. When applying updates, ensure all required fields are properly specified to maintain account consistency. Key considerations when using this structure:
+    ///
+    /// * All configuration changes are validated before being applied
+    ///
+    /// * Updates are processed asynchronously in the background
+    ///
+    /// * Configuration changes may take several minutes to propagate across all affected accounts
+    public struct MembershipAccountsConfigurationsUpdate: Swift.Sendable {
+        /// The coverEntireOrganization field is a boolean value that determines whether the membership configuration should be applied across the entire Amazon Web Services Organization. When set to true, the configuration will be applied to all accounts within the organization. When set to false, the configuration will only apply to specifically designated accounts.
+        public var coverEntireOrganization: Swift.Bool?
+        /// A list of organizational unit IDs to add to the membership configuration. Each organizational unit ID must match the pattern ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}. The list must contain between 1 and 5 organizational unit IDs.
+        public var organizationalUnitsToAdd: [Swift.String]?
+        /// A list of organizational unit IDs to remove from the membership configuration. Each organizational unit ID must match the pattern ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}. The list must contain between 1 and 5 organizational unit IDs per invocation of the API request.
+        public var organizationalUnitsToRemove: [Swift.String]?
+
+        public init(
+            coverEntireOrganization: Swift.Bool? = nil,
+            organizationalUnitsToAdd: [Swift.String]? = nil,
+            organizationalUnitsToRemove: [Swift.String]? = nil
+        ) {
+            self.coverEntireOrganization = coverEntireOrganization
+            self.organizationalUnitsToAdd = organizationalUnitsToAdd
+            self.organizationalUnitsToRemove = organizationalUnitsToRemove
+        }
+    }
+}
+
 public struct UpdateMembershipInput: Swift.Sendable {
     /// Optional element for UpdateMembership to update the membership name.
     public var incidentResponseTeam: [SecurityIRClientTypes.IncidentResponder]?
+    /// The membershipAccountsConfigurationsUpdate field in the UpdateMembershipRequest structure allows you to update the configuration settings for accounts within a membership. This field is optional and contains a structure of type MembershipAccountsConfigurationsUpdate  that specifies the updated account configurations for the membership.
+    public var membershipAccountsConfigurationsUpdate: SecurityIRClientTypes.MembershipAccountsConfigurationsUpdate?
     /// Required element for UpdateMembership to identify the membership to update.
     /// This member is required.
     public var membershipId: Swift.String?
@@ -1986,23 +2090,33 @@ public struct UpdateMembershipInput: Swift.Sendable {
     public var membershipName: Swift.String?
     /// Optional element for UpdateMembership to enable or disable opt-in features for the service.
     public var optInFeatures: [SecurityIRClientTypes.OptInFeature]?
+    /// The undoMembershipCancellation parameter is a boolean flag that indicates whether to reverse a previously requested membership cancellation. When set to true, this will revoke the cancellation request and maintain the membership status. This parameter is optional and can be used in scenarios where you need to restore a membership that was marked for cancellation but hasn't been fully terminated yet.
+    ///
+    /// * If set to true, the cancellation request will be revoked
+    ///
+    /// * If set to false the service will throw a ValidationException.
+    public var undoMembershipCancellation: Swift.Bool?
 
     public init(
         incidentResponseTeam: [SecurityIRClientTypes.IncidentResponder]? = nil,
+        membershipAccountsConfigurationsUpdate: SecurityIRClientTypes.MembershipAccountsConfigurationsUpdate? = nil,
         membershipId: Swift.String? = nil,
         membershipName: Swift.String? = nil,
-        optInFeatures: [SecurityIRClientTypes.OptInFeature]? = nil
+        optInFeatures: [SecurityIRClientTypes.OptInFeature]? = nil,
+        undoMembershipCancellation: Swift.Bool? = nil
     ) {
         self.incidentResponseTeam = incidentResponseTeam
+        self.membershipAccountsConfigurationsUpdate = membershipAccountsConfigurationsUpdate
         self.membershipId = membershipId
         self.membershipName = membershipName
         self.optInFeatures = optInFeatures
+        self.undoMembershipCancellation = undoMembershipCancellation
     }
 }
 
 extension UpdateMembershipInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateMembershipInput(incidentResponseTeam: \(Swift.String(describing: incidentResponseTeam)), membershipId: \(Swift.String(describing: membershipId)), optInFeatures: \(Swift.String(describing: optInFeatures)), membershipName: \"CONTENT_REDACTED\")"}
+        "UpdateMembershipInput(incidentResponseTeam: \(Swift.String(describing: incidentResponseTeam)), membershipAccountsConfigurationsUpdate: \(Swift.String(describing: membershipAccountsConfigurationsUpdate)), membershipId: \(Swift.String(describing: membershipId)), optInFeatures: \(Swift.String(describing: optInFeatures)), undoMembershipCancellation: \(Swift.String(describing: undoMembershipCancellation)), membershipName: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateMembershipOutput: Swift.Sendable {
@@ -2014,6 +2128,7 @@ public struct UpdateMembershipOutput: Swift.Sendable {
 public struct SecurityIncidentResponseNotActiveException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// The exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2038,18 +2153,19 @@ public struct SecurityIncidentResponseNotActiveException: ClientRuntime.ModeledE
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// The exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// Element that provides the quota that was exceeded.
+        /// The code of the quota.
         /// This member is required.
         public internal(set) var quotaCode: Swift.String? = nil
-        /// Element that provides the ID of the resource affected.
+        /// The ID of the requested resource which lead to the service quota exception.
         /// This member is required.
         public internal(set) var resourceId: Swift.String? = nil
-        /// Element that provides the type of the resource affected.
+        /// The type of the requested resource which lead to the service quota exception.
         /// This member is required.
         public internal(set) var resourceType: Swift.String? = nil
-        /// Element that provides the originating service who made the call.
+        /// The service code of the quota.
         /// This member is required.
         public internal(set) var serviceCode: Swift.String? = nil
     }
@@ -2104,13 +2220,14 @@ public struct TagResourceOutput: Swift.Sendable {
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// The exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// Element providing the quota of the originating service.
+        /// The quota code of the exception.
         public internal(set) var quotaCode: Swift.String? = nil
-        /// Element providing advice to clients on when the call can be safely retried.
+        /// The number of seconds after which to retry the request.
         public internal(set) var retryAfterSeconds: Swift.Int? = nil
-        /// Element providing the service code of the originating service.
+        /// The service code of the exception.
         public internal(set) var serviceCode: Swift.String? = nil
     }
 
@@ -2429,6 +2546,7 @@ extension CreateMembershipInput {
     static func write(value: CreateMembershipInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["coverEntireOrganization"].write(value.coverEntireOrganization)
         try writer["incidentResponseTeam"].writeList(value.incidentResponseTeam, memberWritingClosure: SecurityIRClientTypes.IncidentResponder.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["membershipName"].write(value.membershipName)
         try writer["optInFeatures"].writeList(value.optInFeatures, memberWritingClosure: SecurityIRClientTypes.OptInFeature.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -2533,8 +2651,10 @@ extension UpdateMembershipInput {
     static func write(value: UpdateMembershipInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["incidentResponseTeam"].writeList(value.incidentResponseTeam, memberWritingClosure: SecurityIRClientTypes.IncidentResponder.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["membershipAccountsConfigurationsUpdate"].write(value.membershipAccountsConfigurationsUpdate, with: SecurityIRClientTypes.MembershipAccountsConfigurationsUpdate.write(value:to:))
         try writer["membershipName"].write(value.membershipName)
         try writer["optInFeatures"].writeList(value.optInFeatures, memberWritingClosure: SecurityIRClientTypes.OptInFeature.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["undoMembershipCancellation"].write(value.undoMembershipCancellation)
     }
 }
 
@@ -2684,6 +2804,7 @@ extension GetMembershipOutput {
         value.accountId = try reader["accountId"].readIfPresent()
         value.customerType = try reader["customerType"].readIfPresent()
         value.incidentResponseTeam = try reader["incidentResponseTeam"].readListIfPresent(memberReadingClosure: SecurityIRClientTypes.IncidentResponder.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.membershipAccountsConfigurations = try reader["membershipAccountsConfigurations"].readIfPresent(with: SecurityIRClientTypes.MembershipAccountsConfigurations.read(from:))
         value.membershipActivationTimestamp = try reader["membershipActivationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.membershipArn = try reader["membershipArn"].readIfPresent()
         value.membershipDeactivationTimestamp = try reader["membershipDeactivationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3163,14 +3284,12 @@ enum UpdateResolverTypeOutputError {
     }
 }
 
-extension ValidationException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: SecurityIRClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3191,12 +3310,14 @@ extension ResourceNotFoundException {
     }
 }
 
-extension AccessDeniedException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: SecurityIRClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3423,6 +3544,17 @@ extension SecurityIRClientTypes.OptInFeature {
     }
 }
 
+extension SecurityIRClientTypes.MembershipAccountsConfigurations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.MembershipAccountsConfigurations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityIRClientTypes.MembershipAccountsConfigurations()
+        value.coverEntireOrganization = try reader["coverEntireOrganization"].readIfPresent()
+        value.organizationalUnits = try reader["organizationalUnits"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension SecurityIRClientTypes.CaseEditItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.CaseEditItem {
@@ -3492,6 +3624,16 @@ extension SecurityIRClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension SecurityIRClientTypes.MembershipAccountsConfigurationsUpdate {
+
+    static func write(value: SecurityIRClientTypes.MembershipAccountsConfigurationsUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["coverEntireOrganization"].write(value.coverEntireOrganization)
+        try writer["organizationalUnitsToAdd"].writeList(value.organizationalUnitsToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["organizationalUnitsToRemove"].writeList(value.organizationalUnitsToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

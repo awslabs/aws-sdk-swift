@@ -14,6 +14,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 import protocol AWSClientRuntime.AWSServiceError
@@ -25,7 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
-/// You do not have sufficient access to perform this action.
+/// You do not have sufficient access to perform this action. This exception is thrown when the caller lacks the necessary IAM permissions to perform the requested operation. Verify that your IAM policy includes the required permissions for the specific Amazon Web Services Payment Cryptography action you're attempting.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -48,27 +49,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-extension PaymentCryptographyClientTypes {
-
-    /// Contains information about an alias.
-    public struct Alias: Swift.Sendable {
-        /// A friendly name that you can use to refer to a key. The value must begin with alias/. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
-        /// This member is required.
-        public var aliasName: Swift.String?
-        /// The KeyARN of the key associated with the alias.
-        public var keyArn: Swift.String?
-
-        public init(
-            aliasName: Swift.String? = nil,
-            keyArn: Swift.String? = nil
-        ) {
-            self.aliasName = aliasName
-            self.keyArn = keyArn
-        }
-    }
-}
-
-/// This request can cause an inconsistent state for the resource.
+/// This request can cause an inconsistent state for the resource. The requested operation conflicts with the current state of the resource. For example, attempting to delete a key that is currently being used, or trying to create a resource that already exists.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -91,7 +72,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-/// The request processing has failed because of an unknown error, exception, or failure.
+/// The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -114,11 +95,11 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// The request was denied due to an invalid resource error.
+/// The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// The string for the exception.
+        /// The identifier of the resource that was not found. This field contains the specific resource identifier (such as a key ARN or alias name) that could not be located.
         public internal(set) var resourceId: Swift.String? = nil
     }
 
@@ -138,7 +119,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// This request would cause a service quota to be exceeded.
+/// This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -161,30 +142,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-/// The service cannot complete the request.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceUnavailableException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The request was denied due to request throttling.
+/// The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -207,7 +165,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-/// The request was denied due to an invalid request error.
+/// The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -230,135 +188,101 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-public struct CreateAliasInput: Swift.Sendable {
-    /// A friendly name that you can use to refer to a key. An alias must begin with alias/ followed by a name, for example alias/ExampleAlias. It can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+/// Input parameters for adding replication regions to a specific key.
+public struct AddKeyReplicationRegionsInput: Swift.Sendable {
+    /// The key identifier (ARN or alias) of the key for which to add replication regions. This key must exist and be in a valid state for replication operations.
     /// This member is required.
-    public var aliasName: Swift.String?
-    /// The KeyARN of the key to associate with the alias.
-    public var keyArn: Swift.String?
+    public var keyIdentifier: Swift.String?
+    /// The list of Amazon Web Services Regions to add to the key's replication configuration. Each region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available. The key will be replicated to these regions, allowing cryptographic operations to be performed closer to your applications.
+    /// This member is required.
+    public var replicationRegions: [Swift.String]?
 
     public init(
-        aliasName: Swift.String? = nil,
-        keyArn: Swift.String? = nil
+        keyIdentifier: Swift.String? = nil,
+        replicationRegions: [Swift.String]? = nil
     ) {
-        self.aliasName = aliasName
-        self.keyArn = keyArn
+        self.keyIdentifier = keyIdentifier
+        self.replicationRegions = replicationRegions
     }
 }
 
-public struct CreateAliasOutput: Swift.Sendable {
-    /// The alias for the key.
-    /// This member is required.
-    public var alias: PaymentCryptographyClientTypes.Alias?
+extension PaymentCryptographyClientTypes {
 
-    public init(
-        alias: PaymentCryptographyClientTypes.Alias? = nil
-    ) {
-        self.alias = alias
-    }
-}
+    public enum DeriveKeyUsage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tr31B0BaseDerivationKey
+        case tr31C0CardVerificationKey
+        case tr31D0SymmetricDataEncryptionKey
+        case tr31E0EmvMkeyAppCryptograms
+        case tr31E1EmvMkeyConfidentiality
+        case tr31E2EmvMkeyIntegrity
+        case tr31E4EmvMkeyDynamicNumbers
+        case tr31E5EmvMkeyCardPersonalization
+        case tr31E6EmvMkeyOther
+        case tr31K0KeyEncryptionKey
+        case tr31K1KeyBlockProtectionKey
+        case tr31M1Iso97971MacKey
+        case tr31M3Iso97973MacKey
+        case tr31M6Iso97975CmacKey
+        case tr31M7HmacKey
+        case tr31P0PinEncryptionKey
+        case tr31P1PinGenerationKey
+        case tr31V1Ibm3624PinVerificationKey
+        case tr31V2VisaPinVerificationKey
+        case sdkUnknown(Swift.String)
 
-public struct DeleteAliasInput: Swift.Sendable {
-    /// A friendly name that you can use to refer Amazon Web Services Payment Cryptography key. This value must begin with alias/ followed by a name, such as alias/ExampleAlias.
-    /// This member is required.
-    public var aliasName: Swift.String?
+        public static var allCases: [DeriveKeyUsage] {
+            return [
+                .tr31B0BaseDerivationKey,
+                .tr31C0CardVerificationKey,
+                .tr31D0SymmetricDataEncryptionKey,
+                .tr31E0EmvMkeyAppCryptograms,
+                .tr31E1EmvMkeyConfidentiality,
+                .tr31E2EmvMkeyIntegrity,
+                .tr31E4EmvMkeyDynamicNumbers,
+                .tr31E5EmvMkeyCardPersonalization,
+                .tr31E6EmvMkeyOther,
+                .tr31K0KeyEncryptionKey,
+                .tr31K1KeyBlockProtectionKey,
+                .tr31M1Iso97971MacKey,
+                .tr31M3Iso97973MacKey,
+                .tr31M6Iso97975CmacKey,
+                .tr31M7HmacKey,
+                .tr31P0PinEncryptionKey,
+                .tr31P1PinGenerationKey,
+                .tr31V1Ibm3624PinVerificationKey,
+                .tr31V2VisaPinVerificationKey
+            ]
+        }
 
-    public init(
-        aliasName: Swift.String? = nil
-    ) {
-        self.aliasName = aliasName
-    }
-}
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
 
-public struct DeleteAliasOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct GetAliasInput: Swift.Sendable {
-    /// The alias of the Amazon Web Services Payment Cryptography key.
-    /// This member is required.
-    public var aliasName: Swift.String?
-
-    public init(
-        aliasName: Swift.String? = nil
-    ) {
-        self.aliasName = aliasName
-    }
-}
-
-public struct GetAliasOutput: Swift.Sendable {
-    /// The alias of the Amazon Web Services Payment Cryptography key.
-    /// This member is required.
-    public var alias: PaymentCryptographyClientTypes.Alias?
-
-    public init(
-        alias: PaymentCryptographyClientTypes.Alias? = nil
-    ) {
-        self.alias = alias
-    }
-}
-
-public struct ListAliasesInput: Swift.Sendable {
-    /// The keyARN for which you want to list all aliases.
-    public var keyArn: Swift.String?
-    /// Use this parameter to specify the maximum number of items to return. When this value is present, Amazon Web Services Payment Cryptography does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
-    public var maxResults: Swift.Int?
-    /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the truncated response you just received.
-    public var nextToken: Swift.String?
-
-    public init(
-        keyArn: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.keyArn = keyArn
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListAliasesOutput: Swift.Sendable {
-    /// The list of aliases. Each alias describes the KeyArn contained within.
-    /// This member is required.
-    public var aliases: [PaymentCryptographyClientTypes.Alias]?
-    /// The token for the next set of results, or an empty or null value if there are no more results.
-    public var nextToken: Swift.String?
-
-    public init(
-        aliases: [PaymentCryptographyClientTypes.Alias]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.aliases = aliases
-        self.nextToken = nextToken
-    }
-}
-
-public struct UpdateAliasInput: Swift.Sendable {
-    /// The alias whose associated key is changing.
-    /// This member is required.
-    public var aliasName: Swift.String?
-    /// The KeyARN for the key that you are updating or removing from the alias.
-    public var keyArn: Swift.String?
-
-    public init(
-        aliasName: Swift.String? = nil,
-        keyArn: Swift.String? = nil
-    ) {
-        self.aliasName = aliasName
-        self.keyArn = keyArn
-    }
-}
-
-public struct UpdateAliasOutput: Swift.Sendable {
-    /// The alias name.
-    /// This member is required.
-    public var alias: PaymentCryptographyClientTypes.Alias?
-
-    public init(
-        alias: PaymentCryptographyClientTypes.Alias? = nil
-    ) {
-        self.alias = alias
+        public var rawValue: Swift.String {
+            switch self {
+            case .tr31B0BaseDerivationKey: return "TR31_B0_BASE_DERIVATION_KEY"
+            case .tr31C0CardVerificationKey: return "TR31_C0_CARD_VERIFICATION_KEY"
+            case .tr31D0SymmetricDataEncryptionKey: return "TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY"
+            case .tr31E0EmvMkeyAppCryptograms: return "TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS"
+            case .tr31E1EmvMkeyConfidentiality: return "TR31_E1_EMV_MKEY_CONFIDENTIALITY"
+            case .tr31E2EmvMkeyIntegrity: return "TR31_E2_EMV_MKEY_INTEGRITY"
+            case .tr31E4EmvMkeyDynamicNumbers: return "TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS"
+            case .tr31E5EmvMkeyCardPersonalization: return "TR31_E5_EMV_MKEY_CARD_PERSONALIZATION"
+            case .tr31E6EmvMkeyOther: return "TR31_E6_EMV_MKEY_OTHER"
+            case .tr31K0KeyEncryptionKey: return "TR31_K0_KEY_ENCRYPTION_KEY"
+            case .tr31K1KeyBlockProtectionKey: return "TR31_K1_KEY_BLOCK_PROTECTION_KEY"
+            case .tr31M1Iso97971MacKey: return "TR31_M1_ISO_9797_1_MAC_KEY"
+            case .tr31M3Iso97973MacKey: return "TR31_M3_ISO_9797_3_MAC_KEY"
+            case .tr31M6Iso97975CmacKey: return "TR31_M6_ISO_9797_5_CMAC_KEY"
+            case .tr31M7HmacKey: return "TR31_M7_HMAC_KEY"
+            case .tr31P0PinEncryptionKey: return "TR31_P0_PIN_ENCRYPTION_KEY"
+            case .tr31P1PinGenerationKey: return "TR31_P1_PIN_GENERATION_KEY"
+            case .tr31V1Ibm3624PinVerificationKey: return "TR31_V1_IBM3624_PIN_VERIFICATION_KEY"
+            case .tr31V2VisaPinVerificationKey: return "TR31_V2_VISA_PIN_VERIFICATION_KEY"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -370,6 +294,11 @@ extension PaymentCryptographyClientTypes {
         case aes256
         case eccNistP256
         case eccNistP384
+        case eccNistP521
+        case hmacSha224
+        case hmacSha256
+        case hmacSha384
+        case hmacSha512
         case rsa2048
         case rsa3072
         case rsa4096
@@ -384,6 +313,11 @@ extension PaymentCryptographyClientTypes {
                 .aes256,
                 .eccNistP256,
                 .eccNistP384,
+                .eccNistP521,
+                .hmacSha224,
+                .hmacSha256,
+                .hmacSha384,
+                .hmacSha512,
                 .rsa2048,
                 .rsa3072,
                 .rsa4096,
@@ -404,6 +338,11 @@ extension PaymentCryptographyClientTypes {
             case .aes256: return "AES_256"
             case .eccNistP256: return "ECC_NIST_P256"
             case .eccNistP384: return "ECC_NIST_P384"
+            case .eccNistP521: return "ECC_NIST_P521"
+            case .hmacSha224: return "HMAC_SHA224"
+            case .hmacSha256: return "HMAC_SHA256"
+            case .hmacSha384: return "HMAC_SHA384"
+            case .hmacSha512: return "HMAC_SHA512"
             case .rsa2048: return "RSA_2048"
             case .rsa3072: return "RSA_3072"
             case .rsa4096: return "RSA_4096"
@@ -625,12 +564,16 @@ extension PaymentCryptographyClientTypes {
     public enum KeyCheckValueAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ansiX924
         case cmac
+        case hmac
+        case sha1
         case sdkUnknown(Swift.String)
 
         public static var allCases: [KeyCheckValueAlgorithm] {
             return [
                 .ansiX924,
-                .cmac
+                .cmac,
+                .hmac,
+                .sha1
             ]
         }
 
@@ -643,59 +586,11 @@ extension PaymentCryptographyClientTypes {
             switch self {
             case .ansiX924: return "ANSI_X9_24"
             case .cmac: return "CMAC"
+            case .hmac: return "HMAC"
+            case .sha1: return "SHA_1"
             case let .sdkUnknown(s): return s
             }
         }
-    }
-}
-
-extension PaymentCryptographyClientTypes {
-
-    /// A structure that contains information about a tag.
-    public struct Tag: Swift.Sendable {
-        /// The key of the tag.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The value of the tag.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
-        }
-    }
-}
-
-public struct CreateKeyInput: Swift.Sendable {
-    /// Specifies whether to enable the key. If the key is enabled, it is activated for use within the service. If the key is not enabled, then it is created but not activated. The default value is enabled.
-    public var enabled: Swift.Bool?
-    /// Specifies whether the key is exportable from the service.
-    /// This member is required.
-    public var exportable: Swift.Bool?
-    /// The role of the key, the algorithm it supports, and the cryptographic operations allowed with the key. This data is immutable after the key is created.
-    /// This member is required.
-    public var keyAttributes: PaymentCryptographyClientTypes.KeyAttributes?
-    /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
-    public var keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm?
-    /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is created. To tag an existing Amazon Web Services Payment Cryptography key, use the [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html) operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
-    public var tags: [PaymentCryptographyClientTypes.Tag]?
-
-    public init(
-        enabled: Swift.Bool? = nil,
-        exportable: Swift.Bool? = nil,
-        keyAttributes: PaymentCryptographyClientTypes.KeyAttributes? = nil,
-        keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm? = nil,
-        tags: [PaymentCryptographyClientTypes.Tag]? = nil
-    ) {
-        self.enabled = enabled
-        self.exportable = exportable
-        self.keyAttributes = keyAttributes
-        self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
-        self.tags = tags
     }
 }
 
@@ -767,6 +662,92 @@ extension PaymentCryptographyClientTypes {
 
 extension PaymentCryptographyClientTypes {
 
+    /// Defines the replication type of a key
+    public enum MultiRegionKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case primary
+        case replica
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MultiRegionKeyType] {
+            return [
+                .primary,
+                .replica
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .primary: return "PRIMARY"
+            case .replica: return "REPLICA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
+    /// Defines the replication state of a key
+    public enum KeyReplicationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleteInProgress
+        case failed
+        case inProgress
+        case synchronized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KeyReplicationState] {
+            return [
+                .deleteInProgress,
+                .failed,
+                .inProgress,
+                .synchronized
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .synchronized: return "SYNCHRONIZED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
+    /// Represents the replication status information for a key in a replication region. This structure contains details about the current state of key replication, including any status messages and operational information about the replication process.
+    public struct ReplicationStatusType: Swift.Sendable {
+        /// The current status of key replication in this region. This field indicates whether the key replication is in progress, completed successfully, or has encountered an error. Possible values include states such as SYNCRHONIZED, IN_PROGRESS, DELETE_IN_PROGRESS, or FAILED. This provides visibility into the replication process for monitoring and troubleshooting purposes.
+        /// This member is required.
+        public var status: PaymentCryptographyClientTypes.KeyReplicationState?
+        /// A message that provides additional information about the current replication status of the key. This field contains details about any issues or progress updates related to key replication operations. It may include information about replication failures, synchronization status, or other operational details.
+        public var statusMessage: Swift.String?
+
+        public init(
+            status: PaymentCryptographyClientTypes.KeyReplicationState? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
     /// Metadata about an Amazon Web Services Payment Cryptography key.
     public struct Key: Swift.Sendable {
         /// The date and time when the key was created.
@@ -776,6 +757,8 @@ extension PaymentCryptographyClientTypes {
         public var deletePendingTimestamp: Foundation.Date?
         /// The date and time after which Amazon Web Services Payment Cryptography will delete the key. This value is present only when when the KeyState is DELETE_COMPLETE and the Amazon Web Services Payment Cryptography key is deleted.
         public var deleteTimestamp: Foundation.Date?
+        /// The cryptographic usage of an ECDH derived key as deﬁned in section A.5.2 of the TR-31 spec.
+        public var deriveKeyUsage: PaymentCryptographyClientTypes.DeriveKeyUsage?
         /// Specifies whether the key is enabled.
         /// This member is required.
         public var enabled: Swift.Bool?
@@ -800,15 +783,24 @@ extension PaymentCryptographyClientTypes {
         /// The state of key that is being created or deleted.
         /// This member is required.
         public var keyState: PaymentCryptographyClientTypes.KeyState?
+        /// Indicates whether this key is a multi-region key and its role in the multi-region key hierarchy. Multi-region keys allow the same key material to be used across multiple Amazon Web Services Regions. This field specifies whether the key is a primary key (which can be replicated to other regions) or a replica key (which is a copy of a primary key in another region).
+        public var multiRegionKeyType: PaymentCryptographyClientTypes.MultiRegionKeyType?
+        /// An Amazon Web Services Region identifier in the standard format (e.g., us-east-1, eu-west-1). Used to specify regions for key replication operations. The region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available.
+        public var primaryRegion: Swift.String?
+        /// Information about the replication status of the key across different regions. This field provides details about the current state of key replication, including any status messages or operational information. It helps track the progress and health of key replication operations.
+        public var replicationStatus: [Swift.String: PaymentCryptographyClientTypes.ReplicationStatusType]?
         /// The date and time after which Amazon Web Services Payment Cryptography will start using the key material for cryptographic operations.
         public var usageStartTimestamp: Foundation.Date?
         /// The date and time after which Amazon Web Services Payment Cryptography will stop using the key material for cryptographic operations.
         public var usageStopTimestamp: Foundation.Date?
+        /// Indicates whether this key is using the account's default replication regions configuration. When set to true, the key automatically replicates to the regions specified in the account's default replication settings. When set to false, the key has a custom replication configuration that overrides the account defaults.
+        public var usingDefaultReplicationRegions: Swift.Bool?
 
         public init(
             createTimestamp: Foundation.Date? = nil,
             deletePendingTimestamp: Foundation.Date? = nil,
             deleteTimestamp: Foundation.Date? = nil,
+            deriveKeyUsage: PaymentCryptographyClientTypes.DeriveKeyUsage? = nil,
             enabled: Swift.Bool? = nil,
             exportable: Swift.Bool? = nil,
             keyArn: Swift.String? = nil,
@@ -817,12 +809,17 @@ extension PaymentCryptographyClientTypes {
             keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm? = nil,
             keyOrigin: PaymentCryptographyClientTypes.KeyOrigin? = nil,
             keyState: PaymentCryptographyClientTypes.KeyState? = nil,
+            multiRegionKeyType: PaymentCryptographyClientTypes.MultiRegionKeyType? = nil,
+            primaryRegion: Swift.String? = nil,
+            replicationStatus: [Swift.String: PaymentCryptographyClientTypes.ReplicationStatusType]? = nil,
             usageStartTimestamp: Foundation.Date? = nil,
-            usageStopTimestamp: Foundation.Date? = nil
+            usageStopTimestamp: Foundation.Date? = nil,
+            usingDefaultReplicationRegions: Swift.Bool? = nil
         ) {
             self.createTimestamp = createTimestamp
             self.deletePendingTimestamp = deletePendingTimestamp
             self.deleteTimestamp = deleteTimestamp
+            self.deriveKeyUsage = deriveKeyUsage
             self.enabled = enabled
             self.exportable = exportable
             self.keyArn = keyArn
@@ -831,9 +828,299 @@ extension PaymentCryptographyClientTypes {
             self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
             self.keyOrigin = keyOrigin
             self.keyState = keyState
+            self.multiRegionKeyType = multiRegionKeyType
+            self.primaryRegion = primaryRegion
+            self.replicationStatus = replicationStatus
             self.usageStartTimestamp = usageStartTimestamp
             self.usageStopTimestamp = usageStopTimestamp
+            self.usingDefaultReplicationRegions = usingDefaultReplicationRegions
         }
+    }
+}
+
+/// Output from adding replication regions to a key.
+public struct AddKeyReplicationRegionsOutput: Swift.Sendable {
+    /// The updated key metadata after adding the replication regions. This includes the current state of the key and its replication configuration.
+    /// This member is required.
+    public var key: PaymentCryptographyClientTypes.Key?
+
+    public init(
+        key: PaymentCryptographyClientTypes.Key? = nil
+    ) {
+        self.key = key
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
+    /// Contains information about an alias.
+    public struct Alias: Swift.Sendable {
+        /// A friendly name that you can use to refer to a key. The value must begin with alias/. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+        /// This member is required.
+        public var aliasName: Swift.String?
+        /// The KeyARN of the key associated with the alias.
+        public var keyArn: Swift.String?
+
+        public init(
+            aliasName: Swift.String? = nil,
+            keyArn: Swift.String? = nil
+        ) {
+            self.aliasName = aliasName
+            self.keyArn = keyArn
+        }
+    }
+}
+
+/// The service cannot complete the request. The Amazon Web Services Payment Cryptography service is temporarily unavailable. This is typically a temporary condition - retry your request after a brief delay.
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CreateAliasInput: Swift.Sendable {
+    /// A friendly name that you can use to refer to a key. An alias must begin with alias/ followed by a name, for example alias/ExampleAlias. It can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+    /// This member is required.
+    public var aliasName: Swift.String?
+    /// The KeyARN of the key to associate with the alias.
+    public var keyArn: Swift.String?
+
+    public init(
+        aliasName: Swift.String? = nil,
+        keyArn: Swift.String? = nil
+    ) {
+        self.aliasName = aliasName
+        self.keyArn = keyArn
+    }
+}
+
+public struct CreateAliasOutput: Swift.Sendable {
+    /// The alias for the key.
+    /// This member is required.
+    public var alias: PaymentCryptographyClientTypes.Alias?
+
+    public init(
+        alias: PaymentCryptographyClientTypes.Alias? = nil
+    ) {
+        self.alias = alias
+    }
+}
+
+public struct DeleteAliasInput: Swift.Sendable {
+    /// A friendly name that you can use to refer Amazon Web Services Payment Cryptography key. This value must begin with alias/ followed by a name, such as alias/ExampleAlias.
+    /// This member is required.
+    public var aliasName: Swift.String?
+
+    public init(
+        aliasName: Swift.String? = nil
+    ) {
+        self.aliasName = aliasName
+    }
+}
+
+public struct DeleteAliasOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetAliasInput: Swift.Sendable {
+    /// The alias of the Amazon Web Services Payment Cryptography key.
+    /// This member is required.
+    public var aliasName: Swift.String?
+
+    public init(
+        aliasName: Swift.String? = nil
+    ) {
+        self.aliasName = aliasName
+    }
+}
+
+public struct GetAliasOutput: Swift.Sendable {
+    /// The alias of the Amazon Web Services Payment Cryptography key.
+    /// This member is required.
+    public var alias: PaymentCryptographyClientTypes.Alias?
+
+    public init(
+        alias: PaymentCryptographyClientTypes.Alias? = nil
+    ) {
+        self.alias = alias
+    }
+}
+
+public struct ListAliasesInput: Swift.Sendable {
+    /// The keyARN for which you want to list all aliases.
+    public var keyArn: Swift.String?
+    /// Use this parameter to specify the maximum number of items to return. When this value is present, Amazon Web Services Payment Cryptography does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
+    public var maxResults: Swift.Int?
+    /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the truncated response you just received.
+    public var nextToken: Swift.String?
+
+    public init(
+        keyArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.keyArn = keyArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAliasesOutput: Swift.Sendable {
+    /// The list of aliases. Each alias describes the KeyArn contained within.
+    /// This member is required.
+    public var aliases: [PaymentCryptographyClientTypes.Alias]?
+    /// The token for the next set of results, or an empty or null value if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        aliases: [PaymentCryptographyClientTypes.Alias]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.aliases = aliases
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateAliasInput: Swift.Sendable {
+    /// The alias whose associated key is changing.
+    /// This member is required.
+    public var aliasName: Swift.String?
+    /// The KeyARN for the key that you are updating or removing from the alias.
+    public var keyArn: Swift.String?
+
+    public init(
+        aliasName: Swift.String? = nil,
+        keyArn: Swift.String? = nil
+    ) {
+        self.aliasName = aliasName
+        self.keyArn = keyArn
+    }
+}
+
+public struct UpdateAliasOutput: Swift.Sendable {
+    /// The alias name.
+    /// This member is required.
+    public var alias: PaymentCryptographyClientTypes.Alias?
+
+    public init(
+        alias: PaymentCryptographyClientTypes.Alias? = nil
+    ) {
+        self.alias = alias
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
+    /// Metadata used in generating the CSR
+    public struct CertificateSubjectType: Swift.Sendable {
+        /// City to be used in the certificate signing request
+        public var city: Swift.String?
+        /// Common Name to be used in the certificate signing request
+        /// This member is required.
+        public var commonName: Swift.String?
+        /// Country to be used in the certificate signing request
+        public var country: Swift.String?
+        /// Email to be used in the certificate signing request
+        public var emailAddress: Swift.String?
+        /// Organization to be used in the certificate signing request
+        public var organization: Swift.String?
+        /// Organization Unit to be used in the certificate signing request
+        public var organizationUnit: Swift.String?
+        /// State Or Province to be used in the certificate signing request
+        public var stateOrProvince: Swift.String?
+
+        public init(
+            city: Swift.String? = nil,
+            commonName: Swift.String? = nil,
+            country: Swift.String? = nil,
+            emailAddress: Swift.String? = nil,
+            organization: Swift.String? = nil,
+            organizationUnit: Swift.String? = nil,
+            stateOrProvince: Swift.String? = nil
+        ) {
+            self.city = city
+            self.commonName = commonName
+            self.country = country
+            self.emailAddress = emailAddress
+            self.organization = organization
+            self.organizationUnit = organizationUnit
+            self.stateOrProvince = stateOrProvince
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
+    /// A structure that contains information about a tag.
+    public struct Tag: Swift.Sendable {
+        /// The key of the tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the tag.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+public struct CreateKeyInput: Swift.Sendable {
+    /// The intended cryptographic usage of keys derived from the ECC key pair to be created. After creating an ECC key pair, you cannot change the intended cryptographic usage of keys derived from it using ECDH.
+    public var deriveKeyUsage: PaymentCryptographyClientTypes.DeriveKeyUsage?
+    /// Specifies whether to enable the key. If the key is enabled, it is activated for use within the service. If the key is not enabled, then it is created but not activated. The default value is enabled.
+    public var enabled: Swift.Bool?
+    /// Specifies whether the key is exportable from the service.
+    /// This member is required.
+    public var exportable: Swift.Bool?
+    /// The role of the key, the algorithm it supports, and the cryptographic operations allowed with the key. This data is immutable after the key is created.
+    /// This member is required.
+    public var keyAttributes: PaymentCryptographyClientTypes.KeyAttributes?
+    /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
+    public var keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm?
+    /// A list of Amazon Web Services Regions for key replication operations. Each region in the list must be a valid Amazon Web Services Region identifier where Amazon Web Services Payment Cryptography is available. This list is used to specify which regions should be added to or removed from a key's replication configuration.
+    public var replicationRegions: [Swift.String]?
+    /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is created. To tag an existing Amazon Web Services Payment Cryptography key, use the [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html) operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
+    public var tags: [PaymentCryptographyClientTypes.Tag]?
+
+    public init(
+        deriveKeyUsage: PaymentCryptographyClientTypes.DeriveKeyUsage? = nil,
+        enabled: Swift.Bool? = nil,
+        exportable: Swift.Bool? = nil,
+        keyAttributes: PaymentCryptographyClientTypes.KeyAttributes? = nil,
+        keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm? = nil,
+        replicationRegions: [Swift.String]? = nil,
+        tags: [PaymentCryptographyClientTypes.Tag]? = nil
+    ) {
+        self.deriveKeyUsage = deriveKeyUsage
+        self.enabled = enabled
+        self.exportable = exportable
+        self.keyAttributes = keyAttributes
+        self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
+        self.replicationRegions = replicationRegions
+        self.tags = tags
     }
 }
 
@@ -879,6 +1166,68 @@ public struct DeleteKeyOutput: Swift.Sendable {
 
 extension PaymentCryptographyClientTypes {
 
+    /// The shared information used when deriving a key using ECDH.
+    public enum DiffieHellmanDerivationData: Swift.Sendable {
+        /// A string containing information that binds the ECDH derived key to the two parties involved or to the context of the key. It may include details like identities of the two parties deriving the key, context of the operation, session IDs, and optionally a nonce. It must not contain zero bytes. It is not recommended to reuse shared information for multiple ECDH key derivations, as it could result in derived key material being the same across different derivations.
+        case sharedinformation(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// Input parameters for disabling default key replication regions for the account.
+public struct DisableDefaultKeyReplicationRegionsInput: Swift.Sendable {
+    /// The list of Amazon Web Services Regions to remove from the account's default replication regions. New keys created after this operation will not automatically be replicated to these regions, though existing keys with replication to these regions will be unaffected.
+    /// This member is required.
+    public var replicationRegions: [Swift.String]?
+
+    public init(
+        replicationRegions: [Swift.String]? = nil
+    ) {
+        self.replicationRegions = replicationRegions
+    }
+}
+
+/// Output from disabling default key replication regions for the account.
+public struct DisableDefaultKeyReplicationRegionsOutput: Swift.Sendable {
+    /// The remaining list of regions where default key replication is still enabled for the account. This reflects the account's default replication configuration after removing the specified regions.
+    /// This member is required.
+    public var enabledReplicationRegions: [Swift.String]?
+
+    public init(
+        enabledReplicationRegions: [Swift.String]? = nil
+    ) {
+        self.enabledReplicationRegions = enabledReplicationRegions
+    }
+}
+
+/// Input parameters for enabling default key replication regions for the account.
+public struct EnableDefaultKeyReplicationRegionsInput: Swift.Sendable {
+    /// The list of Amazon Web Services Regions to enable as default replication regions for the account. New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation.
+    /// This member is required.
+    public var replicationRegions: [Swift.String]?
+
+    public init(
+        replicationRegions: [Swift.String]? = nil
+    ) {
+        self.replicationRegions = replicationRegions
+    }
+}
+
+/// Output from enabling default key replication regions for the account.
+public struct EnableDefaultKeyReplicationRegionsOutput: Swift.Sendable {
+    /// The complete list of regions where default key replication is now enabled for the account. This includes both previously enabled regions and the newly added regions from this operation.
+    /// This member is required.
+    public var enabledReplicationRegions: [Swift.String]?
+
+    public init(
+        enabledReplicationRegions: [Swift.String]? = nil
+    ) {
+        self.enabledReplicationRegions = enabledReplicationRegions
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
     /// Parameter information for IPEK generation during export.
     public struct ExportDukptInitialKey: Swift.Sendable {
         /// The KSN for IPEK generation using DUKPT. KSN must be padded before sending to Amazon Web Services Payment Cryptography. KSN hex length should be 20 for a TDES_2KEY key or 24 for an AES key.
@@ -914,15 +1263,29 @@ extension PaymentCryptographyClientTypes {
 
 extension PaymentCryptographyClientTypes {
 
-    public enum WrappingKeySpec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case rsaOaepSha256
-        case rsaOaepSha512
+    public enum SymmetricKeyAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aes128
+        case aes192
+        case aes256
+        case hmacSha224
+        case hmacSha256
+        case hmacSha384
+        case hmacSha512
+        case tdes2key
+        case tdes3key
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [WrappingKeySpec] {
+        public static var allCases: [SymmetricKeyAlgorithm] {
             return [
-                .rsaOaepSha256,
-                .rsaOaepSha512
+                .aes128,
+                .aes192,
+                .aes256,
+                .hmacSha224,
+                .hmacSha256,
+                .hmacSha384,
+                .hmacSha512,
+                .tdes2key,
+                .tdes3key
             ]
         }
 
@@ -933,42 +1296,19 @@ extension PaymentCryptographyClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .rsaOaepSha256: return "RSA_OAEP_SHA_256"
-            case .rsaOaepSha512: return "RSA_OAEP_SHA_512"
+            case .aes128: return "AES_128"
+            case .aes192: return "AES_192"
+            case .aes256: return "AES_256"
+            case .hmacSha224: return "HMAC_SHA224"
+            case .hmacSha256: return "HMAC_SHA256"
+            case .hmacSha384: return "HMAC_SHA384"
+            case .hmacSha512: return "HMAC_SHA512"
+            case .tdes2key: return "TDES_2KEY"
+            case .tdes3key: return "TDES_3KEY"
             case let .sdkUnknown(s): return s
             }
         }
     }
-}
-
-extension PaymentCryptographyClientTypes {
-
-    /// Parameter information for key material export using asymmetric RSA wrap and unwrap key exchange method.
-    public struct ExportKeyCryptogram: Swift.Sendable {
-        /// The KeyARN of the certificate chain that signs the wrapping key certificate during RSA wrap and unwrap key export.
-        /// This member is required.
-        public var certificateAuthorityPublicKeyIdentifier: Swift.String?
-        /// The wrapping key certificate in PEM format (base64 encoded). Amazon Web Services Payment Cryptography uses this certificate to wrap the key under export.
-        /// This member is required.
-        public var wrappingKeyCertificate: Swift.String?
-        /// The wrapping spec for the key under export.
-        public var wrappingSpec: PaymentCryptographyClientTypes.WrappingKeySpec?
-
-        public init(
-            certificateAuthorityPublicKeyIdentifier: Swift.String? = nil,
-            wrappingKeyCertificate: Swift.String? = nil,
-            wrappingSpec: PaymentCryptographyClientTypes.WrappingKeySpec? = nil
-        ) {
-            self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
-            self.wrappingKeyCertificate = wrappingKeyCertificate
-            self.wrappingSpec = wrappingSpec
-        }
-    }
-}
-
-extension PaymentCryptographyClientTypes.ExportKeyCryptogram: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "ExportKeyCryptogram(certificateAuthorityPublicKeyIdentifier: \(Swift.String(describing: certificateAuthorityPublicKeyIdentifier)), wrappingSpec: \(Swift.String(describing: wrappingSpec)), wrappingKeyCertificate: \"CONTENT_REDACTED\")"}
 }
 
 extension PaymentCryptographyClientTypes {
@@ -1037,6 +1377,171 @@ extension PaymentCryptographyClientTypes.KeyBlockHeaders: Swift.CustomDebugStrin
 
 extension PaymentCryptographyClientTypes {
 
+    public enum KeyDerivationFunction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ansiX963
+        case nistSp800
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KeyDerivationFunction] {
+            return [
+                .ansiX963,
+                .nistSp800
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ansiX963: return "ANSI_X963"
+            case .nistSp800: return "NIST_SP800"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
+    public enum KeyDerivationHashAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sha256
+        case sha384
+        case sha512
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KeyDerivationHashAlgorithm] {
+            return [
+                .sha256,
+                .sha384,
+                .sha512
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sha256: return "SHA_256"
+            case .sha384: return "SHA_384"
+            case .sha512: return "SHA_512"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
+    /// Key derivation parameter information for key material export using asymmetric ECDH key exchange method.
+    public struct ExportDiffieHellmanTr31KeyBlock: Swift.Sendable {
+        /// The keyARN of the CA that signed the PublicKeyCertificate for the client's receiving ECC key pair.
+        /// This member is required.
+        public var certificateAuthorityPublicKeyIdentifier: Swift.String?
+        /// The shared information used when deriving a key using ECDH.
+        /// This member is required.
+        public var derivationData: PaymentCryptographyClientTypes.DiffieHellmanDerivationData?
+        /// The key algorithm of the shared derived ECDH key.
+        /// This member is required.
+        public var deriveKeyAlgorithm: PaymentCryptographyClientTypes.SymmetricKeyAlgorithm?
+        /// Optional metadata for export associated with the key material. This data is signed but transmitted in clear text.
+        public var keyBlockHeaders: PaymentCryptographyClientTypes.KeyBlockHeaders?
+        /// The key derivation function to use when deriving a key using ECDH.
+        /// This member is required.
+        public var keyDerivationFunction: PaymentCryptographyClientTypes.KeyDerivationFunction?
+        /// The hash type to use when deriving a key using ECDH.
+        /// This member is required.
+        public var keyDerivationHashAlgorithm: PaymentCryptographyClientTypes.KeyDerivationHashAlgorithm?
+        /// The keyARN of the asymmetric ECC key created within Amazon Web Services Payment Cryptography.
+        /// This member is required.
+        public var privateKeyIdentifier: Swift.String?
+        /// The public key certificate of the client's receiving ECC key pair, in PEM format (base64 encoded), to use for ECDH key derivation.
+        /// This member is required.
+        public var publicKeyCertificate: Swift.String?
+
+        public init(
+            certificateAuthorityPublicKeyIdentifier: Swift.String? = nil,
+            derivationData: PaymentCryptographyClientTypes.DiffieHellmanDerivationData? = nil,
+            deriveKeyAlgorithm: PaymentCryptographyClientTypes.SymmetricKeyAlgorithm? = nil,
+            keyBlockHeaders: PaymentCryptographyClientTypes.KeyBlockHeaders? = nil,
+            keyDerivationFunction: PaymentCryptographyClientTypes.KeyDerivationFunction? = nil,
+            keyDerivationHashAlgorithm: PaymentCryptographyClientTypes.KeyDerivationHashAlgorithm? = nil,
+            privateKeyIdentifier: Swift.String? = nil,
+            publicKeyCertificate: Swift.String? = nil
+        ) {
+            self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
+            self.derivationData = derivationData
+            self.deriveKeyAlgorithm = deriveKeyAlgorithm
+            self.keyBlockHeaders = keyBlockHeaders
+            self.keyDerivationFunction = keyDerivationFunction
+            self.keyDerivationHashAlgorithm = keyDerivationHashAlgorithm
+            self.privateKeyIdentifier = privateKeyIdentifier
+            self.publicKeyCertificate = publicKeyCertificate
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
+    public enum WrappingKeySpec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rsaOaepSha256
+        case rsaOaepSha512
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WrappingKeySpec] {
+            return [
+                .rsaOaepSha256,
+                .rsaOaepSha512
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .rsaOaepSha256: return "RSA_OAEP_SHA_256"
+            case .rsaOaepSha512: return "RSA_OAEP_SHA_512"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
+    /// Parameter information for key material export using asymmetric RSA wrap and unwrap key exchange method.
+    public struct ExportKeyCryptogram: Swift.Sendable {
+        /// The KeyARN of the certificate chain that signs the wrapping key certificate during RSA wrap and unwrap key export.
+        /// This member is required.
+        public var certificateAuthorityPublicKeyIdentifier: Swift.String?
+        /// The wrapping key certificate in PEM format (base64 encoded). Amazon Web Services Payment Cryptography uses this certificate to wrap the key under export.
+        /// This member is required.
+        public var wrappingKeyCertificate: Swift.String?
+        /// The wrapping spec for the key under export.
+        public var wrappingSpec: PaymentCryptographyClientTypes.WrappingKeySpec?
+
+        public init(
+            certificateAuthorityPublicKeyIdentifier: Swift.String? = nil,
+            wrappingKeyCertificate: Swift.String? = nil,
+            wrappingSpec: PaymentCryptographyClientTypes.WrappingKeySpec? = nil
+        ) {
+            self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
+            self.wrappingKeyCertificate = wrappingKeyCertificate
+            self.wrappingSpec = wrappingSpec
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
     /// Parameter information for key material export using symmetric TR-31 key exchange method.
     public struct ExportTr31KeyBlock: Swift.Sendable {
         /// Optional metadata for export associated with the key material. This data is signed but transmitted in clear text.
@@ -1088,8 +1593,7 @@ extension PaymentCryptographyClientTypes {
         /// The KeyARN of the certificate chain that signs the wrapping key certificate during TR-34 key export.
         /// This member is required.
         public var certificateAuthorityPublicKeyIdentifier: Swift.String?
-        /// The export token to initiate key export from Amazon Web Services Payment Cryptography. It also contains the signing key certificate that will sign the wrapped key during TR-34 key block generation. Call [GetParametersForExport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForExport.html) to receive an export token. It expires after 7 days. You can use the same export token to export multiple keys from the same service account.
-        /// This member is required.
+        /// The export token to initiate key export from Amazon Web Services Payment Cryptography. It also contains the signing key certificate that will sign the wrapped key during TR-34 key block generation. Call [GetParametersForExport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForExport.html) to receive an export token. It expires after 30 days. You can use the same export token to export multiple keys from the same service account.
         public var exportToken: Swift.String?
         /// The format of key block that Amazon Web Services Payment Cryptography will use during key export.
         /// This member is required.
@@ -1098,16 +1602,22 @@ extension PaymentCryptographyClientTypes {
         public var keyBlockHeaders: PaymentCryptographyClientTypes.KeyBlockHeaders?
         /// A random number value that is unique to the TR-34 key block generated using 2 pass. The operation will fail, if a random nonce value is not provided for a TR-34 key block generated using 2 pass.
         public var randomNonce: Swift.String?
+        /// Certificate used for signing the export key
+        public var signingKeyCertificate: Swift.String?
+        /// Key Identifier used for signing the export key
+        public var signingKeyIdentifier: Swift.String?
         /// The KeyARN of the wrapping key certificate. Amazon Web Services Payment Cryptography uses this certificate to wrap the key under export.
         /// This member is required.
         public var wrappingKeyCertificate: Swift.String?
 
         public init(
             certificateAuthorityPublicKeyIdentifier: Swift.String? = nil,
-            exportToken: Swift.String? = nil,
+            exportToken: Swift.String? = "",
             keyBlockFormat: PaymentCryptographyClientTypes.Tr34KeyBlockFormat? = nil,
             keyBlockHeaders: PaymentCryptographyClientTypes.KeyBlockHeaders? = nil,
             randomNonce: Swift.String? = nil,
+            signingKeyCertificate: Swift.String? = nil,
+            signingKeyIdentifier: Swift.String? = nil,
             wrappingKeyCertificate: Swift.String? = nil
         ) {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
@@ -1115,14 +1625,11 @@ extension PaymentCryptographyClientTypes {
             self.keyBlockFormat = keyBlockFormat
             self.keyBlockHeaders = keyBlockHeaders
             self.randomNonce = randomNonce
+            self.signingKeyCertificate = signingKeyCertificate
+            self.signingKeyIdentifier = signingKeyIdentifier
             self.wrappingKeyCertificate = wrappingKeyCertificate
         }
     }
-}
-
-extension PaymentCryptographyClientTypes.ExportTr34KeyBlock: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "ExportTr34KeyBlock(certificateAuthorityPublicKeyIdentifier: \(Swift.String(describing: certificateAuthorityPublicKeyIdentifier)), exportToken: \(Swift.String(describing: exportToken)), keyBlockFormat: \(Swift.String(describing: keyBlockFormat)), keyBlockHeaders: \(Swift.String(describing: keyBlockHeaders)), randomNonce: \(Swift.String(describing: randomNonce)), wrappingKeyCertificate: \"CONTENT_REDACTED\")"}
 }
 
 extension PaymentCryptographyClientTypes {
@@ -1135,6 +1642,8 @@ extension PaymentCryptographyClientTypes {
         case tr34keyblock(PaymentCryptographyClientTypes.ExportTr34KeyBlock)
         /// Parameter information for key material export using asymmetric RSA wrap and unwrap key exchange method
         case keycryptogram(PaymentCryptographyClientTypes.ExportKeyCryptogram)
+        /// Key derivation parameter information for key material export using asymmetric ECDH key exchange method.
+        case diffiehellmantr31keyblock(PaymentCryptographyClientTypes.ExportDiffieHellmanTr31KeyBlock)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1242,6 +1751,100 @@ public struct ExportKeyOutput: Swift.Sendable {
     }
 }
 
+extension PaymentCryptographyClientTypes {
+
+    /// Defines the Algorithm used to generate the certificate signing request
+    public enum SigningAlgorithmType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sha224
+        case sha256
+        case sha384
+        case sha512
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SigningAlgorithmType] {
+            return [
+                .sha224,
+                .sha256,
+                .sha384,
+                .sha512
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sha224: return "SHA224"
+            case .sha256: return "SHA256"
+            case .sha384: return "SHA384"
+            case .sha512: return "SHA512"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetCertificateSigningRequestInput: Swift.Sendable {
+    /// Certificate subject data
+    /// This member is required.
+    public var certificateSubject: PaymentCryptographyClientTypes.CertificateSubjectType?
+    /// Asymmetric key used for generating the certificate signing request
+    /// This member is required.
+    public var keyIdentifier: Swift.String?
+    /// Algorithm used to generate the certificate signing request
+    /// This member is required.
+    public var signingAlgorithm: PaymentCryptographyClientTypes.SigningAlgorithmType?
+
+    public init(
+        certificateSubject: PaymentCryptographyClientTypes.CertificateSubjectType? = nil,
+        keyIdentifier: Swift.String? = nil,
+        signingAlgorithm: PaymentCryptographyClientTypes.SigningAlgorithmType? = nil
+    ) {
+        self.certificateSubject = certificateSubject
+        self.keyIdentifier = keyIdentifier
+        self.signingAlgorithm = signingAlgorithm
+    }
+}
+
+public struct GetCertificateSigningRequestOutput: Swift.Sendable {
+    /// Certificate signing request
+    /// This member is required.
+    public var certificateSigningRequest: Swift.String?
+
+    public init(
+        certificateSigningRequest: Swift.String? = nil
+    ) {
+        self.certificateSigningRequest = certificateSigningRequest
+    }
+}
+
+extension GetCertificateSigningRequestOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetCertificateSigningRequestOutput(certificateSigningRequest: \"CONTENT_REDACTED\")"}
+}
+
+/// Input parameters for retrieving the account's default key replication regions. This operation requires no input parameters.
+public struct GetDefaultKeyReplicationRegionsInput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Output containing the account's current default key replication configuration.
+public struct GetDefaultKeyReplicationRegionsOutput: Swift.Sendable {
+    /// The list of regions where default key replication is currently enabled for the account. New keys created in this account will automatically be replicated to these regions unless explicitly configured otherwise during key creation.
+    /// This member is required.
+    public var enabledReplicationRegions: [Swift.String]?
+
+    public init(
+        enabledReplicationRegions: [Swift.String]? = nil
+    ) {
+        self.enabledReplicationRegions = enabledReplicationRegions
+    }
+}
+
 public struct GetKeyInput: Swift.Sendable {
     /// The KeyARN of the Amazon Web Services Payment Cryptography key.
     /// This member is required.
@@ -1255,7 +1858,7 @@ public struct GetKeyInput: Swift.Sendable {
 }
 
 public struct GetKeyOutput: Swift.Sendable {
-    /// The key material, including the immutable and mutable data for the key.
+    /// Contains the key metadata, including both immutable and mutable attributes for the key, but does not include actual cryptographic key material.
     /// This member is required.
     public var key: PaymentCryptographyClientTypes.Key?
 
@@ -1322,7 +1925,7 @@ public struct GetParametersForExportInput: Swift.Sendable {
 }
 
 public struct GetParametersForExportOutput: Swift.Sendable {
-    /// The export token to initiate key export from Amazon Web Services Payment Cryptography. The export token expires after 7 days. You can use the same export token to export multiple keys from the same service account.
+    /// The export token to initiate key export from Amazon Web Services Payment Cryptography. The export token expires after 30 days. You can use the same export token to export multiple keys from the same service account.
     /// This member is required.
     public var exportToken: Swift.String?
     /// The validity period of the export token.
@@ -1331,7 +1934,7 @@ public struct GetParametersForExportOutput: Swift.Sendable {
     /// The algorithm of the signing key certificate for use in TR-34 key block generation. RSA_2048 is the only signing key algorithm allowed.
     /// This member is required.
     public var signingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
-    /// The signing key certificate in PEM format (base64 encoded) of the public key for signature within the TR-34 key block. The certificate expires after 7 days.
+    /// The signing key certificate in PEM format (base64 encoded) of the public key for signature within the TR-34 key block. The certificate expires after 30 days.
     /// This member is required.
     public var signingKeyCertificate: Swift.String?
     /// The root certificate authority (CA) that signed the signing key certificate in PEM format (base64 encoded).
@@ -1353,11 +1956,6 @@ public struct GetParametersForExportOutput: Swift.Sendable {
     }
 }
 
-extension GetParametersForExportOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetParametersForExportOutput(exportToken: \(Swift.String(describing: exportToken)), parametersValidUntilTimestamp: \(Swift.String(describing: parametersValidUntilTimestamp)), signingKeyAlgorithm: \(Swift.String(describing: signingKeyAlgorithm)), signingKeyCertificate: \"CONTENT_REDACTED\", signingKeyCertificateChain: \"CONTENT_REDACTED\")"}
-}
-
 public struct GetParametersForImportInput: Swift.Sendable {
     /// The method to use for key material import. Import token is only required for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK) and RSA WrappedKeyCryptogram (KEY_CRYPTOGRAM). Import token is not required for TR-31, root public key cerificate or trusted public key certificate.
     /// This member is required.
@@ -1376,7 +1974,7 @@ public struct GetParametersForImportInput: Swift.Sendable {
 }
 
 public struct GetParametersForImportOutput: Swift.Sendable {
-    /// The import token to initiate key import into Amazon Web Services Payment Cryptography. The import token expires after 7 days. You can use the same import token to import multiple keys to the same service account.
+    /// The import token to initiate key import into Amazon Web Services Payment Cryptography. The import token expires after 30 days. You can use the same import token to import multiple keys to the same service account.
     /// This member is required.
     public var importToken: Swift.String?
     /// The validity period of the import token.
@@ -1385,7 +1983,7 @@ public struct GetParametersForImportOutput: Swift.Sendable {
     /// The algorithm of the wrapping key for use within TR-34 WrappedKeyBlock or RSA WrappedKeyCryptogram.
     /// This member is required.
     public var wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
-    /// The wrapping key certificate in PEM format (base64 encoded) of the wrapping key for use within the TR-34 key block. The certificate expires in 7 days.
+    /// The wrapping key certificate in PEM format (base64 encoded) of the wrapping key for use within the TR-34 key block. The certificate expires in 30 days.
     /// This member is required.
     public var wrappingKeyCertificate: Swift.String?
     /// The Amazon Web Services Payment Cryptography root certificate authority (CA) that signed the wrapping key certificate in PEM format (base64 encoded).
@@ -1405,11 +2003,6 @@ public struct GetParametersForImportOutput: Swift.Sendable {
         self.wrappingKeyCertificate = wrappingKeyCertificate
         self.wrappingKeyCertificateChain = wrappingKeyCertificateChain
     }
-}
-
-extension GetParametersForImportOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetParametersForImportOutput(importToken: \(Swift.String(describing: importToken)), parametersValidUntilTimestamp: \(Swift.String(describing: parametersValidUntilTimestamp)), wrappingKeyAlgorithm: \(Swift.String(describing: wrappingKeyAlgorithm)), wrappingKeyCertificate: \"CONTENT_REDACTED\", wrappingKeyCertificateChain: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPublicKeyCertificateInput: Swift.Sendable {
@@ -1441,9 +2034,60 @@ public struct GetPublicKeyCertificateOutput: Swift.Sendable {
     }
 }
 
-extension GetPublicKeyCertificateOutput: Swift.CustomDebugStringConvertible {
+extension PaymentCryptographyClientTypes {
+
+    /// Key derivation parameter information for key material import using asymmetric ECDH key exchange method.
+    public struct ImportDiffieHellmanTr31KeyBlock: Swift.Sendable {
+        /// The keyARN of the CA that signed the PublicKeyCertificate for the client's receiving ECC key pair.
+        /// This member is required.
+        public var certificateAuthorityPublicKeyIdentifier: Swift.String?
+        /// The shared information used when deriving a key using ECDH.
+        /// This member is required.
+        public var derivationData: PaymentCryptographyClientTypes.DiffieHellmanDerivationData?
+        /// The key algorithm of the shared derived ECDH key.
+        /// This member is required.
+        public var deriveKeyAlgorithm: PaymentCryptographyClientTypes.SymmetricKeyAlgorithm?
+        /// The key derivation function to use when deriving a key using ECDH.
+        /// This member is required.
+        public var keyDerivationFunction: PaymentCryptographyClientTypes.KeyDerivationFunction?
+        /// The hash type to use when deriving a key using ECDH.
+        /// This member is required.
+        public var keyDerivationHashAlgorithm: PaymentCryptographyClientTypes.KeyDerivationHashAlgorithm?
+        /// The keyARN of the asymmetric ECC key created within Amazon Web Services Payment Cryptography.
+        /// This member is required.
+        public var privateKeyIdentifier: Swift.String?
+        /// The public key certificate of the client's receiving ECC key pair, in PEM format (base64 encoded), to use for ECDH key derivation.
+        /// This member is required.
+        public var publicKeyCertificate: Swift.String?
+        /// The ECDH wrapped key block to import.
+        /// This member is required.
+        public var wrappedKeyBlock: Swift.String?
+
+        public init(
+            certificateAuthorityPublicKeyIdentifier: Swift.String? = nil,
+            derivationData: PaymentCryptographyClientTypes.DiffieHellmanDerivationData? = nil,
+            deriveKeyAlgorithm: PaymentCryptographyClientTypes.SymmetricKeyAlgorithm? = nil,
+            keyDerivationFunction: PaymentCryptographyClientTypes.KeyDerivationFunction? = nil,
+            keyDerivationHashAlgorithm: PaymentCryptographyClientTypes.KeyDerivationHashAlgorithm? = nil,
+            privateKeyIdentifier: Swift.String? = nil,
+            publicKeyCertificate: Swift.String? = nil,
+            wrappedKeyBlock: Swift.String? = nil
+        ) {
+            self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
+            self.derivationData = derivationData
+            self.deriveKeyAlgorithm = deriveKeyAlgorithm
+            self.keyDerivationFunction = keyDerivationFunction
+            self.keyDerivationHashAlgorithm = keyDerivationHashAlgorithm
+            self.privateKeyIdentifier = privateKeyIdentifier
+            self.publicKeyCertificate = publicKeyCertificate
+            self.wrappedKeyBlock = wrappedKeyBlock
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes.ImportDiffieHellmanTr31KeyBlock: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetPublicKeyCertificateOutput(keyCertificate: \"CONTENT_REDACTED\", keyCertificateChain: \"CONTENT_REDACTED\")"}
+        "ImportDiffieHellmanTr31KeyBlock(certificateAuthorityPublicKeyIdentifier: \(Swift.String(describing: certificateAuthorityPublicKeyIdentifier)), derivationData: \(Swift.String(describing: derivationData)), deriveKeyAlgorithm: \(Swift.String(describing: deriveKeyAlgorithm)), keyDerivationFunction: \(Swift.String(describing: keyDerivationFunction)), keyDerivationHashAlgorithm: \(Swift.String(describing: keyDerivationHashAlgorithm)), privateKeyIdentifier: \(Swift.String(describing: privateKeyIdentifier)), publicKeyCertificate: \(Swift.String(describing: publicKeyCertificate)), wrappedKeyBlock: \"CONTENT_REDACTED\")"}
 }
 
 extension PaymentCryptographyClientTypes {
@@ -1453,7 +2097,7 @@ extension PaymentCryptographyClientTypes {
         /// Specifies whether the key is exportable from the service.
         /// This member is required.
         public var exportable: Swift.Bool?
-        /// The import token that initiates key import using the asymmetric RSA wrap and unwrap key exchange method into AWS Payment Cryptography. It expires after 7 days. You can use the same import token to import multiple keys to the same service account.
+        /// The import token that initiates key import using the asymmetric RSA wrap and unwrap key exchange method into AWS Payment Cryptography. It expires after 30 days. You can use the same import token to import multiple keys to the same service account.
         /// This member is required.
         public var importToken: Swift.String?
         /// The role of the key, the algorithm it supports, and the cryptographic operations allowed with the key. This data is immutable after the key is created.
@@ -1507,11 +2151,6 @@ extension PaymentCryptographyClientTypes {
     }
 }
 
-extension PaymentCryptographyClientTypes.RootCertificatePublicKey: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "RootCertificatePublicKey(keyAttributes: \(Swift.String(describing: keyAttributes)), publicKeyCertificate: \"CONTENT_REDACTED\")"}
-}
-
 extension PaymentCryptographyClientTypes {
 
     /// Parameter information for key material import using symmetric TR-31 key exchange method.
@@ -1545,8 +2184,7 @@ extension PaymentCryptographyClientTypes {
         /// The KeyARN of the certificate chain that signs the signing key certificate during TR-34 key import.
         /// This member is required.
         public var certificateAuthorityPublicKeyIdentifier: Swift.String?
-        /// The import token that initiates key import using the asymmetric TR-34 key exchange method into Amazon Web Services Payment Cryptography. It expires after 7 days. You can use the same import token to import multiple keys to the same service account.
-        /// This member is required.
+        /// The import token that initiates key import using the asymmetric TR-34 key exchange method into Amazon Web Services Payment Cryptography. It expires after 30 days. You can use the same import token to import multiple keys to the same service account.
         public var importToken: Swift.String?
         /// The key block format to use during key import. The only value allowed is X9_TR34_2012.
         /// This member is required.
@@ -1559,14 +2197,20 @@ extension PaymentCryptographyClientTypes {
         /// The TR-34 wrapped key block to import.
         /// This member is required.
         public var wrappedKeyBlock: Swift.String?
+        /// Key Identifier used for unwrapping the import key
+        public var wrappingKeyCertificate: Swift.String?
+        /// Key Identifier used for unwrapping the import key
+        public var wrappingKeyIdentifier: Swift.String?
 
         public init(
             certificateAuthorityPublicKeyIdentifier: Swift.String? = nil,
-            importToken: Swift.String? = nil,
+            importToken: Swift.String? = "",
             keyBlockFormat: PaymentCryptographyClientTypes.Tr34KeyBlockFormat? = nil,
             randomNonce: Swift.String? = nil,
             signingKeyCertificate: Swift.String? = nil,
-            wrappedKeyBlock: Swift.String? = nil
+            wrappedKeyBlock: Swift.String? = nil,
+            wrappingKeyCertificate: Swift.String? = nil,
+            wrappingKeyIdentifier: Swift.String? = nil
         ) {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
             self.importToken = importToken
@@ -1574,13 +2218,15 @@ extension PaymentCryptographyClientTypes {
             self.randomNonce = randomNonce
             self.signingKeyCertificate = signingKeyCertificate
             self.wrappedKeyBlock = wrappedKeyBlock
+            self.wrappingKeyCertificate = wrappingKeyCertificate
+            self.wrappingKeyIdentifier = wrappingKeyIdentifier
         }
     }
 }
 
 extension PaymentCryptographyClientTypes.ImportTr34KeyBlock: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ImportTr34KeyBlock(certificateAuthorityPublicKeyIdentifier: \(Swift.String(describing: certificateAuthorityPublicKeyIdentifier)), importToken: \(Swift.String(describing: importToken)), keyBlockFormat: \(Swift.String(describing: keyBlockFormat)), randomNonce: \(Swift.String(describing: randomNonce)), signingKeyCertificate: \"CONTENT_REDACTED\", wrappedKeyBlock: \"CONTENT_REDACTED\")"}
+        "ImportTr34KeyBlock(certificateAuthorityPublicKeyIdentifier: \(Swift.String(describing: certificateAuthorityPublicKeyIdentifier)), importToken: \(Swift.String(describing: importToken)), keyBlockFormat: \(Swift.String(describing: keyBlockFormat)), randomNonce: \(Swift.String(describing: randomNonce)), signingKeyCertificate: \(Swift.String(describing: signingKeyCertificate)), wrappingKeyCertificate: \(Swift.String(describing: wrappingKeyCertificate)), wrappingKeyIdentifier: \(Swift.String(describing: wrappingKeyIdentifier)), wrappedKeyBlock: \"CONTENT_REDACTED\")"}
 }
 
 extension PaymentCryptographyClientTypes {
@@ -1609,11 +2255,6 @@ extension PaymentCryptographyClientTypes {
     }
 }
 
-extension PaymentCryptographyClientTypes.TrustedCertificatePublicKey: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "TrustedCertificatePublicKey(certificateAuthorityPublicKeyIdentifier: \(Swift.String(describing: certificateAuthorityPublicKeyIdentifier)), keyAttributes: \(Swift.String(describing: keyAttributes)), publicKeyCertificate: \"CONTENT_REDACTED\")"}
-}
-
 extension PaymentCryptographyClientTypes {
 
     /// Parameter information for key material import into Amazon Web Services Payment Cryptography using TR-31 or TR-34 or RSA wrap and unwrap key exchange method.
@@ -1628,6 +2269,8 @@ extension PaymentCryptographyClientTypes {
         case tr34keyblock(PaymentCryptographyClientTypes.ImportTr34KeyBlock)
         /// Parameter information for key material import using asymmetric RSA wrap and unwrap key exchange method.
         case keycryptogram(PaymentCryptographyClientTypes.ImportKeyCryptogram)
+        /// Key derivation parameter information for key material import using asymmetric ECDH key exchange method.
+        case diffiehellmantr31keyblock(PaymentCryptographyClientTypes.ImportDiffieHellmanTr31KeyBlock)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1640,6 +2283,8 @@ public struct ImportKeyInput: Swift.Sendable {
     /// The key or public key certificate type to use during key material import, for example TR-34 or RootCertificatePublicKey.
     /// This member is required.
     public var keyMaterial: PaymentCryptographyClientTypes.ImportKeyMaterial?
+    /// A list of Amazon Web Services Regions for key replication operations. Each region in the list must be a valid Amazon Web Services Region identifier where Amazon Web Services Payment Cryptography is available. This list is used to specify which regions should be added to or removed from a key's replication configuration.
+    public var replicationRegions: [Swift.String]?
     /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is imported. To tag an existing Amazon Web Services Payment Cryptography key, use the [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html) operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the specified one. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
     public var tags: [PaymentCryptographyClientTypes.Tag]?
 
@@ -1647,11 +2292,13 @@ public struct ImportKeyInput: Swift.Sendable {
         enabled: Swift.Bool? = nil,
         keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm? = nil,
         keyMaterial: PaymentCryptographyClientTypes.ImportKeyMaterial? = nil,
+        replicationRegions: [Swift.String]? = nil,
         tags: [PaymentCryptographyClientTypes.Tag]? = nil
     ) {
         self.enabled = enabled
         self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
         self.keyMaterial = keyMaterial
+        self.replicationRegions = replicationRegions
         self.tags = tags
     }
 }
@@ -1709,6 +2356,10 @@ extension PaymentCryptographyClientTypes {
         /// The state of an Amazon Web Services Payment Cryptography that is being created or deleted.
         /// This member is required.
         public var keyState: PaymentCryptographyClientTypes.KeyState?
+        /// Indicates whether this key is a multi-region key and its role in the multi-region key hierarchy. Multi-region keys allow the same key material to be used across multiple Amazon Web Services Regions. This field specifies whether the key is a primary key (which can be replicated to other regions) or a replica key (which is a copy of a primary key in another region).
+        public var multiRegionKeyType: PaymentCryptographyClientTypes.MultiRegionKeyType?
+        /// An Amazon Web Services Region identifier in the standard format (e.g., us-east-1, eu-west-1). Used to specify regions for key replication operations. The region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available.
+        public var primaryRegion: Swift.String?
 
         public init(
             enabled: Swift.Bool? = nil,
@@ -1716,7 +2367,9 @@ extension PaymentCryptographyClientTypes {
             keyArn: Swift.String? = nil,
             keyAttributes: PaymentCryptographyClientTypes.KeyAttributes? = nil,
             keyCheckValue: Swift.String? = nil,
-            keyState: PaymentCryptographyClientTypes.KeyState? = nil
+            keyState: PaymentCryptographyClientTypes.KeyState? = nil,
+            multiRegionKeyType: PaymentCryptographyClientTypes.MultiRegionKeyType? = nil,
+            primaryRegion: Swift.String? = nil
         ) {
             self.enabled = enabled
             self.exportable = exportable
@@ -1724,6 +2377,8 @@ extension PaymentCryptographyClientTypes {
             self.keyAttributes = keyAttributes
             self.keyCheckValue = keyCheckValue
             self.keyState = keyState
+            self.multiRegionKeyType = multiRegionKeyType
+            self.primaryRegion = primaryRegion
         }
     }
 }
@@ -1741,6 +2396,37 @@ public struct ListKeysOutput: Swift.Sendable {
     ) {
         self.keys = keys
         self.nextToken = nextToken
+    }
+}
+
+/// Input parameters for removing replication regions from a specific key.
+public struct RemoveKeyReplicationRegionsInput: Swift.Sendable {
+    /// The key identifier (ARN or alias) of the key from which to remove replication regions. This key must exist and have replication enabled in the specified regions.
+    /// This member is required.
+    public var keyIdentifier: Swift.String?
+    /// The list of Amazon Web Services Regions to remove from the key's replication configuration. The key will no longer be available for cryptographic operations in these regions after removal. Ensure no active operations depend on the key in these regions before removal.
+    /// This member is required.
+    public var replicationRegions: [Swift.String]?
+
+    public init(
+        keyIdentifier: Swift.String? = nil,
+        replicationRegions: [Swift.String]? = nil
+    ) {
+        self.keyIdentifier = keyIdentifier
+        self.replicationRegions = replicationRegions
+    }
+}
+
+/// Output from removing replication regions from a key.
+public struct RemoveKeyReplicationRegionsOutput: Swift.Sendable {
+    /// The updated key metadata after removing the replication regions. This reflects the current state of the key and its updated replication configuration.
+    /// This member is required.
+    public var key: PaymentCryptographyClientTypes.Key?
+
+    public init(
+        key: PaymentCryptographyClientTypes.Key? = nil
+    ) {
+        self.key = key
     }
 }
 
@@ -1896,6 +2582,13 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension AddKeyReplicationRegionsInput {
+
+    static func urlPathProvider(_ value: AddKeyReplicationRegionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateAliasInput {
 
     static func urlPathProvider(_ value: CreateAliasInput) -> Swift.String? {
@@ -1924,6 +2617,20 @@ extension DeleteKeyInput {
     }
 }
 
+extension DisableDefaultKeyReplicationRegionsInput {
+
+    static func urlPathProvider(_ value: DisableDefaultKeyReplicationRegionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension EnableDefaultKeyReplicationRegionsInput {
+
+    static func urlPathProvider(_ value: EnableDefaultKeyReplicationRegionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ExportKeyInput {
 
     static func urlPathProvider(_ value: ExportKeyInput) -> Swift.String? {
@@ -1934,6 +2641,20 @@ extension ExportKeyInput {
 extension GetAliasInput {
 
     static func urlPathProvider(_ value: GetAliasInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetCertificateSigningRequestInput {
+
+    static func urlPathProvider(_ value: GetCertificateSigningRequestInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetDefaultKeyReplicationRegionsInput {
+
+    static func urlPathProvider(_ value: GetDefaultKeyReplicationRegionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1994,6 +2715,13 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension RemoveKeyReplicationRegionsInput {
+
+    static func urlPathProvider(_ value: RemoveKeyReplicationRegionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension RestoreKeyInput {
 
     static func urlPathProvider(_ value: RestoreKeyInput) -> Swift.String? {
@@ -2036,6 +2764,15 @@ extension UpdateAliasInput {
     }
 }
 
+extension AddKeyReplicationRegionsInput {
+
+    static func write(value: AddKeyReplicationRegionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyIdentifier"].write(value.keyIdentifier)
+        try writer["ReplicationRegions"].writeList(value.replicationRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateAliasInput {
 
     static func write(value: CreateAliasInput?, to writer: SmithyJSON.Writer) throws {
@@ -2049,10 +2786,12 @@ extension CreateKeyInput {
 
     static func write(value: CreateKeyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DeriveKeyUsage"].write(value.deriveKeyUsage)
         try writer["Enabled"].write(value.enabled)
         try writer["Exportable"].write(value.exportable)
         try writer["KeyAttributes"].write(value.keyAttributes, with: PaymentCryptographyClientTypes.KeyAttributes.write(value:to:))
         try writer["KeyCheckValueAlgorithm"].write(value.keyCheckValueAlgorithm)
+        try writer["ReplicationRegions"].writeList(value.replicationRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: PaymentCryptographyClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -2074,6 +2813,22 @@ extension DeleteKeyInput {
     }
 }
 
+extension DisableDefaultKeyReplicationRegionsInput {
+
+    static func write(value: DisableDefaultKeyReplicationRegionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReplicationRegions"].writeList(value.replicationRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension EnableDefaultKeyReplicationRegionsInput {
+
+    static func write(value: EnableDefaultKeyReplicationRegionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReplicationRegions"].writeList(value.replicationRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ExportKeyInput {
 
     static func write(value: ExportKeyInput?, to writer: SmithyJSON.Writer) throws {
@@ -2089,6 +2844,24 @@ extension GetAliasInput {
     static func write(value: GetAliasInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AliasName"].write(value.aliasName)
+    }
+}
+
+extension GetCertificateSigningRequestInput {
+
+    static func write(value: GetCertificateSigningRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateSubject"].write(value.certificateSubject, with: PaymentCryptographyClientTypes.CertificateSubjectType.write(value:to:))
+        try writer["KeyIdentifier"].write(value.keyIdentifier)
+        try writer["SigningAlgorithm"].write(value.signingAlgorithm)
+    }
+}
+
+extension GetDefaultKeyReplicationRegionsInput {
+
+    static func write(value: GetDefaultKeyReplicationRegionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 }
 
@@ -2133,6 +2906,7 @@ extension ImportKeyInput {
         try writer["Enabled"].write(value.enabled)
         try writer["KeyCheckValueAlgorithm"].write(value.keyCheckValueAlgorithm)
         try writer["KeyMaterial"].write(value.keyMaterial, with: PaymentCryptographyClientTypes.ImportKeyMaterial.write(value:to:))
+        try writer["ReplicationRegions"].writeList(value.replicationRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: PaymentCryptographyClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -2164,6 +2938,15 @@ extension ListTagsForResourceInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
+extension RemoveKeyReplicationRegionsInput {
+
+    static func write(value: RemoveKeyReplicationRegionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyIdentifier"].write(value.keyIdentifier)
+        try writer["ReplicationRegions"].writeList(value.replicationRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -2218,6 +3001,18 @@ extension UpdateAliasInput {
     }
 }
 
+extension AddKeyReplicationRegionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddKeyReplicationRegionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AddKeyReplicationRegionsOutput()
+        value.key = try reader["Key"].readIfPresent(with: PaymentCryptographyClientTypes.Key.read(from:))
+        return value
+    }
+}
+
 extension CreateAliasOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAliasOutput {
@@ -2261,6 +3056,30 @@ extension DeleteKeyOutput {
     }
 }
 
+extension DisableDefaultKeyReplicationRegionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableDefaultKeyReplicationRegionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisableDefaultKeyReplicationRegionsOutput()
+        value.enabledReplicationRegions = try reader["EnabledReplicationRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension EnableDefaultKeyReplicationRegionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableDefaultKeyReplicationRegionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = EnableDefaultKeyReplicationRegionsOutput()
+        value.enabledReplicationRegions = try reader["EnabledReplicationRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ExportKeyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportKeyOutput {
@@ -2281,6 +3100,30 @@ extension GetAliasOutput {
         let reader = responseReader
         var value = GetAliasOutput()
         value.alias = try reader["Alias"].readIfPresent(with: PaymentCryptographyClientTypes.Alias.read(from:))
+        return value
+    }
+}
+
+extension GetCertificateSigningRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCertificateSigningRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCertificateSigningRequestOutput()
+        value.certificateSigningRequest = try reader["CertificateSigningRequest"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetDefaultKeyReplicationRegionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDefaultKeyReplicationRegionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDefaultKeyReplicationRegionsOutput()
+        value.enabledReplicationRegions = try reader["EnabledReplicationRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2393,6 +3236,18 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension RemoveKeyReplicationRegionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveKeyReplicationRegionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RemoveKeyReplicationRegionsOutput()
+        value.key = try reader["Key"].readIfPresent(with: PaymentCryptographyClientTypes.Key.read(from:))
+        return value
+    }
+}
+
 extension RestoreKeyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RestoreKeyOutput {
@@ -2452,6 +3307,26 @@ extension UpdateAliasOutput {
         var value = UpdateAliasOutput()
         value.alias = try reader["Alias"].readIfPresent(with: PaymentCryptographyClientTypes.Alias.read(from:))
         return value
+    }
+}
+
+enum AddKeyReplicationRegionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -2537,6 +3412,46 @@ enum DeleteKeyOutputError {
     }
 }
 
+enum DisableDefaultKeyReplicationRegionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EnableDefaultKeyReplicationRegionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ExportKeyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2569,6 +3484,45 @@ enum GetAliasOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCertificateSigningRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDefaultKeyReplicationRegionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2734,6 +3688,26 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum RemoveKeyReplicationRegionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RestoreKeyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2858,11 +3832,11 @@ enum UpdateAliasOutputError {
     }
 }
 
-extension ThrottlingException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2876,45 +3850,6 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2949,11 +3884,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension AccessDeniedException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2962,13 +3897,41 @@ extension AccessDeniedException {
     }
 }
 
-extension PaymentCryptographyClientTypes.Alias {
+extension ThrottlingException {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.Alias {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.Alias()
-        value.aliasName = try reader["AliasName"].readIfPresent() ?? ""
-        value.keyArn = try reader["KeyArn"].readIfPresent()
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -2991,6 +3954,22 @@ extension PaymentCryptographyClientTypes.Key {
         value.usageStopTimestamp = try reader["UsageStopTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletePendingTimestamp = try reader["DeletePendingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deleteTimestamp = try reader["DeleteTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deriveKeyUsage = try reader["DeriveKeyUsage"].readIfPresent()
+        value.multiRegionKeyType = try reader["MultiRegionKeyType"].readIfPresent()
+        value.primaryRegion = try reader["PrimaryRegion"].readIfPresent()
+        value.replicationStatus = try reader["ReplicationStatus"].readMapIfPresent(valueReadingClosure: PaymentCryptographyClientTypes.ReplicationStatusType.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.usingDefaultReplicationRegions = try reader["UsingDefaultReplicationRegions"].readIfPresent()
+        return value
+    }
+}
+
+extension PaymentCryptographyClientTypes.ReplicationStatusType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.ReplicationStatusType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PaymentCryptographyClientTypes.ReplicationStatusType()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
     }
 }
@@ -3047,6 +4026,17 @@ extension PaymentCryptographyClientTypes.KeyModesOfUse {
     }
 }
 
+extension PaymentCryptographyClientTypes.Alias {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.Alias {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PaymentCryptographyClientTypes.Alias()
+        value.aliasName = try reader["AliasName"].readIfPresent() ?? ""
+        value.keyArn = try reader["KeyArn"].readIfPresent()
+        return value
+    }
+}
+
 extension PaymentCryptographyClientTypes.WrappedKey {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.WrappedKey {
@@ -3072,6 +4062,8 @@ extension PaymentCryptographyClientTypes.KeySummary {
         value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent() ?? ""
         value.exportable = try reader["Exportable"].readIfPresent() ?? false
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.multiRegionKeyType = try reader["MultiRegionKeyType"].readIfPresent()
+        value.primaryRegion = try reader["PrimaryRegion"].readIfPresent()
         return value
     }
 }
@@ -3098,12 +4090,53 @@ extension PaymentCryptographyClientTypes.ExportKeyMaterial {
     static func write(value: PaymentCryptographyClientTypes.ExportKeyMaterial?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .diffiehellmantr31keyblock(diffiehellmantr31keyblock):
+                try writer["DiffieHellmanTr31KeyBlock"].write(diffiehellmantr31keyblock, with: PaymentCryptographyClientTypes.ExportDiffieHellmanTr31KeyBlock.write(value:to:))
             case let .keycryptogram(keycryptogram):
                 try writer["KeyCryptogram"].write(keycryptogram, with: PaymentCryptographyClientTypes.ExportKeyCryptogram.write(value:to:))
             case let .tr31keyblock(tr31keyblock):
                 try writer["Tr31KeyBlock"].write(tr31keyblock, with: PaymentCryptographyClientTypes.ExportTr31KeyBlock.write(value:to:))
             case let .tr34keyblock(tr34keyblock):
                 try writer["Tr34KeyBlock"].write(tr34keyblock, with: PaymentCryptographyClientTypes.ExportTr34KeyBlock.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes.ExportDiffieHellmanTr31KeyBlock {
+
+    static func write(value: PaymentCryptographyClientTypes.ExportDiffieHellmanTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
+        try writer["DerivationData"].write(value.derivationData, with: PaymentCryptographyClientTypes.DiffieHellmanDerivationData.write(value:to:))
+        try writer["DeriveKeyAlgorithm"].write(value.deriveKeyAlgorithm)
+        try writer["KeyBlockHeaders"].write(value.keyBlockHeaders, with: PaymentCryptographyClientTypes.KeyBlockHeaders.write(value:to:))
+        try writer["KeyDerivationFunction"].write(value.keyDerivationFunction)
+        try writer["KeyDerivationHashAlgorithm"].write(value.keyDerivationHashAlgorithm)
+        try writer["PrivateKeyIdentifier"].write(value.privateKeyIdentifier)
+        try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
+    }
+}
+
+extension PaymentCryptographyClientTypes.KeyBlockHeaders {
+
+    static func write(value: PaymentCryptographyClientTypes.KeyBlockHeaders?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyExportability"].write(value.keyExportability)
+        try writer["KeyModesOfUse"].write(value.keyModesOfUse, with: PaymentCryptographyClientTypes.KeyModesOfUse.write(value:to:))
+        try writer["KeyVersion"].write(value.keyVersion)
+        try writer["OptionalBlocks"].writeMap(value.optionalBlocks, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension PaymentCryptographyClientTypes.DiffieHellmanDerivationData {
+
+    static func write(value: PaymentCryptographyClientTypes.DiffieHellmanDerivationData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .sharedinformation(sharedinformation):
+                try writer["SharedInformation"].write(sharedinformation)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -3129,18 +4162,9 @@ extension PaymentCryptographyClientTypes.ExportTr34KeyBlock {
         try writer["KeyBlockFormat"].write(value.keyBlockFormat)
         try writer["KeyBlockHeaders"].write(value.keyBlockHeaders, with: PaymentCryptographyClientTypes.KeyBlockHeaders.write(value:to:))
         try writer["RandomNonce"].write(value.randomNonce)
+        try writer["SigningKeyCertificate"].write(value.signingKeyCertificate)
+        try writer["SigningKeyIdentifier"].write(value.signingKeyIdentifier)
         try writer["WrappingKeyCertificate"].write(value.wrappingKeyCertificate)
-    }
-}
-
-extension PaymentCryptographyClientTypes.KeyBlockHeaders {
-
-    static func write(value: PaymentCryptographyClientTypes.KeyBlockHeaders?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyExportability"].write(value.keyExportability)
-        try writer["KeyModesOfUse"].write(value.keyModesOfUse, with: PaymentCryptographyClientTypes.KeyModesOfUse.write(value:to:))
-        try writer["KeyVersion"].write(value.keyVersion)
-        try writer["OptionalBlocks"].writeMap(value.optionalBlocks, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -3170,11 +4194,27 @@ extension PaymentCryptographyClientTypes.ExportDukptInitialKey {
     }
 }
 
+extension PaymentCryptographyClientTypes.CertificateSubjectType {
+
+    static func write(value: PaymentCryptographyClientTypes.CertificateSubjectType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["City"].write(value.city)
+        try writer["CommonName"].write(value.commonName)
+        try writer["Country"].write(value.country)
+        try writer["EmailAddress"].write(value.emailAddress)
+        try writer["Organization"].write(value.organization)
+        try writer["OrganizationUnit"].write(value.organizationUnit)
+        try writer["StateOrProvince"].write(value.stateOrProvince)
+    }
+}
+
 extension PaymentCryptographyClientTypes.ImportKeyMaterial {
 
     static func write(value: PaymentCryptographyClientTypes.ImportKeyMaterial?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .diffiehellmantr31keyblock(diffiehellmantr31keyblock):
+                try writer["DiffieHellmanTr31KeyBlock"].write(diffiehellmantr31keyblock, with: PaymentCryptographyClientTypes.ImportDiffieHellmanTr31KeyBlock.write(value:to:))
             case let .keycryptogram(keycryptogram):
                 try writer["KeyCryptogram"].write(keycryptogram, with: PaymentCryptographyClientTypes.ImportKeyCryptogram.write(value:to:))
             case let .rootcertificatepublickey(rootcertificatepublickey):
@@ -3188,6 +4228,21 @@ extension PaymentCryptographyClientTypes.ImportKeyMaterial {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension PaymentCryptographyClientTypes.ImportDiffieHellmanTr31KeyBlock {
+
+    static func write(value: PaymentCryptographyClientTypes.ImportDiffieHellmanTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
+        try writer["DerivationData"].write(value.derivationData, with: PaymentCryptographyClientTypes.DiffieHellmanDerivationData.write(value:to:))
+        try writer["DeriveKeyAlgorithm"].write(value.deriveKeyAlgorithm)
+        try writer["KeyDerivationFunction"].write(value.keyDerivationFunction)
+        try writer["KeyDerivationHashAlgorithm"].write(value.keyDerivationHashAlgorithm)
+        try writer["PrivateKeyIdentifier"].write(value.privateKeyIdentifier)
+        try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
+        try writer["WrappedKeyBlock"].write(value.wrappedKeyBlock)
     }
 }
 
@@ -3213,6 +4268,8 @@ extension PaymentCryptographyClientTypes.ImportTr34KeyBlock {
         try writer["RandomNonce"].write(value.randomNonce)
         try writer["SigningKeyCertificate"].write(value.signingKeyCertificate)
         try writer["WrappedKeyBlock"].write(value.wrappedKeyBlock)
+        try writer["WrappingKeyCertificate"].write(value.wrappingKeyCertificate)
+        try writer["WrappingKeyIdentifier"].write(value.wrappingKeyIdentifier)
     }
 }
 

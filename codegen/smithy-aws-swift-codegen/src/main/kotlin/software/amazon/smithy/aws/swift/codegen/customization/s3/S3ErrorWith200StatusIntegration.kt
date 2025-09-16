@@ -24,8 +24,10 @@ import software.amazon.smithy.swift.codegen.model.isStreaming
  * see [aws-sdk-swift#1113](https://github.com/awslabs/aws-sdk-swift/issues/1113)
  */
 class S3ErrorWith200StatusIntegration : SwiftIntegration {
-    override fun enabledForService(model: Model, settings: SwiftSettings): Boolean =
-        model.expectShape<ServiceShape>(settings.service).isS3
+    override fun enabledForService(
+        model: Model,
+        settings: SwiftSettings,
+    ): Boolean = model.expectShape<ServiceShape>(settings.service).isS3
 
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
@@ -38,12 +40,13 @@ class S3ErrorWith200StatusIntegration : SwiftIntegration {
         // Instead of playing whack-a-mole broadly apply this interceptor to everything but streaming responses
         // which adds a small amount of overhead to response processing.
         val output = ctx.model.expectShape(operationShape.output.get())
-        val outputIsNotAStreamingBlobShape = output.members().none {
-            val targetShape = ctx.model.expectShape(it.target)
-            val isBlob = it.isBlobShape || targetShape.isBlobShape
-            val isStreaming = it.isStreaming || targetShape.isStreaming
-            isBlob && isStreaming
-        }
+        val outputIsNotAStreamingBlobShape =
+            output.members().none {
+                val targetShape = ctx.model.expectShape(it.target)
+                val isBlob = it.isBlobShape || targetShape.isBlobShape
+                val isStreaming = it.isStreaming || targetShape.isStreaming
+                isBlob && isStreaming
+            }
 
         if (outputIsNotAStreamingBlobShape) {
             operationMiddleware.appendMiddleware(operationShape, S3HandleError200ResponseMiddleware)
@@ -57,7 +60,7 @@ private object S3HandleError200ResponseMiddleware : MiddlewareRenderable {
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        op: OperationShape
+        op: OperationShape,
     ) {
         val inputShape = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op)
         val outputShape = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
@@ -65,7 +68,7 @@ private object S3HandleError200ResponseMiddleware : MiddlewareRenderable {
             "\$N<\$N, \$N>()",
             AWSClientRuntimeTypes.RestXML.S3.AWSS3ErrorWith200StatusXMLMiddleware,
             inputShape,
-            outputShape
+            outputShape,
         )
     }
 }

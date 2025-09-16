@@ -1040,11 +1040,11 @@ enum UntagResourceOutputError {
     }
 }
 
-extension ValidationException {
+extension InternalErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalErrorException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = InternalErrorException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1053,11 +1053,11 @@ extension ValidationException {
     }
 }
 
-extension InternalErrorException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalErrorException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = InternalErrorException()
+        var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1079,11 +1079,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ReportLimitReachedException {
+extension DuplicateReportNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReportLimitReachedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateReportNameException {
         let reader = baseError.errorBodyReader
-        var value = ReportLimitReachedException()
+        var value = DuplicateReportNameException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1092,11 +1092,11 @@ extension ReportLimitReachedException {
     }
 }
 
-extension DuplicateReportNameException {
+extension ReportLimitReachedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateReportNameException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReportLimitReachedException {
         let reader = baseError.errorBodyReader
-        var value = DuplicateReportNameException()
+        var value = ReportLimitReachedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

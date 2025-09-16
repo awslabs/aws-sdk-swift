@@ -57,6 +57,7 @@ extension NotificationsClientTypes {
     public enum AccessStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
+        case failed
         case pending
         case sdkUnknown(Swift.String)
 
@@ -64,6 +65,7 @@ extension NotificationsClientTypes {
             return [
                 .disabled,
                 .enabled,
+                .failed,
                 .pending
             ]
         }
@@ -77,6 +79,7 @@ extension NotificationsClientTypes {
             switch self {
             case .disabled: return "DISABLED"
             case .enabled: return "ENABLED"
+            case .failed: return "FAILED"
             case .pending: return "PENDING"
             case let .sdkUnknown(s): return s
             }
@@ -553,7 +556,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 public struct AssociateChannelInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the Channel to associate with the NotificationConfiguration. Supported ARNs include Chatbot, the Console Mobile Application, and notifications-contacts.
+    /// The Amazon Resource Name (ARN) of the Channel to associate with the NotificationConfiguration. Supported ARNs include Amazon Q Developer in chat applications, the Console Mobile Application, and notifications-contacts.
     /// This member is required.
     public var arn: Swift.String?
     /// The ARN of the NotificationConfiguration to associate with the Channel.
@@ -597,7 +600,7 @@ public struct AssociateManagedNotificationAccountContactOutput: Swift.Sendable {
 }
 
 public struct AssociateManagedNotificationAdditionalChannelInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration. Supported ARNs include Chatbot, the Console Mobile Application, and email (notifications-contacts).
+    /// The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration. Supported ARNs include Amazon Q Developer in chat applications, the Console Mobile Application, and email (notifications-contacts).
     /// This member is required.
     public var channelArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration to associate with the additional Channel.
@@ -614,6 +617,28 @@ public struct AssociateManagedNotificationAdditionalChannelInput: Swift.Sendable
 }
 
 public struct AssociateManagedNotificationAdditionalChannelOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct AssociateOrganizationalUnitInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the notification configuration to associate with the organizational unit.
+    /// This member is required.
+    public var notificationConfigurationArn: Swift.String?
+    /// The unique identifier of the organizational unit to associate.
+    /// This member is required.
+    public var organizationalUnitId: Swift.String?
+
+    public init(
+        notificationConfigurationArn: Swift.String? = nil,
+        organizationalUnitId: Swift.String? = nil
+    ) {
+        self.notificationConfigurationArn = notificationConfigurationArn
+        self.organizationalUnitId = organizationalUnitId
+    }
+}
+
+public struct AssociateOrganizationalUnitOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -1216,6 +1241,28 @@ public struct DisassociateManagedNotificationAdditionalChannelOutput: Swift.Send
     public init() { }
 }
 
+public struct DisassociateOrganizationalUnitInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the notification configuration to disassociate from the organizational unit.
+    /// This member is required.
+    public var notificationConfigurationArn: Swift.String?
+    /// The unique identifier of the organizational unit to disassociate.
+    /// This member is required.
+    public var organizationalUnitId: Swift.String?
+
+    public init(
+        notificationConfigurationArn: Swift.String? = nil,
+        organizationalUnitId: Swift.String? = nil
+    ) {
+        self.notificationConfigurationArn = notificationConfigurationArn
+        self.organizationalUnitId = organizationalUnitId
+    }
+}
+
+public struct DisassociateOrganizationalUnitOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct EnableNotificationsAccessForOrganizationInput: Swift.Sendable {
 
     public init() { }
@@ -1562,7 +1609,7 @@ extension NotificationsClientTypes {
         public var dimensions: [NotificationsClientTypes.Dimension]?
         /// A sentence long summary. For example, titles or an email subject line.
         public var headline: Swift.String?
-        /// A paragraph long or multiple sentence summary. For example, Chatbot notifications.
+        /// A paragraph long or multiple sentence summary. For example, Amazon Q Developer in chat applications notifications.
         public var paragraphSummary: Swift.String?
 
         public init(
@@ -2043,6 +2090,37 @@ public struct GetNotificationConfigurationInput: Swift.Sendable {
     }
 }
 
+extension NotificationsClientTypes {
+
+    public enum NotificationConfigurationSubtype: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Notification configuration created by the account
+        case account
+        /// Notification configuration managed by an administrator account
+        case adminManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotificationConfigurationSubtype] {
+            return [
+                .account,
+                .adminManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case .adminManaged: return "ADMIN_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetNotificationConfigurationOutput: Swift.Sendable {
     /// The aggregation preference of the NotificationConfiguration.
     ///
@@ -2081,6 +2159,8 @@ public struct GetNotificationConfigurationOutput: Swift.Sendable {
     /// The status of this NotificationConfiguration.
     /// This member is required.
     public var status: NotificationsClientTypes.NotificationConfigurationStatus?
+    /// The subtype of the notification configuration returned in the response.
+    public var subtype: NotificationsClientTypes.NotificationConfigurationSubtype?
 
     public init(
         aggregationDuration: NotificationsClientTypes.AggregationDuration? = nil,
@@ -2088,7 +2168,8 @@ public struct GetNotificationConfigurationOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
-        status: NotificationsClientTypes.NotificationConfigurationStatus? = nil
+        status: NotificationsClientTypes.NotificationConfigurationStatus? = nil,
+        subtype: NotificationsClientTypes.NotificationConfigurationSubtype? = nil
     ) {
         self.aggregationDuration = aggregationDuration
         self.arn = arn
@@ -2096,6 +2177,7 @@ public struct GetNotificationConfigurationOutput: Swift.Sendable {
         self.description = description
         self.name = name
         self.status = status
+        self.subtype = subtype
     }
 }
 
@@ -2335,6 +2417,8 @@ extension NotificationsClientTypes {
         /// * A notification about informational messages. For example, recommendations, service announcements, or reminders.
         /// This member is required.
         public var notificationType: NotificationsClientTypes.NotificationType?
+        /// The unique identifier of the organizational unit associated with the notification event.
+        public var organizationalUnitId: Swift.String?
         /// The schema version of the Notification Event.
         /// This member is required.
         public var schemaVersion: NotificationsClientTypes.SchemaVersion?
@@ -2361,6 +2445,7 @@ extension NotificationsClientTypes {
             media: [NotificationsClientTypes.MediaElement]? = nil,
             messageComponents: NotificationsClientTypes.MessageComponents? = nil,
             notificationType: NotificationsClientTypes.NotificationType? = nil,
+            organizationalUnitId: Swift.String? = nil,
             schemaVersion: NotificationsClientTypes.SchemaVersion? = nil,
             sourceEventDetailUrl: Swift.String? = nil,
             sourceEventDetailUrlDisplayText: Swift.String? = nil,
@@ -2377,6 +2462,7 @@ extension NotificationsClientTypes {
             self.media = media
             self.messageComponents = messageComponents
             self.notificationType = notificationType
+            self.organizationalUnitId = organizationalUnitId
             self.schemaVersion = schemaVersion
             self.sourceEventDetailUrl = sourceEventDetailUrl
             self.sourceEventDetailUrlDisplayText = sourceEventDetailUrlDisplayText
@@ -2494,7 +2580,7 @@ extension NotificationsClientTypes {
         ///
         /// * CHATBOT
         ///
-        /// * Delivers notifications through Chatbot to collaboration platforms (Slack, Chime).
+        /// * Delivers notifications through Amazon Q Developer in chat applications to collaboration platforms (Slack, Chime).
         ///
         ///
         ///
@@ -2986,7 +3072,7 @@ extension NotificationsClientTypes {
         /// The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration.
         /// This member is required.
         public var managedNotificationConfigurationArn: Swift.String?
-        /// A short summary of a ManagedNotificationEvent. This is only used when listing managed notification events.
+        ///
         /// This member is required.
         public var notificationEvent: NotificationsClientTypes.ManagedNotificationEventSummary?
         /// The Organizational Unit Id that an Amazon Web Services account belongs to.
@@ -3035,6 +3121,132 @@ public struct ListManagedNotificationEventsOutput: Swift.Sendable {
     }
 }
 
+extension NotificationsClientTypes {
+
+    public enum MemberAccountNotificationConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The member account Notification Configuration status is ACTIVE.
+        case active
+        /// The member account Notification Configuration status is CREATING.
+        case creating
+        /// The member account Notification Configuration status is DELETING.
+        case deleting
+        /// The member account Notification Configuration status is INACTIVE.
+        case inactive
+        /// The member account Notification Configuration status is PENDING.
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MemberAccountNotificationConfigurationStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .inactive,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .inactive: return "INACTIVE"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListMemberAccountsInput: Swift.Sendable {
+    /// The maximum number of results to return in a single call. Valid values are 1-100.
+    public var maxResults: Swift.Int?
+    /// The member account identifier used to filter the results.
+    public var memberAccount: Swift.String?
+    /// The token for the next page of results. Use the value returned in the previous response.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the notification configuration used to filter the member accounts.
+    /// This member is required.
+    public var notificationConfigurationArn: Swift.String?
+    /// The organizational unit ID used to filter the member accounts.
+    public var organizationalUnitId: Swift.String?
+    /// The status used to filter the member accounts.
+    public var status: NotificationsClientTypes.MemberAccountNotificationConfigurationStatus?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        memberAccount: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        notificationConfigurationArn: Swift.String? = nil,
+        organizationalUnitId: Swift.String? = nil,
+        status: NotificationsClientTypes.MemberAccountNotificationConfigurationStatus? = nil
+    ) {
+        self.maxResults = maxResults
+        self.memberAccount = memberAccount
+        self.nextToken = nextToken
+        self.notificationConfigurationArn = notificationConfigurationArn
+        self.organizationalUnitId = organizationalUnitId
+        self.status = status
+    }
+}
+
+extension NotificationsClientTypes {
+
+    /// Contains information about a member account.
+    public struct MemberAccount: Swift.Sendable {
+        /// The AWS account ID of the member account.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the notification configuration associated with the member account.
+        public var notificationConfigurationArn: Swift.String?
+        /// The unique identifier of the organizational unit containing the member account.
+        /// This member is required.
+        public var organizationalUnitId: Swift.String?
+        /// The current status of the member account.
+        /// This member is required.
+        public var status: NotificationsClientTypes.MemberAccountNotificationConfigurationStatus?
+        /// The reason for the current status of the member account.
+        /// This member is required.
+        public var statusReason: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            notificationConfigurationArn: Swift.String? = nil,
+            organizationalUnitId: Swift.String? = nil,
+            status: NotificationsClientTypes.MemberAccountNotificationConfigurationStatus? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.notificationConfigurationArn = notificationConfigurationArn
+            self.organizationalUnitId = organizationalUnitId
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+}
+
+public struct ListMemberAccountsOutput: Swift.Sendable {
+    /// The list of member accounts that match the specified criteria.
+    /// This member is required.
+    public var memberAccounts: [NotificationsClientTypes.MemberAccount]?
+    /// The token to use for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        memberAccounts: [NotificationsClientTypes.MemberAccount]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.memberAccounts = memberAccounts
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListNotificationConfigurationsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Channel to match.
     public var channelArn: Swift.String?
@@ -3077,19 +3289,23 @@ public struct ListNotificationConfigurationsInput: Swift.Sendable {
     ///
     /// * Only GET and LIST calls can be run.
     public var status: NotificationsClientTypes.NotificationConfigurationStatus?
+    /// The subtype used to filter the notification configurations in the request.
+    public var subtype: NotificationsClientTypes.NotificationConfigurationSubtype?
 
     public init(
         channelArn: Swift.String? = nil,
         eventRuleSource: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        status: NotificationsClientTypes.NotificationConfigurationStatus? = nil
+        status: NotificationsClientTypes.NotificationConfigurationStatus? = nil,
+        subtype: NotificationsClientTypes.NotificationConfigurationSubtype? = nil
     ) {
         self.channelArn = channelArn
         self.eventRuleSource = eventRuleSource
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
+        self.subtype = subtype
     }
 }
 
@@ -3134,6 +3350,8 @@ extension NotificationsClientTypes {
         /// The current status of the NotificationConfiguration.
         /// This member is required.
         public var status: NotificationsClientTypes.NotificationConfigurationStatus?
+        /// The subtype of the notification configuration.
+        public var subtype: NotificationsClientTypes.NotificationConfigurationSubtype?
 
         public init(
             aggregationDuration: NotificationsClientTypes.AggregationDuration? = nil,
@@ -3141,7 +3359,8 @@ extension NotificationsClientTypes {
             creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
-            status: NotificationsClientTypes.NotificationConfigurationStatus? = nil
+            status: NotificationsClientTypes.NotificationConfigurationStatus? = nil,
+            subtype: NotificationsClientTypes.NotificationConfigurationSubtype? = nil
         ) {
             self.aggregationDuration = aggregationDuration
             self.arn = arn
@@ -3149,6 +3368,7 @@ extension NotificationsClientTypes {
             self.description = description
             self.name = name
             self.status = status
+            self.subtype = subtype
         }
     }
 }
@@ -3182,6 +3402,8 @@ public struct ListNotificationEventsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The start token for paginated calls. Retrieved from the response of a previous ListEventRules call. Next token uses Base64 encoding.
     public var nextToken: Swift.String?
+    /// The unique identifier of the organizational unit used to filter notification events.
+    public var organizationalUnitId: Swift.String?
     /// The matched event source. Must match one of the valid EventBridge sources. Only Amazon Web Services service sourced events are supported. For example, aws.ec2 and aws.cloudwatch. For more information, see [Event delivery from Amazon Web Services services](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event.html#eb-service-event-delivery-level) in the Amazon EventBridge User Guide.
     public var source: Swift.String?
     /// The earliest time of events to return from this call.
@@ -3194,6 +3416,7 @@ public struct ListNotificationEventsInput: Swift.Sendable {
         locale: NotificationsClientTypes.LocaleCode? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        organizationalUnitId: Swift.String? = nil,
         source: Swift.String? = nil,
         startTime: Foundation.Date? = nil
     ) {
@@ -3203,6 +3426,7 @@ public struct ListNotificationEventsInput: Swift.Sendable {
         self.locale = locale
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.organizationalUnitId = organizationalUnitId
         self.source = source
         self.startTime = startTime
     }
@@ -3351,6 +3575,8 @@ extension NotificationsClientTypes {
         /// Refers to a NotificationEventSummary object. Similar in structure to content in the GetNotificationEvent response.
         /// This member is required.
         public var notificationEvent: NotificationsClientTypes.NotificationEventSummary?
+        /// The unique identifier of the organizational unit in the notification event overview.
+        public var organizationalUnitId: Swift.String?
         /// The account name containing the NotificationHub.
         /// This member is required.
         public var relatedAccount: Swift.String?
@@ -3363,6 +3589,7 @@ extension NotificationsClientTypes {
             creationTime: Foundation.Date? = nil,
             notificationConfigurationArn: Swift.String? = nil,
             notificationEvent: NotificationsClientTypes.NotificationEventSummary? = nil,
+            organizationalUnitId: Swift.String? = nil,
             relatedAccount: Swift.String? = nil
         ) {
             self.aggregateNotificationEventArn = aggregateNotificationEventArn
@@ -3372,6 +3599,7 @@ extension NotificationsClientTypes {
             self.creationTime = creationTime
             self.notificationConfigurationArn = notificationConfigurationArn
             self.notificationEvent = notificationEvent
+            self.organizationalUnitId = organizationalUnitId
             self.relatedAccount = relatedAccount
         }
     }
@@ -3451,6 +3679,42 @@ public struct ListNotificationHubsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.notificationHubs = notificationHubs
+    }
+}
+
+public struct ListOrganizationalUnitsInput: Swift.Sendable {
+    /// The maximum number of organizational units to return in a single call. Valid values are 1-100.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results. Use the value returned in the previous response.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the notification configuration used to filter the organizational units.
+    /// This member is required.
+    public var notificationConfigurationArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        notificationConfigurationArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.notificationConfigurationArn = notificationConfigurationArn
+    }
+}
+
+public struct ListOrganizationalUnitsOutput: Swift.Sendable {
+    /// The token to use for the next page of results. If there are no additional results, this value is null.
+    public var nextToken: Swift.String?
+    /// The list of organizational units that match the specified criteria.
+    /// This member is required.
+    public var organizationalUnits: [Swift.String]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        organizationalUnits: [Swift.String]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.organizationalUnits = organizationalUnits
     }
 }
 
@@ -3645,6 +3909,16 @@ extension AssociateManagedNotificationAdditionalChannelInput {
     }
 }
 
+extension AssociateOrganizationalUnitInput {
+
+    static func urlPathProvider(_ value: AssociateOrganizationalUnitInput) -> Swift.String? {
+        guard let organizationalUnitId = value.organizationalUnitId else {
+            return nil
+        }
+        return "/organizational-units/associate/\(organizationalUnitId.urlPercentEncoding())"
+    }
+}
+
 extension CreateEventRuleInput {
 
     static func urlPathProvider(_ value: CreateEventRuleInput) -> Swift.String? {
@@ -3723,6 +3997,16 @@ extension DisassociateManagedNotificationAdditionalChannelInput {
             return nil
         }
         return "/channels/disassociate-managed-notification/\(channelArn.urlPercentEncoding())"
+    }
+}
+
+extension DisassociateOrganizationalUnitInput {
+
+    static func urlPathProvider(_ value: DisassociateOrganizationalUnitInput) -> Swift.String? {
+        guard let organizationalUnitId = value.organizationalUnitId else {
+            return nil
+        }
+        return "/organizational-units/disassociate/\(organizationalUnitId.urlPercentEncoding())"
     }
 }
 
@@ -4043,6 +4327,47 @@ extension ListManagedNotificationEventsInput {
     }
 }
 
+extension ListMemberAccountsInput {
+
+    static func urlPathProvider(_ value: ListMemberAccountsInput) -> Swift.String? {
+        return "/list-member-accounts"
+    }
+}
+
+extension ListMemberAccountsInput {
+
+    static func queryItemProvider(_ value: ListMemberAccountsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let notificationConfigurationArn = value.notificationConfigurationArn else {
+            let message = "Creating a URL Query Item failed. notificationConfigurationArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let notificationConfigurationArnQueryItem = Smithy.URIQueryItem(name: "notificationConfigurationArn".urlPercentEncoding(), value: Swift.String(notificationConfigurationArn).urlPercentEncoding())
+        items.append(notificationConfigurationArnQueryItem)
+        if let organizationalUnitId = value.organizationalUnitId {
+            let organizationalUnitIdQueryItem = Smithy.URIQueryItem(name: "organizationalUnitId".urlPercentEncoding(), value: Swift.String(organizationalUnitId).urlPercentEncoding())
+            items.append(organizationalUnitIdQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let memberAccount = value.memberAccount {
+            let memberAccountQueryItem = Smithy.URIQueryItem(name: "memberAccount".urlPercentEncoding(), value: Swift.String(memberAccount).urlPercentEncoding())
+            items.append(memberAccountQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListNotificationConfigurationsInput {
 
     static func urlPathProvider(_ value: ListNotificationConfigurationsInput) -> Swift.String? {
@@ -4057,6 +4382,10 @@ extension ListNotificationConfigurationsInput {
         if let channelArn = value.channelArn {
             let channelArnQueryItem = Smithy.URIQueryItem(name: "channelArn".urlPercentEncoding(), value: Swift.String(channelArn).urlPercentEncoding())
             items.append(channelArnQueryItem)
+        }
+        if let subtype = value.subtype {
+            let subtypeQueryItem = Smithy.URIQueryItem(name: "subtype".urlPercentEncoding(), value: Swift.String(subtype.rawValue).urlPercentEncoding())
+            items.append(subtypeQueryItem)
         }
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -4089,6 +4418,10 @@ extension ListNotificationEventsInput {
 
     static func queryItemProvider(_ value: ListNotificationEventsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let organizationalUnitId = value.organizationalUnitId {
+            let organizationalUnitIdQueryItem = Smithy.URIQueryItem(name: "organizationalUnitId".urlPercentEncoding(), value: Swift.String(organizationalUnitId).urlPercentEncoding())
+            items.append(organizationalUnitIdQueryItem)
+        }
         if let includeChildEvents = value.includeChildEvents {
             let includeChildEventsQueryItem = Smithy.URIQueryItem(name: "includeChildEvents".urlPercentEncoding(), value: Swift.String(includeChildEvents).urlPercentEncoding())
             items.append(includeChildEventsQueryItem)
@@ -4136,6 +4469,35 @@ extension ListNotificationHubsInput {
 
     static func queryItemProvider(_ value: ListNotificationHubsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListOrganizationalUnitsInput {
+
+    static func urlPathProvider(_ value: ListOrganizationalUnitsInput) -> Swift.String? {
+        return "/organizational-units"
+    }
+}
+
+extension ListOrganizationalUnitsInput {
+
+    static func queryItemProvider(_ value: ListOrganizationalUnitsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let notificationConfigurationArn = value.notificationConfigurationArn else {
+            let message = "Creating a URL Query Item failed. notificationConfigurationArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let notificationConfigurationArnQueryItem = Smithy.URIQueryItem(name: "notificationConfigurationArn".urlPercentEncoding(), value: Swift.String(notificationConfigurationArn).urlPercentEncoding())
+        items.append(notificationConfigurationArnQueryItem)
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
@@ -4245,6 +4607,14 @@ extension AssociateManagedNotificationAdditionalChannelInput {
     }
 }
 
+extension AssociateOrganizationalUnitInput {
+
+    static func write(value: AssociateOrganizationalUnitInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["notificationConfigurationArn"].write(value.notificationConfigurationArn)
+    }
+}
+
 extension CreateEventRuleInput {
 
     static func write(value: CreateEventRuleInput?, to writer: SmithyJSON.Writer) throws {
@@ -4289,6 +4659,14 @@ extension DisassociateManagedNotificationAdditionalChannelInput {
     static func write(value: DisassociateManagedNotificationAdditionalChannelInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["managedNotificationConfigurationArn"].write(value.managedNotificationConfigurationArn)
+    }
+}
+
+extension DisassociateOrganizationalUnitInput {
+
+    static func write(value: DisassociateOrganizationalUnitInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["notificationConfigurationArn"].write(value.notificationConfigurationArn)
     }
 }
 
@@ -4345,6 +4723,13 @@ extension AssociateManagedNotificationAdditionalChannelOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateManagedNotificationAdditionalChannelOutput {
         return AssociateManagedNotificationAdditionalChannelOutput()
+    }
+}
+
+extension AssociateOrganizationalUnitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateOrganizationalUnitOutput {
+        return AssociateOrganizationalUnitOutput()
     }
 }
 
@@ -4427,6 +4812,13 @@ extension DisassociateManagedNotificationAdditionalChannelOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateManagedNotificationAdditionalChannelOutput {
         return DisassociateManagedNotificationAdditionalChannelOutput()
+    }
+}
+
+extension DisassociateOrganizationalUnitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateOrganizationalUnitOutput {
+        return DisassociateOrganizationalUnitOutput()
     }
 }
 
@@ -4516,6 +4908,7 @@ extension GetNotificationConfigurationOutput {
         value.description = try reader["description"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.subtype = try reader["subtype"].readIfPresent()
         return value
     }
 }
@@ -4625,6 +5018,19 @@ extension ListManagedNotificationEventsOutput {
     }
 }
 
+extension ListMemberAccountsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMemberAccountsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMemberAccountsOutput()
+        value.memberAccounts = try reader["memberAccounts"].readListIfPresent(memberReadingClosure: NotificationsClientTypes.MemberAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListNotificationConfigurationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNotificationConfigurationsOutput {
@@ -4660,6 +5066,19 @@ extension ListNotificationHubsOutput {
         var value = ListNotificationHubsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.notificationHubs = try reader["notificationHubs"].readListIfPresent(memberReadingClosure: NotificationsClientTypes.NotificationHubOverview.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListOrganizationalUnitsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListOrganizationalUnitsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListOrganizationalUnitsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.organizationalUnits = try reader["organizationalUnits"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4772,6 +5191,26 @@ enum AssociateManagedNotificationAccountContactOutputError {
 }
 
 enum AssociateManagedNotificationAdditionalChannelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateOrganizationalUnitOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4945,6 +5384,24 @@ enum DisassociateManagedNotificationAccountContactOutputError {
 }
 
 enum DisassociateManagedNotificationAdditionalChannelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateOrganizationalUnitOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5212,6 +5669,24 @@ enum ListManagedNotificationEventsOutputError {
     }
 }
 
+enum ListMemberAccountsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListNotificationConfigurationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5256,6 +5731,24 @@ enum ListNotificationHubsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListOrganizationalUnitsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5374,13 +5867,12 @@ enum UpdateNotificationConfigurationOutputError {
     }
 }
 
-extension ResourceNotFoundException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5402,14 +5894,12 @@ extension ConflictException {
     }
 }
 
-extension ValidationException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: NotificationsClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5417,12 +5907,13 @@ extension ValidationException {
     }
 }
 
-extension InternalServerException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5466,12 +5957,14 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: NotificationsClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5661,6 +6154,7 @@ extension NotificationsClientTypes.NotificationEventSchema {
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.textParts = try reader["textParts"].readMapIfPresent(valueReadingClosure: NotificationsClientTypes.TextPartValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.media = try reader["media"].readListIfPresent(memberReadingClosure: NotificationsClientTypes.MediaElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.organizationalUnitId = try reader["organizationalUnitId"].readIfPresent()
         return value
     }
 }
@@ -5845,6 +6339,20 @@ extension NotificationsClientTypes.ManagedNotificationEventSummary {
     }
 }
 
+extension NotificationsClientTypes.MemberAccount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.MemberAccount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.MemberAccount()
+        value.notificationConfigurationArn = try reader["notificationConfigurationArn"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent() ?? ""
+        value.organizationalUnitId = try reader["organizationalUnitId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension NotificationsClientTypes.NotificationConfigurationStructure {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.NotificationConfigurationStructure {
@@ -5856,6 +6364,7 @@ extension NotificationsClientTypes.NotificationConfigurationStructure {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.aggregationDuration = try reader["aggregationDuration"].readIfPresent()
+        value.subtype = try reader["subtype"].readIfPresent()
         return value
     }
 }
@@ -5873,6 +6382,7 @@ extension NotificationsClientTypes.NotificationEventOverview {
         value.aggregationEventType = try reader["aggregationEventType"].readIfPresent()
         value.aggregateNotificationEventArn = try reader["aggregateNotificationEventArn"].readIfPresent()
         value.aggregationSummary = try reader["aggregationSummary"].readIfPresent(with: NotificationsClientTypes.AggregationSummary.read(from:))
+        value.organizationalUnitId = try reader["organizationalUnitId"].readIfPresent()
         return value
     }
 }

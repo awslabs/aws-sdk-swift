@@ -492,7 +492,9 @@ extension ACMPCAClientTypes {
     public enum KeyAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ecPrime256v1
         case ecSecp384r1
+        case ecSecp521r1
         case rsa2048
+        case rsa3072
         case rsa4096
         case sm2
         case sdkUnknown(Swift.String)
@@ -501,7 +503,9 @@ extension ACMPCAClientTypes {
             return [
                 .ecPrime256v1,
                 .ecSecp384r1,
+                .ecSecp521r1,
                 .rsa2048,
+                .rsa3072,
                 .rsa4096,
                 .sm2
             ]
@@ -516,7 +520,9 @@ extension ACMPCAClientTypes {
             switch self {
             case .ecPrime256v1: return "EC_prime256v1"
             case .ecSecp384r1: return "EC_secp384r1"
+            case .ecSecp521r1: return "EC_secp521r1"
             case .rsa2048: return "RSA_2048"
+            case .rsa3072: return "RSA_3072"
             case .rsa4096: return "RSA_4096"
             case .sm2: return "SM2"
             case let .sdkUnknown(s): return s
@@ -678,6 +684,35 @@ extension ACMPCAClientTypes {
 
 extension ACMPCAClientTypes {
 
+    public enum CrlType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complete
+        case partitioned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CrlType] {
+            return [
+                .complete,
+                .partitioned
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .partitioned: return "PARTITIONED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMPCAClientTypes {
+
     public enum S3ObjectAcl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bucketOwnerFullControl
         case publicRead
@@ -753,8 +788,16 @@ extension ACMPCAClientTypes {
     public struct CrlConfiguration: Swift.Sendable {
         /// Configures the behavior of the CRL Distribution Point extension for certificates issued by your certificate authority. If this field is not provided, then the CRl Distribution Point Extension will be present and contain the default CRL URL.
         public var crlDistributionPointExtensionConfiguration: ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration?
+        /// Specifies whether to create a complete or partitioned CRL. This setting determines the maximum number of certificates that the certificate authority can issue and revoke. For more information, see [Amazon Web Services Private CA quotas].
+        ///
+        /// * COMPLETE - The default setting. Amazon Web Services Private CA maintains a single CRL ﬁle for all unexpired certiﬁcates issued by a CA that have been revoked for any reason. Each certiﬁcate that Amazon Web Services Private CA issues is bound to a speciﬁc CRL through its CRL distribution point (CDP) extension, deﬁned in [ RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.9).
+        ///
+        /// * PARTITIONED - Compared to complete CRLs, partitioned CRLs dramatically increase the number of certiﬁcates your private CA can issue. When using partitioned CRLs, you must validate that the CRL's associated issuing distribution point (IDP) URI matches the certiﬁcate's CDP URI to ensure the right CRL has been fetched. Amazon Web Services Private CA marks the IDP extension as critical, which your client must be able to process.
+        public var crlType: ACMPCAClientTypes.CrlType?
         /// Name inserted into the certificate CRL Distribution Points extension that enables the use of an alias for the CRL distribution point. Use this value if you don't want the name of your S3 bucket to be public. The content of a Canonical Name (CNAME) record must conform to [RFC2396](https://www.ietf.org/rfc/rfc2396.txt) restrictions on the use of special characters in URIs. Additionally, the value of the CNAME must not include a protocol prefix such as "http://" or "https://".
         public var customCname: Swift.String?
+        /// Designates a custom ﬁle path in S3 for CRL(s). For example, http://<CustomName>/ <CustomPath>/<CrlPartition_GUID>.crl.
+        public var customPath: Swift.String?
         /// Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. You can use this value to enable certificate revocation for a new CA when you call the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action or for an existing CA when you call the [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) action.
         /// This member is required.
         public var enabled: Swift.Bool?
@@ -767,14 +810,18 @@ extension ACMPCAClientTypes {
 
         public init(
             crlDistributionPointExtensionConfiguration: ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration? = nil,
+            crlType: ACMPCAClientTypes.CrlType? = nil,
             customCname: Swift.String? = nil,
+            customPath: Swift.String? = nil,
             enabled: Swift.Bool? = false,
             expirationInDays: Swift.Int? = nil,
             s3BucketName: Swift.String? = nil,
             s3ObjectAcl: ACMPCAClientTypes.S3ObjectAcl? = nil
         ) {
             self.crlDistributionPointExtensionConfiguration = crlDistributionPointExtensionConfiguration
+            self.crlType = crlType
             self.customCname = customCname
+            self.customPath = customPath
             self.enabled = enabled
             self.expirationInDays = expirationInDays
             self.s3BucketName = s3BucketName
@@ -880,7 +927,7 @@ public struct CreateCertificateAuthorityInput: Swift.Sendable {
     public var certificateAuthorityType: ACMPCAClientTypes.CertificateAuthorityType?
     /// Custom string that can be used to distinguish between calls to the CreateCertificateAuthority action. Idempotency tokens for CreateCertificateAuthority time out after five minutes. Therefore, if you call CreateCertificateAuthority multiple times with the same idempotency token within five minutes, Amazon Web Services Private CA recognizes that you are requesting only certificate authority and will issue only one. If you change the idempotency token for each call, Amazon Web Services Private CA recognizes that you are requesting multiple certificate authorities.
     public var idempotencyToken: Swift.String?
-    /// Specifies a cryptographic key management compliance standard used for handling CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER Some Amazon Web Services Regions do not support the default. When creating a CA in these Regions, you must provide FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for KeyStorageSecurityStandard. Failure to do this results in an InvalidArgsException with the message, "A certificate authority cannot be created in this region with the specified security standard." For information about security standard support in various Regions, see [Storage and security compliance of Amazon Web Services Private CA private keys](https://docs.aws.amazon.com/privateca/latest/userguide/data-protection.html#private-keys).
+    /// Specifies a cryptographic key management compliance standard for handling and protecting CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER Some Amazon Web Services Regions don't support the default value. When you create a CA in these Regions, you must use CCPC_LEVEL_1_OR_HIGHER for the KeyStorageSecurityStandard parameter. If you don't, the operation returns an InvalidArgsException with this message: "A certificate authority cannot be created in this region with the specified security standard." For information about security standard support in different Amazon Web Services Regions, see [Storage and security compliance of Amazon Web Services Private CA private keys](https://docs.aws.amazon.com/privateca/latest/userguide/data-protection.html#private-keys).
     public var keyStorageSecurityStandard: ACMPCAClientTypes.KeyStorageSecurityStandard?
     /// Contains information to enable support for Online Certificate Status Protocol (OCSP), certificate revocation list (CRL), both protocols, or neither. By default, both certificate validation mechanisms are disabled. The following requirements apply to revocation configurations.
     ///
@@ -1387,7 +1434,7 @@ extension ACMPCAClientTypes {
         public var createdAt: Foundation.Date?
         /// Reason the request to create your private CA failed.
         public var failureReason: ACMPCAClientTypes.FailureReason?
-        /// Defines a cryptographic key management compliance standard used for handling CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER Note: Amazon Web Services Region ap-northeast-3 supports only FIPS_140_2_LEVEL_2_OR_HIGHER. You must explicitly specify this parameter and value when creating a CA in that Region. Specifying a different value (or no value) results in an InvalidArgsException with the message "A certificate authority cannot be created in this region with the specified security standard."
+        /// Defines a cryptographic key management compliance standard for handling and protecting CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER Starting January 26, 2023, Amazon Web Services Private CA protects all CA private keys in non-China regions using hardware security modules (HSMs) that comply with FIPS PUB 140-2 Level 3. For information about security standard support in different Amazon Web Services Regions, see [Storage and security compliance of Amazon Web Services Private CA private keys](https://docs.aws.amazon.com/privateca/latest/userguide/data-protection.html#private-keys).
         public var keyStorageSecurityStandard: ACMPCAClientTypes.KeyStorageSecurityStandard?
         /// Date and time at which your private CA was last updated.
         public var lastStateChangeAt: Foundation.Date?
@@ -3412,6 +3459,7 @@ enum ListTagsOutputError {
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
             case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
+            case "RequestFailedException": return try RequestFailedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -3530,11 +3578,11 @@ enum UpdateCertificateAuthorityOutputError {
     }
 }
 
-extension LimitExceededException {
+extension InvalidArgsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgsException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = InvalidArgsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3569,11 +3617,11 @@ extension InvalidTagException {
     }
 }
 
-extension InvalidArgsException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = InvalidArgsException()
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3582,11 +3630,11 @@ extension InvalidArgsException {
     }
 }
 
-extension RequestFailedException {
+extension InvalidArnException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestFailedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArnException {
         let reader = baseError.errorBodyReader
-        var value = RequestFailedException()
+        var value = InvalidArnException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3608,11 +3656,11 @@ extension InvalidStateException {
     }
 }
 
-extension InvalidArnException {
+extension RequestFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArnException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestFailedException {
         let reader = baseError.errorBodyReader
-        var value = InvalidArnException()
+        var value = RequestFailedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3840,7 +3888,9 @@ extension ACMPCAClientTypes.CrlConfiguration {
     static func write(value: ACMPCAClientTypes.CrlConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CrlDistributionPointExtensionConfiguration"].write(value.crlDistributionPointExtensionConfiguration, with: ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration.write(value:to:))
+        try writer["CrlType"].write(value.crlType)
         try writer["CustomCname"].write(value.customCname)
+        try writer["CustomPath"].write(value.customPath)
         try writer["Enabled"].write(value.enabled)
         try writer["ExpirationInDays"].write(value.expirationInDays)
         try writer["S3BucketName"].write(value.s3BucketName)
@@ -3856,6 +3906,8 @@ extension ACMPCAClientTypes.CrlConfiguration {
         value.s3BucketName = try reader["S3BucketName"].readIfPresent()
         value.s3ObjectAcl = try reader["S3ObjectAcl"].readIfPresent()
         value.crlDistributionPointExtensionConfiguration = try reader["CrlDistributionPointExtensionConfiguration"].readIfPresent(with: ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration.read(from:))
+        value.crlType = try reader["CrlType"].readIfPresent()
+        value.customPath = try reader["CustomPath"].readIfPresent()
         return value
     }
 }

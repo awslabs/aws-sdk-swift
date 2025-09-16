@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 extension MemoryDBClientTypes {
@@ -324,6 +325,67 @@ extension MemoryDBClientTypes {
 
 extension MemoryDBClientTypes {
 
+    public enum IpDiscovery: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpDiscovery] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "ipv4"
+            case .ipv6: return "ipv6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MemoryDBClientTypes {
+
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualStack
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dualStack,
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualStack: return "dual_stack"
+            case .ipv4: return "ipv4"
+            case .ipv6: return "ipv6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MemoryDBClientTypes {
+
     /// Represents the progress of an online resharding operation.
     public struct SlotMigration: Swift.Sendable {
         /// The percentage of the slot migration that is complete.
@@ -534,6 +596,8 @@ extension MemoryDBClientTypes {
         public var enginePatchVersion: Swift.String?
         /// The Redis OSS engine version used by the cluster
         public var engineVersion: Swift.String?
+        /// The mechanism that the cluster uses to discover IP addresses. Returns 'ipv4' when DNS endpoints resolve to IPv4 addresses, or 'ipv6' when DNS endpoints resolve to IPv6 addresses.
+        public var ipDiscovery: MemoryDBClientTypes.IpDiscovery?
         /// The ID of the KMS key used to encrypt the cluster
         public var kmsKeyId: Swift.String?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period.
@@ -542,6 +606,8 @@ extension MemoryDBClientTypes {
         public var multiRegionClusterName: Swift.String?
         /// The user-supplied name of the cluster. This identifier is a unique key that identifies a cluster.
         public var name: Swift.String?
+        /// The IP address type for the cluster. Returns 'ipv4' for IPv4 only, 'ipv6' for IPv6 only, or 'dual-stack' if the cluster supports both IPv4 and IPv6 addressing.
+        public var networkType: MemoryDBClientTypes.NetworkType?
         /// The cluster's node type
         public var nodeType: Swift.String?
         /// The number of shards in the cluster
@@ -582,10 +648,12 @@ extension MemoryDBClientTypes {
             engine: Swift.String? = nil,
             enginePatchVersion: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
+            ipDiscovery: MemoryDBClientTypes.IpDiscovery? = nil,
             kmsKeyId: Swift.String? = nil,
             maintenanceWindow: Swift.String? = nil,
             multiRegionClusterName: Swift.String? = nil,
             name: Swift.String? = nil,
+            networkType: MemoryDBClientTypes.NetworkType? = nil,
             nodeType: Swift.String? = nil,
             numberOfShards: Swift.Int? = nil,
             parameterGroupName: Swift.String? = nil,
@@ -611,10 +679,12 @@ extension MemoryDBClientTypes {
             self.engine = engine
             self.enginePatchVersion = enginePatchVersion
             self.engineVersion = engineVersion
+            self.ipDiscovery = ipDiscovery
             self.kmsKeyId = kmsKeyId
             self.maintenanceWindow = maintenanceWindow
             self.multiRegionClusterName = multiRegionClusterName
             self.name = name
+            self.networkType = networkType
             self.nodeType = nodeType
             self.numberOfShards = numberOfShards
             self.parameterGroupName = parameterGroupName
@@ -1471,6 +1541,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var engine: Swift.String?
     /// The version number of the Redis OSS engine to be used for the cluster.
     public var engineVersion: Swift.String?
+    /// The mechanism for discovering IP addresses for the cluster discovery protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster discovery functions such as cluster slots, cluster shards, and cluster nodes return IPv4 addresses for cluster nodes. When set to 'ipv6', the cluster discovery functions return IPv6 addresses for cluster nodes. The value must be compatible with the NetworkType parameter. If not specified, the default is 'ipv4'.
+    public var ipDiscovery: MemoryDBClientTypes.IpDiscovery?
     /// The ID of the KMS key used to encrypt the cluster.
     public var kmsKeyId: Swift.String?
     /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
@@ -1494,6 +1566,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var maintenanceWindow: Swift.String?
     /// The name of the multi-Region cluster to be created.
     public var multiRegionClusterName: Swift.String?
+    /// Specifies the IP address type for the cluster. Valid values are 'ipv4', 'ipv6', or 'dual_stack'. When set to 'ipv4', the cluster will only be accessible via IPv4 addresses. When set to 'ipv6', the cluster will only be accessible via IPv6 addresses. When set to 'dual_stack', the cluster will be accessible via both IPv4 and IPv6 addresses. If not specified, the default is 'ipv4'.
+    public var networkType: MemoryDBClientTypes.NetworkType?
     /// The compute and memory capacity of the nodes in the cluster.
     /// This member is required.
     public var nodeType: Swift.String?
@@ -1532,9 +1606,11 @@ public struct CreateClusterInput: Swift.Sendable {
         description: Swift.String? = nil,
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
+        ipDiscovery: MemoryDBClientTypes.IpDiscovery? = nil,
         kmsKeyId: Swift.String? = nil,
         maintenanceWindow: Swift.String? = nil,
         multiRegionClusterName: Swift.String? = nil,
+        networkType: MemoryDBClientTypes.NetworkType? = nil,
         nodeType: Swift.String? = nil,
         numReplicasPerShard: Swift.Int? = nil,
         numShards: Swift.Int? = nil,
@@ -1557,9 +1633,11 @@ public struct CreateClusterInput: Swift.Sendable {
         self.description = description
         self.engine = engine
         self.engineVersion = engineVersion
+        self.ipDiscovery = ipDiscovery
         self.kmsKeyId = kmsKeyId
         self.maintenanceWindow = maintenanceWindow
         self.multiRegionClusterName = multiRegionClusterName
+        self.networkType = networkType
         self.nodeType = nodeType
         self.numReplicasPerShard = numReplicasPerShard
         self.numShards = numShards
@@ -1641,7 +1719,7 @@ public struct CreateMultiRegionClusterInput: Swift.Sendable {
     public var engine: Swift.String?
     /// The version of the engine to be used for the multi-Region cluster.
     public var engineVersion: Swift.String?
-    /// A suffix to be added to the multi-Region cluster name.
+    /// A suffix to be added to the Multi-Region cluster name. Amazon MemoryDB automatically applies a prefix to the Multi-Region cluster Name when it is created. Each Amazon Region has its own prefix. For instance, a Multi-Region cluster Name created in the US-West-1 region will begin with "virxk", along with the suffix name you provide. The suffix guarantees uniqueness of the Multi-Region cluster name across multiple regions.
     /// This member is required.
     public var multiRegionClusterNameSuffix: Swift.String?
     /// The name of the multi-Region parameter group to be associated with the cluster.
@@ -2149,13 +2227,17 @@ extension MemoryDBClientTypes {
         public var availabilityZone: MemoryDBClientTypes.AvailabilityZone?
         /// The unique identifier for the subnet.
         public var identifier: Swift.String?
+        /// The network types supported by this subnet. Returns an array of strings that can include 'ipv4', 'ipv6', or both, indicating whether the subnet supports IPv4 only, IPv6 only, or dual-stack deployments.
+        public var supportedNetworkTypes: [MemoryDBClientTypes.NetworkType]?
 
         public init(
             availabilityZone: MemoryDBClientTypes.AvailabilityZone? = nil,
-            identifier: Swift.String? = nil
+            identifier: Swift.String? = nil,
+            supportedNetworkTypes: [MemoryDBClientTypes.NetworkType]? = nil
         ) {
             self.availabilityZone = availabilityZone
             self.identifier = identifier
+            self.supportedNetworkTypes = supportedNetworkTypes
         }
     }
 }
@@ -2179,6 +2261,8 @@ extension MemoryDBClientTypes {
         public var name: Swift.String?
         /// A list of subnets associated with the subnet group.
         public var subnets: [MemoryDBClientTypes.Subnet]?
+        /// The network types supported by this subnet group. Returns an array of strings that can include 'ipv4', 'ipv6', or both, indicating the IP address types that can be used for clusters deployed in this subnet group.
+        public var supportedNetworkTypes: [MemoryDBClientTypes.NetworkType]?
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the subnet group.
         public var vpcId: Swift.String?
 
@@ -2187,12 +2271,14 @@ extension MemoryDBClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             subnets: [MemoryDBClientTypes.Subnet]? = nil,
+            supportedNetworkTypes: [MemoryDBClientTypes.NetworkType]? = nil,
             vpcId: Swift.String? = nil
         ) {
             self.arn = arn
             self.description = description
             self.name = name
             self.subnets = subnets
+            self.supportedNetworkTypes = supportedNetworkTypes
             self.vpcId = vpcId
         }
     }
@@ -4085,6 +4171,8 @@ public struct UpdateClusterInput: Swift.Sendable {
     public var engine: Swift.String?
     /// The upgraded version of the engine to be run on the nodes. You can upgrade to a newer engine version, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
     public var engineVersion: Swift.String?
+    /// The mechanism for discovering IP addresses for the cluster discovery protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster discovery functions such as cluster slots, cluster shards, and cluster nodes will return IPv4 addresses for cluster nodes. When set to 'ipv6', the cluster discovery functions return IPv6 addresses for cluster nodes. The value must be compatible with the NetworkType parameter. If not specified, the default is 'ipv4'.
+    public var ipDiscovery: MemoryDBClientTypes.IpDiscovery?
     /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
     ///
     /// * sun
@@ -4129,6 +4217,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         description: Swift.String? = nil,
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
+        ipDiscovery: MemoryDBClientTypes.IpDiscovery? = nil,
         maintenanceWindow: Swift.String? = nil,
         nodeType: Swift.String? = nil,
         parameterGroupName: Swift.String? = nil,
@@ -4145,6 +4234,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         self.description = description
         self.engine = engine
         self.engineVersion = engineVersion
+        self.ipDiscovery = ipDiscovery
         self.maintenanceWindow = maintenanceWindow
         self.nodeType = nodeType
         self.parameterGroupName = parameterGroupName
@@ -4212,7 +4302,7 @@ public struct UpdateMultiRegionClusterInput: Swift.Sendable {
     public var nodeType: Swift.String?
     /// A request to configure the sharding properties of a cluster
     public var shardConfiguration: MemoryDBClientTypes.ShardConfigurationRequest?
-    /// Whether to force the update even if it may cause data loss.
+    /// The strategy to use for the update operation. Supported values are "coordinated" or "uncoordinated".
     public var updateStrategy: MemoryDBClientTypes.UpdateStrategy?
 
     public init(
@@ -4720,9 +4810,11 @@ extension CreateClusterInput {
         try writer["Description"].write(value.description)
         try writer["Engine"].write(value.engine)
         try writer["EngineVersion"].write(value.engineVersion)
+        try writer["IpDiscovery"].write(value.ipDiscovery)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["MaintenanceWindow"].write(value.maintenanceWindow)
         try writer["MultiRegionClusterName"].write(value.multiRegionClusterName)
+        try writer["NetworkType"].write(value.networkType)
         try writer["NodeType"].write(value.nodeType)
         try writer["NumReplicasPerShard"].write(value.numReplicasPerShard)
         try writer["NumShards"].write(value.numShards)
@@ -5101,6 +5193,7 @@ extension UpdateClusterInput {
         try writer["Description"].write(value.description)
         try writer["Engine"].write(value.engine)
         try writer["EngineVersion"].write(value.engineVersion)
+        try writer["IpDiscovery"].write(value.ipDiscovery)
         try writer["MaintenanceWindow"].write(value.maintenanceWindow)
         try writer["NodeType"].write(value.nodeType)
         try writer["ParameterGroupName"].write(value.parameterGroupName)
@@ -6494,11 +6587,11 @@ enum UpdateUserOutputError {
     }
 }
 
-extension ServiceUpdateNotFoundFault {
+extension InvalidParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUpdateNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
-        var value = ServiceUpdateNotFoundFault()
+        var value = InvalidParameterValueException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6507,11 +6600,11 @@ extension ServiceUpdateNotFoundFault {
     }
 }
 
-extension InvalidParameterValueException {
+extension ServiceUpdateNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUpdateNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidParameterValueException()
+        var value = ServiceUpdateNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6533,37 +6626,11 @@ extension InvalidParameterCombinationException {
     }
 }
 
-extension SnapshotNotFoundFault {
+extension InvalidSnapshotStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SnapshotNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSnapshotStateFault {
         let reader = baseError.errorBodyReader
-        var value = SnapshotNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TagQuotaPerResourceExceeded {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagQuotaPerResourceExceeded {
-        let reader = baseError.errorBodyReader
-        var value = TagQuotaPerResourceExceeded()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SnapshotQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SnapshotQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = SnapshotQuotaExceededFault()
+        var value = InvalidSnapshotStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6598,11 +6665,11 @@ extension SnapshotAlreadyExistsFault {
     }
 }
 
-extension InvalidSnapshotStateFault {
+extension SnapshotNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSnapshotStateFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SnapshotNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidSnapshotStateFault()
+        var value = SnapshotNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6611,11 +6678,11 @@ extension InvalidSnapshotStateFault {
     }
 }
 
-extension ACLQuotaExceededFault {
+extension SnapshotQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ACLQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SnapshotQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = ACLQuotaExceededFault()
+        var value = SnapshotQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6624,37 +6691,11 @@ extension ACLQuotaExceededFault {
     }
 }
 
-extension DuplicateUserNameFault {
+extension TagQuotaPerResourceExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateUserNameFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagQuotaPerResourceExceeded {
         let reader = baseError.errorBodyReader
-        var value = DuplicateUserNameFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DefaultUserRequired {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DefaultUserRequired {
-        let reader = baseError.errorBodyReader
-        var value = DefaultUserRequired()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UserNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = UserNotFoundFault()
+        var value = TagQuotaPerResourceExceeded()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6676,11 +6717,50 @@ extension ACLAlreadyExistsFault {
     }
 }
 
-extension ClusterQuotaForCustomerExceededFault {
+extension ACLQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterQuotaForCustomerExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ACLQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = ClusterQuotaForCustomerExceededFault()
+        var value = ACLQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DefaultUserRequired {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DefaultUserRequired {
+        let reader = baseError.errorBodyReader
+        var value = DefaultUserRequired()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DuplicateUserNameFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateUserNameFault {
+        let reader = baseError.errorBodyReader
+        var value = DuplicateUserNameFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UserNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = UserNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6702,45 +6782,6 @@ extension ACLNotFoundFault {
     }
 }
 
-extension NodeQuotaForClusterExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NodeQuotaForClusterExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = NodeQuotaForClusterExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SubnetGroupNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetGroupNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = SubnetGroupNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidCredentialsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCredentialsException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidCredentialsException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ClusterAlreadyExistsFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterAlreadyExistsFault {
@@ -6754,63 +6795,11 @@ extension ClusterAlreadyExistsFault {
     }
 }
 
-extension ShardsPerClusterQuotaExceededFault {
+extension ClusterQuotaForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ShardsPerClusterQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterQuotaForCustomerExceededFault {
         let reader = baseError.errorBodyReader
-        var value = ShardsPerClusterQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ParameterGroupNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ParameterGroupNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = ParameterGroupNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidVPCNetworkStateFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidVPCNetworkStateFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidVPCNetworkStateFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension MultiRegionClusterNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MultiRegionClusterNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = MultiRegionClusterNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NodeQuotaForCustomerExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NodeQuotaForCustomerExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = NodeQuotaForCustomerExceededFault()
+        var value = ClusterQuotaForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6845,11 +6834,115 @@ extension InvalidACLStateFault {
     }
 }
 
+extension InvalidCredentialsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCredentialsException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidCredentialsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidMultiRegionClusterStateFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidMultiRegionClusterStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidMultiRegionClusterStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidVPCNetworkStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidVPCNetworkStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidVPCNetworkStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MultiRegionClusterNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MultiRegionClusterNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = MultiRegionClusterNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NodeQuotaForClusterExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NodeQuotaForClusterExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = NodeQuotaForClusterExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NodeQuotaForCustomerExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NodeQuotaForCustomerExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = NodeQuotaForCustomerExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ParameterGroupNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ParameterGroupNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = ParameterGroupNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ShardsPerClusterQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ShardsPerClusterQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = ShardsPerClusterQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SubnetGroupNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetGroupNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = SubnetGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6884,11 +6977,11 @@ extension MultiRegionParameterGroupNotFoundFault {
     }
 }
 
-extension ParameterGroupAlreadyExistsFault {
+extension InvalidParameterGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ParameterGroupAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterGroupStateFault {
         let reader = baseError.errorBodyReader
-        var value = ParameterGroupAlreadyExistsFault()
+        var value = InvalidParameterGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6897,11 +6990,11 @@ extension ParameterGroupAlreadyExistsFault {
     }
 }
 
-extension InvalidParameterGroupStateFault {
+extension ParameterGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterGroupStateFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ParameterGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidParameterGroupStateFault()
+        var value = ParameterGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6949,50 +7042,11 @@ extension InvalidClusterStateFault {
     }
 }
 
-extension SubnetNotAllowedFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetNotAllowedFault {
-        let reader = baseError.errorBodyReader
-        var value = SubnetNotAllowedFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SubnetGroupQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetGroupQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = SubnetGroupQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidSubnet {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSubnet {
         let reader = baseError.errorBodyReader
         var value = InvalidSubnet()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SubnetQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = SubnetQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7014,11 +7068,37 @@ extension SubnetGroupAlreadyExistsFault {
     }
 }
 
-extension UserQuotaExceededFault {
+extension SubnetGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = UserQuotaExceededFault()
+        var value = SubnetGroupQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SubnetNotAllowedFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetNotAllowedFault {
+        let reader = baseError.errorBodyReader
+        var value = SubnetNotAllowedFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SubnetQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = SubnetQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7032,6 +7112,19 @@ extension UserAlreadyExistsFault {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = UserAlreadyExistsFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UserQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = UserQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7092,11 +7185,11 @@ extension ReservedNodesOfferingNotFoundFault {
     }
 }
 
-extension InvalidKMSKeyFault {
+extension APICallRateForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKMSKeyFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> APICallRateForCustomerExceededFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidKMSKeyFault()
+        var value = APICallRateForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7105,11 +7198,11 @@ extension InvalidKMSKeyFault {
     }
 }
 
-extension APICallRateForCustomerExceededFault {
+extension InvalidKMSKeyFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> APICallRateForCustomerExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKMSKeyFault {
         let reader = baseError.errorBodyReader
-        var value = APICallRateForCustomerExceededFault()
+        var value = InvalidKMSKeyFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7268,6 +7361,8 @@ extension MemoryDBClientTypes.Cluster {
         value.aclName = try reader["ACLName"].readIfPresent()
         value.autoMinorVersionUpgrade = try reader["AutoMinorVersionUpgrade"].readIfPresent()
         value.dataTiering = try reader["DataTiering"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
+        value.ipDiscovery = try reader["IpDiscovery"].readIfPresent()
         return value
     }
 }
@@ -7536,6 +7631,7 @@ extension MemoryDBClientTypes.SubnetGroup {
         value.vpcId = try reader["VpcId"].readIfPresent()
         value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.Subnet.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.arn = try reader["ARN"].readIfPresent()
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MemoryDBClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7547,6 +7643,7 @@ extension MemoryDBClientTypes.Subnet {
         var value = MemoryDBClientTypes.Subnet()
         value.identifier = try reader["Identifier"].readIfPresent()
         value.availabilityZone = try reader["AvailabilityZone"].readIfPresent(with: MemoryDBClientTypes.AvailabilityZone.read(from:))
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MemoryDBClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

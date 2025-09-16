@@ -1143,17 +1143,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -1164,17 +1153,6 @@
                                 "Region": "us-iso-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -1191,17 +1169,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -1212,17 +1179,6 @@
                                 "Region": "us-isob-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -3411,6 +3367,9 @@
             },
             "errors": [
                 {
+                    "target": "com.amazonaws.servicecatalog#InvalidParametersException"
+                },
+                {
                     "target": "com.amazonaws.servicecatalog#ResourceInUseException"
                 },
                 {
@@ -4949,6 +4908,9 @@
                 "target": "com.amazonaws.servicecatalog#DisassociateServiceActionFromProvisioningArtifactOutput"
             },
             "errors": [
+                {
+                    "target": "com.amazonaws.servicecatalog#InvalidParametersException"
+                },
                 {
                     "target": "com.amazonaws.servicecatalog#ResourceNotFoundException"
                 }
@@ -10524,7 +10486,7 @@
                 "AccessLevelFilter": {
                     "target": "com.amazonaws.servicecatalog#AccessLevelFilter",
                     "traits": {
-                        "smithy.api#documentation": "<p>The access level to use to obtain results. The default is <code>User</code>.</p>"
+                        "smithy.api#documentation": "<p>The access level to use to obtain results. The default is\n         <code>Account</code>.</p>"
                     }
                 },
                 "Filters": {

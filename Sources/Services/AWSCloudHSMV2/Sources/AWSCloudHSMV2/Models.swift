@@ -2133,6 +2133,19 @@ extension CloudHsmAccessDeniedException {
     }
 }
 
+extension CloudHsmInternalFailureException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmInternalFailureException {
+        let reader = baseError.errorBodyReader
+        var value = CloudHsmInternalFailureException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension CloudHsmInvalidRequestException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmInvalidRequestException {
@@ -2159,37 +2172,24 @@ extension CloudHsmResourceNotFoundException {
     }
 }
 
-extension CloudHsmTagException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmTagException {
-        let reader = baseError.errorBodyReader
-        var value = CloudHsmTagException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension CloudHsmInternalFailureException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmInternalFailureException {
-        let reader = baseError.errorBodyReader
-        var value = CloudHsmInternalFailureException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension CloudHsmServiceException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmServiceException {
         let reader = baseError.errorBodyReader
         var value = CloudHsmServiceException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CloudHsmTagException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmTagException {
+        let reader = baseError.errorBodyReader
+        var value = CloudHsmTagException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

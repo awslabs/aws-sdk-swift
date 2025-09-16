@@ -109,7 +109,7 @@ extension HealthLakeClientTypes {
     }
 }
 
-/// The data store is in a transition state and the user requested action can not be performed.
+/// The data store is in a transition state and the user requested action cannot be performed.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -132,7 +132,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-/// Unknown error occurs in the service.
+/// An unknown internal error occurred in the service.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -229,16 +229,22 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
-    /// The identity provider configuration that you gave when the data store was created.
+    /// The identity provider configuration selected when the data store was created.
     public struct IdentityProviderConfiguration: Swift.Sendable {
-        /// The authorization strategy that you selected when you created the data store.
+        /// The authorization strategy selected when the HealthLake data store is created. HealthLake provides support for both SMART on FHIR V1 and V2 as described below.
+        ///
+        /// * SMART_ON_FHIR_V1 – Support for only SMART on FHIR V1, which includes read (read/search) and write (create/update/delete) permissions.
+        ///
+        /// * SMART_ON_FHIR – Support for both SMART on FHIR V1 and V2, which includes create, read, update, delete, and search permissions.
+        ///
+        /// * AWS_AUTH – The default HealthLake authorization strategy; not affiliated with SMART on FHIR.
         /// This member is required.
         public var authorizationStrategy: HealthLakeClientTypes.AuthorizationStrategy?
-        /// If you enabled fine-grained authorization when you created the data store.
+        /// The parameter to enable SMART on FHIR fine-grained authorization for the data store.
         public var fineGrainedAuthorizationEnabled: Swift.Bool
-        /// The Amazon Resource Name (ARN) of the Lambda function that you want to use to decode the access token created by the authorization server.
+        /// The Amazon Resource Name (ARN) of the Lambda function to use to decode the access token created by the authorization server.
         public var idpLambdaArn: Swift.String?
-        /// The JSON metadata elements that you want to use in your identity provider configuration. Required elements are listed based on the launch specification of the SMART application. For more information on all possible elements, see [Metadata](https://build.fhir.org/ig/HL7/smart-app-launch/conformance.html#metadata) in SMART's App Launch specification. authorization_endpoint: The URL to the OAuth2 authorization endpoint. grant_types_supported: An array of grant types that are supported at the token endpoint. You must provide at least one grant type option. Valid options are authorization_code and client_credentials. token_endpoint: The URL to the OAuth2 token endpoint. capabilities: An array of strings of the SMART capabilities that the authorization server supports. code_challenge_methods_supported: An array of strings of supported PKCE code challenge methods. You must include the S256 method in the array of PKCE code challenge methods.
+        /// The JSON metadata elements to use in your identity provider configuration. Required elements are listed based on the launch specification of the SMART application. For more information on all possible elements, see [Metadata](https://build.fhir.org/ig/HL7/smart-app-launch/conformance.html#metadata) in SMART's App Launch specification. authorization_endpoint: The URL to the OAuth2 authorization endpoint. grant_types_supported: An array of grant types that are supported at the token endpoint. You must provide at least one grant type option. Valid options are authorization_code and client_credentials. token_endpoint: The URL to the OAuth2 token endpoint. capabilities: An array of strings of the SMART capabilities that the authorization server supports. code_challenge_methods_supported: An array of strings of supported PKCE code challenge methods. You must include the S256 method in the array of PKCE code challenge methods.
         public var metadata: Swift.String?
 
         public init(
@@ -283,7 +289,7 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
-    /// The input properties for the preloaded data store. Only data preloaded from Synthea is supported.
+    /// The input properties for the preloaded (Synthea) data store.
     public struct PreloadDataConfig: Swift.Sendable {
         /// The type of preloaded data. Only Synthea preloaded data is supported.
         /// This member is required.
@@ -299,12 +305,12 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
-    /// The customer-managed-key(CMK) used when creating a data store. If a customer owned key is not specified, an AWS owned key will be used for encryption.
+    /// The customer-managed-key (CMK) used when creating a data store. If a customer-owned key is not specified, an AWS-owned key is used for encryption.
     public struct KmsEncryptionConfig: Swift.Sendable {
-        /// The type of customer-managed-key(CMK) used for encryption. The two types of supported CMKs are customer owned CMKs and AWS owned CMKs.
+        /// The type of customer-managed-key (CMK) used for encryption.
         /// This member is required.
         public var cmkType: HealthLakeClientTypes.CmkType?
-        /// The KMS encryption key id/alias used to encrypt the data store contents at rest.
+        /// The Key Management Service (KMS) encryption key id/alias used to encrypt the data store contents at rest.
         public var kmsKeyId: Swift.String?
 
         public init(
@@ -319,9 +325,9 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
-    /// The server-side encryption key configuration for a customer provided encryption key.
+    /// The server-side encryption key configuration for a customer-provided encryption key.
     public struct SseConfiguration: Swift.Sendable {
-        /// The KMS encryption configuration used to provide details for data encryption.
+        /// The Key Management Service (KMS) encryption configuration used to provide details for data encryption.
         /// This member is required.
         public var kmsEncryptionConfig: HealthLakeClientTypes.KmsEncryptionConfig?
 
@@ -335,12 +341,12 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
-    /// A tag is a label consisting of a user-defined key and value. The form for tags is {"Key", "Value"}
+    /// A label consisting of a user-defined key and value. The form for tags is {"Key", "Value"}
     public struct Tag: Swift.Sendable {
         /// The key portion of a tag. Tag keys are case sensitive.
         /// This member is required.
         public var key: Swift.String?
-        /// The value portion of a tag. Tag values are case sensitive.
+        /// The value portion of a tag. Tag values are case-sensitive.
         /// This member is required.
         public var value: Swift.String?
 
@@ -355,20 +361,20 @@ extension HealthLakeClientTypes {
 }
 
 public struct CreateFHIRDatastoreInput: Swift.Sendable {
-    /// Optional user provided token used for ensuring idempotency.
+    /// An optional user-provided token to ensure API idempotency.
     public var clientToken: Swift.String?
-    /// The user generated name for the data store.
+    /// The data store name (user-generated).
     public var datastoreName: Swift.String?
-    /// The FHIR version of the data store. The only supported version is R4.
+    /// The FHIR release version supported by the data store. Current support is for version R4.
     /// This member is required.
     public var datastoreTypeVersion: HealthLakeClientTypes.FHIRVersion?
-    /// The configuration of the identity provider that you want to use for your data store.
+    /// The identity provider configuration to use for the data store.
     public var identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration?
-    /// Optional parameter to preload data upon creation of the data store. Currently, the only supported preloaded data is synthetic data generated from Synthea.
+    /// An optional parameter to preload (import) open source Synthea FHIR data upon creation of the data store.
     public var preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig?
-    /// The server-side encryption key configuration for a customer provided encryption key specified for creating a data store.
+    /// The server-side encryption key configuration for a customer-provided encryption key specified for creating a data store.
     public var sseConfiguration: HealthLakeClientTypes.SseConfiguration?
-    /// Resource tags that are applied to a data store when it is created.
+    /// The resource tags applied to a data store when it is created.
     public var tags: [HealthLakeClientTypes.Tag]?
 
     public init(
@@ -429,16 +435,16 @@ extension HealthLakeClientTypes {
 }
 
 public struct CreateFHIRDatastoreOutput: Swift.Sendable {
-    /// The data store ARN is generated during the creation of the data store and can be found in the output from the initial data store creation call.
+    /// The Amazon Resource Name (ARN) for the data store.
     /// This member is required.
     public var datastoreArn: Swift.String?
-    /// The AWS endpoint for the created data store.
+    /// The AWS endpoint created for the data store.
     /// This member is required.
     public var datastoreEndpoint: Swift.String?
-    /// The AWS-generated data store id. This id is in the output from the initial data store creation call.
+    /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
-    /// The status of the FHIR data store.
+    /// The data store status.
     /// This member is required.
     public var datastoreStatus: HealthLakeClientTypes.DatastoreStatus?
 
@@ -457,15 +463,15 @@ public struct CreateFHIRDatastoreOutput: Swift.Sendable {
 
 extension HealthLakeClientTypes {
 
-    /// The filters applied to data store query.
+    /// The filters applied to a data store query.
     public struct DatastoreFilter: Swift.Sendable {
-        /// A filter that allows the user to set cutoff dates for records. All data stores created after the specified date will be included in the results.
+        /// Filter to set cutoff dates for records. All data stores created after the specified date are included in the results.
         public var createdAfter: Foundation.Date?
-        /// A filter that allows the user to set cutoff dates for records. All data stores created before the specified date will be included in the results.
+        /// Filter to set cutoff dates for records. All data stores created before the specified date are included in the results.
         public var createdBefore: Foundation.Date?
-        /// Allows the user to filter data store results by name.
+        /// Filter data store results by name.
         public var datastoreName: Swift.String?
-        /// Allows the user to filter data store results by status.
+        /// Filter data store results by status.
         public var datastoreStatus: HealthLakeClientTypes.DatastoreStatus?
 
         public init(
@@ -513,11 +519,11 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
-    /// The error info of the create/delete data store operation.
+    /// The error information for CreateFHIRDatastore and DeleteFHIRDatastore actions.
     public struct ErrorCause: Swift.Sendable {
-        /// The error category of the create/delete data store operation. Possible statuses are RETRYABLE_ERROR or NON_RETRYABLE_ERROR.
+        /// The error category for ErrorCause.
         public var errorCategory: HealthLakeClientTypes.ErrorCategory?
-        /// The text of the error message.
+        /// The error message text for ErrorCause.
         public var errorMessage: Swift.String?
 
         public init(
@@ -532,34 +538,34 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
-    /// Displays the properties of the data store, including the ID, ARN, name, and the status of the data store.
+    /// The data store properties.
     public struct DatastoreProperties: Swift.Sendable {
-        /// The time that a data store was created.
+        /// The time the data store was created.
         public var createdAt: Foundation.Date?
-        /// The Amazon Resource Name used in the creation of the data store.
+        /// The Amazon Resource Name (ARN) used in the creation of the data store.
         /// This member is required.
         public var datastoreArn: Swift.String?
-        /// The AWS endpoint for the data store. Each data store will have it's own endpoint with data store ID in the endpoint URL.
+        /// The AWS endpoint for the data store.
         /// This member is required.
         public var datastoreEndpoint: Swift.String?
-        /// The AWS-generated ID number for the data store.
+        /// The data store identifier.
         /// This member is required.
         public var datastoreId: Swift.String?
-        /// The user-generated name for the data store.
+        /// The data store name.
         public var datastoreName: Swift.String?
-        /// The status of the data store.
+        /// The data store status.
         /// This member is required.
         public var datastoreStatus: HealthLakeClientTypes.DatastoreStatus?
-        /// The FHIR version. Only R4 version data is supported.
+        /// The FHIR release version supported by the data store. Current support is for version R4.
         /// This member is required.
         public var datastoreTypeVersion: HealthLakeClientTypes.FHIRVersion?
         /// The error cause for the current data store operation.
         public var errorCause: HealthLakeClientTypes.ErrorCause?
-        /// The identity provider that you selected when you created the data store.
+        /// The identity provider selected during data store creation.
         public var identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration?
-        /// The preloaded data configuration for the data store. Only data preloaded from Synthea is supported.
+        /// The preloaded Synthea data configuration for the data store.
         public var preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig?
-        /// The server-side encryption key configuration for a customer provided encryption key (CMK).
+        /// The server-side encryption key configuration for a customer provided encryption key.
         public var sseConfiguration: HealthLakeClientTypes.SseConfiguration?
 
         public init(
@@ -614,7 +620,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 public struct DeleteFHIRDatastoreInput: Swift.Sendable {
-    /// The AWS-generated ID for the data store to be deleted.
+    /// The AWS-generated identifier for the data store to be deleted.
     /// This member is required.
     public var datastoreId: Swift.String?
 
@@ -626,16 +632,16 @@ public struct DeleteFHIRDatastoreInput: Swift.Sendable {
 }
 
 public struct DeleteFHIRDatastoreOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) that gives AWS HealthLake access permission.
+    /// The Amazon Resource Name (ARN) that grants access permission to AWS HealthLake.
     /// This member is required.
     public var datastoreArn: Swift.String?
-    /// The AWS endpoint for the data store the user has requested to be deleted.
+    /// The AWS endpoint of the data store to be deleted.
     /// This member is required.
     public var datastoreEndpoint: Swift.String?
-    /// The AWS-generated ID for the data store to be deleted.
+    /// The AWS-generated ID for the deleted data store.
     /// This member is required.
     public var datastoreId: Swift.String?
-    /// The status of the data store that the user has requested to be deleted.
+    /// The data store status.
     /// This member is required.
     public var datastoreStatus: HealthLakeClientTypes.DatastoreStatus?
 
@@ -653,7 +659,7 @@ public struct DeleteFHIRDatastoreOutput: Swift.Sendable {
 }
 
 public struct DescribeFHIRDatastoreInput: Swift.Sendable {
-    /// The AWS-generated data store ID.
+    /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
 
@@ -665,7 +671,7 @@ public struct DescribeFHIRDatastoreInput: Swift.Sendable {
 }
 
 public struct DescribeFHIRDatastoreOutput: Swift.Sendable {
-    /// All properties associated with a data store, including the data store ID, data store ARN, data store name, data store status, when the data store was created, data store type version, and the data store's endpoint.
+    /// The data store properties.
     /// This member is required.
     public var datastoreProperties: HealthLakeClientTypes.DatastoreProperties?
 
@@ -677,10 +683,10 @@ public struct DescribeFHIRDatastoreOutput: Swift.Sendable {
 }
 
 public struct DescribeFHIRExportJobInput: Swift.Sendable {
-    /// The AWS generated ID for the data store from which files are being exported from for an export job.
+    /// The data store identifier from which FHIR data is being exported from.
     /// This member is required.
     public var datastoreId: Swift.String?
-    /// The AWS generated ID for an export job.
+    /// The export job identifier.
     /// This member is required.
     public var jobId: Swift.String?
 
@@ -748,12 +754,12 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
-    /// The configuration of the S3 bucket for either an import or export job. This includes assigning permissions for access.
+    /// The configuration of the S3 bucket for either an import or export job. This includes assigning access permissions.
     public struct S3Configuration: Swift.Sendable {
-        /// The KMS key ID used to access the S3 bucket.
+        /// The Key Management Service (KMS) key ID used to access the S3 bucket.
         /// This member is required.
         public var kmsKeyId: Swift.String?
-        /// The S3Uri is the user specified S3 location of the FHIR data to be imported into AWS HealthLake.
+        /// The S3Uri is the user-specified S3 location of the FHIR data to be imported into AWS HealthLake.
         /// This member is required.
         public var s3Uri: Swift.String?
 
@@ -769,9 +775,9 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
-    /// The output data configuration that was supplied when the export job was created.
+    /// The output data configuration supplied when the export job was created.
     public enum OutputDataConfig: Swift.Sendable {
-        /// The output data configuration that was supplied when the export job was created.
+        /// The output data configuration supplied when the export job was created.
         case s3configuration(HealthLakeClientTypes.S3Configuration)
         case sdkUnknown(Swift.String)
     }
@@ -779,29 +785,29 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
-    /// The properties of a FHIR export job, including the ID, ARN, name, and the status of the job.
+    /// The properties of a FHIR export job.
     public struct ExportJobProperties: Swift.Sendable {
-        /// The Amazon Resource Name used during the initiation of the job.
+        /// The Amazon Resource Name (ARN) used during the initiation of the export job.
         public var dataAccessRoleArn: Swift.String?
-        /// The AWS generated ID for the data store from which files are being exported for an export job.
+        /// The data store identifier from which files are being exported.
         /// This member is required.
         public var datastoreId: Swift.String?
-        /// The time an export job completed.
+        /// The time the export job completed.
         public var endTime: Foundation.Date?
-        /// The AWS generated ID for an export job.
+        /// The export job identifier.
         /// This member is required.
         public var jobId: Swift.String?
-        /// The user generated name for an export job.
+        /// The export job name.
         public var jobName: Swift.String?
-        /// The status of a FHIR export job. Possible statuses are SUBMITTED, IN_PROGRESS, COMPLETED, or FAILED.
+        /// The export job status.
         /// This member is required.
         public var jobStatus: HealthLakeClientTypes.JobStatus?
-        /// An explanation of any errors that may have occurred during the export job.
+        /// An explanation of any errors that might have occurred during the export job.
         public var message: Swift.String?
-        /// The output data configuration that was supplied when the export job was created.
+        /// The output data configuration supplied when the export job was created.
         /// This member is required.
         public var outputDataConfig: HealthLakeClientTypes.OutputDataConfig?
-        /// The time an export job was initiated.
+        /// The time the export job was initiated.
         /// This member is required.
         public var submitTime: Foundation.Date?
 
@@ -830,7 +836,7 @@ extension HealthLakeClientTypes {
 }
 
 public struct DescribeFHIRExportJobOutput: Swift.Sendable {
-    /// Displays the properties of the export job, including the ID, Arn, Name, and the status of the job.
+    /// The export job properties.
     /// This member is required.
     public var exportJobProperties: HealthLakeClientTypes.ExportJobProperties?
 
@@ -842,10 +848,10 @@ public struct DescribeFHIRExportJobOutput: Swift.Sendable {
 }
 
 public struct DescribeFHIRImportJobInput: Swift.Sendable {
-    /// The AWS-generated ID of the data store.
+    /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
-    /// The AWS-generated job ID.
+    /// The import job identifier.
     /// This member is required.
     public var jobId: Swift.String?
 
@@ -860,9 +866,9 @@ public struct DescribeFHIRImportJobInput: Swift.Sendable {
 
 extension HealthLakeClientTypes {
 
-    /// The input properties for an import job.
+    /// The import job input properties.
     public enum InputDataConfig: Swift.Sendable {
-        /// The S3Uri is the user specified S3 location of the FHIR data to be imported into AWS HealthLake.
+        /// The S3Uri is the user-specified S3 location of the FHIR data to be imported into AWS HealthLake.
         case s3uri(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -870,23 +876,23 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
-    /// The progress report of an import job.
+    /// The progress report for the import job.
     public struct JobProgressReport: Swift.Sendable {
-        /// The throughput (in MB/sec) of the import job.
+        /// The transaction rate the import job is processed at.
         public var throughput: Swift.Double?
-        /// The number of files that failed to be read from the input S3 bucket due to customer error.
+        /// The number of files that failed to be read from the S3 input bucket due to customer error.
         public var totalNumberOfFilesReadWithCustomerError: Swift.Int?
-        /// The number of files imported so far.
+        /// The number of files imported.
         public var totalNumberOfImportedFiles: Swift.Int?
-        /// The number of resources imported so far.
+        /// The number of resources imported.
         public var totalNumberOfResourcesImported: Swift.Int?
-        /// The number of resources scanned from the input S3 bucket.
+        /// The number of resources scanned from the S3 input bucket.
         public var totalNumberOfResourcesScanned: Swift.Int?
         /// The number of resources that failed due to customer error.
         public var totalNumberOfResourcesWithCustomerError: Swift.Int?
-        /// The number of files scanned from input S3 bucket.
+        /// The number of files scanned from the S3 input bucket.
         public var totalNumberOfScannedFiles: Swift.Int?
-        /// The size (in MB) of the files scanned from the input S3 bucket.
+        /// The size (in MB) of files scanned from the S3 input bucket.
         public var totalSizeOfScannedFilesInMB: Swift.Double?
 
         public init(
@@ -913,35 +919,69 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
-    /// Displays the properties of the import job, including the ID, Arn, Name, the status of the job, and the progress report of the job.
+    public enum ValidationLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case minimal
+        case strict
+        case structureOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationLevel] {
+            return [
+                .minimal,
+                .strict,
+                .structureOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .minimal: return "minimal"
+            case .strict: return "strict"
+            case .structureOnly: return "structure-only"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// The import job properties.
     public struct ImportJobProperties: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) that gives AWS HealthLake access to your input data.
+        /// The Amazon Resource Name (ARN) that grants AWS HealthLake access to the input data.
         public var dataAccessRoleArn: Swift.String?
-        /// The datastore id used when the Import job was created.
+        /// The data store identifier.
         /// This member is required.
         public var datastoreId: Swift.String?
-        /// The time that the Import job was completed.
+        /// The time the import job was completed.
         public var endTime: Foundation.Date?
-        /// The input data configuration that was supplied when the Import job was created.
+        /// The input data configuration supplied when the import job was created.
         /// This member is required.
         public var inputDataConfig: HealthLakeClientTypes.InputDataConfig?
-        /// The AWS-generated id number for the Import job.
+        /// The import job identifier.
         /// This member is required.
         public var jobId: Swift.String?
-        /// The user-generated name for an Import job.
+        /// The import job name.
         public var jobName: Swift.String?
-        /// The output data configuration that was supplied when the export job was created.
+        /// The output data configuration supplied when the export job was created.
         public var jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig?
-        /// Displays the progress of the import job, including total resources scanned, total resources ingested, and total size of data ingested.
+        /// Displays the progress of the import job, including total resources scanned, total resources imported, and total size of data imported.
         public var jobProgressReport: HealthLakeClientTypes.JobProgressReport?
-        /// The job status for an Import job. Possible statuses are SUBMITTED, IN_PROGRESS, COMPLETED_WITH_ERRORS, COMPLETED, FAILED.
+        /// The import job status.
         /// This member is required.
         public var jobStatus: HealthLakeClientTypes.JobStatus?
-        /// An explanation of any errors that may have occurred during the FHIR import job.
+        /// An explanation of any errors that might have occurred during the FHIR import job.
         public var message: Swift.String?
-        /// The time that the Import job was submitted for processing.
+        /// The time the import job was submitted for processing.
         /// This member is required.
         public var submitTime: Foundation.Date?
+        /// The validation level of the import job.
+        public var validationLevel: HealthLakeClientTypes.ValidationLevel?
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
@@ -954,7 +994,8 @@ extension HealthLakeClientTypes {
             jobProgressReport: HealthLakeClientTypes.JobProgressReport? = nil,
             jobStatus: HealthLakeClientTypes.JobStatus? = nil,
             message: Swift.String? = nil,
-            submitTime: Foundation.Date? = nil
+            submitTime: Foundation.Date? = nil,
+            validationLevel: HealthLakeClientTypes.ValidationLevel? = nil
         ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
@@ -967,12 +1008,13 @@ extension HealthLakeClientTypes {
             self.jobStatus = jobStatus
             self.message = message
             self.submitTime = submitTime
+            self.validationLevel = validationLevel
         }
     }
 }
 
 public struct DescribeFHIRImportJobOutput: Swift.Sendable {
-    /// The properties of the Import job request, including the ID, ARN, name, status of the job, and the progress report of the job.
+    /// The import job properties.
     /// This member is required.
     public var importJobProperties: HealthLakeClientTypes.ImportJobProperties?
 
@@ -984,11 +1026,11 @@ public struct DescribeFHIRImportJobOutput: Swift.Sendable {
 }
 
 public struct ListFHIRDatastoresInput: Swift.Sendable {
-    /// Lists all filters associated with a FHIR data store request.
+    /// List all filters associated with a FHIR data store request.
     public var filter: HealthLakeClientTypes.DatastoreFilter?
-    /// The maximum number of data stores returned in a single page of a ListFHIRDatastoresRequest call.
+    /// The maximum number of data stores returned on a page.
     public var maxResults: Swift.Int?
-    /// Fetches the next page of data stores when results are paginated.
+    /// The token used to retrieve the next page of data stores when results are paginated.
     public var nextToken: Swift.String?
 
     public init(
@@ -1003,10 +1045,10 @@ public struct ListFHIRDatastoresInput: Swift.Sendable {
 }
 
 public struct ListFHIRDatastoresOutput: Swift.Sendable {
-    /// All properties associated with the listed data stores.
+    /// The properties associated with all listed data stores.
     /// This member is required.
     public var datastorePropertiesList: [HealthLakeClientTypes.DatastoreProperties]?
-    /// Pagination token that can be used to retrieve the next page of results.
+    /// The pagination token used to retrieve the next page of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -1019,20 +1061,20 @@ public struct ListFHIRDatastoresOutput: Swift.Sendable {
 }
 
 public struct ListFHIRExportJobsInput: Swift.Sendable {
-    /// This parameter limits the response to the export job with the specified data store ID.
+    /// Limits the response to the export job with the specified data store ID.
     /// This member is required.
     public var datastoreId: Swift.String?
-    /// This parameter limits the response to the export job with the specified job name.
+    /// Limits the response to the export job with the specified job name.
     public var jobName: Swift.String?
-    /// This parameter limits the response to the export jobs with the specified job status.
+    /// Limits the response to export jobs with the specified job status.
     public var jobStatus: HealthLakeClientTypes.JobStatus?
-    /// This parameter limits the number of results returned for a ListFHIRExportJobs to a maximum quantity specified by the user.
+    /// Limits the number of results returned for a ListFHIRExportJobs to a maximum quantity specified by the user.
     public var maxResults: Swift.Int?
-    /// A pagination token used to identify the next page of results to return for a ListFHIRExportJobs query.
+    /// A pagination token used to identify the next page of results to return.
     public var nextToken: Swift.String?
-    /// This parameter limits the response to FHIR export jobs submitted after a user specified date.
+    /// Limits the response to FHIR export jobs submitted after a user-specified date.
     public var submittedAfter: Foundation.Date?
-    /// This parameter limits the response to FHIR export jobs submitted before a user specified date.
+    /// Limits the response to FHIR export jobs submitted before a user- specified date.
     public var submittedBefore: Foundation.Date?
 
     public init(
@@ -1055,10 +1097,10 @@ public struct ListFHIRExportJobsInput: Swift.Sendable {
 }
 
 public struct ListFHIRExportJobsOutput: Swift.Sendable {
-    /// The properties of listed FHIR export jobs, including the ID, ARN, name, and the status of the job.
+    /// The properties of listed FHIR export jobs.
     /// This member is required.
     public var exportJobPropertiesList: [HealthLakeClientTypes.ExportJobProperties]?
-    /// A pagination token used to identify the next page of results to return for a ListFHIRExportJobs query.
+    /// The pagination token used to identify the next page of results to return.
     public var nextToken: Swift.String?
 
     public init(
@@ -1071,20 +1113,20 @@ public struct ListFHIRExportJobsOutput: Swift.Sendable {
 }
 
 public struct ListFHIRImportJobsInput: Swift.Sendable {
-    /// This parameter limits the response to the import job with the specified data store ID.
+    /// Limits the response to the import job with the specified data store ID.
     /// This member is required.
     public var datastoreId: Swift.String?
-    /// This parameter limits the response to the import job with the specified job name.
+    /// Limits the response to the import job with the specified job name.
     public var jobName: Swift.String?
-    /// This parameter limits the response to the import job with the specified job status.
+    /// Limits the response to the import job with the specified job status.
     public var jobStatus: HealthLakeClientTypes.JobStatus?
-    /// This parameter limits the number of results returned for a ListFHIRImportJobs to a maximum quantity specified by the user.
+    /// Limits the number of results returned for ListFHIRImportJobs to a maximum quantity specified by the user.
     public var maxResults: Swift.Int?
-    /// A pagination token used to identify the next page of results to return for a ListFHIRImportJobs query.
+    /// The pagination token used to identify the next page of results to return.
     public var nextToken: Swift.String?
-    /// This parameter limits the response to FHIR import jobs submitted after a user specified date.
+    /// Limits the response to FHIR import jobs submitted after a user-specified date.
     public var submittedAfter: Foundation.Date?
-    /// This parameter limits the response to FHIR import jobs submitted before a user specified date.
+    /// Limits the response to FHIR import jobs submitted before a user- specified date.
     public var submittedBefore: Foundation.Date?
 
     public init(
@@ -1107,10 +1149,10 @@ public struct ListFHIRImportJobsInput: Swift.Sendable {
 }
 
 public struct ListFHIRImportJobsOutput: Swift.Sendable {
-    /// The properties of a listed FHIR import jobs, including the ID, ARN, name, the status of the job, and the progress report of the job.
+    /// The properties for listed import jobs.
     /// This member is required.
     public var importJobPropertiesList: [HealthLakeClientTypes.ImportJobProperties]?
-    /// A pagination token used to identify the next page of results to return for a ListFHIRImportJobs query.
+    /// The pagination token used to identify the next page of results to return.
     public var nextToken: Swift.String?
 
     public init(
@@ -1123,7 +1165,7 @@ public struct ListFHIRImportJobsOutput: Swift.Sendable {
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name(ARN) of the data store for which tags are being added.
+    /// The Amazon Resource Name (ARN) of the data store to which tags are being added.
     /// This member is required.
     public var resourceARN: Swift.String?
 
@@ -1146,17 +1188,17 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct StartFHIRExportJobInput: Swift.Sendable {
-    /// An optional user provided token used for ensuring idempotency.
+    /// An optional user provided token used for ensuring API idempotency.
     public var clientToken: Swift.String?
-    /// The Amazon Resource Name used during the initiation of the job.
+    /// The Amazon Resource Name (ARN) used during initiation of the export job.
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
-    /// The AWS generated ID for the data store from which files are being exported for an export job.
+    /// The data store identifier from which files are being exported.
     /// This member is required.
     public var datastoreId: Swift.String?
-    /// The user generated name for an export job.
+    /// The export job name.
     public var jobName: Swift.String?
-    /// The output data configuration that was supplied when the export job was created.
+    /// The output data configuration supplied when the export job was started.
     /// This member is required.
     public var outputDataConfig: HealthLakeClientTypes.OutputDataConfig?
 
@@ -1176,12 +1218,12 @@ public struct StartFHIRExportJobInput: Swift.Sendable {
 }
 
 public struct StartFHIRExportJobOutput: Swift.Sendable {
-    /// The AWS generated ID for the data store from which files are being exported for an export job.
+    /// The data store identifier from which files are being exported.
     public var datastoreId: Swift.String?
-    /// The AWS generated ID for an export job.
+    /// The export job identifier.
     /// This member is required.
     public var jobId: Swift.String?
-    /// The status of a FHIR export job. Possible statuses are SUBMITTED, IN_PROGRESS, COMPLETED, or FAILED.
+    /// The export job status.
     /// This member is required.
     public var jobStatus: HealthLakeClientTypes.JobStatus?
 
@@ -1197,22 +1239,24 @@ public struct StartFHIRExportJobOutput: Swift.Sendable {
 }
 
 public struct StartFHIRImportJobInput: Swift.Sendable {
-    /// Optional user provided token used for ensuring idempotency.
+    /// The optional user-provided token used for ensuring API idempotency.
     public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) that gives AWS HealthLake access permission.
+    /// The Amazon Resource Name (ARN) that grants access permission to AWS HealthLake.
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
-    /// The AWS-generated data store ID.
+    /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
-    /// The input properties of the FHIR Import job in the StartFHIRImport job request.
+    /// The input properties for the import job request.
     /// This member is required.
     public var inputDataConfig: HealthLakeClientTypes.InputDataConfig?
-    /// The name of the FHIR Import job in the StartFHIRImport job request.
+    /// The import job name.
     public var jobName: Swift.String?
-    /// The output data configuration that was supplied when the export job was created.
+    /// The output data configuration supplied when the export job was created.
     /// This member is required.
     public var jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig?
+    /// The validation level of the import job.
+    public var validationLevel: HealthLakeClientTypes.ValidationLevel?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -1220,7 +1264,8 @@ public struct StartFHIRImportJobInput: Swift.Sendable {
         datastoreId: Swift.String? = nil,
         inputDataConfig: HealthLakeClientTypes.InputDataConfig? = nil,
         jobName: Swift.String? = nil,
-        jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig? = nil
+        jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig? = nil,
+        validationLevel: HealthLakeClientTypes.ValidationLevel? = nil
     ) {
         self.clientToken = clientToken
         self.dataAccessRoleArn = dataAccessRoleArn
@@ -1228,16 +1273,17 @@ public struct StartFHIRImportJobInput: Swift.Sendable {
         self.inputDataConfig = inputDataConfig
         self.jobName = jobName
         self.jobOutputDataConfig = jobOutputDataConfig
+        self.validationLevel = validationLevel
     }
 }
 
 public struct StartFHIRImportJobOutput: Swift.Sendable {
-    /// The AWS-generated data store ID.
+    /// The data store identifier.
     public var datastoreId: Swift.String?
-    /// The AWS-generated job ID.
+    /// The import job identifier.
     /// This member is required.
     public var jobId: Swift.String?
-    /// The status of an import job.
+    /// The import job status.
     /// This member is required.
     public var jobStatus: HealthLakeClientTypes.JobStatus?
 
@@ -1253,10 +1299,10 @@ public struct StartFHIRImportJobOutput: Swift.Sendable {
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name(ARN)that gives AWS HealthLake access to the data store which tags are being added to.
+    /// The Amazon Resource Name (ARN) that grants access to the data store tags are being added to.
     /// This member is required.
     public var resourceARN: Swift.String?
-    /// The user specified key and value pair tags being added to a data store.
+    /// The user-specified key and value pair tags being added to a data store.
     /// This member is required.
     public var tags: [HealthLakeClientTypes.Tag]?
 
@@ -1275,10 +1321,10 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct UntagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name(ARN) of the data store for which tags are being removed.
+    /// The Amazon Resource Name (ARN) of the data store from which tags are being removed.
     /// This member is required.
     public var resourceARN: Swift.String?
-    /// The keys for the tags to be removed from the HealthLake data store.
+    /// The keys for the tags to be removed from the data store.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
@@ -1503,6 +1549,7 @@ extension StartFHIRImportJobInput {
         try writer["InputDataConfig"].write(value.inputDataConfig, with: HealthLakeClientTypes.InputDataConfig.write(value:to:))
         try writer["JobName"].write(value.jobName)
         try writer["JobOutputDataConfig"].write(value.jobOutputDataConfig, with: HealthLakeClientTypes.OutputDataConfig.write(value:to:))
+        try writer["ValidationLevel"].write(value.validationLevel)
     }
 }
 
@@ -1903,19 +1950,6 @@ enum UntagResourceOutputError {
     }
 }
 
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
@@ -1929,11 +1963,11 @@ extension AccessDeniedException {
     }
 }
 
-extension ValidationException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1942,11 +1976,24 @@ extension ValidationException {
     }
 }
 
-extension InternalServerException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = ThrottlingException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2155,6 +2202,7 @@ extension HealthLakeClientTypes.ImportJobProperties {
         value.jobProgressReport = try reader["JobProgressReport"].readIfPresent(with: HealthLakeClientTypes.JobProgressReport.read(from:))
         value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
+        value.validationLevel = try reader["ValidationLevel"].readIfPresent()
         return value
     }
 }

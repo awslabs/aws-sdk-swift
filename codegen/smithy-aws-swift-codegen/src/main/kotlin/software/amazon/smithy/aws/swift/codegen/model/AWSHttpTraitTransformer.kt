@@ -23,8 +23,11 @@ import software.amazon.smithy.swift.codegen.model.hasTrait
  *      the bucket name is already handled within the EndpointResolver
  */
 class AWSHttpTraitTransformer : SwiftIntegration {
-    override fun preprocessModel(model: Model, settings: SwiftSettings): Model {
-        return when (settings.service.namespace) {
+    override fun preprocessModel(
+        model: Model,
+        settings: SwiftSettings,
+    ): Model =
+        when (settings.service.namespace) {
             "com.amazonaws.s3" -> {
                 ModelTransformer.create().mapShapes(model) { shape ->
                     when (shape) {
@@ -62,5 +65,4 @@ class AWSHttpTraitTransformer : SwiftIntegration {
 
             else -> model
         }
-    }
 }

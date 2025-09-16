@@ -449,6 +449,38 @@ extension PaginatorSequence where OperationStackInput == DescribeDBLogFilesInput
     }
 }
 extension RDSClient {
+    /// Paginate over `[DescribeDBMajorEngineVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDBMajorEngineVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBMajorEngineVersionsOutput`
+    public func describeDBMajorEngineVersionsPaginated(input: DescribeDBMajorEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeDBMajorEngineVersionsInput, DescribeDBMajorEngineVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDBMajorEngineVersionsInput, DescribeDBMajorEngineVersionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBMajorEngineVersions(input:))
+    }
+}
+
+extension DescribeDBMajorEngineVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeDBMajorEngineVersionsInput {
+        return DescribeDBMajorEngineVersionsInput(
+            engine: self.engine,
+            majorEngineVersion: self.majorEngineVersion,
+            marker: token,
+            maxRecords: self.maxRecords
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeDBMajorEngineVersionsInput, OperationStackOutput == DescribeDBMajorEngineVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDBMajorEngineVersionsPaginated`
+    /// to access the nested member `[RDSClientTypes.DBMajorEngineVersion]`
+    /// - Returns: `[RDSClientTypes.DBMajorEngineVersion]`
+    public func dbMajorEngineVersions() async throws -> [RDSClientTypes.DBMajorEngineVersion] {
+        return try await self.asyncCompactMap { item in item.dbMajorEngineVersions }
+    }
+}
+extension RDSClient {
     /// Paginate over `[DescribeDBParameterGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

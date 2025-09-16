@@ -45,6 +45,37 @@ extension PaginatorSequence where OperationStackInput == GetSimilarProfilesInput
     }
 }
 extension CustomerProfilesClient {
+    /// Paginate over `[ListDomainLayoutsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDomainLayoutsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainLayoutsOutput`
+    public func listDomainLayoutsPaginated(input: ListDomainLayoutsInput) -> ClientRuntime.PaginatorSequence<ListDomainLayoutsInput, ListDomainLayoutsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDomainLayoutsInput, ListDomainLayoutsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDomainLayouts(input:))
+    }
+}
+
+extension ListDomainLayoutsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDomainLayoutsInput {
+        return ListDomainLayoutsInput(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDomainLayoutsInput, OperationStackOutput == ListDomainLayoutsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDomainLayoutsPaginated`
+    /// to access the nested member `[CustomerProfilesClientTypes.LayoutItem]`
+    /// - Returns: `[CustomerProfilesClientTypes.LayoutItem]`
+    public func items() async throws -> [CustomerProfilesClientTypes.LayoutItem] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension CustomerProfilesClient {
     /// Paginate over `[ListEventStreamsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -197,6 +228,37 @@ extension PaginatorSequence where OperationStackInput == ListSegmentDefinitionsI
     /// to access the nested member `[CustomerProfilesClientTypes.SegmentDefinitionItem]`
     /// - Returns: `[CustomerProfilesClientTypes.SegmentDefinitionItem]`
     public func items() async throws -> [CustomerProfilesClientTypes.SegmentDefinitionItem] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension CustomerProfilesClient {
+    /// Paginate over `[ListUploadJobsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListUploadJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUploadJobsOutput`
+    public func listUploadJobsPaginated(input: ListUploadJobsInput) -> ClientRuntime.PaginatorSequence<ListUploadJobsInput, ListUploadJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListUploadJobsInput, ListUploadJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUploadJobs(input:))
+    }
+}
+
+extension ListUploadJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListUploadJobsInput {
+        return ListUploadJobsInput(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListUploadJobsInput, OperationStackOutput == ListUploadJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listUploadJobsPaginated`
+    /// to access the nested member `[CustomerProfilesClientTypes.UploadJobItem]`
+    /// - Returns: `[CustomerProfilesClientTypes.UploadJobItem]`
+    public func items() async throws -> [CustomerProfilesClientTypes.UploadJobItem] {
         return try await self.asyncCompactMap { item in item.items }
     }
 }

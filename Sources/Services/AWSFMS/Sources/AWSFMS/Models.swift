@@ -6957,11 +6957,11 @@ extension InternalErrorException {
     }
 }
 
-extension InvalidOperationException {
+extension InvalidInputException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidOperationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
         let reader = baseError.errorBodyReader
-        var value = InvalidOperationException()
+        var value = InvalidInputException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6970,11 +6970,11 @@ extension InvalidOperationException {
     }
 }
 
-extension InvalidInputException {
+extension InvalidOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidOperationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidInputException()
+        var value = InvalidOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

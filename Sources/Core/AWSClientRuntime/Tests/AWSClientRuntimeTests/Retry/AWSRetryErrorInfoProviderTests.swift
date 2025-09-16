@@ -9,7 +9,8 @@ import SmithyHTTPAPI
 import Foundation
 import XCTest
 import ClientRuntime
-import AwsCommonRuntimeKit
+import enum AwsCommonRuntimeKit.CommonRunTimeError
+import struct AwsCommonRuntimeKit.CRTError
 @testable import AWSClientRuntime
 
 class AWSRetryErrorInfoProviderTests: XCTestCase {

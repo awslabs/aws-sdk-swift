@@ -237,7 +237,7 @@ public struct AddApplicationCloudWatchLoggingOptionOutput: Swift.Sendable {
     public var applicationVersionId: Swift.Int?
     /// The descriptions of the current CloudWatch logging options for the SQL-based Kinesis Data Analytics application.
     public var cloudWatchLoggingOptionDescriptions: [KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionDescription]?
-    /// Operation ID for tracking AddApplicationCloudWatchLoggingOption request
+    /// The operation ID that can be used to track the request.
     public var operationId: Swift.String?
 
     public init(
@@ -1269,7 +1269,7 @@ public struct AddApplicationVpcConfigurationOutput: Swift.Sendable {
     public var applicationARN: Swift.String?
     /// Provides the current application version. Managed Service for Apache Flink updates the ApplicationVersionId each time you update the application.
     public var applicationVersionId: Swift.Int?
-    /// Operation ID for tracking AddApplicationVpcConfiguration request
+    /// The operation ID that can be used to track the request.
     public var operationId: Swift.String?
     /// The parameters of the new VPC configuration.
     public var vpcConfigurationDescription: KinesisAnalyticsV2ClientTypes.VpcConfigurationDescription?
@@ -1523,6 +1523,55 @@ extension KinesisAnalyticsV2ClientTypes {
 
 extension KinesisAnalyticsV2ClientTypes {
 
+    public enum KeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsOwnedKey
+        case customerManagedKey
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KeyType] {
+            return [
+                .awsOwnedKey,
+                .customerManagedKey
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsOwnedKey: return "AWS_OWNED_KEY"
+            case .customerManagedKey: return "CUSTOMER_MANAGED_KEY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Specifies the configuration to manage encryption at rest.
+    public struct ApplicationEncryptionConfiguration: Swift.Sendable {
+        /// The key ARN, key ID, alias ARN, or alias name of the KMS key used for encryption at rest.
+        public var keyId: Swift.String?
+        /// Specifies the type of key used for encryption at rest.
+        /// This member is required.
+        public var keyType: KinesisAnalyticsV2ClientTypes.KeyType?
+
+        public init(
+            keyId: Swift.String? = nil,
+            keyType: KinesisAnalyticsV2ClientTypes.KeyType? = nil
+        ) {
+            self.keyId = keyId
+            self.keyType = keyType
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
     /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
     public struct ApplicationSnapshotConfiguration: Swift.Sendable {
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
@@ -1539,9 +1588,9 @@ extension KinesisAnalyticsV2ClientTypes {
 
 extension KinesisAnalyticsV2ClientTypes {
 
-    /// Describes system rollback configuration for a Managed Service for Apache Flink application
+    /// Describes the system rollback configuration for a Managed Service for Apache Flink application.
     public struct ApplicationSystemRollbackConfiguration: Swift.Sendable {
-        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application.
         /// This member is required.
         public var rollbackEnabled: Swift.Bool?
 
@@ -1621,7 +1670,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
 extension KinesisAnalyticsV2ClientTypes {
 
-    /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance. For more information, see [ Checkpoints for Fault Tolerance](https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.19/).
+    /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance. For more information, see [ Checkpoints for Fault Tolerance](https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.20/).
     public struct CheckpointConfiguration: Swift.Sendable {
         /// Describes the interval in milliseconds between checkpoint operations. If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval value of 60000, even if this value is set to another value using this API or in application code.
         public var checkpointInterval: Swift.Int?
@@ -1636,7 +1685,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// * MinPauseBetweenCheckpoints: 5000
         /// This member is required.
         public var configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType?
-        /// Describes the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start. If a checkpoint operation takes longer than the CheckpointInterval, the application otherwise performs continual checkpoint operations. For more information, see [ Tuning Checkpointing](https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/ops/state/large_state_tuning/#tuning-checkpointing) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.19/). If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a MinPauseBetweenCheckpoints value of 5000, even if this value is set using this API or in application code.
+        /// Describes the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start. If a checkpoint operation takes longer than the CheckpointInterval, the application otherwise performs continual checkpoint operations. For more information, see [ Tuning Checkpointing](https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/ops/state/large_state_tuning/#tuning-checkpointing) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.20/). If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a MinPauseBetweenCheckpoints value of 5000, even if this value is set using this API or in application code.
         public var minPauseBetweenCheckpoints: Swift.Int?
 
         public init(
@@ -1749,14 +1798,14 @@ extension KinesisAnalyticsV2ClientTypes {
 
 extension KinesisAnalyticsV2ClientTypes {
 
-    /// Describes parameters for how a Managed Service for Apache Flink application executes multiple tasks simultaneously. For more information about parallelism, see [Parallel Execution](https://nightlies.apache.org/flink/flink-docs-release-1.19/dev/parallel.html) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.19/).
+    /// Describes parameters for how a Managed Service for Apache Flink application executes multiple tasks simultaneously. For more information about parallelism, see [Parallel Execution](https://nightlies.apache.org/flink/flink-docs-release-1.20/dev/parallel.html) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.20/).
     public struct ParallelismConfiguration: Swift.Sendable {
         /// Describes whether the Managed Service for Apache Flink service can increase the parallelism of the application in response to increased throughput.
         public var autoScalingEnabled: Swift.Bool?
         /// Describes whether the application uses the default parallelism for the Managed Service for Apache Flink service. You must set this property to CUSTOM in order to change your application's AutoScalingEnabled, Parallelism, or ParallelismPerKPU properties.
         /// This member is required.
         public var configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType?
-        /// Describes the initial number of parallel tasks that a Managed Service for Apache Flink application can perform. If AutoScalingEnabled is set to True, Managed Service for Apache Flink increases the CurrentParallelism value in response to application load. The service can increase the CurrentParallelism value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
+        /// Describes the initial number of parallel tasks that a Managed Service for Apache Flink application can perform. If AutoScalingEnabled is set to True, Managed Service for Apache Flink increases the CurrentParallelism value in response to application load. The service can increase the CurrentParallelism value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 64 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public var parallelism: Swift.Int?
         /// Describes the number of parallel tasks that a Managed Service for Apache Flink application can perform per Kinesis Processing Unit (KPU) used by the application. For more information about KPUs, see [Amazon Managed Service for Apache Flink Pricing](http://aws.amazon.com/kinesis/data-analytics/pricing/).
         public var parallelismPerKPU: Swift.Int?
@@ -1779,7 +1828,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
     /// Describes configuration parameters for a Managed Service for Apache Flink application or a Studio notebook.
     public struct FlinkApplicationConfiguration: Swift.Sendable {
-        /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance. For more information, see [ Checkpoints for Fault Tolerance](https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.19/).
+        /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance. For more information, see [ Checkpoints for Fault Tolerance](https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.20/).
         public var checkpointConfiguration: KinesisAnalyticsV2ClientTypes.CheckpointConfiguration?
         /// Describes configuration parameters for Amazon CloudWatch logging for an application.
         public var monitoringConfiguration: KinesisAnalyticsV2ClientTypes.MonitoringConfiguration?
@@ -2017,9 +2066,11 @@ extension KinesisAnalyticsV2ClientTypes {
     public struct ApplicationConfiguration: Swift.Sendable {
         /// The code location and type parameters for a Managed Service for Apache Flink application.
         public var applicationCodeConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationCodeConfiguration?
+        /// The configuration to manage encryption at rest.
+        public var applicationEncryptionConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfiguration?
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public var applicationSnapshotConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfiguration?
-        /// Describes system rollback configuration for a Managed Service for Apache Flink application
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application.
         public var applicationSystemRollbackConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationSystemRollbackConfiguration?
         /// Describes execution properties for a Managed Service for Apache Flink application.
         public var environmentProperties: KinesisAnalyticsV2ClientTypes.EnvironmentProperties?
@@ -2034,6 +2085,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             applicationCodeConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationCodeConfiguration? = nil,
+            applicationEncryptionConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfiguration? = nil,
             applicationSnapshotConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfiguration? = nil,
             applicationSystemRollbackConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationSystemRollbackConfiguration? = nil,
             environmentProperties: KinesisAnalyticsV2ClientTypes.EnvironmentProperties? = nil,
@@ -2043,6 +2095,7 @@ extension KinesisAnalyticsV2ClientTypes {
             zeppelinApplicationConfiguration: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfiguration? = nil
         ) {
             self.applicationCodeConfiguration = applicationCodeConfiguration
+            self.applicationEncryptionConfiguration = applicationEncryptionConfiguration
             self.applicationSnapshotConfiguration = applicationSnapshotConfiguration
             self.applicationSystemRollbackConfiguration = applicationSystemRollbackConfiguration
             self.environmentProperties = environmentProperties
@@ -2050,6 +2103,26 @@ extension KinesisAnalyticsV2ClientTypes {
             self.sqlApplicationConfiguration = sqlApplicationConfiguration
             self.vpcConfigurations = vpcConfigurations
             self.zeppelinApplicationConfiguration = zeppelinApplicationConfiguration
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Describes the encryption at rest configuration.
+    public struct ApplicationEncryptionConfigurationDescription: Swift.Sendable {
+        /// The key ARN, key ID, alias ARN, or alias name of the KMS key used for encryption at rest.
+        public var keyId: Swift.String?
+        /// Specifies the type of key used for encryption at rest.
+        /// This member is required.
+        public var keyType: KinesisAnalyticsV2ClientTypes.KeyType?
+
+        public init(
+            keyId: Swift.String? = nil,
+            keyType: KinesisAnalyticsV2ClientTypes.KeyType? = nil
+        ) {
+            self.keyId = keyId
+            self.keyType = keyType
         }
     }
 }
@@ -2072,9 +2145,9 @@ extension KinesisAnalyticsV2ClientTypes {
 
 extension KinesisAnalyticsV2ClientTypes {
 
-    /// Describes system rollback configuration for a Managed Service for Apache Flink application
+    /// Describes the system rollback configuration for a Managed Service for Apache Flink application.
     public struct ApplicationSystemRollbackConfigurationDescription: Swift.Sendable {
-        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application.
         /// This member is required.
         public var rollbackEnabled: Swift.Bool?
 
@@ -2167,7 +2240,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public var configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType?
         /// Describes the current number of parallel tasks that a Managed Service for Apache Flink application can perform. If AutoScalingEnabled is set to True, Managed Service for Apache Flink can increase this value in response to application load. The service can increase this value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public var currentParallelism: Swift.Int?
-        /// Describes the initial number of parallel tasks that a Managed Service for Apache Flink application can perform. If AutoScalingEnabled is set to True, then Managed Service for Apache Flink can increase the CurrentParallelism value in response to application load. The service can increase CurrentParallelism up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
+        /// Describes the initial number of parallel tasks that a Managed Service for Apache Flink application can perform. If AutoScalingEnabled is set to True, then Managed Service for Apache Flink can increase the CurrentParallelism value in response to application load. The service can increase CurrentParallelism up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 64 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public var parallelism: Swift.Int?
         /// Describes the number of parallel tasks that a Managed Service for Apache Flink application can perform per Kinesis Processing Unit (KPU) used by the application.
         public var parallelismPerKPU: Swift.Int?
@@ -2194,7 +2267,7 @@ extension KinesisAnalyticsV2ClientTypes {
     public struct FlinkApplicationConfigurationDescription: Swift.Sendable {
         /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance.
         public var checkpointConfigurationDescription: KinesisAnalyticsV2ClientTypes.CheckpointConfigurationDescription?
-        /// The job plan for an application. For more information about the job plan, see [Jobs and Scheduling](https://nightlies.apache.org/flink/flink-docs-release-1.19/internals/job_scheduling.html) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.19/). To retrieve the job plan for the application, use the [DescribeApplicationRequest$IncludeAdditionalDetails] parameter of the [DescribeApplication] operation.
+        /// The job plan for an application. For more information about the job plan, see [Jobs and Scheduling](https://nightlies.apache.org/flink/flink-docs-release-1.20/internals/job_scheduling.html) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.20/). To retrieve the job plan for the application, use the [DescribeApplicationRequest$IncludeAdditionalDetails] parameter of the [DescribeApplication] operation.
         public var jobPlanDescription: Swift.String?
         /// Describes configuration parameters for Amazon CloudWatch logging for an application.
         public var monitoringConfigurationDescription: KinesisAnalyticsV2ClientTypes.MonitoringConfigurationDescription?
@@ -2271,7 +2344,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
     /// Describes the starting parameters for a Managed Service for Apache Flink application.
     public struct FlinkRunConfiguration: Swift.Sendable {
-        /// When restoring from a snapshot, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between snapshots to remove stateful parameters, and state data in the snapshot no longer corresponds to valid application data. For more information, see [ Allowing Non-Restored State](https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/ops/state/savepoints/#allowing-non-restored-state) in the [Apache Flink documentation](https://nightlies.apache.org/flink/flink-docs-release-1.19/). This value defaults to false. If you update your application without specifying this parameter, AllowNonRestoredState will be set to false, even if it was previously set to true.
+        /// When restoring from a snapshot, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between snapshots to remove stateful parameters, and state data in the snapshot no longer corresponds to valid application data. For more information, see [ Allowing Non-Restored State](https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/ops/state/savepoints/#allowing-non-restored-state) in the [Apache Flink documentation](https://nightlies.apache.org/flink/flink-docs-release-1.20/). This value defaults to false. If you update your application without specifying this parameter, AllowNonRestoredState will be set to false, even if it was previously set to true.
         public var allowNonRestoredState: Swift.Bool?
 
         public init(
@@ -2464,9 +2537,11 @@ extension KinesisAnalyticsV2ClientTypes {
     public struct ApplicationConfigurationDescription: Swift.Sendable {
         /// The details about the application code for a Managed Service for Apache Flink application.
         public var applicationCodeConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationDescription?
+        /// Describes the encryption at rest configuration.
+        public var applicationEncryptionConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfigurationDescription?
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public var applicationSnapshotConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationDescription?
-        /// Describes system rollback configuration for a Managed Service for Apache Flink application
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application.
         public var applicationSystemRollbackConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationSystemRollbackConfigurationDescription?
         /// Describes execution properties for a Managed Service for Apache Flink application.
         public var environmentPropertyDescriptions: KinesisAnalyticsV2ClientTypes.EnvironmentPropertyDescriptions?
@@ -2483,6 +2558,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             applicationCodeConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationDescription? = nil,
+            applicationEncryptionConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfigurationDescription? = nil,
             applicationSnapshotConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationDescription? = nil,
             applicationSystemRollbackConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationSystemRollbackConfigurationDescription? = nil,
             environmentPropertyDescriptions: KinesisAnalyticsV2ClientTypes.EnvironmentPropertyDescriptions? = nil,
@@ -2493,6 +2569,7 @@ extension KinesisAnalyticsV2ClientTypes {
             zeppelinApplicationConfigurationDescription: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationDescription? = nil
         ) {
             self.applicationCodeConfigurationDescription = applicationCodeConfigurationDescription
+            self.applicationEncryptionConfigurationDescription = applicationEncryptionConfigurationDescription
             self.applicationSnapshotConfigurationDescription = applicationSnapshotConfigurationDescription
             self.applicationSystemRollbackConfigurationDescription = applicationSystemRollbackConfigurationDescription
             self.environmentPropertyDescriptions = environmentPropertyDescriptions
@@ -2501,6 +2578,26 @@ extension KinesisAnalyticsV2ClientTypes {
             self.sqlApplicationConfigurationDescription = sqlApplicationConfigurationDescription
             self.vpcConfigurationDescriptions = vpcConfigurationDescriptions
             self.zeppelinApplicationConfigurationDescription = zeppelinApplicationConfigurationDescription
+        }
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes {
+
+    /// Describes configuration updates to encryption at rest.
+    public struct ApplicationEncryptionConfigurationUpdate: Swift.Sendable {
+        /// The key ARN, key ID, alias ARN, or alias name of the KMS key to be used for encryption at rest.
+        public var keyIdUpdate: Swift.String?
+        /// Specifies the type of key to be used for encryption at rest.
+        /// This member is required.
+        public var keyTypeUpdate: KinesisAnalyticsV2ClientTypes.KeyType?
+
+        public init(
+            keyIdUpdate: Swift.String? = nil,
+            keyTypeUpdate: KinesisAnalyticsV2ClientTypes.KeyType? = nil
+        ) {
+            self.keyIdUpdate = keyIdUpdate
+            self.keyTypeUpdate = keyTypeUpdate
         }
     }
 }
@@ -2523,9 +2620,9 @@ extension KinesisAnalyticsV2ClientTypes {
 
 extension KinesisAnalyticsV2ClientTypes {
 
-    /// Describes system rollback configuration for a Managed Service for Apache Flink application
+    /// Describes the system rollback configuration for a Managed Service for Apache Flink application.
     public struct ApplicationSystemRollbackConfigurationUpdate: Swift.Sendable {
-        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application.
         /// This member is required.
         public var rollbackEnabledUpdate: Swift.Bool?
 
@@ -3095,9 +3192,11 @@ extension KinesisAnalyticsV2ClientTypes {
     public struct ApplicationConfigurationUpdate: Swift.Sendable {
         /// Describes updates to an application's code configuration.
         public var applicationCodeConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationUpdate?
+        /// Represents an update for encryption at rest configuration.
+        public var applicationEncryptionConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfigurationUpdate?
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public var applicationSnapshotConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationUpdate?
-        /// Describes system rollback configuration for a Managed Service for Apache Flink application
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application.
         public var applicationSystemRollbackConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationSystemRollbackConfigurationUpdate?
         /// Describes updates to the environment properties for a Managed Service for Apache Flink application.
         public var environmentPropertyUpdates: KinesisAnalyticsV2ClientTypes.EnvironmentPropertyUpdates?
@@ -3112,6 +3211,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             applicationCodeConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationUpdate? = nil,
+            applicationEncryptionConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfigurationUpdate? = nil,
             applicationSnapshotConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationUpdate? = nil,
             applicationSystemRollbackConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationSystemRollbackConfigurationUpdate? = nil,
             environmentPropertyUpdates: KinesisAnalyticsV2ClientTypes.EnvironmentPropertyUpdates? = nil,
@@ -3121,6 +3221,7 @@ extension KinesisAnalyticsV2ClientTypes {
             zeppelinApplicationConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationUpdate? = nil
         ) {
             self.applicationCodeConfigurationUpdate = applicationCodeConfigurationUpdate
+            self.applicationEncryptionConfigurationUpdate = applicationEncryptionConfigurationUpdate
             self.applicationSnapshotConfigurationUpdate = applicationSnapshotConfigurationUpdate
             self.applicationSystemRollbackConfigurationUpdate = applicationSystemRollbackConfigurationUpdate
             self.environmentPropertyUpdates = environmentPropertyUpdates
@@ -3318,7 +3419,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The status of the application.
         /// This member is required.
         public var applicationStatus: KinesisAnalyticsV2ClientTypes.ApplicationStatus?
-        /// The current timestamp when the application version was created.
+        /// The timestamp that indicates when the application version was created.
         public var applicationVersionCreateTimestamp: Foundation.Date?
         /// Provides the current application version. Managed Service for Apache Flink updates the ApplicationVersionId each time you update the application.
         /// This member is required.
@@ -3403,7 +3504,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
 extension KinesisAnalyticsV2ClientTypes {
 
-    /// Status of the operation performed on an application
+    /// The status of the operation.
     public enum OperationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case failed
@@ -3439,17 +3540,17 @@ extension KinesisAnalyticsV2ClientTypes {
 
 extension KinesisAnalyticsV2ClientTypes {
 
-    /// Provides a description of the operation, such as the type and status of operation
+    /// A description of the aplication operation that provides information about the updates that were made to the application.
     public struct ApplicationOperationInfo: Swift.Sendable {
-        /// The timestamp at which the operation finished for the application
+        /// The timestamp that indicates when the operation finished.
         public var endTime: Foundation.Date?
-        /// Type of operation performed on an application
+        /// The type of operation that is performed on an application.
         public var operation: Swift.String?
-        /// Identifier of the Operation
+        /// The operation ID of the request.
         public var operationId: Swift.String?
-        /// Status of the operation performed on an application
+        /// The status of the operation.
         public var operationStatus: KinesisAnalyticsV2ClientTypes.OperationStatus?
-        /// The timestamp at which the operation was created
+        /// The timestamp that indicates when the operation was created.
         public var startTime: Foundation.Date?
 
         public init(
@@ -3470,12 +3571,12 @@ extension KinesisAnalyticsV2ClientTypes {
 
 extension KinesisAnalyticsV2ClientTypes {
 
-    /// Contains information about the application version changes due to an operation
+    /// Contains information about the version changes that the operation applied to the application.
     public struct ApplicationVersionChangeDetails: Swift.Sendable {
-        /// The operation was performed on this version of the application
+        /// The new version that the application was updated to.
         /// This member is required.
         public var applicationVersionUpdatedFrom: Swift.Int?
-        /// The operation execution resulted in the transition to the following version of the application
+        /// The version that the operation execution applied to the applicartion.
         /// This member is required.
         public var applicationVersionUpdatedTo: Swift.Int?
 
@@ -3491,9 +3592,9 @@ extension KinesisAnalyticsV2ClientTypes {
 
 extension KinesisAnalyticsV2ClientTypes {
 
-    /// Provides a description of the operation failure error
+    /// A description of the error that caused an operation to fail.
     public struct ErrorInfo: Swift.Sendable {
-        /// Error message resulting in failure of the operation
+        /// An error message that is returned when an operation fails.
         public var errorString: Swift.String?
 
         public init(
@@ -3506,11 +3607,11 @@ extension KinesisAnalyticsV2ClientTypes {
 
 extension KinesisAnalyticsV2ClientTypes {
 
-    /// Provides a description of the operation failure
+    /// Provides a description of the operation failure.
     public struct OperationFailureDetails: Swift.Sendable {
-        /// Provides a description of the operation failure error
+        /// A description of the error that caused an operation to fail.
         public var errorInfo: KinesisAnalyticsV2ClientTypes.ErrorInfo?
-        /// Provides the operation ID of a system-rollback operation executed due to failure in the current operation
+        /// The rollback operation ID of the system-rollback operation that executed due to failure in the current operation.
         public var rollbackOperationId: Swift.String?
 
         public init(
@@ -3525,22 +3626,22 @@ extension KinesisAnalyticsV2ClientTypes {
 
 extension KinesisAnalyticsV2ClientTypes {
 
-    /// Provides a description of the operation, such as the operation-type and status
+    /// A description of the application operation that provides information about the updates that were made to the application.
     public struct ApplicationOperationInfoDetails: Swift.Sendable {
-        /// Contains information about the application version changes due to an operation
+        /// Contains information about the version changes that the operation applied to the application.
         public var applicationVersionChangeDetails: KinesisAnalyticsV2ClientTypes.ApplicationVersionChangeDetails?
-        /// The timestamp at which the operation finished for the application
+        /// The timestamp that indicates when the operation finished.
         /// This member is required.
         public var endTime: Foundation.Date?
-        /// Type of operation performed on an application
+        /// The type of operation that is performed on an application.
         /// This member is required.
         public var operation: Swift.String?
-        /// Provides a description of the operation failure
+        /// Provides a description of the operation failure.
         public var operationFailureDetails: KinesisAnalyticsV2ClientTypes.OperationFailureDetails?
-        /// Status of the operation performed on an application
+        /// The status of the operation.
         /// This member is required.
         public var operationStatus: KinesisAnalyticsV2ClientTypes.OperationStatus?
-        /// The timestamp at which the operation was created
+        /// The timestamp that indicates when the operation was created.
         /// This member is required.
         public var startTime: Foundation.Date?
 
@@ -3923,7 +4024,7 @@ public struct DeleteApplicationCloudWatchLoggingOptionOutput: Swift.Sendable {
     public var applicationVersionId: Swift.Int?
     /// The descriptions of the remaining CloudWatch logging options for the application.
     public var cloudWatchLoggingOptionDescriptions: [KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionDescription]?
-    /// Operation ID for tracking DeleteApplicationCloudWatchLoggingOption request
+    /// The operation ID that can be used to track the request.
     public var operationId: Swift.String?
 
     public init(
@@ -4107,7 +4208,7 @@ public struct DeleteApplicationVpcConfigurationOutput: Swift.Sendable {
     public var applicationARN: Swift.String?
     /// The updated version ID of the application.
     public var applicationVersionId: Swift.Int?
-    /// Operation ID for tracking DeleteApplicationVpcConfiguration request
+    /// The operation ID that can be used to track the request.
     public var operationId: Swift.String?
 
     public init(
@@ -4149,12 +4250,12 @@ public struct DescribeApplicationOutput: Swift.Sendable {
     }
 }
 
-/// Request for information about a specific operation performed on a Managed Service for Apache Flink application
+/// A request for information about a specific operation that was performed on a Managed Service for Apache Flink application.
 public struct DescribeApplicationOperationInput: Swift.Sendable {
-    /// The name of the application
+    /// The name of the application.
     /// This member is required.
     public var applicationName: Swift.String?
-    /// Identifier of the Operation
+    /// The operation ID of the request.
     /// This member is required.
     public var operationId: Swift.String?
 
@@ -4167,9 +4268,9 @@ public struct DescribeApplicationOperationInput: Swift.Sendable {
     }
 }
 
-/// Provides details of the operation corresponding to the operation-ID on a Managed Service for Apache Flink application
+/// Provides details of the operation that corresponds to the operation ID on a Managed Service for Apache Flink application.
 public struct DescribeApplicationOperationOutput: Swift.Sendable {
-    /// Provides a description of the operation, such as the operation-type and status
+    /// A description of the application operation that provides information about the updates that were made to the application.
     public var applicationOperationInfoDetails: KinesisAnalyticsV2ClientTypes.ApplicationOperationInfoDetails?
 
     public init(
@@ -4235,6 +4336,8 @@ extension KinesisAnalyticsV2ClientTypes {
 
     /// Provides details about a snapshot of application state.
     public struct SnapshotDetails: Swift.Sendable {
+        /// Specifies the encryption settings of data at rest for the application snapshot.
+        public var applicationEncryptionConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfigurationDescription?
         /// The current application version ID when the snapshot was created.
         /// This member is required.
         public var applicationVersionId: Swift.Int?
@@ -4250,12 +4353,14 @@ extension KinesisAnalyticsV2ClientTypes {
         public var snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus?
 
         public init(
+            applicationEncryptionConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfigurationDescription? = nil,
             applicationVersionId: Swift.Int? = nil,
             runtimeEnvironment: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment? = nil,
             snapshotCreationTimestamp: Foundation.Date? = nil,
             snapshotName: Swift.String? = nil,
             snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus? = nil
         ) {
+            self.applicationEncryptionConfigurationDescription = applicationEncryptionConfigurationDescription
             self.applicationVersionId = applicationVersionId
             self.runtimeEnvironment = runtimeEnvironment
             self.snapshotCreationTimestamp = snapshotCreationTimestamp
@@ -4454,18 +4559,18 @@ public struct DiscoverInputSchemaOutput: Swift.Sendable {
     }
 }
 
-/// Request to list operations performed on an application
+/// A request for a list of operations performed on an application.
 public struct ListApplicationOperationsInput: Swift.Sendable {
-    /// The name of the application
+    /// The name of the application.
     /// This member is required.
     public var applicationName: Swift.String?
-    /// Limit on the number of records returned in the response
+    /// The limit on the number of records to be returned in the response.
     public var limit: Swift.Int?
-    /// If a previous command returned a pagination token, pass it into this value to retrieve the next set of results
+    /// A pagination token that can be used in a subsequent request.
     public var nextToken: Swift.String?
-    /// Type of operation performed on an application
+    /// The type of operation that is performed on an application.
     public var operation: Swift.String?
-    /// Status of the operation performed on an application
+    /// The status of the operation.
     public var operationStatus: KinesisAnalyticsV2ClientTypes.OperationStatus?
 
     public init(
@@ -4483,11 +4588,11 @@ public struct ListApplicationOperationsInput: Swift.Sendable {
     }
 }
 
-/// Response with the list of operations for an application
+/// A response that returns a list of operations for an application.
 public struct ListApplicationOperationsOutput: Swift.Sendable {
-    /// List of ApplicationOperationInfo for an application
+    /// A list of ApplicationOperationInfo objects that are associated with an application.
     public var applicationOperationInfoList: [KinesisAnalyticsV2ClientTypes.ApplicationOperationInfo]?
-    /// If a previous command returned a pagination token, pass it into this value to retrieve the next set of results
+    /// A pagination token that can be used in a subsequent request.
     public var nextToken: Swift.String?
 
     public init(
@@ -4644,7 +4749,7 @@ public struct RollbackApplicationOutput: Swift.Sendable {
     /// Describes the application, including the application Amazon Resource Name (ARN), status, latest version, and input and output configurations.
     /// This member is required.
     public var applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail?
-    /// Operation ID for tracking RollbackApplication request
+    /// The operation ID that can be used to track the request.
     public var operationId: Swift.String?
 
     public init(
@@ -4717,7 +4822,7 @@ public struct StartApplicationInput: Swift.Sendable {
 }
 
 public struct StartApplicationOutput: Swift.Sendable {
-    /// Operation ID for tracking StartApplication request
+    /// The operation ID that can be used to track the request.
     public var operationId: Swift.String?
 
     public init(
@@ -4744,7 +4849,7 @@ public struct StopApplicationInput: Swift.Sendable {
 }
 
 public struct StopApplicationOutput: Swift.Sendable {
-    /// Operation ID for tracking StopApplication request
+    /// The operation ID that can be used to track the request.
     public var operationId: Swift.String?
 
     public init(
@@ -4865,7 +4970,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
     /// Describes application updates.
     /// This member is required.
     public var applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail?
-    /// Operation ID for tracking UpdateApplication request
+    /// The operation ID that can be used to track the request.
     public var operationId: Swift.String?
 
     public init(
@@ -6465,19 +6570,6 @@ enum UpdateApplicationMaintenanceConfigurationOutputError {
     }
 }
 
-extension InvalidApplicationConfigurationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidApplicationConfigurationException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidApplicationConfigurationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConcurrentModificationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
@@ -6491,11 +6583,11 @@ extension ConcurrentModificationException {
     }
 }
 
-extension ResourceInUseException {
+extension InvalidApplicationConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidApplicationConfigurationException {
         let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
+        var value = InvalidApplicationConfigurationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6530,6 +6622,19 @@ extension InvalidRequestException {
     }
 }
 
+extension ResourceInUseException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceInUseException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
@@ -6556,11 +6661,11 @@ extension CodeValidationException {
     }
 }
 
-extension UnsupportedOperationException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedOperationException()
+        var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6582,24 +6687,11 @@ extension TooManyTagsException {
     }
 }
 
-extension LimitExceededException {
+extension UnsupportedOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
+        var value = UnsupportedOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6613,6 +6705,19 @@ extension ResourceProvisionedThroughputExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceProvisionedThroughputExceededException {
         let reader = baseError.errorBodyReader
         var value = ResourceProvisionedThroughputExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6996,6 +7101,18 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationConfigurationDescription {
         value.applicationSystemRollbackConfigurationDescription = try reader["ApplicationSystemRollbackConfigurationDescription"].readIfPresent(with: KinesisAnalyticsV2ClientTypes.ApplicationSystemRollbackConfigurationDescription.read(from:))
         value.vpcConfigurationDescriptions = try reader["VpcConfigurationDescriptions"].readListIfPresent(memberReadingClosure: KinesisAnalyticsV2ClientTypes.VpcConfigurationDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.zeppelinApplicationConfigurationDescription = try reader["ZeppelinApplicationConfigurationDescription"].readIfPresent(with: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationDescription.read(from:))
+        value.applicationEncryptionConfigurationDescription = try reader["ApplicationEncryptionConfigurationDescription"].readIfPresent(with: KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfigurationDescription.read(from:))
+        return value
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfigurationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfigurationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfigurationDescription()
+        value.keyId = try reader["KeyId"].readIfPresent()
+        value.keyType = try reader["KeyType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7361,6 +7478,7 @@ extension KinesisAnalyticsV2ClientTypes.SnapshotDetails {
         value.applicationVersionId = try reader["ApplicationVersionId"].readIfPresent() ?? 0
         value.snapshotCreationTimestamp = try reader["SnapshotCreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.runtimeEnvironment = try reader["RuntimeEnvironment"].readIfPresent()
+        value.applicationEncryptionConfigurationDescription = try reader["ApplicationEncryptionConfigurationDescription"].readIfPresent(with: KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfigurationDescription.read(from:))
         return value
     }
 }
@@ -7544,6 +7662,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationConfiguration {
     static func write(value: KinesisAnalyticsV2ClientTypes.ApplicationConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ApplicationCodeConfiguration"].write(value.applicationCodeConfiguration, with: KinesisAnalyticsV2ClientTypes.ApplicationCodeConfiguration.write(value:to:))
+        try writer["ApplicationEncryptionConfiguration"].write(value.applicationEncryptionConfiguration, with: KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfiguration.write(value:to:))
         try writer["ApplicationSnapshotConfiguration"].write(value.applicationSnapshotConfiguration, with: KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfiguration.write(value:to:))
         try writer["ApplicationSystemRollbackConfiguration"].write(value.applicationSystemRollbackConfiguration, with: KinesisAnalyticsV2ClientTypes.ApplicationSystemRollbackConfiguration.write(value:to:))
         try writer["EnvironmentProperties"].write(value.environmentProperties, with: KinesisAnalyticsV2ClientTypes.EnvironmentProperties.write(value:to:))
@@ -7551,6 +7670,15 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationConfiguration {
         try writer["SqlApplicationConfiguration"].write(value.sqlApplicationConfiguration, with: KinesisAnalyticsV2ClientTypes.SqlApplicationConfiguration.write(value:to:))
         try writer["VpcConfigurations"].writeList(value.vpcConfigurations, memberWritingClosure: KinesisAnalyticsV2ClientTypes.VpcConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ZeppelinApplicationConfiguration"].write(value.zeppelinApplicationConfiguration, with: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfiguration.write(value:to:))
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfiguration {
+
+    static func write(value: KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyId"].write(value.keyId)
+        try writer["KeyType"].write(value.keyType)
     }
 }
 
@@ -7744,6 +7872,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationConfigurationUpdate {
     static func write(value: KinesisAnalyticsV2ClientTypes.ApplicationConfigurationUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ApplicationCodeConfigurationUpdate"].write(value.applicationCodeConfigurationUpdate, with: KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationUpdate.write(value:to:))
+        try writer["ApplicationEncryptionConfigurationUpdate"].write(value.applicationEncryptionConfigurationUpdate, with: KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfigurationUpdate.write(value:to:))
         try writer["ApplicationSnapshotConfigurationUpdate"].write(value.applicationSnapshotConfigurationUpdate, with: KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationUpdate.write(value:to:))
         try writer["ApplicationSystemRollbackConfigurationUpdate"].write(value.applicationSystemRollbackConfigurationUpdate, with: KinesisAnalyticsV2ClientTypes.ApplicationSystemRollbackConfigurationUpdate.write(value:to:))
         try writer["EnvironmentPropertyUpdates"].write(value.environmentPropertyUpdates, with: KinesisAnalyticsV2ClientTypes.EnvironmentPropertyUpdates.write(value:to:))
@@ -7751,6 +7880,15 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationConfigurationUpdate {
         try writer["SqlApplicationConfigurationUpdate"].write(value.sqlApplicationConfigurationUpdate, with: KinesisAnalyticsV2ClientTypes.SqlApplicationConfigurationUpdate.write(value:to:))
         try writer["VpcConfigurationUpdates"].writeList(value.vpcConfigurationUpdates, memberWritingClosure: KinesisAnalyticsV2ClientTypes.VpcConfigurationUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ZeppelinApplicationConfigurationUpdate"].write(value.zeppelinApplicationConfigurationUpdate, with: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationUpdate.write(value:to:))
+    }
+}
+
+extension KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfigurationUpdate {
+
+    static func write(value: KinesisAnalyticsV2ClientTypes.ApplicationEncryptionConfigurationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyIdUpdate"].write(value.keyIdUpdate)
+        try writer["KeyTypeUpdate"].write(value.keyTypeUpdate)
     }
 }
 

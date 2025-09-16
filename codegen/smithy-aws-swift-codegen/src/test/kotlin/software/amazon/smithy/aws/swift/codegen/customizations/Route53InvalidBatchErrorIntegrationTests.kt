@@ -9,11 +9,14 @@ import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 
 class Route53InvalidBatchErrorIntegrationTests {
-
     @Disabled
     fun `001 test additional structs and extensions are generated`() {
         val context = setupTests("route53-invalidbatch.smithy", "com.amazonaws.route53#Route53")
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/ChangeResourceRecordSetsOutputError+Customization.swift")
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "/Example/models/ChangeResourceRecordSetsOutputError+Customization.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 """
@@ -23,7 +26,11 @@ class Route53InvalidBatchErrorIntegrationTests {
     @Test
     fun `002 test ChangeResourceRecordSetsOutputError+HttpResponseErrorBinding is customized`() {
         val context = setupTests("route53-invalidbatch.smithy", "com.amazonaws.route53#Route53")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/ChangeResourceRecordSetsOutputError+HttpResponseErrorBinding.swift")
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "Sources/Example/models/ChangeResourceRecordSetsOutputError+HttpResponseErrorBinding.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 enum ChangeResourceRecordSetsOutputError {
@@ -43,7 +50,10 @@ enum ChangeResourceRecordSetsOutputError {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestXmlTrait.ID)
         return context
     }

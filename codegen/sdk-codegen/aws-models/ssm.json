@@ -29,6 +29,91 @@
         ]
     },
     "shapes": {
+        "com.amazonaws.ssm#AccessDeniedException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.ssm#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The requester doesn't have permissions to perform the requested operation.</p>",
+                "smithy.api#error": "client"
+            }
+        },
+        "com.amazonaws.ssm#AccessKeyIdType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^\\w{16,128}$"
+            }
+        },
+        "com.amazonaws.ssm#AccessKeySecretType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#sensitive": {}
+            }
+        },
+        "com.amazonaws.ssm#AccessRequestId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^(oi)-[0-9a-f]{12}$"
+            }
+        },
+        "com.amazonaws.ssm#AccessRequestStatus": {
+            "type": "enum",
+            "members": {
+                "APPROVED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Approved"
+                    }
+                },
+                "REJECTED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Rejected"
+                    }
+                },
+                "REVOKED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Revoked"
+                    }
+                },
+                "EXPIRED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Expired"
+                    }
+                },
+                "PENDING": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Pending"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.ssm#AccessType": {
+            "type": "enum",
+            "members": {
+                "STANDARD": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Standard"
+                    }
+                },
+                "JUSTINTIME": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "JustInTime"
+                    }
+                }
+            }
+        },
         "com.amazonaws.ssm#Account": {
             "type": "string"
         },
@@ -603,6 +688,9 @@
                     "target": "com.amazonaws.ssm#DisassociateOpsItemRelatedItem"
                 },
                 {
+                    "target": "com.amazonaws.ssm#GetAccessToken"
+                },
+                {
                     "target": "com.amazonaws.ssm#GetAutomationExecution"
                 },
                 {
@@ -780,6 +868,9 @@
                     "target": "com.amazonaws.ssm#SendCommand"
                 },
                 {
+                    "target": "com.amazonaws.ssm#StartAccessRequest"
+                },
+                {
                     "target": "com.amazonaws.ssm#StartAssociationsOnce"
                 },
                 {
@@ -858,7 +949,7 @@
                     "name": "ssm"
                 },
                 "aws.protocols#awsJson1_1": {},
-                "smithy.api#documentation": "<p>Amazon Web Services Systems Manager is the operations hub for your Amazon Web Services applications and resources and a secure\n   end-to-end management solution for hybrid cloud environments that enables safe and secure\n   operations at scale.</p>\n         <p>This reference is intended to be used with the <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/\">Amazon Web Services Systems Manager User Guide</a>. To get started, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html\">Setting up Amazon Web Services Systems Manager</a>.</p>\n         <p class=\"title\">\n            <b>Related resources</b>\n         </p>\n         <ul>\n            <li>\n               <p>For information about each of the tools that comprise Systems Manager, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-tools.html\">Using\n      Systems Manager tools</a> in the <i>Amazon Web Services Systems Manager User Guide</i>.</p>\n            </li>\n            <li>\n               <p>For details about predefined runbooks for Automation, a tool in Amazon Web Services Systems Manager, see the\n       <i>\n                     <a href=\"https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-runbook-reference.html\">Systems Manager Automation runbook reference</a>\n                  </i>.</p>\n            </li>\n            <li>\n               <p>For information about AppConfig, a tool in Systems Manager, see the <i>\n                     <a href=\"https://docs.aws.amazon.com/appconfig/latest/userguide/\">AppConfig User Guide</a>\n                  </i>\n     and the <i>\n                     <a href=\"https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/\">AppConfig\n       API Reference</a>\n                  </i>.</p>\n            </li>\n            <li>\n               <p>For information about Incident Manager, a tool in Systems Manager, see the <i>\n                     <a href=\"https://docs.aws.amazon.com/incident-manager/latest/userguide/\">Systems Manager Incident Manager User\n       Guide</a>\n                  </i> and the <i>\n                     <a href=\"https://docs.aws.amazon.com/incident-manager/latest/APIReference/\">Systems Manager Incident Manager API\n     Reference</a>\n                  </i>.</p>\n            </li>\n         </ul>",
+                "smithy.api#documentation": "<p>Amazon Web Services Systems Manager is the operations hub for your Amazon Web Services applications and resources and a secure\n   end-to-end management solution for hybrid cloud environments that enables safe and secure\n   operations at scale.</p>\n         <p>This reference is intended to be used with the <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/\">Amazon Web Services Systems Manager User Guide</a>. To get started, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up-console.html\">Setting up\n    Amazon Web Services Systems Manager</a>.</p>\n         <p class=\"title\">\n            <b>Related resources</b>\n         </p>\n         <ul>\n            <li>\n               <p>For information about each of the tools that comprise Systems Manager, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-tools.html\">Using\n      Systems Manager tools</a> in the <i>Amazon Web Services Systems Manager User Guide</i>.</p>\n            </li>\n            <li>\n               <p>For details about predefined runbooks for Automation, a tool in Amazon Web Services Systems Manager, see the\n       <i>\n                     <a href=\"https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-runbook-reference.html\">Systems Manager Automation Runbook Reference</a>\n                  </i>.</p>\n            </li>\n            <li>\n               <p>For information about AppConfig, a tool in Systems Manager, see the <i>\n                     <a href=\"https://docs.aws.amazon.com/appconfig/latest/userguide/\">AppConfig User Guide</a>\n                  </i>\n     and the <i>\n                     <a href=\"https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/\">AppConfig\n       API Reference</a>\n                  </i>.</p>\n            </li>\n            <li>\n               <p>For information about Incident Manager, a tool in Systems Manager, see the <i>\n                     <a href=\"https://docs.aws.amazon.com/incident-manager/latest/userguide/\">Systems Manager Incident Manager User\n       Guide</a>\n                  </i> and the <i>\n                     <a href=\"https://docs.aws.amazon.com/incident-manager/latest/APIReference/\">Systems Manager Incident Manager API\n     Reference</a>\n                  </i>.</p>\n            </li>\n         </ul>",
                 "smithy.api#title": "Amazon Simple Systems Manager (SSM)",
                 "smithy.api#xmlNamespace": {
                     "uri": "http://ssm.amazonaws.com/doc/2014-11-06/"
@@ -1738,17 +1829,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -1759,17 +1839,6 @@
                                 "Region": "us-iso-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -1786,17 +1855,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -1807,17 +1865,6 @@
                                 "Region": "us-isob-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -2273,7 +2320,7 @@
                 "CalendarNames": {
                     "target": "com.amazonaws.ssm#CalendarNameOrARNList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your\n   associations are gated under. The associations only run when that change calendar is open. For\n   more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar\">Amazon Web Services Systems Manager Change\n    Calendar</a>.</p>"
+                        "smithy.api#documentation": "<p>The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your\n   associations are gated under. The associations only run when that change calendar is open. For\n   more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar\">Amazon Web Services Systems Manager Change\n    Calendar</a> in the <i>Amazon Web Services Systems Manager User Guide</i>.</p>"
                     }
                 },
                 "TargetLocations": {
@@ -3037,13 +3084,13 @@
                     "target": "com.amazonaws.ssm#ApplyOnlyAtCronInterval",
                     "traits": {
                         "smithy.api#default": false,
-                        "smithy.api#documentation": "<p>By default, when you create a new associations, the system runs it immediately after it is\n   created and then according to the schedule you specified. Specify this option if you don't want\n   an association to run immediately after you create it. This parameter isn't supported for rate\n   expressions.</p>"
+                        "smithy.api#documentation": "<p>By default, when you create new associations, the system runs it immediately after it is\n   created and then according to the schedule you specified. Specify this option if you don't want\n   an association to run immediately after you create it. This parameter isn't supported for rate\n   expressions.</p>"
                     }
                 },
                 "CalendarNames": {
                     "target": "com.amazonaws.ssm#CalendarNameOrARNList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your\n   associations are gated under. The associations for this version only run when that Change\n   Calendar is open. For more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar\">Amazon Web Services Systems Manager Change\n    Calendar</a>.</p>"
+                        "smithy.api#documentation": "<p>The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your\n   associations are gated under. The associations for this version only run when that Change\n   Calendar is open. For more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar\">Amazon Web Services Systems Manager Change\n    Calendar</a> in the <i>Amazon Web Services Systems Manager User Guide</i>.</p>"
                     }
                 },
                 "TargetLocations": {
@@ -4219,6 +4266,12 @@
                     "traits": {
                         "smithy.api#enumValue": "ChangeRequest"
                     }
+                },
+                "AccessRequest": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AccessRequest"
+                    }
                 }
             }
         },
@@ -4327,6 +4380,12 @@
                     "target": "com.amazonaws.ssm#PatchSourceList",
                     "traits": {
                         "smithy.api#documentation": "<p>Information about the patches to use to update the managed nodes, including target operating\n   systems and source repositories. Applies to Linux managed nodes only.</p>"
+                    }
+                },
+                "AvailableSecurityUpdatesComplianceStatus": {
+                    "target": "com.amazonaws.ssm#PatchComplianceStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether managed nodes for which there are available security-related patches that\n   have not been approved by the baseline are being defined as <code>COMPLIANT</code> or\n    <code>NON_COMPLIANT</code>. This option is specified when the <code>CreatePatchBaseline</code>\n   or <code>UpdatePatchBaseline</code> commands are run.</p>\n         <p>Applies to Windows Server managed nodes only.</p>"
                     }
                 }
             },
@@ -5225,7 +5284,7 @@
                 "ExecutionTime": {
                     "target": "com.amazonaws.ssm#DateTime",
                     "traits": {
-                        "smithy.api#documentation": "<p>The time the execution ran as a datetime object that is saved in the following format:\n    <code>yyyy-MM-dd'T'HH:mm:ss'Z'</code>\n         </p>",
+                        "smithy.api#documentation": "<p>The time the execution ran as a datetime object that is saved in the following format:\n    <code>yyyy-MM-dd'T'HH:mm:ss'Z'</code>\n         </p>\n         <important>\n            <p>For State Manager associations, this timestamp represents when the compliance status was\n    captured and reported by the Systems Manager service, not when the underlying association was actually\n    executed on the managed node. To track actual association execution times, use the <a>DescribeAssociationExecutionTargets</a> command or check the association execution\n    history in the Systems Manager console.</p>\n         </important>",
                         "smithy.api#required": {}
                     }
                 },
@@ -5306,7 +5365,7 @@
                 "ExecutionSummary": {
                     "target": "com.amazonaws.ssm#ComplianceExecutionSummary",
                     "traits": {
-                        "smithy.api#documentation": "<p>A summary for the compliance item. The summary includes an execution ID, the execution type\n   (for example, command), and the execution time.</p>"
+                        "smithy.api#documentation": "<p>A summary for the compliance item. The summary includes an execution ID, the execution type\n   (for example, command), and the execution time.</p>\n         <important>\n            <p>For State Manager associations, the <code>ExecutionTime</code> value represents when the\n    compliance status was captured and aggregated by the Systems Manager service, not necessarily when the\n    underlying association was executed on the managed node. State Manager updates compliance status\n    for all associations on an instance whenever any association executes, which means multiple\n    associations may show the same execution time even if they were executed at different\n    times.</p>\n         </important>"
                     }
                 },
                 "Details": {
@@ -6049,13 +6108,13 @@
                     "target": "com.amazonaws.ssm#ApplyOnlyAtCronInterval",
                     "traits": {
                         "smithy.api#default": false,
-                        "smithy.api#documentation": "<p>By default, when you create a new associations, the system runs it immediately after it is\n   created and then according to the schedule you specified. Specify this option if you don't want\n   an association to run immediately after you create it. This parameter isn't supported for rate\n   expressions.</p>"
+                        "smithy.api#documentation": "<p>By default, when you create a new association, the system runs it immediately after it is\n   created and then according to the schedule you specified and when target changes are detected.\n   Specify <code>true</code> for <code>ApplyOnlyAtCronInterval</code> if you want the association to\n   run only according to the schedule you specified.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#state-manager-about-scheduling\">Understanding when associations are applied to resources</a> and <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#runbook-target-updates\">>About\n    target updates with Automation runbooks</a> in the\n   <i>Amazon Web Services Systems Manager User Guide</i>.</p>\n         <p>This parameter isn't supported for rate expressions.</p>"
                     }
                 },
                 "CalendarNames": {
                     "target": "com.amazonaws.ssm#CalendarNameOrARNList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your\n   associations are gated under. The associations only run when that Change Calendar is open. For\n   more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar\">Amazon Web Services Systems Manager Change\n    Calendar</a>.</p>"
+                        "smithy.api#documentation": "<p>The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your\n   associations are gated under. The associations only run when that Change Calendar is open. For\n   more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar\">Amazon Web Services Systems Manager Change\n    Calendar</a> in the <i>Amazon Web Services Systems Manager User Guide</i>.</p>"
                     }
                 },
                 "TargetLocations": {
@@ -6196,13 +6255,13 @@
                     "target": "com.amazonaws.ssm#ApplyOnlyAtCronInterval",
                     "traits": {
                         "smithy.api#default": false,
-                        "smithy.api#documentation": "<p>By default, when you create a new association, the system runs it immediately after it is\n   created and then according to the schedule you specified. Specify this option if you don't want\n   an association to run immediately after you create it. This parameter isn't supported for rate\n   expressions.</p>"
+                        "smithy.api#documentation": "<p>By default, when you create a new association, the system runs it immediately after it is\n   created and then according to the schedule you specified and when target changes are detected.\n   Specify <code>true</code> for <code>ApplyOnlyAtCronInterval</code>if you want the association to\n   run only according to the schedule you specified.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#state-manager-about-scheduling\">Understanding when associations are applied to resources</a> and <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#runbook-target-updates\">>About\n    target updates with Automation runbooks</a> in the\n   <i>Amazon Web Services Systems Manager User Guide</i>.</p>\n         <p>This parameter isn't supported for rate expressions.</p>"
                     }
                 },
                 "CalendarNames": {
                     "target": "com.amazonaws.ssm#CalendarNameOrARNList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to\n   gate your associations under. The associations only run when that change calendar is open. For\n   more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar\">Amazon Web Services Systems Manager Change\n    Calendar</a>.</p>"
+                        "smithy.api#documentation": "<p>The names of Amazon Resource Names (ARNs) of the Change Calendar type documents you want to\n   gate your associations under. The associations only run when that change calendar is open. For\n   more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar\">Amazon Web Services Systems Manager Change\n    Calendar</a> in the <i>Amazon Web Services Systems Manager User Guide</i>.</p>"
                     }
                 },
                 "TargetLocations": {
@@ -6283,6 +6342,9 @@
                 },
                 {
                     "target": "com.amazonaws.ssm#MaxDocumentSizeExceeded"
+                },
+                {
+                    "target": "com.amazonaws.ssm#TooManyUpdates"
                 }
             ],
             "traits": {
@@ -6818,6 +6880,12 @@
                         "smithy.api#documentation": "<p>Information about the patches to use to update the managed nodes, including target operating\n   systems and source repositories. Applies to Linux managed nodes only.</p>"
                     }
                 },
+                "AvailableSecurityUpdatesComplianceStatus": {
+                    "target": "com.amazonaws.ssm#PatchComplianceStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the status you want to assign to security patches that are available but not\n   approved because they don't meet the installation criteria specified in the patch\n   baseline.</p>\n         <p>Example scenario: Security patches that you might want installed can be skipped if you have\n   specified a long period to wait after a patch is released before installation. If an update to\n   the patch is released during your specified waiting period, the waiting period for installing the\n   patch starts over. If the waiting period is too long, multiple versions of the patch could be\n   released but never installed.</p>\n         <p>Supported for Windows Server managed nodes only.</p>"
+                    }
+                },
                 "ClientToken": {
                     "target": "com.amazonaws.ssm#ClientToken",
                     "traits": {
@@ -6918,6 +6986,42 @@
         },
         "com.amazonaws.ssm#CreatedDate": {
             "type": "timestamp"
+        },
+        "com.amazonaws.ssm#Credentials": {
+            "type": "structure",
+            "members": {
+                "AccessKeyId": {
+                    "target": "com.amazonaws.ssm#AccessKeyIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The access key ID that identifies the temporary security credentials.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "SecretAccessKey": {
+                    "target": "com.amazonaws.ssm#AccessKeySecretType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The secret access key that can be used to sign requests.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "SessionToken": {
+                    "target": "com.amazonaws.ssm#SessionTokenType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The token that users must pass to the service API to use the temporary credentials.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ExpirationTime": {
+                    "target": "com.amazonaws.ssm#DateTime",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The datetime on which the current credentials expire.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The temporary security credentials, which include an access key ID, a secret access key, and\n   a security (or session) token.</p>"
+            }
         },
         "com.amazonaws.ssm#CustomSchemaCountLimitExceededException": {
             "type": "structure",
@@ -7084,6 +7188,9 @@
                 },
                 {
                     "target": "com.amazonaws.ssm#InvalidDocumentOperation"
+                },
+                {
+                    "target": "com.amazonaws.ssm#TooManyUpdates"
                 }
             ],
             "traits": {
@@ -7639,7 +7746,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Removes the server or virtual machine from the list of registered servers. You can\n   reregister the node again at any time. If you don't plan to use Run Command on the server, we\n   suggest uninstalling SSM Agent first.</p>"
+                "smithy.api#documentation": "<p>Removes the server or virtual machine from the list of registered servers.</p>\n         <p>If you want to reregister an on-premises server, edge device, or VM, you must use a\n   different Activation Code and Activation ID than used to register the machine previously. The\n   Activation Code and Activation ID must not have already been used on the maximum number of\n   activations specified when they were created. For more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/fleet-manager-deregister-hybrid-nodes.html\">Deregistering\n    managed nodes in a hybrid and multicloud environment</a> in the\n    <i>Amazon Web Services Systems Manager User Guide</i>.</p>"
             }
         },
         "com.amazonaws.ssm#DeregisterManagedInstanceRequest": {
@@ -8533,7 +8640,7 @@
                 "Name": {
                     "target": "com.amazonaws.ssm#DocumentName",
                     "traits": {
-                        "smithy.api#documentation": "<p>The name of the document for which you are the owner.</p>",
+                        "smithy.api#documentation": "<p>The name of the document for which you are the owner. </p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -8567,7 +8674,7 @@
                 "AccountIds": {
                     "target": "com.amazonaws.ssm#AccountIdList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The account IDs that have permission to use this document. The ID can be either an\n   Amazon Web Services account or <i>All</i>.</p>"
+                        "smithy.api#documentation": "<p>The account IDs that have permission to use this document. The ID can be either an\n   Amazon Web Services account number or <code>all</code>.</p>"
                     }
                 },
                 "AccountSharingInfoList": {
@@ -8593,7 +8700,7 @@
                 "Name": {
                     "target": "com.amazonaws.ssm#DocumentARN",
                     "traits": {
-                        "smithy.api#documentation": "<p>The name of the SSM document.</p>",
+                        "smithy.api#documentation": "<p>The name of the SSM document.</p>\n         <note>\n            <p>If you're calling a shared SSM document from a different Amazon Web Services account,\n     <code>Name</code> is the full Amazon Resource Name (ARN) of the document.</p>\n         </note>",
                         "smithy.api#required": {}
                     }
                 },
@@ -10093,7 +10200,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Lists the parameters in your Amazon Web Services account or the parameters shared with you when you enable\n   the <a href=\"https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_DescribeParameters.html#systemsmanager-DescribeParameters-request-Shared\">Shared</a> option.</p>\n         <p>Request results are returned on a best-effort basis. If you specify <code>MaxResults</code>\n   in the request, the response includes information up to the limit specified. The number of items\n   returned, however, can be between zero and the value of <code>MaxResults</code>. If the service\n   reaches an internal limit while processing the results, it stops the operation and returns the\n   matching values up to that point and a <code>NextToken</code>. You can specify the\n    <code>NextToken</code> in a subsequent call to get the next set of results.</p>\n         <important>\n            <p>If you change the KMS key alias for the KMS key used to encrypt a parameter,\n    then you must also update the key alias the parameter uses to reference KMS. Otherwise,\n     <code>DescribeParameters</code> retrieves whatever the original key alias was\n    referencing.</p>\n         </important>",
+                "smithy.api#documentation": "<p>Lists the parameters in your Amazon Web Services account or the parameters shared with you when you enable\n   the <a href=\"https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_DescribeParameters.html#systemsmanager-DescribeParameters-request-Shared\">Shared</a> option.</p>\n         <p>Request results are returned on a best-effort basis. If you specify <code>MaxResults</code>\n   in the request, the response includes information up to the limit specified. The number of items\n   returned, however, can be between zero and the value of <code>MaxResults</code>. If the service\n   reaches an internal limit while processing the results, it stops the operation and returns the\n   matching values up to that point and a <code>NextToken</code>. You can specify the\n    <code>NextToken</code> in a subsequent call to get the next set of results.</p>\n         <p>Parameter names can't contain spaces. The service removes any spaces specified for the\n   beginning or end of a parameter name. If the specified name for a parameter contains spaces\n   between characters, the request fails with a <code>ValidationException</code> error.</p>\n         <important>\n            <p>If you change the KMS key alias for the KMS key used to encrypt a parameter,\n    then you must also update the key alias the parameter uses to reference KMS. Otherwise,\n     <code>DescribeParameters</code> retrieves whatever the original key alias was\n    referencing.</p>\n         </important>",
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
@@ -10349,6 +10456,13 @@
                     "traits": {
                         "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The number of managed nodes with patches installed that are specified as other than\n    <code>Critical</code> or <code>Security</code> but aren't compliant with the patch baseline. The\n   status of these managed nodes is <code>NON_COMPLIANT</code>.</p>"
+                    }
+                },
+                "InstancesWithAvailableSecurityUpdates": {
+                    "target": "com.amazonaws.ssm#Integer",
+                    "traits": {
+                        "smithy.api#default": null,
+                        "smithy.api#documentation": "<p>The number of managed nodes for which security-related patches are available but not\n   approved because because they didn't meet the patch baseline requirements. For example, an\n   updated version of a patch might have been released before the specified auto-approval period was\n   over.</p>\n         <p>Applies to Windows Server managed nodes only.</p>"
                     }
                 }
             },
@@ -11679,6 +11793,18 @@
                     "traits": {
                         "smithy.api#enumValue": "QuickSetup"
                     }
+                },
+                "ManualApprovalPolicy": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ManualApprovalPolicy"
+                    }
+                },
+                "AutoApprovalPolicy": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AutoApprovalPolicy"
+                    }
                 }
             }
         },
@@ -12148,6 +12274,70 @@
                 "smithy.api#error": "client"
             }
         },
+        "com.amazonaws.ssm#GetAccessToken": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.ssm#GetAccessTokenRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.ssm#GetAccessTokenResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.ssm#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.ssm#InternalServerError"
+                },
+                {
+                    "target": "com.amazonaws.ssm#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.ssm#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.ssm#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Returns a credentials set to be used with just-in-time node access.</p>"
+            }
+        },
+        "com.amazonaws.ssm#GetAccessTokenRequest": {
+            "type": "structure",
+            "members": {
+                "AccessRequestId": {
+                    "target": "com.amazonaws.ssm#AccessRequestId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of a just-in-time node access request.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.ssm#GetAccessTokenResponse": {
+            "type": "structure",
+            "members": {
+                "Credentials": {
+                    "target": "com.amazonaws.ssm#Credentials",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The temporary security credentials which can be used to start just-in-time node access\n   sessions.</p>"
+                    }
+                },
+                "AccessRequestStatus": {
+                    "target": "com.amazonaws.ssm#AccessRequestStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of the access request.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.ssm#GetAutomationExecution": {
             "type": "operation",
             "input": {
@@ -12229,7 +12419,7 @@
                 "CalendarNames": {
                     "target": "com.amazonaws.ssm#CalendarNameOrARNList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The names or Amazon Resource Names (ARNs) of the Systems Manager documents (SSM documents) that\n   represent the calendar entries for which you want to get the state.</p>",
+                        "smithy.api#documentation": "<p>The names of Amazon Resource Names (ARNs) of the Systems Manager documents (SSM documents) that\n   represent the calendar entries for which you want to get the state.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -14026,7 +14216,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Get information about a single parameter by specifying the parameter name.</p>\n         <note>\n            <p>To get information about more than one parameter at a time, use the <a>GetParameters</a> operation.</p>\n         </note>"
+                "smithy.api#documentation": "<p>Get information about a single parameter by specifying the parameter name.</p>\n         <p>Parameter names can't contain spaces. The service removes any spaces specified for the\n   beginning or end of a parameter name. If the specified name for a parameter contains spaces\n   between characters, the request fails with a <code>ValidationException</code> error.</p>\n         <note>\n            <p>To get information about more than one parameter at a time, use the <a>GetParameters</a> operation.</p>\n         </note>"
             }
         },
         "com.amazonaws.ssm#GetParameterHistory": {
@@ -14052,7 +14242,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Retrieves the history of all changes to a parameter.</p>\n         <important>\n            <p>If you change the KMS key alias for the KMS key used to encrypt a parameter,\n    then you must also update the key alias the parameter uses to reference KMS. Otherwise,\n     <code>GetParameterHistory</code> retrieves whatever the original key alias was\n    referencing.</p>\n         </important>",
+                "smithy.api#documentation": "<p>Retrieves the history of all changes to a parameter.</p>\n         <p>Parameter names can't contain spaces. The service removes any spaces specified for the\n   beginning or end of a parameter name. If the specified name for a parameter contains spaces\n   between characters, the request fails with a <code>ValidationException</code> error.</p>\n         <important>\n            <p>If you change the KMS key alias for the KMS key used to encrypt a parameter,\n    then you must also update the key alias the parameter uses to reference KMS. Otherwise,\n     <code>GetParameterHistory</code> retrieves whatever the original key alias was\n    referencing.</p>\n         </important>",
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
@@ -14167,7 +14357,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Get information about one or more parameters by specifying multiple parameter names.</p>\n         <note>\n            <p>To get information about a single parameter, you can use the <a>GetParameter</a>\n    operation instead.</p>\n         </note>"
+                "smithy.api#documentation": "<p>Get information about one or more parameters by specifying multiple parameter names.</p>\n         <note>\n            <p>To get information about a single parameter, you can use the <a>GetParameter</a>\n    operation instead.</p>\n         </note>\n         <p>Parameter names can't contain spaces. The service removes any spaces specified for the\n   beginning or end of a parameter name. If the specified name for a parameter contains spaces\n   between characters, the request fails with a <code>ValidationException</code> error.</p>"
             }
         },
         "com.amazonaws.ssm#GetParametersByPath": {
@@ -14199,7 +14389,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Retrieve information about one or more parameters under a specified level in a hierarchy. </p>\n         <p>Request results are returned on a best-effort basis. If you specify <code>MaxResults</code>\n   in the request, the response includes information up to the limit specified. The number of items\n   returned, however, can be between zero and the value of <code>MaxResults</code>. If the service\n   reaches an internal limit while processing the results, it stops the operation and returns the\n   matching values up to that point and a <code>NextToken</code>. You can specify the\n    <code>NextToken</code> in a subsequent call to get the next set of results.</p>",
+                "smithy.api#documentation": "<p>Retrieve information about one or more parameters under a specified level in a hierarchy. </p>\n         <p>Request results are returned on a best-effort basis. If you specify <code>MaxResults</code>\n   in the request, the response includes information up to the limit specified. The number of items\n   returned, however, can be between zero and the value of <code>MaxResults</code>. If the service\n   reaches an internal limit while processing the results, it stops the operation and returns the\n   matching values up to that point and a <code>NextToken</code>. You can specify the\n    <code>NextToken</code> in a subsequent call to get the next set of results.</p>\n         <p>Parameter names can't contain spaces. The service removes any spaces specified for the\n   beginning or end of a parameter name. If the specified name for a parameter contains spaces\n   between characters, the request fails with a <code>ValidationException</code> error.</p>",
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
@@ -14519,6 +14709,12 @@
                     "target": "com.amazonaws.ssm#PatchSourceList",
                     "traits": {
                         "smithy.api#documentation": "<p>Information about the patches to use to update the managed nodes, including target operating\n   systems and source repositories. Applies to Linux managed nodes only.</p>"
+                    }
+                },
+                "AvailableSecurityUpdatesComplianceStatus": {
+                    "target": "com.amazonaws.ssm#PatchComplianceStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the compliance status of managed nodes for which security-related patches are\n   available but were not approved. This preference is specified when the\n    <code>CreatePatchBaseline</code> or <code>UpdatePatchBaseline</code> commands are run.</p>\n         <p>Applies to Windows Server managed nodes only.</p>"
                     }
                 }
             },
@@ -15364,7 +15560,7 @@
                 "Key": {
                     "target": "com.amazonaws.ssm#InstanceInformationStringFilterKey",
                     "traits": {
-                        "smithy.api#documentation": "<p>The filter key name to describe your managed nodes.</p>\n         <p>Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole |\n   InstanceIds | PingStatus | PlatformTypes | ResourceType | SourceIds | SourceTypes | \"tag-key\" |\n    \"tag:<code>{keyname}</code>\n         </p>\n         <ul>\n            <li>\n               <p>Valid values for the <code>AssociationStatus</code> filter key: Success | Pending |\n     Failed</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>PingStatus</code> filter key: Online | ConnectionLost |\n     Inactive (deprecated)</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>PlatformType</code> filter key: Windows | Linux | MacOS</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>ResourceType</code> filter key: EC2Instance |\n     ManagedInstance</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>SourceType</code> filter key: AWS::EC2::Instance |\n     AWS::SSM::ManagedInstance | AWS::IoT::Thing</p>\n            </li>\n            <li>\n               <p>Valid tag examples: <code>Key=tag-key,Values=Purpose</code> |\n      <code>Key=tag:Purpose,Values=Test</code>.</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>The filter key name to describe your managed nodes.</p>\n         <p>Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole |\n   InstanceIds | PingStatus | PlatformType | ResourceType | SourceIds | SourceTypes | \"tag-key\" |\n    \"tag:<code>{keyname}</code>\n         </p>\n         <ul>\n            <li>\n               <p>Valid values for the <code>AssociationStatus</code> filter key: Success | Pending |\n     Failed</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>PingStatus</code> filter key: Online | ConnectionLost |\n     Inactive (deprecated)</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>PlatformType</code> filter key: Windows | Linux | MacOS</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>ResourceType</code> filter key: EC2Instance |\n     ManagedInstance</p>\n            </li>\n            <li>\n               <p>Valid values for the <code>SourceType</code> filter key: AWS::EC2::Instance |\n     AWS::SSM::ManagedInstance | AWS::IoT::Thing</p>\n            </li>\n            <li>\n               <p>Valid tag examples: <code>Key=tag-key,Values=Purpose</code> |\n      <code>Key=tag:Purpose,Values=Test</code>.</p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
                 },
@@ -15507,6 +15703,13 @@
                     "traits": {
                         "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The number of patches from the patch baseline that aren't applicable for the managed node\n   and therefore aren't installed on the node. This number may be truncated if the list of patch\n   names is very large. The number of patches beyond this limit are reported in\n    <code>UnreportedNotApplicableCount</code>.</p>"
+                    }
+                },
+                "AvailableSecurityUpdateCount": {
+                    "target": "com.amazonaws.ssm#PatchAvailableSecurityUpdateCount",
+                    "traits": {
+                        "smithy.api#default": null,
+                        "smithy.api#documentation": "<p>The number of security-related patches that are available but not approved because they\n   didn't meet the patch baseline requirements. For example, an updated version of a patch might\n   have been released before the specified auto-approval period was over.</p>\n         <p>Applies to Windows Server managed nodes only.</p>"
                     }
                 },
                 "OperationStartTime": {
@@ -17143,7 +17346,7 @@
                 "Values": {
                     "target": "com.amazonaws.ssm#InventoryFilterValueList",
                     "traits": {
-                        "smithy.api#documentation": "<p>Inventory filter values. Example: inventory filter where managed node IDs are specified as\n   values <code>Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g,\n    i-1a2b3c4d5e6,Type=Equal</code>. </p>",
+                        "smithy.api#documentation": "<p>Inventory filter values.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -17155,7 +17358,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>One or more filters. Use a filter to return a more specific list of results.</p>"
+                "smithy.api#documentation": "<p>One or more filters. Use a filter to return a more specific list of results.</p>\n         <p>\n            <b>Example formats for the <code>aws ssm get-inventory</code>\n    command:</b>\n         </p>\n         <p>\n            <code>--filters\n    Key=AWS:InstanceInformation.AgentType,Values=amazon-ssm-agent,Type=Equal</code>\n         </p>\n         <p>\n            <code>--filters\n   Key=AWS:InstanceInformation.AgentVersion,Values=3.3.2299.0,Type=Equal</code>\n         </p>\n         <p>\n            <code>--filters\n    Key=AWS:InstanceInformation.ComputerName,Values=ip-192.0.2.0.us-east-2.compute.internal,Type=Equal</code>\n         </p>\n         <p>\n            <code>--filters\n    Key=AWS:InstanceInformation.InstanceId,Values=i-0a4cd6ceffEXAMPLE,i-1a2b3c4d5e6EXAMPLE,Type=Equal</code>\n         </p>\n         <p>\n            <code>--filters\n   Key=AWS:InstanceInformation.InstanceStatus,Values=Active,Type=Equal</code>\n         </p>\n         <p>\n            <code>--filters\n   Key=AWS:InstanceInformation.IpAddress,Values=198.51.100.0,Type=Equal</code>\n         </p>\n         <p>\n            <code>--filters Key=AWS:InstanceInformation.PlatformName,Values=\"Amazon\n    Linux\",Type=Equal</code>\n         </p>\n         <p>\n            <code>--filters\n   Key=AWS:InstanceInformation.PlatformType,Values=Linux,Type=Equal</code>\n         </p>\n         <p>\n            <code>--filters\n    Key=AWS:InstanceInformation.PlatformVersion,Values=2023,Type=BeginWith</code>\n         </p>\n         <p>\n            <code>--filters\n    Key=AWS:InstanceInformation.ResourceType,Values=EC2Instance,Type=Equal</code>\n         </p>"
             }
         },
         "com.amazonaws.ssm#InventoryFilterKey": {
@@ -17722,7 +17925,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>A parameter label is a user-defined alias to help you manage different versions of a\n   parameter. When you modify a parameter, Amazon Web Services Systems Manager automatically saves a new version and\n   increments the version number by one. A label can help you remember the purpose of a parameter\n   when there are multiple versions. </p>\n         <p>Parameter labels have the following requirements and restrictions.</p>\n         <ul>\n            <li>\n               <p>A version of a parameter can have a maximum of 10 labels.</p>\n            </li>\n            <li>\n               <p>You can't attach the same label to different versions of the same parameter. For example,\n     if version 1 has the label Production, then you can't attach Production to version 2.</p>\n            </li>\n            <li>\n               <p>You can move a label from one version of a parameter to another.</p>\n            </li>\n            <li>\n               <p>You can't create a label when you create a new parameter. You must attach a label to a\n     specific version of a parameter.</p>\n            </li>\n            <li>\n               <p>If you no longer want to use a parameter label, then you can either delete it or move it\n     to a different version of a parameter.</p>\n            </li>\n            <li>\n               <p>A label can have a maximum of 100 characters.</p>\n            </li>\n            <li>\n               <p>Labels can contain letters (case sensitive), numbers, periods (.), hyphens (-), or\n     underscores (_).</p>\n            </li>\n            <li>\n               <p>Labels can't begin with a number, \"<code>aws</code>\" or \"<code>ssm</code>\" (not case\n     sensitive). If a label fails to meet these requirements, then the label isn't associated with a\n     parameter and the system displays it in the list of InvalidLabels.</p>\n            </li>\n         </ul>"
+                "smithy.api#documentation": "<p>A parameter label is a user-defined alias to help you manage different versions of a\n   parameter. When you modify a parameter, Amazon Web Services Systems Manager automatically saves a new version and\n   increments the version number by one. A label can help you remember the purpose of a parameter\n   when there are multiple versions. </p>\n         <p>Parameter labels have the following requirements and restrictions.</p>\n         <ul>\n            <li>\n               <p>A version of a parameter can have a maximum of 10 labels.</p>\n            </li>\n            <li>\n               <p>You can't attach the same label to different versions of the same parameter. For example,\n     if version 1 has the label Production, then you can't attach Production to version 2.</p>\n            </li>\n            <li>\n               <p>You can move a label from one version of a parameter to another.</p>\n            </li>\n            <li>\n               <p>You can't create a label when you create a new parameter. You must attach a label to a\n     specific version of a parameter.</p>\n            </li>\n            <li>\n               <p>If you no longer want to use a parameter label, then you can either delete it or move it\n     to a different version of a parameter.</p>\n            </li>\n            <li>\n               <p>A label can have a maximum of 100 characters.</p>\n            </li>\n            <li>\n               <p>Labels can contain letters (case sensitive), numbers, periods (.), hyphens (-), or\n     underscores (_).</p>\n            </li>\n            <li>\n               <p>Labels can't begin with a number, \"<code>aws</code>\" or \"<code>ssm</code>\" (not case\n     sensitive). If a label fails to meet these requirements, then the label isn't associated with a\n     parameter and the system displays it in the list of InvalidLabels.</p>\n            </li>\n            <li>\n               <p>Parameter names can't contain spaces. The service removes any spaces specified for\n     the beginning or end of a parameter name. If the specified name for a parameter contains spaces\n     between characters, the request fails with a <code>ValidationException</code> error.</p>\n            </li>\n         </ul>"
             }
         },
         "com.amazonaws.ssm#LabelParameterVersionRequest": {
@@ -18744,7 +18947,7 @@
                 "SyncName": {
                     "target": "com.amazonaws.ssm#ResourceDataSyncName",
                     "traits": {
-                        "smithy.api#documentation": "<p>The name of the resource data sync to retrieve information about. Required for\n   cross-account/cross-Region configurations. Optional for single account/single-Region\n   configurations.</p>"
+                        "smithy.api#documentation": "<p>The name of the Amazon Web Services managed resource data sync to retrieve information about.</p>\n         <p>For cross-account/cross-Region configurations, this parameter is required, and the name of\n   the supported resource data sync is <code>AWS-QuickSetup-ManagedNode</code>.</p>\n         <p>For single account/single-Region configurations, the parameter is not required.</p>"
                     }
                 },
                 "Filters": {
@@ -18873,7 +19076,7 @@
                 "SyncName": {
                     "target": "com.amazonaws.ssm#ResourceDataSyncName",
                     "traits": {
-                        "smithy.api#documentation": "<p>The name of the resource data sync to retrieve information about. Required for\n   cross-account/cross-Region configuration. Optional for single account/single-Region\n   configurations.</p>"
+                        "smithy.api#documentation": "<p>The name of the Amazon Web Services managed resource data sync to retrieve information about.</p>\n         <p>For cross-account/cross-Region configurations, this parameter is required, and the name of\n   the supported resource data sync is <code>AWS-QuickSetup-ManagedNode</code>.</p>\n         <p>For single account/single-Region configurations, the parameter is not required.</p>"
                     }
                 },
                 "Filters": {
@@ -20768,13 +20971,13 @@
                 "AccountIdsToAdd": {
                     "target": "com.amazonaws.ssm#AccountIdList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Web Services users that should have access to the document. The account IDs can either be a\n   group of account IDs or <i>All</i>.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Web Services users that should have access to the document. The account IDs can either be a\n   group of account IDs or <i>All</i>. You must specify a value for this parameter or\n   the <code>AccountIdsToRemove</code> parameter.</p>"
                     }
                 },
                 "AccountIdsToRemove": {
                     "target": "com.amazonaws.ssm#AccountIdList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Web Services users that should no longer have access to the document. The Amazon Web Services user\n   can either be a group of account IDs or <i>All</i>. This action has a higher\n   priority than <code>AccountIdsToAdd</code>. If you specify an ID to add and the same ID to\n   remove, the system removes access to the document.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Web Services users that should no longer have access to the document. The Amazon Web Services user\n   can either be a group of account IDs or <i>All</i>. This action has a higher\n   priority than <code>AccountIdsToAdd</code>. If you specify an ID to add and the same ID to\n   remove, the system removes access to the document. You must specify a value for this parameter or\n   the <code>AccountIdsToAdd</code> parameter.</p>"
                     }
                 },
                 "SharedDocumentVersion": {
@@ -22380,6 +22583,60 @@
                         "smithy.api#enumValue": "OpsItemType"
                     }
                 },
+                "ACCESS_REQUEST_REQUESTER_ARN": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AccessRequestByRequesterArn"
+                    }
+                },
+                "ACCESS_REQUEST_REQUESTER_ID": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AccessRequestByRequesterId"
+                    }
+                },
+                "ACCESS_REQUEST_APPROVER_ARN": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AccessRequestByApproverArn"
+                    }
+                },
+                "ACCESS_REQUEST_APPROVER_ID": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AccessRequestByApproverId"
+                    }
+                },
+                "ACCESS_REQUEST_SOURCE_ACCOUNT_ID": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AccessRequestBySourceAccountId"
+                    }
+                },
+                "ACCESS_REQUEST_SOURCE_OPS_ITEM_ID": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AccessRequestBySourceOpsItemId"
+                    }
+                },
+                "ACCESS_REQUEST_SOURCE_REGION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AccessRequestBySourceRegion"
+                    }
+                },
+                "ACCESS_REQUEST_IS_REPLICA": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AccessRequestByIsReplica"
+                    }
+                },
+                "ACCESS_REQUEST_TARGET_RESOURCE_ID": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AccessRequestByTargetResourceId"
+                    }
+                },
                 "CHANGE_REQUEST_REQUESTER_ARN": {
                     "target": "smithy.api#Unit",
                     "traits": {
@@ -22938,6 +23195,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "Approved"
+                    }
+                },
+                "REVOKED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Revoked"
                     }
                 },
                 "REJECTED": {
@@ -23814,7 +24077,7 @@
                     "code": "ParameterNotFound",
                     "httpResponseCode": 404
                 },
-                "smithy.api#documentation": "<p>The parameter couldn't be found. Verify the name and try again.</p>",
+                "smithy.api#documentation": "<p>The parameter couldn't be found. Verify the name and try again.</p>\n         <note>\n            <p>For the <code>DeleteParameter</code> and <code>GetParameter</code> actions, if the\n    specified parameter doesn't exist, the <code>ParameterNotFound</code> exception is\n     <i>not</i> recorded in CloudTrail event logs.</p>\n         </note>",
                 "smithy.api#error": "client"
             }
         },
@@ -24311,6 +24574,12 @@
         "com.amazonaws.ssm#PatchArch": {
             "type": "string"
         },
+        "com.amazonaws.ssm#PatchAvailableSecurityUpdateCount": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#default": 0
+            }
+        },
         "com.amazonaws.ssm#PatchBaselineIdentity": {
             "type": "structure",
             "members": {
@@ -24495,6 +24764,12 @@
                     "traits": {
                         "smithy.api#enumValue": "FAILED"
                     }
+                },
+                "AvailableSecurityUpdate": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AVAILABLE_SECURITY_UPDATE"
+                    }
                 }
             }
         },
@@ -24545,6 +24820,23 @@
                 "smithy.api#range": {
                     "min": 10,
                     "max": 100
+                }
+            }
+        },
+        "com.amazonaws.ssm#PatchComplianceStatus": {
+            "type": "enum",
+            "members": {
+                "Compliant": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "COMPLIANT"
+                    }
+                },
+                "NonCompliant": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NON_COMPLIANT"
+                    }
                 }
             }
         },
@@ -25171,7 +25463,7 @@
                 "Configuration": {
                     "target": "com.amazonaws.ssm#PatchSourceConfiguration",
                     "traits": {
-                        "smithy.api#documentation": "<p>The value of the yum repo configuration. For example:</p>\n         <p>\n            <code>[main]</code>\n         </p>\n         <p>\n            <code>name=MyCustomRepository</code>\n         </p>\n         <p>\n            <code>baseurl=https://my-custom-repository</code>\n         </p>\n         <p>\n            <code>enabled=1</code>\n         </p>\n         <note>\n            <p>For information about other options available for your yum repository configuration, see\n     <a href=\"https://man7.org/linux/man-pages/man5/dnf.conf.5.html\">dnf.conf(5)</a>.</p>\n         </note>",
+                        "smithy.api#documentation": "<p>The value of the repo configuration.</p>\n         <p>\n            <b>Example for yum repositories</b>\n         </p>\n         <p>\n            <code>[main]</code>\n         </p>\n         <p>\n            <code>name=MyCustomRepository</code>\n         </p>\n         <p>\n            <code>baseurl=https://my-custom-repository</code>\n         </p>\n         <p>\n            <code>enabled=1</code>\n         </p>\n         <p>For information about other options available for your yum repository configuration, see\n    <a href=\"https://man7.org/linux/man-pages/man5/dnf.conf.5.html\">dnf.conf(5)</a> on the\n    <i>man7.org</i> website.</p>\n         <p>\n            <b>Examples for Ubuntu Server and Debian Server</b>\n         </p>\n         <p>\n            <code>deb http://security.ubuntu.com/ubuntu jammy main</code>\n         </p>\n         <p>\n            <code>deb https://site.example.com/debian distribution component1 component2 component3</code>\n         </p>\n         <p>Repo information for Ubuntu Server repositories must be specifed in a single line. For more\n   examples and information, see <a href=\"https://manpages.ubuntu.com/manpages/jammy/man5/sources.list.5.html\">jammy (5)\n    sources.list.5.gz</a> on the <i>Ubuntu Server Manuals</i> website and <a href=\"https://wiki.debian.org/SourcesList#sources.list_format\">sources.list format</a> on the\n    <i>Debian Wiki</i>.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -25458,7 +25750,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Registers a compliance type and other compliance details on a designated resource. This\n   operation lets you register custom compliance details with a resource. This call overwrites\n   existing compliance information on the resource, so you must provide a full list of compliance\n   items each time that you send the request.</p>\n         <p>ComplianceType can be one of the following:</p>\n         <ul>\n            <li>\n               <p>ExecutionId: The execution ID when the patch, association, or custom compliance item was\n     applied.</p>\n            </li>\n            <li>\n               <p>ExecutionType: Specify patch, association, or Custom:<code>string</code>.</p>\n            </li>\n            <li>\n               <p>ExecutionTime. The time the patch, association, or custom compliance item was applied to\n     the managed node.</p>\n            </li>\n            <li>\n               <p>Id: The patch, association, or custom compliance ID.</p>\n            </li>\n            <li>\n               <p>Title: A title.</p>\n            </li>\n            <li>\n               <p>Status: The status of the compliance item. For example, <code>approved</code> for patches,\n     or <code>Failed</code> for associations.</p>\n            </li>\n            <li>\n               <p>Severity: A patch severity. For example, <code>Critical</code>.</p>\n            </li>\n            <li>\n               <p>DocumentName: An SSM document name. For example, <code>AWS-RunPatchBaseline</code>.</p>\n            </li>\n            <li>\n               <p>DocumentVersion: An SSM document version number. For example, 4.</p>\n            </li>\n            <li>\n               <p>Classification: A patch classification. For example, <code>security updates</code>.</p>\n            </li>\n            <li>\n               <p>PatchBaselineId: A patch baseline ID.</p>\n            </li>\n            <li>\n               <p>PatchSeverity: A patch severity. For example, <code>Critical</code>.</p>\n            </li>\n            <li>\n               <p>PatchState: A patch state. For example, <code>InstancesWithFailedPatches</code>.</p>\n            </li>\n            <li>\n               <p>PatchGroup: The name of a patch group.</p>\n            </li>\n            <li>\n               <p>InstalledTime: The time the association, patch, or custom compliance item was applied to\n     the resource. Specify the time by using the following format:\n      <code>yyyy-MM-dd'T'HH:mm:ss'Z'</code>\n               </p>\n            </li>\n         </ul>"
+                "smithy.api#documentation": "<p>Registers a compliance type and other compliance details on a designated resource. This\n   operation lets you register custom compliance details with a resource. This call overwrites\n   existing compliance information on the resource, so you must provide a full list of compliance\n   items each time that you send the request.</p>\n         <p>ComplianceType can be one of the following:</p>\n         <ul>\n            <li>\n               <p>ExecutionId: The execution ID when the patch, association, or custom compliance item was\n     applied.</p>\n            </li>\n            <li>\n               <p>ExecutionType: Specify patch, association, or Custom:<code>string</code>.</p>\n            </li>\n            <li>\n               <p>ExecutionTime. The time the patch, association, or custom compliance item was applied to\n     the managed node.</p>\n               <important>\n                  <p>For State Manager associations, this represents the time when compliance status was\n      captured by the Systems Manager service during its internal compliance aggregation workflow, not\n      necessarily when the association was executed on the managed node. State Manager updates\n      compliance information for all associations on an instance whenever any association executes,\n      which may result in multiple associations showing the same execution time.</p>\n               </important>\n            </li>\n            <li>\n               <p>Id: The patch, association, or custom compliance ID.</p>\n            </li>\n            <li>\n               <p>Title: A title.</p>\n            </li>\n            <li>\n               <p>Status: The status of the compliance item. For example, <code>approved</code> for patches,\n     or <code>Failed</code> for associations.</p>\n            </li>\n            <li>\n               <p>Severity: A patch severity. For example, <code>Critical</code>.</p>\n            </li>\n            <li>\n               <p>DocumentName: An SSM document name. For example, <code>AWS-RunPatchBaseline</code>.</p>\n            </li>\n            <li>\n               <p>DocumentVersion: An SSM document version number. For example, 4.</p>\n            </li>\n            <li>\n               <p>Classification: A patch classification. For example, <code>security updates</code>.</p>\n            </li>\n            <li>\n               <p>PatchBaselineId: A patch baseline ID.</p>\n            </li>\n            <li>\n               <p>PatchSeverity: A patch severity. For example, <code>Critical</code>.</p>\n            </li>\n            <li>\n               <p>PatchState: A patch state. For example, <code>InstancesWithFailedPatches</code>.</p>\n            </li>\n            <li>\n               <p>PatchGroup: The name of a patch group.</p>\n            </li>\n            <li>\n               <p>InstalledTime: The time the association, patch, or custom compliance item was applied to\n     the resource. Specify the time by using the following format:\n      <code>yyyy-MM-dd'T'HH:mm:ss'Z'</code>\n               </p>\n            </li>\n         </ul>"
             }
         },
         "com.amazonaws.ssm#PutComplianceItemsRequest": {
@@ -25668,7 +25960,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Add a parameter to the system.</p>"
+                "smithy.api#documentation": "<p>Create or update a parameter in Parameter Store.</p>"
             }
         },
         "com.amazonaws.ssm#PutParameterRequest": {
@@ -25677,7 +25969,7 @@
                 "Name": {
                     "target": "com.amazonaws.ssm#PSParameterName",
                     "traits": {
-                        "smithy.api#documentation": "<p>The fully qualified name of the parameter that you want to add to the system.</p>\n         <note>\n            <p>You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name\n    itself.</p>\n         </note>\n         <p>The fully qualified name includes the complete hierarchy of the parameter path and name. For\n   parameters in a hierarchy, you must include a leading forward slash character (/) when you create\n   or reference a parameter. For example: <code>/Dev/DBServer/MySQL/db-string13</code>\n         </p>\n         <p>Naming Constraints:</p>\n         <ul>\n            <li>\n               <p>Parameter names are case sensitive.</p>\n            </li>\n            <li>\n               <p>A parameter name must be unique within an Amazon Web Services Region</p>\n            </li>\n            <li>\n               <p>A parameter name can't be prefixed with \"<code>aws</code>\" or \"<code>ssm</code>\"\n     (case-insensitive).</p>\n            </li>\n            <li>\n               <p>Parameter names can include only the following symbols and letters:\n      <code>a-zA-Z0-9_.-</code>\n               </p>\n               <p>In addition, the slash character ( / ) is used to delineate hierarchies in parameter\n     names. For example: <code>/Dev/Production/East/Project-ABC/MyParameter</code>\n               </p>\n            </li>\n            <li>\n               <p>A parameter name can't include spaces.</p>\n            </li>\n            <li>\n               <p>Parameter hierarchies are limited to a maximum depth of fifteen levels.</p>\n            </li>\n         </ul>\n         <p>For additional information about valid values for parameter names, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-create.html\">Creating Systems Manager parameters</a> in the <i>Amazon Web Services Systems Manager User Guide</i>.</p>\n         <note>\n            <p>The maximum length constraint of 2048 characters listed below includes 1037 characters\n    reserved for internal use by Systems Manager. The maximum length for a parameter name that you create is\n    1011 characters. This includes the characters in the ARN that precede the name you specify, such\n    as <code>arn:aws:ssm:us-east-2:111122223333:parameter/</code>.</p>\n         </note>",
+                        "smithy.api#documentation": "<p>The fully qualified name of the parameter that you want to create or update.</p>\n         <note>\n            <p>You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name\n    itself.</p>\n         </note>\n         <p>The fully qualified name includes the complete hierarchy of the parameter path and name. For\n   parameters in a hierarchy, you must include a leading forward slash character (/) when you create\n   or reference a parameter. For example: <code>/Dev/DBServer/MySQL/db-string13</code>\n         </p>\n         <p>Naming Constraints:</p>\n         <ul>\n            <li>\n               <p>Parameter names are case sensitive.</p>\n            </li>\n            <li>\n               <p>A parameter name must be unique within an Amazon Web Services Region</p>\n            </li>\n            <li>\n               <p>A parameter name can't be prefixed with \"<code>aws</code>\" or \"<code>ssm</code>\"\n     (case-insensitive).</p>\n            </li>\n            <li>\n               <p>Parameter names can include only the following symbols and letters:\n      <code>a-zA-Z0-9_.-</code>\n               </p>\n               <p>In addition, the slash character ( / ) is used to delineate hierarchies in parameter\n     names. For example: <code>/Dev/Production/East/Project-ABC/MyParameter</code>\n               </p>\n            </li>\n            <li>\n               <p>Parameter names can't contain spaces. The service removes any spaces specified for\n     the beginning or end of a parameter name. If the specified name for a parameter contains spaces\n     between characters, the request fails with a <code>ValidationException</code> error.</p>\n            </li>\n            <li>\n               <p>Parameter hierarchies are limited to a maximum depth of fifteen levels.</p>\n            </li>\n         </ul>\n         <p>For additional information about valid values for parameter names, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-create.html\">Creating Systems Manager parameters</a> in the <i>Amazon Web Services Systems Manager User Guide</i>.</p>\n         <note>\n            <p>The reported maximum length of 2048 characters for a parameter name includes 1037\n    characters that are reserved for internal use by Systems Manager. The maximum length for a parameter name\n    that you specify is 1011 characters.</p>\n            <p>This count of 1011 characters includes the characters in the ARN that precede the name you\n    specify. This ARN length will vary depending on your partition and Region. For example, the\n    following 45 characters count toward the 1011 character maximum for a parameter created in the\n    US East (Ohio) Region: <code>arn:aws:ssm:us-east-2:111122223333:parameter/</code>.</p>\n         </note>",
                         "smithy.api#required": {}
                     }
                 },
@@ -25697,13 +25989,13 @@
                 "Type": {
                     "target": "com.amazonaws.ssm#ParameterType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of parameter that you want to add to the system.</p>\n         <note>\n            <p>\n               <code>SecureString</code> isn't currently supported for CloudFormation templates.</p>\n         </note>\n         <p>Items in a <code>StringList</code> must be separated by a comma (,). You can't\n   use other punctuation or special character to escape items in the list. If you have a parameter\n   value that requires a comma, then use the <code>String</code> data type.</p>\n         <important>\n            <p>Specifying a parameter type isn't required when updating a parameter. You must specify a\n    parameter type when creating a parameter.</p>\n         </important>"
+                        "smithy.api#documentation": "<p>The type of parameter that you want to create.</p>\n         <note>\n            <p>\n               <code>SecureString</code> isn't currently supported for CloudFormation templates.</p>\n         </note>\n         <p>Items in a <code>StringList</code> must be separated by a comma (,). You can't\n   use other punctuation or special character to escape items in the list. If you have a parameter\n   value that requires a comma, then use the <code>String</code> data type.</p>\n         <important>\n            <p>Specifying a parameter type isn't required when updating a parameter. You must specify a\n    parameter type when creating a parameter.</p>\n         </important>"
                     }
                 },
                 "KeyId": {
                     "target": "com.amazonaws.ssm#ParameterKeyId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Key Management Service (KMS) ID that you want to use to encrypt a\n   parameter. Use a custom key for better security. Required for parameters that use the <code>SecureString</code> data type.</p>\n         <p>If you don't specify a key ID, the system uses the default key associated with your\n   Amazon Web Services account which is not as secure as using a custom key.</p>\n         <ul>\n            <li>\n               <p>To use a custom KMS key, choose the <code>SecureString</code>\n     data type with the <code>Key ID</code> parameter.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>The Key Management Service (KMS) ID that you want to use to encrypt a\n   parameter. Use a custom key for better security. Required for parameters that use the <code>SecureString</code> data type.</p>\n         <p>If you don't specify a key ID, the system uses the default key associated with your\n   Amazon Web Services account, which is not as secure as using a custom key.</p>\n         <ul>\n            <li>\n               <p>To use a custom KMS key, choose the <code>SecureString</code>\n     data type with the <code>Key ID</code> parameter.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "Overwrite": {
@@ -27920,6 +28212,47 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.ssm#ServiceQuotaExceededException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.ssm#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "ResourceId": {
+                    "target": "com.amazonaws.ssm#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique ID of the resource referenced in the failed request.</p>"
+                    }
+                },
+                "ResourceType": {
+                    "target": "com.amazonaws.ssm#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The resource type of the resource referenced in the failed request.</p>"
+                    }
+                },
+                "QuotaCode": {
+                    "target": "com.amazonaws.ssm#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The quota code recognized by the Amazon Web Services Service Quotas service.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ServiceCode": {
+                    "target": "com.amazonaws.ssm#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The code for the Amazon Web Services service that owns the quota.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The request exceeds the service quota. Service quotas, also referred to as limits, are the\n   maximum number of service resources or operations for your Amazon Web Services account.</p>",
+                "smithy.api#error": "client"
+            }
+        },
         "com.amazonaws.ssm#ServiceRole": {
             "type": "string"
         },
@@ -28069,6 +28402,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The maximum duration of a session before it terminates.</p>"
                     }
+                },
+                "AccessType": {
+                    "target": "com.amazonaws.ssm#AccessType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            <code>Standard</code> access type is the default for Session Manager sessions.\n    <code>JustInTime</code> is the access type for <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-just-in-time-node-access.html\">Just-in-time node access</a>.</p>"
+                    }
                 }
             },
             "traits": {
@@ -28143,6 +28482,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "SessionId"
+                    }
+                },
+                "ACCESS_TYPE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AccessType"
                     }
                 }
             }
@@ -28349,6 +28694,12 @@
                 }
             }
         },
+        "com.amazonaws.ssm#SessionTokenType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#sensitive": {}
+            }
+        },
         "com.amazonaws.ssm#SeveritySummary": {
             "type": "structure",
             "members": {
@@ -28442,6 +28793,12 @@
                     "traits": {
                         "smithy.api#enumValue": "Resume"
                     }
+                },
+                "REVOKE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Revoke"
+                    }
                 }
             }
         },
@@ -28507,6 +28864,80 @@
                     "min": 0,
                     "max": 24000
                 }
+            }
+        },
+        "com.amazonaws.ssm#StartAccessRequest": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.ssm#StartAccessRequestRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.ssm#StartAccessRequestResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.ssm#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.ssm#InternalServerError"
+                },
+                {
+                    "target": "com.amazonaws.ssm#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.ssm#ServiceQuotaExceededException"
+                },
+                {
+                    "target": "com.amazonaws.ssm#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.ssm#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Starts the workflow for just-in-time node access sessions.</p>"
+            }
+        },
+        "com.amazonaws.ssm#StartAccessRequestRequest": {
+            "type": "structure",
+            "members": {
+                "Reason": {
+                    "target": "com.amazonaws.ssm#String1to256",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A brief description explaining why you are requesting access to the node.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Targets": {
+                    "target": "com.amazonaws.ssm#Targets",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The node you are requesting access to.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.ssm#TagList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Key-value pairs of metadata you want to assign to the access request.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.ssm#StartAccessRequestResponse": {
+            "type": "structure",
+            "members": {
+                "AccessRequestId": {
+                    "target": "com.amazonaws.ssm#AccessRequestId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the access request.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.ssm#StartAssociationsOnce": {
@@ -29375,6 +29806,15 @@
         "com.amazonaws.ssm#String": {
             "type": "string"
         },
+        "com.amazonaws.ssm#String1to256": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 256
+                }
+            }
+        },
         "com.amazonaws.ssm#StringDateTime": {
             "type": "string",
             "traits": {
@@ -29794,6 +30234,33 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.ssm#ThrottlingException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.ssm#String",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "QuotaCode": {
+                    "target": "com.amazonaws.ssm#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The quota code recognized by the Amazon Web Services Service Quotas service.</p>"
+                    }
+                },
+                "ServiceCode": {
+                    "target": "com.amazonaws.ssm#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The code for the Amazon Web Services service that owns the quota.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The request or operation couldn't be performed because the service is throttling\n   requests.</p>",
+                "smithy.api#error": "client"
+            }
+        },
         "com.amazonaws.ssm#TimeoutSeconds": {
             "type": "integer",
             "traits": {
@@ -29891,7 +30358,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Remove a label or labels from a parameter.</p>"
+                "smithy.api#documentation": "<p>Remove a label or labels from a parameter.</p>\n         <p>Parameter names can't contain spaces. The service removes any spaces specified for the\n   beginning or end of a parameter name. If the specified name for a parameter contains spaces\n   between characters, the request fails with a <code>ValidationException</code> error.</p>"
             }
         },
         "com.amazonaws.ssm#UnlabelParameterVersionRequest": {
@@ -30220,13 +30687,13 @@
                     "target": "com.amazonaws.ssm#ApplyOnlyAtCronInterval",
                     "traits": {
                         "smithy.api#default": false,
-                        "smithy.api#documentation": "<p>By default, when you update an association, the system runs it immediately after it is\n   updated and then according to the schedule you specified. Specify this option if you don't want\n   an association to run immediately after you update it. This parameter isn't supported for rate\n   expressions.</p>\n         <p>If you chose this option when you created an association and later you edit that association\n   or you make changes to the SSM document on which that association is based (by using the\n   Documents page in the console), State Manager applies the association at the next specified cron\n   interval. For example, if you chose the <code>Latest</code> version of an SSM document when you\n   created an association and you edit the association by choosing a different document version on\n   the Documents page, State Manager applies the association at the next specified cron interval if\n   you previously selected this option. If this option wasn't selected, State Manager immediately\n   runs the association.</p>\n         <p>You can reset this option. To do so, specify the <code>no-apply-only-at-cron-interval</code>\n   parameter when you update the association from the command line. This parameter forces the\n   association to run immediately after updating it and according to the interval specified.</p>"
+                        "smithy.api#documentation": "<p>By default, when you update an association, the system runs it immediately after it is\n   updated and then according to the schedule you specified. Specify <code>true</code> for\n    <code>ApplyOnlyAtCronInterval</code> if you want the association to run only according to the\n   schedule you specified.</p>\n         <p>If you chose this option when you created an association and later you edit that association\n   or you make changes to the Automation runbook or SSM document on which that association is based,\n   State Manager applies the association at the next specified cron interval. For example, if you\n   chose the <code>Latest</code> version of an SSM document when you created an association and you\n   edit the association by choosing a different document version on the Documents page, State\n   Manager applies the association at the next specified cron interval if you previously set\n    <code>ApplyOnlyAtCronInterval</code> to <code>true</code>. If this option wasn't selected, State\n   Manager immediately runs the association.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#state-manager-about-scheduling\">Understanding when associations are applied to resources</a> and <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#runbook-target-updates\">About\n    target updates with Automation runbooks</a> in the\n   <i>Amazon Web Services Systems Manager User Guide</i>.</p>\n         <p>This parameter isn't supported for rate expressions.</p>\n         <p>You can reset this parameter. To do so, specify the\n    <code>no-apply-only-at-cron-interval</code> parameter when you update the association from the\n   command line. This parameter forces the association to run immediately after updating it and\n   according to the interval specified.</p>"
                     }
                 },
                 "CalendarNames": {
                     "target": "com.amazonaws.ssm#CalendarNameOrARNList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to\n   gate your associations under. The associations only run when that change calendar is open. For\n   more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar\">Amazon Web Services Systems Manager Change\n    Calendar</a>.</p>"
+                        "smithy.api#documentation": "<p>The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to\n   gate your associations under. The associations only run when that change calendar is open. For\n   more information, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar\">Amazon Web Services Systems Manager Change\n    Calendar</a> in the <i>Amazon Web Services Systems Manager User Guide</i>.</p>"
                     }
                 },
                 "TargetLocations": {
@@ -30476,6 +30943,9 @@
                 },
                 {
                     "target": "com.amazonaws.ssm#InvalidDocumentVersion"
+                },
+                {
+                    "target": "com.amazonaws.ssm#TooManyUpdates"
                 }
             ],
             "traits": {
@@ -31484,6 +31954,12 @@
                         "smithy.api#documentation": "<p>Information about the patches to use to update the managed nodes, including target operating\n   systems and source repositories. Applies to Linux managed nodes only.</p>"
                     }
                 },
+                "AvailableSecurityUpdatesComplianceStatus": {
+                    "target": "com.amazonaws.ssm#PatchComplianceStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the status to be assigned to security patches that are available but not approved\n   because they don't meet the installation criteria specified in the patch baseline.</p>\n         <p>Example scenario: Security patches that you might want installed can be skipped if you have\n   specified a long period to wait after a patch is released before installation. If an update to\n   the patch is released during your specified waiting period, the waiting period for installing the\n   patch starts over. If the waiting period is too long, multiple versions of the patch could be\n   released but never installed.</p>\n         <p>Supported for Windows Server managed nodes only.</p>"
+                    }
+                },
                 "Replace": {
                     "target": "com.amazonaws.ssm#Boolean",
                     "traits": {
@@ -31582,6 +32058,12 @@
                     "target": "com.amazonaws.ssm#PatchSourceList",
                     "traits": {
                         "smithy.api#documentation": "<p>Information about the patches to use to update the managed nodes, including target operating\n   systems and source repositories. Applies to Linux managed nodes only.</p>"
+                    }
+                },
+                "AvailableSecurityUpdatesComplianceStatus": {
+                    "target": "com.amazonaws.ssm#PatchComplianceStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the compliance status of managed nodes for which security-related patches are\n   available but were not approved. This preference is specified when the\n    <code>CreatePatchBaseline</code> or <code>UpdatePatchBaseline</code> commands are run.</p>\n         <p>Applies to Windows Server managed nodes only.</p>"
                     }
                 }
             },

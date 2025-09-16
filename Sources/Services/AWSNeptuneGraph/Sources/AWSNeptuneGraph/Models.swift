@@ -796,12 +796,12 @@ extension NeptuneGraphClientTypes {
 public struct CreateGraphInput: Swift.Sendable {
     /// Indicates whether or not to enable deletion protection on the graph. The graph can’t be deleted when deletion protection is enabled. (true or false).
     public var deletionProtection: Swift.Bool?
-    /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var graphName: Swift.String?
     /// Specifies a KMS key to use to encrypt data in the new graph.
     public var kmsKeyIdentifier: Swift.String?
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
     /// This member is required.
     public var provisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
@@ -844,6 +844,9 @@ extension NeptuneGraphClientTypes {
         case importing
         case resetting
         case snapshotting
+        case starting
+        case stopped
+        case stopping
         case updating
         case sdkUnknown(Swift.String)
 
@@ -856,6 +859,9 @@ extension NeptuneGraphClientTypes {
                 .importing,
                 .resetting,
                 .snapshotting,
+                .starting,
+                .stopped,
+                .stopping,
                 .updating
             ]
         }
@@ -874,6 +880,9 @@ extension NeptuneGraphClientTypes {
             case .importing: return "IMPORTING"
             case .resetting: return "RESETTING"
             case .snapshotting: return "SNAPSHOTTING"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -898,10 +907,10 @@ public struct CreateGraphOutput: Swift.Sendable {
     public var id: Swift.String?
     /// Specifies the KMS key used to encrypt data in the new graph.
     public var kmsKeyIdentifier: Swift.String?
-    /// The graph name. For example: my-graph-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    /// The graph name. For example: my-graph-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var name: Swift.String?
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
     public var provisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. If enabling public connectivity for the first time, there will be a delay while it is enabled.
     public var publicConnectivity: Swift.Bool?
@@ -1295,10 +1304,10 @@ public struct ResetGraphOutput: Swift.Sendable {
 public struct RestoreGraphFromSnapshotInput: Swift.Sendable {
     /// A value that indicates whether the graph has deletion protection enabled. The graph can't be deleted when deletion protection is enabled.
     public var deletionProtection: Swift.Bool?
-    /// A name for the new Neptune Analytics graph to be created from the snapshot. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    /// A name for the new Neptune Analytics graph to be created from the snapshot. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var graphName: Swift.String?
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
     public var provisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
     public var publicConnectivity: Swift.Bool?
@@ -1399,13 +1408,177 @@ public struct RestoreGraphFromSnapshotOutput: Swift.Sendable {
     }
 }
 
+public struct StartGraphInput: Swift.Sendable {
+    /// The unique identifier of the Neptune Analytics graph.
+    /// This member is required.
+    public var graphIdentifier: Swift.String?
+
+    public init(
+        graphIdentifier: Swift.String? = nil
+    ) {
+        self.graphIdentifier = graphIdentifier
+    }
+}
+
+public struct StartGraphOutput: Swift.Sendable {
+    /// The ARN associated with the graph.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The build number of the graph.
+    public var buildNumber: Swift.String?
+    /// The time at which the graph was created.
+    public var createTime: Foundation.Date?
+    /// If true, deletion protection is enabled for the graph.
+    public var deletionProtection: Swift.Bool?
+    /// The graph endpoint.
+    public var endpoint: Swift.String?
+    /// The unique identifier of the graph.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The ID of the KMS key used to encrypt and decrypt graph data.
+    public var kmsKeyIdentifier: Swift.String?
+    /// The name of the graph.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph.
+    public var provisionedMemory: Swift.Int?
+    /// If true, the graph has a public endpoint, otherwise not.
+    public var publicConnectivity: Swift.Bool?
+    /// The number of replicas for the graph.
+    public var replicaCount: Swift.Int?
+    /// The ID of the snapshot from which the graph was created, if it was created from a snapshot.
+    public var sourceSnapshotId: Swift.String?
+    /// The status of the graph.
+    public var status: NeptuneGraphClientTypes.GraphStatus?
+    /// The reason that the graph has this status.
+    public var statusReason: Swift.String?
+    /// Specifies the number of dimensions for vector embeddings loaded into the graph. Max = 65535
+    public var vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration?
+
+    public init(
+        arn: Swift.String? = nil,
+        buildNumber: Swift.String? = nil,
+        createTime: Foundation.Date? = nil,
+        deletionProtection: Swift.Bool? = nil,
+        endpoint: Swift.String? = nil,
+        id: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        provisionedMemory: Swift.Int? = nil,
+        publicConnectivity: Swift.Bool? = nil,
+        replicaCount: Swift.Int? = nil,
+        sourceSnapshotId: Swift.String? = nil,
+        status: NeptuneGraphClientTypes.GraphStatus? = nil,
+        statusReason: Swift.String? = nil,
+        vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration? = nil
+    ) {
+        self.arn = arn
+        self.buildNumber = buildNumber
+        self.createTime = createTime
+        self.deletionProtection = deletionProtection
+        self.endpoint = endpoint
+        self.id = id
+        self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.name = name
+        self.provisionedMemory = provisionedMemory
+        self.publicConnectivity = publicConnectivity
+        self.replicaCount = replicaCount
+        self.sourceSnapshotId = sourceSnapshotId
+        self.status = status
+        self.statusReason = statusReason
+        self.vectorSearchConfiguration = vectorSearchConfiguration
+    }
+}
+
+public struct StopGraphInput: Swift.Sendable {
+    /// The unique identifier of the Neptune Analytics graph.
+    /// This member is required.
+    public var graphIdentifier: Swift.String?
+
+    public init(
+        graphIdentifier: Swift.String? = nil
+    ) {
+        self.graphIdentifier = graphIdentifier
+    }
+}
+
+public struct StopGraphOutput: Swift.Sendable {
+    /// The ARN associated with the graph.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The build number of the graph.
+    public var buildNumber: Swift.String?
+    /// The time at which the graph was created.
+    public var createTime: Foundation.Date?
+    /// If true, deletion protection is enabled for the graph.
+    public var deletionProtection: Swift.Bool?
+    /// The graph endpoint.
+    public var endpoint: Swift.String?
+    /// The unique identifier of the graph.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The ID of the KMS key used to encrypt and decrypt graph data.
+    public var kmsKeyIdentifier: Swift.String?
+    /// The name of the graph.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The number of memory-optimized Neptune Capacity Units (m-NCUs) allocated to the graph.
+    public var provisionedMemory: Swift.Int?
+    /// If true, the graph has a public endpoint, otherwise not.
+    public var publicConnectivity: Swift.Bool?
+    /// The number of replicas for the graph.
+    public var replicaCount: Swift.Int?
+    /// The ID of the snapshot from which the graph was created, if it was created from a snapshot.
+    public var sourceSnapshotId: Swift.String?
+    /// The status of the graph.
+    public var status: NeptuneGraphClientTypes.GraphStatus?
+    /// The reason that the graph has this status.
+    public var statusReason: Swift.String?
+    /// Specifies the number of dimensions for vector embeddings loaded into the graph. Max = 65535
+    public var vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration?
+
+    public init(
+        arn: Swift.String? = nil,
+        buildNumber: Swift.String? = nil,
+        createTime: Foundation.Date? = nil,
+        deletionProtection: Swift.Bool? = nil,
+        endpoint: Swift.String? = nil,
+        id: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        provisionedMemory: Swift.Int? = nil,
+        publicConnectivity: Swift.Bool? = nil,
+        replicaCount: Swift.Int? = nil,
+        sourceSnapshotId: Swift.String? = nil,
+        status: NeptuneGraphClientTypes.GraphStatus? = nil,
+        statusReason: Swift.String? = nil,
+        vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration? = nil
+    ) {
+        self.arn = arn
+        self.buildNumber = buildNumber
+        self.createTime = createTime
+        self.deletionProtection = deletionProtection
+        self.endpoint = endpoint
+        self.id = id
+        self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.name = name
+        self.provisionedMemory = provisionedMemory
+        self.publicConnectivity = publicConnectivity
+        self.replicaCount = replicaCount
+        self.sourceSnapshotId = sourceSnapshotId
+        self.status = status
+        self.statusReason = statusReason
+        self.vectorSearchConfiguration = vectorSearchConfiguration
+    }
+}
+
 public struct UpdateGraphInput: Swift.Sendable {
     /// A value that indicates whether the graph has deletion protection enabled. The graph can't be deleted when deletion protection is enabled.
     public var deletionProtection: Swift.Bool?
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
     public var provisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
     public var publicConnectivity: Swift.Bool?
@@ -1856,7 +2029,7 @@ public struct CreateGraphSnapshotInput: Swift.Sendable {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
-    /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var snapshotName: Swift.String?
     /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy.
@@ -1967,7 +2140,7 @@ public struct DeleteGraphSnapshotOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The ID of the KMS key used to encrypt and decrypt the snapshot.
     public var kmsKeyIdentifier: Swift.String?
-    /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var name: Swift.String?
     /// The time when the snapshot was created.
@@ -2017,7 +2190,7 @@ public struct GetGraphSnapshotOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The ID of the KMS key used to encrypt and decrypt the snapshot.
     public var kmsKeyIdentifier: Swift.String?
-    /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var name: Swift.String?
     /// The time when the snapshot was created.
@@ -2077,7 +2250,7 @@ extension NeptuneGraphClientTypes {
         public var id: Swift.String?
         /// The ID of the KMS key used to encrypt and decrypt the snapshot.
         public var kmsKeyIdentifier: Swift.String?
-        /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+        /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
         /// This member is required.
         public var name: Swift.String?
         /// The time when the snapshot was created.
@@ -2522,7 +2695,7 @@ public struct CreateGraphUsingImportTaskInput: Swift.Sendable {
     public var failOnError: Swift.Bool?
     /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html), OPEN_CYPHER, which identifies the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html), or ntriples, which identifies the [RDF n-triples](https://docs.aws.amazon.com/neptune-analytics/latest/userguide/using-rdf-data.html) format.
     public var format: NeptuneGraphClientTypes.Format?
-    /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var graphName: Swift.String?
     /// Contains options for controlling the import process. For example, if the failOnError key is set to false, the import skips problem data and attempts to continue (whereas if set to true, the default, or if omitted, the import operation halts immediately when an error is encountered.
@@ -2531,7 +2704,7 @@ public struct CreateGraphUsingImportTaskInput: Swift.Sendable {
     public var kmsKeyIdentifier: Swift.String?
     /// The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the final provisioned-memory will be chosen per the actual size of your imported data. If neither value is specified, 128 m-NCUs are used.
     public var maxProvisionedMemory: Swift.Int?
-    /// The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 128
+    /// The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 16
     public var minProvisionedMemory: Swift.Int?
     /// The parquet type of the import task.
     public var parquetType: NeptuneGraphClientTypes.ParquetType?
@@ -3765,6 +3938,16 @@ extension StartExportTaskInput {
     }
 }
 
+extension StartGraphInput {
+
+    static func urlPathProvider(_ value: StartGraphInput) -> Swift.String? {
+        guard let graphIdentifier = value.graphIdentifier else {
+            return nil
+        }
+        return "/graphs/\(graphIdentifier.urlPercentEncoding())/start"
+    }
+}
+
 extension StartImportTaskInput {
 
     static func urlPathProvider(_ value: StartImportTaskInput) -> Swift.String? {
@@ -3772,6 +3955,16 @@ extension StartImportTaskInput {
             return nil
         }
         return "/graphs/\(graphIdentifier.urlPercentEncoding())/importtasks"
+    }
+}
+
+extension StopGraphInput {
+
+    static func urlPathProvider(_ value: StopGraphInput) -> Swift.String? {
+        guard let graphIdentifier = value.graphIdentifier else {
+            return nil
+        }
+        return "/graphs/\(graphIdentifier.urlPercentEncoding())/stop"
     }
 }
 
@@ -4453,6 +4646,32 @@ extension StartExportTaskOutput {
     }
 }
 
+extension StartGraphOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartGraphOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartGraphOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.buildNumber = try reader["buildNumber"].readIfPresent()
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deletionProtection = try reader["deletionProtection"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.provisionedMemory = try reader["provisionedMemory"].readIfPresent()
+        value.publicConnectivity = try reader["publicConnectivity"].readIfPresent()
+        value.replicaCount = try reader["replicaCount"].readIfPresent()
+        value.sourceSnapshotId = try reader["sourceSnapshotId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.vectorSearchConfiguration = try reader["vectorSearchConfiguration"].readIfPresent(with: NeptuneGraphClientTypes.VectorSearchConfiguration.read(from:))
+        return value
+    }
+}
+
 extension StartImportTaskOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartImportTaskOutput {
@@ -4468,6 +4687,32 @@ extension StartImportTaskOutput {
         value.source = try reader["source"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension StopGraphOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopGraphOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopGraphOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.buildNumber = try reader["buildNumber"].readIfPresent()
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deletionProtection = try reader["deletionProtection"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.provisionedMemory = try reader["provisionedMemory"].readIfPresent()
+        value.publicConnectivity = try reader["publicConnectivity"].readIfPresent()
+        value.replicaCount = try reader["replicaCount"].readIfPresent()
+        value.sourceSnapshotId = try reader["sourceSnapshotId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.vectorSearchConfiguration = try reader["vectorSearchConfiguration"].readIfPresent(with: NeptuneGraphClientTypes.VectorSearchConfiguration.read(from:))
         return value
     }
 }
@@ -5007,7 +5252,43 @@ enum StartExportTaskOutputError {
     }
 }
 
+enum StartGraphOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartImportTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopGraphOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5077,6 +5358,33 @@ enum UpdateGraphOutputError {
     }
 }
 
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
@@ -5108,33 +5416,6 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -5308,7 +5589,7 @@ extension NeptuneGraphClientTypes.ExportFilterPropertyAttributes {
         var value = NeptuneGraphClientTypes.ExportFilterPropertyAttributes()
         value.outputType = try reader["outputType"].readIfPresent()
         value.sourcePropertyName = try reader["sourcePropertyName"].readIfPresent()
-        value.multiValueHandling = try reader["multiValueHandling"].readIfPresent() ?? .pickFirst
+        value.multiValueHandling = try reader["multiValueHandling"].readIfPresent() ?? NeptuneGraphClientTypes.MultiValueHandlingType.pickFirst
         return value
     }
 }

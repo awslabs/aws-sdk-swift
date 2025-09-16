@@ -130,11 +130,11 @@ public struct AcceptDirectConnectGatewayAssociationProposalInput: Swift.Sendable
 
 extension DirectConnectClientTypes {
 
-    /// The Amazon Web Services Cloud WAN core network that the Direct Connect attachment is associated with.
+    /// The Amazon Web Services Cloud WAN core network that the Direct Connect gateway is associated to. This is only returned when a Direct Connect gateway is associated to a Cloud WAN core network.
     public struct AssociatedCoreNetwork: Swift.Sendable {
-        /// the ID of the Direct Connect attachment
+        /// the ID of the Direct Connect gateway attachment.
         public var attachmentId: Swift.String?
-        /// The ID of the Cloud WAN core network.
+        /// The ID of the Cloud WAN core network that the Direct Connect gateway is associated to.
         public var id: Swift.String?
         /// The account owner of the Cloud WAN core network.
         public var ownerAccount: Swift.String?
@@ -251,7 +251,7 @@ extension DirectConnectClientTypes {
     public struct DirectConnectGatewayAssociation: Swift.Sendable {
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public var allowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]?
-        /// The ID of the Cloud WAN core network associated with the Direct Connect attachment.
+        /// The ID of the Cloud WAN core network associated with the Direct Connect gateway attachment.
         public var associatedCoreNetwork: DirectConnectClientTypes.AssociatedCoreNetwork?
         /// Information about the associated gateway.
         public var associatedGateway: DirectConnectClientTypes.AssociatedGateway?
@@ -592,6 +592,8 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -622,6 +624,7 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -645,6 +648,7 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -789,6 +793,8 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -819,6 +825,7 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -842,6 +849,7 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -859,9 +867,21 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
-        /// This member is required.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        ///
+        ///
+        /// The valid values are 1-2147483646.
         public var asn: Swift.Int
+        /// The ASN when allocating a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
@@ -881,6 +901,7 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
             mtu: Swift.Int? = nil,
@@ -891,6 +912,7 @@ extension DirectConnectClientTypes {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.mtu = mtu
@@ -1001,8 +1023,18 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asn: Swift.Int
+        /// The long ASN for the BGP peer. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The Direct Connect endpoint that terminates the BGP peer.
@@ -1038,6 +1070,7 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             awsDeviceV2: Swift.String? = nil,
             awsLogicalDeviceId: Swift.String? = nil,
@@ -1049,6 +1082,7 @@ extension DirectConnectClientTypes {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -1070,6 +1104,7 @@ extension DirectConnectClientTypes {
         case down
         case pending
         case rejected
+        case testing
         case unknown
         case verifying
         case sdkUnknown(Swift.String)
@@ -1083,6 +1118,7 @@ extension DirectConnectClientTypes {
                 .down,
                 .pending,
                 .rejected,
+                .testing,
                 .unknown,
                 .verifying
             ]
@@ -1102,6 +1138,7 @@ extension DirectConnectClientTypes {
             case .down: return "down"
             case .pending: return "pending"
             case .rejected: return "rejected"
+            case .testing: return "testing"
             case .unknown: return "unknown"
             case .verifying: return "verifying"
             case let .sdkUnknown(s): return s
@@ -1116,10 +1153,20 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
     public var amazonAddress: Swift.String?
-    /// The autonomous system number (ASN) for the Amazon side of the connection.
+    /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    public var asnLong: Swift.Int?
     /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
     public var authKey: Swift.String?
     /// The Direct Connect endpoint that terminates the physical connection.
@@ -1170,6 +1217,8 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
     ///
     /// * down: A virtual interface that is BGP down.
     ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+    ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
     /// * deleted: A virtual interface that cannot forward traffic.
@@ -1188,6 +1237,7 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
         asn: Swift.Int = 0,
+        asnLong: Swift.Int? = nil,
         authKey: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -1215,6 +1265,7 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
         self.asn = asn
+        self.asnLong = asnLong
         self.authKey = authKey
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -1248,9 +1299,21 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
-        /// This member is required.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        ///
+        ///
+        /// The valid values are 1-2147483646.
         public var asn: Swift.Int
+        /// The ASN when allocating a new public virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
@@ -1270,6 +1333,7 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
             routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
@@ -1280,6 +1344,7 @@ extension DirectConnectClientTypes {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.routeFilterPrefixes = routeFilterPrefixes
@@ -1318,10 +1383,20 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
     public var amazonAddress: Swift.String?
-    /// The autonomous system number (ASN) for the Amazon side of the connection.
+    /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    public var asnLong: Swift.Int?
     /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
     public var authKey: Swift.String?
     /// The Direct Connect endpoint that terminates the physical connection.
@@ -1372,6 +1447,8 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
     ///
     /// * down: A virtual interface that is BGP down.
     ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+    ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
     /// * deleted: A virtual interface that cannot forward traffic.
@@ -1390,6 +1467,7 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
         asn: Swift.Int = 0,
+        asnLong: Swift.Int? = nil,
         authKey: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -1417,6 +1495,7 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
         self.asn = asn
+        self.asnLong = asnLong
         self.authKey = authKey
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -1450,8 +1529,21 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        ///
+        ///
+        /// The valid values are 1-2147483646.
         public var asn: Swift.Int
+        /// The ASN when allocating a new transit virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
@@ -1469,6 +1561,7 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
             mtu: Swift.Int? = nil,
@@ -1479,6 +1572,7 @@ extension DirectConnectClientTypes {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.mtu = mtu
@@ -1519,10 +1613,20 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system number (ASN) for the Amazon side of the connection.
+        /// The autonomous system number (AS) for the Amazon side of the connection.
         public var amazonSideAsn: Swift.Int?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asn: Swift.Int
+        /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The Direct Connect endpoint that terminates the physical connection.
@@ -1573,6 +1677,8 @@ extension DirectConnectClientTypes {
         ///
         /// * down: A virtual interface that is BGP down.
         ///
+        /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+        ///
         /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
         ///
         /// * deleted: A virtual interface that cannot forward traffic.
@@ -1591,6 +1697,7 @@ extension DirectConnectClientTypes {
             amazonAddress: Swift.String? = nil,
             amazonSideAsn: Swift.Int? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             awsDeviceV2: Swift.String? = nil,
             awsLogicalDeviceId: Swift.String? = nil,
@@ -1618,6 +1725,7 @@ extension DirectConnectClientTypes {
             self.amazonAddress = amazonAddress
             self.amazonSideAsn = amazonSideAsn
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -1725,6 +1833,8 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -1755,6 +1865,7 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -1778,6 +1889,7 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -1857,6 +1969,8 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -1887,6 +2001,7 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -1910,6 +2025,7 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -1920,14 +2036,14 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
 }
 
 public struct AssociateMacSecKeyInput: Swift.Sendable {
-    /// The MAC Security (MACsec) CAK to associate with the dedicated connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the ckn request parameter and not use the secretARN request parameter.
+    /// The MAC Security (MACsec) CAK to associate with the connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the ckn request parameter and not use the secretARN request parameter.
     public var cak: Swift.String?
-    /// The MAC Security (MACsec) CKN to associate with the dedicated connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the cak request parameter and not use the secretARN request parameter.
+    /// The MAC Security (MACsec) CKN to associate with the connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the cak request parameter and not use the secretARN request parameter.
     public var ckn: Swift.String?
-    /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx). You can use [DescribeConnections] or [DescribeLags] to retrieve connection ID.
+    /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx). You can use [DescribeConnections], [DescribeInterconnects], or [DescribeLags] to retrieve connection ID.
     /// This member is required.
     public var connectionId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to associate with the dedicated connection. You can use [DescribeConnections] or [DescribeLags] to retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do not use the ckn and cak request parameters.
+    /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to associate with the connection. You can use [DescribeConnections] or [DescribeLags] to retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do not use the ckn and cak request parameters.
     public var secretARN: Swift.String?
 
     public init(
@@ -1944,9 +2060,9 @@ public struct AssociateMacSecKeyInput: Swift.Sendable {
 }
 
 public struct AssociateMacSecKeyOutput: Swift.Sendable {
-    /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx).
+    /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx).
     public var connectionId: Swift.String?
-    /// The MAC Security (MACsec) security keys associated with the dedicated connection.
+    /// The MAC Security (MACsec) security keys associated with the connection.
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
 
     public init(
@@ -1981,10 +2097,20 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
     public var amazonAddress: Swift.String?
-    /// The autonomous system number (ASN) for the Amazon side of the connection.
+    /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    public var asnLong: Swift.Int?
     /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
     public var authKey: Swift.String?
     /// The Direct Connect endpoint that terminates the physical connection.
@@ -2035,6 +2161,8 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
     ///
     /// * down: A virtual interface that is BGP down.
     ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+    ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
     /// * deleted: A virtual interface that cannot forward traffic.
@@ -2053,6 +2181,7 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
         asn: Swift.Int = 0,
+        asnLong: Swift.Int? = nil,
         authKey: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -2080,6 +2209,7 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
         self.asn = asn
+        self.asnLong = asnLong
         self.authKey = authKey
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -2201,6 +2331,8 @@ public struct ConfirmPrivateVirtualInterfaceOutput: Swift.Sendable {
     ///
     /// * down: A virtual interface that is BGP down.
     ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+    ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
     /// * deleted: A virtual interface that cannot forward traffic.
@@ -2241,6 +2373,8 @@ public struct ConfirmPublicVirtualInterfaceOutput: Swift.Sendable {
     /// * available: A virtual interface that is able to forward traffic.
     ///
     /// * down: A virtual interface that is BGP down.
+    ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
     ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
@@ -2287,6 +2421,8 @@ public struct ConfirmTransitVirtualInterfaceOutput: Swift.Sendable {
     /// * available: A virtual interface that is able to forward traffic.
     ///
     /// * down: A virtual interface that is BGP down.
+    ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
     ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
@@ -2359,6 +2495,8 @@ extension DirectConnectClientTypes {
         public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
         /// The ID of the Amazon Web Services account that owns the connection.
         public var ownerAccount: Swift.String?
+        /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+        public var partnerInterconnectMacSecCapable: Swift.Bool?
         /// The name of the Direct Connect service provider associated with the connection.
         public var partnerName: Swift.String?
         /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -2389,6 +2527,7 @@ extension DirectConnectClientTypes {
             macSecCapable: Swift.Bool? = nil,
             macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
             ownerAccount: Swift.String? = nil,
+            partnerInterconnectMacSecCapable: Swift.Bool? = nil,
             partnerName: Swift.String? = nil,
             portEncryptionStatus: Swift.String? = nil,
             providerName: Swift.String? = nil,
@@ -2412,6 +2551,7 @@ extension DirectConnectClientTypes {
             self.macSecCapable = macSecCapable
             self.macSecKeys = macSecKeys
             self.ownerAccount = ownerAccount
+            self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
             self.partnerName = partnerName
             self.portEncryptionStatus = portEncryptionStatus
             self.providerName = providerName
@@ -2430,8 +2570,10 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
         public var asn: Swift.Int
+        /// The long ASN for a new BGP peer. The valid range is from 1 to 4294967294.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
@@ -2441,12 +2583,14 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil
         ) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
         }
@@ -2493,7 +2637,7 @@ public struct CreateConnectionInput: Swift.Sendable {
     public var location: Swift.String?
     /// The name of the service provider associated with the requested connection.
     public var providerName: Swift.String?
-    /// Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is only available on dedicated connections. For information about MAC Security (MACsec) prerequisties, see [MACsec prerequisties](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-prerequisites) in the Direct Connect User Guide.
+    /// Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is unavailable on hosted connections. For information about MAC Security (MACsec) prerequisites, see [MAC Security in Direct Connect](https://docs.aws.amazon.com/directconnect/latest/UserGuide/MACSec.html) in the Direct Connect User Guide.
     public var requestMACSec: Swift.Bool?
     /// The tags to associate with the lag.
     public var tags: [DirectConnectClientTypes.Tag]?
@@ -2570,6 +2714,8 @@ public struct CreateConnectionOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -2600,6 +2746,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -2623,6 +2770,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -2638,13 +2786,17 @@ public struct CreateDirectConnectGatewayInput: Swift.Sendable {
     /// The name of the Direct Connect gateway.
     /// This member is required.
     public var directConnectGatewayName: Swift.String?
+    /// The key-value pair tags associated with the request.
+    public var tags: [DirectConnectClientTypes.Tag]?
 
     public init(
         amazonSideAsn: Swift.Int? = nil,
-        directConnectGatewayName: Swift.String? = nil
+        directConnectGatewayName: Swift.String? = nil,
+        tags: [DirectConnectClientTypes.Tag]? = nil
     ) {
         self.amazonSideAsn = amazonSideAsn
         self.directConnectGatewayName = directConnectGatewayName
+        self.tags = tags
     }
 }
 
@@ -2687,7 +2839,7 @@ extension DirectConnectClientTypes {
 
     /// Information about a Direct Connect gateway, which enables you to connect virtual interfaces and virtual private gateway or transit gateways.
     public struct DirectConnectGateway: Swift.Sendable {
-        /// The autonomous system number (ASN) for the Amazon side of the connection.
+        /// The autonomous system number (AS) for the Amazon side of the connection.
         public var amazonSideAsn: Swift.Int?
         /// The ID of the Direct Connect gateway.
         public var directConnectGatewayId: Swift.String?
@@ -2707,6 +2859,8 @@ extension DirectConnectClientTypes {
         public var ownerAccount: Swift.String?
         /// The error message if the state of an object failed to advance.
         public var stateChangeError: Swift.String?
+        /// Information about a tag.
+        public var tags: [DirectConnectClientTypes.Tag]?
 
         public init(
             amazonSideAsn: Swift.Int? = nil,
@@ -2714,7 +2868,8 @@ extension DirectConnectClientTypes {
             directConnectGatewayName: Swift.String? = nil,
             directConnectGatewayState: DirectConnectClientTypes.DirectConnectGatewayState? = nil,
             ownerAccount: Swift.String? = nil,
-            stateChangeError: Swift.String? = nil
+            stateChangeError: Swift.String? = nil,
+            tags: [DirectConnectClientTypes.Tag]? = nil
         ) {
             self.amazonSideAsn = amazonSideAsn
             self.directConnectGatewayId = directConnectGatewayId
@@ -2722,6 +2877,7 @@ extension DirectConnectClientTypes {
             self.directConnectGatewayState = directConnectGatewayState
             self.ownerAccount = ownerAccount
             self.stateChangeError = stateChangeError
+            self.tags = tags
         }
     }
 }
@@ -2904,6 +3060,8 @@ public struct CreateInterconnectInput: Swift.Sendable {
     public var location: Swift.String?
     /// The name of the service provider associated with the interconnect.
     public var providerName: Swift.String?
+    /// Indicates whether you want the interconnect to support MAC Security (MACsec).
+    public var requestMACSec: Swift.Bool?
     /// The tags to associate with the interconnect.
     public var tags: [DirectConnectClientTypes.Tag]?
 
@@ -2913,6 +3071,7 @@ public struct CreateInterconnectInput: Swift.Sendable {
         lagId: Swift.String? = nil,
         location: Swift.String? = nil,
         providerName: Swift.String? = nil,
+        requestMACSec: Swift.Bool? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
     ) {
         self.bandwidth = bandwidth
@@ -2920,6 +3079,7 @@ public struct CreateInterconnectInput: Swift.Sendable {
         self.lagId = lagId
         self.location = location
         self.providerName = providerName
+        self.requestMACSec = requestMACSec
         self.tags = tags
     }
 }
@@ -2979,6 +3139,8 @@ public struct CreateInterconnectOutput: Swift.Sendable {
     public var awsLogicalDeviceId: Swift.String?
     /// The bandwidth of the connection.
     public var bandwidth: Swift.String?
+    /// The MAC Security (MACsec) encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
+    public var encryptionMode: Swift.String?
     /// Indicates whether the interconnect supports a secondary BGP in the same address family (IPv4/IPv6).
     public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
     /// The ID of the interconnect.
@@ -3009,6 +3171,12 @@ public struct CreateInterconnectOutput: Swift.Sendable {
     public var loaIssueTime: Foundation.Date?
     /// The location of the connection.
     public var location: Swift.String?
+    /// Indicates whether the interconnect supports MAC Security (MACsec).
+    public var macSecCapable: Swift.Bool?
+    /// The MAC Security (MACsec) security keys.
+    public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
+    /// The MAC Security (MACsec) port link status. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
+    public var portEncryptionStatus: Swift.String?
     /// The name of the service provider associated with the interconnect.
     public var providerName: Swift.String?
     /// The Amazon Web Services Region where the connection is located.
@@ -3021,6 +3189,7 @@ public struct CreateInterconnectOutput: Swift.Sendable {
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
         bandwidth: Swift.String? = nil,
+        encryptionMode: Swift.String? = nil,
         hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy? = nil,
         interconnectId: Swift.String? = nil,
         interconnectName: Swift.String? = nil,
@@ -3029,6 +3198,9 @@ public struct CreateInterconnectOutput: Swift.Sendable {
         lagId: Swift.String? = nil,
         loaIssueTime: Foundation.Date? = nil,
         location: Swift.String? = nil,
+        macSecCapable: Swift.Bool? = nil,
+        macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
+        portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
@@ -3037,6 +3209,7 @@ public struct CreateInterconnectOutput: Swift.Sendable {
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
         self.bandwidth = bandwidth
+        self.encryptionMode = encryptionMode
         self.hasLogicalRedundancy = hasLogicalRedundancy
         self.interconnectId = interconnectId
         self.interconnectName = interconnectName
@@ -3045,6 +3218,9 @@ public struct CreateInterconnectOutput: Swift.Sendable {
         self.lagId = lagId
         self.loaIssueTime = loaIssueTime
         self.location = location
+        self.macSecCapable = macSecCapable
+        self.macSecKeys = macSecKeys
+        self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
         self.region = region
         self.tags = tags
@@ -3257,9 +3433,21 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
-        /// This member is required.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        ///
+        ///
+        /// The valid values are 1-2147483646.
         public var asn: Swift.Int
+        /// The long ASN for a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
@@ -3285,6 +3473,7 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
             directConnectGatewayId: Swift.String? = nil,
@@ -3298,6 +3487,7 @@ extension DirectConnectClientTypes {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.directConnectGatewayId = directConnectGatewayId
@@ -3334,10 +3524,20 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
     public var amazonAddress: Swift.String?
-    /// The autonomous system number (ASN) for the Amazon side of the connection.
+    /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    public var asnLong: Swift.Int?
     /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
     public var authKey: Swift.String?
     /// The Direct Connect endpoint that terminates the physical connection.
@@ -3388,6 +3588,8 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
     ///
     /// * down: A virtual interface that is BGP down.
     ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+    ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
     /// * deleted: A virtual interface that cannot forward traffic.
@@ -3406,6 +3608,7 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
         asn: Swift.Int = 0,
+        asnLong: Swift.Int? = nil,
         authKey: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -3433,6 +3636,7 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
         self.asn = asn
+        self.asnLong = asnLong
         self.authKey = authKey
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -3466,9 +3670,18 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
-        /// This member is required.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asn: Swift.Int
+        /// The long ASN for a new public virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
@@ -3488,6 +3701,7 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
             routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
@@ -3498,6 +3712,7 @@ extension DirectConnectClientTypes {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.routeFilterPrefixes = routeFilterPrefixes
@@ -3531,10 +3746,20 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
     public var amazonAddress: Swift.String?
-    /// The autonomous system number (ASN) for the Amazon side of the connection.
+    /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    public var asnLong: Swift.Int?
     /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
     public var authKey: Swift.String?
     /// The Direct Connect endpoint that terminates the physical connection.
@@ -3585,6 +3810,8 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
     ///
     /// * down: A virtual interface that is BGP down.
     ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+    ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
     /// * deleted: A virtual interface that cannot forward traffic.
@@ -3603,6 +3830,7 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
         asn: Swift.Int = 0,
+        asnLong: Swift.Int? = nil,
         authKey: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -3630,6 +3858,7 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
         self.asn = asn
+        self.asnLong = asnLong
         self.authKey = authKey
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -3663,8 +3892,18 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asn: Swift.Int
+        /// The long ASN for a new transit virtual interface.The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
@@ -3686,6 +3925,7 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
             directConnectGatewayId: Swift.String? = nil,
@@ -3698,6 +3938,7 @@ extension DirectConnectClientTypes {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.directConnectGatewayId = directConnectGatewayId
@@ -3739,8 +3980,18 @@ public struct CreateTransitVirtualInterfaceOutput: Swift.Sendable {
 }
 
 public struct DeleteBGPPeerInput: Swift.Sendable {
-    /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asn: Swift.Int?
+    /// The long ASN for the BGP peer to be deleted from a Direct Connect virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    public var asnLong: Swift.Int?
     /// The ID of the BGP peer.
     public var bgpPeerId: Swift.String?
     /// The IP address assigned to the customer interface.
@@ -3750,11 +4001,13 @@ public struct DeleteBGPPeerInput: Swift.Sendable {
 
     public init(
         asn: Swift.Int? = 0,
+        asnLong: Swift.Int? = nil,
         bgpPeerId: Swift.String? = nil,
         customerAddress: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
     ) {
         self.asn = asn
+        self.asnLong = asnLong
         self.bgpPeerId = bgpPeerId
         self.customerAddress = customerAddress
         self.virtualInterfaceId = virtualInterfaceId
@@ -3837,6 +4090,8 @@ public struct DeleteConnectionOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -3867,6 +4122,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -3890,6 +4146,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -4156,6 +4413,8 @@ public struct DeleteVirtualInterfaceOutput: Swift.Sendable {
     ///
     /// * down: A virtual interface that is BGP down.
     ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+    ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
     /// * deleted: A virtual interface that cannot forward traffic.
@@ -4251,22 +4510,34 @@ public struct DescribeConnectionLoaOutput: Swift.Sendable {
 public struct DescribeConnectionsInput: Swift.Sendable {
     /// The ID of the connection.
     public var connectionId: Swift.String?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
 
     public init(
-        connectionId: Swift.String? = nil
+        connectionId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.connectionId = connectionId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
     }
 }
 
 public struct DescribeConnectionsOutput: Swift.Sendable {
     /// The connections.
     public var connections: [DirectConnectClientTypes.Connection]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
 
     public init(
-        connections: [DirectConnectClientTypes.Connection]? = nil
+        connections: [DirectConnectClientTypes.Connection]? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.connections = connections
+        self.nextToken = nextToken
     }
 }
 
@@ -4285,11 +4556,15 @@ public struct DescribeConnectionsOnInterconnectInput: Swift.Sendable {
 public struct DescribeConnectionsOnInterconnectOutput: Swift.Sendable {
     /// The connections.
     public var connections: [DirectConnectClientTypes.Connection]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
 
     public init(
-        connections: [DirectConnectClientTypes.Connection]? = nil
+        connections: [DirectConnectClientTypes.Connection]? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.connections = connections
+        self.nextToken = nextToken
     }
 }
 
@@ -4621,22 +4896,34 @@ public struct DescribeHostedConnectionsInput: Swift.Sendable {
     /// The ID of the interconnect or LAG.
     /// This member is required.
     public var connectionId: Swift.String?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
 
     public init(
-        connectionId: Swift.String? = nil
+        connectionId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.connectionId = connectionId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
     }
 }
 
 public struct DescribeHostedConnectionsOutput: Swift.Sendable {
     /// The connections.
     public var connections: [DirectConnectClientTypes.Connection]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
 
     public init(
-        connections: [DirectConnectClientTypes.Connection]? = nil
+        connections: [DirectConnectClientTypes.Connection]? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.connections = connections
+        self.nextToken = nextToken
     }
 }
 
@@ -4674,11 +4961,19 @@ public struct DescribeInterconnectLoaOutput: Swift.Sendable {
 public struct DescribeInterconnectsInput: Swift.Sendable {
     /// The ID of the interconnect.
     public var interconnectId: Swift.String?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
 
     public init(
-        interconnectId: Swift.String? = nil
+        interconnectId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.interconnectId = interconnectId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
     }
 }
 
@@ -4695,6 +4990,8 @@ extension DirectConnectClientTypes {
         public var awsLogicalDeviceId: Swift.String?
         /// The bandwidth of the connection.
         public var bandwidth: Swift.String?
+        /// The MAC Security (MACsec) encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
+        public var encryptionMode: Swift.String?
         /// Indicates whether the interconnect supports a secondary BGP in the same address family (IPv4/IPv6).
         public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
         /// The ID of the interconnect.
@@ -4725,6 +5022,12 @@ extension DirectConnectClientTypes {
         public var loaIssueTime: Foundation.Date?
         /// The location of the connection.
         public var location: Swift.String?
+        /// Indicates whether the interconnect supports MAC Security (MACsec).
+        public var macSecCapable: Swift.Bool?
+        /// The MAC Security (MACsec) security keys.
+        public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
+        /// The MAC Security (MACsec) port link status. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
+        public var portEncryptionStatus: Swift.String?
         /// The name of the service provider associated with the interconnect.
         public var providerName: Swift.String?
         /// The Amazon Web Services Region where the connection is located.
@@ -4737,6 +5040,7 @@ extension DirectConnectClientTypes {
             awsDeviceV2: Swift.String? = nil,
             awsLogicalDeviceId: Swift.String? = nil,
             bandwidth: Swift.String? = nil,
+            encryptionMode: Swift.String? = nil,
             hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy? = nil,
             interconnectId: Swift.String? = nil,
             interconnectName: Swift.String? = nil,
@@ -4745,6 +5049,9 @@ extension DirectConnectClientTypes {
             lagId: Swift.String? = nil,
             loaIssueTime: Foundation.Date? = nil,
             location: Swift.String? = nil,
+            macSecCapable: Swift.Bool? = nil,
+            macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
+            portEncryptionStatus: Swift.String? = nil,
             providerName: Swift.String? = nil,
             region: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil
@@ -4753,6 +5060,7 @@ extension DirectConnectClientTypes {
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
             self.bandwidth = bandwidth
+            self.encryptionMode = encryptionMode
             self.hasLogicalRedundancy = hasLogicalRedundancy
             self.interconnectId = interconnectId
             self.interconnectName = interconnectName
@@ -4761,6 +5069,9 @@ extension DirectConnectClientTypes {
             self.lagId = lagId
             self.loaIssueTime = loaIssueTime
             self.location = location
+            self.macSecCapable = macSecCapable
+            self.macSecKeys = macSecKeys
+            self.portEncryptionStatus = portEncryptionStatus
             self.providerName = providerName
             self.region = region
             self.tags = tags
@@ -4771,22 +5082,34 @@ extension DirectConnectClientTypes {
 public struct DescribeInterconnectsOutput: Swift.Sendable {
     /// The interconnects.
     public var interconnects: [DirectConnectClientTypes.Interconnect]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
 
     public init(
-        interconnects: [DirectConnectClientTypes.Interconnect]? = nil
+        interconnects: [DirectConnectClientTypes.Interconnect]? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.interconnects = interconnects
+        self.nextToken = nextToken
     }
 }
 
 public struct DescribeLagsInput: Swift.Sendable {
     /// The ID of the LAG.
     public var lagId: Swift.String?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
 
     public init(
-        lagId: Swift.String? = nil
+        lagId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.lagId = lagId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
     }
 }
 
@@ -4903,11 +5226,15 @@ extension DirectConnectClientTypes {
 public struct DescribeLagsOutput: Swift.Sendable {
     /// The LAGs.
     public var lags: [DirectConnectClientTypes.Lag]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
 
     public init(
-        lags: [DirectConnectClientTypes.Lag]? = nil
+        lags: [DirectConnectClientTypes.Lag]? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.lags = lags
+        self.nextToken = nextToken
     }
 }
 
@@ -5151,25 +5478,37 @@ public struct DescribeVirtualGatewaysOutput: Swift.Sendable {
 public struct DescribeVirtualInterfacesInput: Swift.Sendable {
     /// The ID of the connection.
     public var connectionId: Swift.String?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
     /// The ID of the virtual interface.
     public var virtualInterfaceId: Swift.String?
 
     public init(
         connectionId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
     ) {
         self.connectionId = connectionId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
         self.virtualInterfaceId = virtualInterfaceId
     }
 }
 
 public struct DescribeVirtualInterfacesOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
     /// The virtual interfaces
     public var virtualInterfaces: [DirectConnectClientTypes.VirtualInterface]?
 
     public init(
+        nextToken: Swift.String? = nil,
         virtualInterfaces: [DirectConnectClientTypes.VirtualInterface]? = nil
     ) {
+        self.nextToken = nextToken
         self.virtualInterfaces = virtualInterfaces
     }
 }
@@ -5244,6 +5583,8 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -5274,6 +5615,7 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -5297,6 +5639,7 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -5307,7 +5650,7 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
 }
 
 public struct DisassociateMacSecKeyInput: Swift.Sendable {
-    /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx). You can use [DescribeConnections] or [DescribeLags] to retrieve connection ID.
+    /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx). You can use [DescribeConnections], [DescribeInterconnects], or [DescribeLags] to retrieve connection ID.
     /// This member is required.
     public var connectionId: Swift.String?
     /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key. You can use [DescribeConnections] to retrieve the ARN of the MAC Security (MACsec) secret key.
@@ -5324,9 +5667,9 @@ public struct DisassociateMacSecKeyInput: Swift.Sendable {
 }
 
 public struct DisassociateMacSecKeyOutput: Swift.Sendable {
-    /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx).
+    /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx).
     public var connectionId: Swift.String?
-    /// The MAC Security (MACsec) security keys no longer associated with the dedicated connection.
+    /// The MAC Security (MACsec) security keys no longer associated with the connection.
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
 
     public init(
@@ -5526,7 +5869,7 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateConnectionInput: Swift.Sendable {
-    /// The ID of the dedicated connection. You can use [DescribeConnections] to retrieve the connection ID.
+    /// The ID of the connection. You can use [DescribeConnections] to retrieve the connection ID.
     /// This member is required.
     public var connectionId: Swift.String?
     /// The name of the connection.
@@ -5598,6 +5941,8 @@ public struct UpdateConnectionOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -5628,6 +5973,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -5651,6 +5997,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -5879,10 +6226,20 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
     public var amazonAddress: Swift.String?
-    /// The autonomous system number (ASN) for the Amazon side of the connection.
+    /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    public var asnLong: Swift.Int?
     /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
     public var authKey: Swift.String?
     /// The Direct Connect endpoint that terminates the physical connection.
@@ -5933,6 +6290,8 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
     ///
     /// * down: A virtual interface that is BGP down.
     ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+    ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
     /// * deleted: A virtual interface that cannot forward traffic.
@@ -5951,6 +6310,7 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
         asn: Swift.Int = 0,
+        asnLong: Swift.Int? = nil,
         authKey: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -5978,6 +6338,7 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
         self.asn = asn
+        self.asnLong = asnLong
         self.authKey = authKey
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -6620,6 +6981,7 @@ extension CreateDirectConnectGatewayInput {
         guard let value else { return }
         try writer["amazonSideAsn"].write(value.amazonSideAsn)
         try writer["directConnectGatewayName"].write(value.directConnectGatewayName)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6655,6 +7017,7 @@ extension CreateInterconnectInput {
         try writer["lagId"].write(value.lagId)
         try writer["location"].write(value.location)
         try writer["providerName"].write(value.providerName)
+        try writer["requestMACSec"].write(value.requestMACSec)
         try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -6707,6 +7070,7 @@ extension DeleteBGPPeerInput {
     static func write(value: DeleteBGPPeerInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["bgpPeerId"].write(value.bgpPeerId)
         try writer["customerAddress"].write(value.customerAddress)
         try writer["virtualInterfaceId"].write(value.virtualInterfaceId)
@@ -6786,6 +7150,8 @@ extension DescribeConnectionsInput {
     static func write(value: DescribeConnectionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["connectionId"].write(value.connectionId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -6856,6 +7222,8 @@ extension DescribeHostedConnectionsInput {
     static func write(value: DescribeHostedConnectionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["connectionId"].write(value.connectionId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -6874,6 +7242,8 @@ extension DescribeInterconnectsInput {
     static func write(value: DescribeInterconnectsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["interconnectId"].write(value.interconnectId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -6882,6 +7252,8 @@ extension DescribeLagsInput {
     static func write(value: DescribeLagsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["lagId"].write(value.lagId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -6933,6 +7305,8 @@ extension DescribeVirtualInterfacesInput {
     static func write(value: DescribeVirtualInterfacesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["connectionId"].write(value.connectionId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
         try writer["virtualInterfaceId"].write(value.virtualInterfaceId)
     }
 }
@@ -7090,6 +7464,7 @@ extension AllocateConnectionOnInterconnectOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -7123,6 +7498,7 @@ extension AllocateHostedConnectionOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -7144,6 +7520,7 @@ extension AllocatePrivateVirtualInterfaceOutput {
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
         value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
@@ -7181,6 +7558,7 @@ extension AllocatePublicVirtualInterfaceOutput {
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
         value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
@@ -7242,6 +7620,7 @@ extension AssociateConnectionWithLagOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -7275,6 +7654,7 @@ extension AssociateHostedConnectionOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -7309,6 +7689,7 @@ extension AssociateVirtualInterfaceOutput {
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
         value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
@@ -7430,6 +7811,7 @@ extension CreateConnectionOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -7487,6 +7869,7 @@ extension CreateInterconnectOutput {
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
         value.bandwidth = try reader["bandwidth"].readIfPresent()
+        value.encryptionMode = try reader["encryptionMode"].readIfPresent()
         value.hasLogicalRedundancy = try reader["hasLogicalRedundancy"].readIfPresent()
         value.interconnectId = try reader["interconnectId"].readIfPresent()
         value.interconnectName = try reader["interconnectName"].readIfPresent()
@@ -7495,6 +7878,9 @@ extension CreateInterconnectOutput {
         value.lagId = try reader["lagId"].readIfPresent()
         value.loaIssueTime = try reader["loaIssueTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.location = try reader["location"].readIfPresent()
+        value.macSecCapable = try reader["macSecCapable"].readIfPresent()
+        value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
         value.region = try reader["region"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7545,6 +7931,7 @@ extension CreatePrivateVirtualInterfaceOutput {
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
         value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
@@ -7582,6 +7969,7 @@ extension CreatePublicVirtualInterfaceOutput {
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
         value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
@@ -7655,6 +8043,7 @@ extension DeleteConnectionOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -7777,6 +8166,7 @@ extension DescribeConnectionsOutput {
         let reader = responseReader
         var value = DescribeConnectionsOutput()
         value.connections = try reader["connections"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Connection.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -7789,6 +8179,7 @@ extension DescribeConnectionsOnInterconnectOutput {
         let reader = responseReader
         var value = DescribeConnectionsOnInterconnectOutput()
         value.connections = try reader["connections"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Connection.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -7866,6 +8257,7 @@ extension DescribeHostedConnectionsOutput {
         let reader = responseReader
         var value = DescribeHostedConnectionsOutput()
         value.connections = try reader["connections"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Connection.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -7890,6 +8282,7 @@ extension DescribeInterconnectsOutput {
         let reader = responseReader
         var value = DescribeInterconnectsOutput()
         value.interconnects = try reader["interconnects"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Interconnect.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -7902,6 +8295,7 @@ extension DescribeLagsOutput {
         let reader = responseReader
         var value = DescribeLagsOutput()
         value.lags = try reader["lags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Lag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -7977,6 +8371,7 @@ extension DescribeVirtualInterfacesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeVirtualInterfacesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
         value.virtualInterfaces = try reader["virtualInterfaces"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.VirtualInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -8005,6 +8400,7 @@ extension DisassociateConnectionFromLagOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -8102,6 +8498,7 @@ extension UpdateConnectionOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -8179,6 +8576,7 @@ extension UpdateVirtualInterfaceAttributesOutput {
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
         value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
@@ -9172,11 +9570,11 @@ enum UpdateVirtualInterfaceAttributesOutputError {
     }
 }
 
-extension DirectConnectServerException {
+extension DirectConnectClientException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectConnectServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectConnectClientException {
         let reader = baseError.errorBodyReader
-        var value = DirectConnectServerException()
+        var value = DirectConnectClientException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9185,11 +9583,11 @@ extension DirectConnectServerException {
     }
 }
 
-extension DirectConnectClientException {
+extension DirectConnectServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectConnectClientException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectConnectServerException {
         let reader = baseError.errorBodyReader
-        var value = DirectConnectClientException()
+        var value = DirectConnectServerException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9321,6 +9719,7 @@ extension DirectConnectClientTypes.BGPPeer {
         var value = DirectConnectClientTypes.BGPPeer()
         value.bgpPeerId = try reader["bgpPeerId"].readIfPresent()
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.addressFamily = try reader["addressFamily"].readIfPresent()
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
@@ -9346,6 +9745,7 @@ extension DirectConnectClientTypes.VirtualInterface {
         value.virtualInterfaceName = try reader["virtualInterfaceName"].readIfPresent()
         value.vlan = try reader["vlan"].readIfPresent() ?? 0
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
@@ -9379,6 +9779,7 @@ extension DirectConnectClientTypes.DirectConnectGateway {
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
         value.directConnectGatewayState = try reader["directConnectGatewayState"].readIfPresent()
         value.stateChangeError = try reader["stateChangeError"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9426,6 +9827,7 @@ extension DirectConnectClientTypes.Connection {
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.encryptionMode = try reader["encryptionMode"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         return value
     }
 }
@@ -9488,6 +9890,10 @@ extension DirectConnectClientTypes.Interconnect {
         value.hasLogicalRedundancy = try reader["hasLogicalRedundancy"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.providerName = try reader["providerName"].readIfPresent()
+        value.macSecCapable = try reader["macSecCapable"].readIfPresent()
+        value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
+        value.encryptionMode = try reader["encryptionMode"].readIfPresent()
+        value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9598,6 +10004,7 @@ extension DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation {
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
         try writer["mtu"].write(value.mtu)
@@ -9614,6 +10021,7 @@ extension DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation {
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
         try writer["routeFilterPrefixes"].writeList(value.routeFilterPrefixes, memberWritingClosure: DirectConnectClientTypes.RouteFilterPrefix.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9630,6 +10038,7 @@ extension DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation {
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
         try writer["mtu"].write(value.mtu)
@@ -9646,6 +10055,7 @@ extension DirectConnectClientTypes.NewBGPPeer {
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
     }
@@ -9658,6 +10068,7 @@ extension DirectConnectClientTypes.NewPrivateVirtualInterface {
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
         try writer["directConnectGatewayId"].write(value.directConnectGatewayId)
@@ -9677,6 +10088,7 @@ extension DirectConnectClientTypes.NewPublicVirtualInterface {
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
         try writer["routeFilterPrefixes"].writeList(value.routeFilterPrefixes, memberWritingClosure: DirectConnectClientTypes.RouteFilterPrefix.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9693,6 +10105,7 @@ extension DirectConnectClientTypes.NewTransitVirtualInterface {
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
         try writer["directConnectGatewayId"].write(value.directConnectGatewayId)

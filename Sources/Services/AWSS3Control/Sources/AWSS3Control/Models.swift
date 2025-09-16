@@ -83,6 +83,11 @@ public struct DeleteAccessPointPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteAccessPointScopeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteBucketLifecycleConfigurationOutput: Swift.Sendable {
 
     public init() { }
@@ -139,6 +144,11 @@ public struct PutAccessPointPolicyForObjectLambdaOutput: Swift.Sendable {
 }
 
 public struct PutAccessPointPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct PutAccessPointScopeOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -522,6 +532,10 @@ extension S3ControlClientTypes {
         public var bucket: Swift.String?
         /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
         public var bucketAccountId: Swift.String?
+        /// A unique identifier for the data source of the access point.
+        public var dataSourceId: Swift.String?
+        /// The type of the data source that the access point is attached to.
+        public var dataSourceType: Swift.String?
         /// The name of this access point.
         /// This member is required.
         public var name: Swift.String?
@@ -536,6 +550,8 @@ extension S3ControlClientTypes {
             alias: Swift.String? = nil,
             bucket: Swift.String? = nil,
             bucketAccountId: Swift.String? = nil,
+            dataSourceId: Swift.String? = nil,
+            dataSourceType: Swift.String? = nil,
             name: Swift.String? = nil,
             networkOrigin: S3ControlClientTypes.NetworkOrigin? = nil,
             vpcConfiguration: S3ControlClientTypes.VpcConfiguration? = nil
@@ -544,6 +560,8 @@ extension S3ControlClientTypes {
             self.alias = alias
             self.bucket = bucket
             self.bucketAccountId = bucketAccountId
+            self.dataSourceId = dataSourceId
+            self.dataSourceType = dataSourceType
             self.name = name
             self.networkOrigin = networkOrigin
             self.vpcConfiguration = vpcConfiguration
@@ -1123,7 +1141,7 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
-    /// An Amazon Web Services resource tag that's associated with your S3 resource. You can add tags to new objects when you upload them, or you can add object tags to existing objects. This operation is only supported for [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html) and for [S3 Access Grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html). The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+    /// A key-value pair that you use to label your resources. You can add tags to new resources when you create them, or you can add tags to existing resources. Tags can help you organize, track costs for, and control access to resources.
     public struct Tag: Swift.Sendable {
         /// The key of the key-value pair of a tag added to your Amazon Web Services resource. A tag key can be up to 128 Unicode characters in length and is case-sensitive. System created tags that begin with aws: aren’t supported.
         /// This member is required.
@@ -1345,6 +1363,72 @@ public struct CreateAccessGrantsLocationOutput: Swift.Sendable {
     }
 }
 
+extension S3ControlClientTypes {
+
+    public enum ScopePermission: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case abortmultipartupload
+        case deleteobject
+        case getobject
+        case getobjectattributes
+        case listbucket
+        case listbucketmultipartuploads
+        case listmultipartuploadparts
+        case putobject
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScopePermission] {
+            return [
+                .abortmultipartupload,
+                .deleteobject,
+                .getobject,
+                .getobjectattributes,
+                .listbucket,
+                .listbucketmultipartuploads,
+                .listmultipartuploadparts,
+                .putobject
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .abortmultipartupload: return "AbortMultipartUpload"
+            case .deleteobject: return "DeleteObject"
+            case .getobject: return "GetObject"
+            case .getobjectattributes: return "GetObjectAttributes"
+            case .listbucket: return "ListBucket"
+            case .listbucketmultipartuploads: return "ListBucketMultipartUploads"
+            case .listmultipartuploadparts: return "ListMultipartUploadParts"
+            case .putobject: return "PutObject"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both. For more information, see [Manage the scope of your access points for directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets-manage-scope.html).
+    public struct Scope: Swift.Sendable {
+        /// You can include one or more API operations as permissions.
+        public var permissions: [S3ControlClientTypes.ScopePermission]?
+        /// You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size.
+        public var prefixes: [Swift.String]?
+
+        public init(
+            permissions: [S3ControlClientTypes.ScopePermission]? = nil,
+            prefixes: [Swift.String]? = nil
+        ) {
+            self.permissions = permissions
+            self.prefixes = prefixes
+        }
+    }
+}
+
 public struct CreateAccessPointInput: Swift.Sendable {
     /// The Amazon Web Services account ID for the account that owns the specified access point.
     /// This member is required.
@@ -1354,11 +1438,19 @@ public struct CreateAccessPointInput: Swift.Sendable {
     public var bucket: Swift.String?
     /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point. For same account access point when your bucket and access point belong to the same account owner, the BucketAccountId is not required. For cross-account access point when your bucket and access point are not in the same account, the BucketAccountId is required.
     public var bucketAccountId: Swift.String?
-    /// The name you want to assign to this access point.
+    /// The name you want to assign to this access point. For directory buckets, the access point name must consist of a base name that you provide and suffix that includes the ZoneID (Amazon Web Services Availability Zone or Local Zone) of your bucket location, followed by --xa-s3. For more information, see [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var name: Swift.String?
     /// The PublicAccessBlock configuration that you want to apply to the access point.
     public var publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration?
+    /// For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the Amazon S3 User Guide. Scope is only supported for access points attached to directory buckets.
+    public var scope: S3ControlClientTypes.Scope?
+    /// An array of tags that you can apply to an access point. Tags are key-value pairs of metadata used to control access to your access points. For more information about tags, see [Using tags with Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html). For information about tagging access points, see [Using tags for attribute-based access control (ABAC)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#using-tags-for-abac).
+    ///
+    /// * You must have the s3:TagResource permission to create an access point with tags for a general purpose bucket.
+    ///
+    /// * You must have the s3express:TagResource permission to create an access point with tags for a directory bucket.
+    public var tags: [S3ControlClientTypes.Tag]?
     /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC). This is required for creating an access point for Amazon S3 on Outposts buckets.
     public var vpcConfiguration: S3ControlClientTypes.VpcConfiguration?
 
@@ -1368,6 +1460,8 @@ public struct CreateAccessPointInput: Swift.Sendable {
         bucketAccountId: Swift.String? = nil,
         name: Swift.String? = nil,
         publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration? = nil,
+        scope: S3ControlClientTypes.Scope? = nil,
+        tags: [S3ControlClientTypes.Tag]? = nil,
         vpcConfiguration: S3ControlClientTypes.VpcConfiguration? = nil
     ) {
         self.accountId = accountId
@@ -1375,6 +1469,8 @@ public struct CreateAccessPointInput: Swift.Sendable {
         self.bucketAccountId = bucketAccountId
         self.name = name
         self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
+        self.scope = scope
+        self.tags = tags
         self.vpcConfiguration = vpcConfiguration
     }
 }
@@ -2051,6 +2147,85 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
+    /// A filter that returns objects that are encrypted by dual-layer server-side encryption with Amazon Web Services Key Management Service (KMS) keys (DSSE-KMS). You can further refine your filtering by optionally providing a KMS Key ARN to create an object list of DSSE-KMS objects with that specific KMS Key ARN.
+    public struct DSSEKMSFilter: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for the filter to return objects that are encrypted by the specified key. For best performance, we recommend using the KMSKeyArn filter in conjunction with other object metadata filters, like MatchAnyPrefix, CreatedAfter, or MatchAnyStorageClass. You must provide the full KMS Key ARN. You can't use an alias name or alias ARN. For more information, see [ KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Amazon Web Services Key Management Service Developer Guide.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A filter that returns objects that aren't server-side encrypted.
+    public struct NotSSEFilter: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A filter that returns objects that are encrypted by server-side encryption with customer-provided keys (SSE-C).
+    public struct SSECFilter: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A filter that returns objects that are encrypted by server-side encryption with Amazon Web Services KMS (SSE-KMS).
+    public struct SSEKMSFilter: Swift.Sendable {
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Amazon Web Services Key Management Service (Amazon Web Services KMS) keys (SSE-KMS). If specified, will filter SSE-KMS encrypted objects by S3 Bucket Key status. For more information, see [Reducing the cost of SSE-KMS with Amazon S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html) in the Amazon S3 User Guide.
+        public var bucketKeyEnabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for the filter to return objects that are encrypted by the specified key. For best performance, we recommend using the KMSKeyArn filter in conjunction with other object metadata filters, like MatchAnyPrefix, CreatedAfter, or MatchAnyStorageClass. You must provide the full KMS Key ARN. You can't use an alias name or alias ARN. For more information, see [ KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Amazon Web Services Key Management Service Developer Guide.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            bucketKeyEnabled: Swift.Bool? = false,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.bucketKeyEnabled = bucketKeyEnabled
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A filter that returns objects that are encrypted by server-side encryption with Amazon S3 managed keys (SSE-S3).
+    public struct SSES3Filter: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// An optional filter for the S3JobManifestGenerator that identifies the subset of objects by encryption type. This filter is used to create an object list for S3 Batch Operations jobs. If provided, this filter will generate an object list that only includes objects with the specified encryption type.
+    public enum ObjectEncryptionFilter: Swift.Sendable {
+        /// Filters for objects that are encrypted by server-side encryption with Amazon S3 managed keys (SSE-S3).
+        case sses3(S3ControlClientTypes.SSES3Filter)
+        /// Filters for objects that are encrypted by server-side encryption with Amazon Web Services Key Management Service (KMS) keys (SSE-KMS).
+        case ssekms(S3ControlClientTypes.SSEKMSFilter)
+        /// Filters for objects that are encrypted by dual-layer server-side encryption with Amazon Web Services Key Management Service (KMS) keys (DSSE-KMS).
+        case dssekms(S3ControlClientTypes.DSSEKMSFilter)
+        /// Filters for objects that are encrypted by server-side encryption with customer-provided keys (SSE-C).
+        case ssec(S3ControlClientTypes.SSECFilter)
+        /// Filters for objects that are not encrypted by server-side encryption.
+        case notsse(S3ControlClientTypes.NotSSEFilter)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension S3ControlClientTypes {
+
     public enum S3StorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case glacier
@@ -2140,6 +2315,8 @@ extension S3ControlClientTypes {
         public var eligibleForReplication: Swift.Bool?
         /// If provided, the generated manifest includes only source bucket objects whose object keys match the string constraints specified for MatchAnyPrefix, MatchAnySuffix, and MatchAnySubstring.
         public var keyNameConstraint: S3ControlClientTypes.KeyNameConstraint?
+        /// If provided, the generated object list includes only source bucket objects with the indicated server-side encryption type (SSE-S3, SSE-KMS, DSSE-KMS, SSE-C, or NOT-SSE). If you select SSE-KMS or DSSE-KMS, you can optionally further filter your results by specifying a specific KMS Key ARN. If you select SSE-KMS, you can also optionally further filter your results by Bucket Key enabled status.
+        public var matchAnyObjectEncryption: [S3ControlClientTypes.ObjectEncryptionFilter]?
         /// If provided, the generated manifest includes only source bucket objects that are stored with the specified storage class.
         public var matchAnyStorageClass: [S3ControlClientTypes.S3StorageClass]?
         /// If provided, the generated manifest includes only source bucket objects that have one of the specified Replication statuses.
@@ -2154,6 +2331,7 @@ extension S3ControlClientTypes {
             createdBefore: Foundation.Date? = nil,
             eligibleForReplication: Swift.Bool? = false,
             keyNameConstraint: S3ControlClientTypes.KeyNameConstraint? = nil,
+            matchAnyObjectEncryption: [S3ControlClientTypes.ObjectEncryptionFilter]? = nil,
             matchAnyStorageClass: [S3ControlClientTypes.S3StorageClass]? = nil,
             objectReplicationStatuses: [S3ControlClientTypes.ReplicationStatus]? = nil,
             objectSizeGreaterThanBytes: Swift.Int? = 0,
@@ -2163,6 +2341,7 @@ extension S3ControlClientTypes {
             self.createdBefore = createdBefore
             self.eligibleForReplication = eligibleForReplication
             self.keyNameConstraint = keyNameConstraint
+            self.matchAnyObjectEncryption = matchAnyObjectEncryption
             self.matchAnyStorageClass = matchAnyStorageClass
             self.objectReplicationStatuses = objectReplicationStatuses
             self.objectSizeGreaterThanBytes = objectSizeGreaterThanBytes
@@ -2336,6 +2515,95 @@ extension S3ControlClientTypes {
             self.functionArn = functionArn
             self.invocationSchemaVersion = invocationSchemaVersion
             self.userArguments = userArguments
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    public enum ComputeObjectChecksumAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case crc32
+        case crc32c
+        case crc64nvme
+        case md5
+        case sha1
+        case sha256
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComputeObjectChecksumAlgorithm] {
+            return [
+                .crc32,
+                .crc32c,
+                .crc64nvme,
+                .md5,
+                .sha1,
+                .sha256
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .crc32: return "CRC32"
+            case .crc32c: return "CRC32C"
+            case .crc64nvme: return "CRC64NVME"
+            case .md5: return "MD5"
+            case .sha1: return "SHA1"
+            case .sha256: return "SHA256"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    public enum ComputeObjectChecksumType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case composite
+        case fullObject
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComputeObjectChecksumType] {
+            return [
+                .composite,
+                .fullObject
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .composite: return "COMPOSITE"
+            case .fullObject: return "FULL_OBJECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// Directs the specified job to invoke the ComputeObjectChecksum operation on every object listed in the job's manifest.
+    public struct S3ComputeObjectChecksumOperation: Swift.Sendable {
+        /// Indicates the algorithm that you want Amazon S3 to use to create the checksum. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        public var checksumAlgorithm: S3ControlClientTypes.ComputeObjectChecksumAlgorithm?
+        /// Indicates the checksum type that you want Amazon S3 to use to calculate the object’s checksum value. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        public var checksumType: S3ControlClientTypes.ComputeObjectChecksumType?
+
+        public init(
+            checksumAlgorithm: S3ControlClientTypes.ComputeObjectChecksumAlgorithm? = nil,
+            checksumType: S3ControlClientTypes.ComputeObjectChecksumType? = nil
+        ) {
+            self.checksumAlgorithm = checksumAlgorithm
+            self.checksumType = checksumType
         }
     }
 }
@@ -3073,6 +3341,8 @@ extension S3ControlClientTypes {
     public struct JobOperation: Swift.Sendable {
         /// Directs the specified job to invoke an Lambda function on every object in the manifest.
         public var lambdaInvoke: S3ControlClientTypes.LambdaInvokeOperation?
+        /// Directs the specified job to compute checksum values for every object in the manifest.
+        public var s3ComputeObjectChecksum: S3ControlClientTypes.S3ComputeObjectChecksumOperation?
         /// Directs the specified job to execute a DELETE Object tagging call on every object in the manifest. This functionality is not supported by directory buckets.
         public var s3DeleteObjectTagging: S3ControlClientTypes.S3DeleteObjectTaggingOperation?
         /// Directs the specified job to initiate restore requests for every archived object in the manifest. This functionality is not supported by directory buckets.
@@ -3092,6 +3362,7 @@ extension S3ControlClientTypes {
 
         public init(
             lambdaInvoke: S3ControlClientTypes.LambdaInvokeOperation? = nil,
+            s3ComputeObjectChecksum: S3ControlClientTypes.S3ComputeObjectChecksumOperation? = nil,
             s3DeleteObjectTagging: S3ControlClientTypes.S3DeleteObjectTaggingOperation? = nil,
             s3InitiateRestoreObject: S3ControlClientTypes.S3InitiateRestoreObjectOperation? = nil,
             s3PutObjectAcl: S3ControlClientTypes.S3SetObjectAclOperation? = nil,
@@ -3102,6 +3373,7 @@ extension S3ControlClientTypes {
             s3ReplicateObject: S3ControlClientTypes.S3ReplicateObjectOperation? = nil
         ) {
             self.lambdaInvoke = lambdaInvoke
+            self.s3ComputeObjectChecksum = s3ComputeObjectChecksum
             self.s3DeleteObjectTagging = s3DeleteObjectTagging
             self.s3InitiateRestoreObject = s3InitiateRestoreObject
             self.s3PutObjectAcl = s3PutObjectAcl
@@ -3178,6 +3450,8 @@ extension S3ControlClientTypes {
         /// Indicates whether the specified job will generate a job-completion report.
         /// This member is required.
         public var enabled: Swift.Bool
+        /// Lists the Amazon Web Services account ID that owns the target bucket, where the completion report is received.
+        public var expectedBucketOwner: Swift.String?
         /// The format of the specified job-completion report.
         public var format: S3ControlClientTypes.JobReportFormat?
         /// An optional prefix to describe where in the specified bucket the job-completion report will be stored. Amazon S3 stores the job-completion report at /job-/report.json.
@@ -3188,12 +3462,14 @@ extension S3ControlClientTypes {
         public init(
             bucket: Swift.String? = nil,
             enabled: Swift.Bool = false,
+            expectedBucketOwner: Swift.String? = nil,
             format: S3ControlClientTypes.JobReportFormat? = nil,
             `prefix`: Swift.String? = nil,
             reportScope: S3ControlClientTypes.JobReportScope? = nil
         ) {
             self.bucket = bucket
             self.enabled = enabled
+            self.expectedBucketOwner = expectedBucketOwner
             self.format = format
             self.`prefix` = `prefix`
             self.reportScope = reportScope
@@ -3601,6 +3877,23 @@ public struct DeleteAccessPointPolicyForObjectLambdaInput: Swift.Sendable {
     /// This member is required.
     public var accountId: Swift.String?
     /// The name of the Object Lambda Access Point you want to delete the policy for.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+        self.name = name
+    }
+}
+
+public struct DeleteAccessPointScopeInput: Swift.Sendable {
+    /// The Amazon Web Services account ID that owns the access point with the scope that you want to delete.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The name of the access point with the scope that you want to delete.
     /// This member is required.
     public var name: Swift.String?
 
@@ -4386,6 +4679,10 @@ public struct GetAccessPointOutput: Swift.Sendable {
     public var bucketAccountId: Swift.String?
     /// The date and time when the specified access point was created.
     public var creationDate: Foundation.Date?
+    /// The unique identifier for the data source of the access point.
+    public var dataSourceId: Swift.String?
+    /// The type of the data source that the access point is attached to.
+    public var dataSourceType: Swift.String?
     /// The VPC endpoint for the access point.
     public var endpoints: [Swift.String: Swift.String]?
     /// The name of the specified access point.
@@ -4403,6 +4700,8 @@ public struct GetAccessPointOutput: Swift.Sendable {
         bucket: Swift.String? = nil,
         bucketAccountId: Swift.String? = nil,
         creationDate: Foundation.Date? = nil,
+        dataSourceId: Swift.String? = nil,
+        dataSourceType: Swift.String? = nil,
         endpoints: [Swift.String: Swift.String]? = nil,
         name: Swift.String? = nil,
         networkOrigin: S3ControlClientTypes.NetworkOrigin? = nil,
@@ -4414,6 +4713,8 @@ public struct GetAccessPointOutput: Swift.Sendable {
         self.bucket = bucket
         self.bucketAccountId = bucketAccountId
         self.creationDate = creationDate
+        self.dataSourceId = dataSourceId
+        self.dataSourceType = dataSourceType
         self.endpoints = endpoints
         self.name = name
         self.networkOrigin = networkOrigin
@@ -4614,6 +4915,34 @@ public struct GetAccessPointPolicyStatusForObjectLambdaOutput: Swift.Sendable {
         policyStatus: S3ControlClientTypes.PolicyStatus? = nil
     ) {
         self.policyStatus = policyStatus
+    }
+}
+
+public struct GetAccessPointScopeInput: Swift.Sendable {
+    /// The Amazon Web Services account ID that owns the access point with the scope that you want to retrieve.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The name of the access point with the scope you want to retrieve.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+        self.name = name
+    }
+}
+
+public struct GetAccessPointScopeOutput: Swift.Sendable {
+    /// The contents of the access point scope.
+    public var scope: S3ControlClientTypes.Scope?
+
+    public init(
+        scope: S3ControlClientTypes.Scope? = nil
+    ) {
+        self.scope = scope
     }
 }
 
@@ -4893,7 +5222,7 @@ extension S3ControlClientTypes {
         public var id: Swift.String?
         /// The noncurrent version expiration of the lifecycle rule.
         public var noncurrentVersionExpiration: S3ControlClientTypes.NoncurrentVersionExpiration?
-        /// Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime. This is not supported by Amazon S3 on Outposts buckets.
+        /// Specifies the transition rule for the lifecycle rule that describes when non-current objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime. This is not supported by Amazon S3 on Outposts buckets.
         public var noncurrentVersionTransitions: [S3ControlClientTypes.NoncurrentVersionTransition]?
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
         /// This member is required.
@@ -5791,21 +6120,25 @@ extension S3ControlClientTypes.Credentials: Swift.CustomDebugStringConvertible {
 public struct GetDataAccessOutput: Swift.Sendable {
     /// The temporary credential token that S3 Access Grants vends.
     public var credentials: S3ControlClientTypes.Credentials?
+    /// The user, group, or role that was granted access to the S3 location scope. For directory identities, this API also returns the grants of the IAM role used for the identity-aware request. For more information on identity-aware sessions, see [Granting permissions to use identity-aware console sessions](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_sts-setcontext.html).
+    public var grantee: S3ControlClientTypes.Grantee?
     /// The S3 URI path of the data to which you are being granted temporary access credentials.
     public var matchedGrantTarget: Swift.String?
 
     public init(
         credentials: S3ControlClientTypes.Credentials? = nil,
+        grantee: S3ControlClientTypes.Grantee? = nil,
         matchedGrantTarget: Swift.String? = nil
     ) {
         self.credentials = credentials
+        self.grantee = grantee
         self.matchedGrantTarget = matchedGrantTarget
     }
 }
 
 extension GetDataAccessOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDataAccessOutput(matchedGrantTarget: \(Swift.String(describing: matchedGrantTarget)), credentials: \"CONTENT_REDACTED\")"}
+        "GetDataAccessOutput(grantee: \(Swift.String(describing: grantee)), matchedGrantTarget: \(Swift.String(describing: matchedGrantTarget)), credentials: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetJobTaggingInput: Swift.Sendable {
@@ -6695,6 +7028,10 @@ public struct ListAccessPointsInput: Swift.Sendable {
     public var accountId: Swift.String?
     /// The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     public var bucket: Swift.String?
+    /// The unique identifier for the data source of the access point.
+    public var dataSourceId: Swift.String?
+    /// The type of the data source that the access point is attached to. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.
+    public var dataSourceType: Swift.String?
     /// The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
     public var maxResults: Swift.Int?
     /// A continuation token. If a previous call to ListAccessPoints returned a continuation token in the NextToken field, then providing that value here causes Amazon S3 to retrieve the next page of results.
@@ -6703,11 +7040,15 @@ public struct ListAccessPointsInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil,
+        dataSourceId: Swift.String? = nil,
+        dataSourceType: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     ) {
         self.accountId = accountId
         self.bucket = bucket
+        self.dataSourceId = dataSourceId
+        self.dataSourceType = dataSourceType
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6717,6 +7058,45 @@ public struct ListAccessPointsOutput: Swift.Sendable {
     /// Contains identification and configuration information for one or more access points associated with the specified bucket.
     public var accessPointList: [S3ControlClientTypes.AccessPoint]?
     /// If the specified bucket has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
+    public var nextToken: Swift.String?
+
+    public init(
+        accessPointList: [S3ControlClientTypes.AccessPoint]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.accessPointList = accessPointList
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAccessPointsForDirectoryBucketsInput: Swift.Sendable {
+    /// The Amazon Web Services account ID that owns the access points.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The name of the directory bucket associated with the access points you want to list.
+    public var directoryBucket: Swift.String?
+    /// The maximum number of access points that you would like returned in the ListAccessPointsForDirectoryBuckets response. If the directory bucket is associated with more than this number of access points, the results include the pagination token NextToken. Make another call using the NextToken to retrieve more results.
+    public var maxResults: Swift.Int?
+    /// If NextToken is returned, there are more access points available than requested in the maxResults value. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        directoryBucket: Swift.String? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+        self.directoryBucket = directoryBucket
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAccessPointsForDirectoryBucketsOutput: Swift.Sendable {
+    /// Contains identification and configuration information for one or more access points associated with the directory bucket.
+    public var accessPointList: [S3ControlClientTypes.AccessPoint]?
+    /// If NextToken is returned, there are more access points available than requested in the maxResults value. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
     public var nextToken: Swift.String?
 
     public init(
@@ -6933,6 +7313,7 @@ extension S3ControlClientTypes {
 
     public enum OperationName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case lambdainvoke
+        case s3computeobjectchecksum
         case s3deleteobjecttagging
         case s3initiaterestoreobject
         case s3putobjectacl
@@ -6946,6 +7327,7 @@ extension S3ControlClientTypes {
         public static var allCases: [OperationName] {
             return [
                 .lambdainvoke,
+                .s3computeobjectchecksum,
                 .s3deleteobjecttagging,
                 .s3initiaterestoreobject,
                 .s3putobjectacl,
@@ -6965,6 +7347,7 @@ extension S3ControlClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .lambdainvoke: return "LambdaInvoke"
+            case .s3computeobjectchecksum: return "S3ComputeObjectChecksum"
             case .s3deleteobjecttagging: return "S3DeleteObjectTagging"
             case .s3initiaterestoreobject: return "S3InitiateRestoreObject"
             case .s3putobjectacl: return "S3PutObjectAcl"
@@ -7267,7 +7650,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Web Services account ID of the resource owner.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the S3 resource that you want to list the tags for. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+    /// The Amazon Resource Name (ARN) of the S3 resource that you want to list tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -7360,7 +7743,7 @@ public struct PutAccessPointPolicyInput: Swift.Sendable {
     /// The name of the access point that you want to associate with the specified policy. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
     /// This member is required.
     public var name: Swift.String?
-    /// The policy that you want to apply to the specified access point. For more information about access point policies, see [Managing data access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) in the Amazon S3 User Guide.
+    /// The policy that you want to apply to the specified access point. For more information about access point policies, see [Managing data access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) or [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var policy: Swift.String?
 
@@ -7394,6 +7777,28 @@ public struct PutAccessPointPolicyForObjectLambdaInput: Swift.Sendable {
         self.accountId = accountId
         self.name = name
         self.policy = policy
+    }
+}
+
+public struct PutAccessPointScopeInput: Swift.Sendable {
+    /// The Amazon Web Services account ID that owns the access point with scope that you want to create or replace.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The name of the access point with the scope that you want to create or replace.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Object prefixes, API operations, or a combination of both.
+    /// This member is required.
+    public var scope: S3ControlClientTypes.Scope?
+
+    public init(
+        accountId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        scope: S3ControlClientTypes.Scope? = nil
+    ) {
+        self.accountId = accountId
+        self.name = name
+        self.scope = scope
     }
 }
 
@@ -7777,7 +8182,7 @@ public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Web Services account ID that created the S3 resource that you're trying to add tags to or the requester's account ID.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the S3 resource that you're trying to add tags to. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+    /// The Amazon Resource Name (ARN) of the S3 resource that you're applying tags to. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The Amazon Web Services resource tags that you want to add to the specified S3 resource.
@@ -7804,7 +8209,7 @@ public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Web Services account ID that owns the resource that you're trying to remove the tags from.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the S3 resource that you're trying to remove the tags from.
+    /// The Amazon Resource Name (ARN) of the S3 resource that you're removing tags from. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The array of tag key-value pairs that you're trying to remove from of the S3 resource.
@@ -8406,6 +8811,27 @@ extension DeleteAccessPointPolicyForObjectLambdaInput {
     }
 }
 
+extension DeleteAccessPointScopeInput {
+
+    static func urlPathProvider(_ value: DeleteAccessPointScopeInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        return "/v20180820/accesspoint/\(name.urlPercentEncoding())/scope"
+    }
+}
+
+extension DeleteAccessPointScopeInput {
+
+    static func headerProvider(_ value: DeleteAccessPointScopeInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let accountId = value.accountId {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-account-id", value: Swift.String(accountId)))
+        }
+        return items
+    }
+}
+
 extension DeleteBucketInput {
 
     static func urlPathProvider(_ value: DeleteBucketInput) -> Swift.String? {
@@ -8948,6 +9374,27 @@ extension GetAccessPointPolicyStatusForObjectLambdaInput {
     }
 }
 
+extension GetAccessPointScopeInput {
+
+    static func urlPathProvider(_ value: GetAccessPointScopeInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        return "/v20180820/accesspoint/\(name.urlPercentEncoding())/scope"
+    }
+}
+
+extension GetAccessPointScopeInput {
+
+    static func headerProvider(_ value: GetAccessPointScopeInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let accountId = value.accountId {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-account-id", value: Swift.String(accountId)))
+        }
+        return items
+    }
+}
+
 extension GetBucketInput {
 
     static func urlPathProvider(_ value: GetBucketInput) -> Swift.String? {
@@ -9470,6 +9917,52 @@ extension ListAccessPointsInput {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
+        if let dataSourceType = value.dataSourceType {
+            let dataSourceTypeQueryItem = Smithy.URIQueryItem(name: "dataSourceType".urlPercentEncoding(), value: Swift.String(dataSourceType).urlPercentEncoding())
+            items.append(dataSourceTypeQueryItem)
+        }
+        if let dataSourceId = value.dataSourceId {
+            let dataSourceIdQueryItem = Smithy.URIQueryItem(name: "dataSourceId".urlPercentEncoding(), value: Swift.String(dataSourceId).urlPercentEncoding())
+            items.append(dataSourceIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAccessPointsForDirectoryBucketsInput {
+
+    static func urlPathProvider(_ value: ListAccessPointsForDirectoryBucketsInput) -> Swift.String? {
+        return "/v20180820/accesspointfordirectory"
+    }
+}
+
+extension ListAccessPointsForDirectoryBucketsInput {
+
+    static func headerProvider(_ value: ListAccessPointsForDirectoryBucketsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let accountId = value.accountId {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-account-id", value: Swift.String(accountId)))
+        }
+        return items
+    }
+}
+
+extension ListAccessPointsForDirectoryBucketsInput {
+
+    static func queryItemProvider(_ value: ListAccessPointsForDirectoryBucketsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let directoryBucket = value.directoryBucket {
+            let directoryBucketQueryItem = Smithy.URIQueryItem(name: "directoryBucket".urlPercentEncoding(), value: Swift.String(directoryBucket).urlPercentEncoding())
+            items.append(directoryBucketQueryItem)
+        }
         return items
     }
 }
@@ -9815,6 +10308,27 @@ extension PutAccessPointPolicyForObjectLambdaInput {
 extension PutAccessPointPolicyForObjectLambdaInput {
 
     static func headerProvider(_ value: PutAccessPointPolicyForObjectLambdaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let accountId = value.accountId {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-account-id", value: Swift.String(accountId)))
+        }
+        return items
+    }
+}
+
+extension PutAccessPointScopeInput {
+
+    static func urlPathProvider(_ value: PutAccessPointScopeInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        return "/v20180820/accesspoint/\(name.urlPercentEncoding())/scope"
+    }
+}
+
+extension PutAccessPointScopeInput {
+
+    static func headerProvider(_ value: PutAccessPointScopeInput) -> SmithyHTTPAPI.Headers {
         var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-account-id", value: Swift.String(accountId)))
@@ -10276,6 +10790,8 @@ extension CreateAccessPointInput {
         try writer["Bucket"].write(value.bucket)
         try writer["BucketAccountId"].write(value.bucketAccountId)
         try writer["PublicAccessBlockConfiguration"].write(value.publicAccessBlockConfiguration, with: S3ControlClientTypes.PublicAccessBlockConfiguration.write(value:to:))
+        try writer["Scope"].write(value.scope, with: S3ControlClientTypes.Scope.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["VpcConfiguration"].write(value.vpcConfiguration, with: S3ControlClientTypes.VpcConfiguration.write(value:to:))
     }
 }
@@ -10370,6 +10886,14 @@ extension PutAccessPointPolicyForObjectLambdaInput {
     static func write(value: PutAccessPointPolicyForObjectLambdaInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["Policy"].write(value.policy)
+    }
+}
+
+extension PutAccessPointScopeInput {
+
+    static func write(value: PutAccessPointScopeInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Scope"].write(value.scope, with: S3ControlClientTypes.Scope.write(value:to:))
     }
 }
 
@@ -10675,6 +11199,13 @@ extension DeleteAccessPointPolicyForObjectLambdaOutput {
     }
 }
 
+extension DeleteAccessPointScopeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAccessPointScopeOutput {
+        return DeleteAccessPointScopeOutput()
+    }
+}
+
 extension DeleteBucketOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBucketOutput {
@@ -10880,6 +11411,8 @@ extension GetAccessPointOutput {
         value.bucket = try reader["Bucket"].readIfPresent()
         value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dataSourceId = try reader["DataSourceId"].readIfPresent()
+        value.dataSourceType = try reader["DataSourceType"].readIfPresent()
         value.endpoints = try reader["Endpoints"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.name = try reader["Name"].readIfPresent()
         value.networkOrigin = try reader["NetworkOrigin"].readIfPresent()
@@ -10960,6 +11493,18 @@ extension GetAccessPointPolicyStatusForObjectLambdaOutput {
         let reader = responseReader
         var value = GetAccessPointPolicyStatusForObjectLambdaOutput()
         value.policyStatus = try reader["PolicyStatus"].readIfPresent(with: S3ControlClientTypes.PolicyStatus.read(from:))
+        return value
+    }
+}
+
+extension GetAccessPointScopeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccessPointScopeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessPointScopeOutput()
+        value.scope = try reader["Scope"].readIfPresent(with: S3ControlClientTypes.Scope.read(from:))
         return value
     }
 }
@@ -11047,6 +11592,7 @@ extension GetDataAccessOutput {
         let reader = responseReader
         var value = GetDataAccessOutput()
         value.credentials = try reader["Credentials"].readIfPresent(with: S3ControlClientTypes.Credentials.read(from:))
+        value.grantee = try reader["Grantee"].readIfPresent(with: S3ControlClientTypes.Grantee.read(from:))
         value.matchedGrantTarget = try reader["MatchedGrantTarget"].readIfPresent()
         return value
     }
@@ -11213,6 +11759,19 @@ extension ListAccessPointsOutput {
     }
 }
 
+extension ListAccessPointsForDirectoryBucketsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAccessPointsForDirectoryBucketsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAccessPointsForDirectoryBucketsOutput()
+        value.accessPointList = try reader["AccessPointList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.AccessPoint.read(from:), memberNodeInfo: "AccessPoint", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListAccessPointsForObjectLambdaOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAccessPointsForObjectLambdaOutput {
@@ -11348,6 +11907,13 @@ extension PutAccessPointPolicyForObjectLambdaOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccessPointPolicyForObjectLambdaOutput {
         return PutAccessPointPolicyForObjectLambdaOutput()
+    }
+}
+
+extension PutAccessPointScopeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccessPointScopeOutput {
+        return PutAccessPointScopeOutput()
     }
 }
 
@@ -11737,6 +12303,19 @@ enum DeleteAccessPointPolicyForObjectLambdaOutputError {
     }
 }
 
+enum DeleteAccessPointScopeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteBucketOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12082,6 +12661,19 @@ enum GetAccessPointPolicyStatusForObjectLambdaOutputError {
     }
 }
 
+enum GetAccessPointScopeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetBucketOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12346,6 +12938,19 @@ enum ListAccessPointsOutputError {
     }
 }
 
+enum ListAccessPointsForDirectoryBucketsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAccessPointsForObjectLambdaOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12493,6 +13098,19 @@ enum PutAccessPointPolicyOutputError {
 }
 
 enum PutAccessPointPolicyForObjectLambdaOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutAccessPointScopeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12761,24 +13379,11 @@ extension BucketAlreadyOwnedByYou {
     }
 }
 
-extension InternalServiceException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InternalServiceException {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyRequestsException {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyRequestsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
+        var value = BadRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12800,11 +13405,24 @@ extension IdempotencyException {
     }
 }
 
-extension BadRequestException {
+extension InternalServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BadRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InternalServiceException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
+        var value = InternalServiceException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRequestsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyRequestsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRequestsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12839,11 +13457,11 @@ extension NoSuchPublicAccessBlockConfiguration {
     }
 }
 
-extension InvalidRequestException {
+extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
+        var value = InvalidNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12852,11 +13470,11 @@ extension InvalidRequestException {
     }
 }
 
-extension InvalidNextTokenException {
+extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
-        var value = InvalidNextTokenException()
+        var value = InvalidRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13047,6 +13665,7 @@ extension S3ControlClientTypes.JobManifestGeneratorFilter {
         try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["EligibleForReplication"].write(value.eligibleForReplication)
         try writer["KeyNameConstraint"].write(value.keyNameConstraint, with: S3ControlClientTypes.KeyNameConstraint.write(value:to:))
+        try writer["MatchAnyObjectEncryption"].writeList(value.matchAnyObjectEncryption, memberWritingClosure: S3ControlClientTypes.ObjectEncryptionFilter.write(value:to:), memberNodeInfo: "ObjectEncryption", isFlattened: false)
         try writer["MatchAnyStorageClass"].writeList(value.matchAnyStorageClass, memberWritingClosure: SmithyReadWrite.WritingClosureBox<S3ControlClientTypes.S3StorageClass>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ObjectReplicationStatuses"].writeList(value.objectReplicationStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<S3ControlClientTypes.ReplicationStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ObjectSizeGreaterThanBytes"].write(value.objectSizeGreaterThanBytes)
@@ -13064,7 +13683,119 @@ extension S3ControlClientTypes.JobManifestGeneratorFilter {
         value.objectSizeGreaterThanBytes = try reader["ObjectSizeGreaterThanBytes"].readIfPresent()
         value.objectSizeLessThanBytes = try reader["ObjectSizeLessThanBytes"].readIfPresent()
         value.matchAnyStorageClass = try reader["MatchAnyStorageClass"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<S3ControlClientTypes.S3StorageClass>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchAnyObjectEncryption = try reader["MatchAnyObjectEncryption"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ObjectEncryptionFilter.read(from:), memberNodeInfo: "ObjectEncryption", isFlattened: false)
         return value
+    }
+}
+
+extension S3ControlClientTypes.ObjectEncryptionFilter {
+
+    static func write(value: S3ControlClientTypes.ObjectEncryptionFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .dssekms(dssekms):
+                try writer["DSSE-KMS"].write(dssekms, with: S3ControlClientTypes.DSSEKMSFilter.write(value:to:))
+            case let .notsse(notsse):
+                try writer["NOT-SSE"].write(notsse, with: S3ControlClientTypes.NotSSEFilter.write(value:to:))
+            case let .ssec(ssec):
+                try writer["SSE-C"].write(ssec, with: S3ControlClientTypes.SSECFilter.write(value:to:))
+            case let .ssekms(ssekms):
+                try writer["SSE-KMS"].write(ssekms, with: S3ControlClientTypes.SSEKMSFilter.write(value:to:))
+            case let .sses3(sses3):
+                try writer["SSE-S3"].write(sses3, with: S3ControlClientTypes.SSES3Filter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ObjectEncryptionFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "SSES3":
+                return .sses3(try reader["SSE-S3"].read(with: S3ControlClientTypes.SSES3Filter.read(from:)))
+            case "SSEKMS":
+                return .ssekms(try reader["SSE-KMS"].read(with: S3ControlClientTypes.SSEKMSFilter.read(from:)))
+            case "DSSEKMS":
+                return .dssekms(try reader["DSSE-KMS"].read(with: S3ControlClientTypes.DSSEKMSFilter.read(from:)))
+            case "SSEC":
+                return .ssec(try reader["SSE-C"].read(with: S3ControlClientTypes.SSECFilter.read(from:)))
+            case "NOTSSE":
+                return .notsse(try reader["NOT-SSE"].read(with: S3ControlClientTypes.NotSSEFilter.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension S3ControlClientTypes.NotSSEFilter {
+
+    static func write(value: S3ControlClientTypes.NotSSEFilter?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.NotSSEFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ControlClientTypes.NotSSEFilter()
+    }
+}
+
+extension S3ControlClientTypes.SSECFilter {
+
+    static func write(value: S3ControlClientTypes.SSECFilter?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSECFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ControlClientTypes.SSECFilter()
+    }
+}
+
+extension S3ControlClientTypes.DSSEKMSFilter {
+
+    static func write(value: S3ControlClientTypes.DSSEKMSFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.DSSEKMSFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.DSSEKMSFilter()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension S3ControlClientTypes.SSEKMSFilter {
+
+    static func write(value: S3ControlClientTypes.SSEKMSFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["BucketKeyEnabled"].write(value.bucketKeyEnabled)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSEKMSFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.SSEKMSFilter()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        value.bucketKeyEnabled = try reader["BucketKeyEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension S3ControlClientTypes.SSES3Filter {
+
+    static func write(value: S3ControlClientTypes.SSES3Filter?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSES3Filter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ControlClientTypes.SSES3Filter()
     }
 }
 
@@ -13161,6 +13892,7 @@ extension S3ControlClientTypes.JobReport {
         guard let value else { return }
         try writer["Bucket"].write(value.bucket)
         try writer["Enabled"].write(value.enabled)
+        try writer["ExpectedBucketOwner"].write(value.expectedBucketOwner)
         try writer["Format"].write(value.format)
         try writer["Prefix"].write(value.`prefix`)
         try writer["ReportScope"].write(value.reportScope)
@@ -13174,6 +13906,7 @@ extension S3ControlClientTypes.JobReport {
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
         value.`prefix` = try reader["Prefix"].readIfPresent()
         value.reportScope = try reader["ReportScope"].readIfPresent()
+        value.expectedBucketOwner = try reader["ExpectedBucketOwner"].readIfPresent()
         return value
     }
 }
@@ -13217,6 +13950,7 @@ extension S3ControlClientTypes.JobOperation {
     static func write(value: S3ControlClientTypes.JobOperation?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["LambdaInvoke"].write(value.lambdaInvoke, with: S3ControlClientTypes.LambdaInvokeOperation.write(value:to:))
+        try writer["S3ComputeObjectChecksum"].write(value.s3ComputeObjectChecksum, with: S3ControlClientTypes.S3ComputeObjectChecksumOperation.write(value:to:))
         try writer["S3DeleteObjectTagging"].write(value.s3DeleteObjectTagging, with: S3ControlClientTypes.S3DeleteObjectTaggingOperation.write(value:to:))
         try writer["S3InitiateRestoreObject"].write(value.s3InitiateRestoreObject, with: S3ControlClientTypes.S3InitiateRestoreObjectOperation.write(value:to:))
         try writer["S3PutObjectAcl"].write(value.s3PutObjectAcl, with: S3ControlClientTypes.S3SetObjectAclOperation.write(value:to:))
@@ -13239,6 +13973,24 @@ extension S3ControlClientTypes.JobOperation {
         value.s3PutObjectLegalHold = try reader["S3PutObjectLegalHold"].readIfPresent(with: S3ControlClientTypes.S3SetObjectLegalHoldOperation.read(from:))
         value.s3PutObjectRetention = try reader["S3PutObjectRetention"].readIfPresent(with: S3ControlClientTypes.S3SetObjectRetentionOperation.read(from:))
         value.s3ReplicateObject = try reader["S3ReplicateObject"].readIfPresent(with: S3ControlClientTypes.S3ReplicateObjectOperation.read(from:))
+        value.s3ComputeObjectChecksum = try reader["S3ComputeObjectChecksum"].readIfPresent(with: S3ControlClientTypes.S3ComputeObjectChecksumOperation.read(from:))
+        return value
+    }
+}
+
+extension S3ControlClientTypes.S3ComputeObjectChecksumOperation {
+
+    static func write(value: S3ControlClientTypes.S3ComputeObjectChecksumOperation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ChecksumAlgorithm"].write(value.checksumAlgorithm)
+        try writer["ChecksumType"].write(value.checksumType)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3ComputeObjectChecksumOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3ComputeObjectChecksumOperation()
+        value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readIfPresent()
+        value.checksumType = try reader["ChecksumType"].readIfPresent()
         return value
     }
 }
@@ -13882,6 +14634,23 @@ extension S3ControlClientTypes.PolicyStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.PolicyStatus()
         value.isPublic = try reader["IsPublic"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension S3ControlClientTypes.Scope {
+
+    static func write(value: S3ControlClientTypes.Scope?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<S3ControlClientTypes.ScopePermission>().write(value:to:), memberNodeInfo: "Permission", isFlattened: false)
+        try writer["Prefixes"].writeList(value.prefixes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Prefix", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Scope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.Scope()
+        value.prefixes = try reader["Prefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Prefix", isFlattened: false)
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<S3ControlClientTypes.ScopePermission>().read(from:), memberNodeInfo: "Permission", isFlattened: false)
         return value
     }
 }
@@ -14978,6 +15747,8 @@ extension S3ControlClientTypes.AccessPoint {
         value.accessPointArn = try reader["AccessPointArn"].readIfPresent()
         value.alias = try reader["Alias"].readIfPresent()
         value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
+        value.dataSourceId = try reader["DataSourceId"].readIfPresent()
+        value.dataSourceType = try reader["DataSourceType"].readIfPresent()
         return value
     }
 }

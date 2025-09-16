@@ -417,7 +417,6 @@ extension ConnectContactLensClientTypes {
         /// This member is required.
         public var participantRole: Swift.String?
         /// The sentiment detected for this piece of transcript.
-        /// This member is required.
         public var sentiment: ConnectContactLensClientTypes.SentimentValue?
 
         public init(
@@ -537,6 +536,19 @@ enum ListRealtimeContactAnalysisSegmentsOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InternalServiceException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceException {
@@ -563,38 +575,25 @@ extension InvalidRequestException {
     }
 }
 
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -669,7 +668,7 @@ extension ConnectContactLensClientTypes.Transcript {
         value.content = try reader["Content"].readIfPresent() ?? ""
         value.beginOffsetMillis = try reader["BeginOffsetMillis"].readIfPresent() ?? 0
         value.endOffsetMillis = try reader["EndOffsetMillis"].readIfPresent() ?? 0
-        value.sentiment = try reader["Sentiment"].readIfPresent() ?? .sdkUnknown("")
+        value.sentiment = try reader["Sentiment"].readIfPresent()
         value.issuesDetected = try reader["IssuesDetected"].readListIfPresent(memberReadingClosure: ConnectContactLensClientTypes.IssueDetected.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }

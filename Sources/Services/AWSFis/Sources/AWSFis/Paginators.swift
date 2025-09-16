@@ -31,6 +31,15 @@ extension ListActionsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListActionsInput, OperationStackOutput == ListActionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listActionsPaginated`
+    /// to access the nested member `[FisClientTypes.ActionSummary]`
+    /// - Returns: `[FisClientTypes.ActionSummary]`
+    public func actions() async throws -> [FisClientTypes.ActionSummary] {
+        return try await self.asyncCompactMap { item in item.actions }
+    }
+}
 extension FisClient {
     /// Paginate over `[ListExperimentResolvedTargetsOutput]` results.
     ///
@@ -54,6 +63,15 @@ extension ListExperimentResolvedTargetsInput: ClientRuntime.PaginateToken {
             targetName: self.targetName
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListExperimentResolvedTargetsInput, OperationStackOutput == ListExperimentResolvedTargetsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listExperimentResolvedTargetsPaginated`
+    /// to access the nested member `[FisClientTypes.ResolvedTarget]`
+    /// - Returns: `[FisClientTypes.ResolvedTarget]`
+    public func resolvedTargets() async throws -> [FisClientTypes.ResolvedTarget] {
+        return try await self.asyncCompactMap { item in item.resolvedTargets }
+    }
+}
 extension FisClient {
     /// Paginate over `[ListExperimentsOutput]` results.
     ///
@@ -76,6 +94,15 @@ extension ListExperimentsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListExperimentsInput, OperationStackOutput == ListExperimentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listExperimentsPaginated`
+    /// to access the nested member `[FisClientTypes.ExperimentSummary]`
+    /// - Returns: `[FisClientTypes.ExperimentSummary]`
+    public func experiments() async throws -> [FisClientTypes.ExperimentSummary] {
+        return try await self.asyncCompactMap { item in item.experiments }
+    }
+}
 extension FisClient {
     /// Paginate over `[ListExperimentTemplatesOutput]` results.
     ///
@@ -96,6 +123,15 @@ extension ListExperimentTemplatesInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListExperimentTemplatesInput, OperationStackOutput == ListExperimentTemplatesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listExperimentTemplatesPaginated`
+    /// to access the nested member `[FisClientTypes.ExperimentTemplateSummary]`
+    /// - Returns: `[FisClientTypes.ExperimentTemplateSummary]`
+    public func experimentTemplates() async throws -> [FisClientTypes.ExperimentTemplateSummary] {
+        return try await self.asyncCompactMap { item in item.experimentTemplates }
+    }
 }
 extension FisClient {
     /// Paginate over `[ListTargetAccountConfigurationsOutput]` results.
@@ -119,6 +155,15 @@ extension ListTargetAccountConfigurationsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListTargetAccountConfigurationsInput, OperationStackOutput == ListTargetAccountConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTargetAccountConfigurationsPaginated`
+    /// to access the nested member `[FisClientTypes.TargetAccountConfigurationSummary]`
+    /// - Returns: `[FisClientTypes.TargetAccountConfigurationSummary]`
+    public func targetAccountConfigurations() async throws -> [FisClientTypes.TargetAccountConfigurationSummary] {
+        return try await self.asyncCompactMap { item in item.targetAccountConfigurations }
+    }
+}
 extension FisClient {
     /// Paginate over `[ListTargetResourceTypesOutput]` results.
     ///
@@ -139,4 +184,13 @@ extension ListTargetResourceTypesInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTargetResourceTypesInput, OperationStackOutput == ListTargetResourceTypesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTargetResourceTypesPaginated`
+    /// to access the nested member `[FisClientTypes.TargetResourceTypeSummary]`
+    /// - Returns: `[FisClientTypes.TargetResourceTypeSummary]`
+    public func targetResourceTypes() async throws -> [FisClientTypes.TargetResourceTypeSummary] {
+        return try await self.asyncCompactMap { item in item.targetResourceTypes }
+    }
 }

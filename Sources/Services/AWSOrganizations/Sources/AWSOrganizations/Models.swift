@@ -14,6 +14,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 import protocol AWSClientRuntime.AWSServiceError
@@ -342,7 +343,7 @@ extension OrganizationsClientTypes {
 ///
 /// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
 ///
-/// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: The request failed because the account is from a different marketplace than the accounts in the organization. For example, accounts with India addresses must be associated with the AISPL marketplace. All accounts in an organization must be from the same marketplace.
+/// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: The request failed because the account is from a different marketplace than the accounts in the organization.
 ///
 /// * ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED: You attempted to change the membership of an account too quickly after its previous change.
 ///
@@ -882,6 +883,44 @@ extension OrganizationsClientTypes {
 
 extension OrganizationsClientTypes {
 
+    public enum AccountState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case closed
+        case pendingActivation
+        case pendingClosure
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccountState] {
+            return [
+                .active,
+                .closed,
+                .pendingActivation,
+                .pendingClosure,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .closed: return "CLOSED"
+            case .pendingActivation: return "PENDING_ACTIVATION"
+            case .pendingClosure: return "PENDING_CLOSURE"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OrganizationsClientTypes {
+
     public enum AccountStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case pendingClosure
@@ -928,7 +967,9 @@ extension OrganizationsClientTypes {
         public var joinedTimestamp: Foundation.Date?
         /// The friendly name of the account. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public var name: Swift.String?
-        /// The status of the account in the organization.
+        /// Each state represents a specific phase in the account lifecycle. Use this information to manage account access, automate workflows, or trigger actions based on account state changes. For more information about account states and their implications, see [Monitor the state of your Amazon Web Services accounts ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_account_state.html) in the Organizations User Guide.
+        public var state: OrganizationsClientTypes.AccountState?
+        /// The status of the account in the organization. The Status parameter in the Account object will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
         public var status: OrganizationsClientTypes.AccountStatus?
 
         public init(
@@ -938,6 +979,7 @@ extension OrganizationsClientTypes {
             joinedMethod: OrganizationsClientTypes.AccountJoinedMethod? = nil,
             joinedTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            state: OrganizationsClientTypes.AccountState? = nil,
             status: OrganizationsClientTypes.AccountStatus? = nil
         ) {
             self.arn = arn
@@ -946,6 +988,7 @@ extension OrganizationsClientTypes {
             self.joinedMethod = joinedMethod
             self.joinedTimestamp = joinedTimestamp
             self.name = name
+            self.state = state
             self.status = status
         }
     }
@@ -953,7 +996,7 @@ extension OrganizationsClientTypes {
 
 extension OrganizationsClientTypes.Account: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Account(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), joinedMethod: \(Swift.String(describing: joinedMethod)), joinedTimestamp: \(Swift.String(describing: joinedTimestamp)), status: \(Swift.String(describing: status)), email: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Account(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), joinedMethod: \(Swift.String(describing: joinedMethod)), joinedTimestamp: \(Swift.String(describing: joinedTimestamp)), state: \(Swift.String(describing: state)), status: \(Swift.String(describing: status)), email: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 /// You attempted to close an account that is already closed.
@@ -1130,6 +1173,7 @@ extension OrganizationsClientTypes {
         case ouNumberLimitExceeded
         case policyContentLimitExceeded
         case policyNumberLimitExceeded
+        case policyTypeEnabledForThisService
         case serviceAccessNotEnabled
         case tagPolicyViolation
         case waitPeriodActive
@@ -1170,6 +1214,7 @@ extension OrganizationsClientTypes {
                 .ouNumberLimitExceeded,
                 .policyContentLimitExceeded,
                 .policyNumberLimitExceeded,
+                .policyTypeEnabledForThisService,
                 .serviceAccessNotEnabled,
                 .tagPolicyViolation,
                 .waitPeriodActive
@@ -1216,6 +1261,7 @@ extension OrganizationsClientTypes {
             case .ouNumberLimitExceeded: return "OU_NUMBER_LIMIT_EXCEEDED"
             case .policyContentLimitExceeded: return "POLICY_CONTENT_LIMIT_EXCEEDED"
             case .policyNumberLimitExceeded: return "POLICY_NUMBER_LIMIT_EXCEEDED"
+            case .policyTypeEnabledForThisService: return "POLICY_TYPE_ENABLED_FOR_THIS_SERVICE"
             case .serviceAccessNotEnabled: return "SERVICE_ACCESS_NOT_ENABLED"
             case .tagPolicyViolation: return "TAG_POLICY_VIOLATION"
             case .waitPeriodActive: return "WAIT_PERIOD_ACTIVE"
@@ -1291,7 +1337,16 @@ extension OrganizationsClientTypes {
 ///
 /// * POLICY_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of policies that you can have in an organization.
 ///
-/// * SERVICE_ACCESS_NOT_ENABLED: You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
+/// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
+///
+/// * SERVICE_ACCESS_NOT_ENABLED:
+///
+/// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
+///
+/// * You attempted to enable a policy type before you enabled service access. Call the EnableAWSServiceAccess API first.
+///
+///
+///
 ///
 /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
 ///
@@ -2012,6 +2067,7 @@ extension OrganizationsClientTypes {
         case chatbotPolicy
         case declarativePolicyEc2
         case resourceControlPolicy
+        case securityhubPolicy
         case serviceControlPolicy
         case tagPolicy
         case sdkUnknown(Swift.String)
@@ -2023,6 +2079,7 @@ extension OrganizationsClientTypes {
                 .chatbotPolicy,
                 .declarativePolicyEc2,
                 .resourceControlPolicy,
+                .securityhubPolicy,
                 .serviceControlPolicy,
                 .tagPolicy
             ]
@@ -2040,6 +2097,7 @@ extension OrganizationsClientTypes {
             case .chatbotPolicy: return "CHATBOT_POLICY"
             case .declarativePolicyEc2: return "DECLARATIVE_POLICY_EC2"
             case .resourceControlPolicy: return "RESOURCE_CONTROL_POLICY"
+            case .securityhubPolicy: return "SECURITYHUB_POLICY"
             case .serviceControlPolicy: return "SERVICE_CONTROL_POLICY"
             case .tagPolicy: return "TAG_POLICY"
             case let .sdkUnknown(s): return s
@@ -2323,6 +2381,8 @@ public struct CreatePolicyInput: Swift.Sendable {
     /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     /// This member is required.
     public var type: OrganizationsClientTypes.PolicyType?
 
@@ -2587,7 +2647,7 @@ public struct DescribeAccountInput: Swift.Sendable {
 }
 
 public struct DescribeAccountOutput: Swift.Sendable {
-    /// A structure that contains information about the requested account.
+    /// A structure that contains information about the requested account. The Status parameter in the API response will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
     public var account: OrganizationsClientTypes.Account?
 
     public init(
@@ -2673,6 +2733,7 @@ extension OrganizationsClientTypes {
         case backupPolicy
         case chatbotPolicy
         case declarativePolicyEc2
+        case securityhubPolicy
         case tagPolicy
         case sdkUnknown(Swift.String)
 
@@ -2682,6 +2743,7 @@ extension OrganizationsClientTypes {
                 .backupPolicy,
                 .chatbotPolicy,
                 .declarativePolicyEc2,
+                .securityhubPolicy,
                 .tagPolicy
             ]
         }
@@ -2697,6 +2759,7 @@ extension OrganizationsClientTypes {
             case .backupPolicy: return "BACKUP_POLICY"
             case .chatbotPolicy: return "CHATBOT_POLICY"
             case .declarativePolicyEc2: return "DECLARATIVE_POLICY_EC2"
+            case .securityhubPolicy: return "SECURITYHUB_POLICY"
             case .tagPolicy: return "TAG_POLICY"
             case let .sdkUnknown(s): return s
             }
@@ -2716,6 +2779,8 @@ public struct DescribeEffectivePolicyInput: Swift.Sendable {
     /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
     /// When you're signed in as the management account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
@@ -2983,6 +3048,8 @@ public struct DisablePolicyTypeInput: Swift.Sendable {
     /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.PolicyType?
     /// The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the [ListRoots] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
@@ -3092,6 +3159,8 @@ public struct EnablePolicyTypeInput: Swift.Sendable {
     /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.PolicyType?
     /// The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the [ListRoots] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
@@ -3205,7 +3274,7 @@ public struct ListAccountsInput: Swift.Sendable {
 }
 
 public struct ListAccountsOutput: Swift.Sendable {
-    /// A list of objects in the organization.
+    /// A list of objects in the organization. The Status parameter in the API response will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
     public var accounts: [OrganizationsClientTypes.Account]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
@@ -3240,7 +3309,7 @@ public struct ListAccountsForParentInput: Swift.Sendable {
 }
 
 public struct ListAccountsForParentOutput: Swift.Sendable {
-    /// A list of the accounts in the specified root or OU.
+    /// A list of the accounts in the specified root or OU. The Status parameter in the API response will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
     public var accounts: [OrganizationsClientTypes.Account]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
@@ -3251,6 +3320,69 @@ public struct ListAccountsForParentOutput: Swift.Sendable {
     ) {
         self.accounts = accounts
         self.nextToken = nextToken
+    }
+}
+
+public struct ListAccountsWithInvalidEffectivePolicyInput: Swift.Sendable {
+    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
+    public var nextToken: Swift.String?
+    /// The type of policy that you want information about. You can specify one of the following values:
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+    ///
+    /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
+    ///
+    /// * [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+    ///
+    /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+    ///
+    /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    /// This member is required.
+    public var policyType: OrganizationsClientTypes.EffectivePolicyType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        policyType: OrganizationsClientTypes.EffectivePolicyType? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.policyType = policyType
+    }
+}
+
+public struct ListAccountsWithInvalidEffectivePolicyOutput: Swift.Sendable {
+    /// The accounts in the organization which have an invalid effective policy for the specified policy type.
+    public var accounts: [OrganizationsClientTypes.Account]?
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+    public var nextToken: Swift.String?
+    /// The specified policy type. One of the following values:
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+    ///
+    /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
+    ///
+    /// * [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+    ///
+    /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+    ///
+    /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    public var policyType: OrganizationsClientTypes.EffectivePolicyType?
+
+    public init(
+        accounts: [OrganizationsClientTypes.Account]? = nil,
+        nextToken: Swift.String? = nil,
+        policyType: OrganizationsClientTypes.EffectivePolicyType? = nil
+    ) {
+        self.accounts = accounts
+        self.nextToken = nextToken
+        self.policyType = policyType
     }
 }
 
@@ -3569,6 +3701,113 @@ public struct ListDelegatedServicesForAccountOutput: Swift.Sendable {
     }
 }
 
+public struct ListEffectivePolicyValidationErrorsInput: Swift.Sendable {
+    /// The ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
+    public var nextToken: Swift.String?
+    /// The type of policy that you want information about. You can specify one of the following values:
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+    ///
+    /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
+    ///
+    /// * [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+    ///
+    /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+    ///
+    /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    /// This member is required.
+    public var policyType: OrganizationsClientTypes.EffectivePolicyType?
+
+    public init(
+        accountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        policyType: OrganizationsClientTypes.EffectivePolicyType? = nil
+    ) {
+        self.accountId = accountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.policyType = policyType
+    }
+}
+
+extension OrganizationsClientTypes {
+
+    /// Contains details about the validation errors that occurred when generating or enforcing an [effective policy](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_effective.html), such as which policies contributed to the error and location of the error.
+    public struct EffectivePolicyValidationError: Swift.Sendable {
+        /// The individual policies [inherited](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inheritance_mgmt.html) and [attached](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_policies_attach.html) to the account which contributed to the validation error.
+        public var contributingPolicies: [Swift.String]?
+        /// The error code for the validation error. For example, ELEMENTS_TOO_MANY.
+        public var errorCode: Swift.String?
+        /// The error message for the validation error.
+        public var errorMessage: Swift.String?
+        /// The path within the effective policy where the validation error occurred.
+        public var pathToError: Swift.String?
+
+        public init(
+            contributingPolicies: [Swift.String]? = nil,
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            pathToError: Swift.String? = nil
+        ) {
+            self.contributingPolicies = contributingPolicies
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.pathToError = pathToError
+        }
+    }
+}
+
+public struct ListEffectivePolicyValidationErrorsOutput: Swift.Sendable {
+    /// The ID of the specified account.
+    public var accountId: Swift.String?
+    /// The EffectivePolicyValidationError object contains details about the validation errors that occurred when generating or enforcing an effective policy, such as which policies contributed to the error and location of the error.
+    public var effectivePolicyValidationErrors: [OrganizationsClientTypes.EffectivePolicyValidationError]?
+    /// The time when the latest effective policy was generated for the specified account.
+    public var evaluationTimestamp: Foundation.Date?
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+    public var nextToken: Swift.String?
+    /// The path in the organization where the specified account exists.
+    public var path: Swift.String?
+    /// The specified policy type. One of the following values:
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+    ///
+    /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
+    ///
+    /// * [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+    ///
+    /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+    ///
+    /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    public var policyType: OrganizationsClientTypes.EffectivePolicyType?
+
+    public init(
+        accountId: Swift.String? = nil,
+        effectivePolicyValidationErrors: [OrganizationsClientTypes.EffectivePolicyValidationError]? = nil,
+        evaluationTimestamp: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil,
+        path: Swift.String? = nil,
+        policyType: OrganizationsClientTypes.EffectivePolicyType? = nil
+    ) {
+        self.accountId = accountId
+        self.effectivePolicyValidationErrors = effectivePolicyValidationErrors
+        self.evaluationTimestamp = evaluationTimestamp
+        self.nextToken = nextToken
+        self.path = path
+        self.policyType = policyType
+    }
+}
+
 extension OrganizationsClientTypes {
 
     /// Specifies the criteria that are used to select the handshakes for the operation.
@@ -3795,6 +4034,8 @@ public struct ListPoliciesInput: Swift.Sendable {
     /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     /// This member is required.
     public var filter: OrganizationsClientTypes.PolicyType?
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -3844,6 +4085,8 @@ public struct ListPoliciesForTargetInput: Swift.Sendable {
     /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     /// This member is required.
     public var filter: OrganizationsClientTypes.PolicyType?
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -4752,6 +4995,13 @@ extension ListAccountsForParentInput {
     }
 }
 
+extension ListAccountsWithInvalidEffectivePolicyInput {
+
+    static func urlPathProvider(_ value: ListAccountsWithInvalidEffectivePolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListAWSServiceAccessForOrganizationInput {
 
     static func urlPathProvider(_ value: ListAWSServiceAccessForOrganizationInput) -> Swift.String? {
@@ -4783,6 +5033,13 @@ extension ListDelegatedAdministratorsInput {
 extension ListDelegatedServicesForAccountInput {
 
     static func urlPathProvider(_ value: ListDelegatedServicesForAccountInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListEffectivePolicyValidationErrorsInput {
+
+    static func urlPathProvider(_ value: ListEffectivePolicyValidationErrorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5195,6 +5452,16 @@ extension ListAccountsForParentInput {
     }
 }
 
+extension ListAccountsWithInvalidEffectivePolicyInput {
+
+    static func write(value: ListAccountsWithInvalidEffectivePolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PolicyType"].write(value.policyType)
+    }
+}
+
 extension ListAWSServiceAccessForOrganizationInput {
 
     static func write(value: ListAWSServiceAccessForOrganizationInput?, to writer: SmithyJSON.Writer) throws {
@@ -5242,6 +5509,17 @@ extension ListDelegatedServicesForAccountInput {
         try writer["AccountId"].write(value.accountId)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListEffectivePolicyValidationErrorsInput {
+
+    static func write(value: ListEffectivePolicyValidationErrorsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PolicyType"].write(value.policyType)
     }
 }
 
@@ -5751,6 +6029,20 @@ extension ListAccountsForParentOutput {
     }
 }
 
+extension ListAccountsWithInvalidEffectivePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAccountsWithInvalidEffectivePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAccountsWithInvalidEffectivePolicyOutput()
+        value.accounts = try reader["Accounts"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.Account.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.policyType = try reader["PolicyType"].readIfPresent()
+        return value
+    }
+}
+
 extension ListAWSServiceAccessForOrganizationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAWSServiceAccessForOrganizationOutput {
@@ -5812,6 +6104,23 @@ extension ListDelegatedServicesForAccountOutput {
         var value = ListDelegatedServicesForAccountOutput()
         value.delegatedServices = try reader["DelegatedServices"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.DelegatedService.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListEffectivePolicyValidationErrorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEffectivePolicyValidationErrorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEffectivePolicyValidationErrorsOutput()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.effectivePolicyValidationErrors = try reader["EffectivePolicyValidationErrors"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.EffectivePolicyValidationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.evaluationTimestamp = try reader["EvaluationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent()
+        value.policyType = try reader["PolicyType"].readIfPresent()
         return value
     }
 }
@@ -6715,6 +7024,27 @@ enum ListAccountsForParentOutputError {
     }
 }
 
+enum ListAccountsWithInvalidEffectivePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "EffectivePolicyNotFoundException": return try EffectivePolicyNotFoundException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedAPIEndpointException": return try UnsupportedAPIEndpointException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAWSServiceAccessForOrganizationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6806,6 +7136,28 @@ enum ListDelegatedServicesForAccountOutputError {
             case "AccountNotRegisteredException": return try AccountNotRegisteredException.makeError(baseError: baseError)
             case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
             case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedAPIEndpointException": return try UnsupportedAPIEndpointException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEffectivePolicyValidationErrorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AccountNotFoundException": return try AccountNotFoundException.makeError(baseError: baseError)
+            case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "EffectivePolicyNotFoundException": return try EffectivePolicyNotFoundException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -7163,11 +7515,11 @@ enum UpdatePolicyOutputError {
     }
 }
 
-extension HandshakeNotFoundException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = HandshakeNotFoundException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7190,13 +7542,25 @@ extension AccessDeniedForDependencyException {
     }
 }
 
-extension HandshakeConstraintViolationException {
+extension AWSOrganizationsNotInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeConstraintViolationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AWSOrganizationsNotInUseException {
         let reader = baseError.errorBodyReader
-        var value = HandshakeConstraintViolationException()
+        var value = AWSOrganizationsNotInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.reason = try reader["Reason"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConcurrentModificationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+        let reader = baseError.errorBodyReader
+        var value = ConcurrentModificationException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7217,11 +7581,11 @@ extension HandshakeAlreadyInStateException {
     }
 }
 
-extension InvalidInputException {
+extension HandshakeConstraintViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeConstraintViolationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidInputException()
+        var value = HandshakeConstraintViolationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -7231,11 +7595,11 @@ extension InvalidInputException {
     }
 }
 
-extension AWSOrganizationsNotInUseException {
+extension HandshakeNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AWSOrganizationsNotInUseException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = AWSOrganizationsNotInUseException()
+        var value = HandshakeNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7244,11 +7608,11 @@ extension AWSOrganizationsNotInUseException {
     }
 }
 
-extension AccessDeniedException {
+extension InvalidHandshakeTransitionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidHandshakeTransitionException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = InvalidHandshakeTransitionException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7257,12 +7621,13 @@ extension AccessDeniedException {
     }
 }
 
-extension ConcurrentModificationException {
+extension InvalidInputException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
         let reader = baseError.errorBodyReader
-        var value = ConcurrentModificationException()
+        var value = InvalidInputException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7297,12 +7662,13 @@ extension TooManyRequestsException {
     }
 }
 
-extension InvalidHandshakeTransitionException {
+extension ConstraintViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidHandshakeTransitionException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConstraintViolationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidHandshakeTransitionException()
+        var value = ConstraintViolationException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7323,13 +7689,25 @@ extension DuplicatePolicyAttachmentException {
     }
 }
 
-extension ConstraintViolationException {
+extension PolicyChangesInProgressException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConstraintViolationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyChangesInProgressException {
         let reader = baseError.errorBodyReader
-        var value = ConstraintViolationException()
+        var value = PolicyChangesInProgressException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.reason = try reader["Reason"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PolicyNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = PolicyNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7368,32 +7746,6 @@ extension UnsupportedAPIEndpointException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedAPIEndpointException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedAPIEndpointException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension PolicyChangesInProgressException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyChangesInProgressException {
-        let reader = baseError.errorBodyReader
-        var value = PolicyChangesInProgressException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension PolicyNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = PolicyNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7493,19 +7845,6 @@ extension ParentNotFoundException {
     }
 }
 
-extension PolicyTypeNotAvailableForOrganizationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyTypeNotAvailableForOrganizationException {
-        let reader = baseError.errorBodyReader
-        var value = PolicyTypeNotAvailableForOrganizationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DuplicatePolicyException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicatePolicyException {
@@ -7524,6 +7863,19 @@ extension MalformedPolicyDocumentException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MalformedPolicyDocumentException {
         let reader = baseError.errorBodyReader
         var value = MalformedPolicyDocumentException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PolicyTypeNotAvailableForOrganizationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyTypeNotAvailableForOrganizationException {
+        let reader = baseError.errorBodyReader
+        var value = PolicyTypeNotAvailableForOrganizationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7675,11 +8027,11 @@ extension PolicyTypeAlreadyEnabledException {
     }
 }
 
-extension DuplicateHandshakeException {
+extension AccountOwnerNotVerifiedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateHandshakeException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountOwnerNotVerifiedException {
         let reader = baseError.errorBodyReader
-        var value = DuplicateHandshakeException()
+        var value = AccountOwnerNotVerifiedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7688,11 +8040,11 @@ extension DuplicateHandshakeException {
     }
 }
 
-extension AccountOwnerNotVerifiedException {
+extension DuplicateHandshakeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountOwnerNotVerifiedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateHandshakeException {
         let reader = baseError.errorBodyReader
-        var value = AccountOwnerNotVerifiedException()
+        var value = DuplicateHandshakeException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7727,19 +8079,6 @@ extension ChildNotFoundException {
     }
 }
 
-extension SourceParentNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SourceParentNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = SourceParentNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DestinationParentNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DestinationParentNotFoundException {
@@ -7758,6 +8097,19 @@ extension DuplicateAccountException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateAccountException {
         let reader = baseError.errorBodyReader
         var value = DuplicateAccountException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SourceParentNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SourceParentNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = SourceParentNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7917,6 +8269,7 @@ extension OrganizationsClientTypes.Account {
         value.email = try reader["Email"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
         value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
         value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -8017,6 +8370,19 @@ extension OrganizationsClientTypes.DelegatedService {
         var value = OrganizationsClientTypes.DelegatedService()
         value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
         value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.EffectivePolicyValidationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicyValidationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.EffectivePolicyValidationError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.pathToError = try reader["PathToError"].readIfPresent()
+        value.contributingPolicies = try reader["ContributingPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

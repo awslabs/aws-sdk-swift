@@ -12,6 +12,38 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension InvoicingClient {
+    /// Paginate over `[ListInvoiceSummariesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListInvoiceSummariesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInvoiceSummariesOutput`
+    public func listInvoiceSummariesPaginated(input: ListInvoiceSummariesInput) -> ClientRuntime.PaginatorSequence<ListInvoiceSummariesInput, ListInvoiceSummariesOutput> {
+        return ClientRuntime.PaginatorSequence<ListInvoiceSummariesInput, ListInvoiceSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInvoiceSummaries(input:))
+    }
+}
+
+extension ListInvoiceSummariesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListInvoiceSummariesInput {
+        return ListInvoiceSummariesInput(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            selector: self.selector
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListInvoiceSummariesInput, OperationStackOutput == ListInvoiceSummariesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listInvoiceSummariesPaginated`
+    /// to access the nested member `[InvoicingClientTypes.InvoiceSummary]`
+    /// - Returns: `[InvoicingClientTypes.InvoiceSummary]`
+    public func invoiceSummaries() async throws -> [InvoicingClientTypes.InvoiceSummary] {
+        return try await self.asyncCompactMap { item in item.invoiceSummaries }
+    }
+}
+extension InvoicingClient {
     /// Paginate over `[ListInvoiceUnitsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

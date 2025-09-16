@@ -12,7 +12,7 @@ import SmithyHTTPAuth
 import SmithyHTTPAPI
 import SmithyIdentity
 import SmithyTestUtil
-import AwsCommonRuntimeKit
+import struct AwsCommonRuntimeKit.CommonRuntimeKit
 import SmithyTimestamps
 import SmithyEventStreams
 import SmithyEventStreamsAPI
@@ -43,7 +43,7 @@ class SigV4EventSigningTests: XCTestCase {
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         let epoch = formatter.date(from: "1973-11-29T21:33:09.000001234Z")!
 
-        let staticAWSCredentialIdentityResolver = try! StaticAWSCredentialIdentityResolver(
+        let staticAWSCredentialIdentityResolver = StaticAWSCredentialIdentityResolver(
             credentials
         )
 
@@ -60,7 +60,8 @@ class SigV4EventSigningTests: XCTestCase {
             )
             .build()
 
-        let signingConfig = try! await context.makeEventStreamSigningConfig(date: epoch.withoutFractionalSeconds())
+        let epochWithoutFractionalSeconds = Date(timeIntervalSince1970: epoch.timeIntervalSince1970.rounded(.down))
+        let signingConfig = try! await context.makeEventStreamSigningConfig(date: epochWithoutFractionalSeconds)
 
         let prevSignature = try! "last message sts".data(using: .utf8)!.computeSHA256().encodeToHexString()
 

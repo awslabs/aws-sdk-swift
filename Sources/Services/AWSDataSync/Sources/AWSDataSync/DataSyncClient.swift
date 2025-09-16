@@ -11,6 +11,7 @@ import Foundation
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
 import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
+import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
@@ -40,7 +41,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -53,21 +54,20 @@ import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
-import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataSyncClient: ClientRuntime.Client {
     public static let clientName = "DataSyncClient"
-    public static let version = "1.2.13"
+    public static let version = "1.5.43"
     let client: ClientRuntime.SdkHttpClient
     let config: DataSyncClient.DataSyncClientConfiguration
     let serviceName = "DataSync"
@@ -111,11 +111,12 @@ extension DataSyncClient {
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        internal let logger: Smithy.LogAgent
+        public let logger: Smithy.LogAgent
 
         private init(
             _ useFIPS: Swift.Bool?,
@@ -138,6 +139,7 @@ extension DataSyncClient {
             _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
             _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
             _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemePreference: [String]?,
             _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
             _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
             _ interceptorProviders: [ClientRuntime.InterceptorProvider],
@@ -163,6 +165,7 @@ extension DataSyncClient {
             self.httpClientEngine = httpClientEngine
             self.httpClientConfiguration = httpClientConfiguration
             self.authSchemes = authSchemes
+            self.authSchemePreference = authSchemePreference
             self.authSchemeResolver = authSchemeResolver
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
             self.interceptorProviders = interceptorProviders
@@ -191,6 +194,7 @@ extension DataSyncClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -200,7 +204,7 @@ extension DataSyncClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -214,9 +218,10 @@ extension DataSyncClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultDataSyncAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -245,6 +250,7 @@ extension DataSyncClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -254,7 +260,7 @@ extension DataSyncClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -268,9 +274,10 @@ extension DataSyncClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultDataSyncAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -300,6 +307,7 @@ extension DataSyncClient {
                 httpClientEngine: nil,
                 httpClientConfiguration: nil,
                 authSchemes: nil,
+                authSchemePreference: nil,
                 authSchemeResolver: nil,
                 bearerTokenIdentityResolver: nil,
                 interceptorProviders: nil,
@@ -312,7 +320,7 @@ extension DataSyncClient {
                 nil,
                 nil,
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
+                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 nil,
                 try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
@@ -329,6 +337,7 @@ extension DataSyncClient {
                 AWSClientConfigDefaultsProvider.httpClientEngine(),
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                nil,
                 DefaultDataSyncAuthSchemeResolver(),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
@@ -360,83 +369,6 @@ extension DataSyncClient {
 }
 
 extension DataSyncClient {
-    /// Performs the `AddStorageSystem` operation on the `DataSync` service.
-    ///
-    /// Creates an Amazon Web Services resource for an on-premises storage system that you want DataSync Discovery to collect information about.
-    ///
-    /// - Parameter AddStorageSystemInput : [no documentation found]
-    ///
-    /// - Returns: `AddStorageSystemOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
-    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func addStorageSystem(input: AddStorageSystemInput) async throws -> AddStorageSystemOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "addStorageSystem")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "datasync")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AddStorageSystemInput, AddStorageSystemOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AddStorageSystemInput, AddStorageSystemOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AddStorageSystemInput, AddStorageSystemOutput>(AddStorageSystemInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddStorageSystemInput, AddStorageSystemOutput>(hostPrefix: "discovery-"))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddStorageSystemInput, AddStorageSystemOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddStorageSystemOutput>(AddStorageSystemOutput.httpOutput(from:), AddStorageSystemOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddStorageSystemInput, AddStorageSystemOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<AddStorageSystemOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DataSync", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddStorageSystemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AddStorageSystemInput, AddStorageSystemOutput>(xAmzTarget: "FmrsService.AddStorageSystem"))
-        builder.serialize(ClientRuntime.BodyMiddleware<AddStorageSystemInput, AddStorageSystemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddStorageSystemInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddStorageSystemInput, AddStorageSystemOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddStorageSystemOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddStorageSystemInput, AddStorageSystemOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AddStorageSystemInput, AddStorageSystemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AddStorageSystemInput, AddStorageSystemOutput>(serviceID: serviceName, version: DataSyncClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DataSync")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AddStorageSystem")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `CancelTaskExecution` operation on the `DataSync` service.
     ///
     /// Stops an DataSync task execution that's in progress. The transfer of some files are abruptly interrupted. File contents that're transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution using the same task and allow it to finish, file content on the destination will be complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, DataSync successfully completes the transfer when you start the next task execution.
@@ -455,15 +387,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "cancelTaskExecution")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -531,15 +456,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createAgent")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -591,7 +509,7 @@ extension DataSyncClient {
 
     /// Performs the `CreateLocationAzureBlob` operation on the `DataSync` service.
     ///
-    /// Creates a transfer location for a Microsoft Azure Blob Storage container. DataSync can use this location as a transfer source or destination. Before you begin, make sure you know [how DataSync accesses Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access) and works with [access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers) and [blob types](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#blob-types). You also need a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent) that can connect to your container.
+    /// Creates a transfer location for a Microsoft Azure Blob Storage container. DataSync can use this location as a transfer source or destination. You can make transfers with or without a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent) that connects to your container. Before you begin, make sure you know [how DataSync accesses Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access) and works with [access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers) and [blob types](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#blob-types).
     ///
     /// - Parameter CreateLocationAzureBlobInput : [no documentation found]
     ///
@@ -607,15 +525,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLocationAzureBlob")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -683,15 +594,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLocationEfs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -759,15 +663,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLocationFsxLustre")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -835,15 +732,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLocationFsxOntap")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -911,15 +801,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLocationFsxOpenZfs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -987,15 +870,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLocationFsxWindows")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1063,15 +939,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLocationHdfs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1139,15 +1008,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLocationNfs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1199,7 +1061,7 @@ extension DataSyncClient {
 
     /// Performs the `CreateLocationObjectStorage` operation on the `DataSync` service.
     ///
-    /// Creates a transfer location for an object storage system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand the [prerequisites](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html#create-object-location-prerequisites) for DataSync to work with object storage systems.
+    /// Creates a transfer location for an object storage system. DataSync can use this location as a source or destination for transferring data. You can make transfers with or without a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html#when-agent-required). Before you begin, make sure that you understand the [prerequisites](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html#create-object-location-prerequisites) for DataSync to work with object storage systems.
     ///
     /// - Parameter CreateLocationObjectStorageInput : CreateLocationObjectStorageRequest
     ///
@@ -1215,15 +1077,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLocationObjectStorage")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1298,15 +1153,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLocationS3")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1374,15 +1222,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createLocationSmb")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1450,15 +1291,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createTask")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1526,15 +1360,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteAgent")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1602,15 +1429,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteLocation")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1678,15 +1498,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteTask")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1754,15 +1567,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeAgent")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1812,82 +1618,6 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDiscoveryJob` operation on the `DataSync` service.
-    ///
-    /// Returns information about a DataSync discovery job.
-    ///
-    /// - Parameter DescribeDiscoveryJobInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeDiscoveryJobOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
-    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeDiscoveryJob(input: DescribeDiscoveryJobInput) async throws -> DescribeDiscoveryJobOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "describeDiscoveryJob")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "datasync")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>(DescribeDiscoveryJobInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>(hostPrefix: "discovery-"))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDiscoveryJobOutput>(DescribeDiscoveryJobOutput.httpOutput(from:), DescribeDiscoveryJobOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDiscoveryJobOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DataSync", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDiscoveryJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>(xAmzTarget: "FmrsService.DescribeDiscoveryJob"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDiscoveryJobInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDiscoveryJobOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>(serviceID: serviceName, version: DataSyncClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DataSync")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDiscoveryJob")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `DescribeLocationAzureBlob` operation on the `DataSync` service.
     ///
     /// Provides details about how an DataSync transfer location for Microsoft Azure Blob Storage is configured.
@@ -1906,15 +1636,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLocationAzureBlob")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -1982,15 +1705,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLocationEfs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2058,15 +1774,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLocationFsxLustre")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2134,15 +1843,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLocationFsxOntap")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2210,15 +1912,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLocationFsxOpenZfs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2286,15 +1981,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLocationFsxWindows")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2362,15 +2050,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLocationHdfs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2438,15 +2119,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLocationNfs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2514,15 +2188,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLocationObjectStorage")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2590,15 +2257,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLocationS3")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2666,15 +2326,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeLocationSmb")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -2724,234 +2377,6 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeStorageSystem` operation on the `DataSync` service.
-    ///
-    /// Returns information about an on-premises storage system that you're using with DataSync Discovery.
-    ///
-    /// - Parameter DescribeStorageSystemInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeStorageSystemOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
-    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeStorageSystem(input: DescribeStorageSystemInput) async throws -> DescribeStorageSystemOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "describeStorageSystem")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "datasync")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeStorageSystemInput, DescribeStorageSystemOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput>(DescribeStorageSystemInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput>(hostPrefix: "discovery-"))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStorageSystemOutput>(DescribeStorageSystemOutput.httpOutput(from:), DescribeStorageSystemOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStorageSystemOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DataSync", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeStorageSystemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput>(xAmzTarget: "FmrsService.DescribeStorageSystem"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStorageSystemInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStorageSystemOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput>(serviceID: serviceName, version: DataSyncClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DataSync")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeStorageSystem")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
-    /// Performs the `DescribeStorageSystemResourceMetrics` operation on the `DataSync` service.
-    ///
-    /// Returns information, including performance data and capacity usage, which DataSync Discovery collects about a specific resource in your-premises storage system.
-    ///
-    /// - Parameter DescribeStorageSystemResourceMetricsInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeStorageSystemResourceMetricsOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
-    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeStorageSystemResourceMetrics(input: DescribeStorageSystemResourceMetricsInput) async throws -> DescribeStorageSystemResourceMetricsOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "describeStorageSystemResourceMetrics")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "datasync")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>(DescribeStorageSystemResourceMetricsInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>(hostPrefix: "discovery-"))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStorageSystemResourceMetricsOutput>(DescribeStorageSystemResourceMetricsOutput.httpOutput(from:), DescribeStorageSystemResourceMetricsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStorageSystemResourceMetricsOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DataSync", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeStorageSystemResourceMetricsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>(xAmzTarget: "FmrsService.DescribeStorageSystemResourceMetrics"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStorageSystemResourceMetricsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStorageSystemResourceMetricsOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>(serviceID: serviceName, version: DataSyncClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DataSync")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeStorageSystemResourceMetrics")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
-    /// Performs the `DescribeStorageSystemResources` operation on the `DataSync` service.
-    ///
-    /// Returns information that DataSync Discovery collects about resources in your on-premises storage system.
-    ///
-    /// - Parameter DescribeStorageSystemResourcesInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeStorageSystemResourcesOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
-    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func describeStorageSystemResources(input: DescribeStorageSystemResourcesInput) async throws -> DescribeStorageSystemResourcesOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "describeStorageSystemResources")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "datasync")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>(DescribeStorageSystemResourcesInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>(hostPrefix: "discovery-"))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStorageSystemResourcesOutput>(DescribeStorageSystemResourcesOutput.httpOutput(from:), DescribeStorageSystemResourcesOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStorageSystemResourcesOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DataSync", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeStorageSystemResourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>(xAmzTarget: "FmrsService.DescribeStorageSystemResources"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStorageSystemResourcesInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStorageSystemResourcesOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>(serviceID: serviceName, version: DataSyncClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DataSync")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeStorageSystemResources")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `DescribeTask` operation on the `DataSync` service.
     ///
     /// Provides information about a task, which defines where and how DataSync transfers your data.
@@ -2970,15 +2395,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeTask")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3046,15 +2464,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "describeTaskExecution")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3104,82 +2515,6 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GenerateRecommendations` operation on the `DataSync` service.
-    ///
-    /// Creates recommendations about where to migrate your data to in Amazon Web Services. Recommendations are generated based on information that DataSync Discovery collects about your on-premises storage system's resources. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html). Once generated, you can view your recommendations by using the [DescribeStorageSystemResources](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeStorageSystemResources.html) operation.
-    ///
-    /// - Parameter GenerateRecommendationsInput : [no documentation found]
-    ///
-    /// - Returns: `GenerateRecommendationsOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
-    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func generateRecommendations(input: GenerateRecommendationsInput) async throws -> GenerateRecommendationsOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "generateRecommendations")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "datasync")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GenerateRecommendationsInput, GenerateRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput>(GenerateRecommendationsInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput>(hostPrefix: "discovery-"))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateRecommendationsOutput>(GenerateRecommendationsOutput.httpOutput(from:), GenerateRecommendationsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<GenerateRecommendationsOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DataSync", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GenerateRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput>(xAmzTarget: "FmrsService.GenerateRecommendations"))
-        builder.serialize(ClientRuntime.BodyMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GenerateRecommendationsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GenerateRecommendationsOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput>(serviceID: serviceName, version: DataSyncClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DataSync")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GenerateRecommendations")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `ListAgents` operation on the `DataSync` service.
     ///
     /// Returns a list of DataSync agents that belong to an Amazon Web Services account in the Amazon Web Services Region specified in the request. With pagination, you can reduce the number of agents returned in a response. If you get a truncated list of agents in a response, the response contains a marker that you can specify in your next request to fetch the next page of agents. ListAgents is eventually consistent. This means the result of running the operation might not reflect that you just created or deleted an agent. For example, if you create an agent with [CreateAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateAgent.html) and then immediately run ListAgents, that agent might not show up in the list right away. In situations like this, you can always confirm whether an agent has been created (or deleted) by using [DescribeAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeAgent.html).
@@ -3198,15 +2533,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listAgents")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3256,82 +2584,6 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDiscoveryJobs` operation on the `DataSync` service.
-    ///
-    /// Provides a list of the existing discovery jobs in the Amazon Web Services Region and Amazon Web Services account where you're using DataSync Discovery.
-    ///
-    /// - Parameter ListDiscoveryJobsInput : [no documentation found]
-    ///
-    /// - Returns: `ListDiscoveryJobsOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
-    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func listDiscoveryJobs(input: ListDiscoveryJobsInput) async throws -> ListDiscoveryJobsOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "listDiscoveryJobs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "datasync")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDiscoveryJobsInput, ListDiscoveryJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>(ListDiscoveryJobsInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>(hostPrefix: "discovery-"))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDiscoveryJobsOutput>(ListDiscoveryJobsOutput.httpOutput(from:), ListDiscoveryJobsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<ListDiscoveryJobsOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DataSync", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDiscoveryJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>(xAmzTarget: "FmrsService.ListDiscoveryJobs"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDiscoveryJobsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDiscoveryJobsOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>(serviceID: serviceName, version: DataSyncClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DataSync")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDiscoveryJobs")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `ListLocations` operation on the `DataSync` service.
     ///
     /// Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
@@ -3350,15 +2602,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listLocations")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3408,82 +2653,6 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStorageSystems` operation on the `DataSync` service.
-    ///
-    /// Lists the on-premises storage systems that you're using with DataSync Discovery.
-    ///
-    /// - Parameter ListStorageSystemsInput : [no documentation found]
-    ///
-    /// - Returns: `ListStorageSystemsOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
-    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func listStorageSystems(input: ListStorageSystemsInput) async throws -> ListStorageSystemsOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "listStorageSystems")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "datasync")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListStorageSystemsInput, ListStorageSystemsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput>(ListStorageSystemsInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput>(hostPrefix: "discovery-"))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStorageSystemsOutput>(ListStorageSystemsOutput.httpOutput(from:), ListStorageSystemsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<ListStorageSystemsOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DataSync", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStorageSystemsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput>(xAmzTarget: "FmrsService.ListStorageSystems"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStorageSystemsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStorageSystemsOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput>(serviceID: serviceName, version: DataSyncClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DataSync")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListStorageSystems")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `ListTagsForResource` operation on the `DataSync` service.
     ///
     /// Returns all the tags associated with an Amazon Web Services resource.
@@ -3502,15 +2671,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listTagsForResource")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3578,15 +2740,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listTaskExecutions")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3654,15 +2809,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listTasks")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3712,159 +2860,6 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveStorageSystem` operation on the `DataSync` service.
-    ///
-    /// Permanently removes a storage system resource from DataSync Discovery, including the associated discovery jobs, collected data, and recommendations.
-    ///
-    /// - Parameter RemoveStorageSystemInput : [no documentation found]
-    ///
-    /// - Returns: `RemoveStorageSystemOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
-    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func removeStorageSystem(input: RemoveStorageSystemInput) async throws -> RemoveStorageSystemOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "removeStorageSystem")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "datasync")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RemoveStorageSystemInput, RemoveStorageSystemOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput>(RemoveStorageSystemInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput>(hostPrefix: "discovery-"))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveStorageSystemOutput>(RemoveStorageSystemOutput.httpOutput(from:), RemoveStorageSystemOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<RemoveStorageSystemOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DataSync", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveStorageSystemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput>(xAmzTarget: "FmrsService.RemoveStorageSystem"))
-        builder.serialize(ClientRuntime.BodyMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveStorageSystemInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveStorageSystemOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput>(serviceID: serviceName, version: DataSyncClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DataSync")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RemoveStorageSystem")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
-    /// Performs the `StartDiscoveryJob` operation on the `DataSync` service.
-    ///
-    /// Runs a DataSync discovery job on your on-premises storage system. If you haven't added the storage system to DataSync Discovery yet, do this first by using the [AddStorageSystem](https://docs.aws.amazon.com/datasync/latest/userguide/API_AddStorageSystem.html) operation.
-    ///
-    /// - Parameter StartDiscoveryJobInput : [no documentation found]
-    ///
-    /// - Returns: `StartDiscoveryJobOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
-    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func startDiscoveryJob(input: StartDiscoveryJobInput) async throws -> StartDiscoveryJobOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "startDiscoveryJob")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "datasync")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartDiscoveryJobInput, StartDiscoveryJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>(StartDiscoveryJobInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>(hostPrefix: "discovery-"))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDiscoveryJobOutput>(StartDiscoveryJobOutput.httpOutput(from:), StartDiscoveryJobOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<StartDiscoveryJobOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DataSync", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartDiscoveryJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>(xAmzTarget: "FmrsService.StartDiscoveryJob"))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDiscoveryJobInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDiscoveryJobOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>(serviceID: serviceName, version: DataSyncClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DataSync")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartDiscoveryJob")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `StartTaskExecution` operation on the `DataSync` service.
     ///
     /// Starts an DataSync transfer task. For each task, you can only run one task execution at a time. There are several steps to a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/working-with-task-executions.html#understand-task-execution-statuses). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
@@ -3883,15 +2878,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "startTaskExecution")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -3941,82 +2929,6 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopDiscoveryJob` operation on the `DataSync` service.
-    ///
-    /// Stops a running DataSync discovery job. You can stop a discovery job anytime. A job that's stopped before it's scheduled to end likely will provide you some information about your on-premises storage system resources. To get recommendations for a stopped job, you must use the [GenerateRecommendations](https://docs.aws.amazon.com/datasync/latest/userguide/API_GenerateRecommendations.html) operation.
-    ///
-    /// - Parameter StopDiscoveryJobInput : [no documentation found]
-    ///
-    /// - Returns: `StopDiscoveryJobOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
-    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func stopDiscoveryJob(input: StopDiscoveryJobInput) async throws -> StopDiscoveryJobOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "stopDiscoveryJob")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "datasync")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StopDiscoveryJobInput, StopDiscoveryJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput>(StopDiscoveryJobInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput>(hostPrefix: "discovery-"))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDiscoveryJobOutput>(StopDiscoveryJobOutput.httpOutput(from:), StopDiscoveryJobOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<StopDiscoveryJobOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DataSync", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopDiscoveryJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput>(xAmzTarget: "FmrsService.StopDiscoveryJob"))
-        builder.serialize(ClientRuntime.BodyMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopDiscoveryJobInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopDiscoveryJobOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput>(serviceID: serviceName, version: DataSyncClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DataSync")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopDiscoveryJob")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `TagResource` operation on the `DataSync` service.
     ///
     /// Applies a tag to an Amazon Web Services resource. Tags are key-value pairs that can help you manage, filter, and search for your resources. These include DataSync resources, such as locations, tasks, and task executions.
@@ -4035,15 +2947,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "tagResource")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4111,15 +3016,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "untagResource")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4187,15 +3085,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateAgent")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4245,82 +3136,6 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDiscoveryJob` operation on the `DataSync` service.
-    ///
-    /// Edits a DataSync discovery job configuration.
-    ///
-    /// - Parameter UpdateDiscoveryJobInput : [no documentation found]
-    ///
-    /// - Returns: `UpdateDiscoveryJobOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
-    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func updateDiscoveryJob(input: UpdateDiscoveryJobInput) async throws -> UpdateDiscoveryJobOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "updateDiscoveryJob")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "datasync")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>(UpdateDiscoveryJobInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>(hostPrefix: "discovery-"))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDiscoveryJobOutput>(UpdateDiscoveryJobOutput.httpOutput(from:), UpdateDiscoveryJobOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDiscoveryJobOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DataSync", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDiscoveryJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>(xAmzTarget: "FmrsService.UpdateDiscoveryJob"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDiscoveryJobInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDiscoveryJobOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>(serviceID: serviceName, version: DataSyncClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DataSync")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDiscoveryJob")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `UpdateLocationAzureBlob` operation on the `DataSync` service.
     ///
     /// Modifies the following configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html).
@@ -4339,15 +3154,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateLocationAzureBlob")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4415,15 +3223,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateLocationEfs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4491,15 +3292,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateLocationFsxLustre")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4567,15 +3361,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateLocationFsxOntap")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4643,15 +3430,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateLocationFsxOpenZfs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4719,15 +3499,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateLocationFsxWindows")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4795,15 +3568,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateLocationHdfs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4871,15 +3637,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateLocationNfs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -4947,15 +3706,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateLocationObjectStorage")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5027,15 +3779,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateLocationS3")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5103,15 +3848,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateLocationSmb")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5161,82 +3899,6 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateStorageSystem` operation on the `DataSync` service.
-    ///
-    /// Modifies some configurations of an on-premises storage system resource that you're using with DataSync Discovery.
-    ///
-    /// - Parameter UpdateStorageSystemInput : [no documentation found]
-    ///
-    /// - Returns: `UpdateStorageSystemOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
-    /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    public func updateStorageSystem(input: UpdateStorageSystemInput) async throws -> UpdateStorageSystemOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "updateStorageSystem")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "datasync")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateStorageSystemInput, UpdateStorageSystemOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput>(UpdateStorageSystemInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput>(hostPrefix: "discovery-"))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStorageSystemOutput>(UpdateStorageSystemOutput.httpOutput(from:), UpdateStorageSystemOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStorageSystemOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DataSync", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateStorageSystemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput>(xAmzTarget: "FmrsService.UpdateStorageSystem"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateStorageSystemInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStorageSystemOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput>(serviceID: serviceName, version: DataSyncClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DataSync")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateStorageSystem")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `UpdateTask` operation on the `DataSync` service.
     ///
     /// Updates the configuration of a task, which defines where and how DataSync transfers your data.
@@ -5255,15 +3917,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateTask")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5331,15 +3986,8 @@ extension DataSyncClient {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "updateTaskExecution")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -5388,5 +4036,4 @@ extension DataSyncClient {
             .build()
         return try await op.execute(input: input)
     }
-
 }

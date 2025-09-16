@@ -69,6 +69,75 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
+extension PCSClientTypes {
+
+    public enum AccountingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccountingMode] {
+            return [
+                .none,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The accounting configuration includes configurable settings for Slurm accounting. It's a property of the ClusterSlurmConfiguration object.
+    public struct Accounting: Swift.Sendable {
+        /// The default value for all purge settings for slurmdbd.conf. For more information, see the [slurmdbd.conf documentation at SchedMD](https://slurm.schedmd.com/slurmdbd.conf.html). The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists. 0 isn't a valid value.
+        public var defaultPurgeTimeInDays: Swift.Int?
+        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        /// This member is required.
+        public var mode: PCSClientTypes.AccountingMode?
+
+        public init(
+            defaultPurgeTimeInDays: Swift.Int? = nil,
+            mode: PCSClientTypes.AccountingMode? = nil
+        ) {
+            self.defaultPurgeTimeInDays = defaultPurgeTimeInDays
+            self.mode = mode
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The accounting configuration includes configurable settings for Slurm accounting. It's a property of the ClusterSlurmConfiguration object.
+    public struct AccountingRequest: Swift.Sendable {
+        /// The default value for all purge settings for slurmdbd.conf. For more information, see the [slurmdbd.conf documentation at SchedMD](https://slurm.schedmd.com/slurmdbd.conf.html). The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists. 0 isn't a valid value.
+        public var defaultPurgeTimeInDays: Swift.Int?
+        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        /// This member is required.
+        public var mode: PCSClientTypes.AccountingMode?
+
+        public init(
+            defaultPurgeTimeInDays: Swift.Int? = nil,
+            mode: PCSClientTypes.AccountingMode? = nil
+        ) {
+            self.defaultPurgeTimeInDays = defaultPurgeTimeInDays
+            self.mode = mode
+        }
+    }
+}
+
 /// Your request has conflicting operations. This can occur if you're trying to perform more than 1 operation on the same resource at the same time. Examples
 ///
 /// * A cluster with the same name already exists.
@@ -111,7 +180,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-/// Amazon Web Services PCS can't process your request right now. Try again later.
+/// PCS can't process your request right now. Try again later.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -343,7 +412,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension PCSClientTypes {
 
-    /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
+    /// An Amazon EC2 launch template PCS uses to launch compute nodes.
     public struct CustomLaunchTemplate: Swift.Sendable {
         /// The ID of the EC2 launch template to use to provision instances. Example: lt-xxxx
         /// This member is required.
@@ -364,9 +433,9 @@ extension PCSClientTypes {
 
 extension PCSClientTypes {
 
-    /// An EC2 instance configuration Amazon Web Services PCS uses to launch compute nodes.
+    /// An EC2 instance configuration PCS uses to launch compute nodes.
     public struct InstanceConfig: Swift.Sendable {
-        /// The EC2 instance type that Amazon Web Services PCS can provision in the compute node group. Example: t2.xlarge
+        /// The EC2 instance type that PCS can provision in the compute node group. Example: t2.xlarge
         public var instanceType: Swift.String?
 
         public init(
@@ -431,7 +500,7 @@ extension PCSClientTypes {
 
     /// Additional settings that directly map to Slurm settings.
     public struct SlurmCustomSetting: Swift.Sendable {
-        /// Amazon Web Services PCS supports configuration of the following Slurm parameters:
+        /// PCS supports configuration of the following Slurm parameters:
         ///
         /// * For clusters
         ///
@@ -440,6 +509,8 @@ extension PCSClientTypes {
         /// * [Epilog](https://slurm.schedmd.com/slurm.conf.html#OPT_Epilog_1)
         ///
         /// * [SelectTypeParameters](https://slurm.schedmd.com/slurm.conf.html#OPT_SelectTypeParameters)
+        ///
+        /// * [AccountingStorageEnforce](https://slurm.schedmd.com/slurm.conf.html#OPT_AccountingStorageEnforce) PCS supports a subset of the options for AccountingStorageEnforce. For more information, see [Slurm accounting in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-accounting.html) in the PCS User Guide.
         ///
         ///
         ///
@@ -528,7 +599,7 @@ extension PCSClientTypes {
 }
 
 public struct CreateComputeNodeGroupInput: Swift.Sendable {
-    /// The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
+    /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, PCS uses the AMI ID specified in the custom launch template.
     public var amiId: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     public var clientToken: Swift.String?
@@ -538,14 +609,10 @@ public struct CreateComputeNodeGroupInput: Swift.Sendable {
     /// A name to identify the cluster. Example: MyCluster
     /// This member is required.
     public var computeNodeGroupName: Swift.String?
-    /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
+    /// An Amazon EC2 launch template PCS uses to launch compute nodes.
     /// This member is required.
     public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
-    /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path. Examples
-    ///
-    /// * arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1
-    ///
-    /// * arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+    /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
     /// This member is required.
     public var iamInstanceProfileArn: Swift.String?
     /// A list of EC2 instance configurations that Amazon Web Services PCS can provision in the compute node group.
@@ -661,6 +728,8 @@ extension PCSClientTypes {
         case deleted
         case deleteFailed
         case deleting
+        case suspended
+        case suspending
         case updateFailed
         case updating
         case sdkUnknown(Swift.String)
@@ -673,6 +742,8 @@ extension PCSClientTypes {
                 .deleted,
                 .deleteFailed,
                 .deleting,
+                .suspended,
+                .suspending,
                 .updateFailed,
                 .updating
             ]
@@ -691,6 +762,8 @@ extension PCSClientTypes {
             case .deleted: return "DELETED"
             case .deleteFailed: return "DELETE_FAILED"
             case .deleting: return "DELETING"
+            case .suspended: return "SUSPENDED"
+            case .suspending: return "SUSPENDING"
             case .updateFailed: return "UPDATE_FAILED"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
@@ -703,7 +776,7 @@ extension PCSClientTypes {
 
     /// A compute node group associated with a cluster.
     public struct ComputeNodeGroup: Swift.Sendable {
-        /// The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch instances. If not provided, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
+        /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not provided, PCS uses the AMI ID specified in the custom launch template.
         public var amiId: Swift.String?
         /// The unique Amazon Resource Name (ARN) of the compute node group.
         /// This member is required.
@@ -714,16 +787,12 @@ extension PCSClientTypes {
         /// The date and time the resource was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
-        /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
+        /// An Amazon EC2 launch template PCS uses to launch compute nodes.
         /// This member is required.
         public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
         /// The list of errors that occurred during compute node group provisioning.
         public var errorInfo: [PCSClientTypes.ErrorInfo]?
-        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path. Examples
-        ///
-        /// * arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1
-        ///
-        /// * arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
         /// This member is required.
         public var iamInstanceProfileArn: Swift.String?
         /// The generated unique ID of the compute node group.
@@ -747,7 +816,7 @@ extension PCSClientTypes {
         public var slurmConfiguration: PCSClientTypes.ComputeNodeGroupSlurmConfiguration?
         /// Additional configuration when you specify SPOT as the purchaseOption for the CreateComputeNodeGroup API action.
         public var spotOptions: PCSClientTypes.SpotOptions?
-        /// The provisioning status of the compute node group. The provisioning status doesn't indicate the overall health of the compute node group.
+        /// The provisioning status of the compute node group. The provisioning status doesn't indicate the overall health of the compute node group. The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see [Frequently asked questions about Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions_faq.html) in the PCS User Guide.
         /// This member is required.
         public var status: PCSClientTypes.ComputeNodeGroupStatus?
         /// The list of subnet IDs where instances are provisioned by the compute node group. The subnets must be in the same VPC as the cluster.
@@ -901,7 +970,7 @@ extension PCSClientTypes {
         /// The name that identifies the compute node group.
         /// This member is required.
         public var name: Swift.String?
-        /// The provisioning status of the compute node group. The provisioning status doesn't indicate the overall health of the compute node group.
+        /// The provisioning status of the compute node group. The provisioning status doesn't indicate the overall health of the compute node group. The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see [Frequently asked questions about Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions_faq.html) in the PCS User Guide.
         /// This member is required.
         public var status: PCSClientTypes.ComputeNodeGroupStatus?
 
@@ -957,7 +1026,7 @@ extension PCSClientTypes {
 }
 
 public struct UpdateComputeNodeGroupInput: Swift.Sendable {
-    /// The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch instances. If not provided, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
+    /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not provided, PCS uses the AMI ID specified in the custom launch template.
     public var amiId: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     public var clientToken: Swift.String?
@@ -967,13 +1036,9 @@ public struct UpdateComputeNodeGroupInput: Swift.Sendable {
     /// The name or ID of the compute node group.
     /// This member is required.
     public var computeNodeGroupIdentifier: Swift.String?
-    /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
+    /// An Amazon EC2 launch template PCS uses to launch compute nodes.
     public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
-    /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path. Examples
-    ///
-    /// * arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1
-    ///
-    /// * arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+    /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
     public var iamInstanceProfileArn: Swift.String?
     /// Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
     public var purchaseOption: PCSClientTypes.PurchaseOption?
@@ -1026,17 +1091,50 @@ public struct UpdateComputeNodeGroupOutput: Swift.Sendable {
 
 extension PCSClientTypes {
 
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
     /// The networking configuration for the cluster's control plane.
     public struct NetworkingRequest: Swift.Sendable {
+        /// The IP address version the cluster uses. The default is IPV4.
+        public var networkType: PCSClientTypes.NetworkType?
         /// A list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets.
         public var securityGroupIds: [Swift.String]?
         /// The list of subnet IDs where Amazon Web Services PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and Amazon Web Services PCS resources. Subnet IDs have the form subnet-0123456789abcdef0. Subnets can't be in Outposts, Wavelength or an Amazon Web Services Local Zone. Amazon Web Services PCS currently supports only 1 subnet in this list.
         public var subnetIds: [Swift.String]?
 
         public init(
+            networkType: PCSClientTypes.NetworkType? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         ) {
+            self.networkType = networkType
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -1073,10 +1171,10 @@ extension PCSClientTypes {
 
     /// The cluster management and job scheduling software associated with the cluster.
     public struct SchedulerRequest: Swift.Sendable {
-        /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The software PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
         /// This member is required.
         public var version: Swift.String?
 
@@ -1126,15 +1224,19 @@ extension PCSClientTypes {
 
     /// Additional options related to the Slurm scheduler.
     public struct ClusterSlurmConfigurationRequest: Swift.Sendable {
+        /// The accounting configuration includes configurable settings for Slurm accounting.
+        public var accounting: PCSClientTypes.AccountingRequest?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
 
         public init(
+            accounting: PCSClientTypes.AccountingRequest? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
         ) {
+            self.accounting = accounting
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
@@ -1219,24 +1321,28 @@ extension PCSClientTypes {
 
     /// An endpoint available for interaction with the scheduler.
     public struct Endpoint: Swift.Sendable {
+        /// The endpoint's IPv6 address. Example: 2001:db8::1
+        public var ipv6Address: Swift.String?
         /// The endpoint's connection port number. Example: 1234
         /// This member is required.
         public var port: Swift.String?
-        /// The endpoint's private IP address. Example: 2.2.2.2
+        /// For clusters that use IPv4, this is the endpoint's private IP address. Example: 10.1.2.3 For clusters configured to use IPv6, this is an empty string.
         /// This member is required.
         public var privateIpAddress: Swift.String?
-        /// The endpoint's public IP address. Example: 1.1.1.1
+        /// The endpoint's public IP address. Example: 192.0.2.1
         public var publicIpAddress: Swift.String?
         /// Indicates the type of endpoint running at the specific IP address.
         /// This member is required.
         public var type: PCSClientTypes.EndpointType?
 
         public init(
+            ipv6Address: Swift.String? = nil,
             port: Swift.String? = nil,
             privateIpAddress: Swift.String? = nil,
             publicIpAddress: Swift.String? = nil,
             type: PCSClientTypes.EndpointType? = nil
         ) {
+            self.ipv6Address = ipv6Address
             self.port = port
             self.privateIpAddress = privateIpAddress
             self.publicIpAddress = publicIpAddress
@@ -1249,6 +1355,8 @@ extension PCSClientTypes {
 
     /// The networking configuration for the cluster's control plane.
     public struct Networking: Swift.Sendable {
+        /// The IP address version the cluster uses. The default is IPV4.
+        public var networkType: PCSClientTypes.NetworkType?
         /// The list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets. The following rules are required:
         ///
         /// * Inbound rule 1
@@ -1268,7 +1376,7 @@ extension PCSClientTypes {
         ///
         /// * Ports: All
         ///
-        /// * Destination: 0.0.0.0/0 (IPv4)
+        /// * Destination: 0.0.0.0/0 (IPv4) or ::/0 (IPv6)
         ///
         ///
         ///
@@ -1281,13 +1389,15 @@ extension PCSClientTypes {
         ///
         /// * Destination: Self
         public var securityGroupIds: [Swift.String]?
-        /// The ID of the subnet where Amazon Web Services PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and Amazon Web Services PCS resources. The subnet must have an available IP address, cannot reside in AWS Outposts, AWS Wavelength, or an AWS Local Zone. Example: subnet-abcd1234
+        /// The ID of the subnet where PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and PCS resources. The subnet must have an available IP address, cannot reside in Outposts, Wavelength, or an Amazon Web Services Local Zone. Example: subnet-abcd1234
         public var subnetIds: [Swift.String]?
 
         public init(
+            networkType: PCSClientTypes.NetworkType? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         ) {
+            self.networkType = networkType
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -1298,10 +1408,10 @@ extension PCSClientTypes {
 
     /// The cluster management and job scheduling software associated with the cluster.
     public struct Scheduler: Swift.Sendable {
-        /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The software PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
         /// This member is required.
         public var version: Swift.String?
 
@@ -1340,6 +1450,8 @@ extension PCSClientTypes {
 
     /// Additional options related to the Slurm scheduler.
     public struct ClusterSlurmConfiguration: Swift.Sendable {
+        /// The accounting configuration includes configurable settings for Slurm accounting.
+        public var accounting: PCSClientTypes.Accounting?
         /// The shared Slurm key for authentication, also known as the cluster secret.
         public var authKey: PCSClientTypes.SlurmAuthKey?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
@@ -1348,10 +1460,12 @@ extension PCSClientTypes {
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
 
         public init(
+            accounting: PCSClientTypes.Accounting? = nil,
             authKey: PCSClientTypes.SlurmAuthKey? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
         ) {
+            self.accounting = accounting
             self.authKey = authKey
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
@@ -1367,6 +1481,8 @@ extension PCSClientTypes {
         case creating
         case deleteFailed
         case deleting
+        case suspended
+        case suspending
         case updateFailed
         case updating
         case sdkUnknown(Swift.String)
@@ -1378,6 +1494,8 @@ extension PCSClientTypes {
                 .creating,
                 .deleteFailed,
                 .deleting,
+                .suspended,
+                .suspending,
                 .updateFailed,
                 .updating
             ]
@@ -1395,6 +1513,8 @@ extension PCSClientTypes {
             case .creating: return "CREATING"
             case .deleteFailed: return "DELETE_FAILED"
             case .deleting: return "DELETING"
+            case .suspended: return "SUSPENDED"
+            case .suspending: return "SUSPENDING"
             case .updateFailed: return "UPDATE_FAILED"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
@@ -1443,7 +1563,7 @@ extension PCSClientTypes {
         public var size: PCSClientTypes.Size?
         /// Additional options related to the Slurm scheduler.
         public var slurmConfiguration: PCSClientTypes.ClusterSlurmConfiguration?
-        /// The provisioning status of the cluster. The provisioning status doesn't indicate the overall health of the cluster.
+        /// The provisioning status of the cluster. The provisioning status doesn't indicate the overall health of the cluster. The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see [Frequently asked questions about Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions_faq.html) in the PCS User Guide.
         /// This member is required.
         public var status: PCSClientTypes.ClusterStatus?
 
@@ -1566,7 +1686,7 @@ extension PCSClientTypes {
         /// The name that identifies the cluster.
         /// This member is required.
         public var name: Swift.String?
-        /// The provisioning status of the cluster. The provisioning status doesn't indicate the overall health of the cluster.
+        /// The provisioning status of the cluster. The provisioning status doesn't indicate the overall health of the cluster. The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see [Frequently asked questions about Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions_faq.html) in the PCS User Guide.
         /// This member is required.
         public var status: PCSClientTypes.ClusterStatus?
 
@@ -1656,6 +1776,8 @@ extension PCSClientTypes {
         case creating
         case deleteFailed
         case deleting
+        case suspended
+        case suspending
         case updateFailed
         case updating
         case sdkUnknown(Swift.String)
@@ -1667,6 +1789,8 @@ extension PCSClientTypes {
                 .creating,
                 .deleteFailed,
                 .deleting,
+                .suspended,
+                .suspending,
                 .updateFailed,
                 .updating
             ]
@@ -1684,6 +1808,8 @@ extension PCSClientTypes {
             case .creating: return "CREATING"
             case .deleteFailed: return "DELETE_FAILED"
             case .deleting: return "DELETING"
+            case .suspended: return "SUSPENDED"
+            case .suspending: return "SUSPENDING"
             case .updateFailed: return "UPDATE_FAILED"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
@@ -1719,7 +1845,7 @@ extension PCSClientTypes {
         /// The name that identifies the queue.
         /// This member is required.
         public var name: Swift.String?
-        /// The provisioning status of the queue. The provisioning status doesn't indicate the overall health of the queue.
+        /// The provisioning status of the queue. The provisioning status doesn't indicate the overall health of the queue. The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see [Frequently asked questions about Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions_faq.html) in the PCS User Guide.
         /// This member is required.
         public var status: PCSClientTypes.QueueStatus?
 
@@ -1854,7 +1980,7 @@ extension PCSClientTypes {
         /// The name that identifies the queue.
         /// This member is required.
         public var name: Swift.String?
-        /// The provisioning status of the queue. The provisioning status doesn't indicate the overall health of the queue.
+        /// The provisioning status of the queue. The provisioning status doesn't indicate the overall health of the queue. The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see [Frequently asked questions about Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions_faq.html) in the PCS User Guide.
         /// This member is required.
         public var status: PCSClientTypes.QueueStatus?
 
@@ -2261,8 +2387,9 @@ extension GetQueueInput {
 extension ListClustersInput {
 
     static func write(value: ListClustersInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -2316,6 +2443,7 @@ extension UntagResourceInput {
 
     static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["resourceArn"].write(value.resourceArn)
         try writer["tagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -2813,6 +2941,7 @@ enum TagResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2872,6 +3001,34 @@ enum UpdateQueueOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InternalServerException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
@@ -2919,21 +3076,6 @@ extension ThrottlingException {
     }
 }
 
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ValidationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
@@ -2942,19 +3084,6 @@ extension ValidationException {
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: PCSClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3017,6 +3146,7 @@ extension PCSClientTypes.Endpoint {
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.privateIpAddress = try reader["privateIpAddress"].readIfPresent() ?? ""
         value.publicIpAddress = try reader["publicIpAddress"].readIfPresent()
+        value.ipv6Address = try reader["ipv6Address"].readIfPresent()
         value.port = try reader["port"].readIfPresent() ?? ""
         return value
     }
@@ -3029,6 +3159,7 @@ extension PCSClientTypes.Networking {
         var value = PCSClientTypes.Networking()
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.networkType = try reader["networkType"].readIfPresent()
         return value
     }
 }
@@ -3041,6 +3172,18 @@ extension PCSClientTypes.ClusterSlurmConfiguration {
         value.scaleDownIdleTimeInSeconds = try reader["scaleDownIdleTimeInSeconds"].readIfPresent()
         value.slurmCustomSettings = try reader["slurmCustomSettings"].readListIfPresent(memberReadingClosure: PCSClientTypes.SlurmCustomSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.authKey = try reader["authKey"].readIfPresent(with: PCSClientTypes.SlurmAuthKey.read(from:))
+        value.accounting = try reader["accounting"].readIfPresent(with: PCSClientTypes.Accounting.read(from:))
+        return value
+    }
+}
+
+extension PCSClientTypes.Accounting {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Accounting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.Accounting()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.defaultPurgeTimeInDays = try reader["defaultPurgeTimeInDays"].readIfPresent()
         return value
     }
 }
@@ -3282,6 +3425,7 @@ extension PCSClientTypes.NetworkingRequest {
 
     static func write(value: PCSClientTypes.NetworkingRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["networkType"].write(value.networkType)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -3291,8 +3435,18 @@ extension PCSClientTypes.ClusterSlurmConfigurationRequest {
 
     static func write(value: PCSClientTypes.ClusterSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["accounting"].write(value.accounting, with: PCSClientTypes.AccountingRequest.write(value:to:))
         try writer["scaleDownIdleTimeInSeconds"].write(value.scaleDownIdleTimeInSeconds)
         try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PCSClientTypes.AccountingRequest {
+
+    static func write(value: PCSClientTypes.AccountingRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultPurgeTimeInDays"].write(value.defaultPurgeTimeInDays)
+        try writer["mode"].write(value.mode)
     }
 }
 

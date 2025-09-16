@@ -71,7 +71,7 @@ public struct RemovePermissionOutput: Swift.Sendable {
     public init() { }
 }
 
-/// You do not have the necessary permissons for this action.
+/// You do not have the necessary permissions for this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -707,6 +707,8 @@ public struct CreateArchiveInput: Swift.Sendable {
     /// The ARN of the event bus that sends events to the archive.
     /// This member is required.
     public var eventSourceArn: Swift.String?
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this archive. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the archive. For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html) in the Key Management Service Developer Guide. If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html) in the Amazon EventBridge User Guide.
+    public var kmsKeyIdentifier: Swift.String?
     /// The number of days to retain events for. Default value is 0. If set to 0, events are retained indefinitely
     public var retentionDays: Swift.Int?
 
@@ -715,12 +717,14 @@ public struct CreateArchiveInput: Swift.Sendable {
         description: Swift.String? = nil,
         eventPattern: Swift.String? = nil,
         eventSourceArn: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         retentionDays: Swift.Int? = nil
     ) {
         self.archiveName = archiveName
         self.description = description
         self.eventPattern = eventPattern
         self.eventSourceArn = eventSourceArn
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.retentionDays = retentionDays
     }
 }
@@ -857,9 +861,9 @@ extension EventBridgeClientTypes.CreateConnectionBasicAuthRequestParameters: Swi
 
 extension EventBridgeClientTypes {
 
-    /// The Amazon Resource Name (ARN) of the resource configuration for the resource endpoint.
+    /// The Amazon Resource Name (ARN) of the Amazon VPC Lattice resource configuration for the resource endpoint.
     public struct ConnectivityResourceConfigurationArn: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the resource configuration for the resource endpoint.
+        /// The Amazon Resource Name (ARN) of the Amazon VPC Lattice resource configuration for the resource endpoint.
         /// This member is required.
         public var resourceConfigurationArn: Swift.String?
 
@@ -1122,8 +1126,10 @@ public struct CreateConnectionInput: Swift.Sendable {
     public var authorizationType: EventBridgeClientTypes.ConnectionAuthorizationType?
     /// A description for the connection to create.
     public var description: Swift.String?
-    /// For connections to private resource endpoints, the parameters to use for invoking the resource endpoint. For more information, see [Connecting to private resources](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection-private.html) in the Amazon EventBridge User Guide .
+    /// For connections to private APIs, the parameters to use for invoking the API. For more information, see [Connecting to private APIs](https://docs.aws.amazon.com/eventbridge/latest/userguide/connection-private.html) in the Amazon EventBridge User Guide .
     public var invocationConnectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters?
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this connection. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the connection. For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html) in the Key Management Service Developer Guide.
+    public var kmsKeyIdentifier: Swift.String?
     /// The name for the connection to create.
     /// This member is required.
     public var name: Swift.String?
@@ -1133,12 +1139,14 @@ public struct CreateConnectionInput: Swift.Sendable {
         authorizationType: EventBridgeClientTypes.ConnectionAuthorizationType? = nil,
         description: Swift.String? = nil,
         invocationConnectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
         self.authParameters = authParameters
         self.authorizationType = authorizationType
         self.description = description
         self.invocationConnectivityParameters = invocationConnectivityParameters
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.name = name
     }
 }
@@ -1475,6 +1483,89 @@ extension EventBridgeClientTypes {
 
 extension EventBridgeClientTypes {
 
+    public enum IncludeDetail: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludeDetail] {
+            return [
+                .full,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "FULL"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeClientTypes {
+
+    public enum Level: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case error
+        case info
+        case off
+        case trace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Level] {
+            return [
+                .error,
+                .info,
+                .off,
+                .trace
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .info: return "INFO"
+            case .off: return "OFF"
+            case .trace: return "TRACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeClientTypes {
+
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    public struct LogConfig: Swift.Sendable {
+        /// Whether EventBridge include detailed event information in the records it generates. Detailed data can be useful for troubleshooting and debugging. This information includes details of the event itself, as well as target details. For more information, see [Including detail data in event bus logs](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus-logs.html#eb-event-logs-data) in the EventBridge User Guide.
+        public var includeDetail: EventBridgeClientTypes.IncludeDetail?
+        /// The level of logging detail to include. This applies to all log destinations for the event bus. For more information, see [Specifying event bus log level](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus-logs.html#eb-event-bus-logs-level) in the EventBridge User Guide.
+        public var level: EventBridgeClientTypes.Level?
+
+        public init(
+            includeDetail: EventBridgeClientTypes.IncludeDetail? = nil,
+            level: EventBridgeClientTypes.Level? = nil
+        ) {
+            self.includeDetail = includeDetail
+            self.level = level
+        }
+    }
+}
+
+extension EventBridgeClientTypes {
+
     /// A key-value pair associated with an Amazon Web Services resource. In EventBridge, rules and event buses support tagging.
     public struct Tag: Swift.Sendable {
         /// A string you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
@@ -1501,17 +1592,17 @@ public struct CreateEventBusInput: Swift.Sendable {
     public var description: Swift.String?
     /// If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
     public var eventSourceName: Swift.String?
-    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see [Managing keys](https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html) in the Key Management Service Developer Guide. Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:
-    ///
-    /// * You call [CreateArchive](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html) on an event bus set to use a customer managed key for encryption.
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html) in the Key Management Service Developer Guide. Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:
     ///
     /// * You call [CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer) on an event bus set to use a customer managed key for encryption.
     ///
-    /// * You call [UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html) to set a customer managed key on an event bus with an archives or schema discovery enabled.
+    /// * You call [UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html) to set a customer managed key on an event bus with schema discovery enabled.
     ///
     ///
-    /// To enable archives or schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
+    /// To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Encrypting events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption-event-bus-cmkey.html) in the Amazon EventBridge User Guide. If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    public var logConfig: EventBridgeClientTypes.LogConfig?
     /// The name of the new event bus. Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus.
     /// This member is required.
     public var name: Swift.String?
@@ -1523,6 +1614,7 @@ public struct CreateEventBusInput: Swift.Sendable {
         description: Swift.String? = nil,
         eventSourceName: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
+        logConfig: EventBridgeClientTypes.LogConfig? = nil,
         name: Swift.String? = nil,
         tags: [EventBridgeClientTypes.Tag]? = nil
     ) {
@@ -1530,6 +1622,7 @@ public struct CreateEventBusInput: Swift.Sendable {
         self.description = description
         self.eventSourceName = eventSourceName
         self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.logConfig = logConfig
         self.name = name
         self.tags = tags
     }
@@ -1544,17 +1637,21 @@ public struct CreateEventBusOutput: Swift.Sendable {
     public var eventBusArn: Swift.String?
     /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    public var logConfig: EventBridgeClientTypes.LogConfig?
 
     public init(
         deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
         eventBusArn: Swift.String? = nil,
-        kmsKeyIdentifier: Swift.String? = nil
+        kmsKeyIdentifier: Swift.String? = nil,
+        logConfig: EventBridgeClientTypes.LogConfig? = nil
     ) {
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.eventBusArn = eventBusArn
         self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.logConfig = logConfig
     }
 }
 
@@ -1885,6 +1982,8 @@ public struct DescribeArchiveOutput: Swift.Sendable {
     public var eventPattern: Swift.String?
     /// The ARN of the event source associated with the archive.
     public var eventSourceArn: Swift.String?
+    /// The identifier of the KMS customer managed key for EventBridge to use to encrypt this archive, if one has been specified. For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html) in the Amazon EventBridge User Guide.
+    public var kmsKeyIdentifier: Swift.String?
     /// The number of days to retain events for in the archive.
     public var retentionDays: Swift.Int?
     /// The size of the archive in bytes.
@@ -1902,6 +2001,7 @@ public struct DescribeArchiveOutput: Swift.Sendable {
         eventCount: Swift.Int = 0,
         eventPattern: Swift.String? = nil,
         eventSourceArn: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         retentionDays: Swift.Int? = nil,
         sizeBytes: Swift.Int = 0,
         state: EventBridgeClientTypes.ArchiveState? = nil,
@@ -1914,6 +2014,7 @@ public struct DescribeArchiveOutput: Swift.Sendable {
         self.eventCount = eventCount
         self.eventPattern = eventPattern
         self.eventSourceArn = eventSourceArn
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.retentionDays = retentionDays
         self.sizeBytes = sizeBytes
         self.state = state
@@ -1967,7 +2068,7 @@ extension EventBridgeClientTypes {
 
     /// The parameters for EventBridge to use when invoking the resource endpoint.
     public struct DescribeConnectionResourceParameters: Swift.Sendable {
-        /// For connections to private APIs, the Amazon Resource Name (ARN) of the resource association EventBridge created between the connection and the private API's resource configuration.
+        /// For connections to private APIs, the Amazon Resource Name (ARN) of the resource association EventBridge created between the connection and the private API's resource configuration. For more information, see [ Managing service network resource associations for connections](https://docs.aws.amazon.com/eventbridge/latest/userguide/connection-private.html#connection-private-snra) in the Amazon EventBridge User Guide .
         /// This member is required.
         public var resourceAssociationArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the resource configuration for the private API.
@@ -2086,8 +2187,10 @@ public struct DescribeConnectionOutput: Swift.Sendable {
     public var creationTime: Foundation.Date?
     /// The description for the connection retrieved.
     public var description: Swift.String?
-    /// For connections to private resource endpoints. The parameters EventBridge uses to invoke the resource endpoint. For more information, see [Connecting to private resources](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection-private.html) in the Amazon EventBridge User Guide .
+    /// For connections to private APIs The parameters EventBridge uses to invoke the resource endpoint. For more information, see [Connecting to private APIs](https://docs.aws.amazon.com/eventbridge/latest/userguide/connection-private.html) in the Amazon EventBridge User Guide .
     public var invocationConnectivityParameters: EventBridgeClientTypes.DescribeConnectionConnectivityParameters?
+    /// The identifier of the KMS customer managed key for EventBridge to use to encrypt the connection, if one has been specified. For more information, see [Encrypting connections](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-connections.html) in the Amazon EventBridge User Guide.
+    public var kmsKeyIdentifier: Swift.String?
     /// A time stamp for the time that the connection was last authorized.
     public var lastAuthorizedTime: Foundation.Date?
     /// A time stamp for the time that the connection was last modified.
@@ -2107,6 +2210,7 @@ public struct DescribeConnectionOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         invocationConnectivityParameters: EventBridgeClientTypes.DescribeConnectionConnectivityParameters? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         lastAuthorizedTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
@@ -2120,6 +2224,7 @@ public struct DescribeConnectionOutput: Swift.Sendable {
         self.creationTime = creationTime
         self.description = description
         self.invocationConnectivityParameters = invocationConnectivityParameters
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.lastAuthorizedTime = lastAuthorizedTime
         self.lastModifiedTime = lastModifiedTime
         self.name = name
@@ -2227,6 +2332,8 @@ public struct DescribeEventBusOutput: Swift.Sendable {
     public var kmsKeyIdentifier: Swift.String?
     /// The time the event bus was last modified.
     public var lastModifiedTime: Foundation.Date?
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    public var logConfig: EventBridgeClientTypes.LogConfig?
     /// The name of the event bus. Currently, this is always default.
     public var name: Swift.String?
     /// The policy that enables the external account to send events to your account.
@@ -2239,6 +2346,7 @@ public struct DescribeEventBusOutput: Swift.Sendable {
         description: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
+        logConfig: EventBridgeClientTypes.LogConfig? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil
     ) {
@@ -2248,6 +2356,7 @@ public struct DescribeEventBusOutput: Swift.Sendable {
         self.description = description
         self.kmsKeyIdentifier = kmsKeyIdentifier
         self.lastModifiedTime = lastModifiedTime
+        self.logConfig = logConfig
         self.name = name
         self.policy = policy
     }
@@ -3893,12 +4002,12 @@ extension EventBridgeClientTypes {
 
 extension EventBridgeClientTypes {
 
-    /// Name/Value pair of a parameter to start execution of a SageMaker Model Building Pipeline.
+    /// Name/Value pair of a parameter to start execution of a SageMaker AI Model Building Pipeline.
     public struct SageMakerPipelineParameter: Swift.Sendable {
-        /// Name of parameter to start execution of a SageMaker Model Building Pipeline.
+        /// Name of parameter to start execution of a SageMaker AI Model Building Pipeline.
         /// This member is required.
         public var name: Swift.String?
-        /// Value of parameter to start execution of a SageMaker Model Building Pipeline.
+        /// Value of parameter to start execution of a SageMaker AI Model Building Pipeline.
         /// This member is required.
         public var value: Swift.String?
 
@@ -3914,9 +4023,9 @@ extension EventBridgeClientTypes {
 
 extension EventBridgeClientTypes {
 
-    /// These are custom parameters to use when the target is a SageMaker Model Building Pipeline that starts based on EventBridge events.
+    /// These are custom parameters to use when the target is a SageMaker AI Model Building Pipeline that starts based on EventBridge events.
     public struct SageMakerPipelineParameters: Swift.Sendable {
-        /// List of Parameter names and values for SageMaker Model Building Pipeline execution.
+        /// List of Parameter names and values for SageMaker AI Model Building Pipeline execution.
         public var pipelineParameterList: [EventBridgeClientTypes.SageMakerPipelineParameter]?
 
         public init(
@@ -3978,7 +4087,7 @@ extension EventBridgeClientTypes {
         public var roleArn: Swift.String?
         /// Parameters used when you are using the rule to invoke Amazon EC2 Run Command.
         public var runCommandParameters: EventBridgeClientTypes.RunCommandParameters?
-        /// Contains the SageMaker Model Building Pipeline parameters to start execution of a SageMaker Model Building Pipeline. If you specify a SageMaker Model Building Pipeline as a target, you can use this to specify parameters to start a pipeline execution based on EventBridge events.
+        /// Contains the SageMaker AI Model Building Pipeline parameters to start execution of a SageMaker AI Model Building Pipeline. If you specify a SageMaker AI Model Building Pipeline as a target, you can use this to specify parameters to start a pipeline execution based on EventBridge events.
         public var sageMakerPipelineParameters: EventBridgeClientTypes.SageMakerPipelineParameters?
         /// Contains the message group ID to use when the target is a FIFO queue. If you specify an SQS FIFO queue as a target, the queue must have content-based deduplication enabled.
         public var sqsParameters: EventBridgeClientTypes.SqsParameters?
@@ -4719,6 +4828,8 @@ public struct UpdateArchiveInput: Swift.Sendable {
     public var description: Swift.String?
     /// The event pattern to use to filter events sent to the archive.
     public var eventPattern: Swift.String?
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this archive. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the archive. For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html) in the Key Management Service Developer Guide. If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html) in the Amazon EventBridge User Guide.
+    public var kmsKeyIdentifier: Swift.String?
     /// The number of days to retain events in the archive.
     public var retentionDays: Swift.Int?
 
@@ -4726,11 +4837,13 @@ public struct UpdateArchiveInput: Swift.Sendable {
         archiveName: Swift.String? = nil,
         description: Swift.String? = nil,
         eventPattern: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         retentionDays: Swift.Int? = nil
     ) {
         self.archiveName = archiveName
         self.description = description
         self.eventPattern = eventPattern
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.retentionDays = retentionDays
     }
 }
@@ -4895,8 +5008,10 @@ public struct UpdateConnectionInput: Swift.Sendable {
     public var authorizationType: EventBridgeClientTypes.ConnectionAuthorizationType?
     /// A description for the connection.
     public var description: Swift.String?
-    /// For connections to private resource endpoints, the parameters to use for invoking the resource endpoint. For more information, see [Connecting to private resources](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection-private.html) in the Amazon EventBridge User Guide .
+    /// For connections to private APIs, the parameters to use for invoking the API. For more information, see [Connecting to private APIs](https://docs.aws.amazon.com/eventbridge/latest/userguide/connection-private.html) in the Amazon EventBridge User Guide .
     public var invocationConnectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters?
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this connection. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the connection. For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html) in the Key Management Service Developer Guide.
+    public var kmsKeyIdentifier: Swift.String?
     /// The name of the connection to update.
     /// This member is required.
     public var name: Swift.String?
@@ -4906,12 +5021,14 @@ public struct UpdateConnectionInput: Swift.Sendable {
         authorizationType: EventBridgeClientTypes.ConnectionAuthorizationType? = nil,
         description: Swift.String? = nil,
         invocationConnectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
         self.authParameters = authParameters
         self.authorizationType = authorizationType
         self.description = description
         self.invocationConnectivityParameters = invocationConnectivityParameters
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.name = name
     }
 }
@@ -5023,17 +5140,17 @@ public struct UpdateEventBusInput: Swift.Sendable {
     public var deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig?
     /// The event bus description.
     public var description: Swift.String?
-    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see [Managing keys](https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html) in the Key Management Service Developer Guide. Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:
-    ///
-    /// * You call [CreateArchive](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_CreateArchive.html) on an event bus set to use a customer managed key for encryption.
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html) in the Key Management Service Developer Guide. Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:
     ///
     /// * You call [CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer) on an event bus set to use a customer managed key for encryption.
     ///
-    /// * You call [UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html) to set a customer managed key on an event bus with an archives or schema discovery enabled.
+    /// * You call [UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html) to set a customer managed key on an event bus with schema discovery enabled.
     ///
     ///
-    /// To enable archives or schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
+    /// To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Encrypting events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption-event-bus-cmkey.html) in the Amazon EventBridge User Guide. If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    public var logConfig: EventBridgeClientTypes.LogConfig?
     /// The name of the event bus.
     public var name: Swift.String?
 
@@ -5041,11 +5158,13 @@ public struct UpdateEventBusInput: Swift.Sendable {
         deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
+        logConfig: EventBridgeClientTypes.LogConfig? = nil,
         name: Swift.String? = nil
     ) {
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.logConfig = logConfig
         self.name = name
     }
 }
@@ -5059,6 +5178,8 @@ public struct UpdateEventBusOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    public var logConfig: EventBridgeClientTypes.LogConfig?
     /// The event bus name.
     public var name: Swift.String?
 
@@ -5067,12 +5188,14 @@ public struct UpdateEventBusOutput: Swift.Sendable {
         deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
+        logConfig: EventBridgeClientTypes.LogConfig? = nil,
         name: Swift.String? = nil
     ) {
         self.arn = arn
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.logConfig = logConfig
         self.name = name
     }
 }
@@ -5513,6 +5636,7 @@ extension CreateArchiveInput {
         try writer["Description"].write(value.description)
         try writer["EventPattern"].write(value.eventPattern)
         try writer["EventSourceArn"].write(value.eventSourceArn)
+        try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
         try writer["RetentionDays"].write(value.retentionDays)
     }
 }
@@ -5525,6 +5649,7 @@ extension CreateConnectionInput {
         try writer["AuthorizationType"].write(value.authorizationType)
         try writer["Description"].write(value.description)
         try writer["InvocationConnectivityParameters"].write(value.invocationConnectivityParameters, with: EventBridgeClientTypes.ConnectivityResourceParameters.write(value:to:))
+        try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
         try writer["Name"].write(value.name)
     }
 }
@@ -5550,6 +5675,7 @@ extension CreateEventBusInput {
         try writer["Description"].write(value.description)
         try writer["EventSourceName"].write(value.eventSourceName)
         try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
+        try writer["LogConfig"].write(value.logConfig, with: EventBridgeClientTypes.LogConfig.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: EventBridgeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -6005,6 +6131,7 @@ extension UpdateArchiveInput {
         try writer["ArchiveName"].write(value.archiveName)
         try writer["Description"].write(value.description)
         try writer["EventPattern"].write(value.eventPattern)
+        try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
         try writer["RetentionDays"].write(value.retentionDays)
     }
 }
@@ -6017,6 +6144,7 @@ extension UpdateConnectionInput {
         try writer["AuthorizationType"].write(value.authorizationType)
         try writer["Description"].write(value.description)
         try writer["InvocationConnectivityParameters"].write(value.invocationConnectivityParameters, with: EventBridgeClientTypes.ConnectivityResourceParameters.write(value:to:))
+        try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
         try writer["Name"].write(value.name)
     }
 }
@@ -6041,6 +6169,7 @@ extension UpdateEventBusInput {
         try writer["DeadLetterConfig"].write(value.deadLetterConfig, with: EventBridgeClientTypes.DeadLetterConfig.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
+        try writer["LogConfig"].write(value.logConfig, with: EventBridgeClientTypes.LogConfig.write(value:to:))
         try writer["Name"].write(value.name)
     }
 }
@@ -6140,6 +6269,7 @@ extension CreateEventBusOutput {
         value.description = try reader["Description"].readIfPresent()
         value.eventBusArn = try reader["EventBusArn"].readIfPresent()
         value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
+        value.logConfig = try reader["LogConfig"].readIfPresent(with: EventBridgeClientTypes.LogConfig.read(from:))
         return value
     }
 }
@@ -6272,6 +6402,7 @@ extension DescribeArchiveOutput {
         value.eventCount = try reader["EventCount"].readIfPresent() ?? 0
         value.eventPattern = try reader["EventPattern"].readIfPresent()
         value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
+        value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
         value.retentionDays = try reader["RetentionDays"].readIfPresent()
         value.sizeBytes = try reader["SizeBytes"].readIfPresent() ?? 0
         value.state = try reader["State"].readIfPresent()
@@ -6294,6 +6425,7 @@ extension DescribeConnectionOutput {
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
         value.invocationConnectivityParameters = try reader["InvocationConnectivityParameters"].readIfPresent(with: EventBridgeClientTypes.DescribeConnectionConnectivityParameters.read(from:))
+        value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
         value.lastAuthorizedTime = try reader["LastAuthorizedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["Name"].readIfPresent()
@@ -6340,6 +6472,7 @@ extension DescribeEventBusOutput {
         value.description = try reader["Description"].readIfPresent()
         value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.logConfig = try reader["LogConfig"].readIfPresent(with: EventBridgeClientTypes.LogConfig.read(from:))
         value.name = try reader["Name"].readIfPresent()
         value.policy = try reader["Policy"].readIfPresent()
         return value
@@ -6798,6 +6931,7 @@ extension UpdateEventBusOutput {
         value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: EventBridgeClientTypes.DeadLetterConfig.read(from:))
         value.description = try reader["Description"].readIfPresent()
         value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
+        value.logConfig = try reader["LogConfig"].readIfPresent(with: EventBridgeClientTypes.LogConfig.read(from:))
         value.name = try reader["Name"].readIfPresent()
         return value
     }
@@ -7741,11 +7875,11 @@ extension ConcurrentModificationException {
     }
 }
 
-extension InvalidStateException {
+extension InternalException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStateException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalException {
         let reader = baseError.errorBodyReader
-        var value = InvalidStateException()
+        var value = InternalException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7754,11 +7888,11 @@ extension InvalidStateException {
     }
 }
 
-extension InternalException {
+extension InvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStateException {
         let reader = baseError.errorBodyReader
-        var value = InternalException()
+        var value = InvalidStateException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7806,11 +7940,11 @@ extension IllegalStatusException {
     }
 }
 
-extension ResourceAlreadyExistsException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ResourceAlreadyExistsException()
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7819,11 +7953,11 @@ extension ResourceAlreadyExistsException {
     }
 }
 
-extension LimitExceededException {
+extension ResourceAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = ResourceAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7845,11 +7979,11 @@ extension InvalidEventPatternException {
     }
 }
 
-extension ThrottlingException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7858,11 +7992,11 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8000,6 +8134,23 @@ extension EventBridgeClientTypes.DeadLetterConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.DeadLetterConfig()
         value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.LogConfig {
+
+    static func write(value: EventBridgeClientTypes.LogConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncludeDetail"].write(value.includeDetail)
+        try writer["Level"].write(value.level)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.LogConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.LogConfig()
+        value.includeDetail = try reader["IncludeDetail"].readIfPresent()
+        value.level = try reader["Level"].readIfPresent()
         return value
     }
 }

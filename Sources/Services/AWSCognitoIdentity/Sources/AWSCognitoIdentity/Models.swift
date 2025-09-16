@@ -227,7 +227,7 @@ extension CognitoIdentityClientTypes {
         public var clientId: Swift.String?
         /// The provider name for an Amazon Cognito user pool. For example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789.
         public var providerName: Swift.String?
-        /// TRUE if server-side token validation is enabled for the identity provider’s token. Once you set ServerSideTokenCheck to TRUE for an identity pool, that identity pool will check with the integrated user pools to make sure that the user has not been globally signed out or deleted before the identity pool provides an OIDC token or AWS credentials for the user. If the user is signed out or deleted, the identity pool will return a 400 Not Authorized error.
+        /// TRUE if server-side token validation is enabled for the identity provider’s token. Once you set ServerSideTokenCheck to TRUE for an identity pool, that identity pool will check with the integrated user pools to make sure that the user has not been globally signed out or deleted before the identity pool provides an OIDC token or Amazon Web Services credentials for the user. If the user is signed out or deleted, the identity pool will return a 400 Not Authorized error.
         public var serverSideTokenCheck: Swift.Bool?
 
         public init(
@@ -574,7 +574,7 @@ public struct ExternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// Thrown if the identity pool has no role associated for the given auth type (auth/unauth) or if the AssumeRole fails.
+/// If you provided authentication information in the request, the identity pool has no authenticated role configured, or STS returned an error response to the request to assume the authenticated role from the identity pool. If you provided no authentication information in the request, the identity pool has no unauthenticated role configured, or STS returned an error response to the request to assume the unauthenticated role from the identity pool. Your role trust policy must grant AssumeRoleWithWebIdentity permissions to cognito-identity.amazonaws.com.
 public struct InvalidIdentityPoolConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -674,7 +674,7 @@ public struct GetCredentialsForIdentityOutput: Swift.Sendable {
 
 /// Input to the GetId action.
 public struct GetIdInput: Swift.Sendable {
-    /// A standard AWS account ID (9+ digits).
+    /// A standard Amazon Web Services account ID (9+ digits).
     public var accountId: Swift.String?
     /// An identity pool ID in the format REGION:GUID.
     /// This member is required.
@@ -874,7 +874,7 @@ extension CognitoIdentityClientTypes {
 public struct GetIdentityPoolRolesOutput: Swift.Sendable {
     /// An identity pool ID in the format REGION:GUID.
     public var identityPoolId: Swift.String?
-    /// How users for a specific identity provider are to mapped to roles. This is a String-to-[RoleMapping] object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
+    /// How users for a specific identity provider are to mapped to roles. This is a String-to-[RoleMapping] object map. The string identifies the identity provider, for example, graph.facebook.com or cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id.
     public var roleMappings: [Swift.String: CognitoIdentityClientTypes.RoleMapping]?
     /// The map of roles associated with this pool. Currently only authenticated and unauthenticated roles are supported.
     public var roles: [Swift.String: Swift.String]?
@@ -969,7 +969,7 @@ public struct GetOpenIdTokenForDeveloperIdentityInput: Swift.Sendable {
     public var logins: [Swift.String: Swift.String]?
     /// Use this operation to configure attribute mappings for custom providers.
     public var principalTags: [Swift.String: Swift.String]?
-    /// The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your AWS resources for the token's duration. Please provide for a small grace period, usually no more than 5 minutes, to account for clock skew.
+    /// The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary Amazon Web Services credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your Amazon Web Services resources for the token's duration. Please provide for a small grace period, usually no more than 5 minutes, to account for clock skew.
     public var tokenDuration: Swift.Int?
 
     public init(
@@ -1319,7 +1319,7 @@ public struct SetIdentityPoolRolesInput: Swift.Sendable {
     /// An identity pool ID in the format REGION:GUID.
     /// This member is required.
     public var identityPoolId: Swift.String?
-    /// How users for a specific identity provider are to mapped to roles. This is a string to [RoleMapping] object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id". Up to 25 rules can be specified per identity provider.
+    /// How users for a specific identity provider are to mapped to roles. This is a string to [RoleMapping] object map. The string identifies the identity provider, for example, graph.facebook.com or cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id. Up to 25 rules can be specified per identity provider.
     public var roleMappings: [Swift.String: CognitoIdentityClientTypes.RoleMapping]?
     /// The map of roles associated with this pool. For a given role, the key will be either "authenticated" or "unauthenticated" and the value will be the Role ARN.
     /// This member is required.
@@ -2707,32 +2707,6 @@ enum UpdateIdentityPoolOutputError {
     }
 }
 
-extension TooManyRequestsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyRequestsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalErrorException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalErrorException {
@@ -2759,6 +2733,19 @@ extension InvalidParameterException {
     }
 }
 
+extension LimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension NotAuthorizedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotAuthorizedException {
@@ -2772,11 +2759,24 @@ extension NotAuthorizedException {
     }
 }
 
-extension LimitExceededException {
+extension ResourceConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceConflictException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = ResourceConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRequestsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyRequestsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

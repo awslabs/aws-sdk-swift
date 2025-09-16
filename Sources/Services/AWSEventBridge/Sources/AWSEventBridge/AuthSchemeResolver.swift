@@ -17,6 +17,7 @@ import struct Smithy.AttributeKey
 import struct SmithyHTTPAuthAPI.AuthOption
 
 public struct EventBridgeAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+    public let authSchemePreference: [String]?
     public let operation: Swift.String
     /// Override the endpoint used to send this request
     public let endpoint: Swift.String?
@@ -45,15 +46,15 @@ private struct InternalModeledEventBridgeAuthSchemeResolver: EventBridgeAuthSche
         }
         switch serviceParams.operation {
             default:
-                var sigV4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
-                sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "events")
+                var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "events")
                 guard let region = serviceParams.region else {
                     throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
-                sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
-                validAuthOptions.append(sigV4Option)
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
+                validAuthOptions.append(sigv4Option)
         }
-        return validAuthOptions
+        return self.reprioritizeAuthOptions(authSchemePreference: serviceParams.authSchemePreference, authOptions: validAuthOptions)
     }
 
     public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
@@ -100,6 +101,7 @@ public struct DefaultEventBridgeAuthSchemeResolver: EventBridgeAuthSchemeResolve
         guard let endpointParam = context.get(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams")) else {
             throw Smithy.ClientError.dataNotFound("Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.")
         }
-        return EventBridgeAuthSchemeResolverParameters(operation: opName, endpoint: endpointParam.endpoint, endpointId: endpointParam.endpointId, region: endpointParam.region, useDualStack: endpointParam.useDualStack, useFIPS: endpointParam.useFIPS)
+        let authSchemePreference = context.getAuthSchemePreference()
+        return EventBridgeAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, endpoint: endpointParam.endpoint, endpointId: endpointParam.endpointId, region: endpointParam.region, useDualStack: endpointParam.useDualStack, useFIPS: endpointParam.useFIPS)
     }
 }

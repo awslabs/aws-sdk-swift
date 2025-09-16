@@ -11,14 +11,16 @@ import software.amazon.smithy.aws.traits.protocols.AwsJson1_0Trait
 class AWSJsonHttpInitialRequestTests {
     @Test
     fun `001 Conformance to MessageMarshallable gets generated correctly`() {
-        val context = setupTests(
-            "awsjson/initial-request.smithy",
-            "com.test#InitialRequestTest"
-        )
-        val contents = TestUtils.getFileContents(
-            context.manifest,
-            "Sources/Example/models/TestStream+MessageMarshallable.swift"
-        )
+        val context =
+            setupTests(
+                "awsjson/initial-request.smithy",
+                "com.test#InitialRequestTest",
+            )
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "Sources/Example/models/TestStream+MessageMarshallable.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension InitialRequestTestClientTypes.TestStream {
@@ -44,14 +46,16 @@ extension InitialRequestTestClientTypes.TestStream {
 
     @Test
     fun `002 EventStreamBodyMiddleware gets generated into operation stack with initialRequestMessage`() {
-        val context = setupTests(
-            "awsjson/initial-request.smithy",
-            "com.test#InitialRequestTest"
-        )
-        val contents = TestUtils.getFileContents(
-            context.manifest,
-            "Sources/Example/InitialRequestTestClient.swift"
-        )
+        val context =
+            setupTests(
+                "awsjson/initial-request.smithy",
+                "com.test#InitialRequestTest",
+            )
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "Sources/Example/InitialRequestTestClient.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         builder.serialize(ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, InitialRequestTestClientTypes.TestStream>(keyPath: \.eventStream, defaultBody: "{}", marshalClosure: InitialRequestTestClientTypes.TestStream.marshal, initialRequestMessage: try input.makeInitialRequestMessage()))
@@ -61,14 +65,16 @@ extension InitialRequestTestClientTypes.TestStream {
 
     @Test
     fun `003 Encodable conformance is generated for input struct with streaming union member with streaming member excluded`() {
-        val context = setupTests(
-            "awsjson/initial-request.smithy",
-            "com.test#InitialRequestTest"
-        )
-        val contents = TestUtils.getFileContents(
-            context.manifest,
-            "Sources/Example/models/EventStreamOpInput+Write.swift"
-        )
+        val context =
+            setupTests(
+                "awsjson/initial-request.smithy",
+                "com.test#InitialRequestTest",
+            )
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "Sources/Example/models/EventStreamOpInput+Write.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension EventStreamOpInput {
@@ -85,14 +91,16 @@ extension EventStreamOpInput {
 
     @Test
     fun `004 makeInitialRequestMessage method gets generated for input struct in extension`() {
-        val context = setupTests(
-            "awsjson/initial-request.smithy",
-            "com.test#InitialRequestTest"
-        )
-        val contents = TestUtils.getFileContents(
-            context.manifest,
-            "Sources/Example/models/EventStreamOpInput+MakeInitialRequestMessage.swift"
-        )
+        val context =
+            setupTests(
+                "awsjson/initial-request.smithy",
+                "com.test#InitialRequestTest",
+            )
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "Sources/Example/models/EventStreamOpInput+MakeInitialRequestMessage.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension EventStreamOpInput {
@@ -114,7 +122,11 @@ extension EventStreamOpInput {
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsJson1_0Trait.ID)
         AWSJSON1_0ProtocolGenerator().run {
             generateMessageMarshallable(context.ctx)

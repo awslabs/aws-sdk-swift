@@ -805,17 +805,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -826,17 +815,6 @@
                                 "Region": "us-iso-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -853,17 +831,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -874,17 +841,6 @@
                                 "Region": "us-isob-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -1022,6 +978,20 @@
                 "smithy.api#documentation": "<p>Indicates that a request to authorize a client with an access user session token is\n      pending.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 400
+            }
+        },
+        "com.amazonaws.ssooidc#AwsAdditionalDetails": {
+            "type": "structure",
+            "members": {
+                "identityContext": {
+                    "target": "com.amazonaws.ssooidc#IdentityContext",
+                    "traits": {
+                        "smithy.api#documentation": "<p>STS context assertion that carries a user identifier to the Amazon Web Services service that it calls\n      and can be used to obtain an identity-enhanced IAM role session. This value corresponds to\n      the <code>sts:identity_context</code> claim in the ID token.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>This structure contains Amazon Web Services-specific parameter extensions for the token endpoint\n      responses and includes the identity context.</p>"
             }
         },
         "com.amazonaws.ssooidc#ClientId": {
@@ -1314,7 +1284,10 @@
                                 "openid",
                                 "aws",
                                 "sts:identity_context"
-                            ]
+                            ],
+                            "awsAdditionalDetails": {
+                                "identityContext": "EXAMPLEIDENTITYCONTEXT"
+                            }
                         }
                     },
                     {
@@ -1336,7 +1309,10 @@
                                 "openid",
                                 "aws",
                                 "sts:identity_context"
-                            ]
+                            ],
+                            "awsAdditionalDetails": {
+                                "identityContext": "EXAMPLEIDENTITYCONTEXT"
+                            }
                         }
                     },
                     {
@@ -1380,7 +1356,10 @@
                                 "openid",
                                 "aws",
                                 "sts:identity_context"
-                            ]
+                            ],
+                            "awsAdditionalDetails": {
+                                "identityContext": "EXAMPLEIDENTITYCONTEXT"
+                            }
                         }
                     }
                 ],
@@ -1512,6 +1491,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The list of scopes for which authorization is granted. The access token that is issued is\n      limited to the scopes that are granted.</p>"
                     }
+                },
+                "awsAdditionalDetails": {
+                    "target": "com.amazonaws.ssooidc#AwsAdditionalDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A structure containing information from the <code>idToken</code>. Only the\n        <code>identityContext</code> is in it, which is a value extracted from the\n        <code>idToken</code>. This provides direct access to identity information without requiring\n      JWT parsing.</p>"
+                    }
                 }
             },
             "traits": {
@@ -1569,6 +1554,9 @@
             "traits": {
                 "smithy.api#sensitive": {}
             }
+        },
+        "com.amazonaws.ssooidc#IdentityContext": {
+            "type": "string"
         },
         "com.amazonaws.ssooidc#InternalServerException": {
             "type": "structure",
@@ -2025,8 +2013,8 @@
                         "output": {
                             "deviceCode": "yJraWQiOiJrZXktMTU2Njk2ODA4OCIsImFsZyI6IkhTMzIn0EXAMPLEDEVICECODE",
                             "userCode": "makdfsk83yJraWQiOiJrZXktMTU2Njk2sImFsZyI6IkhTMzIn0EXAMPLEUSERCODE",
-                            "verificationUri": "https://device.sso.us-west-2.amazonaws.com",
-                            "verificationUriComplete": "https://device.sso.us-west-2.amazonaws.com?user_code=makdfsk83yJraWQiOiJrZXktMTU2Njk2sImFsZyI6IkhTMzIn0EXAMPLEUSERCODE",
+                            "verificationUri": "https://directory-alias-example.awsapps.com/start/#/device",
+                            "verificationUriComplete": "https://directory-alias-example.awsapps.com/start/#/device?user_code=makdfsk83yJraWQiOiJrZXktMTU2Njk2sImFsZyI6IkhTMzIn0EXAMPLEUSERCODE",
                             "expiresIn": 1579729529,
                             "interval": 1
                         }

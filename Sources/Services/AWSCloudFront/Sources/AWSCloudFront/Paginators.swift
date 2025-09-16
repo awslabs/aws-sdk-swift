@@ -41,6 +41,37 @@ extension PaginatorSequence where OperationStackInput == ListCloudFrontOriginAcc
     }
 }
 extension CloudFrontClient {
+    /// Paginate over `[ListConnectionGroupsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConnectionGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConnectionGroupsOutput`
+    public func listConnectionGroupsPaginated(input: ListConnectionGroupsInput) -> ClientRuntime.PaginatorSequence<ListConnectionGroupsInput, ListConnectionGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListConnectionGroupsInput, ListConnectionGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listConnectionGroups(input:))
+    }
+}
+
+extension ListConnectionGroupsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListConnectionGroupsInput {
+        return ListConnectionGroupsInput(
+            associationFilter: self.associationFilter,
+            marker: token,
+            maxItems: self.maxItems
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListConnectionGroupsInput, OperationStackOutput == ListConnectionGroupsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listConnectionGroupsPaginated`
+    /// to access the nested member `[CloudFrontClientTypes.ConnectionGroupSummary]`
+    /// - Returns: `[CloudFrontClientTypes.ConnectionGroupSummary]`
+    public func connectionGroups() async throws -> [CloudFrontClientTypes.ConnectionGroupSummary] {
+        return try await self.asyncCompactMap { item in item.connectionGroups }
+    }
+}
+extension CloudFrontClient {
     /// Paginate over `[ListDistributionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -71,6 +102,132 @@ extension PaginatorSequence where OperationStackInput == ListDistributionsInput,
     }
 }
 extension CloudFrontClient {
+    /// Paginate over `[ListDistributionsByConnectionModeOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDistributionsByConnectionModeInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDistributionsByConnectionModeOutput`
+    public func listDistributionsByConnectionModePaginated(input: ListDistributionsByConnectionModeInput) -> ClientRuntime.PaginatorSequence<ListDistributionsByConnectionModeInput, ListDistributionsByConnectionModeOutput> {
+        return ClientRuntime.PaginatorSequence<ListDistributionsByConnectionModeInput, ListDistributionsByConnectionModeOutput>(input: input, inputKey: \.marker, outputKey: \.distributionList?.nextMarker, paginationFunction: self.listDistributionsByConnectionMode(input:))
+    }
+}
+
+extension ListDistributionsByConnectionModeInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDistributionsByConnectionModeInput {
+        return ListDistributionsByConnectionModeInput(
+            connectionMode: self.connectionMode,
+            marker: token,
+            maxItems: self.maxItems
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDistributionsByConnectionModeInput, OperationStackOutput == ListDistributionsByConnectionModeOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDistributionsByConnectionModePaginated`
+    /// to access the nested member `[CloudFrontClientTypes.DistributionSummary]`
+    /// - Returns: `[CloudFrontClientTypes.DistributionSummary]`
+    public func items() async throws -> [CloudFrontClientTypes.DistributionSummary] {
+        return try await self.asyncCompactMap { item in item.distributionList?.items }
+    }
+}
+extension CloudFrontClient {
+    /// Paginate over `[ListDistributionTenantsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDistributionTenantsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDistributionTenantsOutput`
+    public func listDistributionTenantsPaginated(input: ListDistributionTenantsInput) -> ClientRuntime.PaginatorSequence<ListDistributionTenantsInput, ListDistributionTenantsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDistributionTenantsInput, ListDistributionTenantsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listDistributionTenants(input:))
+    }
+}
+
+extension ListDistributionTenantsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDistributionTenantsInput {
+        return ListDistributionTenantsInput(
+            associationFilter: self.associationFilter,
+            marker: token,
+            maxItems: self.maxItems
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDistributionTenantsInput, OperationStackOutput == ListDistributionTenantsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDistributionTenantsPaginated`
+    /// to access the nested member `[CloudFrontClientTypes.DistributionTenantSummary]`
+    /// - Returns: `[CloudFrontClientTypes.DistributionTenantSummary]`
+    public func distributionTenantList() async throws -> [CloudFrontClientTypes.DistributionTenantSummary] {
+        return try await self.asyncCompactMap { item in item.distributionTenantList }
+    }
+}
+extension CloudFrontClient {
+    /// Paginate over `[ListDistributionTenantsByCustomizationOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDistributionTenantsByCustomizationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDistributionTenantsByCustomizationOutput`
+    public func listDistributionTenantsByCustomizationPaginated(input: ListDistributionTenantsByCustomizationInput) -> ClientRuntime.PaginatorSequence<ListDistributionTenantsByCustomizationInput, ListDistributionTenantsByCustomizationOutput> {
+        return ClientRuntime.PaginatorSequence<ListDistributionTenantsByCustomizationInput, ListDistributionTenantsByCustomizationOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listDistributionTenantsByCustomization(input:))
+    }
+}
+
+extension ListDistributionTenantsByCustomizationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDistributionTenantsByCustomizationInput {
+        return ListDistributionTenantsByCustomizationInput(
+            certificateArn: self.certificateArn,
+            marker: token,
+            maxItems: self.maxItems,
+            webACLArn: self.webACLArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDistributionTenantsByCustomizationInput, OperationStackOutput == ListDistributionTenantsByCustomizationOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDistributionTenantsByCustomizationPaginated`
+    /// to access the nested member `[CloudFrontClientTypes.DistributionTenantSummary]`
+    /// - Returns: `[CloudFrontClientTypes.DistributionTenantSummary]`
+    public func distributionTenantList() async throws -> [CloudFrontClientTypes.DistributionTenantSummary] {
+        return try await self.asyncCompactMap { item in item.distributionTenantList }
+    }
+}
+extension CloudFrontClient {
+    /// Paginate over `[ListDomainConflictsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDomainConflictsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainConflictsOutput`
+    public func listDomainConflictsPaginated(input: ListDomainConflictsInput) -> ClientRuntime.PaginatorSequence<ListDomainConflictsInput, ListDomainConflictsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDomainConflictsInput, ListDomainConflictsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listDomainConflicts(input:))
+    }
+}
+
+extension ListDomainConflictsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDomainConflictsInput {
+        return ListDomainConflictsInput(
+            domain: self.domain,
+            domainControlValidationResource: self.domainControlValidationResource,
+            marker: token,
+            maxItems: self.maxItems
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDomainConflictsInput, OperationStackOutput == ListDomainConflictsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDomainConflictsPaginated`
+    /// to access the nested member `[CloudFrontClientTypes.DomainConflict]`
+    /// - Returns: `[CloudFrontClientTypes.DomainConflict]`
+    public func domainConflicts() async throws -> [CloudFrontClientTypes.DomainConflict] {
+        return try await self.asyncCompactMap { item in item.domainConflicts }
+    }
+}
+extension CloudFrontClient {
     /// Paginate over `[ListInvalidationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -95,6 +252,37 @@ extension ListInvalidationsInput: ClientRuntime.PaginateToken {
 
 extension PaginatorSequence where OperationStackInput == ListInvalidationsInput, OperationStackOutput == ListInvalidationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInvalidationsPaginated`
+    /// to access the nested member `[CloudFrontClientTypes.InvalidationSummary]`
+    /// - Returns: `[CloudFrontClientTypes.InvalidationSummary]`
+    public func items() async throws -> [CloudFrontClientTypes.InvalidationSummary] {
+        return try await self.asyncCompactMap { item in item.invalidationList?.items }
+    }
+}
+extension CloudFrontClient {
+    /// Paginate over `[ListInvalidationsForDistributionTenantOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListInvalidationsForDistributionTenantInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInvalidationsForDistributionTenantOutput`
+    public func listInvalidationsForDistributionTenantPaginated(input: ListInvalidationsForDistributionTenantInput) -> ClientRuntime.PaginatorSequence<ListInvalidationsForDistributionTenantInput, ListInvalidationsForDistributionTenantOutput> {
+        return ClientRuntime.PaginatorSequence<ListInvalidationsForDistributionTenantInput, ListInvalidationsForDistributionTenantOutput>(input: input, inputKey: \.marker, outputKey: \.invalidationList?.nextMarker, paginationFunction: self.listInvalidationsForDistributionTenant(input:))
+    }
+}
+
+extension ListInvalidationsForDistributionTenantInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListInvalidationsForDistributionTenantInput {
+        return ListInvalidationsForDistributionTenantInput(
+            id: self.id,
+            marker: token,
+            maxItems: self.maxItems
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListInvalidationsForDistributionTenantInput, OperationStackOutput == ListInvalidationsForDistributionTenantOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listInvalidationsForDistributionTenantPaginated`
     /// to access the nested member `[CloudFrontClientTypes.InvalidationSummary]`
     /// - Returns: `[CloudFrontClientTypes.InvalidationSummary]`
     public func items() async throws -> [CloudFrontClientTypes.InvalidationSummary] {
@@ -130,6 +318,36 @@ extension PaginatorSequence where OperationStackInput == ListKeyValueStoresInput
     /// - Returns: `[CloudFrontClientTypes.KeyValueStore]`
     public func items() async throws -> [CloudFrontClientTypes.KeyValueStore] {
         return try await self.asyncCompactMap { item in item.keyValueStoreList?.items }
+    }
+}
+extension CloudFrontClient {
+    /// Paginate over `[ListOriginAccessControlsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOriginAccessControlsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOriginAccessControlsOutput`
+    public func listOriginAccessControlsPaginated(input: ListOriginAccessControlsInput) -> ClientRuntime.PaginatorSequence<ListOriginAccessControlsInput, ListOriginAccessControlsOutput> {
+        return ClientRuntime.PaginatorSequence<ListOriginAccessControlsInput, ListOriginAccessControlsOutput>(input: input, inputKey: \.marker, outputKey: \.originAccessControlList?.nextMarker, paginationFunction: self.listOriginAccessControls(input:))
+    }
+}
+
+extension ListOriginAccessControlsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListOriginAccessControlsInput {
+        return ListOriginAccessControlsInput(
+            marker: token,
+            maxItems: self.maxItems
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListOriginAccessControlsInput, OperationStackOutput == ListOriginAccessControlsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listOriginAccessControlsPaginated`
+    /// to access the nested member `[CloudFrontClientTypes.OriginAccessControlSummary]`
+    /// - Returns: `[CloudFrontClientTypes.OriginAccessControlSummary]`
+    public func items() async throws -> [CloudFrontClientTypes.OriginAccessControlSummary] {
+        return try await self.asyncCompactMap { item in item.originAccessControlList?.items }
     }
 }
 extension CloudFrontClient {

@@ -797,6 +797,8 @@ public struct GetTagSyncTaskOutput: Swift.Sendable {
     public var groupArn: Swift.String?
     /// The name of the application group.
     public var groupName: Swift.String?
+    /// The query you can use to define a resource group or a search for resources. A ResourceQuery specifies both a query Type and a Query string as JSON string objects. See the examples section for example JSON strings. For more information about creating a resource group with a resource query, see [Build queries and groups in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html) in the Resource Groups User Guide When you combine all of the elements together into a single string, any double quotes that are embedded inside another double quote pair must be escaped by preceding the embedded double quote with a backslash character (\). For example, a complete ResourceQuery parameter must be formatted like the following CLI parameter example: --resource-query '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":[\"AWS::AllSupported\"],\"TagFilters\":[{\"Key\":\"Stage\",\"Values\":[\"Test\"]}]}"}' In the preceding example, all of the double quote characters in the value part of the Query element must be escaped because the value itself is surrounded by double quotes. For more information, see [Quoting strings](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html) in the Command Line Interface User Guide. For the complete list of resource types that you can use in the array value for ResourceTypeFilters, see [Resources you can use with Resource Groups and Tag Editor](https://docs.aws.amazon.com/ARG/latest/userguide/supported-resources.html) in the Resource Groups User Guide. For example: "ResourceTypeFilters":["AWS::S3::Bucket", "AWS::EC2::Instance"]
+    public var resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
     /// The Amazon resource name (ARN) of the role assumed by Resource Groups to tag and untag resources on your behalf. For more information about this role, review [Tag-sync required permissions](https://docs.aws.amazon.com/servicecatalog/latest/arguide/app-tag-sync.html#tag-sync-role).
     public var roleArn: Swift.String?
     /// The status of the tag-sync task. Valid values include:
@@ -817,6 +819,7 @@ public struct GetTagSyncTaskOutput: Swift.Sendable {
         errorMessage: Swift.String? = nil,
         groupArn: Swift.String? = nil,
         groupName: Swift.String? = nil,
+        resourceQuery: ResourceGroupsClientTypes.ResourceQuery? = nil,
         roleArn: Swift.String? = nil,
         status: ResourceGroupsClientTypes.TagSyncTaskStatus? = nil,
         tagKey: Swift.String? = nil,
@@ -827,6 +830,7 @@ public struct GetTagSyncTaskOutput: Swift.Sendable {
         self.errorMessage = errorMessage
         self.groupArn = groupArn
         self.groupName = groupName
+        self.resourceQuery = resourceQuery
         self.roleArn = roleArn
         self.status = status
         self.tagKey = tagKey
@@ -1408,7 +1412,7 @@ public struct ListGroupsInput: Swift.Sendable {
     ///
     /// * AWS::AppRegistry::Application
     ///
-    /// * AWS::AppRegistry::ApplicationResourceGroups
+    /// * AWS::AppRegistry::ApplicationResourceGroup
     ///
     /// * AWS::CloudFormation::Stack
     ///
@@ -1539,6 +1543,8 @@ extension ResourceGroupsClientTypes {
         public var groupArn: Swift.String?
         /// The name of the application group.
         public var groupName: Swift.String?
+        /// The query you can use to define a resource group or a search for resources. A ResourceQuery specifies both a query Type and a Query string as JSON string objects. See the examples section for example JSON strings. For more information about creating a resource group with a resource query, see [Build queries and groups in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html) in the Resource Groups User Guide When you combine all of the elements together into a single string, any double quotes that are embedded inside another double quote pair must be escaped by preceding the embedded double quote with a backslash character (\). For example, a complete ResourceQuery parameter must be formatted like the following CLI parameter example: --resource-query '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":[\"AWS::AllSupported\"],\"TagFilters\":[{\"Key\":\"Stage\",\"Values\":[\"Test\"]}]}"}' In the preceding example, all of the double quote characters in the value part of the Query element must be escaped because the value itself is surrounded by double quotes. For more information, see [Quoting strings](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html) in the Command Line Interface User Guide. For the complete list of resource types that you can use in the array value for ResourceTypeFilters, see [Resources you can use with Resource Groups and Tag Editor](https://docs.aws.amazon.com/ARG/latest/userguide/supported-resources.html) in the Resource Groups User Guide. For example: "ResourceTypeFilters":["AWS::S3::Bucket", "AWS::EC2::Instance"]
+        public var resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
         /// The Amazon resource name (ARN) of the role assumed by the service to tag and untag resources on your behalf.
         public var roleArn: Swift.String?
         /// The status of the tag-sync task. Valid values include:
@@ -1559,6 +1565,7 @@ extension ResourceGroupsClientTypes {
             errorMessage: Swift.String? = nil,
             groupArn: Swift.String? = nil,
             groupName: Swift.String? = nil,
+            resourceQuery: ResourceGroupsClientTypes.ResourceQuery? = nil,
             roleArn: Swift.String? = nil,
             status: ResourceGroupsClientTypes.TagSyncTaskStatus? = nil,
             tagKey: Swift.String? = nil,
@@ -1569,6 +1576,7 @@ extension ResourceGroupsClientTypes {
             self.errorMessage = errorMessage
             self.groupArn = groupArn
             self.groupName = groupName
+            self.resourceQuery = resourceQuery
             self.roleArn = roleArn
             self.status = status
             self.tagKey = tagKey
@@ -1662,23 +1670,25 @@ public struct StartTagSyncTaskInput: Swift.Sendable {
     /// The Amazon resource name (ARN) or name of the application group for which you want to create a tag-sync task.
     /// This member is required.
     public var group: Swift.String?
+    /// The query you can use to create the tag-sync task. With this method, all resources matching the query are added to the specified application group. A ResourceQuery specifies both a query Type and a Query string as JSON string objects. For more information on defining a resource query for a tag-sync task, see the tag-based query type in [ Types of resource group queries](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#getting_started-query_types) in Resource Groups User Guide. When using the ResourceQuery parameter, you cannot use the TagKey and TagValue parameters. When you combine all of the elements together into a single string, any double quotes that are embedded inside another double quote pair must be escaped by preceding the embedded double quote with a backslash character (\). For example, a complete ResourceQuery parameter must be formatted like the following CLI parameter example: --resource-query '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":[\"AWS::AllSupported\"],\"TagFilters\":[{\"Key\":\"Stage\",\"Values\":[\"Test\"]}]}"}' In the preceding example, all of the double quote characters in the value part of the Query element must be escaped because the value itself is surrounded by double quotes. For more information, see [Quoting strings](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html) in the Command Line Interface User Guide. For the complete list of resource types that you can use in the array value for ResourceTypeFilters, see [Resources you can use with Resource Groups and Tag Editor](https://docs.aws.amazon.com/ARG/latest/userguide/supported-resources.html) in the Resource Groups User Guide. For example: "ResourceTypeFilters":["AWS::S3::Bucket", "AWS::EC2::Instance"]
+    public var resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
     /// The Amazon resource name (ARN) of the role assumed by the service to tag and untag resources on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
-    /// The tag key. Resources tagged with this tag key-value pair will be added to the application. If a resource with this tag is later untagged, the tag-sync task removes the resource from the application.
-    /// This member is required.
+    /// The tag key. Resources tagged with this tag key-value pair will be added to the application. If a resource with this tag is later untagged, the tag-sync task removes the resource from the application. When using the TagKey parameter, you must also specify the TagValue parameter. If you specify a tag key-value pair, you can't use the ResourceQuery parameter.
     public var tagKey: Swift.String?
-    /// The tag value. Resources tagged with this tag key-value pair will be added to the application. If a resource with this tag is later untagged, the tag-sync task removes the resource from the application.
-    /// This member is required.
+    /// The tag value. Resources tagged with this tag key-value pair will be added to the application. If a resource with this tag is later untagged, the tag-sync task removes the resource from the application. When using the TagValue parameter, you must also specify the TagKey parameter. If you specify a tag key-value pair, you can't use the ResourceQuery parameter.
     public var tagValue: Swift.String?
 
     public init(
         group: Swift.String? = nil,
+        resourceQuery: ResourceGroupsClientTypes.ResourceQuery? = nil,
         roleArn: Swift.String? = nil,
         tagKey: Swift.String? = nil,
         tagValue: Swift.String? = nil
     ) {
         self.group = group
+        self.resourceQuery = resourceQuery
         self.roleArn = roleArn
         self.tagKey = tagKey
         self.tagValue = tagValue
@@ -1690,6 +1700,8 @@ public struct StartTagSyncTaskOutput: Swift.Sendable {
     public var groupArn: Swift.String?
     /// The name of the application group to onboard and sync resources.
     public var groupName: Swift.String?
+    /// The query you can use to define a resource group or a search for resources. A ResourceQuery specifies both a query Type and a Query string as JSON string objects. See the examples section for example JSON strings. For more information about creating a resource group with a resource query, see [Build queries and groups in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html) in the Resource Groups User Guide When you combine all of the elements together into a single string, any double quotes that are embedded inside another double quote pair must be escaped by preceding the embedded double quote with a backslash character (\). For example, a complete ResourceQuery parameter must be formatted like the following CLI parameter example: --resource-query '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":[\"AWS::AllSupported\"],\"TagFilters\":[{\"Key\":\"Stage\",\"Values\":[\"Test\"]}]}"}' In the preceding example, all of the double quote characters in the value part of the Query element must be escaped because the value itself is surrounded by double quotes. For more information, see [Quoting strings](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html) in the Command Line Interface User Guide. For the complete list of resource types that you can use in the array value for ResourceTypeFilters, see [Resources you can use with Resource Groups and Tag Editor](https://docs.aws.amazon.com/ARG/latest/userguide/supported-resources.html) in the Resource Groups User Guide. For example: "ResourceTypeFilters":["AWS::S3::Bucket", "AWS::EC2::Instance"]
+    public var resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
     /// The Amazon resource name (ARN) of the role assumed by the service to tag and untag resources on your behalf.
     public var roleArn: Swift.String?
     /// The tag key of the tag-sync task.
@@ -1702,6 +1714,7 @@ public struct StartTagSyncTaskOutput: Swift.Sendable {
     public init(
         groupArn: Swift.String? = nil,
         groupName: Swift.String? = nil,
+        resourceQuery: ResourceGroupsClientTypes.ResourceQuery? = nil,
         roleArn: Swift.String? = nil,
         tagKey: Swift.String? = nil,
         tagValue: Swift.String? = nil,
@@ -1709,6 +1722,7 @@ public struct StartTagSyncTaskOutput: Swift.Sendable {
     ) {
         self.groupArn = groupArn
         self.groupName = groupName
+        self.resourceQuery = resourceQuery
         self.roleArn = roleArn
         self.tagKey = tagKey
         self.tagValue = tagValue
@@ -2239,6 +2253,7 @@ extension StartTagSyncTaskInput {
     static func write(value: StartTagSyncTaskInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Group"].write(value.group)
+        try writer["ResourceQuery"].write(value.resourceQuery, with: ResourceGroupsClientTypes.ResourceQuery.write(value:to:))
         try writer["RoleArn"].write(value.roleArn)
         try writer["TagKey"].write(value.tagKey)
         try writer["TagValue"].write(value.tagValue)
@@ -2407,6 +2422,7 @@ extension GetTagSyncTaskOutput {
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         value.groupArn = try reader["GroupArn"].readIfPresent()
         value.groupName = try reader["GroupName"].readIfPresent()
+        value.resourceQuery = try reader["ResourceQuery"].readIfPresent(with: ResourceGroupsClientTypes.ResourceQuery.read(from:))
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.tagKey = try reader["TagKey"].readIfPresent()
@@ -2516,6 +2532,7 @@ extension StartTagSyncTaskOutput {
         var value = StartTagSyncTaskOutput()
         value.groupArn = try reader["GroupArn"].readIfPresent()
         value.groupName = try reader["GroupName"].readIfPresent()
+        value.resourceQuery = try reader["ResourceQuery"].readIfPresent(with: ResourceGroupsClientTypes.ResourceQuery.read(from:))
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.tagKey = try reader["TagKey"].readIfPresent()
         value.tagValue = try reader["TagValue"].readIfPresent()
@@ -3035,6 +3052,19 @@ enum UpdateGroupQueryOutputError {
     }
 }
 
+extension BadRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+        let reader = baseError.errorBodyReader
+        var value = BadRequestException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ForbiddenException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
@@ -3048,24 +3078,11 @@ extension ForbiddenException {
     }
 }
 
-extension TooManyRequestsException {
+extension InternalServerErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
         let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension BadRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
-        let reader = baseError.errorBodyReader
-        var value = BadRequestException()
+        var value = InternalServerErrorException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3087,11 +3104,11 @@ extension MethodNotAllowedException {
     }
 }
 
-extension InternalServerErrorException {
+extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerErrorException()
+        var value = TooManyRequestsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3334,6 +3351,7 @@ extension ResourceGroupsClientTypes.TagSyncTaskItem {
         value.taskArn = try reader["TaskArn"].readIfPresent()
         value.tagKey = try reader["TagKey"].readIfPresent()
         value.tagValue = try reader["TagValue"].readIfPresent()
+        value.resourceQuery = try reader["ResourceQuery"].readIfPresent(with: ResourceGroupsClientTypes.ResourceQuery.read(from:))
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()

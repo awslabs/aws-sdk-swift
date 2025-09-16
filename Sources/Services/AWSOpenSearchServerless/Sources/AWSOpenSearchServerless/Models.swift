@@ -504,6 +504,25 @@ public struct BatchGetCollectionInput: Swift.Sendable {
 
 extension OpenSearchServerlessClientTypes {
 
+    /// FIPS-compliant endpoint URLs for an OpenSearch Serverless collection. These endpoints ensure all data transmission uses FIPS 140-3 validated cryptographic implementations, meeting federal security requirements for government workloads.
+    public struct FipsEndpoints: Swift.Sendable {
+        /// FIPS-compliant collection endpoint used to submit index, search, and data upload requests to an OpenSearch Serverless collection. This endpoint uses FIPS 140-3 validated cryptography and is required for federal government workloads.
+        public var collectionEndpoint: Swift.String?
+        /// FIPS-compliant endpoint used to access OpenSearch Dashboards. This endpoint uses FIPS 140-3 validated cryptography and is required for federal government workloads that need dashboard visualization capabilities.
+        public var dashboardEndpoint: Swift.String?
+
+        public init(
+            collectionEndpoint: Swift.String? = nil,
+            dashboardEndpoint: Swift.String? = nil
+        ) {
+            self.collectionEndpoint = collectionEndpoint
+            self.dashboardEndpoint = dashboardEndpoint
+        }
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
     public enum StandbyReplicas: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// Standby replicas disabled
         case disabled
@@ -609,7 +628,7 @@ extension OpenSearchServerlessClientTypes {
 
 extension OpenSearchServerlessClientTypes {
 
-    /// Details about each OpenSearch Serverless collection, including the collection endpoint and the OpenSearch Dashboards endpoint.
+    /// Details about each OpenSearch Serverless collection, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints for federal government workloads.
     public struct CollectionDetail: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the collection.
         public var arn: Swift.String?
@@ -625,6 +644,8 @@ extension OpenSearchServerlessClientTypes {
         public var failureCode: Swift.String?
         /// A message associated with the failure code.
         public var failureMessage: Swift.String?
+        /// FIPS-compliant endpoints for the collection. These endpoints use FIPS 140-3 validated cryptographic modules and are required for federal government workloads that must comply with FedRAMP security standards.
+        public var fipsEndpoints: OpenSearchServerlessClientTypes.FipsEndpoints?
         /// A unique identifier for the collection.
         public var id: Swift.String?
         /// The ARN of the Amazon Web Services KMS key used to encrypt the collection.
@@ -648,6 +669,7 @@ extension OpenSearchServerlessClientTypes {
             description: Swift.String? = nil,
             failureCode: Swift.String? = nil,
             failureMessage: Swift.String? = nil,
+            fipsEndpoints: OpenSearchServerlessClientTypes.FipsEndpoints? = nil,
             id: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
@@ -663,6 +685,7 @@ extension OpenSearchServerlessClientTypes {
             self.description = description
             self.failureCode = failureCode
             self.failureMessage = failureMessage
+            self.fipsEndpoints = fipsEndpoints
             self.id = id
             self.kmsKeyArn = kmsKeyArn
             self.lastModifiedDate = lastModifiedDate
@@ -1564,6 +1587,32 @@ extension OpenSearchServerlessClientTypes {
     }
 }
 
+public struct CreateIndexInput: Swift.Sendable {
+    /// The unique identifier of the collection in which to create the index.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the index to create. Index names must be lowercase and can't begin with underscores (_) or hyphens (-).
+    /// This member is required.
+    public var indexName: Swift.String?
+    /// The JSON schema definition for the index, including field mappings and settings.
+    public var indexSchema: Smithy.Document?
+
+    public init(
+        id: Swift.String? = nil,
+        indexName: Swift.String? = nil,
+        indexSchema: Smithy.Document? = nil
+    ) {
+        self.id = id
+        self.indexName = indexName
+        self.indexSchema = indexSchema
+    }
+}
+
+public struct CreateIndexOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct CreateLifecyclePolicyInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
@@ -1607,6 +1656,25 @@ public struct CreateLifecyclePolicyOutput: Swift.Sendable {
 
 extension OpenSearchServerlessClientTypes {
 
+    /// Describes IAM federation options for an OpenSearch Serverless security configuration in the form of a key-value map. These options define how OpenSearch Serverless integrates with external identity providers using federation.
+    public struct IamFederationConfigOptions: Swift.Sendable {
+        /// The group attribute for this IAM federation integration. This attribute is used to map identity provider groups to OpenSearch Serverless permissions.
+        public var groupAttribute: Swift.String?
+        /// The user attribute for this IAM federation integration. This attribute is used to identify users in the federated authentication process.
+        public var userAttribute: Swift.String?
+
+        public init(
+            groupAttribute: Swift.String? = nil,
+            userAttribute: Swift.String? = nil
+        ) {
+            self.groupAttribute = groupAttribute
+            self.userAttribute = userAttribute
+        }
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
     /// Describes SAML options for an OpenSearch Serverless security configuration in the form of a key-value map.
     public struct SamlConfigOptions: Swift.Sendable {
         /// The group attribute for this SAML integration.
@@ -1614,6 +1682,8 @@ extension OpenSearchServerlessClientTypes {
         /// The XML IdP metadata file generated from your identity provider.
         /// This member is required.
         public var metadata: Swift.String?
+        /// Custom entity ID attribute to override the default entity ID for this SAML integration.
+        public var openSearchServerlessEntityId: Swift.String?
         /// The session timeout, in minutes. Default is 60 minutes (12 hours).
         public var sessionTimeout: Swift.Int?
         /// A user attribute for this SAML integration.
@@ -1622,11 +1692,13 @@ extension OpenSearchServerlessClientTypes {
         public init(
             groupAttribute: Swift.String? = nil,
             metadata: Swift.String? = nil,
+            openSearchServerlessEntityId: Swift.String? = nil,
             sessionTimeout: Swift.Int? = nil,
             userAttribute: Swift.String? = nil
         ) {
             self.groupAttribute = groupAttribute
             self.metadata = metadata
+            self.openSearchServerlessEntityId = openSearchServerlessEntityId
             self.sessionTimeout = sessionTimeout
             self.userAttribute = userAttribute
         }
@@ -1636,6 +1708,8 @@ extension OpenSearchServerlessClientTypes {
 extension OpenSearchServerlessClientTypes {
 
     public enum SecurityConfigType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// iam federation
+        case iamfederation
         /// iam identity center
         case iamidentitycenter
         /// saml provider
@@ -1644,6 +1718,7 @@ extension OpenSearchServerlessClientTypes {
 
         public static var allCases: [SecurityConfigType] {
             return [
+                .iamfederation,
                 .iamidentitycenter,
                 .saml
             ]
@@ -1656,6 +1731,7 @@ extension OpenSearchServerlessClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .iamfederation: return "iamfederation"
             case .iamidentitycenter: return "iamidentitycenter"
             case .saml: return "saml"
             case let .sdkUnknown(s): return s
@@ -1669,12 +1745,14 @@ public struct CreateSecurityConfigInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// A description of the security configuration.
     public var description: Swift.String?
+    /// Describes IAM federation options in the form of a key-value map. This field is required if you specify iamFederation for the type parameter.
+    public var iamFederationOptions: OpenSearchServerlessClientTypes.IamFederationConfigOptions?
     /// Describes IAM Identity Center options in the form of a key-value map. This field is required if you specify iamidentitycenter for the type parameter.
     public var iamIdentityCenterOptions: OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions?
     /// The name of the security configuration.
     /// This member is required.
     public var name: Swift.String?
-    /// Describes SAML options in in the form of a key-value map. This field is required if you specify saml for the type parameter.
+    /// Describes SAML options in in the form of a key-value map. This field is required if you specify SAML for the type parameter.
     public var samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions?
     /// The type of security configuration.
     /// This member is required.
@@ -1683,6 +1761,7 @@ public struct CreateSecurityConfigInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        iamFederationOptions: OpenSearchServerlessClientTypes.IamFederationConfigOptions? = nil,
         iamIdentityCenterOptions: OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions? = nil,
         name: Swift.String? = nil,
         samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions? = nil,
@@ -1690,6 +1769,7 @@ public struct CreateSecurityConfigInput: Swift.Sendable {
     ) {
         self.clientToken = clientToken
         self.description = description
+        self.iamFederationOptions = iamFederationOptions
         self.iamIdentityCenterOptions = iamIdentityCenterOptions
         self.name = name
         self.samlOptions = samlOptions
@@ -1742,6 +1822,8 @@ extension OpenSearchServerlessClientTypes {
         public var createdDate: Swift.Int?
         /// The description of the security configuration.
         public var description: Swift.String?
+        /// Describes IAM federation options in the form of a key-value map. Contains configuration details about how OpenSearch Serverless integrates with external identity providers through federation.
+        public var iamFederationOptions: OpenSearchServerlessClientTypes.IamFederationConfigOptions?
         /// Describes IAM Identity Center options in the form of a key-value map.
         public var iamIdentityCenterOptions: OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions?
         /// The unique identifier of the security configuration.
@@ -1757,6 +1839,7 @@ extension OpenSearchServerlessClientTypes {
             configVersion: Swift.String? = nil,
             createdDate: Swift.Int? = nil,
             description: Swift.String? = nil,
+            iamFederationOptions: OpenSearchServerlessClientTypes.IamFederationConfigOptions? = nil,
             iamIdentityCenterOptions: OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions? = nil,
             id: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
@@ -1766,6 +1849,7 @@ extension OpenSearchServerlessClientTypes {
             self.configVersion = configVersion
             self.createdDate = createdDate
             self.description = description
+            self.iamFederationOptions = iamFederationOptions
             self.iamIdentityCenterOptions = iamIdentityCenterOptions
             self.id = id
             self.lastModifiedDate = lastModifiedDate
@@ -1961,6 +2045,28 @@ public struct CreateVpcEndpointOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteIndexInput: Swift.Sendable {
+    /// The unique identifier of the collection containing the index to delete.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the index to delete.
+    /// This member is required.
+    public var indexName: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        indexName: Swift.String? = nil
+    ) {
+        self.id = id
+        self.indexName = indexName
+    }
+}
+
+public struct DeleteIndexOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteLifecyclePolicyInput: Swift.Sendable {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
@@ -2100,6 +2206,34 @@ public struct GetAccountSettingsOutput: Swift.Sendable {
     }
 }
 
+public struct GetIndexInput: Swift.Sendable {
+    /// The unique identifier of the collection containing the index.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the index to retrieve information about.
+    /// This member is required.
+    public var indexName: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        indexName: Swift.String? = nil
+    ) {
+        self.id = id
+        self.indexName = indexName
+    }
+}
+
+public struct GetIndexOutput: Swift.Sendable {
+    /// The JSON schema definition for the index, including field mappings and settings.
+    public var indexSchema: Smithy.Document?
+
+    public init(
+        indexSchema: Smithy.Document? = nil
+    ) {
+        self.indexSchema = indexSchema
+    }
+}
+
 public struct GetPoliciesStatsInput: Swift.Sendable {
 
     public init() { }
@@ -2230,6 +2364,32 @@ public struct GetSecurityPolicyOutput: Swift.Sendable {
     ) {
         self.securityPolicyDetail = securityPolicyDetail
     }
+}
+
+public struct UpdateIndexInput: Swift.Sendable {
+    /// The unique identifier of the collection containing the index to update.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the index to update.
+    /// This member is required.
+    public var indexName: Swift.String?
+    /// The updated JSON schema definition for the index, including field mappings and settings.
+    public var indexSchema: Smithy.Document?
+
+    public init(
+        id: Swift.String? = nil,
+        indexName: Swift.String? = nil,
+        indexSchema: Smithy.Document? = nil
+    ) {
+        self.id = id
+        self.indexName = indexName
+        self.indexSchema = indexSchema
+    }
+}
+
+public struct UpdateIndexOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct ListLifecyclePoliciesInput: Swift.Sendable {
@@ -2617,6 +2777,8 @@ public struct UpdateSecurityConfigInput: Swift.Sendable {
     public var configVersion: Swift.String?
     /// A description of the security configuration.
     public var description: Swift.String?
+    /// Describes IAM federation options in the form of a key-value map for updating an existing security configuration. Use this field to modify IAM federation settings for the security configuration.
+    public var iamFederationOptions: OpenSearchServerlessClientTypes.IamFederationConfigOptions?
     /// Describes IAM Identity Center options in the form of a key-value map.
     public var iamIdentityCenterOptionsUpdates: OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions?
     /// The security configuration identifier. For SAML the ID will be saml/<accountId>/<idpProviderName>. For example, saml/123456789123/OKTADev.
@@ -2629,6 +2791,7 @@ public struct UpdateSecurityConfigInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         configVersion: Swift.String? = nil,
         description: Swift.String? = nil,
+        iamFederationOptions: OpenSearchServerlessClientTypes.IamFederationConfigOptions? = nil,
         iamIdentityCenterOptionsUpdates: OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions? = nil,
         id: Swift.String? = nil,
         samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions? = nil
@@ -2636,6 +2799,7 @@ public struct UpdateSecurityConfigInput: Swift.Sendable {
         self.clientToken = clientToken
         self.configVersion = configVersion
         self.description = description
+        self.iamFederationOptions = iamFederationOptions
         self.iamIdentityCenterOptionsUpdates = iamIdentityCenterOptionsUpdates
         self.id = id
         self.samlOptions = samlOptions
@@ -2884,6 +3048,13 @@ extension CreateCollectionInput {
     }
 }
 
+extension CreateIndexInput {
+
+    static func urlPathProvider(_ value: CreateIndexInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateLifecyclePolicyInput {
 
     static func urlPathProvider(_ value: CreateLifecyclePolicyInput) -> Swift.String? {
@@ -2926,6 +3097,13 @@ extension DeleteCollectionInput {
     }
 }
 
+extension DeleteIndexInput {
+
+    static func urlPathProvider(_ value: DeleteIndexInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteLifecyclePolicyInput {
 
     static func urlPathProvider(_ value: DeleteLifecyclePolicyInput) -> Swift.String? {
@@ -2964,6 +3142,13 @@ extension GetAccessPolicyInput {
 extension GetAccountSettingsInput {
 
     static func urlPathProvider(_ value: GetAccountSettingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetIndexInput {
+
+    static func urlPathProvider(_ value: GetIndexInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3073,6 +3258,13 @@ extension UpdateCollectionInput {
     }
 }
 
+extension UpdateIndexInput {
+
+    static func urlPathProvider(_ value: UpdateIndexInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateLifecyclePolicyInput {
 
     static func urlPathProvider(_ value: UpdateLifecyclePolicyInput) -> Swift.String? {
@@ -3159,6 +3351,16 @@ extension CreateCollectionInput {
     }
 }
 
+extension CreateIndexInput {
+
+    static func write(value: CreateIndexInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["indexName"].write(value.indexName)
+        try writer["indexSchema"].write(value.indexSchema)
+    }
+}
+
 extension CreateLifecyclePolicyInput {
 
     static func write(value: CreateLifecyclePolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -3177,6 +3379,7 @@ extension CreateSecurityConfigInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["iamFederationOptions"].write(value.iamFederationOptions, with: OpenSearchServerlessClientTypes.IamFederationConfigOptions.write(value:to:))
         try writer["iamIdentityCenterOptions"].write(value.iamIdentityCenterOptions, with: OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions.write(value:to:))
         try writer["name"].write(value.name)
         try writer["samlOptions"].write(value.samlOptions, with: OpenSearchServerlessClientTypes.SamlConfigOptions.write(value:to:))
@@ -3224,6 +3427,15 @@ extension DeleteCollectionInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["id"].write(value.id)
+    }
+}
+
+extension DeleteIndexInput {
+
+    static func write(value: DeleteIndexInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["indexName"].write(value.indexName)
     }
 }
 
@@ -3279,6 +3491,15 @@ extension GetAccountSettingsInput {
     static func write(value: GetAccountSettingsInput?, to writer: SmithyJSON.Writer) throws {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
+    }
+}
+
+extension GetIndexInput {
+
+    static func write(value: GetIndexInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["indexName"].write(value.indexName)
     }
 }
 
@@ -3427,6 +3648,16 @@ extension UpdateCollectionInput {
     }
 }
 
+extension UpdateIndexInput {
+
+    static func write(value: UpdateIndexInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["indexName"].write(value.indexName)
+        try writer["indexSchema"].write(value.indexSchema)
+    }
+}
+
 extension UpdateLifecyclePolicyInput {
 
     static func write(value: UpdateLifecyclePolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -3447,6 +3678,7 @@ extension UpdateSecurityConfigInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["configVersion"].write(value.configVersion)
         try writer["description"].write(value.description)
+        try writer["iamFederationOptions"].write(value.iamFederationOptions, with: OpenSearchServerlessClientTypes.IamFederationConfigOptions.write(value:to:))
         try writer["iamIdentityCenterOptionsUpdates"].write(value.iamIdentityCenterOptionsUpdates, with: OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions.write(value:to:))
         try writer["id"].write(value.id)
         try writer["samlOptions"].write(value.samlOptions, with: OpenSearchServerlessClientTypes.SamlConfigOptions.write(value:to:))
@@ -3555,6 +3787,13 @@ extension CreateCollectionOutput {
     }
 }
 
+extension CreateIndexOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIndexOutput {
+        return CreateIndexOutput()
+    }
+}
+
 extension CreateLifecyclePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateLifecyclePolicyOutput {
@@ -3622,6 +3861,13 @@ extension DeleteCollectionOutput {
     }
 }
 
+extension DeleteIndexOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIndexOutput {
+        return DeleteIndexOutput()
+    }
+}
+
 extension DeleteLifecyclePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLifecyclePolicyOutput {
@@ -3675,6 +3921,18 @@ extension GetAccountSettingsOutput {
         let reader = responseReader
         var value = GetAccountSettingsOutput()
         value.accountSettingsDetail = try reader["accountSettingsDetail"].readIfPresent(with: OpenSearchServerlessClientTypes.AccountSettingsDetail.read(from:))
+        return value
+    }
+}
+
+extension GetIndexOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIndexOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIndexOutput()
+        value.indexSchema = try reader["indexSchema"].readIfPresent()
         return value
     }
 }
@@ -3859,6 +4117,13 @@ extension UpdateCollectionOutput {
     }
 }
 
+extension UpdateIndexOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIndexOutput {
+        return UpdateIndexOutput()
+    }
+}
+
 extension UpdateLifecyclePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLifecyclePolicyOutput {
@@ -4002,6 +4267,23 @@ enum CreateCollectionOutputError {
     }
 }
 
+enum CreateIndexOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateLifecyclePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4104,6 +4386,22 @@ enum DeleteCollectionOutputError {
     }
 }
 
+enum DeleteIndexOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteLifecyclePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4197,6 +4495,22 @@ enum GetAccountSettingsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIndexOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4438,6 +4752,22 @@ enum UpdateCollectionOutputError {
     }
 }
 
+enum UpdateIndexOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateLifecyclePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4507,11 +4837,11 @@ enum UpdateVpcEndpointOutputError {
     }
 }
 
-extension ValidationException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4520,11 +4850,11 @@ extension ValidationException {
     }
 }
 
-extension InternalServerException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4606,8 +4936,20 @@ extension OpenSearchServerlessClientTypes.CollectionDetail {
         value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
         value.collectionEndpoint = try reader["collectionEndpoint"].readIfPresent()
         value.dashboardEndpoint = try reader["dashboardEndpoint"].readIfPresent()
+        value.fipsEndpoints = try reader["fipsEndpoints"].readIfPresent(with: OpenSearchServerlessClientTypes.FipsEndpoints.read(from:))
         value.failureCode = try reader["failureCode"].readIfPresent()
         value.failureMessage = try reader["failureMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.FipsEndpoints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.FipsEndpoints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.FipsEndpoints()
+        value.collectionEndpoint = try reader["collectionEndpoint"].readIfPresent()
+        value.dashboardEndpoint = try reader["dashboardEndpoint"].readIfPresent()
         return value
     }
 }
@@ -4758,8 +5100,26 @@ extension OpenSearchServerlessClientTypes.SecurityConfigDetail {
         value.description = try reader["description"].readIfPresent()
         value.samlOptions = try reader["samlOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.SamlConfigOptions.read(from:))
         value.iamIdentityCenterOptions = try reader["iamIdentityCenterOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions.read(from:))
+        value.iamFederationOptions = try reader["iamFederationOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.IamFederationConfigOptions.read(from:))
         value.createdDate = try reader["createdDate"].readIfPresent()
         value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.IamFederationConfigOptions {
+
+    static func write(value: OpenSearchServerlessClientTypes.IamFederationConfigOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupAttribute"].write(value.groupAttribute)
+        try writer["userAttribute"].write(value.userAttribute)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.IamFederationConfigOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.IamFederationConfigOptions()
+        value.groupAttribute = try reader["groupAttribute"].readIfPresent()
+        value.userAttribute = try reader["userAttribute"].readIfPresent()
         return value
     }
 }
@@ -4785,6 +5145,7 @@ extension OpenSearchServerlessClientTypes.SamlConfigOptions {
         guard let value else { return }
         try writer["groupAttribute"].write(value.groupAttribute)
         try writer["metadata"].write(value.metadata)
+        try writer["openSearchServerlessEntityId"].write(value.openSearchServerlessEntityId)
         try writer["sessionTimeout"].write(value.sessionTimeout)
         try writer["userAttribute"].write(value.userAttribute)
     }
@@ -4795,6 +5156,7 @@ extension OpenSearchServerlessClientTypes.SamlConfigOptions {
         value.metadata = try reader["metadata"].readIfPresent() ?? ""
         value.userAttribute = try reader["userAttribute"].readIfPresent()
         value.groupAttribute = try reader["groupAttribute"].readIfPresent()
+        value.openSearchServerlessEntityId = try reader["openSearchServerlessEntityId"].readIfPresent()
         value.sessionTimeout = try reader["sessionTimeout"].readIfPresent()
         return value
     }

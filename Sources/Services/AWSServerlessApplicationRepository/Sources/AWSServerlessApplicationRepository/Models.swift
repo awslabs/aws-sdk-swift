@@ -2111,25 +2111,11 @@ enum UpdateApplicationOutputError {
     }
 }
 
-extension ForbiddenException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = ForbiddenException()
-        value.properties.errorCode = try reader["errorCode"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServerErrorException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerErrorException()
+        var value = BadRequestException()
         value.properties.errorCode = try reader["errorCode"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -2153,11 +2139,25 @@ extension ConflictException {
     }
 }
 
-extension BadRequestException {
+extension ForbiddenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
+        var value = ForbiddenException()
+        value.properties.errorCode = try reader["errorCode"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServerErrorException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerErrorException()
         value.properties.errorCode = try reader["errorCode"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse

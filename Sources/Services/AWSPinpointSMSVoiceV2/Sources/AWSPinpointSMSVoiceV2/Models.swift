@@ -346,6 +346,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         case eventDestination
         case keyword
         case message
+        case messageTemplate
         case optedOutNumber
         case optOutList
         case phoneNumber
@@ -365,6 +366,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .eventDestination,
                 .keyword,
                 .message,
+                .messageTemplate,
                 .optedOutNumber,
                 .optOutList,
                 .phoneNumber,
@@ -390,6 +392,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .eventDestination: return "event-destination"
             case .keyword: return "keyword"
             case .message: return "message"
+            case .messageTemplate: return "message-template"
             case .optedOutNumber: return "opted-out-number"
             case .optOutList: return "opt-out-list"
             case .phoneNumber: return "phone-number"
@@ -671,6 +674,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         case countryCodeMismatch
         case destinationCountryBlocked
         case fieldValidationFailed
+        case internationalSendingNotSupported
         case invalidArn
         case invalidFilterValues
         case invalidIdentityForDestinationCountry
@@ -715,6 +719,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .countryCodeMismatch,
                 .destinationCountryBlocked,
                 .fieldValidationFailed,
+                .internationalSendingNotSupported,
                 .invalidArn,
                 .invalidFilterValues,
                 .invalidIdentityForDestinationCountry,
@@ -765,6 +770,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .countryCodeMismatch: return "COUNTRY_CODE_MISMATCH"
             case .destinationCountryBlocked: return "DESTINATION_COUNTRY_BLOCKED"
             case .fieldValidationFailed: return "FIELD_VALIDATION_FAILED"
+            case .internationalSendingNotSupported: return "INTERNATIONAL_SENDING_NOT_SUPPORTED"
             case .invalidArn: return "INVALID_ARN"
             case .invalidFilterValues: return "INVALID_FILTER_VALUES"
             case .invalidIdentityForDestinationCountry: return "INVALID_IDENTITY_FOR_DESTINATION_COUNTRY"
@@ -3715,6 +3721,8 @@ extension PinpointSMSVoiceV2ClientTypes {
         /// When set to true the phone number can't be deleted.
         /// This member is required.
         public var deletionProtectionEnabled: Swift.Bool
+        /// When set to true the international sending of phone number is Enabled.
+        public var internationalSendingEnabled: Swift.Bool
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         /// This member is required.
         public var isoCountryCode: Swift.String?
@@ -3762,6 +3770,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             createdTimestamp: Foundation.Date? = nil,
             deletionProtectionEnabled: Swift.Bool = false,
+            internationalSendingEnabled: Swift.Bool = false,
             isoCountryCode: Swift.String? = nil,
             messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
             monthlyLeasingPrice: Swift.String? = nil,
@@ -3781,6 +3790,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         ) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.internationalSendingEnabled = internationalSendingEnabled
             self.isoCountryCode = isoCountryCode
             self.messageType = messageType
             self.monthlyLeasingPrice = monthlyLeasingPrice
@@ -5057,7 +5067,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         ///
         /// * ASSOCIATE_BEFORE_SUBMIT The origination identity has to be supplied when creating a registration.
         ///
-        /// * ASSOCIATE_ON_APPROVAL This applies to all short code registrations. The short code will be automatically provisioned once the registration is approved.
+        /// * ASSOCIATE_ON_APPROVAL This applies to all sender ID registrations. The sender ID will be automatically provisioned once the registration is approved.
         ///
         /// * ASSOCIATE_AFTER_COMPLETE This applies to phone number registrations when you must complete a registration first, then associate one or more phone numbers later. For example 10DLC campaigns and long codes.
         /// This member is required.
@@ -5919,12 +5929,16 @@ extension PinpointSMSVoiceV2ClientTypes {
     public enum ProtectStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allow
         case block
+        case filter
+        case monitor
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProtectStatus] {
             return [
                 .allow,
-                .block
+                .block,
+                .filter,
+                .monitor
             ]
         }
 
@@ -5937,6 +5951,8 @@ extension PinpointSMSVoiceV2ClientTypes {
             switch self {
             case .allow: return "ALLOW"
             case .block: return "BLOCK"
+            case .filter: return "FILTER"
+            case .monitor: return "MONITOR"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6302,7 +6318,7 @@ public struct ListProtectConfigurationRuleSetNumberOverridesInput: Swift.Sendabl
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    /// Provides details on a RuleSetNumberOverride.
+    /// Provides details on phone number rule overrides for a protect configuration.
     public struct ProtectConfigurationRuleSetNumberOverride: Swift.Sendable {
         /// The action for the rule to perform of either blocking or allowing messages to the destination phone number.
         /// This member is required.
@@ -7046,6 +7062,8 @@ public struct RequestPhoneNumberInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// By default this is set to false. When set to true the phone number can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool?
+    /// By default this is set to false. When set to true the international sending of phone number is Enabled.
+    public var internationalSendingEnabled: Swift.Bool?
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     /// This member is required.
     public var isoCountryCode: Swift.String?
@@ -7055,7 +7073,7 @@ public struct RequestPhoneNumberInput: Swift.Sendable {
     /// Indicates if the phone number will be used for text messages, voice messages, or both.
     /// This member is required.
     public var numberCapabilities: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
-    /// The type of phone number to request.
+    /// The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL.
     /// This member is required.
     public var numberType: PinpointSMSVoiceV2ClientTypes.RequestableNumberType?
     /// The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
@@ -7070,6 +7088,7 @@ public struct RequestPhoneNumberInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
+        internationalSendingEnabled: Swift.Bool? = nil,
         isoCountryCode: Swift.String? = nil,
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
         numberCapabilities: [PinpointSMSVoiceV2ClientTypes.NumberCapability]? = nil,
@@ -7081,6 +7100,7 @@ public struct RequestPhoneNumberInput: Swift.Sendable {
     ) {
         self.clientToken = clientToken
         self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.internationalSendingEnabled = internationalSendingEnabled
         self.isoCountryCode = isoCountryCode
         self.messageType = messageType
         self.numberCapabilities = numberCapabilities
@@ -7097,6 +7117,8 @@ public struct RequestPhoneNumberOutput: Swift.Sendable {
     public var createdTimestamp: Foundation.Date?
     /// By default this is set to false. When set to true the phone number can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool
+    /// By default this is set to false. When set to true the international sending of phone number is Enabled.
+    public var internationalSendingEnabled: Swift.Bool
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     public var isoCountryCode: Swift.String?
     /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
@@ -7135,6 +7157,7 @@ public struct RequestPhoneNumberOutput: Swift.Sendable {
     public init(
         createdTimestamp: Foundation.Date? = nil,
         deletionProtectionEnabled: Swift.Bool = false,
+        internationalSendingEnabled: Swift.Bool = false,
         isoCountryCode: Swift.String? = nil,
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
         monthlyLeasingPrice: Swift.String? = nil,
@@ -7155,6 +7178,7 @@ public struct RequestPhoneNumberOutput: Swift.Sendable {
     ) {
         self.createdTimestamp = createdTimestamp
         self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.internationalSendingEnabled = internationalSendingEnabled
         self.isoCountryCode = isoCountryCode
         self.messageType = messageType
         self.monthlyLeasingPrice = monthlyLeasingPrice
@@ -7344,7 +7368,7 @@ public struct SendMediaMessageInput: Swift.Sendable {
     public var dryRun: Swift.Bool?
     /// The maximum amount that you want to spend, in US dollars, per each MMS message.
     public var maxPrice: Swift.String?
-    /// An array of URLs to each media file to send. The media files have to be stored in a publicly available S3 bucket. Supported media file formats are listed in [MMS file types, size and character limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/mms-limitations-character.html). For more information on creating an S3 bucket and managing objects, see [Creating a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) and [Uploading objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html) in the S3 user guide.
+    /// An array of URLs to each media file to send. The media files have to be stored in an S3 bucket. Supported media file formats are listed in [MMS file types, size and character limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/mms-limitations-character.html). For more information on creating an S3 bucket and managing objects, see [Creating a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html), [Uploading objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html) in the Amazon S3 User Guide, and [Setting up an Amazon S3 bucket for MMS files](https://docs.aws.amazon.com/sms-voice/latest/userguide/send-mms-message.html#send-mms-message-bucket) in the Amazon Web Services End User Messaging SMS User Guide.
     public var mediaUrls: [Swift.String]?
     /// The text body of the message.
     public var messageBody: Swift.String?
@@ -8143,6 +8167,8 @@ public struct UpdateEventDestinationOutput: Swift.Sendable {
 public struct UpdatePhoneNumberInput: Swift.Sendable {
     /// By default this is set to false. When set to true the phone number can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool?
+    /// By default this is set to false. When set to true the international sending of phone number is Enabled.
+    public var internationalSendingEnabled: Swift.Bool?
     /// The OptOutList to add the phone number to. Valid values for this field can be either the OutOutListName or OutOutListArn.
     public var optOutListName: Swift.String?
     /// The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
@@ -8159,6 +8185,7 @@ public struct UpdatePhoneNumberInput: Swift.Sendable {
 
     public init(
         deletionProtectionEnabled: Swift.Bool? = nil,
+        internationalSendingEnabled: Swift.Bool? = nil,
         optOutListName: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil,
         selfManagedOptOutsEnabled: Swift.Bool? = nil,
@@ -8167,6 +8194,7 @@ public struct UpdatePhoneNumberInput: Swift.Sendable {
         twoWayEnabled: Swift.Bool? = nil
     ) {
         self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.internationalSendingEnabled = internationalSendingEnabled
         self.optOutListName = optOutListName
         self.phoneNumberId = phoneNumberId
         self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
@@ -8181,6 +8209,8 @@ public struct UpdatePhoneNumberOutput: Swift.Sendable {
     public var createdTimestamp: Foundation.Date?
     /// When set to true the phone number can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool
+    /// When set to true the international sending of phone number is Enabled.
+    public var internationalSendingEnabled: Swift.Bool
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     public var isoCountryCode: Swift.String?
     /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
@@ -8215,6 +8245,7 @@ public struct UpdatePhoneNumberOutput: Swift.Sendable {
     public init(
         createdTimestamp: Foundation.Date? = nil,
         deletionProtectionEnabled: Swift.Bool = false,
+        internationalSendingEnabled: Swift.Bool = false,
         isoCountryCode: Swift.String? = nil,
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
         monthlyLeasingPrice: Swift.String? = nil,
@@ -8233,6 +8264,7 @@ public struct UpdatePhoneNumberOutput: Swift.Sendable {
     ) {
         self.createdTimestamp = createdTimestamp
         self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.internationalSendingEnabled = internationalSendingEnabled
         self.isoCountryCode = isoCountryCode
         self.messageType = messageType
         self.monthlyLeasingPrice = monthlyLeasingPrice
@@ -8395,7 +8427,7 @@ public struct UpdateProtectConfigurationOutput: Swift.Sendable {
 }
 
 public struct UpdateProtectConfigurationCountryRuleSetInput: Swift.Sendable {
-    /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see [Supported countries and regions (SMS channel)](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-sms-by-country.html) in the AWS End User Messaging SMS User Guide.
+    /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see [Supported countries and regions (SMS channel)](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-sms-by-country.html) in the AWS End User Messaging SMS User Guide. For example, to set the United States as allowed and Canada as blocked, the CountryRuleSetUpdates would be formatted as: "CountryRuleSetUpdates": { "US" : { "ProtectStatus": "ALLOW" } "CA" : { "ProtectStatus": "BLOCK" } }
     /// This member is required.
     public var countryRuleSetUpdates: [Swift.String: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation]?
     /// The number capability to apply the CountryRuleSetUpdates updates to.
@@ -9855,6 +9887,7 @@ extension RequestPhoneNumberInput {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
         try writer["DeletionProtectionEnabled"].write(value.deletionProtectionEnabled)
+        try writer["InternationalSendingEnabled"].write(value.internationalSendingEnabled)
         try writer["IsoCountryCode"].write(value.isoCountryCode)
         try writer["MessageType"].write(value.messageType)
         try writer["NumberCapabilities"].writeList(value.numberCapabilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PinpointSMSVoiceV2ClientTypes.NumberCapability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10054,6 +10087,7 @@ extension UpdatePhoneNumberInput {
     static func write(value: UpdatePhoneNumberInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DeletionProtectionEnabled"].write(value.deletionProtectionEnabled)
+        try writer["InternationalSendingEnabled"].write(value.internationalSendingEnabled)
         try writer["OptOutListName"].write(value.optOutListName)
         try writer["PhoneNumberId"].write(value.phoneNumberId)
         try writer["SelfManagedOptOutsEnabled"].write(value.selfManagedOptOutsEnabled)
@@ -11155,6 +11189,7 @@ extension RequestPhoneNumberOutput {
         var value = RequestPhoneNumberOutput()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
+        value.internationalSendingEnabled = try reader["InternationalSendingEnabled"].readIfPresent() ?? false
         value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
         value.messageType = try reader["MessageType"].readIfPresent()
         value.monthlyLeasingPrice = try reader["MonthlyLeasingPrice"].readIfPresent()
@@ -11387,6 +11422,7 @@ extension UpdatePhoneNumberOutput {
         var value = UpdatePhoneNumberOutput()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
+        value.internationalSendingEnabled = try reader["InternationalSendingEnabled"].readIfPresent() ?? false
         value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
         value.messageType = try reader["MessageType"].readIfPresent()
         value.monthlyLeasingPrice = try reader["MonthlyLeasingPrice"].readIfPresent()
@@ -11621,6 +11657,7 @@ enum CreateProtectConfigurationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -13154,13 +13191,29 @@ enum VerifyDestinationNumberOutputError {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.reason = try reader["Reason"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -13197,15 +13250,13 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ConflictException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.reason = try reader["Reason"].readIfPresent()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -13232,20 +13283,6 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.reason = try reader["Reason"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -13449,6 +13486,7 @@ extension PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation {
         value.twoWayChannelRole = try reader["TwoWayChannelRole"].readIfPresent()
         value.selfManagedOptOutsEnabled = try reader["SelfManagedOptOutsEnabled"].readIfPresent() ?? false
         value.optOutListName = try reader["OptOutListName"].readIfPresent() ?? ""
+        value.internationalSendingEnabled = try reader["InternationalSendingEnabled"].readIfPresent() ?? false
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
         value.poolId = try reader["PoolId"].readIfPresent()
         value.registrationId = try reader["RegistrationId"].readIfPresent()
