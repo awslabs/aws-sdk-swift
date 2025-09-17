@@ -85,16 +85,16 @@ jobs:
         with:
           AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
-      - name: Show destinations
-        run: |
-          cd aws-sdk-swift
-          xcrun simctl create "iPhone 17" "iPhone 17"
-          xcrun simctl list > /dev/null
-          set -o pipefail && \
-          NSUnbufferedIO=YES xcodebuild \
-            -scheme aws-sdk-swift-Package \
-            -showdestinations \
-            2>&1
+#     - name: Show destinations
+#       run: |
+#         cd aws-sdk-swift
+#         xcrun simctl create "iPhone 17" "iPhone 17"
+#         xcrun simctl list > /dev/null
+#         set -o pipefail && \
+#         NSUnbufferedIO=YES xcodebuild \
+#           -scheme aws-sdk-swift-Package \
+#           -showdestinations \
+#           2>&1
       - name: Cache Gradle
         uses: actions/cache@v4
         with:
