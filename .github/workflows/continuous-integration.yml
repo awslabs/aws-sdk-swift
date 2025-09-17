@@ -56,26 +56,12 @@ jobs:
       - name: Configure Xcode
         run: sudo xcode-select -s /Applications/${{ matrix.xcode }}.app
       - name: Install visionOS sim if needed
-        if: ${{ contains(matrix.destination, 'platform=visionOS Simulator') }}
+        if: ${{ contains(matrix.runner, 'macos-14') && contains(matrix.destination, 'platform=visionOS Simulator') }}
         run: |
           sudo xcodebuild -runFirstLaunch
           xcrun simctl list > /dev/null
           sudo xcodebuild -downloadPlatform visionOS
           sudo xcodebuild -runFirstLaunch
-#     - name: Install iOS 26 sim if needed
-#       if: ${{ contains(matrix.xcode, '26') && contains(matrix.destination, 'platform=iOS Simulator') }}
-#       run: |
-#         sudo xcodebuild -runFirstLaunch
-#         xcrun simctl list > /dev/null
-#         sudo xcodebuild -downloadPlatform iOS
-#         sudo xcodebuild -runFirstLaunch
-#     - name: Install tvOS 26 sim if needed
-#       if: ${{ contains(matrix.xcode, '26') && contains(matrix.destination, 'platform=tvOS Simulator') }}
-#       run: |
-#         sudo xcodebuild -runFirstLaunch
-#         xcrun simctl list > /dev/null
-#         sudo xcodebuild -downloadPlatform tvOS
-#         sudo xcodebuild -runFirstLaunch
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v4
         with:
@@ -85,16 +71,6 @@ jobs:
         with:
           AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
-#     - name: Show destinations
-#       run: |
-#         cd aws-sdk-swift
-#         xcrun simctl create "iPhone 17" "iPhone 17"
-#         xcrun simctl list > /dev/null
-#         set -o pipefail && \
-#         NSUnbufferedIO=YES xcodebuild \
-#           -scheme aws-sdk-swift-Package \
-#           -showdestinations \
-#           2>&1
       - name: Cache Gradle
         uses: actions/cache@v4
         with:
