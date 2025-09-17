@@ -55,7 +55,6 @@ public struct ConfigFileReader {
                     let section = ConfigFileSection(name: sectionName)
                     sections[sectionName] = section
                     currentSectionName = sectionName
-                    print("Found new profile: \(sectionName)") // For demonstration
                 }
             case _ where currentSectionName != nil && line.contains("="):
                 //Identify properties under section
@@ -120,8 +119,8 @@ struct ConfigFileSection: FileBasedConfigurationSection {
     func property(for name: FileBasedConfigurationKey) -> FileBasedConfigurationProperty? {
         if let value = properties[name.rawValue]{
             return .string(value)
-        }else if let value = properties[name.rawValue] {
-            return .string(value)
+        }else if let subsection = subproperties[name.rawValue] {
+            return .subsection(subsection as! FileBasedConfigurationValueProviding)
         }
         return nil
     }
