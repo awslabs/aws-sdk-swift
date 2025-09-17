@@ -60,13 +60,6 @@ jobs:
     steps:
       - name: Configure Xcode
         run: sudo xcode-select -s /Applications/${{ matrix.xcode }}.app
-      - name: Install visionOS sim if needed
-        if: ${{ contains(matrix.runner, 'macos-14') && contains(matrix.destination, 'platform=visionOS Simulator') }}
-        run: |
-          sudo xcodebuild -runFirstLaunch
-          xcrun simctl list > /dev/null
-          sudo xcodebuild -downloadPlatform visionOS
-          sudo xcodebuild -runFirstLaunch
       - name: Configure AWS Credentials for Integration Tests
         uses: aws-actions/configure-aws-credentials@v4
         with:
