@@ -19,7 +19,7 @@ jobs:
         # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
         runner:
           - macos-14
-          - macos-15
+          - macos-26
         xcode:
           - Xcode_15.2
           - Xcode_26.0
@@ -36,7 +36,7 @@ jobs:
           - runner: macos-14
             xcode: Xcode_26.0
           # Don't run new macOS with old Xcode
-          - runner: macos-15
+          - runner: macos-26
             xcode: Xcode_15.2
           # Don't run old simulators with new Xcode
           - destination: 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
@@ -62,20 +62,20 @@ jobs:
           xcrun simctl list > /dev/null
           sudo xcodebuild -downloadPlatform visionOS
           sudo xcodebuild -runFirstLaunch
-      - name: Install iOS 26 sim if needed
-        if: ${{ contains(matrix.xcode, '26') && contains(matrix.destination, 'platform=iOS Simulator') }}
-        run: |
-          sudo xcodebuild -runFirstLaunch
-          xcrun simctl list > /dev/null
-          sudo xcodebuild -downloadPlatform iOS
-          sudo xcodebuild -runFirstLaunch
-      - name: Install tvOS 26 sim if needed
-        if: ${{ contains(matrix.xcode, '26') && contains(matrix.destination, 'platform=tvOS Simulator') }}
-        run: |
-          sudo xcodebuild -runFirstLaunch
-          xcrun simctl list > /dev/null
-          sudo xcodebuild -downloadPlatform tvOS
-          sudo xcodebuild -runFirstLaunch
+#     - name: Install iOS 26 sim if needed
+#       if: ${{ contains(matrix.xcode, '26') && contains(matrix.destination, 'platform=iOS Simulator') }}
+#       run: |
+#         sudo xcodebuild -runFirstLaunch
+#         xcrun simctl list > /dev/null
+#         sudo xcodebuild -downloadPlatform iOS
+#         sudo xcodebuild -runFirstLaunch
+#     - name: Install tvOS 26 sim if needed
+#       if: ${{ contains(matrix.xcode, '26') && contains(matrix.destination, 'platform=tvOS Simulator') }}
+#       run: |
+#         sudo xcodebuild -runFirstLaunch
+#         xcrun simctl list > /dev/null
+#         sudo xcodebuild -downloadPlatform tvOS
+#         sudo xcodebuild -runFirstLaunch
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v4
         with:
