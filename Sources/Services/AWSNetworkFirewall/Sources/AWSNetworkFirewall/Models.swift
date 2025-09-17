@@ -1132,7 +1132,7 @@ extension NetworkFirewallClientTypes {
 public struct CreateFirewallInput: Swift.Sendable {
     /// Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE, you cannot add or remove Availability Zones without first disabling this protection using [UpdateAvailabilityZoneChangeProtection]. Default value: FALSE
     public var availabilityZoneChangeProtection: Swift.Bool?
-    /// Required. The Availability Zones where you want to create firewall endpoints for a transit gateway-attached firewall. You must specify at least one Availability Zone. Consider enabling the firewall in every Availability Zone where you have workloads to maintain Availability Zone independence. You can modify Availability Zones later using [AssociateAvailabilityZones] or [DisassociateAvailabilityZones], but this may briefly disrupt traffic. The AvailabilityZoneChangeProtection setting controls whether you can make these modifications.
+    /// Required. The Availability Zones where you want to create firewall endpoints for a transit gateway-attached firewall. You must specify at least one Availability Zone. Consider enabling the firewall in every Availability Zone where you have workloads to maintain Availability Zone isolation. You can modify Availability Zones later using [AssociateAvailabilityZones] or [DisassociateAvailabilityZones], but this may briefly disrupt traffic. The AvailabilityZoneChangeProtection setting controls whether you can make these modifications.
     public var availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]?
     /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
     public var deleteProtection: Swift.Bool?
@@ -1755,6 +1755,8 @@ extension NetworkFirewallClientTypes {
 
     /// The firewall policy defines the behavior of a firewall using a collection of stateless and stateful rule groups and other settings. You can use one firewall policy for multiple firewalls. This, along with [FirewallPolicyResponse], define the policy. You can retrieve all objects for a firewall policy by calling [DescribeFirewallPolicy].
     public struct FirewallPolicy: Swift.Sendable {
+        /// When true, prevents TCP and TLS packets from reaching destination servers until TLS Inspection has evaluated Server Name Indication (SNI) rules. Requires an associated TLS Inspection configuration.
+        public var enableTLSSessionHolding: Swift.Bool?
         /// Contains variables that you can use to override default Suricata settings in your firewall policy.
         public var policyVariables: NetworkFirewallClientTypes.PolicyVariables?
         /// The default actions to take on a packet that doesn't match any stateful rules. The stateful default action is optional, and is only valid when using the strict rule order. Valid values of the stateful default action:
@@ -1788,6 +1790,7 @@ extension NetworkFirewallClientTypes {
         public var tlsInspectionConfigurationArn: Swift.String?
 
         public init(
+            enableTLSSessionHolding: Swift.Bool? = nil,
             policyVariables: NetworkFirewallClientTypes.PolicyVariables? = nil,
             statefulDefaultActions: [Swift.String]? = nil,
             statefulEngineOptions: NetworkFirewallClientTypes.StatefulEngineOptions? = nil,
@@ -1798,6 +1801,7 @@ extension NetworkFirewallClientTypes {
             statelessRuleGroupReferences: [NetworkFirewallClientTypes.StatelessRuleGroupReference]? = nil,
             tlsInspectionConfigurationArn: Swift.String? = nil
         ) {
+            self.enableTLSSessionHolding = enableTLSSessionHolding
             self.policyVariables = policyVariables
             self.statefulDefaultActions = statefulDefaultActions
             self.statefulEngineOptions = statefulEngineOptions
@@ -9161,6 +9165,7 @@ extension NetworkFirewallClientTypes.FirewallPolicy {
 
     static func write(value: NetworkFirewallClientTypes.FirewallPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["EnableTLSSessionHolding"].write(value.enableTLSSessionHolding)
         try writer["PolicyVariables"].write(value.policyVariables, with: NetworkFirewallClientTypes.PolicyVariables.write(value:to:))
         try writer["StatefulDefaultActions"].writeList(value.statefulDefaultActions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StatefulEngineOptions"].write(value.statefulEngineOptions, with: NetworkFirewallClientTypes.StatefulEngineOptions.write(value:to:))
@@ -9184,6 +9189,7 @@ extension NetworkFirewallClientTypes.FirewallPolicy {
         value.statefulEngineOptions = try reader["StatefulEngineOptions"].readIfPresent(with: NetworkFirewallClientTypes.StatefulEngineOptions.read(from:))
         value.tlsInspectionConfigurationArn = try reader["TLSInspectionConfigurationArn"].readIfPresent()
         value.policyVariables = try reader["PolicyVariables"].readIfPresent(with: NetworkFirewallClientTypes.PolicyVariables.read(from:))
+        value.enableTLSSessionHolding = try reader["EnableTLSSessionHolding"].readIfPresent()
         return value
     }
 }

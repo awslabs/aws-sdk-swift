@@ -449,12 +449,14 @@ extension PCSClientTypes {
 extension PCSClientTypes {
 
     public enum PurchaseOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityBlock
         case ondemand
         case spot
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PurchaseOption] {
             return [
+                .capacityBlock,
                 .ondemand,
                 .spot
             ]
@@ -467,6 +469,7 @@ extension PCSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .capacityBlock: return "CAPACITY_BLOCK"
             case .ondemand: return "ONDEMAND"
             case .spot: return "SPOT"
             case let .sdkUnknown(s): return s
@@ -587,7 +590,7 @@ extension PCSClientTypes {
 
     /// Additional configuration when you specify SPOT as the purchaseOption for the CreateComputeNodeGroup API action.
     public struct SpotOptions: Swift.Sendable {
-        /// The Amazon EC2 allocation strategy Amazon Web Services PCS uses to provision EC2 instances. Amazon Web Services PCS supports lowest price, capacity optimized, and price capacity optimized. For more information, see [Use allocation strategies to determine how EC2 Fleet or Spot Fleet fulfills Spot and On-Demand capacity](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-allocation-strategy.html) in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to price capacity optimized.
+        /// The Amazon EC2 allocation strategy PCS uses to provision EC2 instances. PCS supports lowest price, capacity optimized, and price capacity optimized. For more information, see [Use allocation strategies to determine how EC2 Fleet or Spot Fleet fulfills Spot and On-Demand capacity](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-allocation-strategy.html) in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to price capacity optimized.
         public var allocationStrategy: PCSClientTypes.SpotAllocationStrategy?
 
         public init(
@@ -615,10 +618,10 @@ public struct CreateComputeNodeGroupInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
     /// This member is required.
     public var iamInstanceProfileArn: Swift.String?
-    /// A list of EC2 instance configurations that Amazon Web Services PCS can provision in the compute node group.
+    /// A list of EC2 instance configurations that PCS can provision in the compute node group.
     /// This member is required.
     public var instanceConfigs: [PCSClientTypes.InstanceConfig]?
-    /// Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
+    /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see [Amazon EC2 billing and purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see [Using Amazon EC2 Capacity Blocks for ML with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-blocks.html) in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
     public var purchaseOption: PCSClientTypes.PurchaseOption?
     /// Specifies the boundaries of the compute node group auto scaling.
     /// This member is required.
@@ -798,7 +801,7 @@ extension PCSClientTypes {
         /// The generated unique ID of the compute node group.
         /// This member is required.
         public var id: Swift.String?
-        /// A list of EC2 instance configurations that Amazon Web Services PCS can provision in the compute node group.
+        /// A list of EC2 instance configurations that PCS can provision in the compute node group.
         /// This member is required.
         public var instanceConfigs: [PCSClientTypes.InstanceConfig]?
         /// The date and time the resource was modified.
@@ -807,7 +810,7 @@ extension PCSClientTypes {
         /// The name that identifies the compute node group.
         /// This member is required.
         public var name: Swift.String?
-        /// Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
+        /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see [Amazon EC2 billing and purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see [Using Amazon EC2 Capacity Blocks for ML with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-blocks.html) in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
         public var purchaseOption: PCSClientTypes.PurchaseOption?
         /// Specifies the boundaries of the compute node group auto scaling.
         /// This member is required.
@@ -1040,7 +1043,7 @@ public struct UpdateComputeNodeGroupInput: Swift.Sendable {
     public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
     /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
     public var iamInstanceProfileArn: Swift.String?
-    /// Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
+    /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see [Amazon EC2 billing and purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see [Using Amazon EC2 Capacity Blocks for ML with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-blocks.html) in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
     public var purchaseOption: PCSClientTypes.PurchaseOption?
     /// Specifies the boundaries of the compute node group auto scaling.
     public var scalingConfiguration: PCSClientTypes.ScalingConfigurationRequest?
@@ -1126,7 +1129,7 @@ extension PCSClientTypes {
         public var networkType: PCSClientTypes.NetworkType?
         /// A list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets.
         public var securityGroupIds: [Swift.String]?
-        /// The list of subnet IDs where Amazon Web Services PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and Amazon Web Services PCS resources. Subnet IDs have the form subnet-0123456789abcdef0. Subnets can't be in Outposts, Wavelength or an Amazon Web Services Local Zone. Amazon Web Services PCS currently supports only 1 subnet in this list.
+        /// The list of subnet IDs where PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and PCS resources. Subnet IDs have the form subnet-0123456789abcdef0. Subnets can't be in Outposts, Wavelength or an Amazon Web Services Local Zone. PCS currently supports only 1 subnet in this list.
         public var subnetIds: [Swift.String]?
 
         public init(
@@ -1429,7 +1432,7 @@ extension PCSClientTypes {
 
     /// The shared Slurm key for authentication, also known as the cluster secret.
     public struct SlurmAuthKey: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the the shared Slurm key.
+        /// The Amazon Resource Name (ARN) of the shared Slurm key.
         /// This member is required.
         public var secretArn: Swift.String?
         /// The version of the shared Slurm key.

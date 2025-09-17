@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NeptuneClient: ClientRuntime.Client {
     public static let clientName = "NeptuneClient"
-    public static let version = "1.5.43"
+    public static let version = "1.5.44"
     let client: ClientRuntime.SdkHttpClient
     let config: NeptuneClient.NeptuneClientConfiguration
     let serviceName = "Neptune"
