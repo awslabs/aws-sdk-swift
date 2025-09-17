@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NetworkFirewallClient: ClientRuntime.Client {
     public static let clientName = "NetworkFirewallClient"
-    public static let version = "1.5.43"
+    public static let version = "1.5.44"
     let client: ClientRuntime.SdkHttpClient
     let config: NetworkFirewallClient.NetworkFirewallClientConfiguration
     let serviceName = "Network Firewall"
@@ -1238,7 +1238,7 @@ extension NetworkFirewallClient {
 
     /// Performs the `DeleteNetworkFirewallTransitGatewayAttachment` operation on the `NetworkFirewall` service.
     ///
-    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment. After you delete a transit gateway attachment, raffic will no longer flow through the firewall endpoints. After you initiate the delete operation, use [DescribeFirewall] to monitor the deletion status.
+    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment. After you delete a transit gateway attachment, traffic will no longer flow through the firewall endpoints. After you initiate the delete operation, use [DescribeFirewall] to monitor the deletion status.
     ///
     /// - Parameter DeleteNetworkFirewallTransitGatewayAttachmentInput : [no documentation found]
     ///
@@ -3483,7 +3483,7 @@ extension NetworkFirewallClient {
 
     /// Performs the `RejectNetworkFirewallTransitGatewayAttachment` operation on the `NetworkFirewall` service.
     ///
-    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints. Only the firewall owner can reject the attachment. After rejection, no traffic will flow through the firewall endpoints for this attachment. Use [DescribeFirewall] to monitor the rejection status. To accept the attachment instead of rejecting it, use [AcceptNetworkFirewallTransitGatewayAttachment]. Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
+    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints. Only the transit gateway owner can reject the attachment. After rejection, no traffic will flow through the firewall endpoints for this attachment. Use [DescribeFirewall] to monitor the rejection status. To accept the attachment instead of rejecting it, use [AcceptNetworkFirewallTransitGatewayAttachment]. Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
     ///
     /// - Parameter RejectNetworkFirewallTransitGatewayAttachmentInput : [no documentation found]
     ///
