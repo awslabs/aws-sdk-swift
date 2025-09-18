@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2Client: ClientRuntime.Client {
     public static let clientName = "EC2Client"
-    public static let version = "1.5.44"
+    public static let version = "1.5.45"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2Client.EC2ClientConfiguration
     let serviceName = "EC2"
@@ -4129,7 +4129,7 @@ extension EC2Client {
     /// * If the source snapshot is on an Outpost, you can't copy it.
     ///
     ///
-    /// When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the snapshot copy operation. By default, encrypted snapshot copies use the default KMS key; however, you can specify a different KMS key. To copy an encrypted snapshot that has been shared from another account, you must have permissions for the KMS key used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default encryption key for the Region, or a different key that you specify in the request using KmsKeyId. Outposts do not support unencrypted snapshots. For more information, see [Amazon EBS local snapshots on Outposts](https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#ami) in the Amazon EBS User Guide. Snapshots copies have an arbitrary source volume ID. Do not use this volume ID for any purpose. For more information, see [Copy an Amazon EBS snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-copy-snapshot.html) in the Amazon EBS User Guide.
+    /// When copying snapshots to a Region, the encryption outcome for the snapshot copy depends on the Amazon EBS encryption by default setting for the destination Region, the encryption status of the source snapshot, and the encryption parameters you specify in the request. For more information, see [ Encryption and snapshot copying](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-copy-snapshot.html#creating-encrypted-snapshots). Snapshots copied to an Outpost must be encrypted. Unencrypted snapshots are not supported on Outposts. For more information, [ Amazon EBS local snapshots on Outposts](https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#considerations). Snapshots copies have an arbitrary source volume ID. Do not use this volume ID for any purpose. For more information, see [Copy an Amazon EBS snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-copy-snapshot.html) in the Amazon EBS User Guide.
     ///
     /// - Parameter CopySnapshotInput : [no documentation found]
     ///
@@ -5206,7 +5206,7 @@ extension EC2Client {
 
     /// Performs the `CreateFpgaImage` operation on the `EC2` service.
     ///
-    /// Creates an Amazon FPGA Image (AFI) from the specified design checkpoint (DCP). The create operation is asynchronous. To verify that the AFI is ready for use, check the output logs. An AFI contains the FPGA bitstream that is ready to download to an FPGA. You can securely deploy an AFI on multiple FPGA-accelerated instances. For more information, see the [Amazon Web Services FPGA Hardware Development Kit](https://github.com/aws/aws-fpga/).
+    /// Creates an Amazon FPGA Image (AFI) from the specified design checkpoint (DCP). The create operation is asynchronous. To verify that the AFI was successfully created and is ready for use, check the output logs. An AFI contains the FPGA bitstream that is ready to download to an FPGA. You can securely deploy an AFI on multiple FPGA-accelerated instances. For more information, see the [Amazon Web Services FPGA Hardware Development Kit](https://github.com/aws/aws-fpga/).
     ///
     /// - Parameter CreateFpgaImageInput : [no documentation found]
     ///
@@ -27224,7 +27224,7 @@ extension EC2Client {
 
     /// Performs the `DisableImageBlockPublicAccess` operation on the `EC2` service.
     ///
-    /// Disables block public access for AMIs at the account level in the specified Amazon Web Services Region. This removes the block public access restriction from your account. With the restriction removed, you can publicly share your AMIs in the specified Amazon Web Services Region. The API can take up to 10 minutes to configure this setting. During this time, if you run [GetImageBlockPublicAccessState](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetImageBlockPublicAccessState.html), the response will be block-new-sharing. When the API has completed the configuration, the response will be unblocked. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-public-access-to-amis.html) in the Amazon EC2 User Guide.
+    /// Disables block public access for AMIs at the account level in the specified Amazon Web Services Region. This removes the block public access restriction from your account. With the restriction removed, you can publicly share your AMIs in the specified Amazon Web Services Region. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-public-access-to-amis.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter DisableImageBlockPublicAccessInput : [no documentation found]
     ///

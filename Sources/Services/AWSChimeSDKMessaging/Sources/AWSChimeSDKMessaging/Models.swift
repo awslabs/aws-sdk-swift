@@ -1763,7 +1763,7 @@ public struct CreateChannelInput: Swift.Sendable {
     /// The ARN of the channel request.
     /// This member is required.
     public var appInstanceArn: Swift.String?
-    /// The ID of the channel in the request.
+    /// An ID for the channel being created. If you do not specify an ID, a UUID will be created for the channel.
     public var channelId: Swift.String?
     /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
@@ -2503,9 +2503,44 @@ public struct GetChannelMessageStatusOutput: Swift.Sendable {
     }
 }
 
-public struct GetMessagingSessionEndpointInput: Swift.Sendable {
+extension ChimeSDKMessagingClientTypes {
 
-    public init() { }
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualStack
+        case ipv4Only
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dualStack,
+                .ipv4Only
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualStack: return "DUAL_STACK"
+            case .ipv4Only: return "IPV4_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetMessagingSessionEndpointInput: Swift.Sendable {
+    /// The type of network for the messaging session endpoint. Either IPv4 only or dual-stack (IPv4 and IPv6).
+    public var networkType: ChimeSDKMessagingClientTypes.NetworkType?
+
+    public init(
+        networkType: ChimeSDKMessagingClientTypes.NetworkType? = nil
+    ) {
+        self.networkType = networkType
+    }
 }
 
 extension ChimeSDKMessagingClientTypes {
@@ -3429,7 +3464,7 @@ extension ChimeSDKMessagingClientTypes {
 
 extension ChimeSDKMessagingClientTypes {
 
-    /// A Field of the channel that you want to search.
+    /// A Field of the channel that you want to search. This operation isn't supported for AppInstanceUsers with a large number of memberships.
     public struct SearchField: Swift.Sendable {
         /// An enum value that indicates the key to search the channel on. MEMBERS allows you to search channels based on memberships. You can use it with the EQUALS operator to get channels whose memberships are equal to the specified values, and with the INCLUDES operator to get channels whose memberships include the specified values.
         /// This member is required.
@@ -3437,7 +3472,7 @@ extension ChimeSDKMessagingClientTypes {
         /// The operator used to compare field values, currently EQUALS or INCLUDES. Use the EQUALS operator to find channels whose memberships equal the specified values. Use the INCLUDES operator to find channels whose memberships include the specified values.
         /// This member is required.
         public var `operator`: ChimeSDKMessagingClientTypes.SearchFieldOperator?
-        /// The values that you want to search for, a list of strings. The values must be AppInstanceUserArns specified as a list of strings. This operation isn't supported for AppInstanceUsers with large number of memberships.
+        /// The values that you want to search for, a list of strings. The values must be AppInstanceUserArns specified as a list of strings. This operation isn't supported for AppInstanceUsers with a large number of memberships.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -4439,6 +4474,18 @@ extension GetMessagingSessionEndpointInput {
 
     static func urlPathProvider(_ value: GetMessagingSessionEndpointInput) -> Swift.String? {
         return "/endpoints/messaging-session"
+    }
+}
+
+extension GetMessagingSessionEndpointInput {
+
+    static func queryItemProvider(_ value: GetMessagingSessionEndpointInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let networkType = value.networkType {
+            let networkTypeQueryItem = Smithy.URIQueryItem(name: "network-type".urlPercentEncoding(), value: Swift.String(networkType.rawValue).urlPercentEncoding())
+            items.append(networkTypeQueryItem)
+        }
+        return items
     }
 }
 

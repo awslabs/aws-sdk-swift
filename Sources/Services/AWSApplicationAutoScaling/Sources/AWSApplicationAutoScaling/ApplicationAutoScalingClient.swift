@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationAutoScalingClient: ClientRuntime.Client {
     public static let clientName = "ApplicationAutoScalingClient"
-    public static let version = "1.5.44"
+    public static let version = "1.5.45"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationAutoScalingClient.ApplicationAutoScalingClientConfiguration
     let serviceName = "Application Auto Scaling"

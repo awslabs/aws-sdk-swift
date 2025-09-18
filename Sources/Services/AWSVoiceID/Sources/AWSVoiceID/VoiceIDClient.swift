@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class VoiceIDClient: ClientRuntime.Client {
     public static let clientName = "VoiceIDClient"
-    public static let version = "1.5.44"
+    public static let version = "1.5.45"
     let client: ClientRuntime.SdkHttpClient
     let config: VoiceIDClient.VoiceIDClientConfiguration
     let serviceName = "Voice ID"
