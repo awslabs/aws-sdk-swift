@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKMessagingClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKMessagingClient"
-    public static let version = "1.5.44"
+    public static let version = "1.5.45"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKMessagingClient.ChimeSDKMessagingClientConfiguration
     let serviceName = "Chime SDK Messaging"
@@ -765,7 +765,7 @@ extension ChimeSDKMessagingClient {
     /// * The Standard message type
     ///
     ///
-    /// Channel flows don't process Control or System messages. For more information about the message types provided by Chime SDK messaging, refer to [Message types](https://docs.aws.amazon.com/chime/latest/dg/using-the-messaging-sdk.html#msg-types) in the Amazon Chime developer guide.
+    /// Channel flows don't process Control or System messages. For more information about the message types provided by Chime SDK messaging, refer to [Message types](https://docs.aws.amazon.com/chime-sdk/latest/dg/using-the-messaging-sdk.html#msg-types) in the Amazon Chime developer guide.
     ///
     /// - Parameter CreateChannelFlowInput : [no documentation found]
     ///
@@ -2340,6 +2340,7 @@ extension ChimeSDKMessagingClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMessagingSessionEndpointInput, GetMessagingSessionEndpointOutput>(GetMessagingSessionEndpointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMessagingSessionEndpointInput, GetMessagingSessionEndpointOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetMessagingSessionEndpointInput, GetMessagingSessionEndpointOutput>(GetMessagingSessionEndpointInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMessagingSessionEndpointOutput>(GetMessagingSessionEndpointOutput.httpOutput(from:), GetMessagingSessionEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMessagingSessionEndpointInput, GetMessagingSessionEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2582,7 +2583,7 @@ extension ChimeSDKMessagingClient {
 
     /// Performs the `ListChannelMemberships` operation on the `ChimeSDKMessaging` service.
     ///
-    /// Lists all channel memberships in a channel. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. If you want to list the channels to which a specific app instance user belongs, see the [ListChannelMembershipsForAppInstanceUser](https://docs.aws.amazon.com/chime/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html) API.
+    /// Lists all channel memberships in a channel. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. If you want to list the channels to which a specific app instance user belongs, see the [ListChannelMembershipsForAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html) API.
     ///
     /// - Parameter ListChannelMembershipsInput : [no documentation found]
     ///
@@ -3454,7 +3455,7 @@ extension ChimeSDKMessagingClient {
 
     /// Performs the `RedactChannelMessage` operation on the `ChimeSDKMessaging` service.
     ///
-    /// Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
+    /// Redacts message content and metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
     /// - Parameter RedactChannelMessageInput : [no documentation found]
     ///
@@ -3529,7 +3530,7 @@ extension ChimeSDKMessagingClient {
 
     /// Performs the `SearchChannels` operation on the `ChimeSDKMessaging` service.
     ///
-    /// Allows the ChimeBearer to search channels by channel members. Users or bots can search across the channels that they belong to. Users in the AppInstanceAdmin role can search across all channels. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
+    /// Allows the ChimeBearer to search channels by channel members. Users or bots can search across the channels that they belong to. Users in the AppInstanceAdmin role can search across all channels. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. This operation isn't supported for AppInstanceUsers with a large number of memberships.
     ///
     /// - Parameter SearchChannelsInput : [no documentation found]
     ///

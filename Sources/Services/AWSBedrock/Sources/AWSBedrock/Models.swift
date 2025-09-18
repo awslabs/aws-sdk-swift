@@ -772,6 +772,29 @@ public struct DeleteAutomatedReasoningPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Thrown when attempting to delete or modify a resource that is currently being used by other resources or operations. For example, trying to delete an Automated Reasoning policy that is referenced by an active guardrail.
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUseException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct DeleteAutomatedReasoningPolicyBuildWorkflowInput: Swift.Sendable {
     /// The unique identifier of the build workflow to delete.
     /// This member is required.
@@ -797,29 +820,6 @@ public struct DeleteAutomatedReasoningPolicyBuildWorkflowInput: Swift.Sendable {
 public struct DeleteAutomatedReasoningPolicyBuildWorkflowOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// Thrown when attempting to delete or modify a resource that is currently being used by other resources or operations. For example, trying to delete an Automated Reasoning policy that is referenced by an active guardrail.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceInUseException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
 }
 
 public struct DeleteAutomatedReasoningPolicyTestCaseInput: Swift.Sendable {
@@ -3082,7 +3082,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AutomatedReasoningPolicyBuildWorkflowDocument(document: \(Swift.String(describing: document)), documentContentType: \(Swift.String(describing: documentContentType)), documentDescription: \"CONTENT_REDACTED\", documentName: \"CONTENT_REDACTED\")"}
+        "AutomatedReasoningPolicyBuildWorkflowDocument(documentContentType: \(Swift.String(describing: documentContentType)), document: \"CONTENT_REDACTED\", documentDescription: \"CONTENT_REDACTED\", documentName: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -3339,8 +3339,6 @@ public struct UpdateAutomatedReasoningPolicyTestCaseInput: Swift.Sendable {
     /// The updated content to be validated by the Automated Reasoning policy.
     /// This member is required.
     public var guardContent: Swift.String?
-    /// The KMS key ARN for encrypting the test at rest. If not provided, the key will not be updated. Use DISCARD to remove the key.
-    public var kmsKeyArn: Swift.String?
     /// The timestamp when the test was last updated. This is used as a concurrency token to prevent conflicting modifications.
     /// This member is required.
     public var lastUpdatedAt: Foundation.Date?
@@ -3358,7 +3356,6 @@ public struct UpdateAutomatedReasoningPolicyTestCaseInput: Swift.Sendable {
         confidenceThreshold: Swift.Double? = nil,
         expectedAggregatedFindingsResult: BedrockClientTypes.AutomatedReasoningCheckResult? = nil,
         guardContent: Swift.String? = nil,
-        kmsKeyArn: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         policyArn: Swift.String? = nil,
         queryContent: Swift.String? = nil,
@@ -3368,7 +3365,6 @@ public struct UpdateAutomatedReasoningPolicyTestCaseInput: Swift.Sendable {
         self.confidenceThreshold = confidenceThreshold
         self.expectedAggregatedFindingsResult = expectedAggregatedFindingsResult
         self.guardContent = guardContent
-        self.kmsKeyArn = kmsKeyArn
         self.lastUpdatedAt = lastUpdatedAt
         self.policyArn = policyArn
         self.queryContent = queryContent
@@ -3378,7 +3374,7 @@ public struct UpdateAutomatedReasoningPolicyTestCaseInput: Swift.Sendable {
 
 extension UpdateAutomatedReasoningPolicyTestCaseInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAutomatedReasoningPolicyTestCaseInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), confidenceThreshold: \(Swift.String(describing: confidenceThreshold)), expectedAggregatedFindingsResult: \(Swift.String(describing: expectedAggregatedFindingsResult)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), policyArn: \(Swift.String(describing: policyArn)), testCaseId: \(Swift.String(describing: testCaseId)), guardContent: \"CONTENT_REDACTED\", queryContent: \"CONTENT_REDACTED\")"}
+        "UpdateAutomatedReasoningPolicyTestCaseInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), confidenceThreshold: \(Swift.String(describing: confidenceThreshold)), expectedAggregatedFindingsResult: \(Swift.String(describing: expectedAggregatedFindingsResult)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), policyArn: \(Swift.String(describing: policyArn)), testCaseId: \(Swift.String(describing: testCaseId)), guardContent: \"CONTENT_REDACTED\", queryContent: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateAutomatedReasoningPolicyTestCaseOutput: Swift.Sendable {
@@ -14470,7 +14466,6 @@ extension UpdateAutomatedReasoningPolicyTestCaseInput {
         try writer["confidenceThreshold"].write(value.confidenceThreshold)
         try writer["expectedAggregatedFindingsResult"].write(value.expectedAggregatedFindingsResult)
         try writer["guardContent"].write(value.guardContent)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["queryContent"].write(value.queryContent)
     }
@@ -16162,6 +16157,7 @@ enum DeleteAutomatedReasoningPolicyBuildWorkflowOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)

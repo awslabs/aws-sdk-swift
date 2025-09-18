@@ -669,6 +669,30 @@ extension BudgetsClientTypes {
     }
 }
 
+/// The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
+public struct BillingViewHealthStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The error message the exception carries.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BillingViewHealthStatusException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// You've exceeded the notification or subscriber limit.
 public struct CreationLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3648,6 +3672,7 @@ enum CreateBudgetOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "CreationLimitExceededException": return try CreationLimitExceededException.makeError(baseError: baseError)
             case "DuplicateRecordException": return try DuplicateRecordException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -4069,6 +4094,7 @@ enum UpdateBudgetOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
@@ -4140,6 +4166,19 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BillingViewHealthStatusException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BillingViewHealthStatusException {
+        let reader = baseError.errorBodyReader
+        var value = BillingViewHealthStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
