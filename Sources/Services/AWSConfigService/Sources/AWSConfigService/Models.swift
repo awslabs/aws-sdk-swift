@@ -6865,6 +6865,7 @@ extension ConfigClientTypes {
         case inProgress
         case queued
         case succeeded
+        case unknown
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RemediationExecutionState] {
@@ -6872,7 +6873,8 @@ extension ConfigClientTypes {
                 .failed,
                 .inProgress,
                 .queued,
-                .succeeded
+                .succeeded,
+                .unknown
             ]
         }
 
@@ -6887,6 +6889,7 @@ extension ConfigClientTypes {
             case .inProgress: return "IN_PROGRESS"
             case .queued: return "QUEUED"
             case .succeeded: return "SUCCEEDED"
+            case .unknown: return "UNKNOWN"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6896,16 +6899,22 @@ extension ConfigClientTypes {
 extension ConfigClientTypes {
 
     public enum RemediationExecutionStepState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exited
         case failed
+        case inProgress
         case pending
         case succeeded
+        case unknown
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RemediationExecutionStepState] {
             return [
+                .exited,
                 .failed,
+                .inProgress,
                 .pending,
-                .succeeded
+                .succeeded,
+                .unknown
             ]
         }
 
@@ -6916,9 +6925,12 @@ extension ConfigClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .exited: return "EXITED"
             case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
             case .pending: return "PENDING"
             case .succeeded: return "SUCCEEDED"
+            case .unknown: return "UNKNOWN"
             case let .sdkUnknown(s): return s
             }
         }

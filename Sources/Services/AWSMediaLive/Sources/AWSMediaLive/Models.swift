@@ -15638,6 +15638,8 @@ extension MediaLiveClientTypes {
         public var lookAheadRateControl: MediaLiveClientTypes.Av1LookAheadRateControl?
         /// The maximum bitrate to assign. For recommendations, see the description for qvbrQualityLevel.
         public var maxBitrate: Swift.Int?
+        /// Used for QVBR rate control mode only. Optional. Enter a minimum bitrate if you want to keep the output bitrate about a threshold, in order to prevent the downstream system from de-allocating network bandwidth for this output.
+        public var minBitrate: Swift.Int?
         /// Applies only if you enable SceneChangeDetect. Sets the interval between frames. This property ensures a minimum separation between repeated (cadence) I-frames and any I-frames inserted by scene change detection (SCD frames). Enter a number for the interval, measured in number of frames. If an SCD frame and a cadence frame are closer than the specified number of frames, MediaLive shrinks or stretches the GOP to include the SCD frame. Then normal cadence resumes in the next GOP. For GOP stretch to succeed, you must enable LookAheadRateControl. Note that the maximum GOP stretch = (GOP size) + (Minimum I-interval) - 1
         public var minIInterval: Swift.Int?
         /// The denominator for the output pixel aspect ratio (PAR).
@@ -15666,6 +15668,7 @@ extension MediaLiveClientTypes {
             level: MediaLiveClientTypes.Av1Level? = nil,
             lookAheadRateControl: MediaLiveClientTypes.Av1LookAheadRateControl? = nil,
             maxBitrate: Swift.Int? = nil,
+            minBitrate: Swift.Int? = nil,
             minIInterval: Swift.Int? = nil,
             parDenominator: Swift.Int? = nil,
             parNumerator: Swift.Int? = nil,
@@ -15686,6 +15689,7 @@ extension MediaLiveClientTypes {
             self.level = level
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
+            self.minBitrate = minBitrate
             self.minIInterval = minIInterval
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
@@ -16778,6 +16782,8 @@ extension MediaLiveClientTypes {
         public var lookAheadRateControl: MediaLiveClientTypes.H264LookAheadRateControl?
         /// For QVBR: See the tooltip for Quality level For VBR: Set the maximum bitrate in order to accommodate expected spikes in the complexity of the video.
         public var maxBitrate: Swift.Int?
+        /// Used for QVBR rate control mode only. Optional. Enter a minimum bitrate if you want to keep the output bitrate about a threshold, in order to prevent the downstream system from de-allocating network bandwidth for this output.
+        public var minBitrate: Swift.Int?
         /// Only meaningful if sceneChangeDetect is set to enabled. Defaults to 5 if multiplex rate control is used. Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public var minIInterval: Swift.Int?
         /// Sets the minimum QP. If you aren't familiar with quantization adjustment, leave the field empty. MediaLive will apply an appropriate value.
@@ -16861,6 +16867,7 @@ extension MediaLiveClientTypes {
             level: MediaLiveClientTypes.H264Level? = nil,
             lookAheadRateControl: MediaLiveClientTypes.H264LookAheadRateControl? = nil,
             maxBitrate: Swift.Int? = nil,
+            minBitrate: Swift.Int? = nil,
             minIInterval: Swift.Int? = nil,
             minQp: Swift.Int? = nil,
             numRefFrames: Swift.Int? = nil,
@@ -16905,6 +16912,7 @@ extension MediaLiveClientTypes {
             self.level = level
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
+            self.minBitrate = minBitrate
             self.minIInterval = minIInterval
             self.minQp = minQp
             self.numRefFrames = numRefFrames
@@ -17132,6 +17140,36 @@ extension MediaLiveClientTypes {
         case sdkUnknown(Swift.String)
 
         public static var allCases: [H265FlickerAq] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// H265 Gop BReference
+    public enum H265GopBReference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265GopBReference] {
             return [
                 .disabled,
                 .enabled
@@ -17467,6 +17505,36 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// H265 Sub Gop Length
+    public enum H265SubGopLength: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `dynamic`
+        case fixed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265SubGopLength] {
+            return [
+                .dynamic,
+                .fixed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dynamic: return "DYNAMIC"
+            case .fixed: return "FIXED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// H265 Tier
     public enum H265Tier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case high
@@ -17617,8 +17685,12 @@ extension MediaLiveClientTypes {
         /// Framerate numerator - framerate is a fraction, e.g. 24000 / 1001 = 23.976 fps.
         /// This member is required.
         public var framerateNumerator: Swift.Int?
+        /// Allows the encoder to use a B-Frame as a reference frame as well. ENABLED: B-frames will also serve as reference frames. DISABLED: B-frames won't be reference frames. Must be DISABLED if resolution is greater than 1080p or when using tiled hevc encoding.
+        public var gopBReference: MediaLiveClientTypes.H265GopBReference?
         /// Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.
         public var gopClosedCadence: Swift.Int?
+        /// Sets the number of B-frames between reference frames. Set to 2 if resolution is greater than 1080p or when using tiled hevc encoding.
+        public var gopNumBFrames: Swift.Int?
         /// GOP size (keyframe interval) in units of either frames or seconds per gopSizeUnits. If gopSizeUnits is frames, gopSize must be an integer and must be greater than or equal to 1. If gopSizeUnits is seconds, gopSize must be greater than 0, but need not be an integer.
         public var gopSize: Swift.Double?
         /// Indicates if the gopSize is specified in frames or seconds. If seconds the system will convert the gopSize into a frame count at run time.
@@ -17629,6 +17701,8 @@ extension MediaLiveClientTypes {
         public var lookAheadRateControl: MediaLiveClientTypes.H265LookAheadRateControl?
         /// For QVBR: See the tooltip for Quality level
         public var maxBitrate: Swift.Int?
+        /// Used for QVBR rate control mode only. Optional. Enter a minimum bitrate if you want to keep the output bitrate about a threshold, in order to prevent the downstream system from de-allocating network bandwidth for this output.
+        public var minBitrate: Swift.Int?
         /// Only meaningful if sceneChangeDetect is set to enabled. Defaults to 5 if multiplex rate control is used. Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public var minIInterval: Swift.Int?
         /// Sets the minimum QP. If you aren't familiar with quantization adjustment, leave the field empty. MediaLive will apply an appropriate value.
@@ -17659,6 +17733,8 @@ extension MediaLiveClientTypes {
         public var sceneChangeDetect: MediaLiveClientTypes.H265SceneChangeDetect?
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures. This field is optional; when no value is specified the encoder will choose the number of slices based on encode resolution.
         public var slices: Swift.Int?
+        /// Sets the number of B-frames in each sub-GOP. FIXED: Use the value in Num B-frames. DYNAMIC: Optimizes the number of B-frames in each sub-GOP to improve visual quality. Must be FIXED if resolution is greater than 1080p or when using tiled hevc encoding.
+        public var subgopLength: MediaLiveClientTypes.H265SubGopLength?
         /// H.265 Tier.
         public var tier: MediaLiveClientTypes.H265Tier?
         /// Set this field to set up the picture as a tile. You must also set tileWidth. The tile height must result in 22 or fewer rows in the frame. The tile width must result in 20 or fewer columns in the frame. And finally, the product of the column count and row count must be 64 of less. If the tile width and height are specified, MediaLive will override the video codec slices field with a value that MediaLive calculates
@@ -17692,12 +17768,15 @@ extension MediaLiveClientTypes {
             flickerAq: MediaLiveClientTypes.H265FlickerAq? = nil,
             framerateDenominator: Swift.Int? = nil,
             framerateNumerator: Swift.Int? = nil,
+            gopBReference: MediaLiveClientTypes.H265GopBReference? = nil,
             gopClosedCadence: Swift.Int? = nil,
+            gopNumBFrames: Swift.Int? = nil,
             gopSize: Swift.Double? = nil,
             gopSizeUnits: MediaLiveClientTypes.H265GopSizeUnits? = nil,
             level: MediaLiveClientTypes.H265Level? = nil,
             lookAheadRateControl: MediaLiveClientTypes.H265LookAheadRateControl? = nil,
             maxBitrate: Swift.Int? = nil,
+            minBitrate: Swift.Int? = nil,
             minIInterval: Swift.Int? = nil,
             minQp: Swift.Int? = nil,
             mvOverPictureBoundaries: MediaLiveClientTypes.H265MvOverPictureBoundaries? = nil,
@@ -17710,6 +17789,7 @@ extension MediaLiveClientTypes {
             scanType: MediaLiveClientTypes.H265ScanType? = nil,
             sceneChangeDetect: MediaLiveClientTypes.H265SceneChangeDetect? = nil,
             slices: Swift.Int? = nil,
+            subgopLength: MediaLiveClientTypes.H265SubGopLength? = nil,
             tier: MediaLiveClientTypes.H265Tier? = nil,
             tileHeight: Swift.Int? = nil,
             tilePadding: MediaLiveClientTypes.H265TilePadding? = nil,
@@ -17731,12 +17811,15 @@ extension MediaLiveClientTypes {
             self.flickerAq = flickerAq
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
+            self.gopBReference = gopBReference
             self.gopClosedCadence = gopClosedCadence
+            self.gopNumBFrames = gopNumBFrames
             self.gopSize = gopSize
             self.gopSizeUnits = gopSizeUnits
             self.level = level
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
+            self.minBitrate = minBitrate
             self.minIInterval = minIInterval
             self.minQp = minQp
             self.mvOverPictureBoundaries = mvOverPictureBoundaries
@@ -17749,6 +17832,7 @@ extension MediaLiveClientTypes {
             self.scanType = scanType
             self.sceneChangeDetect = sceneChangeDetect
             self.slices = slices
+            self.subgopLength = subgopLength
             self.tier = tier
             self.tileHeight = tileHeight
             self.tilePadding = tilePadding
@@ -34953,6 +35037,7 @@ extension MediaLiveClientTypes.Av1Settings {
         try writer["level"].write(value.level)
         try writer["lookAheadRateControl"].write(value.lookAheadRateControl)
         try writer["maxBitrate"].write(value.maxBitrate)
+        try writer["minBitrate"].write(value.minBitrate)
         try writer["minIInterval"].write(value.minIInterval)
         try writer["parDenominator"].write(value.parDenominator)
         try writer["parNumerator"].write(value.parNumerator)
@@ -34984,6 +35069,7 @@ extension MediaLiveClientTypes.Av1Settings {
         value.timecodeBurninSettings = try reader["timecodeBurninSettings"].readIfPresent(with: MediaLiveClientTypes.TimecodeBurninSettings.read(from:))
         value.bitrate = try reader["bitrate"].readIfPresent()
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
+        value.minBitrate = try reader["minBitrate"].readIfPresent()
         return value
     }
 }
@@ -35163,12 +35249,15 @@ extension MediaLiveClientTypes.H265Settings {
         try writer["flickerAq"].write(value.flickerAq)
         try writer["framerateDenominator"].write(value.framerateDenominator)
         try writer["framerateNumerator"].write(value.framerateNumerator)
+        try writer["gopBReference"].write(value.gopBReference)
         try writer["gopClosedCadence"].write(value.gopClosedCadence)
+        try writer["gopNumBFrames"].write(value.gopNumBFrames)
         try writer["gopSize"].write(value.gopSize)
         try writer["gopSizeUnits"].write(value.gopSizeUnits)
         try writer["level"].write(value.level)
         try writer["lookAheadRateControl"].write(value.lookAheadRateControl)
         try writer["maxBitrate"].write(value.maxBitrate)
+        try writer["minBitrate"].write(value.minBitrate)
         try writer["minIInterval"].write(value.minIInterval)
         try writer["minQp"].write(value.minQp)
         try writer["mvOverPictureBoundaries"].write(value.mvOverPictureBoundaries)
@@ -35181,6 +35270,7 @@ extension MediaLiveClientTypes.H265Settings {
         try writer["scanType"].write(value.scanType)
         try writer["sceneChangeDetect"].write(value.sceneChangeDetect)
         try writer["slices"].write(value.slices)
+        try writer["subgopLength"].write(value.subgopLength)
         try writer["tier"].write(value.tier)
         try writer["tileHeight"].write(value.tileHeight)
         try writer["tilePadding"].write(value.tilePadding)
@@ -35231,6 +35321,10 @@ extension MediaLiveClientTypes.H265Settings {
         value.treeblockSize = try reader["treeblockSize"].readIfPresent()
         value.minQp = try reader["minQp"].readIfPresent()
         value.deblocking = try reader["deblocking"].readIfPresent()
+        value.gopBReference = try reader["gopBReference"].readIfPresent()
+        value.gopNumBFrames = try reader["gopNumBFrames"].readIfPresent()
+        value.minBitrate = try reader["minBitrate"].readIfPresent()
+        value.subgopLength = try reader["subgopLength"].readIfPresent()
         return value
     }
 }
@@ -35332,6 +35426,7 @@ extension MediaLiveClientTypes.H264Settings {
         try writer["level"].write(value.level)
         try writer["lookAheadRateControl"].write(value.lookAheadRateControl)
         try writer["maxBitrate"].write(value.maxBitrate)
+        try writer["minBitrate"].write(value.minBitrate)
         try writer["minIInterval"].write(value.minIInterval)
         try writer["minQp"].write(value.minQp)
         try writer["numRefFrames"].write(value.numRefFrames)
@@ -35400,6 +35495,7 @@ extension MediaLiveClientTypes.H264Settings {
         value.timecodeInsertion = try reader["timecodeInsertion"].readIfPresent()
         value.timecodeBurninSettings = try reader["timecodeBurninSettings"].readIfPresent(with: MediaLiveClientTypes.TimecodeBurninSettings.read(from:))
         value.minQp = try reader["minQp"].readIfPresent()
+        value.minBitrate = try reader["minBitrate"].readIfPresent()
         return value
     }
 }
