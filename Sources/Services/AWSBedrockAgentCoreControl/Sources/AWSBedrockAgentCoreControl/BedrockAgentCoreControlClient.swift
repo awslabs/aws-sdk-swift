@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentCoreControlClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentCoreControlClient"
-    public static let version = "1.5.45"
+    public static let version = "1.5.46"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentCoreControlClient.BedrockAgentCoreControlClientConfiguration
     let serviceName = "Bedrock AgentCore Control"
@@ -372,7 +372,7 @@ extension BedrockAgentCoreControlClient {
 extension BedrockAgentCoreControlClient {
     /// Performs the `CreateAgentRuntime` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Creates an Amazon Secure Agent.
+    /// Creates an Amazon Bedrock AgentCore Runtime.
     ///
     /// - Parameter CreateAgentRuntimeInput : [no documentation found]
     ///
@@ -445,7 +445,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `CreateAgentRuntimeEndpoint` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Creates an Amazon Secure AgentEndpoint.
+    /// Creates an AgentCore Runtime endpoint.
     ///
     /// - Parameter CreateAgentRuntimeEndpointInput : [no documentation found]
     ///
@@ -815,7 +815,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `CreateGatewayTarget` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Creates a target for a gateway. A target defines an endpoint that the gateway can connect to. To create a target, you must specify the gateway identifier and target configuration.
+    /// Creates a target for a gateway. A target defines an endpoint that the gateway can connect to.
     ///
     /// - Parameter CreateGatewayTargetInput : [no documentation found]
     ///
@@ -889,7 +889,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `CreateMemory` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Creates a new memory.
+    /// Creates a new Amazon Bedrock AgentCore Memory resource.
     ///
     /// - Parameter CreateMemoryInput : [no documentation found]
     ///
@@ -1112,7 +1112,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `DeleteAgentRuntime` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Deletes an Amazon Secure Agent.
+    /// Deletes an Amazon Bedrock AgentCore Runtime.
     ///
     /// - Parameter DeleteAgentRuntimeInput : [no documentation found]
     ///
@@ -1180,7 +1180,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `DeleteAgentRuntimeEndpoint` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Deletes an Amazon Secure AgentEndpoint.
+    /// Deletes an AAgentCore Runtime endpoint.
     ///
     /// - Parameter DeleteAgentRuntimeEndpointInput : [no documentation found]
     ///
@@ -1466,7 +1466,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `DeleteGateway` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Deletes a Gateway.
+    /// Deletes a gateway.
     ///
     /// - Parameter DeleteGatewayInput : [no documentation found]
     ///
@@ -1535,7 +1535,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `DeleteGatewayTarget` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Deletes a Gateway Target.
+    /// Deletes a gateway target.
     ///
     /// - Parameter DeleteGatewayTargetInput : [no documentation found]
     ///
@@ -1604,7 +1604,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `DeleteMemory` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Deletes a memory.
+    /// Deletes an Amazon Bedrock AgentCore Memory resource.
     ///
     /// - Parameter DeleteMemoryInput : [no documentation found]
     ///
@@ -1818,7 +1818,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `GetAgentRuntime` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Gets an Amazon Secure Agent.
+    /// Gets an Amazon Bedrock AgentCore Runtime.
     ///
     /// - Parameter GetAgentRuntimeInput : [no documentation found]
     ///
@@ -2232,7 +2232,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `GetGatewayTarget` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Retrieves information about a specific Gateway Target.
+    /// Retrieves information about a specific gateway target.
     ///
     /// - Parameter GetGatewayTargetInput : [no documentation found]
     ///
@@ -2300,7 +2300,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `GetMemory` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Retrieve an existing memory.
+    /// Retrieve an existing Amazon Bedrock AgentCore Memory resource.
     ///
     /// - Parameter GetMemoryInput : [no documentation found]
     ///
@@ -2998,7 +2998,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `ListGatewayTargets` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Lists all targets for a specific Gateway.
+    /// Lists all targets for a specific gateway.
     ///
     /// - Parameter ListGatewayTargetsInput : [no documentation found]
     ///
@@ -3066,7 +3066,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `ListGateways` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Lists all Gateways in the account.
+    /// Lists all gateways in the account.
     ///
     /// - Parameter ListGatewaysInput : [no documentation found]
     ///
@@ -3134,7 +3134,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `ListMemories` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Lists the memory present.
+    /// Lists the available Amazon Bedrock AgentCore Memory resources in the current Amazon Web Services Region.
     ///
     /// - Parameter ListMemoriesInput : [no documentation found]
     ///
@@ -3263,6 +3263,74 @@ extension BedrockAgentCoreControlClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListOauth2CredentialProviders")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListTagsForResource` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Lists the tags associated with the specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTagsForResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3420,6 +3488,147 @@ extension BedrockAgentCoreControlClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `TagResource` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "tagResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UntagResource` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Removes the specified tags from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "untagResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateAgentRuntime` operation on the `BedrockAgentCoreControl` service.
     ///
     /// Updates an existing Amazon Secure Agent.
@@ -3496,7 +3705,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `UpdateAgentRuntimeEndpoint` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Updates an existing Amazon Secure AgentEndpoint.
+    /// Updates an existing Amazon Bedrock AgentCore Runtime endpoint.
     ///
     /// - Parameter UpdateAgentRuntimeEndpointInput : [no documentation found]
     ///
@@ -3646,7 +3855,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `UpdateGateway` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Updates an existing Gateway.
+    /// Updates an existing gateway.
     ///
     /// - Parameter UpdateGatewayInput : [no documentation found]
     ///
@@ -3719,7 +3928,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `UpdateGatewayTarget` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Updates an existing Gateway Target.
+    /// Updates an existing gateway target.
     ///
     /// - Parameter UpdateGatewayTargetInput : [no documentation found]
     ///
@@ -3792,7 +4001,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `UpdateMemory` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Update memory.
+    /// Update an Amazon Bedrock AgentCore Memory resource memory.
     ///
     /// - Parameter UpdateMemoryInput : [no documentation found]
     ///

@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.5.45"
+    public static let version = "1.5.46"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -8528,7 +8528,7 @@ extension ConnectClient {
 
     /// Performs the `DisassociateRoutingProfileQueues` operation on the `Connect` service.
     ///
-    /// Disassociates a set of queues from a routing profile.
+    /// Disassociates a set of queues from a routing profile. Up to 10 queue references can be disassociated in a single API call. More than 10 queue references results in a single call results in an InvalidParameterException.
     ///
     /// - Parameter DisassociateRoutingProfileQueuesInput : [no documentation found]
     ///
@@ -9017,9 +9017,22 @@ extension ConnectClient {
 
     /// Performs the `GetContactMetrics` operation on the `Connect` service.
     ///
-    /// Gets the real-time metrics of the specified contact. Use cases Following are common uses cases for this API:
+    /// Retrieves the position of the contact in the queue. Use cases Following are common uses cases for position in queue:
     ///
-    /// * You can use this API to retrieve the position of the contact in the queue.
+    /// * Understand the expected wait experience of a contact.
+    ///
+    /// * Inform customers of their position in queue and potentially offer a callback.
+    ///
+    /// * Make data-driven routing decisions between primary and alternative queues.
+    ///
+    /// * Enhance queue visibility and leverage agent proficiencies to streamline contact routing.
+    ///
+    ///
+    /// Important things to know
+    ///
+    /// * The only way to retrieve the position of the contact in queue is by using this API. You can't retrieve the position by using flows and attributes.
+    ///
+    /// * For more information, see the [Position in queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) metric in the Amazon Connect Administrator Guide.
     ///
     ///
     /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
