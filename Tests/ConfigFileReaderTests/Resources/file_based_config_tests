@@ -1,16 +1,16 @@
 # Taken from aws-sdk-swift `FileBasedConfigurationTests`
 
 [default]
-one-number = 1
-two-word = two
-nested =
-    one-number = 1
-    two-word = two
+default-one-number = 1
+default-two-word = two
+nested-under-default =
+    sub-default-one-number = 1
+    sub-default-two-word = two
 
 
-[profile test-profile]
-one-word = one
-two-number = 2
-nested =
-    one-word = one
-    two-number = 2
+[profile test]
+test-one-word = one
+test-two-number = 2
+nested-under-test =
+    sub-test-one-word = one
+    sub-test-two-number = 2

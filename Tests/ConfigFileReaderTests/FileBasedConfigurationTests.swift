@@ -16,45 +16,61 @@ class FileBasedConfigurationTests: XCTestCase {
     func testCRTFileBasedConfiguration() async throws {
         let config = try await TestSubject.constructor(configPath, nil)
         let defaultSection = config?.section(for: "default")
-        let nestedSection = defaultSection?.subproperties(for: "nested")
 
         XCTAssertEqual(
-            defaultSection?.string(for: "one-number"),
+            defaultSection?.string(for: "default-one-number"),
             "1"
         )
+
         XCTAssertEqual(
-            defaultSection?.string(for: "two-word"),
+            defaultSection?.string(for: "default-two-word"),
             "two"
         )
+
         XCTAssertNil(defaultSection?.string(for: "undefined-property"))
-        XCTAssertEqual(
-            nestedSection?.value(for: "one-number"),
-            "1"
-        )
-        XCTAssertEqual(
-            nestedSection?.value(for: "two-word"),
-            "two"
-        )
 
-        let namedSection = config?.section(for: "test-profile")
-        let nestedNameSection = namedSection?.subproperties(for: "nested")
+        let defaultNestedSection = defaultSection?.property(for: "nested-under-default")
+        if case .subsection(let subsectionNestedUnderDefault) = defaultNestedSection {
+            XCTAssertEqual(
+                subsectionNestedUnderDefault.value(for: "sub-default-one-number"),
+                "1"
+            )
+
+            XCTAssertEqual(
+                subsectionNestedUnderDefault.value(for: "sub-default-two-word"),
+                "two"
+            )
+        } else {
+            XCTFail("Nested section does not contain subproperties")
+        }
+
+        let namedSection = config?.section(for: "test")
+
         XCTAssertEqual(
-            namedSection?.string(for: "one-word"),
+            namedSection?.string(for: "test-one-word"),
             "one"
         )
+
         XCTAssertEqual(
-            namedSection?.string(for: "two-number"),
+            namedSection?.string(for: "test-two-number"),
             "2"
         )
+
         XCTAssertNil(namedSection?.string(for: "undefined-property"))
-        XCTAssertEqual(
-            nestedNameSection?.value(for: "one-word"),
-            "one"
-        )
-        XCTAssertEqual(
-            nestedNameSection?.value(for: "two-number"),
-            "2"
-        )
-    }
 
+        let testNestedSection = namedSection?.property(for: "nested-under-test")
+        if case .subsection(let subsectionNestedUnderTest) = testNestedSection {
+            XCTAssertEqual(
+                subsectionNestedUnderTest.value(for: "sub-test-one-word"),
+                "one"
+            )
+
+            XCTAssertEqual(
+                subsectionNestedUnderTest.value(for: "sub-test-two-number"),
+                "2"
+            )
+        } else {
+            XCTFail("Nested section does not contain subproperties")
+        }
+    }
 }
