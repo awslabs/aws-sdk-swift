@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ARCRegionswitchClient: ClientRuntime.Client {
     public static let clientName = "ARCRegionswitchClient"
-    public static let version = "1.5.46"
+    public static let version = "1.5.47"
     let client: ClientRuntime.SdkHttpClient
     let config: ARCRegionswitchClient.ARCRegionswitchClientConfiguration
     let serviceName = "ARC Region switch"
