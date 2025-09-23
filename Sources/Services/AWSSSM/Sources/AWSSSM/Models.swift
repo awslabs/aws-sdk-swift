@@ -1272,15 +1272,15 @@ extension SSMClientTypes {
         public var excludeAccounts: [Swift.String]?
         /// The Automation execution role used by the currently running Automation. If not specified, the default value is AWS-SystemsManager-AutomationExecutionRole.
         public var executionRoleName: Swift.String?
-        /// Indicates whether to include child organizational units (OUs) that are children of the targeted OUs. The default is false.
+        /// Indicates whether to include child organizational units (OUs) that are children of the targeted OUs. The default is false. This parameter is not supported by State Manager.
         public var includeChildOrganizationUnits: Swift.Bool
         /// The Amazon Web Services Regions targeted by the current Automation execution.
         public var regions: [Swift.String]?
         /// The details for the CloudWatch alarm you want to apply to an automation or command.
         public var targetLocationAlarmConfiguration: SSMClientTypes.AlarmConfiguration?
-        /// The maximum number of Amazon Web Services Regions and Amazon Web Services accounts allowed to run the Automation concurrently.
+        /// The maximum number of Amazon Web Services Regions and Amazon Web Services accounts allowed to run the Automation concurrently. TargetLocationMaxConcurrency has a default value of 1.
         public var targetLocationMaxConcurrency: Swift.String?
-        /// The maximum number of errors allowed before the system stops queueing additional Automation executions for the currently running Automation.
+        /// The maximum number of errors allowed before the system stops queueing additional Automation executions for the currently running Automation. TargetLocationMaxErrors has a default value of 0.
         public var targetLocationMaxErrors: Swift.String?
         /// A list of key-value mappings to target resources. If you specify values for this data type, you must also specify a value for TargetParameterName. This Targets parameter takes precedence over the StartAutomationExecution:Targets parameter if both are supplied.
         public var targets: [SSMClientTypes.Target]?
@@ -1359,7 +1359,7 @@ public struct CreateAssociationInput: Swift.Sendable {
     public var syncCompliance: SSMClientTypes.AssociationSyncCompliance?
     /// Adds or overwrites one or more tags for a State Manager association. Tags are metadata that you can assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define.
     public var tags: [SSMClientTypes.Tag]?
-    /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.
+    /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts. The IncludeChildOrganizationUnits parameter is not supported by State Manager.
     public var targetLocations: [SSMClientTypes.TargetLocation]?
     /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
     public var targetMaps: [[Swift.String: [Swift.String]]]?
@@ -3474,7 +3474,11 @@ public struct CreatePatchBaselineInput: Swift.Sendable {
     public var operatingSystem: SSMClientTypes.OperatingSystem?
     /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see [Package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html) in the Amazon Web Services Systems Manager User Guide.
     public var rejectedPatches: [Swift.String]?
-    /// The action for Patch Manager to take on patches included in the RejectedPackages list. ALLOW_AS_DEPENDENCY Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified. Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified. BLOCK All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
+    /// The action for Patch Manager to take on patches included in the RejectedPackages list. ALLOW_AS_DEPENDENCY Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified. Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified. BLOCK All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. State value assignment for patch compliance:
+    ///
+    /// * If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
+    ///
+    /// * If an update attempts to install a dependency package that is now rejected by the baseline, when previous versions of the package were not rejected, the package being updated is reported as MISSING for SCAN operations and as FAILED for INSTALL operations.
     public var rejectedPatchesAction: SSMClientTypes.PatchAction?
     /// Information about the patches to use to update the managed nodes, including target operating systems and source repositories. Applies to Linux managed nodes only.
     public var sources: [SSMClientTypes.PatchSource]?
@@ -11102,15 +11106,19 @@ public struct GetDeployablePatchSnapshotForInstanceInput: Swift.Sendable {
     /// The snapshot ID provided by the user when running AWS-RunPatchBaseline.
     /// This member is required.
     public var snapshotId: Swift.String?
+    /// Specifies whether to use S3 dualstack endpoints for the patch snapshot download URL. Set to true to receive a presigned URL that supports both IPv4 and IPv6 connectivity. Set to false to use standard IPv4-only endpoints. Default is false. This parameter is required for managed nodes in IPv6-only environments.
+    public var useS3DualStackEndpoint: Swift.Bool?
 
     public init(
         baselineOverride: SSMClientTypes.BaselineOverride? = nil,
         instanceId: Swift.String? = nil,
-        snapshotId: Swift.String? = nil
+        snapshotId: Swift.String? = nil,
+        useS3DualStackEndpoint: Swift.Bool? = false
     ) {
         self.baselineOverride = baselineOverride
         self.instanceId = instanceId
         self.snapshotId = snapshotId
+        self.useS3DualStackEndpoint = useS3DualStackEndpoint
     }
 }
 
@@ -18689,7 +18697,7 @@ public struct UpdateAssociationInput: Swift.Sendable {
     public var scheduleOffset: Swift.Int?
     /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
     public var syncCompliance: SSMClientTypes.AssociationSyncCompliance?
-    /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.
+    /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts. The IncludeChildOrganizationUnits parameter is not supported by State Manager.
     public var targetLocations: [SSMClientTypes.TargetLocation]?
     /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
     public var targetMaps: [[Swift.String: [Swift.String]]]?
@@ -19597,7 +19605,11 @@ public struct UpdatePatchBaselineInput: Swift.Sendable {
     public var name: Swift.String?
     /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see [Package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html) in the Amazon Web Services Systems Manager User Guide.
     public var rejectedPatches: [Swift.String]?
-    /// The action for Patch Manager to take on patches included in the RejectedPackages list. ALLOW_AS_DEPENDENCY Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified. Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified. BLOCK All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
+    /// The action for Patch Manager to take on patches included in the RejectedPackages list. ALLOW_AS_DEPENDENCY Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified. Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified. BLOCK All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. State value assignment for patch compliance:
+    ///
+    /// * If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
+    ///
+    /// * If an update attempts to install a dependency package that is now rejected by the baseline, when previous versions of the package were not rejected, the package being updated is reported as MISSING for SCAN operations and as FAILED for INSTALL operations.
     public var rejectedPatchesAction: SSMClientTypes.PatchAction?
     /// If True, then all fields that are required by the [CreatePatchBaseline] operation are also required for this API request. Optional fields that aren't specified are set to null.
     public var replace: Swift.Bool?
@@ -21766,6 +21778,7 @@ extension GetDeployablePatchSnapshotForInstanceInput {
         try writer["BaselineOverride"].write(value.baselineOverride, with: SSMClientTypes.BaselineOverride.write(value:to:))
         try writer["InstanceId"].write(value.instanceId)
         try writer["SnapshotId"].write(value.snapshotId)
+        try writer["UseS3DualStackEndpoint"].write(value.useS3DualStackEndpoint)
     }
 }
 

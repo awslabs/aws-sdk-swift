@@ -6963,19 +6963,55 @@ public struct ListIdMappingTablesOutput: Swift.Sendable {
     }
 }
 
+extension CleanRoomsClientTypes {
+
+    public enum JobType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case batch
+        case deleteOnly
+        case incremental
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobType] {
+            return [
+                .batch,
+                .deleteOnly,
+                .incremental
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .batch: return "BATCH"
+            case .deleteOnly: return "DELETE_ONLY"
+            case .incremental: return "INCREMENTAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct PopulateIdMappingTableInput: Swift.Sendable {
     /// The unique identifier of the ID mapping table that you want to populate.
     /// This member is required.
     public var idMappingTableIdentifier: Swift.String?
+    /// The job type of the rule-based ID mapping job. Valid values include: INCREMENTAL: Processes only new or changed data since the last job run. This is the default job type if the ID mapping workflow was created in Entity Resolution with incrementalRunConfig specified. BATCH: Processes all data from the input source, regardless of previous job runs. This is the default job type if the ID mapping workflow was created in Entity Resolution but incrementalRunConfig wasn't specified. DELETE_ONLY: Processes only deletion requests from BatchDeleteUniqueId, which is set in Entity Resolution. For more information about incrementalRunConfig and BatchDeleteUniqueId, see the [Entity Resolution API Reference](https://docs.aws.amazon.com/entityresolution/latest/apireference/Welcome.html).
+    public var jobType: CleanRoomsClientTypes.JobType?
     /// The unique identifier of the membership that contains the ID mapping table that you want to populate.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
 
     public init(
         idMappingTableIdentifier: Swift.String? = nil,
+        jobType: CleanRoomsClientTypes.JobType? = nil,
         membershipIdentifier: Swift.String? = nil
     ) {
         self.idMappingTableIdentifier = idMappingTableIdentifier
+        self.jobType = jobType
         self.membershipIdentifier = membershipIdentifier
     }
 }
@@ -11641,6 +11677,14 @@ extension CreatePrivacyBudgetTemplateInput {
     }
 }
 
+extension PopulateIdMappingTableInput {
+
+    static func write(value: PopulateIdMappingTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobType"].write(value.jobType)
+    }
+}
+
 extension PreviewPrivacyImpactInput {
 
     static func write(value: PreviewPrivacyImpactInput?, to writer: SmithyJSON.Writer) throws {
@@ -13079,6 +13123,7 @@ enum CreatePrivacyBudgetTemplateOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EntityResolutionClient: ClientRuntime.Client {
     public static let clientName = "EntityResolutionClient"
-    public static let version = "1.5.47"
+    public static let version = "1.5.48"
     let client: ClientRuntime.SdkHttpClient
     let config: EntityResolutionClient.EntityResolutionClientConfiguration
     let serviceName = "EntityResolution"
@@ -383,9 +383,9 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+    /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func addPolicyStatement(input: AddPolicyStatementInput) async throws -> AddPolicyStatementOutput {
@@ -455,7 +455,7 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func batchDeleteUniqueId(input: BatchDeleteUniqueIdInput) async throws -> BatchDeleteUniqueIdOutput {
         let context = Smithy.ContextBuilder()
@@ -512,7 +512,7 @@ extension EntityResolutionClient {
 
     /// Performs the `CreateIdMappingWorkflow` operation on the `EntityResolution` service.
     ///
-    /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API.
+    /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API. Incremental processing is not supported for ID mapping workflows.
     ///
     /// - Parameter CreateIdMappingWorkflowInput : [no documentation found]
     ///
@@ -522,7 +522,7 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+    /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `ExceedsLimitException` : The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -594,7 +594,7 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+    /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `ExceedsLimitException` : The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -656,7 +656,7 @@ extension EntityResolutionClient {
 
     /// Performs the `CreateMatchingWorkflow` operation on the `EntityResolution` service.
     ///
-    /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow. For workflows where resolutionType is ML_MATCHING, incremental processing is not supported.
+    /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     ///
     /// - Parameter CreateMatchingWorkflowInput : [no documentation found]
     ///
@@ -666,7 +666,7 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+    /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `ExceedsLimitException` : The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -738,7 +738,7 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+    /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `ExceedsLimitException` : The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -810,7 +810,7 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+    /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
@@ -945,7 +945,7 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+    /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
@@ -1013,9 +1013,9 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+    /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func deletePolicyStatement(input: DeletePolicyStatementInput) async throws -> DeletePolicyStatementOutput {
@@ -1082,7 +1082,7 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+    /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
@@ -1151,7 +1151,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func generateMatchId(input: GenerateMatchIdInput) async throws -> GenerateMatchIdOutput {
@@ -1222,7 +1222,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func getIdMappingJob(input: GetIdMappingJobInput) async throws -> GetIdMappingJobOutput {
@@ -1290,7 +1290,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func getIdMappingWorkflow(input: GetIdMappingWorkflowInput) async throws -> GetIdMappingWorkflowOutput {
@@ -1358,7 +1358,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func getIdNamespace(input: GetIdNamespaceInput) async throws -> GetIdNamespaceOutput {
@@ -1415,7 +1415,7 @@ extension EntityResolutionClient {
 
     /// Performs the `GetMatchId` operation on the `EntityResolution` service.
     ///
-    /// Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow or ML matching workflow. You can call this API as a dry run of an incremental load on the rule-based matching workflow.
+    /// Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow. You can call this API as a dry run of an incremental load on the rule-based matching workflow.
     ///
     /// - Parameter GetMatchIdInput : [no documentation found]
     ///
@@ -1426,7 +1426,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func getMatchId(input: GetMatchIdInput) async throws -> GetMatchIdOutput {
@@ -1497,7 +1497,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func getMatchingJob(input: GetMatchingJobInput) async throws -> GetMatchingJobOutput {
@@ -1565,7 +1565,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func getMatchingWorkflow(input: GetMatchingWorkflowInput) async throws -> GetMatchingWorkflowOutput {
@@ -1633,7 +1633,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput {
@@ -1701,7 +1701,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func getProviderService(input: GetProviderServiceInput) async throws -> GetProviderServiceOutput {
@@ -1769,7 +1769,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func getSchemaMapping(input: GetSchemaMappingInput) async throws -> GetSchemaMappingOutput {
@@ -1837,7 +1837,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func listIdMappingJobs(input: ListIdMappingJobsInput) async throws -> ListIdMappingJobsOutput {
@@ -2042,7 +2042,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func listMatchingJobs(input: ListMatchingJobsInput) async throws -> ListMatchingJobsOutput {
@@ -2314,7 +2314,7 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -2380,9 +2380,9 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+    /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func putPolicy(input: PutPolicyInput) async throws -> PutPolicyOutput {
@@ -2452,10 +2452,10 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+    /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `ExceedsLimitException` : The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func startIdMappingJob(input: StartIdMappingJobInput) async throws -> StartIdMappingJobOutput {
@@ -2525,10 +2525,10 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+    /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `ExceedsLimitException` : The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func startMatchingJob(input: StartMatchingJobInput) async throws -> StartMatchingJobOutput {
@@ -2595,7 +2595,7 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -2664,7 +2664,7 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2720,7 +2720,7 @@ extension EntityResolutionClient {
 
     /// Performs the `UpdateIdMappingWorkflow` operation on the `EntityResolution` service.
     ///
-    /// Updates an existing IdMappingWorkflow. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the IdMappingWorkflow must already exist for the method to succeed.
+    /// Updates an existing IdMappingWorkflow. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the IdMappingWorkflow must already exist for the method to succeed. Incremental processing is not supported for ID mapping workflows.
     ///
     /// - Parameter UpdateIdMappingWorkflowInput : [no documentation found]
     ///
@@ -2731,7 +2731,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func updateIdMappingWorkflow(input: UpdateIdMappingWorkflowInput) async throws -> UpdateIdMappingWorkflowOutput {
@@ -2802,7 +2802,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func updateIdNamespace(input: UpdateIdNamespaceInput) async throws -> UpdateIdNamespaceOutput {
@@ -2862,7 +2862,7 @@ extension EntityResolutionClient {
 
     /// Performs the `UpdateMatchingWorkflow` operation on the `EntityResolution` service.
     ///
-    /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed. For workflows where resolutionType is ML_MATCHING, incremental processing is not supported.
+    /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     ///
     /// - Parameter UpdateMatchingWorkflowInput : [no documentation found]
     ///
@@ -2873,7 +2873,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func updateMatchingWorkflow(input: UpdateMatchingWorkflowInput) async throws -> UpdateMatchingWorkflowOutput {
@@ -2943,9 +2943,9 @@ extension EntityResolutionClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+    /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
-    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func updateSchemaMapping(input: UpdateSchemaMappingInput) async throws -> UpdateSchemaMappingOutput {

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CleanRoomsClient: ClientRuntime.Client {
     public static let clientName = "CleanRoomsClient"
-    public static let version = "1.5.47"
+    public static let version = "1.5.48"
     let client: ClientRuntime.SdkHttpClient
     let config: CleanRoomsClient.CleanRoomsClientConfiguration
     let serviceName = "CleanRooms"
@@ -1396,6 +1396,7 @@ extension CleanRoomsClient {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : Unexpected error during processing of request.
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     public func createPrivacyBudgetTemplate(input: CreatePrivacyBudgetTemplateInput) async throws -> CreatePrivacyBudgetTemplateOutput {
@@ -5116,6 +5117,9 @@ extension CleanRoomsClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput>(PopulateIdMappingTableInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PopulateIdMappingTableInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PopulateIdMappingTableOutput>(PopulateIdMappingTableOutput.httpOutput(from:), PopulateIdMappingTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))

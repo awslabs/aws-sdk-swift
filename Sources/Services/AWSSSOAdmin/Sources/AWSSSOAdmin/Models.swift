@@ -95,11 +95,39 @@ extension SSOAdminClientTypes {
     }
 }
 
+extension SSOAdminClientTypes {
+
+    public enum AccessDeniedExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kmsAccessDeniedException
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessDeniedExceptionReason] {
+            return [
+                .kmsAccessDeniedException
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kmsAccessDeniedException: return "KMS_AccessDeniedException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
+        /// The reason for the access denied exception.
+        public internal(set) var reason: SSOAdminClientTypes.AccessDeniedExceptionReason? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -112,9 +140,11 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        reason: SSOAdminClientTypes.AccessDeniedExceptionReason? = nil
     ) {
         self.properties.message = message
+        self.properties.reason = reason
     }
 }
 
@@ -552,11 +582,39 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
+extension SSOAdminClientTypes {
+
+    public enum ResourceNotFoundExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kmsNotFoundException
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceNotFoundExceptionReason] {
+            return [
+                .kmsNotFoundException
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kmsNotFoundException: return "KMS_NotFoundException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// Indicates that a requested resource is not found.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
+        /// The reason for the resource not found exception.
+        public internal(set) var reason: SSOAdminClientTypes.ResourceNotFoundExceptionReason? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -569,9 +627,37 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        reason: SSOAdminClientTypes.ResourceNotFoundExceptionReason? = nil
     ) {
         self.properties.message = message
+        self.properties.reason = reason
+    }
+}
+
+extension SSOAdminClientTypes {
+
+    public enum ThrottlingExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kmsThrottlingException
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThrottlingExceptionReason] {
+            return [
+                .kmsThrottlingException
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kmsThrottlingException: return "KMS_ThrottlingException"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -580,6 +666,8 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
+        /// The reason for the throttling exception.
+        public internal(set) var reason: SSOAdminClientTypes.ThrottlingExceptionReason? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -592,9 +680,43 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        reason: SSOAdminClientTypes.ThrottlingExceptionReason? = nil
     ) {
         self.properties.message = message
+        self.properties.reason = reason
+    }
+}
+
+extension SSOAdminClientTypes {
+
+    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kmsDisabledException
+        case kmsInvalidKeyUsageException
+        case kmsInvalidStateException
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationExceptionReason] {
+            return [
+                .kmsDisabledException,
+                .kmsInvalidKeyUsageException,
+                .kmsInvalidStateException
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kmsDisabledException: return "KMS_DisabledException"
+            case .kmsInvalidKeyUsageException: return "KMS_InvalidKeyUsageException"
+            case .kmsInvalidStateException: return "KMS_InvalidStateException"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -603,6 +725,8 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
+        /// The reason for the validation exception.
+        public internal(set) var reason: SSOAdminClientTypes.ValidationExceptionReason? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -615,9 +739,11 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        reason: SSOAdminClientTypes.ValidationExceptionReason? = nil
     ) {
         self.properties.message = message
+        self.properties.reason = reason
     }
 }
 
@@ -2281,8 +2407,97 @@ public struct DescribeInstanceInput: Swift.Sendable {
 
 extension SSOAdminClientTypes {
 
+    public enum KmsKeyStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enabled
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KmsKeyStatus] {
+            return [
+                .enabled,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enabled: return "ENABLED"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSOAdminClientTypes {
+
+    public enum KmsKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsOwnedKmsKey
+        case customerManagedKey
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KmsKeyType] {
+            return [
+                .awsOwnedKmsKey,
+                .customerManagedKey
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsOwnedKmsKey: return "AWS_OWNED_KMS_KEY"
+            case .customerManagedKey: return "CUSTOMER_MANAGED_KEY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSOAdminClientTypes {
+
+    /// The encryption configuration of your IAM Identity Center instance, including the key type, KMS key ARN, and current encryption status.
+    public struct EncryptionConfigurationDetails: Swift.Sendable {
+        /// The current status of encryption configuration.
+        public var encryptionStatus: SSOAdminClientTypes.KmsKeyStatus?
+        /// Provides additional context about the current encryption status. This field is particularly useful when the encryption status is UPDATE_FAILED. When encryption configuration update fails, this field contains information about the cause, which may include KMS key access issues, key not found errors, invalid key configuration, key in an invalid state, or a disabled key.
+        public var encryptionStatusReason: Swift.String?
+        /// The type of KMS key used for encryption.
+        public var keyType: SSOAdminClientTypes.KmsKeyType?
+        /// The ARN of the KMS key currently used to encrypt data in your IAM Identity Center instance.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            encryptionStatus: SSOAdminClientTypes.KmsKeyStatus? = nil,
+            encryptionStatusReason: Swift.String? = nil,
+            keyType: SSOAdminClientTypes.KmsKeyType? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.encryptionStatus = encryptionStatus
+            self.encryptionStatusReason = encryptionStatusReason
+            self.keyType = keyType
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension SSOAdminClientTypes {
+
     public enum InstanceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case createFailed
         case createInProgress
         case deleteInProgress
         case sdkUnknown(Swift.String)
@@ -2290,6 +2505,7 @@ extension SSOAdminClientTypes {
         public static var allCases: [InstanceStatus] {
             return [
                 .active,
+                .createFailed,
                 .createInProgress,
                 .deleteInProgress
             ]
@@ -2303,6 +2519,7 @@ extension SSOAdminClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
             case .createInProgress: return "CREATE_IN_PROGRESS"
             case .deleteInProgress: return "DELETE_IN_PROGRESS"
             case let .sdkUnknown(s): return s
@@ -2314,6 +2531,8 @@ extension SSOAdminClientTypes {
 public struct DescribeInstanceOutput: Swift.Sendable {
     /// The date the instance was created.
     public var createdDate: Foundation.Date?
+    /// Contains the encryption configuration for your IAM Identity Center instance, including the encryption status, KMS key type, and KMS key ARN.
+    public var encryptionConfigurationDetails: SSOAdminClientTypes.EncryptionConfigurationDetails?
     /// The identifier of the identity store that is connected to the instance of IAM Identity Center.
     public var identityStoreId: Swift.String?
     /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
@@ -2324,21 +2543,27 @@ public struct DescribeInstanceOutput: Swift.Sendable {
     public var ownerAccountId: Swift.String?
     /// The status of the instance.
     public var status: SSOAdminClientTypes.InstanceStatus?
+    /// Provides additional context about the current status of the IAM Identity Center instance. This field is particularly useful when an instance is in a non-ACTIVE state, such as CREATE_FAILED. When an instance fails to create or update, this field contains information about the cause, which may include issues with KMS key configuration, permission problems with the specified KMS key, or service-related errors.
+    public var statusReason: Swift.String?
 
     public init(
         createdDate: Foundation.Date? = nil,
+        encryptionConfigurationDetails: SSOAdminClientTypes.EncryptionConfigurationDetails? = nil,
         identityStoreId: Swift.String? = nil,
         instanceArn: Swift.String? = nil,
         name: Swift.String? = nil,
         ownerAccountId: Swift.String? = nil,
-        status: SSOAdminClientTypes.InstanceStatus? = nil
+        status: SSOAdminClientTypes.InstanceStatus? = nil,
+        statusReason: Swift.String? = nil
     ) {
         self.createdDate = createdDate
+        self.encryptionConfigurationDetails = encryptionConfigurationDetails
         self.identityStoreId = identityStoreId
         self.instanceArn = instanceArn
         self.name = name
         self.ownerAccountId = ownerAccountId
         self.status = status
+        self.statusReason = statusReason
     }
 }
 
@@ -2585,6 +2810,26 @@ public struct DetachManagedPolicyFromPermissionSetOutput: Swift.Sendable {
     public init() { }
 }
 
+extension SSOAdminClientTypes {
+
+    /// A structure that specifies the KMS key type and KMS key ARN used to encrypt data in your IAM Identity Center instance.
+    public struct EncryptionConfiguration: Swift.Sendable {
+        /// The type of KMS key used for encryption.
+        /// This member is required.
+        public var keyType: SSOAdminClientTypes.KmsKeyType?
+        /// The ARN of the KMS key used to encrypt data. Required when KeyType is CUSTOMER_MANAGED_KEY. Cannot be specified when KeyType is AWS_OWNED_KMS_KEY.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            keyType: SSOAdminClientTypes.KmsKeyType? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.keyType = keyType
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
 public struct GetApplicationAssignmentConfigurationInput: Swift.Sendable {
     /// Specifies the ARN of the application. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
@@ -2752,6 +2997,8 @@ extension SSOAdminClientTypes {
         public var ownerAccountId: Swift.String?
         /// The current status of this Identity Center instance.
         public var status: SSOAdminClientTypes.InstanceStatus?
+        /// Provides additional context about the current status of the IAM Identity Center instance. This field is particularly useful when an instance is in a non-ACTIVE state, such as CREATE_FAILED. When an instance creation fails, this field contains information about the cause, which may include issues with KMS key configuration or insufficient permissions.
+        public var statusReason: Swift.String?
 
         public init(
             createdDate: Foundation.Date? = nil,
@@ -2759,7 +3006,8 @@ extension SSOAdminClientTypes {
             instanceArn: Swift.String? = nil,
             name: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
-            status: SSOAdminClientTypes.InstanceStatus? = nil
+            status: SSOAdminClientTypes.InstanceStatus? = nil,
+            statusReason: Swift.String? = nil
         ) {
             self.createdDate = createdDate
             self.identityStoreId = identityStoreId
@@ -2767,6 +3015,7 @@ extension SSOAdminClientTypes {
             self.name = name
             self.ownerAccountId = ownerAccountId
             self.status = status
+            self.statusReason = statusReason
         }
     }
 }
@@ -3864,17 +4113,20 @@ public struct UpdateApplicationOutput: Swift.Sendable {
 }
 
 public struct UpdateInstanceInput: Swift.Sendable {
+    /// Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys (CMK) or Amazon Web Services owned KMS keys for encrypting your instance data.
+    public var encryptionConfiguration: SSOAdminClientTypes.EncryptionConfiguration?
     /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// Updates the instance name.
-    /// This member is required.
     public var name: Swift.String?
 
     public init(
+        encryptionConfiguration: SSOAdminClientTypes.EncryptionConfiguration? = nil,
         instanceArn: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
+        self.encryptionConfiguration = encryptionConfiguration
         self.instanceArn = instanceArn
         self.name = name
     }
@@ -5209,6 +5461,7 @@ extension UpdateInstanceInput {
 
     static func write(value: UpdateInstanceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: SSOAdminClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["InstanceArn"].write(value.instanceArn)
         try writer["Name"].write(value.name)
     }
@@ -5503,11 +5756,13 @@ extension DescribeInstanceOutput {
         let reader = responseReader
         var value = DescribeInstanceOutput()
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.encryptionConfigurationDetails = try reader["EncryptionConfigurationDetails"].readIfPresent(with: SSOAdminClientTypes.EncryptionConfigurationDetails.read(from:))
         value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
         value.instanceArn = try reader["InstanceArn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
         return value
     }
 }
@@ -7359,6 +7614,7 @@ enum UpdateInstanceOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7429,6 +7685,7 @@ extension AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7468,6 +7725,7 @@ extension ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7494,6 +7752,7 @@ extension ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7507,6 +7766,7 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7610,6 +7870,19 @@ extension SSOAdminClientTypes.ResourceServerScopeDetails {
         var value = SSOAdminClientTypes.ResourceServerScopeDetails()
         value.longDescription = try reader["LongDescription"].readIfPresent()
         value.detailedTitle = try reader["DetailedTitle"].readIfPresent()
+        return value
+    }
+}
+
+extension SSOAdminClientTypes.EncryptionConfigurationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.EncryptionConfigurationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSOAdminClientTypes.EncryptionConfigurationDetails()
+        value.keyType = try reader["KeyType"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        value.encryptionStatus = try reader["EncryptionStatus"].readIfPresent()
+        value.encryptionStatusReason = try reader["EncryptionStatusReason"].readIfPresent()
         return value
     }
 }
@@ -8040,6 +8313,7 @@ extension SSOAdminClientTypes.InstanceMetadata {
         value.name = try reader["Name"].readIfPresent()
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
         return value
     }
 }
@@ -8134,6 +8408,15 @@ extension SSOAdminClientTypes.UpdateApplicationPortalOptions {
     static func write(value: SSOAdminClientTypes.UpdateApplicationPortalOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SignInOptions"].write(value.signInOptions, with: SSOAdminClientTypes.SignInOptions.write(value:to:))
+    }
+}
+
+extension SSOAdminClientTypes.EncryptionConfiguration {
+
+    static func write(value: SSOAdminClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyType"].write(value.keyType)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
     }
 }
 

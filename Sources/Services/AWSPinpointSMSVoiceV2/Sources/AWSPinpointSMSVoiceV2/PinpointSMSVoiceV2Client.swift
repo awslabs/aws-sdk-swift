@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PinpointSMSVoiceV2Client: ClientRuntime.Client {
     public static let clientName = "PinpointSMSVoiceV2Client"
-    public static let version = "1.5.47"
+    public static let version = "1.5.48"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointSMSVoiceV2Client.PinpointSMSVoiceV2ClientConfiguration
     let serviceName = "Pinpoint SMS Voice V2"
