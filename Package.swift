@@ -562,6 +562,11 @@ private var runtimeTargets: [Target] {
             exclude: ["Documentation.docc/AWSSDKForSwift.md"]
         ),
         .target(
+            name: "SDKForSwift",
+            path: "Sources/Core/SDKForSwift",
+            exclude: ["Documentation.docc/SDKForSwift.md"]
+        ),
+        .target(
             name: "AWSClientRuntime",
             dependencies: [
                 .CRT,
