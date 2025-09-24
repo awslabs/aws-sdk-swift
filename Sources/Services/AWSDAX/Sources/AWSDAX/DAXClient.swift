@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DAXClient: ClientRuntime.Client {
     public static let clientName = "DAXClient"
-    public static let version = "1.5.48"
+    public static let version = "1.5.49"
     let client: ClientRuntime.SdkHttpClient
     let config: DAXClient.DAXClientConfiguration
     let serviceName = "DAX"
@@ -381,7 +381,7 @@ extension DAXClient {
     ///
     /// __Possible Exceptions:__
     /// - `ClusterAlreadyExistsFault` : You already have a DAX cluster with the given identifier.
-    /// - `ClusterQuotaForCustomerExceededFault` : You have attempted to exceed the maximum number of DAX clusters for your AWS account.
+    /// - `ClusterQuotaForCustomerExceededFault` : You have attempted to exceed the maximum number of DAX clusters for your Amazon Web Services account.
     /// - `InsufficientClusterCapacityFault` : There are not enough system resources to create the cluster you requested (or to resize an already-existing cluster).
     /// - `InvalidClusterStateFault` : The requested DAX cluster is not in the available state.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
@@ -389,10 +389,10 @@ extension DAXClient {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `InvalidVPCNetworkStateFault` : The VPC network is in an invalid state.
     /// - `NodeQuotaForClusterExceededFault` : You have attempted to exceed the maximum number of nodes for a DAX cluster.
-    /// - `NodeQuotaForCustomerExceededFault` : You have attempted to exceed the maximum number of nodes for your AWS account.
+    /// - `NodeQuotaForCustomerExceededFault` : You have attempted to exceed the maximum number of nodes for your Amazon Web Services account.
     /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
-    /// - `ServiceQuotaExceededException` : You have reached the maximum number of x509 certificates that can be created for encrypted clusters in a 30 day period. Contact AWS customer support to discuss options for continuing to create encrypted clusters.
+    /// - `ServiceQuotaExceededException` : You have reached the maximum number of x509 certificates that can be created for encrypted clusters in a 30 day period. Contact Amazon Web Services customer support to discuss options for continuing to create encrypted clusters.
     /// - `SubnetGroupNotFoundFault` : The requested subnet group name does not refer to an existing subnet group.
     /// - `TagQuotaPerResourceExceeded` : You have exceeded the maximum number of tags for this DAX cluster.
     public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
@@ -539,6 +539,7 @@ extension DAXClient {
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `SubnetGroupAlreadyExistsFault` : The specified subnet group already exists.
     /// - `SubnetGroupQuotaExceededFault` : The request cannot be processed because it would exceed the allowed number of subnets in a subnet group.
+    /// - `SubnetNotAllowedFault` : The specified subnet can't be used for the requested network type. This error occurs when either there aren't enough subnets of the required network type to create the cluster, or when you try to use a subnet that doesn't support the requested network type (for example, trying to create a dual-stack cluster with a subnet that doesn't have IPv6 CIDR).
     /// - `SubnetQuotaExceededFault` : The request cannot be processed because it would exceed the allowed number of subnets in a subnet group.
     public func createSubnetGroup(input: CreateSubnetGroupInput) async throws -> CreateSubnetGroupOutput {
         let context = Smithy.ContextBuilder()
@@ -1323,7 +1324,7 @@ extension DAXClient {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `InvalidVPCNetworkStateFault` : The VPC network is in an invalid state.
     /// - `NodeQuotaForClusterExceededFault` : You have attempted to exceed the maximum number of nodes for a DAX cluster.
-    /// - `NodeQuotaForCustomerExceededFault` : You have attempted to exceed the maximum number of nodes for your AWS account.
+    /// - `NodeQuotaForCustomerExceededFault` : You have attempted to exceed the maximum number of nodes for your Amazon Web Services account.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     public func increaseReplicationFactor(input: IncreaseReplicationFactorInput) async throws -> IncreaseReplicationFactorOutput {
         let context = Smithy.ContextBuilder()
@@ -1836,6 +1837,7 @@ extension DAXClient {
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `SubnetGroupNotFoundFault` : The requested subnet group name does not refer to an existing subnet group.
     /// - `SubnetInUse` : The requested subnet is being used by another subnet group.
+    /// - `SubnetNotAllowedFault` : The specified subnet can't be used for the requested network type. This error occurs when either there aren't enough subnets of the required network type to create the cluster, or when you try to use a subnet that doesn't support the requested network type (for example, trying to create a dual-stack cluster with a subnet that doesn't have IPv6 CIDR).
     /// - `SubnetQuotaExceededFault` : The request cannot be processed because it would exceed the allowed number of subnets in a subnet group.
     public func updateSubnetGroup(input: UpdateSubnetGroupInput) async throws -> UpdateSubnetGroupOutput {
         let context = Smithy.ContextBuilder()

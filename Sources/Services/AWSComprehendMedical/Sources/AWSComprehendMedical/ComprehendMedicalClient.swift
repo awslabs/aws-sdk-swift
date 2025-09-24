@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ComprehendMedicalClient: ClientRuntime.Client {
     public static let clientName = "ComprehendMedicalClient"
-    public static let version = "1.5.48"
+    public static let version = "1.5.49"
     let client: ClientRuntime.SdkHttpClient
     let config: ComprehendMedicalClient.ComprehendMedicalClientConfiguration
     let serviceName = "ComprehendMedical"
