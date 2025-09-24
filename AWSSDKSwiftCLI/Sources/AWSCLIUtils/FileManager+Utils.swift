@@ -68,6 +68,7 @@ public extension FileManager {
             .contentsOfDirectory(atPath: "Sources/Core")
             .sorted()
             .filter { $0 != "AWSSDKForSwift" } // Ignore documentation module
+            .filter { $0 != "SDKForSwift" } // Ignore new documentation module
             .filter { !$0.hasPrefix(".") }
     }
 
