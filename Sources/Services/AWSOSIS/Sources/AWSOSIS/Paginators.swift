@@ -11,6 +11,66 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension OSISClient {
+    /// Paginate over `[ListPipelineEndpointConnectionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPipelineEndpointConnectionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelineEndpointConnectionsOutput`
+    public func listPipelineEndpointConnectionsPaginated(input: ListPipelineEndpointConnectionsInput) -> ClientRuntime.PaginatorSequence<ListPipelineEndpointConnectionsInput, ListPipelineEndpointConnectionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPipelineEndpointConnectionsInput, ListPipelineEndpointConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPipelineEndpointConnections(input:))
+    }
+}
+
+extension ListPipelineEndpointConnectionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPipelineEndpointConnectionsInput {
+        return ListPipelineEndpointConnectionsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPipelineEndpointConnectionsInput, OperationStackOutput == ListPipelineEndpointConnectionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPipelineEndpointConnectionsPaginated`
+    /// to access the nested member `[OSISClientTypes.PipelineEndpointConnection]`
+    /// - Returns: `[OSISClientTypes.PipelineEndpointConnection]`
+    public func pipelineEndpointConnections() async throws -> [OSISClientTypes.PipelineEndpointConnection] {
+        return try await self.asyncCompactMap { item in item.pipelineEndpointConnections }
+    }
+}
+extension OSISClient {
+    /// Paginate over `[ListPipelineEndpointsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPipelineEndpointsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelineEndpointsOutput`
+    public func listPipelineEndpointsPaginated(input: ListPipelineEndpointsInput) -> ClientRuntime.PaginatorSequence<ListPipelineEndpointsInput, ListPipelineEndpointsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPipelineEndpointsInput, ListPipelineEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPipelineEndpoints(input:))
+    }
+}
+
+extension ListPipelineEndpointsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPipelineEndpointsInput {
+        return ListPipelineEndpointsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPipelineEndpointsInput, OperationStackOutput == ListPipelineEndpointsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPipelineEndpointsPaginated`
+    /// to access the nested member `[OSISClientTypes.PipelineEndpoint]`
+    /// - Returns: `[OSISClientTypes.PipelineEndpoint]`
+    public func pipelineEndpoints() async throws -> [OSISClientTypes.PipelineEndpoint] {
+        return try await self.asyncCompactMap { item in item.pipelineEndpoints }
+    }
+}
+extension OSISClient {
     /// Paginate over `[ListPipelinesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudWatchClient: ClientRuntime.Client {
     public static let clientName = "CloudWatchClient"
-    public static let version = "1.5.33"
+    public static let version = "1.5.48"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudWatchClient.CloudWatchClientConfiguration
     let serviceName = "CloudWatch"
@@ -701,6 +701,74 @@ extension CloudWatchClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteMetricStream")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeAlarmContributors` operation on the `CloudWatch` service.
+    ///
+    /// Returns the information of the current alarm contributors that are in ALARM state. This operation returns details about the individual time series that contribute to the alarm's state.
+    ///
+    /// - Parameter DescribeAlarmContributorsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAlarmContributorsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextToken` : The next token specified is invalid.
+    /// - `ResourceNotFoundException` : The named resource does not exist.
+    public func describeAlarmContributors(input: DescribeAlarmContributorsInput) async throws -> DescribeAlarmContributorsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAlarmContributors")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>(DescribeAlarmContributorsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAlarmContributorsOutput>(DescribeAlarmContributorsOutput.httpOutput(from:), DescribeAlarmContributorsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlarmContributorsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAlarmContributorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAlarmContributorsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAlarmContributorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAlarmContributors")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

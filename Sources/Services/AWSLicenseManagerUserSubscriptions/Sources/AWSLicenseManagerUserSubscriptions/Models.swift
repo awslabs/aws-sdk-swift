@@ -159,15 +159,19 @@ extension LicenseManagerUserSubscriptionsClientTypes {
         public var activeDirectoryType: LicenseManagerUserSubscriptionsClientTypes.ActiveDirectoryType?
         /// The directory ID for an Active Directory identity provider.
         public var directoryId: Swift.String?
+        /// Whether this directory is shared from an Amazon Web Services Managed Active Directory. The default value is false.
+        public var isSharedActiveDirectory: Swift.Bool?
 
         public init(
             activeDirectorySettings: LicenseManagerUserSubscriptionsClientTypes.ActiveDirectorySettings? = nil,
             activeDirectoryType: LicenseManagerUserSubscriptionsClientTypes.ActiveDirectoryType? = nil,
-            directoryId: Swift.String? = nil
+            directoryId: Swift.String? = nil,
+            isSharedActiveDirectory: Swift.Bool? = nil
         ) {
             self.activeDirectorySettings = activeDirectorySettings
             self.activeDirectoryType = activeDirectoryType
             self.directoryId = directoryId
+            self.isSharedActiveDirectory = isSharedActiveDirectory
         }
     }
 }
@@ -779,6 +783,8 @@ extension LicenseManagerUserSubscriptionsClientTypes {
         public var identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
         /// The Amazon Resource Name (ARN) of the identity provider.
         public var identityProviderArn: Swift.String?
+        /// The AWS Account ID of the owner of this resource.
+        public var ownerAccountId: Swift.String?
         /// The name of the user-based subscription product.
         /// This member is required.
         public var product: Swift.String?
@@ -793,6 +799,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
             failureMessage: Swift.String? = nil,
             identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider? = nil,
             identityProviderArn: Swift.String? = nil,
+            ownerAccountId: Swift.String? = nil,
             product: Swift.String? = nil,
             settings: LicenseManagerUserSubscriptionsClientTypes.Settings? = nil,
             status: Swift.String? = nil
@@ -800,6 +807,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
             self.failureMessage = failureMessage
             self.identityProvider = identityProvider
             self.identityProviderArn = identityProviderArn
+            self.ownerAccountId = ownerAccountId
             self.product = product
             self.settings = settings
             self.status = status
@@ -885,11 +893,15 @@ extension LicenseManagerUserSubscriptionsClientTypes {
 
     /// Describes an EC2 instance providing user-based subscriptions.
     public struct InstanceSummary: Swift.Sendable {
+        /// The IdentityProvider resource specifies details about the identity provider.
+        public var identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
         /// The ID of the EC2 instance, which provides user-based subscriptions.
         /// This member is required.
         public var instanceId: Swift.String?
         /// The date of the last status check.
         public var lastStatusCheckDate: Swift.String?
+        /// The AWS Account ID of the owner of this resource.
+        public var ownerAccountId: Swift.String?
         /// A list of provided user-based subscription products.
         /// This member is required.
         public var products: [Swift.String]?
@@ -900,14 +912,18 @@ extension LicenseManagerUserSubscriptionsClientTypes {
         public var statusMessage: Swift.String?
 
         public init(
+            identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider? = nil,
             instanceId: Swift.String? = nil,
             lastStatusCheckDate: Swift.String? = nil,
+            ownerAccountId: Swift.String? = nil,
             products: [Swift.String]? = nil,
             status: Swift.String? = nil,
             statusMessage: Swift.String? = nil
         ) {
+            self.identityProvider = identityProvider
             self.instanceId = instanceId
             self.lastStatusCheckDate = lastStatusCheckDate
+            self.ownerAccountId = ownerAccountId
             self.products = products
             self.status = status
             self.statusMessage = statusMessage
@@ -2423,6 +2439,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.ActiveDirectoryIdentityProv
         try writer["ActiveDirectorySettings"].write(value.activeDirectorySettings, with: LicenseManagerUserSubscriptionsClientTypes.ActiveDirectorySettings.write(value:to:))
         try writer["ActiveDirectoryType"].write(value.activeDirectoryType)
         try writer["DirectoryId"].write(value.directoryId)
+        try writer["IsSharedActiveDirectory"].write(value.isSharedActiveDirectory)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerUserSubscriptionsClientTypes.ActiveDirectoryIdentityProvider {
@@ -2431,6 +2448,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.ActiveDirectoryIdentityProv
         value.directoryId = try reader["DirectoryId"].readIfPresent()
         value.activeDirectorySettings = try reader["ActiveDirectorySettings"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.ActiveDirectorySettings.read(from:))
         value.activeDirectoryType = try reader["ActiveDirectoryType"].readIfPresent()
+        value.isSharedActiveDirectory = try reader["IsSharedActiveDirectory"].readIfPresent()
         return value
     }
 }
@@ -2561,6 +2579,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary {
         value.status = try reader["Status"].readIfPresent() ?? ""
         value.identityProviderArn = try reader["IdentityProviderArn"].readIfPresent()
         value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
         return value
     }
 }
@@ -2592,6 +2611,8 @@ extension LicenseManagerUserSubscriptionsClientTypes.InstanceSummary {
         value.products = try reader["Products"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.lastStatusCheckDate = try reader["LastStatusCheckDate"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
+        value.identityProvider = try reader["IdentityProvider"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider.read(from:))
         return value
     }
 }

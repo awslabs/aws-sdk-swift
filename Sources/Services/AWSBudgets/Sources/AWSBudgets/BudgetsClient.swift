@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BudgetsClient: ClientRuntime.Client {
     public static let clientName = "BudgetsClient"
-    public static let version = "1.5.33"
+    public static let version = "1.5.48"
     let client: ClientRuntime.SdkHttpClient
     let config: BudgetsClient.BudgetsClientConfiguration
     let serviceName = "Budgets"
@@ -380,6 +380,7 @@ extension BudgetsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `CreationLimitExceededException` : You've exceeded the notification or subscriber limit.
     /// - `DuplicateRecordException` : The budget name already exists. Budget names must be unique within an account.
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
@@ -1989,6 +1990,7 @@ extension BudgetsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.

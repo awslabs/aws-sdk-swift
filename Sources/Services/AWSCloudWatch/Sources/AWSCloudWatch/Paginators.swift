@@ -28,6 +28,7 @@ extension CloudWatchClient {
 extension DescribeAlarmHistoryInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeAlarmHistoryInput {
         return DescribeAlarmHistoryInput(
+            alarmContributorId: self.alarmContributorId,
             alarmName: self.alarmName,
             alarmTypes: self.alarmTypes,
             endDate: self.endDate,

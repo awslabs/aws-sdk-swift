@@ -12919,7 +12919,7 @@ extension WAFV2ClientTypes.NotStatement {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.NotStatement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.NotStatement()
+        let value = WAFV2ClientTypes.NotStatement()
         value.statement = try reader["Statement"].readIfPresent(with: WAFV2ClientTypes.Statement.read(from:))
         return value
     }

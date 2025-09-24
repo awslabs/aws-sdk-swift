@@ -2121,6 +2121,32 @@ extension CleanRoomsClientTypes {
     }
 }
 
+extension CleanRoomsClientTypes {
+
+    public enum AutoApprovedChangeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case addMember
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoApprovedChangeType] {
+            return [
+                .addMember
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .addMember: return "ADD_MEMBER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct BatchGetCollaborationAnalysisTemplateInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
     /// This member is required.
@@ -3130,6 +3156,8 @@ extension CleanRoomsClientTypes {
 public struct CreateCollaborationInput: Swift.Sendable {
     /// The analytics engine. After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
     public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
+    /// The types of change requests that are automatically approved for this collaboration.
+    public var autoApprovedChangeRequestTypes: [CleanRoomsClientTypes.AutoApprovedChangeType]?
     /// The display name of the collaboration creator.
     /// This member is required.
     public var creatorDisplayName: Swift.String?
@@ -3161,6 +3189,7 @@ public struct CreateCollaborationInput: Swift.Sendable {
 
     public init(
         analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine? = nil,
+        autoApprovedChangeRequestTypes: [CleanRoomsClientTypes.AutoApprovedChangeType]? = nil,
         creatorDisplayName: Swift.String? = nil,
         creatorMLMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities? = nil,
         creatorMemberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
@@ -3174,6 +3203,7 @@ public struct CreateCollaborationInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.analyticsEngine = analyticsEngine
+        self.autoApprovedChangeRequestTypes = autoApprovedChangeRequestTypes
         self.creatorDisplayName = creatorDisplayName
         self.creatorMLMemberAbilities = creatorMLMemberAbilities
         self.creatorMemberAbilities = creatorMemberAbilities
@@ -3232,6 +3262,8 @@ extension CleanRoomsClientTypes {
         /// The unique ARN for the collaboration.
         /// This member is required.
         public var arn: Swift.String?
+        /// The types of change requests that are automatically approved for this collaboration.
+        public var autoApprovedChangeTypes: [CleanRoomsClientTypes.AutoApprovedChangeType]?
         /// The time when the collaboration was created.
         /// This member is required.
         public var createTime: Foundation.Date?
@@ -3270,6 +3302,7 @@ extension CleanRoomsClientTypes {
         public init(
             analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine? = nil,
             arn: Swift.String? = nil,
+            autoApprovedChangeTypes: [CleanRoomsClientTypes.AutoApprovedChangeType]? = nil,
             createTime: Foundation.Date? = nil,
             creatorAccountId: Swift.String? = nil,
             creatorDisplayName: Swift.String? = nil,
@@ -3286,6 +3319,7 @@ extension CleanRoomsClientTypes {
         ) {
             self.analyticsEngine = analyticsEngine
             self.arn = arn
+            self.autoApprovedChangeTypes = autoApprovedChangeTypes
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
             self.creatorDisplayName = creatorDisplayName
@@ -3312,6 +3346,253 @@ public struct CreateCollaborationOutput: Swift.Sendable {
         collaboration: CleanRoomsClientTypes.Collaboration? = nil
     ) {
         self.collaboration = collaboration
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Specifies changes to collaboration membership, including adding new members with their abilities and display names.
+    public struct MemberChangeSpecification: Swift.Sendable {
+        /// The Amazon Web Services account ID of the member to add to the collaboration.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// Specifies the display name that will be shown for this member in the collaboration. While this field is required when inviting new members, it becomes optional when modifying abilities of existing collaboration members.
+        public var displayName: Swift.String?
+        /// The abilities granted to the collaboration member. These determine what actions the member can perform within the collaboration. The following values are currently not supported: CAN_QUERY, CAN_RECEIVE_RESULTS, and CAN_RUN_JOB. Set the value of memberAbilities to [] to allow a member to contribute data.
+        /// This member is required.
+        public var memberAbilities: [CleanRoomsClientTypes.MemberAbility]?
+
+        public init(
+            accountId: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            memberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil
+        ) {
+            self.accountId = accountId
+            self.displayName = displayName
+            self.memberAbilities = memberAbilities
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// A union that contains the specification details for different types of changes.
+    public enum ChangeSpecification: Swift.Sendable {
+        /// The member change specification when the change type is MEMBER.
+        case member(CleanRoomsClientTypes.MemberChangeSpecification)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum ChangeSpecificationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case member
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChangeSpecificationType] {
+            return [
+                .member
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .member: return "MEMBER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Specifies a change to apply to a collaboration.
+    public struct ChangeInput: Swift.Sendable {
+        /// The specification details for the change. The structure depends on the specification type.
+        /// This member is required.
+        public var specification: CleanRoomsClientTypes.ChangeSpecification?
+        /// The type of specification for the change. Currently supports MEMBER for member-related changes.
+        /// This member is required.
+        public var specificationType: CleanRoomsClientTypes.ChangeSpecificationType?
+
+        public init(
+            specification: CleanRoomsClientTypes.ChangeSpecification? = nil,
+            specificationType: CleanRoomsClientTypes.ChangeSpecificationType? = nil
+        ) {
+            self.specification = specification
+            self.specificationType = specificationType
+        }
+    }
+}
+
+public struct CreateCollaborationChangeRequestInput: Swift.Sendable {
+    /// The list of changes to apply to the collaboration. Each change specifies the type of modification and the details of what should be changed.
+    /// This member is required.
+    public var changes: [CleanRoomsClientTypes.ChangeInput]?
+    /// The identifier of the collaboration that the change request is made against.
+    /// This member is required.
+    public var collaborationIdentifier: Swift.String?
+
+    public init(
+        changes: [CleanRoomsClientTypes.ChangeInput]? = nil,
+        collaborationIdentifier: Swift.String? = nil
+    ) {
+        self.changes = changes
+        self.collaborationIdentifier = collaborationIdentifier
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum ChangeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case addMember
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChangeType] {
+            return [
+                .addMember
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .addMember: return "ADD_MEMBER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Represents a single change within a collaboration change request, containing the change identifier and specification.
+    public struct Change: Swift.Sendable {
+        /// The specification details for this change.
+        /// This member is required.
+        public var specification: CleanRoomsClientTypes.ChangeSpecification?
+        /// The type of specification for this change.
+        /// This member is required.
+        public var specificationType: CleanRoomsClientTypes.ChangeSpecificationType?
+        /// The list of change types that were applied.
+        /// This member is required.
+        public var types: [CleanRoomsClientTypes.ChangeType]?
+
+        public init(
+            specification: CleanRoomsClientTypes.ChangeSpecification? = nil,
+            specificationType: CleanRoomsClientTypes.ChangeSpecificationType? = nil,
+            types: [CleanRoomsClientTypes.ChangeType]? = nil
+        ) {
+            self.specification = specification
+            self.specificationType = specificationType
+            self.types = types
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum ChangeRequestStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case cancelled
+        case committed
+        case denied
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChangeRequestStatus] {
+            return [
+                .approved,
+                .cancelled,
+                .committed,
+                .denied,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .cancelled: return "CANCELLED"
+            case .committed: return "COMMITTED"
+            case .denied: return "DENIED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Represents a request to modify a collaboration. Change requests enable structured modifications to collaborations after they have been created.
+    public struct CollaborationChangeRequest: Swift.Sendable {
+        /// The list of changes specified in this change request.
+        /// This member is required.
+        public var changes: [CleanRoomsClientTypes.Change]?
+        /// The unique identifier for the collaboration being modified.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time when the change request was created.
+        /// This member is required.
+        public var createTime: Foundation.Date?
+        /// The unique identifier for the change request.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Whether the change request was automatically approved based on the collaboration's auto-approval settings.
+        /// This member is required.
+        public var isAutoApproved: Swift.Bool?
+        /// The current status of the change request. Valid values are PENDING, APPROVED, DENIED, COMMITTED, and CANCELLED.
+        /// This member is required.
+        public var status: CleanRoomsClientTypes.ChangeRequestStatus?
+        /// The time when the change request was last updated.
+        /// This member is required.
+        public var updateTime: Foundation.Date?
+
+        public init(
+            changes: [CleanRoomsClientTypes.Change]? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            isAutoApproved: Swift.Bool? = nil,
+            status: CleanRoomsClientTypes.ChangeRequestStatus? = nil,
+            updateTime: Foundation.Date? = nil
+        ) {
+            self.changes = changes
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.id = id
+            self.isAutoApproved = isAutoApproved
+            self.status = status
+            self.updateTime = updateTime
+        }
+    }
+}
+
+public struct CreateCollaborationChangeRequestOutput: Swift.Sendable {
+    /// Represents a request to modify a collaboration. Change requests enable structured modifications to collaborations after they have been created.
+    /// This member is required.
+    public var collaborationChangeRequest: CleanRoomsClientTypes.CollaborationChangeRequest?
+
+    public init(
+        collaborationChangeRequest: CleanRoomsClientTypes.CollaborationChangeRequest? = nil
+    ) {
+        self.collaborationChangeRequest = collaborationChangeRequest
     }
 }
 
@@ -3404,6 +3685,35 @@ public struct GetCollaborationAnalysisTemplateOutput: Swift.Sendable {
         collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate? = nil
     ) {
         self.collaborationAnalysisTemplate = collaborationAnalysisTemplate
+    }
+}
+
+public struct GetCollaborationChangeRequestInput: Swift.Sendable {
+    /// A unique identifier for the change request to retrieve.
+    /// This member is required.
+    public var changeRequestIdentifier: Swift.String?
+    /// The identifier of the collaboration that the change request is made against.
+    /// This member is required.
+    public var collaborationIdentifier: Swift.String?
+
+    public init(
+        changeRequestIdentifier: Swift.String? = nil,
+        collaborationIdentifier: Swift.String? = nil
+    ) {
+        self.changeRequestIdentifier = changeRequestIdentifier
+        self.collaborationIdentifier = collaborationIdentifier
+    }
+}
+
+public struct GetCollaborationChangeRequestOutput: Swift.Sendable {
+    /// The collaboration change request that was requested.
+    /// This member is required.
+    public var collaborationChangeRequest: CleanRoomsClientTypes.CollaborationChangeRequest?
+
+    public init(
+        collaborationChangeRequest: CleanRoomsClientTypes.CollaborationChangeRequest? = nil
+    ) {
+        self.collaborationChangeRequest = collaborationChangeRequest
     }
 }
 
@@ -3978,6 +4288,92 @@ public struct ListCollaborationAnalysisTemplatesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.collaborationAnalysisTemplateSummaries = collaborationAnalysisTemplateSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCollaborationChangeRequestsInput: Swift.Sendable {
+    /// The identifier of the collaboration that the change request is made against.
+    /// This member is required.
+    public var collaborationIdentifier: Swift.String?
+    /// The maximum number of results that are returned for an API request call.
+    public var maxResults: Swift.Int?
+    /// The pagination token that's used to fetch the next set of results.
+    public var nextToken: Swift.String?
+    /// A filter to only return change requests with the specified status.
+    public var status: CleanRoomsClientTypes.ChangeRequestStatus?
+
+    public init(
+        collaborationIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: CleanRoomsClientTypes.ChangeRequestStatus? = nil
+    ) {
+        self.collaborationIdentifier = collaborationIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Summary information about a collaboration change request.
+    public struct CollaborationChangeRequestSummary: Swift.Sendable {
+        /// Summary of the changes in this change request.
+        /// This member is required.
+        public var changes: [CleanRoomsClientTypes.Change]?
+        /// The unique identifier for the collaboration.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time when the change request was created.
+        /// This member is required.
+        public var createTime: Foundation.Date?
+        /// The unique identifier for the change request.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Whether the change request was automatically approved.
+        /// This member is required.
+        public var isAutoApproved: Swift.Bool?
+        /// The current status of the change request.
+        /// This member is required.
+        public var status: CleanRoomsClientTypes.ChangeRequestStatus?
+        /// The time when the change request was last updated.
+        /// This member is required.
+        public var updateTime: Foundation.Date?
+
+        public init(
+            changes: [CleanRoomsClientTypes.Change]? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            isAutoApproved: Swift.Bool? = nil,
+            status: CleanRoomsClientTypes.ChangeRequestStatus? = nil,
+            updateTime: Foundation.Date? = nil
+        ) {
+            self.changes = changes
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.id = id
+            self.isAutoApproved = isAutoApproved
+            self.status = status
+            self.updateTime = updateTime
+        }
+    }
+}
+
+public struct ListCollaborationChangeRequestsOutput: Swift.Sendable {
+    /// The list of collaboration change request summaries.
+    /// This member is required.
+    public var collaborationChangeRequestSummaries: [CleanRoomsClientTypes.CollaborationChangeRequestSummary]?
+    /// The pagination token that's used to fetch the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        collaborationChangeRequestSummaries: [CleanRoomsClientTypes.CollaborationChangeRequestSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.collaborationChangeRequestSummaries = collaborationChangeRequestSummaries
         self.nextToken = nextToken
     }
 }
@@ -6567,19 +6963,55 @@ public struct ListIdMappingTablesOutput: Swift.Sendable {
     }
 }
 
+extension CleanRoomsClientTypes {
+
+    public enum JobType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case batch
+        case deleteOnly
+        case incremental
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobType] {
+            return [
+                .batch,
+                .deleteOnly,
+                .incremental
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .batch: return "BATCH"
+            case .deleteOnly: return "DELETE_ONLY"
+            case .incremental: return "INCREMENTAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct PopulateIdMappingTableInput: Swift.Sendable {
     /// The unique identifier of the ID mapping table that you want to populate.
     /// This member is required.
     public var idMappingTableIdentifier: Swift.String?
+    /// The job type of the rule-based ID mapping job. Valid values include: INCREMENTAL: Processes only new or changed data since the last job run. This is the default job type if the ID mapping workflow was created in Entity Resolution with incrementalRunConfig specified. BATCH: Processes all data from the input source, regardless of previous job runs. This is the default job type if the ID mapping workflow was created in Entity Resolution but incrementalRunConfig wasn't specified. DELETE_ONLY: Processes only deletion requests from BatchDeleteUniqueId, which is set in Entity Resolution. For more information about incrementalRunConfig and BatchDeleteUniqueId, see the [Entity Resolution API Reference](https://docs.aws.amazon.com/entityresolution/latest/apireference/Welcome.html).
+    public var jobType: CleanRoomsClientTypes.JobType?
     /// The unique identifier of the membership that contains the ID mapping table that you want to populate.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
 
     public init(
         idMappingTableIdentifier: Swift.String? = nil,
+        jobType: CleanRoomsClientTypes.JobType? = nil,
         membershipIdentifier: Swift.String? = nil
     ) {
         self.idMappingTableIdentifier = idMappingTableIdentifier
+        self.jobType = jobType
         self.membershipIdentifier = membershipIdentifier
     }
 }
@@ -7528,6 +7960,66 @@ public struct GetProtectedJobInput: Swift.Sendable {
 
 extension CleanRoomsClientTypes {
 
+    public enum ProtectedJobWorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cr1x
+        case cr4x
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProtectedJobWorkerComputeType] {
+            return [
+                .cr1x,
+                .cr4x
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cr1x: return "CR.1X"
+            case .cr4x: return "CR.4X"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The configuration of the compute resources for a PySpark job.
+    public struct ProtectedJobWorkerComputeConfiguration: Swift.Sendable {
+        /// The number of workers for a PySpark job.
+        /// This member is required.
+        public var number: Swift.Int?
+        /// The worker compute configuration type.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.ProtectedJobWorkerComputeType?
+
+        public init(
+            number: Swift.Int? = nil,
+            type: CleanRoomsClientTypes.ProtectedJobWorkerComputeType? = nil
+        ) {
+            self.number = number
+            self.type = type
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The configuration of the compute resources for a PySpark job.
+    public enum ProtectedJobComputeConfiguration: Swift.Sendable {
+        /// The worker configuration for the compute environment.
+        case worker(CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// The protected job error.
     public struct ProtectedJobError: Swift.Sendable {
         /// The error code for the protected job.
@@ -7766,6 +8258,8 @@ extension CleanRoomsClientTypes {
 
     /// The parameters for an Clean Rooms protected job.
     public struct ProtectedJob: Swift.Sendable {
+        /// The compute configuration for the protected job.
+        public var computeConfiguration: CleanRoomsClientTypes.ProtectedJobComputeConfiguration?
         /// The creation time of the protected job.
         /// This member is required.
         public var createTime: Foundation.Date?
@@ -7793,6 +8287,7 @@ extension CleanRoomsClientTypes {
         public var status: CleanRoomsClientTypes.ProtectedJobStatus?
 
         public init(
+            computeConfiguration: CleanRoomsClientTypes.ProtectedJobComputeConfiguration? = nil,
             createTime: Foundation.Date? = nil,
             error: CleanRoomsClientTypes.ProtectedJobError? = nil,
             id: Swift.String? = nil,
@@ -7804,6 +8299,7 @@ extension CleanRoomsClientTypes {
             statistics: CleanRoomsClientTypes.ProtectedJobStatistics? = nil,
             status: CleanRoomsClientTypes.ProtectedJobStatus? = nil
         ) {
+            self.computeConfiguration = computeConfiguration
             self.createTime = createTime
             self.error = error
             self.id = id
@@ -7880,7 +8376,7 @@ extension CleanRoomsClientTypes {
 
     /// The configuration of the compute resources for workers running an analysis with the Clean Rooms SQL analytics engine.
     public struct WorkerComputeConfiguration: Swift.Sendable {
-        /// The number of workers.
+        /// The number of workers. SQL queries support a minimum value of 2 and a maximum value of 400. PySpark jobs support a minimum value of 4 and a maximum value of 128.
         public var number: Swift.Int?
         /// The worker compute configuration type.
         public var type: CleanRoomsClientTypes.WorkerComputeType?
@@ -8991,6 +9487,8 @@ extension CleanRoomsClientTypes {
 }
 
 public struct StartProtectedJobInput: Swift.Sendable {
+    /// The compute configuration for the protected job.
+    public var computeConfiguration: CleanRoomsClientTypes.ProtectedJobComputeConfiguration?
     /// The job parameters.
     /// This member is required.
     public var jobParameters: CleanRoomsClientTypes.ProtectedJobParameters?
@@ -9004,11 +9502,13 @@ public struct StartProtectedJobInput: Swift.Sendable {
     public var type: CleanRoomsClientTypes.ProtectedJobType?
 
     public init(
+        computeConfiguration: CleanRoomsClientTypes.ProtectedJobComputeConfiguration? = nil,
         jobParameters: CleanRoomsClientTypes.ProtectedJobParameters? = nil,
         membershipIdentifier: Swift.String? = nil,
         resultConfiguration: CleanRoomsClientTypes.ProtectedJobResultConfigurationInput? = nil,
         type: CleanRoomsClientTypes.ProtectedJobType? = nil
     ) {
+        self.computeConfiguration = computeConfiguration
         self.jobParameters = jobParameters
         self.membershipIdentifier = membershipIdentifier
         self.resultConfiguration = resultConfiguration
@@ -9702,6 +10202,16 @@ extension CreateCollaborationInput {
     }
 }
 
+extension CreateCollaborationChangeRequestInput {
+
+    static func urlPathProvider(_ value: CreateCollaborationChangeRequestInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
+            return nil
+        }
+        return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/changeRequests"
+    }
+}
+
 extension CreateConfiguredAudienceModelAssociationInput {
 
     static func urlPathProvider(_ value: CreateConfiguredAudienceModelAssociationInput) -> Swift.String? {
@@ -9975,6 +10485,19 @@ extension GetCollaborationAnalysisTemplateInput {
     }
 }
 
+extension GetCollaborationChangeRequestInput {
+
+    static func urlPathProvider(_ value: GetCollaborationChangeRequestInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
+            return nil
+        }
+        guard let changeRequestIdentifier = value.changeRequestIdentifier else {
+            return nil
+        }
+        return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/changeRequests/\(changeRequestIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension GetCollaborationConfiguredAudienceModelAssociationInput {
 
     static func urlPathProvider(_ value: GetCollaborationConfiguredAudienceModelAssociationInput) -> Swift.String? {
@@ -10230,6 +10753,36 @@ extension ListCollaborationAnalysisTemplatesInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCollaborationChangeRequestsInput {
+
+    static func urlPathProvider(_ value: ListCollaborationChangeRequestsInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
+            return nil
+        }
+        return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/changeRequests"
+    }
+}
+
+extension ListCollaborationChangeRequestsInput {
+
+    static func queryItemProvider(_ value: ListCollaborationChangeRequestsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
         }
         return items
     }
@@ -10996,6 +11549,7 @@ extension CreateCollaborationInput {
     static func write(value: CreateCollaborationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["analyticsEngine"].write(value.analyticsEngine)
+        try writer["autoApprovedChangeRequestTypes"].writeList(value.autoApprovedChangeRequestTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.AutoApprovedChangeType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["creatorDisplayName"].write(value.creatorDisplayName)
         try writer["creatorMLMemberAbilities"].write(value.creatorMLMemberAbilities, with: CleanRoomsClientTypes.MLMemberAbilities.write(value:to:))
         try writer["creatorMemberAbilities"].writeList(value.creatorMemberAbilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.MemberAbility>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11007,6 +11561,14 @@ extension CreateCollaborationInput {
         try writer["name"].write(value.name)
         try writer["queryLogStatus"].write(value.queryLogStatus)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateCollaborationChangeRequestInput {
+
+    static func write(value: CreateCollaborationChangeRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["changes"].writeList(value.changes, memberWritingClosure: CleanRoomsClientTypes.ChangeInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11115,6 +11677,14 @@ extension CreatePrivacyBudgetTemplateInput {
     }
 }
 
+extension PopulateIdMappingTableInput {
+
+    static func write(value: PopulateIdMappingTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobType"].write(value.jobType)
+    }
+}
+
 extension PreviewPrivacyImpactInput {
 
     static func write(value: PreviewPrivacyImpactInput?, to writer: SmithyJSON.Writer) throws {
@@ -11127,6 +11697,7 @@ extension StartProtectedJobInput {
 
     static func write(value: StartProtectedJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["computeConfiguration"].write(value.computeConfiguration, with: CleanRoomsClientTypes.ProtectedJobComputeConfiguration.write(value:to:))
         try writer["jobParameters"].write(value.jobParameters, with: CleanRoomsClientTypes.ProtectedJobParameters.write(value:to:))
         try writer["resultConfiguration"].write(value.resultConfiguration, with: CleanRoomsClientTypes.ProtectedJobResultConfigurationInput.write(value:to:))
         try writer["type"].write(value.type)
@@ -11331,6 +11902,18 @@ extension CreateCollaborationOutput {
         let reader = responseReader
         var value = CreateCollaborationOutput()
         value.collaboration = try reader["collaboration"].readIfPresent(with: CleanRoomsClientTypes.Collaboration.read(from:))
+        return value
+    }
+}
+
+extension CreateCollaborationChangeRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCollaborationChangeRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCollaborationChangeRequestOutput()
+        value.collaborationChangeRequest = try reader["collaborationChangeRequest"].readIfPresent(with: CleanRoomsClientTypes.CollaborationChangeRequest.read(from:))
         return value
     }
 }
@@ -11563,6 +12146,18 @@ extension GetCollaborationAnalysisTemplateOutput {
     }
 }
 
+extension GetCollaborationChangeRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCollaborationChangeRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCollaborationChangeRequestOutput()
+        value.collaborationChangeRequest = try reader["collaborationChangeRequest"].readIfPresent(with: CleanRoomsClientTypes.CollaborationChangeRequest.read(from:))
+        return value
+    }
+}
+
 extension GetCollaborationConfiguredAudienceModelAssociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCollaborationConfiguredAudienceModelAssociationOutput {
@@ -11776,6 +12371,19 @@ extension ListCollaborationAnalysisTemplatesOutput {
         let reader = responseReader
         var value = ListCollaborationAnalysisTemplatesOutput()
         value.collaborationAnalysisTemplateSummaries = try reader["collaborationAnalysisTemplateSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCollaborationChangeRequestsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCollaborationChangeRequestsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCollaborationChangeRequestsOutput()
+        value.collaborationChangeRequestSummaries = try reader["collaborationChangeRequestSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.CollaborationChangeRequestSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -12324,6 +12932,26 @@ enum CreateCollaborationOutputError {
     }
 }
 
+enum CreateCollaborationChangeRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateConfiguredAudienceModelAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12495,6 +13123,7 @@ enum CreatePrivacyBudgetTemplateOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12759,6 +13388,24 @@ enum GetCollaborationOutputError {
 }
 
 enum GetCollaborationAnalysisTemplateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCollaborationChangeRequestOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -13083,6 +13730,24 @@ enum ListAnalysisTemplatesOutputError {
 }
 
 enum ListCollaborationAnalysisTemplatesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCollaborationChangeRequestsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -14670,6 +15335,7 @@ extension CleanRoomsClientTypes.Collaboration {
         value.queryLogStatus = try reader["queryLogStatus"].readIfPresent() ?? .sdkUnknown("")
         value.jobLogStatus = try reader["jobLogStatus"].readIfPresent()
         value.analyticsEngine = try reader["analyticsEngine"].readIfPresent()
+        value.autoApprovedChangeTypes = try reader["autoApprovedChangeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.AutoApprovedChangeType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -14691,6 +15357,77 @@ extension CleanRoomsClientTypes.DataEncryptionMetadata {
         value.allowDuplicates = try reader["allowDuplicates"].readIfPresent() ?? false
         value.allowJoinsOnColumnsWithDifferentNames = try reader["allowJoinsOnColumnsWithDifferentNames"].readIfPresent() ?? false
         value.preserveNulls = try reader["preserveNulls"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.CollaborationChangeRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.CollaborationChangeRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.CollaborationChangeRequest()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.isAutoApproved = try reader["isAutoApproved"].readIfPresent() ?? false
+        value.changes = try reader["changes"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.Change.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.Change {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.Change {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.Change()
+        value.specificationType = try reader["specificationType"].readIfPresent() ?? .sdkUnknown("")
+        value.specification = try reader["specification"].readIfPresent(with: CleanRoomsClientTypes.ChangeSpecification.read(from:))
+        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ChangeType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ChangeSpecification {
+
+    static func write(value: CleanRoomsClientTypes.ChangeSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .member(member):
+                try writer["member"].write(member, with: CleanRoomsClientTypes.MemberChangeSpecification.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ChangeSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "member":
+                return .member(try reader["member"].read(with: CleanRoomsClientTypes.MemberChangeSpecification.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.MemberChangeSpecification {
+
+    static func write(value: CleanRoomsClientTypes.MemberChangeSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountId"].write(value.accountId)
+        try writer["displayName"].write(value.displayName)
+        try writer["memberAbilities"].writeList(value.memberAbilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.MemberAbility>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MemberChangeSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.MemberChangeSpecification()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.memberAbilities = try reader["memberAbilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.MemberAbility>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.displayName = try reader["displayName"].readIfPresent()
         return value
     }
 }
@@ -15470,6 +16207,48 @@ extension CleanRoomsClientTypes.ProtectedJob {
         value.statistics = try reader["statistics"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobStatistics.read(from:))
         value.result = try reader["result"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobResult.read(from:))
         value.error = try reader["error"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobError.read(from:))
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobComputeConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobComputeConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.ProtectedJobComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .worker(worker):
+                try writer["worker"].write(worker, with: CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobComputeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "worker":
+                return .worker(try reader["worker"].read(with: CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["number"].write(value.number)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.number = try reader["number"].readIfPresent() ?? 0
         return value
     }
 }
@@ -15948,6 +16727,22 @@ extension CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary {
         value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
         value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.CollaborationChangeRequestSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.CollaborationChangeRequestSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.CollaborationChangeRequestSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.isAutoApproved = try reader["isAutoApproved"].readIfPresent() ?? false
+        value.changes = try reader["changes"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.Change.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -16547,6 +17342,15 @@ extension CleanRoomsClientTypes.MemberSpecification {
         try writer["memberAbilities"].writeList(value.memberAbilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.MemberAbility>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["mlMemberAbilities"].write(value.mlMemberAbilities, with: CleanRoomsClientTypes.MLMemberAbilities.write(value:to:))
         try writer["paymentConfiguration"].write(value.paymentConfiguration, with: CleanRoomsClientTypes.PaymentConfiguration.write(value:to:))
+    }
+}
+
+extension CleanRoomsClientTypes.ChangeInput {
+
+    static func write(value: CleanRoomsClientTypes.ChangeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["specification"].write(value.specification, with: CleanRoomsClientTypes.ChangeSpecification.write(value:to:))
+        try writer["specificationType"].write(value.specificationType)
     }
 }
 

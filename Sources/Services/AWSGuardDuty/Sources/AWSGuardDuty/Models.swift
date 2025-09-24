@@ -283,7 +283,7 @@ extension GuardDutyClientTypes {
         /// The member account ID.
         /// This member is required.
         public var accountId: Swift.String?
-        /// The email address of the member account. The rules for a valid email address:
+        /// The email address of the member account. The following list includes the rules for a valid email address:
         ///
         /// * The email address must be a minimum of 6 and a maximum of 64 characters long.
         ///

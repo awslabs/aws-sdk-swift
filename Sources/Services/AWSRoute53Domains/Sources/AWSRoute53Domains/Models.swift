@@ -1470,9 +1470,12 @@ extension Route53DomainsClientTypes {
 extension Route53DomainsClientTypes {
 
     public enum ExtraParamName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auEligibilityType
         case auIdNumber
         case auIdType
+        case auPolicyReason
         case auPriorityToken
+        case auRegistrantName
         case birthCity
         case birthCountry
         case birthDateInYyyyMmDd
@@ -1505,9 +1508,12 @@ extension Route53DomainsClientTypes {
 
         public static var allCases: [ExtraParamName] {
             return [
+                .auEligibilityType,
                 .auIdNumber,
                 .auIdType,
+                .auPolicyReason,
                 .auPriorityToken,
+                .auRegistrantName,
                 .birthCity,
                 .birthCountry,
                 .birthDateInYyyyMmDd,
@@ -1546,9 +1552,12 @@ extension Route53DomainsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .auEligibilityType: return "AU_ELIGIBILITY_TYPE"
             case .auIdNumber: return "AU_ID_NUMBER"
             case .auIdType: return "AU_ID_TYPE"
+            case .auPolicyReason: return "AU_POLICY_REASON"
             case .auPriorityToken: return "AU_PRIORITY_TOKEN"
+            case .auRegistrantName: return "AU_REGISTRANT_NAME"
             case .birthCity: return "BIRTH_CITY"
             case .birthCountry: return "BIRTH_COUNTRY"
             case .birthDateInYyyyMmDd: return "BIRTH_DATE_IN_YYYY_MM_DD"

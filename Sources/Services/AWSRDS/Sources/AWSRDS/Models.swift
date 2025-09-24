@@ -3788,6 +3788,35 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
+    public enum MasterUserAuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iamDbAuth
+        case password
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MasterUserAuthenticationType] {
+            return [
+                .iamDbAuth,
+                .password
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iamDbAuth: return "iam-db-auth"
+            case .password: return "password"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     public enum ReplicaMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mounted
         case openReadOnly
@@ -4047,6 +4076,15 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ///
     /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can configure the master DB user with IAM database authentication when you create a DB cluster. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The password for the master database user. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
     /// * Must contain from 8 to 41 characters.
@@ -4202,6 +4240,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         iops: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
@@ -4259,6 +4298,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         self.iops = iops
         self.kmsKeyId = kmsKeyId
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
@@ -5925,6 +5965,15 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can configure the master DB user with IAM database authentication when you create a DB instance. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The password for the master user. This setting doesn't apply to Amazon Aurora DB instances. The password for the master user is managed by the DB cluster. Constraints:
     ///
     /// * Can't be specified if ManageMasterUserPassword is turned on.
@@ -6106,6 +6155,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         licenseModel: Swift.String? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
@@ -6171,6 +6221,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         self.kmsKeyId = kmsKeyId
         self.licenseModel = licenseModel
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
@@ -7581,6 +7632,67 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
+    public enum DefaultAuthScheme: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iamAuth
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DefaultAuthScheme] {
+            return [
+                .iamAuth,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iamAuth: return "IAM_AUTH"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    public enum EndpointNetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dual
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointNetworkType] {
+            return [
+                .dual,
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dual: return "DUAL"
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     public enum EngineFamily: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mysql
         case postgresql
@@ -7611,15 +7723,60 @@ extension RDSClientTypes {
     }
 }
 
+extension RDSClientTypes {
+
+    public enum TargetConnectionNetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetConnectionNetworkType] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateDBProxyInput: Swift.Sendable {
     /// The authorization mechanism that the proxy uses.
-    /// This member is required.
     public var auth: [RDSClientTypes.UserAuthConfig]?
     /// The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
     /// This member is required.
     public var dbProxyName: Swift.String?
     /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
     public var debugLogging: Swift.Bool?
+    /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database. Valid values are NONE and IAM_AUTH. When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database. If you don't specify DefaultAuthScheme or specify this parameter as NONE, you must specify the Auth option.
+    public var defaultAuthScheme: RDSClientTypes.DefaultAuthScheme?
+    /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+    ///
+    /// * IPV4 - The proxy endpoint supports IPv4 only.
+    ///
+    /// * IPV6 - The proxy endpoint supports IPv6 only.
+    ///
+    /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+    ///
+    ///
+    /// Default: IPV4 Constraints:
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC and all subnets must have an IPv6 CIDR block.
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC tenancy cannot be dedicated.
+    public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
     /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases, specify MYSQL. For Aurora PostgreSQL and RDS for PostgreSQL databases, specify POSTGRESQL. For RDS for Microsoft SQL Server, specify SQLSERVER.
     /// This member is required.
     public var engineFamily: RDSClientTypes.EngineFamily?
@@ -7632,6 +7789,19 @@ public struct CreateDBProxyInput: Swift.Sendable {
     public var roleArn: Swift.String?
     /// An optional set of key-value pairs to associate arbitrary data of your choosing with the proxy.
     public var tags: [RDSClientTypes.Tag]?
+    /// The network type that the proxy uses to connect to the target database. The network type determines the IP version that the proxy uses for connections to the database. Valid values:
+    ///
+    /// * IPV4 - The proxy connects to the database using IPv4 only.
+    ///
+    /// * IPV6 - The proxy connects to the database using IPv6 only.
+    ///
+    ///
+    /// Default: IPV4 Constraints:
+    ///
+    /// * If you specify IPV6, the database must support dual-stack mode. RDS doesn't support IPv6-only databases.
+    ///
+    /// * All targets registered with the proxy must be compatible with the specified network type.
+    public var targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType?
     /// One or more VPC security group IDs to associate with the new proxy.
     public var vpcSecurityGroupIds: [Swift.String]?
     /// One or more VPC subnet IDs to associate with the new proxy.
@@ -7642,22 +7812,28 @@ public struct CreateDBProxyInput: Swift.Sendable {
         auth: [RDSClientTypes.UserAuthConfig]? = nil,
         dbProxyName: Swift.String? = nil,
         debugLogging: Swift.Bool? = nil,
+        defaultAuthScheme: RDSClientTypes.DefaultAuthScheme? = nil,
+        endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
         engineFamily: RDSClientTypes.EngineFamily? = nil,
         idleClientTimeout: Swift.Int? = nil,
         requireTLS: Swift.Bool? = nil,
         roleArn: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
+        targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
     ) {
         self.auth = auth
         self.dbProxyName = dbProxyName
         self.debugLogging = debugLogging
+        self.defaultAuthScheme = defaultAuthScheme
+        self.endpointNetworkType = endpointNetworkType
         self.engineFamily = engineFamily
         self.idleClientTimeout = idleClientTimeout
         self.requireTLS = requireTLS
         self.roleArn = roleArn
         self.tags = tags
+        self.targetConnectionNetworkType = targetConnectionNetworkType
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
         self.vpcSubnetIds = vpcSubnetIds
     }
@@ -7762,8 +7938,18 @@ extension RDSClientTypes {
         public var dbProxyName: Swift.String?
         /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
         public var debugLogging: Swift.Bool?
+        /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database. Valid values are NONE and IAM_AUTH. When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database.
+        public var defaultAuthScheme: Swift.String?
         /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public var endpoint: Swift.String?
+        /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+        ///
+        /// * IPV4 - The proxy endpoint supports IPv4 only.
+        ///
+        /// * IPV6 - The proxy endpoint supports IPv6 only.
+        ///
+        /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+        public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
         /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. MYSQL supports Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases. POSTGRESQL supports Aurora PostgreSQL and RDS for PostgreSQL databases. SQLSERVER supports RDS for Microsoft SQL Server databases.
         public var engineFamily: Swift.String?
         /// The number of seconds a connection to the proxy can have no activity before the proxy drops the client connection. The proxy keeps the underlying database connection open and puts it back into the connection pool for reuse by later connection requests. Default: 1800 (30 minutes) Constraints: 1 to 28,800
@@ -7774,6 +7960,12 @@ extension RDSClientTypes {
         public var roleArn: Swift.String?
         /// The current status of this proxy. A status of available means the proxy is ready to handle requests. Other values indicate that you must wait for the proxy to be ready, or take some action to resolve an issue.
         public var status: RDSClientTypes.DBProxyStatus?
+        /// The network type that the proxy uses to connect to the target database. The network type determines the IP version that the proxy uses for connections to the database. Valid values:
+        ///
+        /// * IPV4 - The proxy connects to the database using IPv4 only.
+        ///
+        /// * IPV6 - The proxy connects to the database using IPv6 only.
+        public var targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType?
         /// The date and time when the proxy was last updated.
         public var updatedDate: Foundation.Date?
         /// Provides the VPC ID of the DB proxy.
@@ -7789,12 +7981,15 @@ extension RDSClientTypes {
             dbProxyArn: Swift.String? = nil,
             dbProxyName: Swift.String? = nil,
             debugLogging: Swift.Bool? = nil,
+            defaultAuthScheme: Swift.String? = nil,
             endpoint: Swift.String? = nil,
+            endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
             engineFamily: Swift.String? = nil,
             idleClientTimeout: Swift.Int? = nil,
             requireTLS: Swift.Bool? = nil,
             roleArn: Swift.String? = nil,
             status: RDSClientTypes.DBProxyStatus? = nil,
+            targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType? = nil,
             updatedDate: Foundation.Date? = nil,
             vpcId: Swift.String? = nil,
             vpcSecurityGroupIds: [Swift.String]? = nil,
@@ -7805,12 +8000,15 @@ extension RDSClientTypes {
             self.dbProxyArn = dbProxyArn
             self.dbProxyName = dbProxyName
             self.debugLogging = debugLogging
+            self.defaultAuthScheme = defaultAuthScheme
             self.endpoint = endpoint
+            self.endpointNetworkType = endpointNetworkType
             self.engineFamily = engineFamily
             self.idleClientTimeout = idleClientTimeout
             self.requireTLS = requireTLS
             self.roleArn = roleArn
             self.status = status
+            self.targetConnectionNetworkType = targetConnectionNetworkType
             self.updatedDate = updatedDate
             self.vpcId = vpcId
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -7935,6 +8133,21 @@ public struct CreateDBProxyEndpointInput: Swift.Sendable {
     /// The name of the DB proxy associated with the DB proxy endpoint that you create.
     /// This member is required.
     public var dbProxyName: Swift.String?
+    /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+    ///
+    /// * IPV4 - The proxy endpoint supports IPv4 only.
+    ///
+    /// * IPV6 - The proxy endpoint supports IPv6 only.
+    ///
+    /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+    ///
+    ///
+    /// Default: IPV4 Constraints:
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC and all subnets must have an IPv6 CIDR block.
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC tenancy cannot be dedicated.
+    public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The role of the DB proxy endpoint. The role determines whether the endpoint can be used for read/write or only read operations. The default is READ_WRITE. The only role that proxies for RDS for Microsoft SQL Server support is READ_WRITE.
@@ -7948,6 +8161,7 @@ public struct CreateDBProxyEndpointInput: Swift.Sendable {
     public init(
         dbProxyEndpointName: Swift.String? = nil,
         dbProxyName: Swift.String? = nil,
+        endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetRole: RDSClientTypes.DBProxyEndpointTargetRole? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
@@ -7955,6 +8169,7 @@ public struct CreateDBProxyEndpointInput: Swift.Sendable {
     ) {
         self.dbProxyEndpointName = dbProxyEndpointName
         self.dbProxyName = dbProxyName
+        self.endpointNetworkType = endpointNetworkType
         self.tags = tags
         self.targetRole = targetRole
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -8017,6 +8232,14 @@ extension RDSClientTypes {
         public var dbProxyName: Swift.String?
         /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public var endpoint: Swift.String?
+        /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+        ///
+        /// * IPV4 - The proxy endpoint supports IPv4 only.
+        ///
+        /// * IPV6 - The proxy endpoint supports IPv6 only.
+        ///
+        /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+        public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
         /// Indicates whether this endpoint is the default endpoint for the associated DB proxy. Default DB proxy endpoints always have read/write capability. Other endpoints that you associate with the DB proxy can be either read/write or read-only.
         public var isDefault: Swift.Bool?
         /// The current status of this DB proxy endpoint. A status of available means the endpoint is ready to handle requests. Other values indicate that you must wait for the endpoint to be ready, or take some action to resolve an issue.
@@ -8036,6 +8259,7 @@ extension RDSClientTypes {
             dbProxyEndpointName: Swift.String? = nil,
             dbProxyName: Swift.String? = nil,
             endpoint: Swift.String? = nil,
+            endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
             isDefault: Swift.Bool? = nil,
             status: RDSClientTypes.DBProxyEndpointStatus? = nil,
             targetRole: RDSClientTypes.DBProxyEndpointTargetRole? = nil,
@@ -8048,6 +8272,7 @@ extension RDSClientTypes {
             self.dbProxyEndpointName = dbProxyEndpointName
             self.dbProxyName = dbProxyName
             self.endpoint = endpoint
+            self.endpointNetworkType = endpointNetworkType
             self.isDefault = isDefault
             self.status = status
             self.targetRole = targetRole
@@ -16901,7 +17126,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you must set the PerformanceInsightsEnabled parameter to false. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you can set the PerformanceInsightsEnabled parameter to true to collect detailed database counter and per-query metrics. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
@@ -16946,6 +17171,15 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var iops: Swift.Int?
     /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the DB cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide and [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can change the master DB user to use IAM database authentication. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The new password for the master database user. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
     /// * Must contain from 8 to 41 characters.
@@ -17071,6 +17305,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         engineVersion: Swift.String? = nil,
         iops: Swift.Int? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         monitoringInterval: Swift.Int? = nil,
@@ -17118,6 +17353,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         self.engineVersion = engineVersion
         self.iops = iops
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.monitoringInterval = monitoringInterval
@@ -17555,6 +17791,15 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     ///
     /// * Can't specify the parameters ManageMasterUserPassword and MultiTenant in the same operation.
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can change the master DB user to use IAM database authentication. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The new password for the master user. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. Amazon RDS API operations never return the password, so this operation provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked. This setting doesn't apply to the following DB instances:
     ///
     /// * Amazon Aurora The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.
@@ -17730,6 +17975,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         iops: Swift.Int? = nil,
         licenseModel: Swift.String? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         maxAllocatedStorage: Swift.Int? = nil,
@@ -17792,6 +18038,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         self.iops = iops
         self.licenseModel = licenseModel
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.maxAllocatedStorage = maxAllocatedStorage
@@ -17872,6 +18119,8 @@ public struct ModifyDBProxyInput: Swift.Sendable {
     public var dbProxyName: Swift.String?
     /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
     public var debugLogging: Swift.Bool?
+    /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database. Valid values are NONE and IAM_AUTH. When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database.
+    public var defaultAuthScheme: RDSClientTypes.DefaultAuthScheme?
     /// The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database.
     public var idleClientTimeout: Swift.Int?
     /// The new identifier for the DBProxy. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
@@ -17887,6 +18136,7 @@ public struct ModifyDBProxyInput: Swift.Sendable {
         auth: [RDSClientTypes.UserAuthConfig]? = nil,
         dbProxyName: Swift.String? = nil,
         debugLogging: Swift.Bool? = nil,
+        defaultAuthScheme: RDSClientTypes.DefaultAuthScheme? = nil,
         idleClientTimeout: Swift.Int? = nil,
         newDBProxyName: Swift.String? = nil,
         requireTLS: Swift.Bool? = nil,
@@ -17896,6 +18146,7 @@ public struct ModifyDBProxyInput: Swift.Sendable {
         self.auth = auth
         self.dbProxyName = dbProxyName
         self.debugLogging = debugLogging
+        self.defaultAuthScheme = defaultAuthScheme
         self.idleClientTimeout = idleClientTimeout
         self.newDBProxyName = newDBProxyName
         self.requireTLS = requireTLS
@@ -23077,6 +23328,7 @@ extension CreateDBClusterInput {
         try writer["Iops"].write(value.iops)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MasterUsername"].write(value.masterUsername)
@@ -23185,6 +23437,7 @@ extension CreateDBInstanceInput {
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["LicenseModel"].write(value.licenseModel)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MasterUsername"].write(value.masterUsername)
@@ -23293,11 +23546,14 @@ extension CreateDBProxyInput {
         try writer["Auth"].writeList(value.auth, memberWritingClosure: RDSClientTypes.UserAuthConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DBProxyName"].write(value.dbProxyName)
         try writer["DebugLogging"].write(value.debugLogging)
+        try writer["DefaultAuthScheme"].write(value.defaultAuthScheme)
+        try writer["EndpointNetworkType"].write(value.endpointNetworkType)
         try writer["EngineFamily"].write(value.engineFamily)
         try writer["IdleClientTimeout"].write(value.idleClientTimeout)
         try writer["RequireTLS"].write(value.requireTLS)
         try writer["RoleArn"].write(value.roleArn)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+        try writer["TargetConnectionNetworkType"].write(value.targetConnectionNetworkType)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcSubnetIds"].writeList(value.vpcSubnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Action"].write("CreateDBProxy")
@@ -23311,6 +23567,7 @@ extension CreateDBProxyEndpointInput {
         guard let value else { return }
         try writer["DBProxyEndpointName"].write(value.dbProxyEndpointName)
         try writer["DBProxyName"].write(value.dbProxyName)
+        try writer["EndpointNetworkType"].write(value.endpointNetworkType)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["TargetRole"].write(value.targetRole)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -24487,6 +24744,7 @@ extension ModifyDBClusterInput {
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["Iops"].write(value.iops)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MonitoringInterval"].write(value.monitoringInterval)
@@ -24585,6 +24843,7 @@ extension ModifyDBInstanceInput {
         try writer["Iops"].write(value.iops)
         try writer["LicenseModel"].write(value.licenseModel)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
@@ -24634,6 +24893,7 @@ extension ModifyDBProxyInput {
         try writer["Auth"].writeList(value.auth, memberWritingClosure: RDSClientTypes.UserAuthConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DBProxyName"].write(value.dbProxyName)
         try writer["DebugLogging"].write(value.debugLogging)
+        try writer["DefaultAuthScheme"].write(value.defaultAuthScheme)
         try writer["IdleClientTimeout"].write(value.idleClientTimeout)
         try writer["NewDBProxyName"].write(value.newDBProxyName)
         try writer["RequireTLS"].write(value.requireTLS)
@@ -33225,6 +33485,7 @@ extension RDSClientTypes.DBProxy {
         value.vpcId = try reader["VpcId"].readIfPresent()
         value.vpcSecurityGroupIds = try reader["VpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcSubnetIds = try reader["VpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultAuthScheme = try reader["DefaultAuthScheme"].readIfPresent()
         value.auth = try reader["Auth"].readListIfPresent(memberReadingClosure: RDSClientTypes.UserAuthConfigInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()
@@ -33233,6 +33494,8 @@ extension RDSClientTypes.DBProxy {
         value.debugLogging = try reader["DebugLogging"].readIfPresent()
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedDate = try reader["UpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endpointNetworkType = try reader["EndpointNetworkType"].readIfPresent()
+        value.targetConnectionNetworkType = try reader["TargetConnectionNetworkType"].readIfPresent()
         return value
     }
 }
@@ -33268,6 +33531,7 @@ extension RDSClientTypes.DBProxyEndpoint {
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.targetRole = try reader["TargetRole"].readIfPresent()
         value.isDefault = try reader["IsDefault"].readIfPresent()
+        value.endpointNetworkType = try reader["EndpointNetworkType"].readIfPresent()
         return value
     }
 }

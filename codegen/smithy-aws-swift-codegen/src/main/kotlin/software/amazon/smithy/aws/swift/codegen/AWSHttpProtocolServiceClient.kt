@@ -65,7 +65,7 @@ class AWSHttpProtocolServiceClient(
                             {
                                 it.format("\$N()", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain)
                             },
-                            true,
+                            false,
                         )
                     } else {
                         property

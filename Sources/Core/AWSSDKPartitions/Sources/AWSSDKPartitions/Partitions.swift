@@ -172,7 +172,7 @@ public let partitions = #"""
       "dualStackDnsSuffix" : "api.aws.ic.gov",
       "implicitGlobalRegion" : "us-iso-east-1",
       "name" : "aws-iso",
-      "supportsDualStack" : false,
+      "supportsDualStack" : true,
       "supportsFIPS" : true
     },
     "regionRegex" : "^us\\-iso\\-\\w+\\-\\d+$",
@@ -194,7 +194,7 @@ public let partitions = #"""
       "dualStackDnsSuffix" : "api.aws.scloud",
       "implicitGlobalRegion" : "us-isob-east-1",
       "name" : "aws-iso-b",
-      "supportsDualStack" : false,
+      "supportsDualStack" : true,
       "supportsFIPS" : true
     },
     "regionRegex" : "^us\\-isob\\-\\w+\\-\\d+$",
@@ -213,7 +213,7 @@ public let partitions = #"""
       "dualStackDnsSuffix" : "api.cloud-aws.adc-e.uk",
       "implicitGlobalRegion" : "eu-isoe-west-1",
       "name" : "aws-iso-e",
-      "supportsDualStack" : false,
+      "supportsDualStack" : true,
       "supportsFIPS" : true
     },
     "regionRegex" : "^eu\\-isoe\\-\\w+\\-\\d+$",
@@ -232,7 +232,7 @@ public let partitions = #"""
       "dualStackDnsSuffix" : "api.aws.hci.ic.gov",
       "implicitGlobalRegion" : "us-isof-south-1",
       "name" : "aws-iso-f",
-      "supportsDualStack" : false,
+      "supportsDualStack" : true,
       "supportsFIPS" : true
     },
     "regionRegex" : "^us\\-isof\\-\\w+\\-\\d+$",

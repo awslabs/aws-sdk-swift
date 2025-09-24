@@ -859,11 +859,15 @@ public struct CancelInstanceRefreshInput: Swift.Sendable {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
+    /// When cancelling an instance refresh, this indicates whether to wait for in-flight launches and terminations to complete. The default is true. When set to false, Amazon EC2 Auto Scaling cancels the instance refresh without waiting for any pending launches or terminations to complete.
+    public var waitForTransitioningInstances: Swift.Bool?
 
     public init(
-        autoScalingGroupName: Swift.String? = nil
+        autoScalingGroupName: Swift.String? = nil,
+        waitForTransitioningInstances: Swift.Bool? = nil
     ) {
         self.autoScalingGroupName = autoScalingGroupName
+        self.waitForTransitioningInstances = waitForTransitioningInstances
     }
 }
 
@@ -7066,6 +7070,7 @@ extension CancelInstanceRefreshInput {
     static func write(value: CancelInstanceRefreshInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
+        try writer["WaitForTransitioningInstances"].write(value.waitForTransitioningInstances)
         try writer["Action"].write("CancelInstanceRefresh")
         try writer["Version"].write("2011-01-01")
     }

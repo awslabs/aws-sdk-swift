@@ -54,6 +54,11 @@ public struct DeleteRuleGroupsNamespaceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteScraperLoggingConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteWorkspaceOutput: Swift.Sendable {
 
     public init() { }
@@ -1076,6 +1081,262 @@ public struct ListScrapersOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteScraperLoggingConfigurationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the request is processed exactly once.
+    public var clientToken: Swift.String?
+    /// The ID of the scraper whose logging configuration will be deleted.
+    /// This member is required.
+    public var scraperId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        scraperId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.scraperId = scraperId
+    }
+}
+
+public struct DescribeScraperLoggingConfigurationInput: Swift.Sendable {
+    /// The ID of the scraper whose logging configuration will be described.
+    /// This member is required.
+    public var scraperId: Swift.String?
+
+    public init(
+        scraperId: Swift.String? = nil
+    ) {
+        self.scraperId = scraperId
+    }
+}
+
+extension AmpClientTypes {
+
+    /// Configuration details for logging to CloudWatch Logs.
+    public struct CloudWatchLogDestination: Swift.Sendable {
+        /// The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation.
+        /// This member is required.
+        public var logGroupArn: Swift.String?
+
+        public init(
+            logGroupArn: Swift.String? = nil
+        ) {
+            self.logGroupArn = logGroupArn
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// The destination where scraper logs are sent.
+    public enum ScraperLoggingDestination: Swift.Sendable {
+        /// The CloudWatch Logs configuration for the scraper logging destination.
+        case cloudwatchlogs(AmpClientTypes.CloudWatchLogDestination)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension AmpClientTypes {
+
+    /// Configuration settings for a scraper component.
+    public struct ComponentConfig: Swift.Sendable {
+        /// Configuration options for the scraper component.
+        public var options: [Swift.String: Swift.String]?
+
+        public init(
+            options: [Swift.String: Swift.String]? = nil
+        ) {
+            self.options = options
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    public enum ScraperComponentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Scraper collector component
+        case collector
+        /// Scraper exporter component
+        case exporter
+        /// Scraper service discoverer component
+        case serviceDiscovery
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScraperComponentType] {
+            return [
+                .collector,
+                .exporter,
+                .serviceDiscovery
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .collector: return "COLLECTOR"
+            case .exporter: return "EXPORTER"
+            case .serviceDiscovery: return "SERVICE_DISCOVERY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// A component of a Amazon Managed Service for Prometheus scraper that can be configured for logging.
+    public struct ScraperComponent: Swift.Sendable {
+        /// The configuration settings for the scraper component.
+        public var config: AmpClientTypes.ComponentConfig?
+        /// The type of the scraper component.
+        /// This member is required.
+        public var type: AmpClientTypes.ScraperComponentType?
+
+        public init(
+            config: AmpClientTypes.ComponentConfig? = nil,
+            type: AmpClientTypes.ScraperComponentType? = nil
+        ) {
+            self.config = config
+            self.type = type
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    public enum ScraperLoggingConfigurationStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Scraper logging configuration is active.
+        case active
+        /// Scraper logging configuration is being created.
+        case creating
+        /// Scraper logging configuration creation failed.
+        case creationFailed
+        /// Scraper logging configuration is being deleted.
+        case deleting
+        /// Scraper logging configuration update failed.
+        case updateFailed
+        /// Scraper logging configuration is being updated.
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScraperLoggingConfigurationStatusCode] {
+            return [
+                .active,
+                .creating,
+                .creationFailed,
+                .deleting,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .creationFailed: return "CREATION_FAILED"
+            case .deleting: return "DELETING"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// The status of a scraper logging configuration.
+    public struct ScraperLoggingConfigurationStatus: Swift.Sendable {
+        /// The status code of the scraper logging configuration.
+        /// This member is required.
+        public var statusCode: AmpClientTypes.ScraperLoggingConfigurationStatusCode?
+        /// The reason for the current status of the scraper logging configuration.
+        public var statusReason: Swift.String?
+
+        public init(
+            statusCode: AmpClientTypes.ScraperLoggingConfigurationStatusCode? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+    }
+}
+
+public struct DescribeScraperLoggingConfigurationOutput: Swift.Sendable {
+    /// The destination where scraper logs are sent.
+    /// This member is required.
+    public var loggingDestination: AmpClientTypes.ScraperLoggingDestination?
+    /// The date and time when the logging configuration was last modified.
+    /// This member is required.
+    public var modifiedAt: Foundation.Date?
+    /// The list of scraper components configured for logging.
+    /// This member is required.
+    public var scraperComponents: [AmpClientTypes.ScraperComponent]?
+    /// The ID of the scraper.
+    /// This member is required.
+    public var scraperId: Swift.String?
+    /// The status of the scraper logging configuration.
+    /// This member is required.
+    public var status: AmpClientTypes.ScraperLoggingConfigurationStatus?
+
+    public init(
+        loggingDestination: AmpClientTypes.ScraperLoggingDestination? = nil,
+        modifiedAt: Foundation.Date? = nil,
+        scraperComponents: [AmpClientTypes.ScraperComponent]? = nil,
+        scraperId: Swift.String? = nil,
+        status: AmpClientTypes.ScraperLoggingConfigurationStatus? = nil
+    ) {
+        self.loggingDestination = loggingDestination
+        self.modifiedAt = modifiedAt
+        self.scraperComponents = scraperComponents
+        self.scraperId = scraperId
+        self.status = status
+    }
+}
+
+public struct UpdateScraperLoggingConfigurationInput: Swift.Sendable {
+    /// The destination where scraper logs will be sent.
+    /// This member is required.
+    public var loggingDestination: AmpClientTypes.ScraperLoggingDestination?
+    /// The list of scraper components to configure for logging.
+    public var scraperComponents: [AmpClientTypes.ScraperComponent]?
+    /// The ID of the scraper whose logging configuration will be updated.
+    /// This member is required.
+    public var scraperId: Swift.String?
+
+    public init(
+        loggingDestination: AmpClientTypes.ScraperLoggingDestination? = nil,
+        scraperComponents: [AmpClientTypes.ScraperComponent]? = nil,
+        scraperId: Swift.String? = nil
+    ) {
+        self.loggingDestination = loggingDestination
+        self.scraperComponents = scraperComponents
+        self.scraperId = scraperId
+    }
+}
+
+public struct UpdateScraperLoggingConfigurationOutput: Swift.Sendable {
+    /// The status of the updated scraper logging configuration.
+    /// This member is required.
+    public var status: AmpClientTypes.ScraperLoggingConfigurationStatus?
+
+    public init(
+        status: AmpClientTypes.ScraperLoggingConfigurationStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
 public struct UpdateScraperInput: Swift.Sendable {
     /// The new alias of the scraper.
     public var alias: Swift.String?
@@ -1677,22 +1938,6 @@ public struct UpdateLoggingConfigurationOutput: Swift.Sendable {
         status: AmpClientTypes.LoggingConfigurationStatus? = nil
     ) {
         self.status = status
-    }
-}
-
-extension AmpClientTypes {
-
-    /// Configuration details for logging to CloudWatch Logs.
-    public struct CloudWatchLogDestination: Swift.Sendable {
-        /// The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation.
-        /// This member is required.
-        public var logGroupArn: Swift.String?
-
-        public init(
-            logGroupArn: Swift.String? = nil
-        ) {
-            self.logGroupArn = logGroupArn
-        }
     }
 }
 
@@ -2826,6 +3071,28 @@ extension DeleteScraperInput {
     }
 }
 
+extension DeleteScraperLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteScraperLoggingConfigurationInput) -> Swift.String? {
+        guard let scraperId = value.scraperId else {
+            return nil
+        }
+        return "/scrapers/\(scraperId.urlPercentEncoding())/logging-configuration"
+    }
+}
+
+extension DeleteScraperLoggingConfigurationInput {
+
+    static func queryItemProvider(_ value: DeleteScraperLoggingConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteWorkspaceInput {
 
     static func urlPathProvider(_ value: DeleteWorkspaceInput) -> Swift.String? {
@@ -2908,6 +3175,16 @@ extension DescribeScraperInput {
             return nil
         }
         return "/scrapers/\(scraperId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeScraperLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeScraperLoggingConfigurationInput) -> Swift.String? {
+        guard let scraperId = value.scraperId else {
+            return nil
+        }
+        return "/scrapers/\(scraperId.urlPercentEncoding())/logging-configuration"
     }
 }
 
@@ -3138,6 +3415,16 @@ extension UpdateScraperInput {
     }
 }
 
+extension UpdateScraperLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateScraperLoggingConfigurationInput) -> Swift.String? {
+        guard let scraperId = value.scraperId else {
+            return nil
+        }
+        return "/scrapers/\(scraperId.urlPercentEncoding())/logging-configuration"
+    }
+}
+
 extension UpdateWorkspaceAliasInput {
 
     static func urlPathProvider(_ value: UpdateWorkspaceAliasInput) -> Swift.String? {
@@ -3284,6 +3571,15 @@ extension UpdateScraperInput {
         try writer["destination"].write(value.destination, with: AmpClientTypes.Destination.write(value:to:))
         try writer["roleConfiguration"].write(value.roleConfiguration, with: AmpClientTypes.RoleConfiguration.write(value:to:))
         try writer["scrapeConfiguration"].write(value.scrapeConfiguration, with: AmpClientTypes.ScrapeConfiguration.write(value:to:))
+    }
+}
+
+extension UpdateScraperLoggingConfigurationInput {
+
+    static func write(value: UpdateScraperLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["loggingDestination"].write(value.loggingDestination, with: AmpClientTypes.ScraperLoggingDestination.write(value:to:))
+        try writer["scraperComponents"].writeList(value.scraperComponents, memberWritingClosure: AmpClientTypes.ScraperComponent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -3436,6 +3732,13 @@ extension DeleteScraperOutput {
     }
 }
 
+extension DeleteScraperLoggingConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteScraperLoggingConfigurationOutput {
+        return DeleteScraperLoggingConfigurationOutput()
+    }
+}
+
 extension DeleteWorkspaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWorkspaceOutput {
@@ -3513,6 +3816,22 @@ extension DescribeScraperOutput {
         let reader = responseReader
         var value = DescribeScraperOutput()
         value.scraper = try reader["scraper"].readIfPresent(with: AmpClientTypes.ScraperDescription.read(from:))
+        return value
+    }
+}
+
+extension DescribeScraperLoggingConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeScraperLoggingConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeScraperLoggingConfigurationOutput()
+        value.loggingDestination = try reader["loggingDestination"].readIfPresent(with: AmpClientTypes.ScraperLoggingDestination.read(from:))
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.scraperComponents = try reader["scraperComponents"].readListIfPresent(memberReadingClosure: AmpClientTypes.ScraperComponent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.scraperId = try reader["scraperId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.ScraperLoggingConfigurationStatus.read(from:))
         return value
     }
 }
@@ -3693,6 +4012,18 @@ extension UpdateScraperOutput {
         value.scraperId = try reader["scraperId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.ScraperStatus.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension UpdateScraperLoggingConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateScraperLoggingConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateScraperLoggingConfigurationOutput()
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.ScraperLoggingConfigurationStatus.read(from:))
         return value
     }
 }
@@ -3941,6 +4272,24 @@ enum DeleteScraperOutputError {
     }
 }
 
+enum DeleteScraperLoggingConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteWorkspaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4060,6 +4409,23 @@ enum DescribeScraperOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeScraperLoggingConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4333,6 +4699,24 @@ enum UpdateScraperOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateScraperLoggingConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4800,6 +5184,73 @@ extension AmpClientTypes.ScrapeConfiguration {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension AmpClientTypes.ScraperLoggingConfigurationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperLoggingConfigurationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.ScraperLoggingConfigurationStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension AmpClientTypes.ScraperLoggingDestination {
+
+    static func write(value: AmpClientTypes.ScraperLoggingDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cloudwatchlogs(cloudwatchlogs):
+                try writer["cloudWatchLogs"].write(cloudwatchlogs, with: AmpClientTypes.CloudWatchLogDestination.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperLoggingDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "cloudWatchLogs":
+                return .cloudwatchlogs(try reader["cloudWatchLogs"].read(with: AmpClientTypes.CloudWatchLogDestination.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AmpClientTypes.ScraperComponent {
+
+    static func write(value: AmpClientTypes.ScraperComponent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["config"].write(value.config, with: AmpClientTypes.ComponentConfig.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperComponent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.ScraperComponent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.config = try reader["config"].readIfPresent(with: AmpClientTypes.ComponentConfig.read(from:))
+        return value
+    }
+}
+
+extension AmpClientTypes.ComponentConfig {
+
+    static func write(value: AmpClientTypes.ComponentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["options"].writeMap(value.options, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ComponentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.ComponentConfig()
+        value.options = try reader["options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 

@@ -21953,6 +21953,7 @@ extension SecurityHubClientTypes {
         case invalidInput
         case limitExceeded
         case notFound
+        case resourceNotFound
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UnprocessedErrorCode] {
@@ -21960,7 +21961,8 @@ extension SecurityHubClientTypes {
                 .accessDenied,
                 .invalidInput,
                 .limitExceeded,
-                .notFound
+                .notFound,
+                .resourceNotFound
             ]
         }
 
@@ -21975,6 +21977,7 @@ extension SecurityHubClientTypes {
             case .invalidInput: return "INVALID_INPUT"
             case .limitExceeded: return "LIMIT_EXCEEDED"
             case .notFound: return "NOT_FOUND"
+            case .resourceNotFound: return "RESOURCE_NOT_FOUND"
             case let .sdkUnknown(s): return s
             }
         }

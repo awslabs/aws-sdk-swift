@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.5.33"
+    public static let version = "1.5.48"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -2923,7 +2923,14 @@ extension ConnectClient {
 
     /// Performs the `CreatePredefinedAttribute` operation on the `Connect` service.
     ///
-    /// Creates a new predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    /// Creates a new predefined attribute for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see [Amazon Connect quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas). Use cases Following are common uses cases for this API:
+    ///
+    /// * Create an attribute for routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    ///
+    /// * Create an attribute for business unit name that has a list of predefined business unit names used in your organization. This is a use case where information for a contact varies between transfers or conferences. For more information, see [Use contact segment attributes](https://docs.aws.amazon.com/connect/latest/adminguide/use-contact-segment-attributes.html).
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     ///
     /// - Parameter CreatePredefinedAttributeInput : [no documentation found]
     ///
@@ -6998,7 +7005,14 @@ extension ConnectClient {
 
     /// Performs the `DescribePredefinedAttribute` operation on the `Connect` service.
     ///
-    /// Describes a predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    /// Describes a predefined attribute for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. You can use predefined attributes for:
+    ///
+    /// * Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    ///
+    /// * Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see [Use contact segment attributes](https://docs.aws.amazon.com/connect/latest/adminguide/use-contact-segment-attributes.html).
+    ///
+    ///
+    /// For the predefined attributes per instance quota, see [Amazon Connect quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas). Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     ///
     /// - Parameter DescribePredefinedAttributeInput : [no documentation found]
     ///
@@ -8514,7 +8528,7 @@ extension ConnectClient {
 
     /// Performs the `DisassociateRoutingProfileQueues` operation on the `Connect` service.
     ///
-    /// Disassociates a set of queues from a routing profile.
+    /// Disassociates a set of queues from a routing profile. Up to 10 queue references can be disassociated in a single API call. More than 10 queue references results in a single call results in an InvalidParameterException.
     ///
     /// - Parameter DisassociateRoutingProfileQueuesInput : [no documentation found]
     ///
@@ -9003,9 +9017,22 @@ extension ConnectClient {
 
     /// Performs the `GetContactMetrics` operation on the `Connect` service.
     ///
-    /// Gets the real-time metrics of the specified contact. Use cases Following are common uses cases for this API:
+    /// Retrieves the position of the contact in the queue. Use cases Following are common uses cases for position in queue:
     ///
-    /// * You can use this API to retrieve the position of the contact in the queue.
+    /// * Understand the expected wait experience of a contact.
+    ///
+    /// * Inform customers of their position in queue and potentially offer a callback.
+    ///
+    /// * Make data-driven routing decisions between primary and alternative queues.
+    ///
+    /// * Enhance queue visibility and leverage agent proficiencies to streamline contact routing.
+    ///
+    ///
+    /// Important things to know
+    ///
+    /// * The only way to retrieve the position of the contact in queue is by using this API. You can't retrieve the position by using flows and attributes.
+    ///
+    /// * For more information, see the [Position in queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) metric in the Amazon Connect Administrator Guide.
     ///
     ///
     /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
@@ -11685,7 +11712,14 @@ extension ConnectClient {
 
     /// Performs the `ListPredefinedAttributes` operation on the `Connect` service.
     ///
-    /// Lists predefined attributes for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    /// Lists predefined attributes for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. You can use predefined attributes for:
+    ///
+    /// * Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    ///
+    /// * Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see [Use contact segment attributes](https://docs.aws.amazon.com/connect/latest/adminguide/use-contact-segment-attributes.html).
+    ///
+    ///
+    /// For the predefined attributes per instance quota, see [Amazon Connect quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas). Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     ///
     /// - Parameter ListPredefinedAttributesInput : [no documentation found]
     ///
@@ -14351,7 +14385,14 @@ extension ConnectClient {
 
     /// Performs the `SearchPredefinedAttributes` operation on the `Connect` service.
     ///
-    /// Searches predefined attributes that meet certain criteria. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    /// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined attributes for:
+    ///
+    /// * Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    ///
+    /// * Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see [Use contact segment attributes](https://docs.aws.amazon.com/connect/latest/adminguide/use-contact-segment-attributes.html).
+    ///
+    ///
+    /// For the predefined attributes per instance quota, see [Amazon Connect quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas). Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     ///
     /// - Parameter SearchPredefinedAttributesInput : [no documentation found]
     ///
@@ -18474,7 +18515,14 @@ extension ConnectClient {
 
     /// Performs the `UpdatePredefinedAttribute` operation on the `Connect` service.
     ///
-    /// Updates a predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    /// Updates a predefined attribute for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see [Amazon Connect quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas). Use cases Following are common uses cases for this API:
+    ///
+    /// * Update routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    ///
+    /// * Update an attribute for business unit name that has a list of predefined business unit names used in your organization. This is a use case where information for a contact varies between transfers or conferences. For more information, see [Use contact segment attributes](https://docs.aws.amazon.com/connect/latest/adminguide/use-contact-segment-attributes.html).
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     ///
     /// - Parameter UpdatePredefinedAttributeInput : [no documentation found]
     ///

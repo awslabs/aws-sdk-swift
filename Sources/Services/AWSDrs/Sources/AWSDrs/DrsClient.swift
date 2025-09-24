@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DrsClient: ClientRuntime.Client {
     public static let clientName = "DrsClient"
-    public static let version = "1.5.33"
+    public static let version = "1.5.48"
     let client: ClientRuntime.SdkHttpClient
     let config: DrsClient.DrsClientConfiguration
     let serviceName = "drs"

@@ -21,6 +21,32 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
+extension SSOOIDCClientTypes {
+
+    package enum AccessDeniedExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kmsAccessDenied
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessDeniedExceptionReason] {
+            return [
+                .kmsAccessDenied
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kmsAccessDenied: return "KMS_AccessDeniedException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// You do not have sufficient access to perform this action.
 package struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -29,6 +55,8 @@ package struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRunti
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public internal(set) var error_description: Swift.String? = nil
+        /// A string that uniquely identifies a reason for the error.
+        public internal(set) var reason: SSOOIDCClientTypes.AccessDeniedExceptionReason? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -42,10 +70,12 @@ package struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         error: Swift.String? = nil,
-        error_description: Swift.String? = nil
+        error_description: Swift.String? = nil,
+        reason: SSOOIDCClientTypes.AccessDeniedExceptionReason? = nil
     ) {
         self.properties.error = error
         self.properties.error_description = error_description
+        self.properties.reason = reason
     }
 }
 
@@ -189,6 +219,41 @@ package struct InvalidGrantException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
+extension SSOOIDCClientTypes {
+
+    package enum InvalidRequestExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kmsDisabledKey
+        case kmsInvalidKeyUsage
+        case kmsInvalidState
+        case kmsKeyNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InvalidRequestExceptionReason] {
+            return [
+                .kmsDisabledKey,
+                .kmsInvalidKeyUsage,
+                .kmsInvalidState,
+                .kmsKeyNotFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kmsDisabledKey: return "KMS_DisabledException"
+            case .kmsInvalidKeyUsage: return "KMS_InvalidKeyUsageException"
+            case .kmsInvalidState: return "KMS_InvalidStateException"
+            case .kmsKeyNotFound: return "KMS_NotFoundException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
 package struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -197,6 +262,8 @@ package struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRun
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public internal(set) var error_description: Swift.String? = nil
+        /// A string that uniquely identifies a reason for the error.
+        public internal(set) var reason: SSOOIDCClientTypes.InvalidRequestExceptionReason? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -210,10 +277,12 @@ package struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         error: Swift.String? = nil,
-        error_description: Swift.String? = nil
+        error_description: Swift.String? = nil,
+        reason: SSOOIDCClientTypes.InvalidRequestExceptionReason? = nil
     ) {
         self.properties.error = error
         self.properties.error_description = error_description
+        self.properties.reason = reason
     }
 }
 
@@ -349,7 +418,7 @@ package struct CreateTokenInput: Swift.Sendable {
     public var redirectUri: Swift.String?
     /// Used only when calling this API for the Refresh Token grant type. This token is used to refresh short-lived tokens, such as the access token, that might expire. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the [IAM Identity Center OIDC API Reference](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/Welcome.html).
     public var refreshToken: Swift.String?
-    /// The list of scopes for which authorization is requested. The access token that is issued is limited to the scopes that are granted. If this value is not specified, IAM Identity Center authorizes all scopes that are configured for the client during the call to [RegisterClient].
+    /// The list of scopes for which authorization is requested. This parameter has no effect; the access token will always include all scopes configured during client registration.
     public var scope: [Swift.String]?
 
     public init(
@@ -482,6 +551,7 @@ extension AccessDeniedException {
         var value = AccessDeniedException()
         value.properties.error = try reader["error"].readIfPresent()
         value.properties.error_description = try reader["error_description"].readIfPresent()
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -566,6 +636,7 @@ extension InvalidRequestException {
         var value = InvalidRequestException()
         value.properties.error = try reader["error"].readIfPresent()
         value.properties.error_description = try reader["error_description"].readIfPresent()
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

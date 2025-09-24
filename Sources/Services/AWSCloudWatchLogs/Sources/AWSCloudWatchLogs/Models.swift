@@ -3005,6 +3005,10 @@ extension CloudWatchLogsClientTypes {
         public var applyOnTransformedLogs: Swift.Bool
         /// The creation time of the metric filter, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public var creationTime: Swift.Int?
+        /// The list of system fields that are emitted as additional dimensions in the generated metrics. Returns the emitSystemFieldDimensions value if it was specified when the metric filter was created.
+        public var emitSystemFieldDimensions: [Swift.String]?
+        /// The filter expression that specifies which log events are processed by this metric filter based on system fields. Returns the fieldSelectionCriteria value if it was specified when the metric filter was created.
+        public var fieldSelectionCriteria: Swift.String?
         /// The name of the metric filter.
         public var filterName: Swift.String?
         /// A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain timestamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message.
@@ -3017,6 +3021,8 @@ extension CloudWatchLogsClientTypes {
         public init(
             applyOnTransformedLogs: Swift.Bool = false,
             creationTime: Swift.Int? = nil,
+            emitSystemFieldDimensions: [Swift.String]? = nil,
+            fieldSelectionCriteria: Swift.String? = nil,
             filterName: Swift.String? = nil,
             filterPattern: Swift.String? = nil,
             logGroupName: Swift.String? = nil,
@@ -3024,6 +3030,8 @@ extension CloudWatchLogsClientTypes {
         ) {
             self.applyOnTransformedLogs = applyOnTransformedLogs
             self.creationTime = creationTime
+            self.emitSystemFieldDimensions = emitSystemFieldDimensions
+            self.fieldSelectionCriteria = fieldSelectionCriteria
             self.filterName = filterName
             self.filterPattern = filterPattern
             self.logGroupName = logGroupName
@@ -3441,6 +3449,10 @@ extension CloudWatchLogsClientTypes {
         public var destinationArn: Swift.String?
         /// The method used to distribute log data to the destination, which can be either random or grouped by log stream.
         public var distribution: CloudWatchLogsClientTypes.Distribution?
+        /// The list of system fields that are included in the log events sent to the subscription destination. Returns the emitSystemFields value if it was specified when the subscription filter was created.
+        public var emitSystemFields: [Swift.String]?
+        /// The filter expression that specifies which log events are processed by this subscription filter based on system fields. Returns the fieldSelectionCriteria value if it was specified when the subscription filter was created.
+        public var fieldSelectionCriteria: Swift.String?
         /// The name of the subscription filter.
         public var filterName: Swift.String?
         /// A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain timestamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message.
@@ -3455,6 +3467,8 @@ extension CloudWatchLogsClientTypes {
             creationTime: Swift.Int? = nil,
             destinationArn: Swift.String? = nil,
             distribution: CloudWatchLogsClientTypes.Distribution? = nil,
+            emitSystemFields: [Swift.String]? = nil,
+            fieldSelectionCriteria: Swift.String? = nil,
             filterName: Swift.String? = nil,
             filterPattern: Swift.String? = nil,
             logGroupName: Swift.String? = nil,
@@ -3464,6 +3478,8 @@ extension CloudWatchLogsClientTypes {
             self.creationTime = creationTime
             self.destinationArn = destinationArn
             self.distribution = distribution
+            self.emitSystemFields = emitSystemFields
+            self.fieldSelectionCriteria = fieldSelectionCriteria
             self.filterName = filterName
             self.filterPattern = filterPattern
             self.logGroupName = logGroupName
@@ -4660,9 +4676,9 @@ public struct GetTransformerInput: Swift.Sendable {
 
 extension CloudWatchLogsClientTypes {
 
-    /// This processor uses pattern matching to parse and structure unstructured data. This processor can also extract fields from log messages. For more information about this processor including examples, see [ grok](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-Grok) in the CloudWatch Logs User Guide.
+    /// This processor uses pattern matching to parse and structure unstructured data. This processor can also extract fields from log messages. For more information about this processor including examples, see [grok](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Processors.html#CloudWatch-Logs-Transformation-Grok) in the CloudWatch Logs User Guide.
     public struct Grok: Swift.Sendable {
-        /// The grok pattern to match against the log event. For a list of supported grok patterns, see [Supported grok patterns](https://docs.aws.amazon.com/mazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Processors.html#Grok-Patterns).
+        /// The grok pattern to match against the log event. For a list of supported grok patterns, see [Supported grok patterns](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Processors.html#Grok-Patterns).
         /// This member is required.
         public var match: Swift.String?
         /// The path to the field in the log event that you want to parse. If you omit this value, the whole log message is parsed.
@@ -6306,6 +6322,10 @@ public struct PutLogEventsOutput: Swift.Sendable {
 public struct PutMetricFilterInput: Swift.Sendable {
     /// This parameter is valid only for log groups that have an active log transformer. For more information about log transformers, see [PutTransformer](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutTransformer.html). If the log group uses either a log-group level or account-level transformer, and you specify true, the metric filter will be applied on the transformed version of the log events instead of the original ingested log events.
     public var applyOnTransformedLogs: Swift.Bool?
+    /// A list of system fields to emit as additional dimensions in the generated metrics. Valid values are @aws.account and @aws.region. These dimensions help identify the source of centralized log data and count toward the total dimension limit for metric filters.
+    public var emitSystemFieldDimensions: [Swift.String]?
+    /// A filter expression that specifies which log events should be processed by this metric filter based on system fields such as source account and source region. Uses selection criteria syntax with operators like =, !=, AND, OR, IN, NOT IN. Example: @aws.region = "us-east-1" or @aws.account IN ["123456789012", "987654321098"]. Maximum length: 2000 characters.
+    public var fieldSelectionCriteria: Swift.String?
     /// A name for the metric filter.
     /// This member is required.
     public var filterName: Swift.String?
@@ -6321,12 +6341,16 @@ public struct PutMetricFilterInput: Swift.Sendable {
 
     public init(
         applyOnTransformedLogs: Swift.Bool? = false,
+        emitSystemFieldDimensions: [Swift.String]? = nil,
+        fieldSelectionCriteria: Swift.String? = nil,
         filterName: Swift.String? = nil,
         filterPattern: Swift.String? = nil,
         logGroupName: Swift.String? = nil,
         metricTransformations: [CloudWatchLogsClientTypes.MetricTransformation]? = nil
     ) {
         self.applyOnTransformedLogs = applyOnTransformedLogs
+        self.emitSystemFieldDimensions = emitSystemFieldDimensions
+        self.fieldSelectionCriteria = fieldSelectionCriteria
         self.filterName = filterName
         self.filterPattern = filterPattern
         self.logGroupName = logGroupName
@@ -6449,6 +6473,10 @@ public struct PutSubscriptionFilterInput: Swift.Sendable {
     public var destinationArn: Swift.String?
     /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis data stream.
     public var distribution: CloudWatchLogsClientTypes.Distribution?
+    /// A list of system fields to include in the log events sent to the subscription destination. Valid values are @aws.account and @aws.region. These fields provide source information for centralized log data in the forwarded payload.
+    public var emitSystemFields: [Swift.String]?
+    /// A filter expression that specifies which log events should be processed by this subscription filter based on system fields such as source account and source region. Uses selection criteria syntax with operators like =, !=, AND, OR, IN, NOT IN. Example: @aws.region NOT IN ["cn-north-1"] or @aws.account = "123456789012" AND @aws.region = "us-east-1". Maximum length: 2000 characters.
+    public var fieldSelectionCriteria: Swift.String?
     /// A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName. To find the name of the filter currently associated with a log group, use [DescribeSubscriptionFilters](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeSubscriptionFilters.html).
     /// This member is required.
     public var filterName: Swift.String?
@@ -6465,6 +6493,8 @@ public struct PutSubscriptionFilterInput: Swift.Sendable {
         applyOnTransformedLogs: Swift.Bool? = false,
         destinationArn: Swift.String? = nil,
         distribution: CloudWatchLogsClientTypes.Distribution? = nil,
+        emitSystemFields: [Swift.String]? = nil,
+        fieldSelectionCriteria: Swift.String? = nil,
         filterName: Swift.String? = nil,
         filterPattern: Swift.String? = nil,
         logGroupName: Swift.String? = nil,
@@ -6473,6 +6503,8 @@ public struct PutSubscriptionFilterInput: Swift.Sendable {
         self.applyOnTransformedLogs = applyOnTransformedLogs
         self.destinationArn = destinationArn
         self.distribution = distribution
+        self.emitSystemFields = emitSystemFields
+        self.fieldSelectionCriteria = fieldSelectionCriteria
         self.filterName = filterName
         self.filterPattern = filterPattern
         self.logGroupName = logGroupName
@@ -8467,6 +8499,8 @@ extension PutMetricFilterInput {
     static func write(value: PutMetricFilterInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["applyOnTransformedLogs"].write(value.applyOnTransformedLogs)
+        try writer["emitSystemFieldDimensions"].writeList(value.emitSystemFieldDimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["fieldSelectionCriteria"].write(value.fieldSelectionCriteria)
         try writer["filterName"].write(value.filterName)
         try writer["filterPattern"].write(value.filterPattern)
         try writer["logGroupName"].write(value.logGroupName)
@@ -8514,6 +8548,8 @@ extension PutSubscriptionFilterInput {
         try writer["applyOnTransformedLogs"].write(value.applyOnTransformedLogs)
         try writer["destinationArn"].write(value.destinationArn)
         try writer["distribution"].write(value.distribution)
+        try writer["emitSystemFields"].writeList(value.emitSystemFields, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["fieldSelectionCriteria"].write(value.fieldSelectionCriteria)
         try writer["filterName"].write(value.filterName)
         try writer["filterPattern"].write(value.filterPattern)
         try writer["logGroupName"].write(value.logGroupName)
@@ -11746,6 +11782,8 @@ extension CloudWatchLogsClientTypes.MetricFilter {
         value.creationTime = try reader["creationTime"].readIfPresent()
         value.logGroupName = try reader["logGroupName"].readIfPresent()
         value.applyOnTransformedLogs = try reader["applyOnTransformedLogs"].readIfPresent() ?? false
+        value.fieldSelectionCriteria = try reader["fieldSelectionCriteria"].readIfPresent()
+        value.emitSystemFieldDimensions = try reader["emitSystemFieldDimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11833,6 +11871,8 @@ extension CloudWatchLogsClientTypes.SubscriptionFilter {
         value.distribution = try reader["distribution"].readIfPresent()
         value.applyOnTransformedLogs = try reader["applyOnTransformedLogs"].readIfPresent() ?? false
         value.creationTime = try reader["creationTime"].readIfPresent()
+        value.fieldSelectionCriteria = try reader["fieldSelectionCriteria"].readIfPresent()
+        value.emitSystemFields = try reader["emitSystemFields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

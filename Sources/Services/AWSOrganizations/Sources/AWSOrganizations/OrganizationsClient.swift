@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OrganizationsClient: ClientRuntime.Client {
     public static let clientName = "OrganizationsClient"
-    public static let version = "1.5.33"
+    public static let version = "1.5.48"
     let client: ClientRuntime.SdkHttpClient
     let config: OrganizationsClient.OrganizationsClientConfiguration
     let serviceName = "Organizations"
@@ -4549,7 +4549,7 @@ extension OrganizationsClient {
 
     /// Performs the `DisablePolicyType` operation on the `Organizations` service.
     ///
-    /// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the [EnablePolicyType] operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a root, it still appears enabled for the organization if [all features](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) are enabled for the organization. Amazon Web Services recommends that you first use [ListRoots] to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's management account or by a member account that is a delegated administrator. To view the status of available policy types in the organization, use [DescribeOrganization].
+    /// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the [EnablePolicyType] operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a root, it still appears enabled for the organization if [all features](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) are enabled for the organization. Amazon Web Services recommends that you first use [ListRoots] to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's management account or by a member account that is a delegated administrator. To view the status of available policy types in the organization, use [ListRoots].
     ///
     /// - Parameter DisablePolicyTypeInput : [no documentation found]
     ///
@@ -5188,7 +5188,7 @@ extension OrganizationsClient {
 
     /// Performs the `EnablePolicyType` operation on the `Organizations` service.
     ///
-    /// Enables a policy type in a root. After you enable a policy type in a root, you can attach policies of that type to the root, any organizational unit (OU), or account in that root. You can undo this by using the [DisablePolicyType] operation. This is an asynchronous request that Amazon Web Services performs in the background. Amazon Web Services recommends that you first use [ListRoots] to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's management account or by a member account that is a delegated administrator. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use [DescribeOrganization].
+    /// Enables a policy type in a root. After you enable a policy type in a root, you can attach policies of that type to the root, any organizational unit (OU), or account in that root. You can undo this by using the [DisablePolicyType] operation. This is an asynchronous request that Amazon Web Services performs in the background. Amazon Web Services recommends that you first use [ListRoots] to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's management account or by a member account that is a delegated administrator. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use [ListRoots].
     ///
     /// - Parameter EnablePolicyTypeInput : [no documentation found]
     ///
