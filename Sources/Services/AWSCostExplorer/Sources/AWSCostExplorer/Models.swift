@@ -899,6 +899,7 @@ extension CostExplorerClientTypes {
         case linkedAccountName
         case operatingSystem
         case operation
+        case payerAccount
         case paymentOption
         case platform
         case purchaseType
@@ -937,6 +938,7 @@ extension CostExplorerClientTypes {
                 .linkedAccountName,
                 .operatingSystem,
                 .operation,
+                .payerAccount,
                 .paymentOption,
                 .platform,
                 .purchaseType,
@@ -981,6 +983,7 @@ extension CostExplorerClientTypes {
             case .linkedAccountName: return "LINKED_ACCOUNT_NAME"
             case .operatingSystem: return "OPERATING_SYSTEM"
             case .operation: return "OPERATION"
+            case .payerAccount: return "PAYER_ACCOUNT"
             case .paymentOption: return "PAYMENT_OPTION"
             case .platform: return "PLATFORM"
             case .purchaseType: return "PURCHASE_TYPE"
@@ -2102,6 +2105,29 @@ public struct BillExpirationException: ClientRuntime.ModeledError, AWSClientRunt
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "BillExpirationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
+public struct BillingViewHealthStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BillingViewHealthStatusException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -9570,6 +9596,7 @@ enum GetCostAndUsageOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillExpirationException": return try BillExpirationException.makeError(baseError: baseError)
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -9588,6 +9615,7 @@ enum GetCostAndUsageComparisonsOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -9606,6 +9634,7 @@ enum GetCostAndUsageWithResourcesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillExpirationException": return try BillExpirationException.makeError(baseError: baseError)
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -9625,6 +9654,7 @@ enum GetCostCategoriesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillExpirationException": return try BillExpirationException.makeError(baseError: baseError)
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -9643,6 +9673,7 @@ enum GetCostComparisonDriversOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -9660,6 +9691,7 @@ enum GetCostForecastOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -9677,6 +9709,7 @@ enum GetDimensionValuesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillExpirationException": return try BillExpirationException.makeError(baseError: baseError)
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -9836,6 +9869,7 @@ enum GetTagsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillExpirationException": return try BillExpirationException.makeError(baseError: baseError)
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -9854,6 +9888,7 @@ enum GetUsageForecastOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -10219,6 +10254,19 @@ extension BillExpirationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BillExpirationException {
         let reader = baseError.errorBodyReader
         var value = BillExpirationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BillingViewHealthStatusException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BillingViewHealthStatusException {
+        let reader = baseError.errorBodyReader
+        var value = BillingViewHealthStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

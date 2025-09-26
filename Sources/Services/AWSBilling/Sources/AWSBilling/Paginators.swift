@@ -32,7 +32,8 @@ extension ListBillingViewsInput: ClientRuntime.PaginateToken {
             billingViewTypes: self.billingViewTypes,
             maxResults: self.maxResults,
             nextToken: token,
-            ownerAccountId: self.ownerAccountId
+            ownerAccountId: self.ownerAccountId,
+            sourceAccountId: self.sourceAccountId
         )}
 }
 

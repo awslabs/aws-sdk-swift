@@ -5887,6 +5887,10 @@ public struct CreateRedshiftIdcApplicationInput: Swift.Sendable {
     public var redshiftIdcApplicationName: Swift.String?
     /// A collection of service integrations for the Redshift IAM Identity Center application.
     public var serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]?
+    /// A list of tags keys that Redshift Identity Center applications copy to IAM Identity Center. For each input key, the tag corresponding to the key-value pair is propagated.
+    public var ssoTagKeys: [Swift.String]?
+    /// A list of tags.
+    public var tags: [RedshiftClientTypes.Tag]?
 
     public init(
         authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]? = nil,
@@ -5895,7 +5899,9 @@ public struct CreateRedshiftIdcApplicationInput: Swift.Sendable {
         idcInstanceArn: Swift.String? = nil,
         identityNamespace: Swift.String? = nil,
         redshiftIdcApplicationName: Swift.String? = nil,
-        serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]? = nil
+        serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]? = nil,
+        ssoTagKeys: [Swift.String]? = nil,
+        tags: [RedshiftClientTypes.Tag]? = nil
     ) {
         self.authorizedTokenIssuerList = authorizedTokenIssuerList
         self.iamRoleArn = iamRoleArn
@@ -5904,6 +5910,8 @@ public struct CreateRedshiftIdcApplicationInput: Swift.Sendable {
         self.identityNamespace = identityNamespace
         self.redshiftIdcApplicationName = redshiftIdcApplicationName
         self.serviceIntegrations = serviceIntegrations
+        self.ssoTagKeys = ssoTagKeys
+        self.tags = tags
     }
 }
 
@@ -5931,6 +5939,10 @@ extension RedshiftClientTypes {
         public var redshiftIdcApplicationName: Swift.String?
         /// A list of service integrations for the Redshift IAM Identity Center application.
         public var serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]?
+        /// A list of tags keys that Redshift Identity Center applications copy to IAM Identity Center. For each input key, the tag corresponding to the key-value pair is propagated.
+        public var ssoTagKeys: [Swift.String]?
+        /// A list of tags.
+        public var tags: [RedshiftClientTypes.Tag]?
 
         public init(
             authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]? = nil,
@@ -5942,7 +5954,9 @@ extension RedshiftClientTypes {
             identityNamespace: Swift.String? = nil,
             redshiftIdcApplicationArn: Swift.String? = nil,
             redshiftIdcApplicationName: Swift.String? = nil,
-            serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]? = nil
+            serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]? = nil,
+            ssoTagKeys: [Swift.String]? = nil,
+            tags: [RedshiftClientTypes.Tag]? = nil
         ) {
             self.authorizedTokenIssuerList = authorizedTokenIssuerList
             self.iamRoleArn = iamRoleArn
@@ -5954,6 +5968,8 @@ extension RedshiftClientTypes {
             self.redshiftIdcApplicationArn = redshiftIdcApplicationArn
             self.redshiftIdcApplicationName = redshiftIdcApplicationName
             self.serviceIntegrations = serviceIntegrations
+            self.ssoTagKeys = ssoTagKeys
+            self.tags = tags
         }
     }
 }
@@ -15177,6 +15193,8 @@ extension CreateRedshiftIdcApplicationInput {
         try writer["IdentityNamespace"].write(value.identityNamespace)
         try writer["RedshiftIdcApplicationName"].write(value.redshiftIdcApplicationName)
         try writer["ServiceIntegrations"].writeList(value.serviceIntegrations, memberWritingClosure: RedshiftClientTypes.ServiceIntegrationsUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SsoTagKeys"].writeList(value.ssoTagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "TagKey", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: RedshiftClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["Action"].write("CreateRedshiftIdcApplication")
         try writer["Version"].write("2012-12-01")
     }
@@ -18953,8 +18971,10 @@ enum CreateRedshiftIdcApplicationOutputError {
         switch baseError.code {
             case "DependentServiceAccessDenied": return try DependentServiceAccessDeniedFault.makeError(baseError: baseError)
             case "DependentServiceUnavailableFault": return try DependentServiceUnavailableFault.makeError(baseError: baseError)
+            case "InvalidTagFault": return try InvalidTagFault.makeError(baseError: baseError)
             case "RedshiftIdcApplicationAlreadyExists": return try RedshiftIdcApplicationAlreadyExistsFault.makeError(baseError: baseError)
             case "RedshiftIdcApplicationQuotaExceeded": return try RedshiftIdcApplicationQuotaExceededFault.makeError(baseError: baseError)
+            case "TagLimitExceededFault": return try TagLimitExceededFault.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -23352,6 +23372,8 @@ extension RedshiftClientTypes.RedshiftIdcApplication {
         value.idcOnboardStatus = try reader["IdcOnboardStatus"].readIfPresent()
         value.authorizedTokenIssuerList = try reader["AuthorizedTokenIssuerList"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.AuthorizedTokenIssuer.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.serviceIntegrations = try reader["ServiceIntegrations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.ServiceIntegrationsUnion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.ssoTagKeys = try reader["SsoTagKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "TagKey", isFlattened: false)
         return value
     }
 }

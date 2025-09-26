@@ -1928,6 +1928,33 @@ public struct AssociateBotInput: Swift.Sendable {
     }
 }
 
+public struct AssociateContactWithUserInput: Swift.Sendable {
+    /// The identifier of the contact in this instance of Amazon Connect.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier for the user. This can be the ID or the ARN of the user.
+    /// This member is required.
+    public var userId: Swift.String?
+
+    public init(
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.contactId = contactId
+        self.instanceId = instanceId
+        self.userId = userId
+    }
+}
+
+public struct AssociateContactWithUserOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension ConnectClientTypes {
 
     public enum VocabularyLanguageCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -2566,6 +2593,22 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Contains information about the queue and channel for manual assignment behaviour can be enabled.
+    public struct RoutingProfileManualAssignmentQueueConfig: Swift.Sendable {
+        /// Contains the channel and queue identifier for a routing profile.
+        /// This member is required.
+        public var queueReference: ConnectClientTypes.RoutingProfileQueueReference?
+
+        public init(
+            queueReference: ConnectClientTypes.RoutingProfileQueueReference? = nil
+        ) {
+            self.queueReference = queueReference
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Contains information about the queue and channel for which priority and delay can be set.
     public struct RoutingProfileQueueConfig: Swift.Sendable {
         /// The delay, in seconds, a contact should be in the queue before they are routed to an available agent. For more information, see [Queues: priority and delay](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html) in the Amazon Connect Administrator Guide.
@@ -2594,8 +2637,9 @@ public struct AssociateRoutingProfileQueuesInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
+    /// The manual assignment queues to associate with this routing profile.
+    public var manualAssignmentQueueConfigs: [ConnectClientTypes.RoutingProfileManualAssignmentQueueConfig]?
     /// The queues to associate with this routing profile.
-    /// This member is required.
     public var queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]?
     /// The identifier of the routing profile.
     /// This member is required.
@@ -2603,10 +2647,12 @@ public struct AssociateRoutingProfileQueuesInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil,
+        manualAssignmentQueueConfigs: [ConnectClientTypes.RoutingProfileManualAssignmentQueueConfig]? = nil,
         queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]? = nil,
         routingProfileId: Swift.String? = nil
     ) {
         self.instanceId = instanceId
+        self.manualAssignmentQueueConfigs = manualAssignmentQueueConfigs
         self.queueConfigs = queueConfigs
         self.routingProfileId = routingProfileId
     }
@@ -5889,6 +5935,8 @@ public struct CreateRoutingProfileInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
+    /// The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Amazon Connect service quotas.
+    public var manualAssignmentQueueConfigs: [ConnectClientTypes.RoutingProfileManualAssignmentQueueConfig]?
     /// The channels that agents can handle in the Contact Control Panel (CCP) for this routing profile.
     /// This member is required.
     public var mediaConcurrencies: [ConnectClientTypes.MediaConcurrency]?
@@ -5905,6 +5953,7 @@ public struct CreateRoutingProfileInput: Swift.Sendable {
         defaultOutboundQueueId: Swift.String? = nil,
         description: Swift.String? = nil,
         instanceId: Swift.String? = nil,
+        manualAssignmentQueueConfigs: [ConnectClientTypes.RoutingProfileManualAssignmentQueueConfig]? = nil,
         mediaConcurrencies: [ConnectClientTypes.MediaConcurrency]? = nil,
         name: Swift.String? = nil,
         queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]? = nil,
@@ -5914,6 +5963,7 @@ public struct CreateRoutingProfileInput: Swift.Sendable {
         self.defaultOutboundQueueId = defaultOutboundQueueId
         self.description = description
         self.instanceId = instanceId
+        self.manualAssignmentQueueConfigs = manualAssignmentQueueConfigs
         self.mediaConcurrencies = mediaConcurrencies
         self.name = name
         self.queueConfigs = queueConfigs
@@ -11655,6 +11705,8 @@ extension ConnectClientTypes {
     public struct RoutingProfile: Swift.Sendable {
         /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time.
         public var agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer?
+        /// The IDs of the associated manual assignment queues.
+        public var associatedManualAssignmentQueueIds: [Swift.String]?
         /// The IDs of the associated queue.
         public var associatedQueueIds: [Swift.String]?
         /// The identifier of the default outbound queue for this routing profile.
@@ -11673,6 +11725,8 @@ extension ConnectClientTypes {
         public var mediaConcurrencies: [ConnectClientTypes.MediaConcurrency]?
         /// The name of the routing profile.
         public var name: Swift.String?
+        /// The number of associated manual assignment queues in routing profile.
+        public var numberOfAssociatedManualAssignmentQueues: Swift.Int?
         /// The number of associated queues in routing profile.
         public var numberOfAssociatedQueues: Swift.Int?
         /// The number of associated users in routing profile.
@@ -11686,6 +11740,7 @@ extension ConnectClientTypes {
 
         public init(
             agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer? = nil,
+            associatedManualAssignmentQueueIds: [Swift.String]? = nil,
             associatedQueueIds: [Swift.String]? = nil,
             defaultOutboundQueueId: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -11695,6 +11750,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             mediaConcurrencies: [ConnectClientTypes.MediaConcurrency]? = nil,
             name: Swift.String? = nil,
+            numberOfAssociatedManualAssignmentQueues: Swift.Int? = nil,
             numberOfAssociatedQueues: Swift.Int? = nil,
             numberOfAssociatedUsers: Swift.Int? = nil,
             routingProfileArn: Swift.String? = nil,
@@ -11702,6 +11758,7 @@ extension ConnectClientTypes {
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.agentAvailabilityTimer = agentAvailabilityTimer
+            self.associatedManualAssignmentQueueIds = associatedManualAssignmentQueueIds
             self.associatedQueueIds = associatedQueueIds
             self.defaultOutboundQueueId = defaultOutboundQueueId
             self.description = description
@@ -11711,6 +11768,7 @@ extension ConnectClientTypes {
             self.lastModifiedTime = lastModifiedTime
             self.mediaConcurrencies = mediaConcurrencies
             self.name = name
+            self.numberOfAssociatedManualAssignmentQueues = numberOfAssociatedManualAssignmentQueues
             self.numberOfAssociatedQueues = numberOfAssociatedQueues
             self.numberOfAssociatedUsers = numberOfAssociatedUsers
             self.routingProfileArn = routingProfileArn
@@ -12659,8 +12717,9 @@ public struct DisassociateRoutingProfileQueuesInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
+    /// The manual assignment queues to disassociate with this routing profile.
+    public var manualAssignmentQueueReferences: [ConnectClientTypes.RoutingProfileQueueReference]?
     /// The queues to disassociate from this routing profile.
-    /// This member is required.
     public var queueReferences: [ConnectClientTypes.RoutingProfileQueueReference]?
     /// The identifier of the routing profile.
     /// This member is required.
@@ -12668,10 +12727,12 @@ public struct DisassociateRoutingProfileQueuesInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil,
+        manualAssignmentQueueReferences: [ConnectClientTypes.RoutingProfileQueueReference]? = nil,
         queueReferences: [ConnectClientTypes.RoutingProfileQueueReference]? = nil,
         routingProfileId: Swift.String? = nil
     ) {
         self.instanceId = instanceId
+        self.manualAssignmentQueueReferences = manualAssignmentQueueReferences
         self.queueReferences = queueReferences
         self.routingProfileId = routingProfileId
     }
@@ -17688,6 +17749,85 @@ public struct ListRealtimeContactAnalysisSegmentsV2Output: Swift.Sendable {
     }
 }
 
+public struct ListRoutingProfileManualAssignmentQueuesInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The identifier of the routing profile.
+    /// This member is required.
+    public var routingProfileId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        routingProfileId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.routingProfileId = routingProfileId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains summary information about a routing profile manual assignment queue.
+    public struct RoutingProfileManualAssignmentQueueConfigSummary: Swift.Sendable {
+        /// The channels this queue supports. Valid Values: CHAT | TASK | EMAIL
+        /// This member is required.
+        public var channel: ConnectClientTypes.Channel?
+        /// The Amazon Resource Name (ARN) of the queue.
+        /// This member is required.
+        public var queueArn: Swift.String?
+        /// The identifier for the queue.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The name of the queue.
+        /// This member is required.
+        public var queueName: Swift.String?
+
+        public init(
+            channel: ConnectClientTypes.Channel? = nil,
+            queueArn: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            queueName: Swift.String? = nil
+        ) {
+            self.channel = channel
+            self.queueArn = queueArn
+            self.queueId = queueId
+            self.queueName = queueName
+        }
+    }
+}
+
+public struct ListRoutingProfileManualAssignmentQueuesOutput: Swift.Sendable {
+    /// The Amazon Web Services Region where this resource was last modified.
+    public var lastModifiedRegion: Swift.String?
+    /// The timestamp when this resource was last modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// Information about the manual assignment queues associated with the routing profile.
+    public var routingProfileManualAssignmentQueueConfigSummaryList: [ConnectClientTypes.RoutingProfileManualAssignmentQueueConfigSummary]?
+
+    public init(
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil,
+        routingProfileManualAssignmentQueueConfigSummaryList: [ConnectClientTypes.RoutingProfileManualAssignmentQueueConfigSummary]? = nil
+    ) {
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
+        self.nextToken = nextToken
+        self.routingProfileManualAssignmentQueueConfigSummaryList = routingProfileManualAssignmentQueueConfigSummaryList
+    }
+}
+
 public struct ListRoutingProfileQueuesInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -19218,15 +19358,149 @@ public struct SearchContactFlowsOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    public enum SearchContactsTimeRangeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case connectedToAgentTimestamp
+        case disconnectTimestamp
+        case enqueueTimestamp
+        case initiationTimestamp
+        case scheduledTimestamp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchContactsTimeRangeType] {
+            return [
+                .connectedToAgentTimestamp,
+                .disconnectTimestamp,
+                .enqueueTimestamp,
+                .initiationTimestamp,
+                .scheduledTimestamp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connectedToAgentTimestamp: return "CONNECTED_TO_AGENT_TIMESTAMP"
+            case .disconnectTimestamp: return "DISCONNECT_TIMESTAMP"
+            case .enqueueTimestamp: return "ENQUEUE_TIMESTAMP"
+            case .initiationTimestamp: return "INITIATION_TIMESTAMP"
+            case .scheduledTimestamp: return "SCHEDULED_TIMESTAMP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A structure of time range that you want to search results.
+    public struct SearchContactsTimeRange: Swift.Sendable {
+        /// The end time of the time range.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// The start time of the time range.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+        /// The type of timestamp to search.
+        /// This member is required.
+        public var type: ConnectClientTypes.SearchContactsTimeRangeType?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil,
+            type: ConnectClientTypes.SearchContactsTimeRangeType? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
+            self.type = type
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum SearchContactsTimeRangeConditionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notExists
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchContactsTimeRangeConditionType] {
+            return [
+                .notExists
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notExists: return "NOT_EXISTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The timestamp condition indicating which timestamp should be used and how it should be filtered.
+    public struct SearchContactsTimestampCondition: Swift.Sendable {
+        /// Condition of the timestamp on the contact.
+        /// This member is required.
+        public var conditionType: ConnectClientTypes.SearchContactsTimeRangeConditionType?
+        /// Type of the timestamps to use for the filter.
+        /// This member is required.
+        public var type: ConnectClientTypes.SearchContactsTimeRangeType?
+
+        public init(
+            conditionType: ConnectClientTypes.SearchContactsTimeRangeConditionType? = nil,
+            type: ConnectClientTypes.SearchContactsTimeRangeType? = nil
+        ) {
+            self.conditionType = conditionType
+            self.type = type
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The criteria of the time range to additionally filter on.
+    public struct SearchContactsAdditionalTimeRangeCriteria: Swift.Sendable {
+        /// A structure of time range that you want to search results.
+        public var timeRange: ConnectClientTypes.SearchContactsTimeRange?
+        /// List of the timestamp conditions.
+        public var timestampCondition: ConnectClientTypes.SearchContactsTimestampCondition?
+
+        public init(
+            timeRange: ConnectClientTypes.SearchContactsTimeRange? = nil,
+            timestampCondition: ConnectClientTypes.SearchContactsTimestampCondition? = nil
+        ) {
+            self.timeRange = timeRange
+            self.timestampCondition = timestampCondition
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum SearchContactsMatchType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case matchAll
         case matchAny
+        case matchExact
+        case matchNone
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SearchContactsMatchType] {
             return [
                 .matchAll,
-                .matchAny
+                .matchAny,
+                .matchExact,
+                .matchNone
             ]
         }
 
@@ -19239,8 +19513,31 @@ extension ConnectClientTypes {
             switch self {
             case .matchAll: return "MATCH_ALL"
             case .matchAny: return "MATCH_ANY"
+            case .matchExact: return "MATCH_EXACT"
+            case .matchNone: return "MATCH_NONE"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Time range that you additionally want to filter on.
+    public struct SearchContactsAdditionalTimeRange: Swift.Sendable {
+        /// List of criteria of the time range to additionally filter on.
+        /// This member is required.
+        public var criteria: [ConnectClientTypes.SearchContactsAdditionalTimeRangeCriteria]?
+        /// The match type combining multiple time range filters.
+        /// This member is required.
+        public var matchType: ConnectClientTypes.SearchContactsMatchType?
+
+        public init(
+            criteria: [ConnectClientTypes.SearchContactsAdditionalTimeRangeCriteria]? = nil,
+            matchType: ConnectClientTypes.SearchContactsMatchType? = nil
+        ) {
+            self.criteria = criteria
+            self.matchType = matchType
         }
     }
 }
@@ -19307,6 +19604,81 @@ extension ConnectClientTypes {
             transcript: ConnectClientTypes.Transcript? = nil
         ) {
             self.transcript = transcript
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The search criteria based on the contact name
+    public struct NameCriteria: Swift.Sendable {
+        /// The match type combining name search criteria using multiple search texts in a name criteria.
+        /// This member is required.
+        public var matchType: ConnectClientTypes.SearchContactsMatchType?
+        /// The words or phrases used to match the contact name.
+        /// This member is required.
+        public var searchText: [Swift.String]?
+
+        public init(
+            matchType: ConnectClientTypes.SearchContactsMatchType? = nil,
+            searchText: [Swift.String]? = nil
+        ) {
+            self.matchType = matchType
+            self.searchText = searchText
+        }
+    }
+}
+
+extension ConnectClientTypes.NameCriteria: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "NameCriteria(matchType: \(Swift.String(describing: matchType)), searchText: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectClientTypes {
+
+    /// The agent criteria to search for preferred agents on the routing criteria.
+    public struct SearchableAgentCriteriaStep: Swift.Sendable {
+        /// The identifiers of agents used in preferred agents matching.
+        public var agentIds: [Swift.String]?
+        /// The match type combining multiple agent criteria steps.
+        public var matchType: ConnectClientTypes.SearchContactsMatchType?
+
+        public init(
+            agentIds: [Swift.String]? = nil,
+            matchType: ConnectClientTypes.SearchContactsMatchType? = nil
+        ) {
+            self.agentIds = agentIds
+            self.matchType = matchType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Routing criteria of the contact to match on.
+    public struct SearchableRoutingCriteriaStep: Swift.Sendable {
+        /// Agent matching the routing step of the routing criteria
+        public var agentCriteria: ConnectClientTypes.SearchableAgentCriteriaStep?
+
+        public init(
+            agentCriteria: ConnectClientTypes.SearchableAgentCriteriaStep? = nil
+        ) {
+            self.agentCriteria = agentCriteria
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Routing criteria of the contact to match on.
+    public struct SearchableRoutingCriteria: Swift.Sendable {
+        /// The list of Routing criteria steps of the contact routing.
+        public var steps: [ConnectClientTypes.SearchableRoutingCriteriaStep]?
+
+        public init(
+            steps: [ConnectClientTypes.SearchableRoutingCriteriaStep]? = nil
+        ) {
+            self.steps = steps
         }
     }
 }
@@ -19407,6 +19779,8 @@ extension ConnectClientTypes {
 
     /// A structure of search criteria to be used to return contacts.
     public struct SearchCriteria: Swift.Sendable {
+        /// Additional TimeRange used to filter contacts.
+        public var additionalTimeRange: ConnectClientTypes.SearchContactsAdditionalTimeRange?
         /// The agent hierarchy groups of the agent at the time of handling the contact.
         public var agentHierarchyGroups: ConnectClientTypes.AgentHierarchyGroups?
         /// The identifiers of agents who handled the contacts.
@@ -19417,29 +19791,39 @@ extension ConnectClientTypes {
         public var contactAnalysis: ConnectClientTypes.ContactAnalysis?
         /// The list of initiation methods associated with contacts.
         public var initiationMethods: [ConnectClientTypes.ContactInitiationMethod]?
+        /// Name of the contact.
+        public var name: ConnectClientTypes.NameCriteria?
         /// The list of queue IDs associated with contacts.
         public var queueIds: [Swift.String]?
+        /// Routing criteria for the contact.
+        public var routingCriteria: ConnectClientTypes.SearchableRoutingCriteria?
         /// The search criteria based on user-defined contact attributes that have been configured for contact search. For more information, see [Search by custom contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/search-custom-attributes.html) in the Amazon Connect Administrator Guide. To use SearchableContactAttributes in a search request, the GetContactAttributes action is required to perform an API request. For more information, see [https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions)Actions defined by Amazon Connect.
         public var searchableContactAttributes: ConnectClientTypes.SearchableContactAttributes?
         /// The search criteria based on searchable segment attributes of a contact.
         public var searchableSegmentAttributes: ConnectClientTypes.SearchableSegmentAttributes?
 
         public init(
+            additionalTimeRange: ConnectClientTypes.SearchContactsAdditionalTimeRange? = nil,
             agentHierarchyGroups: ConnectClientTypes.AgentHierarchyGroups? = nil,
             agentIds: [Swift.String]? = nil,
             channels: [ConnectClientTypes.Channel]? = nil,
             contactAnalysis: ConnectClientTypes.ContactAnalysis? = nil,
             initiationMethods: [ConnectClientTypes.ContactInitiationMethod]? = nil,
+            name: ConnectClientTypes.NameCriteria? = nil,
             queueIds: [Swift.String]? = nil,
+            routingCriteria: ConnectClientTypes.SearchableRoutingCriteria? = nil,
             searchableContactAttributes: ConnectClientTypes.SearchableContactAttributes? = nil,
             searchableSegmentAttributes: ConnectClientTypes.SearchableSegmentAttributes? = nil
         ) {
+            self.additionalTimeRange = additionalTimeRange
             self.agentHierarchyGroups = agentHierarchyGroups
             self.agentIds = agentIds
             self.channels = channels
             self.contactAnalysis = contactAnalysis
             self.initiationMethods = initiationMethods
+            self.name = name
             self.queueIds = queueIds
+            self.routingCriteria = routingCriteria
             self.searchableContactAttributes = searchableContactAttributes
             self.searchableSegmentAttributes = searchableSegmentAttributes
         }
@@ -19452,6 +19836,7 @@ extension ConnectClientTypes {
         case channel
         case connectedToAgentTimestamp
         case disconnectTimestamp
+        case expiryTimestamp
         case initiationMethod
         case initiationTimestamp
         case scheduledTimestamp
@@ -19462,6 +19847,7 @@ extension ConnectClientTypes {
                 .channel,
                 .connectedToAgentTimestamp,
                 .disconnectTimestamp,
+                .expiryTimestamp,
                 .initiationMethod,
                 .initiationTimestamp,
                 .scheduledTimestamp
@@ -19478,6 +19864,7 @@ extension ConnectClientTypes {
             case .channel: return "CHANNEL"
             case .connectedToAgentTimestamp: return "CONNECTED_TO_AGENT_TIMESTAMP"
             case .disconnectTimestamp: return "DISCONNECT_TIMESTAMP"
+            case .expiryTimestamp: return "EXPIRY_TIMESTAMP"
             case .initiationMethod: return "INITIATION_METHOD"
             case .initiationTimestamp: return "INITIATION_TIMESTAMP"
             case .scheduledTimestamp: return "SCHEDULED_TIMESTAMP"
@@ -19504,67 +19891,6 @@ extension ConnectClientTypes {
         ) {
             self.fieldName = fieldName
             self.order = order
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    public enum SearchContactsTimeRangeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case connectedToAgentTimestamp
-        case disconnectTimestamp
-        case initiationTimestamp
-        case scheduledTimestamp
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SearchContactsTimeRangeType] {
-            return [
-                .connectedToAgentTimestamp,
-                .disconnectTimestamp,
-                .initiationTimestamp,
-                .scheduledTimestamp
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .connectedToAgentTimestamp: return "CONNECTED_TO_AGENT_TIMESTAMP"
-            case .disconnectTimestamp: return "DISCONNECT_TIMESTAMP"
-            case .initiationTimestamp: return "INITIATION_TIMESTAMP"
-            case .scheduledTimestamp: return "SCHEDULED_TIMESTAMP"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    /// A structure of time range that you want to search results.
-    public struct SearchContactsTimeRange: Swift.Sendable {
-        /// The end time of the time range.
-        /// This member is required.
-        public var endTime: Foundation.Date?
-        /// The start time of the time range.
-        /// This member is required.
-        public var startTime: Foundation.Date?
-        /// The type of timestamp to search.
-        /// This member is required.
-        public var type: ConnectClientTypes.SearchContactsTimeRangeType?
-
-        public init(
-            endTime: Foundation.Date? = nil,
-            startTime: Foundation.Date? = nil,
-            type: ConnectClientTypes.SearchContactsTimeRangeType? = nil
-        ) {
-            self.endTime = endTime
-            self.startTime = startTime
-            self.type = type
         }
     }
 }
@@ -19637,105 +19963,6 @@ extension ConnectClientTypes {
             self.enqueueTimestamp = enqueueTimestamp
             self.id = id
         }
-    }
-}
-
-extension ConnectClientTypes {
-
-    /// The value of a segment attribute. This is structured as a map with a single key-value pair. The key 'valueString' indicates that the attribute type is a string, and its corresponding value is the actual string value of the segment attribute.
-    public struct ContactSearchSummarySegmentAttributeValue: Swift.Sendable {
-        /// The value of a segment attribute represented as a string.
-        public var valueString: Swift.String?
-
-        public init(
-            valueString: Swift.String? = nil
-        ) {
-            self.valueString = valueString
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    /// Information of returned contact.
-    public struct ContactSearchSummary: Swift.Sendable {
-        /// Information about the agent who accepted the contact.
-        public var agentInfo: ConnectClientTypes.ContactSearchSummaryAgentInfo?
-        /// The Amazon Resource Name (ARN) of the contact.
-        public var arn: Swift.String?
-        /// How the contact reached your contact center.
-        public var channel: ConnectClientTypes.Channel?
-        /// The timestamp when the customer endpoint disconnected from Amazon Connect.
-        public var disconnectTimestamp: Foundation.Date?
-        /// The identifier of the contact summary.
-        public var id: Swift.String?
-        /// If this contact is related to other contacts, this is the ID of the initial contact.
-        public var initialContactId: Swift.String?
-        /// Indicates how the contact was initiated.
-        public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
-        /// The date and time this contact was initiated, in UTC time. For INBOUND, this is when the contact arrived. For OUTBOUND, this is when the agent began dialing. For CALLBACK, this is when the callback contact was created. For TRANSFER and QUEUE_TRANSFER, this is when the transfer was initiated. For API, this is when the request arrived. For EXTERNAL_OUTBOUND, this is when the agent started dialing the external participant. For MONITOR, this is when the supervisor started listening to a contact.
-        public var initiationTimestamp: Foundation.Date?
-        /// If this contact is not the first contact, this is the ID of the previous contact.
-        public var previousContactId: Swift.String?
-        /// If this contact was queued, this contains information about the queue.
-        public var queueInfo: ConnectClientTypes.ContactSearchSummaryQueueInfo?
-        /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
-        public var scheduledTimestamp: Foundation.Date?
-        /// Set of segment attributes for a contact.
-        public var segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]?
-
-        public init(
-            agentInfo: ConnectClientTypes.ContactSearchSummaryAgentInfo? = nil,
-            arn: Swift.String? = nil,
-            channel: ConnectClientTypes.Channel? = nil,
-            disconnectTimestamp: Foundation.Date? = nil,
-            id: Swift.String? = nil,
-            initialContactId: Swift.String? = nil,
-            initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
-            initiationTimestamp: Foundation.Date? = nil,
-            previousContactId: Swift.String? = nil,
-            queueInfo: ConnectClientTypes.ContactSearchSummaryQueueInfo? = nil,
-            scheduledTimestamp: Foundation.Date? = nil,
-            segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]? = nil
-        ) {
-            self.agentInfo = agentInfo
-            self.arn = arn
-            self.channel = channel
-            self.disconnectTimestamp = disconnectTimestamp
-            self.id = id
-            self.initialContactId = initialContactId
-            self.initiationMethod = initiationMethod
-            self.initiationTimestamp = initiationTimestamp
-            self.previousContactId = previousContactId
-            self.queueInfo = queueInfo
-            self.scheduledTimestamp = scheduledTimestamp
-            self.segmentAttributes = segmentAttributes
-        }
-    }
-}
-
-extension ConnectClientTypes.ContactSearchSummary: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "ContactSearchSummary(agentInfo: \(Swift.String(describing: agentInfo)), arn: \(Swift.String(describing: arn)), channel: \(Swift.String(describing: channel)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), queueInfo: \(Swift.String(describing: queueInfo)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \"CONTENT_REDACTED\")"}
-}
-
-public struct SearchContactsOutput: Swift.Sendable {
-    /// Information about the contacts.
-    /// This member is required.
-    public var contacts: [ConnectClientTypes.ContactSearchSummary]?
-    /// If there are additional results, this is the token for the next set of results.
-    public var nextToken: Swift.String?
-    /// The total number of contacts which matched your search query.
-    public var totalCount: Swift.Int?
-
-    public init(
-        contacts: [ConnectClientTypes.ContactSearchSummary]? = nil,
-        nextToken: Swift.String? = nil,
-        totalCount: Swift.Int? = nil
-    ) {
-        self.contacts = contacts
-        self.nextToken = nextToken
-        self.totalCount = totalCount
     }
 }
 
@@ -22299,7 +22526,7 @@ public struct StartWebRTCContactOutput: Swift.Sendable {
     }
 }
 
-/// The contact with the specified ID is not active or does not exist. Applies to Voice calls only, not to Chat or Task contacts.
+/// The contact with the specified ID is not active or does not exist.
 public struct ContactNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -25513,6 +25740,25 @@ public struct SearchUsersInput: Swift.Sendable {
     }
 }
 
+extension ConnectClientTypes {
+
+    /// The value of a segment attribute. This is structured as a map with a single key-value pair. The key 'valueString' indicates that the attribute type is a string, and its corresponding value is the actual string value of the segment attribute.
+    public struct ContactSearchSummarySegmentAttributeValue: Swift.Sendable {
+        /// The key and value of a segment attribute.
+        public var valueMap: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+        /// The value of a segment attribute represented as a string.
+        public var valueString: Swift.String?
+
+        public init(
+            valueMap: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+            valueString: Swift.String? = nil
+        ) {
+            self.valueMap = valueMap
+            self.valueString = valueString
+        }
+    }
+}
+
 public struct CreateContactInput: Swift.Sendable {
     /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String: Swift.String]?
@@ -26186,6 +26432,78 @@ extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
         "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), chatMetrics: \(Swift.String(describing: chatMetrics)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
+extension ConnectClientTypes {
+
+    /// Information of returned contact.
+    public struct ContactSearchSummary: Swift.Sendable {
+        /// Information about the agent who accepted the contact.
+        public var agentInfo: ConnectClientTypes.ContactSearchSummaryAgentInfo?
+        /// The Amazon Resource Name (ARN) of the contact.
+        public var arn: Swift.String?
+        /// How the contact reached your contact center.
+        public var channel: ConnectClientTypes.Channel?
+        /// The timestamp when the customer endpoint disconnected from Amazon Connect.
+        public var disconnectTimestamp: Foundation.Date?
+        /// The identifier of the contact summary.
+        public var id: Swift.String?
+        /// If this contact is related to other contacts, this is the ID of the initial contact.
+        public var initialContactId: Swift.String?
+        /// Indicates how the contact was initiated.
+        public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
+        /// The date and time this contact was initiated, in UTC time. For INBOUND, this is when the contact arrived. For OUTBOUND, this is when the agent began dialing. For CALLBACK, this is when the callback contact was created. For TRANSFER and QUEUE_TRANSFER, this is when the transfer was initiated. For API, this is when the request arrived. For EXTERNAL_OUTBOUND, this is when the agent started dialing the external participant. For MONITOR, this is when the supervisor started listening to a contact.
+        public var initiationTimestamp: Foundation.Date?
+        /// Indicates name of the contact.
+        public var name: Swift.String?
+        /// If this contact is not the first contact, this is the ID of the previous contact.
+        public var previousContactId: Swift.String?
+        /// If this contact was queued, this contains information about the queue.
+        public var queueInfo: ConnectClientTypes.ContactSearchSummaryQueueInfo?
+        /// Latest routing criteria on the contact.
+        public var routingCriteria: ConnectClientTypes.RoutingCriteria?
+        /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
+        public var scheduledTimestamp: Foundation.Date?
+        /// Set of segment attributes for a contact.
+        public var segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]?
+
+        public init(
+            agentInfo: ConnectClientTypes.ContactSearchSummaryAgentInfo? = nil,
+            arn: Swift.String? = nil,
+            channel: ConnectClientTypes.Channel? = nil,
+            disconnectTimestamp: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            initialContactId: Swift.String? = nil,
+            initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
+            initiationTimestamp: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            previousContactId: Swift.String? = nil,
+            queueInfo: ConnectClientTypes.ContactSearchSummaryQueueInfo? = nil,
+            routingCriteria: ConnectClientTypes.RoutingCriteria? = nil,
+            scheduledTimestamp: Foundation.Date? = nil,
+            segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]? = nil
+        ) {
+            self.agentInfo = agentInfo
+            self.arn = arn
+            self.channel = channel
+            self.disconnectTimestamp = disconnectTimestamp
+            self.id = id
+            self.initialContactId = initialContactId
+            self.initiationMethod = initiationMethod
+            self.initiationTimestamp = initiationTimestamp
+            self.name = name
+            self.previousContactId = previousContactId
+            self.queueInfo = queueInfo
+            self.routingCriteria = routingCriteria
+            self.scheduledTimestamp = scheduledTimestamp
+            self.segmentAttributes = segmentAttributes
+        }
+    }
+}
+
+extension ConnectClientTypes.ContactSearchSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ContactSearchSummary(agentInfo: \(Swift.String(describing: agentInfo)), arn: \(Swift.String(describing: arn)), channel: \(Swift.String(describing: channel)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), queueInfo: \(Swift.String(describing: queueInfo)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), name: \"CONTENT_REDACTED\", segmentAttributes: \"CONTENT_REDACTED\")"}
+}
+
 public struct DescribeContactOutput: Swift.Sendable {
     /// Information about the contact.
     public var contact: ConnectClientTypes.Contact?
@@ -26194,6 +26512,26 @@ public struct DescribeContactOutput: Swift.Sendable {
         contact: ConnectClientTypes.Contact? = nil
     ) {
         self.contact = contact
+    }
+}
+
+public struct SearchContactsOutput: Swift.Sendable {
+    /// Information about the contacts.
+    /// This member is required.
+    public var contacts: [ConnectClientTypes.ContactSearchSummary]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// The total number of contacts which matched your search query.
+    public var totalCount: Swift.Int?
+
+    public init(
+        contacts: [ConnectClientTypes.ContactSearchSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        totalCount: Swift.Int? = nil
+    ) {
+        self.contacts = contacts
+        self.nextToken = nextToken
+        self.totalCount = totalCount
     }
 }
 
@@ -26237,6 +26575,19 @@ extension AssociateBotInput {
             return nil
         }
         return "/instance/\(instanceId.urlPercentEncoding())/bot"
+    }
+}
+
+extension AssociateContactWithUserInput {
+
+    static func urlPathProvider(_ value: AssociateContactWithUserInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactId = value.contactId else {
+            return nil
+        }
+        return "/contacts/\(instanceId.urlPercentEncoding())/\(contactId.urlPercentEncoding())/associate-user"
     }
 }
 
@@ -28909,6 +29260,35 @@ extension ListRealtimeContactAnalysisSegmentsV2Input {
     }
 }
 
+extension ListRoutingProfileManualAssignmentQueuesInput {
+
+    static func urlPathProvider(_ value: ListRoutingProfileManualAssignmentQueuesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let routingProfileId = value.routingProfileId else {
+            return nil
+        }
+        return "/routing-profiles/\(instanceId.urlPercentEncoding())/\(routingProfileId.urlPercentEncoding())/manual-assignment-queues"
+    }
+}
+
+extension ListRoutingProfileManualAssignmentQueuesInput {
+
+    static func queryItemProvider(_ value: ListRoutingProfileManualAssignmentQueuesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListRoutingProfileQueuesInput {
 
     static func urlPathProvider(_ value: ListRoutingProfileQueuesInput) -> Swift.String? {
@@ -30503,6 +30883,14 @@ extension AssociateBotInput {
     }
 }
 
+extension AssociateContactWithUserInput {
+
+    static func write(value: AssociateContactWithUserInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["UserId"].write(value.userId)
+    }
+}
+
 extension AssociateDefaultVocabularyInput {
 
     static func write(value: AssociateDefaultVocabularyInput?, to writer: SmithyJSON.Writer) throws {
@@ -30570,6 +30958,7 @@ extension AssociateRoutingProfileQueuesInput {
 
     static func write(value: AssociateRoutingProfileQueuesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ManualAssignmentQueueConfigs"].writeList(value.manualAssignmentQueueConfigs, memberWritingClosure: ConnectClientTypes.RoutingProfileManualAssignmentQueueConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["QueueConfigs"].writeList(value.queueConfigs, memberWritingClosure: ConnectClientTypes.RoutingProfileQueueConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -30890,6 +31279,7 @@ extension CreateRoutingProfileInput {
         try writer["AgentAvailabilityTimer"].write(value.agentAvailabilityTimer)
         try writer["DefaultOutboundQueueId"].write(value.defaultOutboundQueueId)
         try writer["Description"].write(value.description)
+        try writer["ManualAssignmentQueueConfigs"].writeList(value.manualAssignmentQueueConfigs, memberWritingClosure: ConnectClientTypes.RoutingProfileManualAssignmentQueueConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MediaConcurrencies"].writeList(value.mediaConcurrencies, memberWritingClosure: ConnectClientTypes.MediaConcurrency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["QueueConfigs"].writeList(value.queueConfigs, memberWritingClosure: ConnectClientTypes.RoutingProfileQueueConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -31062,6 +31452,7 @@ extension DisassociateRoutingProfileQueuesInput {
 
     static func write(value: DisassociateRoutingProfileQueuesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ManualAssignmentQueueReferences"].writeList(value.manualAssignmentQueueReferences, memberWritingClosure: ConnectClientTypes.RoutingProfileQueueReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["QueueReferences"].writeList(value.queueReferences, memberWritingClosure: ConnectClientTypes.RoutingProfileQueueReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -32291,6 +32682,13 @@ extension AssociateBotOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateBotOutput {
         return AssociateBotOutput()
+    }
+}
+
+extension AssociateContactWithUserOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateContactWithUserOutput {
+        return AssociateContactWithUserOutput()
     }
 }
 
@@ -34109,6 +34507,21 @@ extension ListRealtimeContactAnalysisSegmentsV2Output {
     }
 }
 
+extension ListRoutingProfileManualAssignmentQueuesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRoutingProfileManualAssignmentQueuesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRoutingProfileManualAssignmentQueuesOutput()
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.routingProfileManualAssignmentQueueConfigSummaryList = try reader["RoutingProfileManualAssignmentQueueConfigSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RoutingProfileManualAssignmentQueueConfigSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListRoutingProfileQueuesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRoutingProfileQueuesOutput {
@@ -35375,6 +35788,25 @@ enum AssociateBotOutputError {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateContactWithUserOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -38373,6 +38805,24 @@ enum ListRealtimeContactAnalysisSegmentsV2OutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "OutputTypeNotFoundException": return try OutputTypeNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRoutingProfileManualAssignmentQueuesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -42638,12 +43088,14 @@ extension ConnectClientTypes.RoutingProfile {
         value.defaultOutboundQueueId = try reader["DefaultOutboundQueueId"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.numberOfAssociatedQueues = try reader["NumberOfAssociatedQueues"].readIfPresent()
+        value.numberOfAssociatedManualAssignmentQueues = try reader["NumberOfAssociatedManualAssignmentQueues"].readIfPresent()
         value.numberOfAssociatedUsers = try reader["NumberOfAssociatedUsers"].readIfPresent()
         value.agentAvailabilityTimer = try reader["AgentAvailabilityTimer"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
         value.isDefault = try reader["IsDefault"].readIfPresent() ?? false
         value.associatedQueueIds = try reader["AssociatedQueueIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.associatedManualAssignmentQueueIds = try reader["AssociatedManualAssignmentQueueIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -44470,6 +44922,19 @@ extension ConnectClientTypes.RealTimeContactAnalysisTranscriptItemRedaction {
     }
 }
 
+extension ConnectClientTypes.RoutingProfileManualAssignmentQueueConfigSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RoutingProfileManualAssignmentQueueConfigSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.RoutingProfileManualAssignmentQueueConfigSummary()
+        value.queueId = try reader["QueueId"].readIfPresent() ?? ""
+        value.queueArn = try reader["QueueArn"].readIfPresent() ?? ""
+        value.queueName = try reader["QueueName"].readIfPresent() ?? ""
+        value.channel = try reader["Channel"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension ConnectClientTypes.RoutingProfileQueueConfigSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RoutingProfileQueueConfigSummary {
@@ -44715,6 +45180,8 @@ extension ConnectClientTypes.ContactSearchSummary {
         value.disconnectTimestamp = try reader["DisconnectTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.scheduledTimestamp = try reader["ScheduledTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.segmentAttributes = try reader["SegmentAttributes"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent()
+        value.routingCriteria = try reader["RoutingCriteria"].readIfPresent(with: ConnectClientTypes.RoutingCriteria.read(from:))
         return value
     }
 }
@@ -44725,6 +45192,7 @@ extension ConnectClientTypes.ContactSearchSummarySegmentAttributeValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.ContactSearchSummarySegmentAttributeValue()
         value.valueString = try reader["ValueString"].readIfPresent()
+        value.valueMap = try reader["ValueMap"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.SegmentAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -44984,6 +45452,14 @@ extension ConnectClientTypes.RoutingProfileQueueReference {
         guard let value else { return }
         try writer["Channel"].write(value.channel)
         try writer["QueueId"].write(value.queueId)
+    }
+}
+
+extension ConnectClientTypes.RoutingProfileManualAssignmentQueueConfig {
+
+    static func write(value: ConnectClientTypes.RoutingProfileManualAssignmentQueueConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["QueueReference"].write(value.queueReference, with: ConnectClientTypes.RoutingProfileQueueReference.write(value:to:))
     }
 }
 
@@ -45250,12 +45726,15 @@ extension ConnectClientTypes.SearchCriteria {
 
     static func write(value: ConnectClientTypes.SearchCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AdditionalTimeRange"].write(value.additionalTimeRange, with: ConnectClientTypes.SearchContactsAdditionalTimeRange.write(value:to:))
         try writer["AgentHierarchyGroups"].write(value.agentHierarchyGroups, with: ConnectClientTypes.AgentHierarchyGroups.write(value:to:))
         try writer["AgentIds"].writeList(value.agentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Channels"].writeList(value.channels, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.Channel>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ContactAnalysis"].write(value.contactAnalysis, with: ConnectClientTypes.ContactAnalysis.write(value:to:))
         try writer["InitiationMethods"].writeList(value.initiationMethods, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.ContactInitiationMethod>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name, with: ConnectClientTypes.NameCriteria.write(value:to:))
         try writer["QueueIds"].writeList(value.queueIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RoutingCriteria"].write(value.routingCriteria, with: ConnectClientTypes.SearchableRoutingCriteria.write(value:to:))
         try writer["SearchableContactAttributes"].write(value.searchableContactAttributes, with: ConnectClientTypes.SearchableContactAttributes.write(value:to:))
         try writer["SearchableSegmentAttributes"].write(value.searchableSegmentAttributes, with: ConnectClientTypes.SearchableSegmentAttributes.write(value:to:))
     }
@@ -45297,6 +45776,58 @@ extension ConnectClientTypes.SearchableContactAttributesCriteria {
     }
 }
 
+extension ConnectClientTypes.SearchContactsAdditionalTimeRange {
+
+    static func write(value: ConnectClientTypes.SearchContactsAdditionalTimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Criteria"].writeList(value.criteria, memberWritingClosure: ConnectClientTypes.SearchContactsAdditionalTimeRangeCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MatchType"].write(value.matchType)
+    }
+}
+
+extension ConnectClientTypes.SearchContactsAdditionalTimeRangeCriteria {
+
+    static func write(value: ConnectClientTypes.SearchContactsAdditionalTimeRangeCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TimeRange"].write(value.timeRange, with: ConnectClientTypes.SearchContactsTimeRange.write(value:to:))
+        try writer["TimestampCondition"].write(value.timestampCondition, with: ConnectClientTypes.SearchContactsTimestampCondition.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.SearchContactsTimestampCondition {
+
+    static func write(value: ConnectClientTypes.SearchContactsTimestampCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionType"].write(value.conditionType)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension ConnectClientTypes.SearchableRoutingCriteria {
+
+    static func write(value: ConnectClientTypes.SearchableRoutingCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Steps"].writeList(value.steps, memberWritingClosure: ConnectClientTypes.SearchableRoutingCriteriaStep.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectClientTypes.SearchableRoutingCriteriaStep {
+
+    static func write(value: ConnectClientTypes.SearchableRoutingCriteriaStep?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AgentCriteria"].write(value.agentCriteria, with: ConnectClientTypes.SearchableAgentCriteriaStep.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.SearchableAgentCriteriaStep {
+
+    static func write(value: ConnectClientTypes.SearchableAgentCriteriaStep?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AgentIds"].writeList(value.agentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MatchType"].write(value.matchType)
+    }
+}
+
 extension ConnectClientTypes.ContactAnalysis {
 
     static func write(value: ConnectClientTypes.ContactAnalysis?, to writer: SmithyJSON.Writer) throws {
@@ -45333,6 +45864,15 @@ extension ConnectClientTypes.AgentHierarchyGroups {
         try writer["L3Ids"].writeList(value.l3Ids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["L4Ids"].writeList(value.l4Ids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["L5Ids"].writeList(value.l5Ids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectClientTypes.NameCriteria {
+
+    static func write(value: ConnectClientTypes.NameCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MatchType"].write(value.matchType)
+        try writer["SearchText"].writeList(value.searchText, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

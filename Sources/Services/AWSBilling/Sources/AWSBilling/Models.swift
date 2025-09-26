@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You don't have sufficient access to perform this action.
@@ -68,6 +69,30 @@ extension BillingClientTypes {
             self.activeAfterInclusive = activeAfterInclusive
             self.activeBeforeInclusive = activeBeforeInclusive
         }
+    }
+}
+
+/// Exception thrown when a billing view's health status prevents an operation from being performed. This may occur if the billing view is in a state other than HEALTHY.
+public struct BillingViewHealthStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BillingViewHealthStatusException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -126,6 +151,40 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+/// The specified ARN in the request doesn't exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// Value is a list of resource IDs that were not found.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// Value is the type of resource that was not found.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BillingResourceNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
     }
 }
 
@@ -286,6 +345,35 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+public struct AssociateSourceViewsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the billing view to associate source views with.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// A list of ARNs of the source billing views to associate.
+    /// This member is required.
+    public var sourceViews: [Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        sourceViews: [Swift.String]? = nil
+    ) {
+        self.arn = arn
+        self.sourceViews = sourceViews
+    }
+}
+
+public struct AssociateSourceViewsOutput: Swift.Sendable {
+    /// The ARN of the billing view that the source views were associated with.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
 extension BillingClientTypes {
 
     public enum Dimension: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -356,19 +444,42 @@ extension BillingClientTypes {
 
 extension BillingClientTypes {
 
+    /// Specifies a time range with inclusive begin and end dates.
+    public struct TimeRange: Swift.Sendable {
+        /// The inclusive start date of the time range.
+        public var beginDateInclusive: Foundation.Date?
+        /// The inclusive end date of the time range.
+        public var endDateInclusive: Foundation.Date?
+
+        public init(
+            beginDateInclusive: Foundation.Date? = nil,
+            endDateInclusive: Foundation.Date? = nil
+        ) {
+            self.beginDateInclusive = beginDateInclusive
+            self.endDateInclusive = endDateInclusive
+        }
+    }
+}
+
+extension BillingClientTypes {
+
     /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html). Billing view only supports LINKED_ACCOUNT and Tags.
     public struct Expression: Swift.Sendable {
         /// The specific Dimension to use for Expression.
         public var dimensions: BillingClientTypes.DimensionValues?
         /// The specific Tag to use for Expression.
         public var tags: BillingClientTypes.TagValues?
+        /// Specifies a time range filter for the billing view data.
+        public var timeRange: BillingClientTypes.TimeRange?
 
         public init(
             dimensions: BillingClientTypes.DimensionValues? = nil,
-            tags: BillingClientTypes.TagValues? = nil
+            tags: BillingClientTypes.TagValues? = nil,
+            timeRange: BillingClientTypes.TimeRange? = nil
         ) {
             self.dimensions = dimensions
             self.tags = tags
+            self.timeRange = timeRange
         }
     }
 }
@@ -451,11 +562,15 @@ public struct DeleteBillingViewInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
     /// This member is required.
     public var arn: Swift.String?
+    /// If set to true, forces deletion of the billing view even if it has derived resources (e.g. other billing views or budgets). Use with caution as this may break dependent resources.
+    public var force: Swift.Bool?
 
     public init(
-        arn: Swift.String? = nil
+        arn: Swift.String? = nil,
+        force: Swift.Bool? = nil
     ) {
         self.arn = arn
+        self.force = force
     }
 }
 
@@ -471,37 +586,32 @@ public struct DeleteBillingViewOutput: Swift.Sendable {
     }
 }
 
-/// The specified ARN in the request doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// Value is a list of resource IDs that were not found.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// Value is the type of resource that was not found.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "BillingResourceNotFound" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+public struct DisassociateSourceViewsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the billing view to disassociate source views from.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// A list of ARNs of the source billing views to disassociate.
+    /// This member is required.
+    public var sourceViews: [Swift.String]?
 
     public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
+        arn: Swift.String? = nil,
+        sourceViews: [Swift.String]? = nil
     ) {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
+        self.arn = arn
+        self.sourceViews = sourceViews
+    }
+}
+
+public struct DisassociateSourceViewsOutput: Swift.Sendable {
+    /// The ARN of the billing view that the source views were disassociated from.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
     }
 }
 
@@ -551,6 +661,107 @@ extension BillingClientTypes {
 
 extension BillingClientTypes {
 
+    public enum BillingViewStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case healthy
+        case unhealthy
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillingViewStatus] {
+            return [
+                .creating,
+                .healthy,
+                .unhealthy,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "CREATING"
+            case .healthy: return "HEALTHY"
+            case .unhealthy: return "UNHEALTHY"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    public enum BillingViewStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aggregateSource
+        case cyclicDependency
+        case sourceViewAccessDenied
+        case sourceViewDepthExceeded
+        case sourceViewNotFound
+        case sourceViewUnhealthy
+        case sourceViewUpdating
+        case viewOwnerNotManagementAccount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillingViewStatusReason] {
+            return [
+                .aggregateSource,
+                .cyclicDependency,
+                .sourceViewAccessDenied,
+                .sourceViewDepthExceeded,
+                .sourceViewNotFound,
+                .sourceViewUnhealthy,
+                .sourceViewUpdating,
+                .viewOwnerNotManagementAccount
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aggregateSource: return "AGGREGATE_SOURCE"
+            case .cyclicDependency: return "CYCLIC_DEPENDENCY"
+            case .sourceViewAccessDenied: return "SOURCE_VIEW_ACCESS_DENIED"
+            case .sourceViewDepthExceeded: return "SOURCE_VIEW_DEPTH_EXCEEDED"
+            case .sourceViewNotFound: return "SOURCE_VIEW_NOT_FOUND"
+            case .sourceViewUnhealthy: return "SOURCE_VIEW_UNHEALTHY"
+            case .sourceViewUpdating: return "SOURCE_VIEW_UPDATING"
+            case .viewOwnerNotManagementAccount: return "VIEW_OWNER_NOT_MANAGEMENT_ACCOUNT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// Represents the health status of a billing view, including a status code and optional reasons for the status.
+    public struct BillingViewHealthStatus: Swift.Sendable {
+        /// The current health status code of the billing view.
+        public var statusCode: BillingClientTypes.BillingViewStatus?
+        /// A list of reasons explaining the current health status, if applicable.
+        public var statusReasons: [BillingClientTypes.BillingViewStatusReason]?
+
+        public init(
+            statusCode: BillingClientTypes.BillingViewStatus? = nil,
+            statusReasons: [BillingClientTypes.BillingViewStatusReason]? = nil
+        ) {
+            self.statusCode = statusCode
+            self.statusReasons = statusReasons
+        }
+    }
+}
+
+extension BillingClientTypes {
+
     /// The metadata associated to the billing view.
     public struct BillingViewElement: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
@@ -561,40 +772,60 @@ extension BillingClientTypes {
         public var createdAt: Foundation.Date?
         /// See [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_billing_Expression.html). Billing view only supports LINKED_ACCOUNT and Tags.
         public var dataFilterExpression: BillingClientTypes.Expression?
+        /// The number of billing views that use this billing view as a source.
+        public var derivedViewCount: Swift.Int?
         /// The description of the billing view.
         public var description: Swift.String?
+        /// The current health status of the billing view.
+        public var healthStatus: BillingClientTypes.BillingViewHealthStatus?
         /// The account name of the billing view.
         public var name: Swift.String?
         /// The account owner of the billing view.
         public var ownerAccountId: Swift.String?
+        /// The Amazon Web Services account ID that owns the source billing view, if this is a derived billing view.
+        public var sourceAccountId: Swift.String?
+        /// The number of source views associated with this billing view.
+        public var sourceViewCount: Swift.Int?
         /// The time when the billing view was last updated.
         public var updatedAt: Foundation.Date?
+        /// The timestamp of when the billing view definition was last updated.
+        public var viewDefinitionLastUpdatedAt: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
             billingViewType: BillingClientTypes.BillingViewType? = nil,
             createdAt: Foundation.Date? = nil,
             dataFilterExpression: BillingClientTypes.Expression? = nil,
+            derivedViewCount: Swift.Int? = nil,
             description: Swift.String? = nil,
+            healthStatus: BillingClientTypes.BillingViewHealthStatus? = nil,
             name: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
-            updatedAt: Foundation.Date? = nil
+            sourceAccountId: Swift.String? = nil,
+            sourceViewCount: Swift.Int? = nil,
+            updatedAt: Foundation.Date? = nil,
+            viewDefinitionLastUpdatedAt: Foundation.Date? = nil
         ) {
             self.arn = arn
             self.billingViewType = billingViewType
             self.createdAt = createdAt
             self.dataFilterExpression = dataFilterExpression
+            self.derivedViewCount = derivedViewCount
             self.description = description
+            self.healthStatus = healthStatus
             self.name = name
             self.ownerAccountId = ownerAccountId
+            self.sourceAccountId = sourceAccountId
+            self.sourceViewCount = sourceViewCount
             self.updatedAt = updatedAt
+            self.viewDefinitionLastUpdatedAt = viewDefinitionLastUpdatedAt
         }
     }
 }
 
 extension BillingClientTypes.BillingViewElement: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BillingViewElement(arn: \(Swift.String(describing: arn)), billingViewType: \(Swift.String(describing: billingViewType)), createdAt: \(Swift.String(describing: createdAt)), dataFilterExpression: \(Swift.String(describing: dataFilterExpression)), ownerAccountId: \(Swift.String(describing: ownerAccountId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "BillingViewElement(arn: \(Swift.String(describing: arn)), billingViewType: \(Swift.String(describing: billingViewType)), createdAt: \(Swift.String(describing: createdAt)), dataFilterExpression: \(Swift.String(describing: dataFilterExpression)), derivedViewCount: \(Swift.String(describing: derivedViewCount)), healthStatus: \(Swift.String(describing: healthStatus)), ownerAccountId: \(Swift.String(describing: ownerAccountId)), sourceAccountId: \(Swift.String(describing: sourceAccountId)), sourceViewCount: \(Swift.String(describing: sourceViewCount)), updatedAt: \(Swift.String(describing: updatedAt)), viewDefinitionLastUpdatedAt: \(Swift.String(describing: viewDefinitionLastUpdatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetBillingViewOutput: Swift.Sendable {
@@ -650,6 +881,8 @@ public struct ListBillingViewsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The list of owners of the billing view.
     public var ownerAccountId: Swift.String?
+    /// Filters the results to include only billing views that use the specified account as a source.
+    public var sourceAccountId: Swift.String?
 
     public init(
         activeTimeRange: BillingClientTypes.ActiveTimeRange? = nil,
@@ -657,7 +890,8 @@ public struct ListBillingViewsInput: Swift.Sendable {
         billingViewTypes: [BillingClientTypes.BillingViewType]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        ownerAccountId: Swift.String? = nil
+        ownerAccountId: Swift.String? = nil,
+        sourceAccountId: Swift.String? = nil
     ) {
         self.activeTimeRange = activeTimeRange
         self.arns = arns
@@ -665,6 +899,7 @@ public struct ListBillingViewsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.ownerAccountId = ownerAccountId
+        self.sourceAccountId = sourceAccountId
     }
 }
 
@@ -678,30 +913,38 @@ extension BillingClientTypes {
         public var billingViewType: BillingClientTypes.BillingViewType?
         /// The description of the billing view.
         public var description: Swift.String?
+        /// The current health status of the billing view.
+        public var healthStatus: BillingClientTypes.BillingViewHealthStatus?
         /// A list of names of the Billing view.
         public var name: Swift.String?
         /// The list of owners of the Billing view.
         public var ownerAccountId: Swift.String?
+        /// The Amazon Web Services account ID that owns the source billing view, if this is a derived billing view.
+        public var sourceAccountId: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             billingViewType: BillingClientTypes.BillingViewType? = nil,
             description: Swift.String? = nil,
+            healthStatus: BillingClientTypes.BillingViewHealthStatus? = nil,
             name: Swift.String? = nil,
-            ownerAccountId: Swift.String? = nil
+            ownerAccountId: Swift.String? = nil,
+            sourceAccountId: Swift.String? = nil
         ) {
             self.arn = arn
             self.billingViewType = billingViewType
             self.description = description
+            self.healthStatus = healthStatus
             self.name = name
             self.ownerAccountId = ownerAccountId
+            self.sourceAccountId = sourceAccountId
         }
     }
 }
 
 extension BillingClientTypes.BillingViewListElement: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BillingViewListElement(arn: \(Swift.String(describing: arn)), billingViewType: \(Swift.String(describing: billingViewType)), ownerAccountId: \(Swift.String(describing: ownerAccountId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "BillingViewListElement(arn: \(Swift.String(describing: arn)), billingViewType: \(Swift.String(describing: billingViewType)), healthStatus: \(Swift.String(describing: healthStatus)), ownerAccountId: \(Swift.String(describing: ownerAccountId)), sourceAccountId: \(Swift.String(describing: sourceAccountId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListBillingViewsOutput: Swift.Sendable {
@@ -868,6 +1111,13 @@ public struct UpdateBillingViewOutput: Swift.Sendable {
     }
 }
 
+extension AssociateSourceViewsInput {
+
+    static func urlPathProvider(_ value: AssociateSourceViewsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateBillingViewInput {
 
     static func urlPathProvider(_ value: CreateBillingViewInput) -> Swift.String? {
@@ -878,6 +1128,13 @@ extension CreateBillingViewInput {
 extension DeleteBillingViewInput {
 
     static func urlPathProvider(_ value: DeleteBillingViewInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DisassociateSourceViewsInput {
+
+    static func urlPathProvider(_ value: DisassociateSourceViewsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -938,6 +1195,15 @@ extension UpdateBillingViewInput {
     }
 }
 
+extension AssociateSourceViewsInput {
+
+    static func write(value: AssociateSourceViewsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["sourceViews"].writeList(value.sourceViews, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateBillingViewInput {
 
     static func write(value: CreateBillingViewInput?, to writer: SmithyJSON.Writer) throws {
@@ -956,6 +1222,16 @@ extension DeleteBillingViewInput {
     static func write(value: DeleteBillingViewInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["arn"].write(value.arn)
+        try writer["force"].write(value.force)
+    }
+}
+
+extension DisassociateSourceViewsInput {
+
+    static func write(value: DisassociateSourceViewsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["sourceViews"].writeList(value.sourceViews, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -985,6 +1261,7 @@ extension ListBillingViewsInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["ownerAccountId"].write(value.ownerAccountId)
+        try writer["sourceAccountId"].write(value.sourceAccountId)
     }
 }
 
@@ -1035,6 +1312,18 @@ extension UpdateBillingViewInput {
     }
 }
 
+extension AssociateSourceViewsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateSourceViewsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateSourceViewsOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateBillingViewOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBillingViewOutput {
@@ -1055,6 +1344,18 @@ extension DeleteBillingViewOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteBillingViewOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DisassociateSourceViewsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateSourceViewsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateSourceViewsOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
@@ -1150,6 +1451,27 @@ extension UpdateBillingViewOutput {
     }
 }
 
+enum AssociateSourceViewsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
+            case "BillingConflict": return try ConflictException.makeError(baseError: baseError)
+            case "BillingInternalServer": return try InternalServerException.makeError(baseError: baseError)
+            case "BillingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "BillingServiceQuotaExceeded": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "BillingThrottling": return try ThrottlingException.makeError(baseError: baseError)
+            case "BillingValidation": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateBillingViewOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1159,8 +1481,10 @@ enum CreateBillingViewOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "BillingConflict": return try ConflictException.makeError(baseError: baseError)
             case "BillingInternalServer": return try InternalServerException.makeError(baseError: baseError)
+            case "BillingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "BillingServiceQuotaExceeded": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "BillingThrottling": return try ThrottlingException.makeError(baseError: baseError)
             case "BillingValidation": return try ValidationException.makeError(baseError: baseError)
@@ -1180,6 +1504,26 @@ enum DeleteBillingViewOutputError {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
             case "BillingConflict": return try ConflictException.makeError(baseError: baseError)
             case "BillingInternalServer": return try InternalServerException.makeError(baseError: baseError)
+            case "BillingThrottling": return try ThrottlingException.makeError(baseError: baseError)
+            case "BillingValidation": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateSourceViewsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
+            case "BillingConflict": return try ConflictException.makeError(baseError: baseError)
+            case "BillingInternalServer": return try InternalServerException.makeError(baseError: baseError)
+            case "BillingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "BillingThrottling": return try ThrottlingException.makeError(baseError: baseError)
             case "BillingValidation": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1321,6 +1665,7 @@ enum UpdateBillingViewOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BillingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "BillingConflict": return try ConflictException.makeError(baseError: baseError)
             case "BillingInternalServer": return try InternalServerException.makeError(baseError: baseError)
             case "BillingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -1337,6 +1682,19 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BillingViewHealthStatusException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BillingViewHealthStatusException {
+        let reader = baseError.errorBodyReader
+        var value = BillingViewHealthStatusException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1366,6 +1724,21 @@ extension InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1418,21 +1791,6 @@ extension ValidationException {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension BillingClientTypes.BillingViewElement {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.BillingViewElement {
@@ -1443,9 +1801,25 @@ extension BillingClientTypes.BillingViewElement {
         value.description = try reader["description"].readIfPresent()
         value.billingViewType = try reader["billingViewType"].readIfPresent()
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent()
+        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent()
         value.dataFilterExpression = try reader["dataFilterExpression"].readIfPresent(with: BillingClientTypes.Expression.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.derivedViewCount = try reader["derivedViewCount"].readIfPresent()
+        value.sourceViewCount = try reader["sourceViewCount"].readIfPresent()
+        value.viewDefinitionLastUpdatedAt = try reader["viewDefinitionLastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.healthStatus = try reader["healthStatus"].readIfPresent(with: BillingClientTypes.BillingViewHealthStatus.read(from:))
+        return value
+    }
+}
+
+extension BillingClientTypes.BillingViewHealthStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.BillingViewHealthStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BillingClientTypes.BillingViewHealthStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BillingClientTypes.BillingViewStatusReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -1456,6 +1830,7 @@ extension BillingClientTypes.Expression {
         guard let value else { return }
         try writer["dimensions"].write(value.dimensions, with: BillingClientTypes.DimensionValues.write(value:to:))
         try writer["tags"].write(value.tags, with: BillingClientTypes.TagValues.write(value:to:))
+        try writer["timeRange"].write(value.timeRange, with: BillingClientTypes.TimeRange.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.Expression {
@@ -1463,6 +1838,24 @@ extension BillingClientTypes.Expression {
         var value = BillingClientTypes.Expression()
         value.dimensions = try reader["dimensions"].readIfPresent(with: BillingClientTypes.DimensionValues.read(from:))
         value.tags = try reader["tags"].readIfPresent(with: BillingClientTypes.TagValues.read(from:))
+        value.timeRange = try reader["timeRange"].readIfPresent(with: BillingClientTypes.TimeRange.read(from:))
+        return value
+    }
+}
+
+extension BillingClientTypes.TimeRange {
+
+    static func write(value: BillingClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["beginDateInclusive"].writeTimestamp(value.beginDateInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["endDateInclusive"].writeTimestamp(value.endDateInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.TimeRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BillingClientTypes.TimeRange()
+        value.beginDateInclusive = try reader["beginDateInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endDateInclusive = try reader["endDateInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -1510,7 +1903,9 @@ extension BillingClientTypes.BillingViewListElement {
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent()
+        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent()
         value.billingViewType = try reader["billingViewType"].readIfPresent()
+        value.healthStatus = try reader["healthStatus"].readIfPresent(with: BillingClientTypes.BillingViewHealthStatus.read(from:))
         return value
     }
 }
