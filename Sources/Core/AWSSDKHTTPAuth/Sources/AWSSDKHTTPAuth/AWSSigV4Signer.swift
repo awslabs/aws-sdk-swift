@@ -125,6 +125,7 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
             )
         }
 
+        let clockSkew: TimeInterval = signingProperties.get(key: SigningPropertyKeys.clockSkew) ?? 0.0
         let expiration: TimeInterval = signingProperties.get(key: SigningPropertyKeys.expiration) ?? 0
         let signedBodyHeader: AWSSignedBodyHeader =
             signingProperties.get(key: SigningPropertyKeys.signedBodyHeader) ?? .none
@@ -156,7 +157,7 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
             signedBodyHeader: signedBodyHeader,
             signedBodyValue: signedBodyValue,
             flags: flags,
-            date: Date(),
+            date: Date().addingTimeInterval(clockSkew),
             service: signingName,
             region: signingRegion,
             signatureType: signatureType,

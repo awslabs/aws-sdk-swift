@@ -763,8 +763,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSFN](../../../../../sdk-for-swift/latest/api/awssfn)
 
-[AWSSMS](../../../../../sdk-for-swift/latest/api/awssms)
-
 [AWSSNS](../../../../../sdk-for-swift/latest/api/awssns)
 
 [AWSSQS](../../../../../sdk-for-swift/latest/api/awssqs)

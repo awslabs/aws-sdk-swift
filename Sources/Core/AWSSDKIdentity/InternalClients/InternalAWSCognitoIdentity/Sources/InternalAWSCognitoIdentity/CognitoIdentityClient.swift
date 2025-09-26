@@ -21,6 +21,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -411,6 +412,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCredentialsForIdentityOutput>(GetCredentialsForIdentityOutput.httpOutput(from:), GetCredentialsForIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.clockSkew(request:response:error:now:))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCredentialsForIdentityOutput>())
@@ -484,6 +486,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIdInput, GetIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdOutput>(GetIdOutput.httpOutput(from:), GetIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdInput, GetIdOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.clockSkew(request:response:error:now:))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdOutput>())
