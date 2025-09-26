@@ -1030,6 +1030,38 @@ extension ListRealtimeContactAnalysisSegmentsV2Input: ClientRuntime.PaginateToke
         )}
 }
 extension ConnectClient {
+    /// Paginate over `[ListRoutingProfileManualAssignmentQueuesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRoutingProfileManualAssignmentQueuesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRoutingProfileManualAssignmentQueuesOutput`
+    public func listRoutingProfileManualAssignmentQueuesPaginated(input: ListRoutingProfileManualAssignmentQueuesInput) -> ClientRuntime.PaginatorSequence<ListRoutingProfileManualAssignmentQueuesInput, ListRoutingProfileManualAssignmentQueuesOutput> {
+        return ClientRuntime.PaginatorSequence<ListRoutingProfileManualAssignmentQueuesInput, ListRoutingProfileManualAssignmentQueuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRoutingProfileManualAssignmentQueues(input:))
+    }
+}
+
+extension ListRoutingProfileManualAssignmentQueuesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRoutingProfileManualAssignmentQueuesInput {
+        return ListRoutingProfileManualAssignmentQueuesInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            routingProfileId: self.routingProfileId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRoutingProfileManualAssignmentQueuesInput, OperationStackOutput == ListRoutingProfileManualAssignmentQueuesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRoutingProfileManualAssignmentQueuesPaginated`
+    /// to access the nested member `[ConnectClientTypes.RoutingProfileManualAssignmentQueueConfigSummary]`
+    /// - Returns: `[ConnectClientTypes.RoutingProfileManualAssignmentQueueConfigSummary]`
+    public func routingProfileManualAssignmentQueueConfigSummaryList() async throws -> [ConnectClientTypes.RoutingProfileManualAssignmentQueueConfigSummary] {
+        return try await self.asyncCompactMap { item in item.routingProfileManualAssignmentQueueConfigSummaryList }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListRoutingProfileQueuesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

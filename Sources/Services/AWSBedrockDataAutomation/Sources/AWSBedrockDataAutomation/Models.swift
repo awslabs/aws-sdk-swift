@@ -1042,6 +1042,72 @@ extension BedrockDataAutomationClientTypes {
 
 extension BedrockDataAutomationClientTypes {
 
+    /// Channel labeling configuration
+    public struct ChannelLabelingConfiguration: Swift.Sendable {
+        /// State
+        /// This member is required.
+        public var state: BedrockDataAutomationClientTypes.State?
+
+        public init(
+            state: BedrockDataAutomationClientTypes.State? = nil
+        ) {
+            self.state = state
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Speaker labeling configuration
+    public struct SpeakerLabelingConfiguration: Swift.Sendable {
+        /// State
+        /// This member is required.
+        public var state: BedrockDataAutomationClientTypes.State?
+
+        public init(
+            state: BedrockDataAutomationClientTypes.State? = nil
+        ) {
+            self.state = state
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Configuration for transcript related features
+    public struct TranscriptConfiguration: Swift.Sendable {
+        /// Channel labeling configuration
+        public var channelLabeling: BedrockDataAutomationClientTypes.ChannelLabelingConfiguration?
+        /// Speaker labeling configuration
+        public var speakerLabeling: BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration?
+
+        public init(
+            channelLabeling: BedrockDataAutomationClientTypes.ChannelLabelingConfiguration? = nil,
+            speakerLabeling: BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration? = nil
+        ) {
+            self.channelLabeling = channelLabeling
+            self.speakerLabeling = speakerLabeling
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Configuration for different audio extraction category types
+    public struct AudioExtractionCategoryTypeConfiguration: Swift.Sendable {
+        /// Configuration for transcript related features
+        public var transcript: BedrockDataAutomationClientTypes.TranscriptConfiguration?
+
+        public init(
+            transcript: BedrockDataAutomationClientTypes.TranscriptConfiguration? = nil
+        ) {
+            self.transcript = transcript
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
     public enum AudioExtractionCategoryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case audioContentModeration
         case topicContentModeration
@@ -1079,14 +1145,18 @@ extension BedrockDataAutomationClientTypes {
         /// State
         /// This member is required.
         public var state: BedrockDataAutomationClientTypes.State?
+        /// Configuration for different audio extraction category types
+        public var typeConfiguration: BedrockDataAutomationClientTypes.AudioExtractionCategoryTypeConfiguration?
         /// List of Audio Extraction Category Type
         public var types: [BedrockDataAutomationClientTypes.AudioExtractionCategoryType]?
 
         public init(
             state: BedrockDataAutomationClientTypes.State? = nil,
+            typeConfiguration: BedrockDataAutomationClientTypes.AudioExtractionCategoryTypeConfiguration? = nil,
             types: [BedrockDataAutomationClientTypes.AudioExtractionCategoryType]? = nil
         ) {
             self.state = state
+            self.typeConfiguration = typeConfiguration
             self.types = types
         }
     }
@@ -3299,6 +3369,7 @@ extension BedrockDataAutomationClientTypes.AudioExtractionCategory {
     static func write(value: BedrockDataAutomationClientTypes.AudioExtractionCategory?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["state"].write(value.state)
+        try writer["typeConfiguration"].write(value.typeConfiguration, with: BedrockDataAutomationClientTypes.AudioExtractionCategoryTypeConfiguration.write(value:to:))
         try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.AudioExtractionCategoryType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -3307,6 +3378,69 @@ extension BedrockDataAutomationClientTypes.AudioExtractionCategory {
         var value = BedrockDataAutomationClientTypes.AudioExtractionCategory()
         value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.AudioExtractionCategoryType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.typeConfiguration = try reader["typeConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioExtractionCategoryTypeConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.AudioExtractionCategoryTypeConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.AudioExtractionCategoryTypeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["transcript"].write(value.transcript, with: BedrockDataAutomationClientTypes.TranscriptConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.AudioExtractionCategoryTypeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.AudioExtractionCategoryTypeConfiguration()
+        value.transcript = try reader["transcript"].readIfPresent(with: BedrockDataAutomationClientTypes.TranscriptConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.TranscriptConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.TranscriptConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["channelLabeling"].write(value.channelLabeling, with: BedrockDataAutomationClientTypes.ChannelLabelingConfiguration.write(value:to:))
+        try writer["speakerLabeling"].write(value.speakerLabeling, with: BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.TranscriptConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.TranscriptConfiguration()
+        value.speakerLabeling = try reader["speakerLabeling"].readIfPresent(with: BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration.read(from:))
+        value.channelLabeling = try reader["channelLabeling"].readIfPresent(with: BedrockDataAutomationClientTypes.ChannelLabelingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.ChannelLabelingConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.ChannelLabelingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ChannelLabelingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.ChannelLabelingConfiguration()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
