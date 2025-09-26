@@ -25,6 +25,7 @@ import struct AwsCommonRuntimeKit.SigningConfig
 import struct Smithy.AttributeKey
 import struct Smithy.Attributes
 import struct Smithy.SwiftLogger
+@_spi(WallClock) import struct Smithy.WallClock
 import struct SmithyIdentity.AWSCredentialIdentity
 import struct SmithyHTTPAuth.AWSSigningConfig
 import struct SmithyHTTPAuthAPI.SigningFlags
@@ -125,6 +126,7 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
             )
         }
 
+        let clockSkew: TimeInterval = signingProperties.get(key: SigningPropertyKeys.clockSkew) ?? 0.0
         let expiration: TimeInterval = signingProperties.get(key: SigningPropertyKeys.expiration) ?? 0
         let signedBodyHeader: AWSSignedBodyHeader =
             signingProperties.get(key: SigningPropertyKeys.signedBodyHeader) ?? .none
@@ -156,7 +158,7 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
             signedBodyHeader: signedBodyHeader,
             signedBodyValue: signedBodyValue,
             flags: flags,
-            date: Date(),
+            date: WallClock.now.addingTimeInterval(clockSkew),
             service: signingName,
             region: signingRegion,
             signatureType: signatureType,

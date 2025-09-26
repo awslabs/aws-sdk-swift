@@ -21,6 +21,7 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyFormURL.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -424,6 +425,7 @@ extension STSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssumeRoleInput, AssumeRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeRoleOutput>(AssumeRoleOutput.httpOutput(from:), AssumeRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeRoleInput, AssumeRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.clockSkew(request:response:error:now:))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeRoleOutput>())
@@ -499,6 +501,7 @@ extension STSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssumeRoleWithWebIdentityInput, AssumeRoleWithWebIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeRoleWithWebIdentityOutput>(AssumeRoleWithWebIdentityOutput.httpOutput(from:), AssumeRoleWithWebIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeRoleWithWebIdentityInput, AssumeRoleWithWebIdentityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.clockSkew(request:response:error:now:))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeRoleWithWebIdentityOutput>())

@@ -574,6 +574,7 @@ private var runtimeTargets: [Target] {
                 .SmithyIdentity,
                 .SmithyRetriesAPI,
                 .SmithyRetries,
+                .SmithyTimestamps,
                 .AWSSDKCommon,
                 .AWSSDKHTTPAuth,
                 .AWSSDKChecksums,
