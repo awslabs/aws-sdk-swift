@@ -656,7 +656,7 @@ extension VPCLatticeClientTypes {
 
     /// Describes an action that returns a custom HTTP response.
     public struct FixedResponseAction: Swift.Sendable {
-        /// The HTTP response code.
+        /// The HTTP response code. Only 404 and 500 status codes are supported.
         /// This member is required.
         public var statusCode: Swift.Int?
 
@@ -1171,7 +1171,7 @@ extension VPCLatticeClientTypes {
     public struct DnsResource: Swift.Sendable {
         /// The domain name of the resource.
         public var domainName: Swift.String?
-        /// The type of IP address.
+        /// The type of IP address. Dualstack is currently not supported.
         public var ipAddressType: VPCLatticeClientTypes.ResourceConfigurationIpAddressType?
 
         public init(
@@ -1264,15 +1264,21 @@ public struct CreateResourceConfigurationInput: Swift.Sendable {
     public var portRanges: [Swift.String]?
     /// (SINGLE, GROUP) The protocol accepted by the resource configuration.
     public var `protocol`: VPCLatticeClientTypes.ProtocolType?
-    /// (SINGLE, CHILD, ARN) The resource configuration.
+    /// Identifies the resource configuration in one of the following ways:
+    ///
+    /// * Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.
+    ///
+    /// * Domain name - Any domain name that is publicly resolvable.
+    ///
+    /// * IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.
     public var resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition?
-    /// (CHILD) The ID or ARN of the parent resource configuration (type is GROUP). This is used to associate a child resource configuration with a group resource configuration.
+    /// (CHILD) The ID or ARN of the parent resource configuration of type GROUP. This is used to associate a child resource configuration with a group resource configuration.
     public var resourceConfigurationGroupIdentifier: Swift.String?
     /// (SINGLE, GROUP, ARN) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource configuration.
     public var resourceGatewayIdentifier: Swift.String?
     /// The tags for the resource configuration.
     public var tags: [Swift.String: Swift.String]?
-    /// The type of resource configuration.
+    /// The type of resource configuration. A resource configuration can be one of the following types:
     ///
     /// * SINGLE - A single resource.
     ///
@@ -1377,15 +1383,29 @@ public struct CreateResourceConfigurationOutput: Swift.Sendable {
     public var portRanges: [Swift.String]?
     /// The protocol.
     public var `protocol`: VPCLatticeClientTypes.ProtocolType?
-    /// The resource configuration.
+    /// Identifies the resource configuration in one of the following ways:
+    ///
+    /// * Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.
+    ///
+    /// * Domain name - Any domain name that is publicly resolvable.
+    ///
+    /// * IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.
     public var resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition?
-    /// The ID of the parent resource configuration (type is GROUP).
+    /// The ID of the parent resource configuration of type GROUP.
     public var resourceConfigurationGroupId: Swift.String?
     /// The ID of the resource gateway associated with the resource configuration.
     public var resourceGatewayId: Swift.String?
     /// The current status of the resource configuration.
     public var status: VPCLatticeClientTypes.ResourceConfigurationStatus?
-    /// The type of resource configuration.
+    /// The type of resource configuration. A resource configuration can be one of the following types:
+    ///
+    /// * SINGLE - A single resource.
+    ///
+    /// * GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.
+    ///
+    /// * CHILD - A single resource that is part of a group resource configuration.
+    ///
+    /// * ARN - An Amazon Web Services resource.
     public var type: VPCLatticeClientTypes.ResourceConfigurationType?
 
     public init(
@@ -1457,25 +1477,35 @@ extension VPCLatticeClientTypes {
 public struct CreateResourceGatewayInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     public var clientToken: Swift.String?
-    /// The type of IP address used by the resource gateway.
+    /// A resource gateway can have IPv4, IPv6 or dualstack addresses. The IP address type of a resource gateway must be compatible with the subnets of the resource gateway and the IP address type of the resource, as described here:
+    ///
+    /// * IPv4Assign IPv4 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have IPv4 address ranges, and the resource also has an IPv4 address.
+    ///
+    /// * IPv6Assign IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets are IPv6 only subnets, and the resource also has an IPv6 address.
+    ///
+    /// * DualstackAssign both IPv4 and IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have both IPv4 and IPv6 address ranges, and the resource either has an IPv4 or IPv6 address.
+    ///
+    ///
+    /// The IP address type of the resource gateway is independent of the IP address type of the client or the VPC endpoint through which the resource is accessed.
     public var ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType?
+    /// The number of IPv4 addresses in each ENI for the resource gateway.
+    public var ipv4AddressesPerEni: Swift.Int?
     /// The name of the resource gateway.
     /// This member is required.
     public var name: Swift.String?
     /// The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC.
     public var securityGroupIds: [Swift.String]?
     /// The IDs of the VPC subnets in which to create the resource gateway.
-    /// This member is required.
     public var subnetIds: [Swift.String]?
     /// The tags for the resource gateway.
     public var tags: [Swift.String: Swift.String]?
     /// The ID of the VPC for the resource gateway.
-    /// This member is required.
     public var vpcIdentifier: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
+        ipv4AddressesPerEni: Swift.Int? = nil,
         name: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
@@ -1484,6 +1514,7 @@ public struct CreateResourceGatewayInput: Swift.Sendable {
     ) {
         self.clientToken = clientToken
         self.ipAddressType = ipAddressType
+        self.ipv4AddressesPerEni = ipv4AddressesPerEni
         self.name = name
         self.securityGroupIds = securityGroupIds
         self.subnetIds = subnetIds
@@ -1550,6 +1581,8 @@ public struct CreateResourceGatewayOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The type of IP address for the resource gateway.
     public var ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType?
+    /// The number of IPv4 addresses in each ENI for the resource gateway.
+    public var ipv4AddressesPerEni: Swift.Int?
     /// The name of the resource gateway.
     public var name: Swift.String?
     /// The IDs of the security groups for the resource gateway.
@@ -1565,6 +1598,7 @@ public struct CreateResourceGatewayOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
+        ipv4AddressesPerEni: Swift.Int? = nil,
         name: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil,
         status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil,
@@ -1574,6 +1608,7 @@ public struct CreateResourceGatewayOutput: Swift.Sendable {
         self.arn = arn
         self.id = id
         self.ipAddressType = ipAddressType
+        self.ipv4AddressesPerEni = ipv4AddressesPerEni
         self.name = name
         self.securityGroupIds = securityGroupIds
         self.status = status
@@ -1878,7 +1913,7 @@ public struct CreateServiceNetworkResourceAssociationInput: Swift.Sendable {
     /// The ID of the service network to associate with the resource configuration.
     /// This member is required.
     public var serviceNetworkIdentifier: Swift.String?
-    /// The tags for the association.
+    /// A key-value pair to associate with a resource.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -3215,6 +3250,8 @@ public struct GetResourceGatewayOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The type of IP address for the resource gateway.
     public var ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType?
+    /// The number of IPv4 addresses in each ENI for the resource gateway.
+    public var ipv4AddressesPerEni: Swift.Int?
     /// The date and time that the resource gateway was last updated, in ISO-8601 format.
     public var lastUpdatedAt: Foundation.Date?
     /// The name of the resource gateway.
@@ -3233,6 +3270,7 @@ public struct GetResourceGatewayOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         id: Swift.String? = nil,
         ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
+        ipv4AddressesPerEni: Swift.Int? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil,
@@ -3244,6 +3282,7 @@ public struct GetResourceGatewayOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.id = id
         self.ipAddressType = ipAddressType
+        self.ipv4AddressesPerEni = ipv4AddressesPerEni
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
         self.securityGroupIds = securityGroupIds
@@ -3904,7 +3943,7 @@ public struct ListResourceConfigurationsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A pagination token for the next page of results.
     public var nextToken: Swift.String?
-    /// The ID of the group resource configuration.
+    /// The ID of the resource configuration of type Group.
     public var resourceConfigurationGroupIdentifier: Swift.String?
     /// The ID of the resource gateway for the resource configuration.
     public var resourceGatewayIdentifier: Swift.String?
@@ -3948,7 +3987,7 @@ extension VPCLatticeClientTypes {
         ///
         /// * SINGLE - A single resource.
         ///
-        /// * GROUP - A group of resources.
+        /// * GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.
         ///
         /// * CHILD - A single resource that is part of a group resource configuration.
         ///
@@ -4118,6 +4157,8 @@ extension VPCLatticeClientTypes {
         public var id: Swift.String?
         /// The type of IP address used by the resource gateway.
         public var ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType?
+        /// The number of IPv4 addresses in each ENI for the resource gateway.
+        public var ipv4AddressesPerEni: Swift.Int?
         /// The most recent date and time that the resource gateway was updated, in ISO-8601 format.
         public var lastUpdatedAt: Foundation.Date?
         /// The name of the resource gateway.
@@ -4136,6 +4177,7 @@ extension VPCLatticeClientTypes {
             createdAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
             ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
+            ipv4AddressesPerEni: Swift.Int? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             securityGroupIds: [Swift.String]? = nil,
@@ -4147,6 +4189,7 @@ extension VPCLatticeClientTypes {
             self.createdAt = createdAt
             self.id = id
             self.ipAddressType = ipAddressType
+            self.ipv4AddressesPerEni = ipv4AddressesPerEni
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.securityGroupIds = securityGroupIds
@@ -4253,21 +4296,25 @@ public struct ListRulesOutput: Swift.Sendable {
 }
 
 public struct ListServiceNetworkResourceAssociationsInput: Swift.Sendable {
+    /// Include service network resource associations of the child resource configuration with the grouped resource configuration. The type is boolean and the default value is false.
+    public var includeChildren: Swift.Bool?
     /// The maximum page size.
     public var maxResults: Swift.Int?
     /// If there are additional results, a pagination token for the next page of results.
     public var nextToken: Swift.String?
-    /// The ID of the resource configurationk.
+    /// The ID of the resource configuration.
     public var resourceConfigurationIdentifier: Swift.String?
     /// The ID of the service network.
     public var serviceNetworkIdentifier: Swift.String?
 
     public init(
+        includeChildren: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceConfigurationIdentifier: Swift.String? = nil,
         serviceNetworkIdentifier: Swift.String? = nil
     ) {
+        self.includeChildren = includeChildren
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
@@ -4307,7 +4354,7 @@ extension VPCLatticeClientTypes {
         public var serviceNetworkId: Swift.String?
         /// The name of the service network associated with the resource configuration.
         public var serviceNetworkName: Swift.String?
-        /// The status of the service network associated with the resource configuration.
+        /// The status of the service network’s association with the resource configuration. If the deletion fails, try to delete again.
         public var status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus?
 
         public init(
@@ -4487,7 +4534,7 @@ extension VPCLatticeClientTypes {
         public var serviceNetworkId: Swift.String?
         /// The name of the service network.
         public var serviceNetworkName: Swift.String?
-        /// The status. If the deletion fails, try to delete again.
+        /// The status of the service network’s association with the service. If the deletion fails, try to delete again.
         public var status: VPCLatticeClientTypes.ServiceNetworkServiceAssociationStatus?
 
         public init(
@@ -5085,7 +5132,13 @@ public struct UpdateResourceConfigurationInput: Swift.Sendable {
     public var allowAssociationToShareableServiceNetwork: Swift.Bool?
     /// The TCP port ranges that a consumer can use to access a resource configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30
     public var portRanges: [Swift.String]?
-    /// The resource configuration.
+    /// Identifies the resource configuration in one of the following ways:
+    ///
+    /// * Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.
+    ///
+    /// * Domain name - Any domain name that is publicly resolvable.
+    ///
+    /// * IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.
     public var resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition?
     /// The ID of the resource configuration.
     /// This member is required.
@@ -6141,6 +6194,10 @@ extension ListServiceNetworkResourceAssociationsInput {
 
     static func queryItemProvider(_ value: ListServiceNetworkResourceAssociationsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let includeChildren = value.includeChildren {
+            let includeChildrenQueryItem = Smithy.URIQueryItem(name: "includeChildren".urlPercentEncoding(), value: Swift.String(includeChildren).urlPercentEncoding())
+            items.append(includeChildrenQueryItem)
+        }
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
@@ -6586,6 +6643,7 @@ extension CreateResourceGatewayInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["ipAddressType"].write(value.ipAddressType)
+        try writer["ipv4AddressesPerEni"].write(value.ipv4AddressesPerEni)
         try writer["name"].write(value.name)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6886,6 +6944,7 @@ extension CreateResourceGatewayOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
         value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.ipv4AddressesPerEni = try reader["ipv4AddressesPerEni"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent()
@@ -7269,6 +7328,7 @@ extension GetResourceGatewayOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.id = try reader["id"].readIfPresent()
         value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.ipv4AddressesPerEni = try reader["ipv4AddressesPerEni"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent()
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9022,6 +9082,7 @@ enum UpdateResourceGatewayOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -9784,6 +9845,7 @@ extension VPCLatticeClientTypes.ResourceGatewaySummary {
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.ipv4AddressesPerEni = try reader["ipv4AddressesPerEni"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value

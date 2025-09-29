@@ -3462,6 +3462,7 @@ extension BedrockRuntimeClientTypes {
         case endTurn
         case guardrailIntervened
         case maxTokens
+        case modelContextWindowExceeded
         case stopSequence
         case toolUse
         case sdkUnknown(Swift.String)
@@ -3472,6 +3473,7 @@ extension BedrockRuntimeClientTypes {
                 .endTurn,
                 .guardrailIntervened,
                 .maxTokens,
+                .modelContextWindowExceeded,
                 .stopSequence,
                 .toolUse
             ]
@@ -3488,6 +3490,7 @@ extension BedrockRuntimeClientTypes {
             case .endTurn: return "end_turn"
             case .guardrailIntervened: return "guardrail_intervened"
             case .maxTokens: return "max_tokens"
+            case .modelContextWindowExceeded: return "model_context_window_exceeded"
             case .stopSequence: return "stop_sequence"
             case .toolUse: return "tool_use"
             case let .sdkUnknown(s): return s
@@ -4940,6 +4943,7 @@ enum ApplyGuardrailOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5188,6 +5192,19 @@ extension ServiceQuotaExceededException {
     }
 }
 
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -5247,19 +5264,6 @@ extension ModelTimeoutException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelTimeoutException {
         let reader = baseError.errorBodyReader
         var value = ModelTimeoutException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
