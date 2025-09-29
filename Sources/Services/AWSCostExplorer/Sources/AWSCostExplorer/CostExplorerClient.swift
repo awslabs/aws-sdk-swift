@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CostExplorerClient: ClientRuntime.Client {
     public static let clientName = "CostExplorerClient"
-    public static let version = "1.5.46"
+    public static let version = "1.5.51"
     let client: ClientRuntime.SdkHttpClient
     let config: CostExplorerClient.CostExplorerClientConfiguration
     let serviceName = "Cost Explorer"
@@ -1210,6 +1210,7 @@ extension CostExplorerClient {
     ///
     /// __Possible Exceptions:__
     /// - `BillExpirationException` : The requested report expired. Update the date interval and try again.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
@@ -1282,6 +1283,7 @@ extension CostExplorerClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
@@ -1354,6 +1356,7 @@ extension CostExplorerClient {
     ///
     /// __Possible Exceptions:__
     /// - `BillExpirationException` : The requested report expired. Update the date interval and try again.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
@@ -1427,6 +1430,7 @@ extension CostExplorerClient {
     ///
     /// __Possible Exceptions:__
     /// - `BillExpirationException` : The requested report expired. Update the date interval and try again.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
@@ -1499,6 +1503,7 @@ extension CostExplorerClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
@@ -1570,6 +1575,7 @@ extension CostExplorerClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
@@ -1641,6 +1647,7 @@ extension CostExplorerClient {
     ///
     /// __Possible Exceptions:__
     /// - `BillExpirationException` : The requested report expired. Update the date interval and try again.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
@@ -2378,6 +2385,7 @@ extension CostExplorerClient {
     ///
     /// __Possible Exceptions:__
     /// - `BillExpirationException` : The requested report expired. Update the date interval and try again.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
@@ -2450,6 +2458,7 @@ extension CostExplorerClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.

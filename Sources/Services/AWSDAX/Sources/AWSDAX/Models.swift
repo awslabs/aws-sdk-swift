@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 
 /// You already have a DAX cluster with the given identifier.
 public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -48,7 +49,7 @@ public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// You have attempted to exceed the maximum number of DAX clusters for your AWS account.
+/// You have attempted to exceed the maximum number of DAX clusters for your Amazon Web Services account.
 public struct ClusterQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -232,7 +233,7 @@ public struct NodeQuotaForClusterExceededFault: ClientRuntime.ModeledError, AWSC
     }
 }
 
-/// You have attempted to exceed the maximum number of nodes for your AWS account.
+/// You have attempted to exceed the maximum number of nodes for your Amazon Web Services account.
 public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -301,7 +302,7 @@ public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-/// You have reached the maximum number of x509 certificates that can be created for encrypted clusters in a 30 day period. Contact AWS customer support to discuss options for continuing to create encrypted clusters.
+/// You have reached the maximum number of x509 certificates that can be created for encrypted clusters in a 30 day period. Contact Amazon Web Services customer support to discuss options for continuing to create encrypted clusters.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "ServiceQuotaExceeded" }
     public static var fault: ClientRuntime.ErrorFault { .client }
@@ -391,6 +392,38 @@ extension DAXClientTypes {
 
 extension DAXClientTypes {
 
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualStack
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dualStack,
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualStack: return "dual_stack"
+            case .ipv4: return "ipv4"
+            case .ipv6: return "ipv6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DAXClientTypes {
+
     /// Represents the settings used to enable server-side encryption.
     public struct SSESpecification: Swift.Sendable {
         /// Indicates whether server-side encryption is enabled (true) or disabled (false) on the cluster.
@@ -407,7 +440,7 @@ extension DAXClientTypes {
 
 extension DAXClientTypes {
 
-    /// A description of a tag. Every tag is a key-value pair. You can add up to 50 tags to a single DAX cluster. AWS-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. AWS-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user:. You cannot backdate the application of a tag.
+    /// A description of a tag. Every tag is a key-value pair. You can add up to 50 tags to a single DAX cluster. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user:. You cannot backdate the application of a tag.
     public struct Tag: Swift.Sendable {
         /// The key for the tag. Tag keys are case sensitive. Every DAX cluster can only have one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
         public var key: Swift.String?
@@ -447,6 +480,17 @@ public struct CreateClusterInput: Swift.Sendable {
     /// A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime, DAX will assume this role and use the role's permissions to access DynamoDB on your behalf.
     /// This member is required.
     public var iamRoleArn: Swift.String?
+    /// Specifies the IP protocol(s) the cluster uses for network communications. Values are:
+    ///
+    /// * ipv4 - The cluster is accessible only through IPv4 addresses
+    ///
+    /// * ipv6 - The cluster is accessible only through IPv6 addresses
+    ///
+    /// * dual_stack - The cluster is accessible through both IPv4 and IPv6 addresses.
+    ///
+    ///
+    /// If no explicit NetworkType is provided, the network type is derived based on the subnet group's configuration.
+    public var networkType: DAXClientTypes.NetworkType?
     /// The compute and memory capacity of the nodes in the cluster.
     /// This member is required.
     public var nodeType: Swift.String?
@@ -473,7 +517,7 @@ public struct CreateClusterInput: Swift.Sendable {
     ///
     /// Example: sun:05:00-sun:09:00 If you don't specify a preferred maintenance window when you create or modify a cache cluster, DAX assigns a 60-minute maintenance window on a randomly selected day of the week.
     public var preferredMaintenanceWindow: Swift.String?
-    /// The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to a number between 3 (one primary and two read replicas) and 10 (one primary and nine read replicas). If the AvailabilityZones parameter is provided, its length must equal the ReplicationFactor. AWS recommends that you have at least two read replicas per cluster.
+    /// The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to a number between 3 (one primary and two read replicas) and 10 (one primary and nine read replicas). If the AvailabilityZones parameter is provided, its length must equal the ReplicationFactor. Amazon Web Services recommends that you have at least two read replicas per cluster.
     /// This member is required.
     public var replicationFactor: Swift.Int?
     /// A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC security group to each node.
@@ -491,6 +535,7 @@ public struct CreateClusterInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         description: Swift.String? = nil,
         iamRoleArn: Swift.String? = nil,
+        networkType: DAXClientTypes.NetworkType? = nil,
         nodeType: Swift.String? = nil,
         notificationTopicArn: Swift.String? = nil,
         parameterGroupName: Swift.String? = nil,
@@ -506,6 +551,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.clusterName = clusterName
         self.description = description
         self.iamRoleArn = iamRoleArn
+        self.networkType = networkType
         self.nodeType = nodeType
         self.notificationTopicArn = notificationTopicArn
         self.parameterGroupName = parameterGroupName
@@ -715,6 +761,14 @@ extension DAXClientTypes {
         public var description: Swift.String?
         /// A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime, DAX will assume this role and use the role's permissions to access DynamoDB on your behalf.
         public var iamRoleArn: Swift.String?
+        /// The IP address type of the cluster. Values are:
+        ///
+        /// * ipv4 - IPv4 addresses only
+        ///
+        /// * ipv6 - IPv6 addresses only
+        ///
+        /// * dual_stack - Both IPv4 and IPv6 addresses
+        public var networkType: DAXClientTypes.NetworkType?
         /// A list of nodes to be removed from the cluster.
         public var nodeIdsToRemove: [Swift.String]?
         /// The node type for the nodes in the cluster. (All nodes in a DAX cluster are of the same type.)
@@ -746,6 +800,7 @@ extension DAXClientTypes {
             clusterName: Swift.String? = nil,
             description: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil,
+            networkType: DAXClientTypes.NetworkType? = nil,
             nodeIdsToRemove: [Swift.String]? = nil,
             nodeType: Swift.String? = nil,
             nodes: [DAXClientTypes.Node]? = nil,
@@ -765,6 +820,7 @@ extension DAXClientTypes {
             self.clusterName = clusterName
             self.description = description
             self.iamRoleArn = iamRoleArn
+            self.networkType = networkType
             self.nodeIdsToRemove = nodeIdsToRemove
             self.nodeType = nodeType
             self.nodes = nodes
@@ -952,6 +1008,29 @@ public struct SubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
     }
 }
 
+/// The specified subnet can't be used for the requested network type. This error occurs when either there aren't enough subnets of the required network type to create the cluster, or when you try to use a subnet that doesn't support the requested network type (for example, trying to create a dual-stack cluster with a subnet that doesn't have IPv6 CIDR).
+public struct SubnetNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SubnetNotAllowedFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The request cannot be processed because it would exceed the allowed number of subnets in a subnet group.
 public struct SubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1004,13 +1083,17 @@ extension DAXClientTypes {
         public var subnetAvailabilityZone: Swift.String?
         /// The system-assigned identifier for the subnet.
         public var subnetIdentifier: Swift.String?
+        /// The network types supported by this subnet. Returns an array of strings that can include ipv4, ipv6, or both, indicating whether the subnet supports IPv4 only, IPv6 only, or dual-stack deployments.
+        public var supportedNetworkTypes: [DAXClientTypes.NetworkType]?
 
         public init(
             subnetAvailabilityZone: Swift.String? = nil,
-            subnetIdentifier: Swift.String? = nil
+            subnetIdentifier: Swift.String? = nil,
+            supportedNetworkTypes: [DAXClientTypes.NetworkType]? = nil
         ) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
+            self.supportedNetworkTypes = supportedNetworkTypes
         }
     }
 }
@@ -1029,6 +1112,8 @@ extension DAXClientTypes {
         public var subnetGroupName: Swift.String?
         /// A list of subnets associated with the subnet group.
         public var subnets: [DAXClientTypes.Subnet]?
+        /// The network types supported by this subnet. Returns an array of strings that can include ipv4, ipv6, or both, indicating whether the subnet group supports IPv4 only, IPv6 only, or dual-stack deployments.
+        public var supportedNetworkTypes: [DAXClientTypes.NetworkType]?
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the subnet group.
         public var vpcId: Swift.String?
 
@@ -1036,11 +1121,13 @@ extension DAXClientTypes {
             description: Swift.String? = nil,
             subnetGroupName: Swift.String? = nil,
             subnets: [DAXClientTypes.Subnet]? = nil,
+            supportedNetworkTypes: [DAXClientTypes.NetworkType]? = nil,
             vpcId: Swift.String? = nil
         ) {
             self.description = description
             self.subnetGroupName = subnetGroupName
             self.subnets = subnets
+            self.supportedNetworkTypes = supportedNetworkTypes
             self.vpcId = vpcId
         }
     }
@@ -1693,7 +1780,7 @@ public struct IncreaseReplicationFactorInput: Swift.Sendable {
 }
 
 public struct IncreaseReplicationFactorOutput: Swift.Sendable {
-    /// A description of the DAX cluster. with its new replication factor.
+    /// A description of the DAX cluster, with its new replication factor.
     public var cluster: DAXClientTypes.Cluster?
 
     public init(
@@ -2168,6 +2255,7 @@ extension CreateClusterInput {
         try writer["ClusterName"].write(value.clusterName)
         try writer["Description"].write(value.description)
         try writer["IamRoleArn"].write(value.iamRoleArn)
+        try writer["NetworkType"].write(value.networkType)
         try writer["NodeType"].write(value.nodeType)
         try writer["NotificationTopicArn"].write(value.notificationTopicArn)
         try writer["ParameterGroupName"].write(value.parameterGroupName)
@@ -2695,6 +2783,7 @@ enum CreateSubnetGroupOutputError {
             case "ServiceLinkedRoleNotFoundFault": return try ServiceLinkedRoleNotFoundFault.makeError(baseError: baseError)
             case "SubnetGroupAlreadyExists": return try SubnetGroupAlreadyExistsFault.makeError(baseError: baseError)
             case "SubnetGroupQuotaExceeded": return try SubnetGroupQuotaExceededFault.makeError(baseError: baseError)
+            case "SubnetNotAllowedFault": return try SubnetNotAllowedFault.makeError(baseError: baseError)
             case "SubnetQuotaExceededFault": return try SubnetQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -3020,6 +3109,7 @@ enum UpdateSubnetGroupOutputError {
             case "ServiceLinkedRoleNotFoundFault": return try ServiceLinkedRoleNotFoundFault.makeError(baseError: baseError)
             case "SubnetGroupNotFoundFault": return try SubnetGroupNotFoundFault.makeError(baseError: baseError)
             case "SubnetInUse": return try SubnetInUse.makeError(baseError: baseError)
+            case "SubnetNotAllowedFault": return try SubnetNotAllowedFault.makeError(baseError: baseError)
             case "SubnetQuotaExceededFault": return try SubnetQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -3284,6 +3374,19 @@ extension SubnetGroupQuotaExceededFault {
     }
 }
 
+extension SubnetNotAllowedFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetNotAllowedFault {
+        let reader = baseError.errorBodyReader
+        var value = SubnetNotAllowedFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension SubnetQuotaExceededFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetQuotaExceededFault {
@@ -3398,6 +3501,7 @@ extension DAXClientTypes.Cluster {
         value.parameterGroup = try reader["ParameterGroup"].readIfPresent(with: DAXClientTypes.ParameterGroupStatus.read(from:))
         value.sseDescription = try reader["SSEDescription"].readIfPresent(with: DAXClientTypes.SSEDescription.read(from:))
         value.clusterEndpointEncryptionType = try reader["ClusterEndpointEncryptionType"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
         return value
     }
 }
@@ -3493,6 +3597,7 @@ extension DAXClientTypes.SubnetGroup {
         value.description = try reader["Description"].readIfPresent()
         value.vpcId = try reader["VpcId"].readIfPresent()
         value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: DAXClientTypes.Subnet.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DAXClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3504,6 +3609,7 @@ extension DAXClientTypes.Subnet {
         var value = DAXClientTypes.Subnet()
         value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
         value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent()
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DAXClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

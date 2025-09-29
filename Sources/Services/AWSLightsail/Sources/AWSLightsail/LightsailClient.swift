@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LightsailClient: ClientRuntime.Client {
     public static let clientName = "LightsailClient"
-    public static let version = "1.5.46"
+    public static let version = "1.5.51"
     let client: ClientRuntime.SdkHttpClient
     let config: LightsailClient.LightsailClientConfiguration
     let serviceName = "Lightsail"
@@ -5022,6 +5022,7 @@ extension LightsailClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAlarmsInput, GetAlarmsOutput>(GetAlarmsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAlarmsInput, GetAlarmsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetAlarmsInput, GetAlarmsOutput>(GetAlarmsInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAlarmsInput, GetAlarmsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAlarmsOutput>(GetAlarmsOutput.httpOutput(from:), GetAlarmsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAlarmsInput, GetAlarmsOutput>(clientLogMode: config.clientLogMode))
@@ -5759,6 +5760,7 @@ extension LightsailClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetContactMethodsInput, GetContactMethodsOutput>(GetContactMethodsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContactMethodsInput, GetContactMethodsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetContactMethodsInput, GetContactMethodsOutput>(GetContactMethodsInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContactMethodsInput, GetContactMethodsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContactMethodsOutput>(GetContactMethodsOutput.httpOutput(from:), GetContactMethodsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContactMethodsInput, GetContactMethodsOutput>(clientLogMode: config.clientLogMode))
@@ -11417,6 +11419,7 @@ extension LightsailClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<TestAlarmInput, TestAlarmOutput>(TestAlarmInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TestAlarmInput, TestAlarmOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<TestAlarmInput, TestAlarmOutput>(TestAlarmInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestAlarmInput, TestAlarmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestAlarmOutput>(TestAlarmOutput.httpOutput(from:), TestAlarmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestAlarmInput, TestAlarmOutput>(clientLogMode: config.clientLogMode))

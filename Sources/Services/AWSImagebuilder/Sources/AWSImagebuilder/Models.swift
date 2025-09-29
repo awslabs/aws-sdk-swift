@@ -5446,7 +5446,6 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
 
 public struct ListComponentBuildVersionsInput: Swift.Sendable {
     /// The component version Amazon Resource Name (ARN) whose versions you want to list.
-    /// This member is required.
     public var componentVersionArn: Swift.String?
     /// The maximum items to return in a request.
     public var maxResults: Swift.Int?
@@ -5681,7 +5680,6 @@ public struct ListImageBuildVersionsInput: Swift.Sendable {
     /// * version
     public var filters: [ImagebuilderClientTypes.Filter]?
     /// The Amazon Resource Name (ARN) of the image whose build versions you want to retrieve.
-    /// This member is required.
     public var imageVersionArn: Swift.String?
     /// The maximum items to return in a request.
     public var maxResults: Swift.Int?
@@ -7124,7 +7122,6 @@ public struct ListWorkflowBuildVersionsInput: Swift.Sendable {
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the workflow resource for which to get a list of build versions.
-    /// This member is required.
     public var workflowVersionArn: Swift.String?
 
     public init(

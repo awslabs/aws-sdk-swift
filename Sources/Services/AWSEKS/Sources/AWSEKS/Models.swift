@@ -1249,6 +1249,7 @@ extension EKSClientTypes {
         case maxUnavailable
         case maxUnavailablePercentage
         case minSize
+        case nodeRepairConfig
         case nodeRepairEnabled
         case platformVersion
         case podIdentityAssociations
@@ -1290,6 +1291,7 @@ extension EKSClientTypes {
                 .maxUnavailable,
                 .maxUnavailablePercentage,
                 .minSize,
+                .nodeRepairConfig,
                 .nodeRepairEnabled,
                 .platformVersion,
                 .podIdentityAssociations,
@@ -1337,6 +1339,7 @@ extension EKSClientTypes {
             case .maxUnavailable: return "MaxUnavailable"
             case .maxUnavailablePercentage: return "MaxUnavailablePercentage"
             case .minSize: return "MinSize"
+            case .nodeRepairConfig: return "NodeRepairConfig"
             case .nodeRepairEnabled: return "NodeRepairEnabled"
             case .platformVersion: return "PlatformVersion"
             case .podIdentityAssociations: return "PodIdentityAssociations"
@@ -3449,15 +3452,94 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    public enum RepairAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noaction
+        case reboot
+        case replace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RepairAction] {
+            return [
+                .noaction,
+                .reboot,
+                .replace
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noaction: return "NoAction"
+            case .reboot: return "Reboot"
+            case .replace: return "Replace"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Specify granular overrides for specific repair actions. These overrides control the repair action and the repair delay time before a node is considered eligible for repair. If you use this, you must specify all the values.
+    public struct NodeRepairConfigOverrides: Swift.Sendable {
+        /// Specify the minimum time in minutes to wait before attempting to repair a node with this specific nodeMonitoringCondition and nodeUnhealthyReason.
+        public var minRepairWaitTimeMins: Swift.Int?
+        /// Specify an unhealthy condition reported by the node monitoring agent that this override would apply to.
+        public var nodeMonitoringCondition: Swift.String?
+        /// Specify a reason reported by the node monitoring agent that this override would apply to.
+        public var nodeUnhealthyReason: Swift.String?
+        /// Specify the repair action to take for nodes when all of the specified conditions are met.
+        public var repairAction: EKSClientTypes.RepairAction?
+
+        public init(
+            minRepairWaitTimeMins: Swift.Int? = nil,
+            nodeMonitoringCondition: Swift.String? = nil,
+            nodeUnhealthyReason: Swift.String? = nil,
+            repairAction: EKSClientTypes.RepairAction? = nil
+        ) {
+            self.minRepairWaitTimeMins = minRepairWaitTimeMins
+            self.nodeMonitoringCondition = nodeMonitoringCondition
+            self.nodeUnhealthyReason = nodeUnhealthyReason
+            self.repairAction = repairAction
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// The node auto repair configuration for the node group.
     public struct NodeRepairConfig: Swift.Sendable {
         /// Specifies whether to enable node auto repair for the node group. Node auto repair is disabled by default.
         public var enabled: Swift.Bool?
+        /// Specify the maximum number of nodes that can be repaired concurrently or in parallel, expressed as a count of unhealthy nodes. This gives you finer-grained control over the pace of node replacements. When using this, you cannot also set maxParallelNodesRepairedPercentage at the same time.
+        public var maxParallelNodesRepairedCount: Swift.Int?
+        /// Specify the maximum number of nodes that can be repaired concurrently or in parallel, expressed as a percentage of unhealthy nodes. This gives you finer-grained control over the pace of node replacements. When using this, you cannot also set maxParallelNodesRepairedCount at the same time.
+        public var maxParallelNodesRepairedPercentage: Swift.Int?
+        /// Specify a count threshold of unhealthy nodes, above which node auto repair actions will stop. When using this, you cannot also set maxUnhealthyNodeThresholdPercentage at the same time.
+        public var maxUnhealthyNodeThresholdCount: Swift.Int?
+        /// Specify a percentage threshold of unhealthy nodes, above which node auto repair actions will stop. When using this, you cannot also set maxUnhealthyNodeThresholdCount at the same time.
+        public var maxUnhealthyNodeThresholdPercentage: Swift.Int?
+        /// Specify granular overrides for specific repair actions. These overrides control the repair action and the repair delay time before a node is considered eligible for repair. If you use this, you must specify all the values.
+        public var nodeRepairConfigOverrides: [EKSClientTypes.NodeRepairConfigOverrides]?
 
         public init(
-            enabled: Swift.Bool? = nil
+            enabled: Swift.Bool? = nil,
+            maxParallelNodesRepairedCount: Swift.Int? = nil,
+            maxParallelNodesRepairedPercentage: Swift.Int? = nil,
+            maxUnhealthyNodeThresholdCount: Swift.Int? = nil,
+            maxUnhealthyNodeThresholdPercentage: Swift.Int? = nil,
+            nodeRepairConfigOverrides: [EKSClientTypes.NodeRepairConfigOverrides]? = nil
         ) {
             self.enabled = enabled
+            self.maxParallelNodesRepairedCount = maxParallelNodesRepairedCount
+            self.maxParallelNodesRepairedPercentage = maxParallelNodesRepairedPercentage
+            self.maxUnhealthyNodeThresholdCount = maxUnhealthyNodeThresholdCount
+            self.maxUnhealthyNodeThresholdPercentage = maxUnhealthyNodeThresholdPercentage
+            self.nodeRepairConfigOverrides = nodeRepairConfigOverrides
         }
     }
 }
@@ -10720,12 +10802,43 @@ extension EKSClientTypes.NodeRepairConfig {
     static func write(value: EKSClientTypes.NodeRepairConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enabled"].write(value.enabled)
+        try writer["maxParallelNodesRepairedCount"].write(value.maxParallelNodesRepairedCount)
+        try writer["maxParallelNodesRepairedPercentage"].write(value.maxParallelNodesRepairedPercentage)
+        try writer["maxUnhealthyNodeThresholdCount"].write(value.maxUnhealthyNodeThresholdCount)
+        try writer["maxUnhealthyNodeThresholdPercentage"].write(value.maxUnhealthyNodeThresholdPercentage)
+        try writer["nodeRepairConfigOverrides"].writeList(value.nodeRepairConfigOverrides, memberWritingClosure: EKSClientTypes.NodeRepairConfigOverrides.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodeRepairConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.NodeRepairConfig()
         value.enabled = try reader["enabled"].readIfPresent()
+        value.maxUnhealthyNodeThresholdCount = try reader["maxUnhealthyNodeThresholdCount"].readIfPresent()
+        value.maxUnhealthyNodeThresholdPercentage = try reader["maxUnhealthyNodeThresholdPercentage"].readIfPresent()
+        value.maxParallelNodesRepairedCount = try reader["maxParallelNodesRepairedCount"].readIfPresent()
+        value.maxParallelNodesRepairedPercentage = try reader["maxParallelNodesRepairedPercentage"].readIfPresent()
+        value.nodeRepairConfigOverrides = try reader["nodeRepairConfigOverrides"].readListIfPresent(memberReadingClosure: EKSClientTypes.NodeRepairConfigOverrides.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.NodeRepairConfigOverrides {
+
+    static func write(value: EKSClientTypes.NodeRepairConfigOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["minRepairWaitTimeMins"].write(value.minRepairWaitTimeMins)
+        try writer["nodeMonitoringCondition"].write(value.nodeMonitoringCondition)
+        try writer["nodeUnhealthyReason"].write(value.nodeUnhealthyReason)
+        try writer["repairAction"].write(value.repairAction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodeRepairConfigOverrides {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.NodeRepairConfigOverrides()
+        value.nodeMonitoringCondition = try reader["nodeMonitoringCondition"].readIfPresent()
+        value.nodeUnhealthyReason = try reader["nodeUnhealthyReason"].readIfPresent()
+        value.minRepairWaitTimeMins = try reader["minRepairWaitTimeMins"].readIfPresent()
+        value.repairAction = try reader["repairAction"].readIfPresent()
         return value
     }
 }

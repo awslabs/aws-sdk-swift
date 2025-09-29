@@ -794,7 +794,7 @@ public struct CopyDBClusterSnapshotInput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// Not currently supported.
     public var preSignedUrl: Swift.String?
-    /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. Constraints:
+    /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. If the source DB cluster snapshot is in a different region or owned by another account, specify the snapshot ARN. Constraints:
     ///
     /// * Must specify a valid system snapshot in the "available" state.
     ///

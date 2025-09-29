@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RedshiftClient: ClientRuntime.Client {
     public static let clientName = "RedshiftClient"
-    public static let version = "1.5.46"
+    public static let version = "1.5.51"
     let client: ClientRuntime.SdkHttpClient
     let config: RedshiftClient.RedshiftClientConfiguration
     let serviceName = "Redshift"
@@ -2046,8 +2046,10 @@ extension RedshiftClient {
     /// __Possible Exceptions:__
     /// - `DependentServiceAccessDeniedFault` : A dependent service denied access for the integration.
     /// - `DependentServiceUnavailableFault` : Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
+    /// - `InvalidTagFault` : The tag is invalid.
     /// - `RedshiftIdcApplicationAlreadyExistsFault` : The application you attempted to add already exists.
     /// - `RedshiftIdcApplicationQuotaExceededFault` : The maximum number of Redshift IAM Identity Center applications was exceeded.
+    /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func createRedshiftIdcApplication(input: CreateRedshiftIdcApplicationInput) async throws -> CreateRedshiftIdcApplicationOutput {
         let context = Smithy.ContextBuilder()

@@ -71,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TnbClient: ClientRuntime.Client {
     public static let clientName = "TnbClient"
-    public static let version = "1.5.46"
+    public static let version = "1.5.51"
     let client: ClientRuntime.SdkHttpClient
     let config: TnbClient.TnbClientConfiguration
     let serviceName = "tnb"

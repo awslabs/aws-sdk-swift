@@ -995,6 +995,8 @@ extension GlueClientTypes {
     public struct AuthenticationConfiguration: Swift.Sendable {
         /// A structure containing the authentication configuration.
         public var authenticationType: GlueClientTypes.AuthenticationType?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt sensitive authentication information. This key is used to protect credentials and other sensitive data stored within the authentication configuration.
+        public var kmsKeyArn: Swift.String?
         /// The properties for OAuth2 authentication.
         public var oAuth2Properties: GlueClientTypes.OAuth2Properties?
         /// The secret manager ARN to store credentials.
@@ -1002,10 +1004,12 @@ extension GlueClientTypes {
 
         public init(
             authenticationType: GlueClientTypes.AuthenticationType? = nil,
+            kmsKeyArn: Swift.String? = nil,
             oAuth2Properties: GlueClientTypes.OAuth2Properties? = nil,
             secretArn: Swift.String? = nil
         ) {
             self.authenticationType = authenticationType
+            self.kmsKeyArn = kmsKeyArn
             self.oAuth2Properties = oAuth2Properties
             self.secretArn = secretArn
         }
@@ -11514,68 +11518,194 @@ extension GlueClientTypes {
 extension GlueClientTypes {
 
     public enum ConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case adobeanalytics
+        case asana
+        case azurecosmos
+        case azuresql
+        case bigquery
+        case blackbaud
+        case blackbaudraiseredgenxt
+        case circleci
+        case clouderahive
+        case clouderaimpala
+        case cloudwatch
+        case cloudwatchmetrics
+        case cmdb
         case custom
+        case datadog
+        case datalakegen2
+        case db2
+        case db2as400
+        case documentdb
+        case docusignmonitor
+        case domo
+        case dynamodb
+        case dynatrace
         case facebookads
+        case facebookpageinsights
+        case freshdesk
+        case freshsales
+        case gitlab
         case googleads
         case googleanalytics4
+        case googlecloudstorage
+        case googlesearchconsole
         case googlesheets
+        case hbase
         case hubspot
         case instagramads
         case intercom
         case jdbc
         case jiracloud
         case kafka
+        case kustomer
+        case linkedin
+        case mailchimp
         case marketo
         case marketplace
+        case microsoftdynamic365financeandops
+        case microsoftdynamics365crm
+        case microsoftteams
+        case mixpanel
+        case monday
         case mongodb
+        case mysql
         case netsuiteerp
         case network
+        case okta
+        case opensearch
+        case oracle
+        case paypal
+        case pendo
+        case pipedive
+        case pipedrive
+        case postgresql
+        case productboard
+        case quickbooks
         case salesforce
+        case salesforcecommercecloud
         case salesforcemarketingcloud
         case salesforcepardot
+        case sapconcur
+        case saphana
         case sapodata
+        case sendgrid
         case servicenow
         case sftp
         case slack
+        case smartsheet
         case snapchatads
+        case sqlserver
         case stripe
+        case synapse
+        case teradata
+        case teradatanos
+        case timestream
+        case tpcds
+        case twilio
+        case vertica
         case viewValidationAthena
         case viewValidationRedshift
+        case woocommerce
         case zendesk
         case zohocrm
+        case zoom
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConnectionType] {
             return [
+                .adobeanalytics,
+                .asana,
+                .azurecosmos,
+                .azuresql,
+                .bigquery,
+                .blackbaud,
+                .blackbaudraiseredgenxt,
+                .circleci,
+                .clouderahive,
+                .clouderaimpala,
+                .cloudwatch,
+                .cloudwatchmetrics,
+                .cmdb,
                 .custom,
+                .datadog,
+                .datalakegen2,
+                .db2,
+                .db2as400,
+                .documentdb,
+                .docusignmonitor,
+                .domo,
+                .dynamodb,
+                .dynatrace,
                 .facebookads,
+                .facebookpageinsights,
+                .freshdesk,
+                .freshsales,
+                .gitlab,
                 .googleads,
                 .googleanalytics4,
+                .googlecloudstorage,
+                .googlesearchconsole,
                 .googlesheets,
+                .hbase,
                 .hubspot,
                 .instagramads,
                 .intercom,
                 .jdbc,
                 .jiracloud,
                 .kafka,
+                .kustomer,
+                .linkedin,
+                .mailchimp,
                 .marketo,
                 .marketplace,
+                .microsoftdynamic365financeandops,
+                .microsoftdynamics365crm,
+                .microsoftteams,
+                .mixpanel,
+                .monday,
                 .mongodb,
+                .mysql,
                 .netsuiteerp,
                 .network,
+                .okta,
+                .opensearch,
+                .oracle,
+                .paypal,
+                .pendo,
+                .pipedive,
+                .pipedrive,
+                .postgresql,
+                .productboard,
+                .quickbooks,
                 .salesforce,
+                .salesforcecommercecloud,
                 .salesforcemarketingcloud,
                 .salesforcepardot,
+                .sapconcur,
+                .saphana,
                 .sapodata,
+                .sendgrid,
                 .servicenow,
                 .sftp,
                 .slack,
+                .smartsheet,
                 .snapchatads,
+                .sqlserver,
                 .stripe,
+                .synapse,
+                .teradata,
+                .teradatanos,
+                .timestream,
+                .tpcds,
+                .twilio,
+                .vertica,
                 .viewValidationAthena,
                 .viewValidationRedshift,
+                .woocommerce,
                 .zendesk,
-                .zohocrm
+                .zohocrm,
+                .zoom
             ]
         }
 
@@ -11586,35 +11716,98 @@ extension GlueClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .adobeanalytics: return "ADOBEANALYTICS"
+            case .asana: return "ASANA"
+            case .azurecosmos: return "AZURECOSMOS"
+            case .azuresql: return "AZURESQL"
+            case .bigquery: return "BIGQUERY"
+            case .blackbaud: return "BLACKBAUD"
+            case .blackbaudraiseredgenxt: return "BLACKBAUDRAISEREDGENXT"
+            case .circleci: return "CIRCLECI"
+            case .clouderahive: return "CLOUDERAHIVE"
+            case .clouderaimpala: return "CLOUDERAIMPALA"
+            case .cloudwatch: return "CLOUDWATCH"
+            case .cloudwatchmetrics: return "CLOUDWATCHMETRICS"
+            case .cmdb: return "CMDB"
             case .custom: return "CUSTOM"
+            case .datadog: return "DATADOG"
+            case .datalakegen2: return "DATALAKEGEN2"
+            case .db2: return "DB2"
+            case .db2as400: return "DB2AS400"
+            case .documentdb: return "DOCUMENTDB"
+            case .docusignmonitor: return "DOCUSIGNMONITOR"
+            case .domo: return "DOMO"
+            case .dynamodb: return "DYNAMODB"
+            case .dynatrace: return "DYNATRACE"
             case .facebookads: return "FACEBOOKADS"
+            case .facebookpageinsights: return "FACEBOOKPAGEINSIGHTS"
+            case .freshdesk: return "FRESHDESK"
+            case .freshsales: return "FRESHSALES"
+            case .gitlab: return "GITLAB"
             case .googleads: return "GOOGLEADS"
             case .googleanalytics4: return "GOOGLEANALYTICS4"
+            case .googlecloudstorage: return "GOOGLECLOUDSTORAGE"
+            case .googlesearchconsole: return "GOOGLESEARCHCONSOLE"
             case .googlesheets: return "GOOGLESHEETS"
+            case .hbase: return "HBASE"
             case .hubspot: return "HUBSPOT"
             case .instagramads: return "INSTAGRAMADS"
             case .intercom: return "INTERCOM"
             case .jdbc: return "JDBC"
             case .jiracloud: return "JIRACLOUD"
             case .kafka: return "KAFKA"
+            case .kustomer: return "KUSTOMER"
+            case .linkedin: return "LINKEDIN"
+            case .mailchimp: return "MAILCHIMP"
             case .marketo: return "MARKETO"
             case .marketplace: return "MARKETPLACE"
+            case .microsoftdynamic365financeandops: return "MICROSOFTDYNAMIC365FINANCEANDOPS"
+            case .microsoftdynamics365crm: return "MICROSOFTDYNAMICS365CRM"
+            case .microsoftteams: return "MICROSOFTTEAMS"
+            case .mixpanel: return "MIXPANEL"
+            case .monday: return "MONDAY"
             case .mongodb: return "MONGODB"
+            case .mysql: return "MYSQL"
             case .netsuiteerp: return "NETSUITEERP"
             case .network: return "NETWORK"
+            case .okta: return "OKTA"
+            case .opensearch: return "OPENSEARCH"
+            case .oracle: return "ORACLE"
+            case .paypal: return "PAYPAL"
+            case .pendo: return "PENDO"
+            case .pipedive: return "PIPEDIVE"
+            case .pipedrive: return "PIPEDRIVE"
+            case .postgresql: return "POSTGRESQL"
+            case .productboard: return "PRODUCTBOARD"
+            case .quickbooks: return "QUICKBOOKS"
             case .salesforce: return "SALESFORCE"
+            case .salesforcecommercecloud: return "SALESFORCECOMMERCECLOUD"
             case .salesforcemarketingcloud: return "SALESFORCEMARKETINGCLOUD"
             case .salesforcepardot: return "SALESFORCEPARDOT"
+            case .sapconcur: return "SAPCONCUR"
+            case .saphana: return "SAPHANA"
             case .sapodata: return "SAPODATA"
+            case .sendgrid: return "SENDGRID"
             case .servicenow: return "SERVICENOW"
             case .sftp: return "SFTP"
             case .slack: return "SLACK"
+            case .smartsheet: return "SMARTSHEET"
             case .snapchatads: return "SNAPCHATADS"
+            case .sqlserver: return "SQLSERVER"
             case .stripe: return "STRIPE"
+            case .synapse: return "SYNAPSE"
+            case .teradata: return "TERADATA"
+            case .teradatanos: return "TERADATANOS"
+            case .timestream: return "TIMESTREAM"
+            case .tpcds: return "TPCDS"
+            case .twilio: return "TWILIO"
+            case .vertica: return "VERTICA"
             case .viewValidationAthena: return "VIEW_VALIDATION_ATHENA"
             case .viewValidationRedshift: return "VIEW_VALIDATION_REDSHIFT"
+            case .woocommerce: return "WOOCOMMERCE"
             case .zendesk: return "ZENDESK"
             case .zohocrm: return "ZOHOCRM"
+            case .zoom: return "ZOOM"
             case let .sdkUnknown(s): return s
             }
         }
@@ -18597,7 +18790,7 @@ extension GlueClientTypes {
         ///
         /// * JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.
         ///
-        /// * JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.
+        /// * JDBC_ENFORCE_SSL - A case-insensitive Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.
         ///
         /// * CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.
         ///
@@ -47664,6 +47857,7 @@ extension GlueClientTypes.AuthenticationConfiguration {
         var value = GlueClientTypes.AuthenticationConfiguration()
         value.authenticationType = try reader["AuthenticationType"].readIfPresent()
         value.secretArn = try reader["SecretArn"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
         value.oAuth2Properties = try reader["OAuth2Properties"].readIfPresent(with: GlueClientTypes.OAuth2Properties.read(from:))
         return value
     }

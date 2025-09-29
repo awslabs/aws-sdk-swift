@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSOOIDCClient: ClientRuntime.Client {
     public static let clientName = "SSOOIDCClient"
-    public static let version = "1.5.46"
+    public static let version = "1.5.51"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOOIDCClient.SSOOIDCClientConfiguration
     let serviceName = "SSO OIDC"
@@ -445,7 +445,7 @@ extension SSOOIDCClient {
 
     /// Performs the `CreateTokenWithIAM` operation on the `SSOOIDC` service.
     ///
-    /// Creates and returns access and refresh tokens for clients and applications that are authenticated using IAM entities. The access token can be used to fetch short-lived credentials for the assigned Amazon Web Services accounts or to access application APIs using bearer authentication.
+    /// Creates and returns access and refresh tokens for authorized client applications that are authenticated using any IAM entity, such as a service role or user. These tokens might contain defined scopes that specify permissions such as read:profile or write:data. Through downscoping, you can use the scopes parameter to request tokens with reduced permissions compared to the original client application's permissions or, if applicable, the refresh token's scopes. The access token can be used to fetch short-lived credentials for the assigned Amazon Web Services accounts or to access application APIs using bearer authentication. This API is used with Signature Version 4. For more information, see [Amazon Web Services Signature Version 4 for API Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html).
     ///
     /// - Parameter CreateTokenWithIAMInput : [no documentation found]
     ///
@@ -538,6 +538,7 @@ extension SSOOIDCClient {
     /// - `InvalidRedirectUriException` : Indicates that one or more redirect URI in the request is not supported for this operation.
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
     /// - `InvalidScopeException` : Indicates that the scope provided in the request is invalid.
+    /// - `SlowDownException` : Indicates that the client is making the request too frequently and is more than the service can handle.
     /// - `UnsupportedGrantTypeException` : Indicates that the grant type in the request is not supported by the service.
     public func registerClient(input: RegisterClientInput) async throws -> RegisterClientOutput {
         let context = Smithy.ContextBuilder()

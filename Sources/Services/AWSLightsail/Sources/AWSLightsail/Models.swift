@@ -337,7 +337,7 @@ extension LightsailClientTypes {
         ///
         /// * DEFAULTED_FOR_SLR_MISSING_ON_HOLD - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. Account-level BPA is not yet configured for your Lightsail buckets. Therefore, only the bucket access permissions and individual object access permissions apply to your Lightsail buckets. For more information about how to create the required service-linked role to allow synchronization, see [Using Service-Linked Roles for Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-using-service-linked-roles) in the Amazon Lightsail Developer Guide.
         ///
-        /// * Unknown - The reason that synchronization failed is unknown. Contact Amazon Web ServicesSupport for more information.
+        /// * Unknown - The reason that synchronization failed is unknown. Contact Amazon Web Services Support for more information.
         public var message: LightsailClientTypes.BPAStatusMessage?
         /// The status of the account-level BPA synchronization. The following statuses are possible:
         ///
@@ -13999,6 +13999,13 @@ extension GetAlarmsInput {
     }
 }
 
+extension GetAlarmsInput {
+
+    static func queryItemProvider(_ value: GetAlarmsInput) throws -> [Smithy.URIQueryItem] {
+        return []
+    }
+}
+
 extension GetAutoSnapshotsInput {
 
     static func urlPathProvider(_ value: GetAutoSnapshotsInput) -> Swift.String? {
@@ -14066,6 +14073,13 @@ extension GetContactMethodsInput {
 
     static func urlPathProvider(_ value: GetContactMethodsInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension GetContactMethodsInput {
+
+    static func queryItemProvider(_ value: GetContactMethodsInput) throws -> [Smithy.URIQueryItem] {
+        return []
     }
 }
 
@@ -14619,6 +14633,13 @@ extension TestAlarmInput {
 
     static func urlPathProvider(_ value: TestAlarmInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension TestAlarmInput {
+
+    static func queryItemProvider(_ value: TestAlarmInput) throws -> [Smithy.URIQueryItem] {
+        return []
     }
 }
 
