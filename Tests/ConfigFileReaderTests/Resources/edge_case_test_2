@@ -1,0 +1,4 @@
+[profile test
+test-three-number = 3
+nested-under-test =
+    sub-test-two-word  two

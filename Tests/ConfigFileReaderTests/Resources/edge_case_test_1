@@ -2,9 +2,3 @@
 default-three-number  3
 nested-under-default =
     sub-default-two-number = 2
-
-
-[profile test
-test-three-number = 3
-nested-under-test =
-    sub-test-two-word  two

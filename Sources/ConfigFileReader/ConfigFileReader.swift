@@ -16,7 +16,7 @@ public struct ConfigFileReader {
         self.credentialsFilePath = credentialsFilePath ?? "~/.aws/credentials"
     }
     
-    func config() -> FileBasedConfigurationSectionProviding? {
+    func config() throws -> FileBasedConfigurationSectionProviding? {
     
         guard let storedConfigData = FileManager.default.contents(atPath: configFilePath) else {
             print("Could not open File")
@@ -86,9 +86,12 @@ public struct ConfigFileReader {
                         print("  Added sub-property key and value '\(key)' = '\(value)' to subsection '\(String(describing: currentSubsectionName))' Current section: \(String(describing: currentSection))")
                     }
                 }
-            default:
-                print("No profile found, values will be placed in [default] section")
+            case _ where line.trimmingCharacters(in: .whitespaces).hasPrefix("#"):
+                // this is a comment line
                 break
+            default:
+                print("Unrecognized line: \"\(line)\"")
+                throw ProfileParsingError.incompleteProfile(line: String(line))
             }
         }
         return ConfigFile(sections: sections)
