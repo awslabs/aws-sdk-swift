@@ -4572,6 +4572,8 @@ extension DataZoneClientTypes {
         public var javaVirtualEnv: Swift.String?
         /// The log URI of the Spark EMR.
         public var logUri: Swift.String?
+        /// The managed endpoint ARN of the EMR on EKS cluster.
+        public var managedEndpointArn: Swift.String?
         /// The Python virtual env of the Spark EMR.
         public var pythonVirtualEnv: Swift.String?
         /// The runtime role of the Spark EMR.
@@ -4584,6 +4586,7 @@ extension DataZoneClientTypes {
             instanceProfileArn: Swift.String? = nil,
             javaVirtualEnv: Swift.String? = nil,
             logUri: Swift.String? = nil,
+            managedEndpointArn: Swift.String? = nil,
             pythonVirtualEnv: Swift.String? = nil,
             runtimeRole: Swift.String? = nil,
             trustedCertificatesS3Uri: Swift.String? = nil
@@ -4592,6 +4595,7 @@ extension DataZoneClientTypes {
             self.instanceProfileArn = instanceProfileArn
             self.javaVirtualEnv = javaVirtualEnv
             self.logUri = logUri
+            self.managedEndpointArn = managedEndpointArn
             self.pythonVirtualEnv = pythonVirtualEnv
             self.runtimeRole = runtimeRole
             self.trustedCertificatesS3Uri = trustedCertificatesS3Uri
@@ -4953,8 +4957,35 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The managed endpoint credentials of the EMR on EKS cluster.
+    public struct ManagedEndpointCredentials: Swift.Sendable {
+        /// The identifier of the managed endpoint credentials.
+        public var id: Swift.String?
+        /// The ARN of the managed endpoint credentials.
+        public var token: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            token: Swift.String? = nil
+        ) {
+            self.id = id
+            self.token = token
+        }
+    }
+}
+
+extension DataZoneClientTypes.ManagedEndpointCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The Spark EMR properties.
     public struct SparkEmrPropertiesOutput: Swift.Sendable {
+        /// The certificate data of the EMR on EKS cluster.
+        public var certificateData: Swift.String?
         /// The compute ARN of the Spark EMR.
         public var computeArn: Swift.String?
         /// The credentials of the Spark EMR.
@@ -4971,6 +5002,10 @@ extension DataZoneClientTypes {
         public var livyEndpoint: Swift.String?
         /// The log URI of the Spark EMR.
         public var logUri: Swift.String?
+        /// The managed endpoint ARN of the EMR on EKS cluster.
+        public var managedEndpointArn: Swift.String?
+        /// The managed endpoint credentials of the EMR on EKS cluster.
+        public var managedEndpointCredentials: DataZoneClientTypes.ManagedEndpointCredentials?
         /// The Python virtual env of the Spark EMR.
         public var pythonVirtualEnv: Swift.String?
         /// The runtime role of the Spark EMR.
@@ -4979,6 +5014,7 @@ extension DataZoneClientTypes {
         public var trustedCertificatesS3Uri: Swift.String?
 
         public init(
+            certificateData: Swift.String? = nil,
             computeArn: Swift.String? = nil,
             credentials: DataZoneClientTypes.UsernamePassword? = nil,
             credentialsExpiration: Foundation.Date? = nil,
@@ -4987,10 +5023,13 @@ extension DataZoneClientTypes {
             javaVirtualEnv: Swift.String? = nil,
             livyEndpoint: Swift.String? = nil,
             logUri: Swift.String? = nil,
+            managedEndpointArn: Swift.String? = nil,
+            managedEndpointCredentials: DataZoneClientTypes.ManagedEndpointCredentials? = nil,
             pythonVirtualEnv: Swift.String? = nil,
             runtimeRole: Swift.String? = nil,
             trustedCertificatesS3Uri: Swift.String? = nil
         ) {
+            self.certificateData = certificateData
             self.computeArn = computeArn
             self.credentials = credentials
             self.credentialsExpiration = credentialsExpiration
@@ -4999,6 +5038,8 @@ extension DataZoneClientTypes {
             self.javaVirtualEnv = javaVirtualEnv
             self.livyEndpoint = livyEndpoint
             self.logUri = logUri
+            self.managedEndpointArn = managedEndpointArn
+            self.managedEndpointCredentials = managedEndpointCredentials
             self.pythonVirtualEnv = pythonVirtualEnv
             self.runtimeRole = runtimeRole
             self.trustedCertificatesS3Uri = trustedCertificatesS3Uri
@@ -5008,7 +5049,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.SparkEmrPropertiesOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SparkEmrPropertiesOutput(computeArn: \(Swift.String(describing: computeArn)), credentialsExpiration: \(Swift.String(describing: credentialsExpiration)), governanceType: \(Swift.String(describing: governanceType)), instanceProfileArn: \(Swift.String(describing: instanceProfileArn)), javaVirtualEnv: \(Swift.String(describing: javaVirtualEnv)), livyEndpoint: \(Swift.String(describing: livyEndpoint)), logUri: \(Swift.String(describing: logUri)), pythonVirtualEnv: \(Swift.String(describing: pythonVirtualEnv)), runtimeRole: \(Swift.String(describing: runtimeRole)), trustedCertificatesS3Uri: \(Swift.String(describing: trustedCertificatesS3Uri)), credentials: \"CONTENT_REDACTED\")"}
+        "SparkEmrPropertiesOutput(certificateData: \(Swift.String(describing: certificateData)), computeArn: \(Swift.String(describing: computeArn)), credentialsExpiration: \(Swift.String(describing: credentialsExpiration)), governanceType: \(Swift.String(describing: governanceType)), instanceProfileArn: \(Swift.String(describing: instanceProfileArn)), javaVirtualEnv: \(Swift.String(describing: javaVirtualEnv)), livyEndpoint: \(Swift.String(describing: livyEndpoint)), logUri: \(Swift.String(describing: logUri)), managedEndpointArn: \(Swift.String(describing: managedEndpointArn)), pythonVirtualEnv: \(Swift.String(describing: pythonVirtualEnv)), runtimeRole: \(Swift.String(describing: runtimeRole)), trustedCertificatesS3Uri: \(Swift.String(describing: trustedCertificatesS3Uri)), credentials: \"CONTENT_REDACTED\", managedEndpointCredentials: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -5203,6 +5244,8 @@ extension DataZoneClientTypes {
         public var javaVirtualEnv: Swift.String?
         /// The log URI in the Spark EMR properties patch.
         public var logUri: Swift.String?
+        /// The managed endpoint ARN of the EMR on EKS cluster.
+        public var managedEndpointArn: Swift.String?
         /// The Python virtual env in the Spark EMR properties patch.
         public var pythonVirtualEnv: Swift.String?
         /// The runtime role in the Spark EMR properties patch.
@@ -5215,6 +5258,7 @@ extension DataZoneClientTypes {
             instanceProfileArn: Swift.String? = nil,
             javaVirtualEnv: Swift.String? = nil,
             logUri: Swift.String? = nil,
+            managedEndpointArn: Swift.String? = nil,
             pythonVirtualEnv: Swift.String? = nil,
             runtimeRole: Swift.String? = nil,
             trustedCertificatesS3Uri: Swift.String? = nil
@@ -5223,6 +5267,7 @@ extension DataZoneClientTypes {
             self.instanceProfileArn = instanceProfileArn
             self.javaVirtualEnv = javaVirtualEnv
             self.logUri = logUri
+            self.managedEndpointArn = managedEndpointArn
             self.pythonVirtualEnv = pythonVirtualEnv
             self.runtimeRole = runtimeRole
             self.trustedCertificatesS3Uri = trustedCertificatesS3Uri
@@ -33598,6 +33643,20 @@ extension DataZoneClientTypes.SparkEmrPropertiesOutput {
         value.pythonVirtualEnv = try reader["pythonVirtualEnv"].readIfPresent()
         value.runtimeRole = try reader["runtimeRole"].readIfPresent()
         value.trustedCertificatesS3Uri = try reader["trustedCertificatesS3Uri"].readIfPresent()
+        value.certificateData = try reader["certificateData"].readIfPresent()
+        value.managedEndpointArn = try reader["managedEndpointArn"].readIfPresent()
+        value.managedEndpointCredentials = try reader["managedEndpointCredentials"].readIfPresent(with: DataZoneClientTypes.ManagedEndpointCredentials.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ManagedEndpointCredentials {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ManagedEndpointCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ManagedEndpointCredentials()
+        value.id = try reader["id"].readIfPresent()
+        value.token = try reader["token"].readIfPresent()
         return value
     }
 }
@@ -36761,6 +36820,7 @@ extension DataZoneClientTypes.SparkEmrPropertiesInput {
         try writer["instanceProfileArn"].write(value.instanceProfileArn)
         try writer["javaVirtualEnv"].write(value.javaVirtualEnv)
         try writer["logUri"].write(value.logUri)
+        try writer["managedEndpointArn"].write(value.managedEndpointArn)
         try writer["pythonVirtualEnv"].write(value.pythonVirtualEnv)
         try writer["runtimeRole"].write(value.runtimeRole)
         try writer["trustedCertificatesS3Uri"].write(value.trustedCertificatesS3Uri)
@@ -37106,6 +37166,7 @@ extension DataZoneClientTypes.SparkEmrPropertiesPatch {
         try writer["instanceProfileArn"].write(value.instanceProfileArn)
         try writer["javaVirtualEnv"].write(value.javaVirtualEnv)
         try writer["logUri"].write(value.logUri)
+        try writer["managedEndpointArn"].write(value.managedEndpointArn)
         try writer["pythonVirtualEnv"].write(value.pythonVirtualEnv)
         try writer["runtimeRole"].write(value.runtimeRole)
         try writer["trustedCertificatesS3Uri"].write(value.trustedCertificatesS3Uri)

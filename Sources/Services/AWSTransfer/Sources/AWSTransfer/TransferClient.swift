@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TransferClient: ClientRuntime.Client {
     public static let clientName = "TransferClient"
-    public static let version = "1.5.52"
+    public static let version = "1.5.53"
     let client: ClientRuntime.SdkHttpClient
     let config: TransferClient.TransferClientConfiguration
     let serviceName = "Transfer"
@@ -1953,7 +1953,7 @@ extension TransferClient {
 
     /// Performs the `DescribeCertificate` operation on the `Transfer` service.
     ///
-    /// Describes the certificate that's identified by the CertificateId.
+    /// Describes the certificate that's identified by the CertificateId. Transfer Family automatically publishes a Amazon CloudWatch metric called DaysUntilExpiry for imported certificates. This metric tracks the number of days until the certificate expires based on the InactiveDate. The metric is available in the AWS/Transfer namespace and includes the CertificateId as a dimension.
     ///
     /// - Parameter DescribeCertificateInput : [no documentation found]
     ///
@@ -2736,7 +2736,15 @@ extension TransferClient {
 
     /// Performs the `ImportCertificate` operation on the `Transfer` service.
     ///
-    /// Imports the signing and encryption certificates that you need to create local (AS2) profiles and partner profiles. You can import both the certificate and its chain in the Certificate parameter. If you use the Certificate parameter to upload both the certificate and its chain, don't use the CertificateChain parameter.
+    /// Imports the signing and encryption certificates that you need to create local (AS2) profiles and partner profiles. You can import both the certificate and its chain in the Certificate parameter. After importing a certificate, Transfer Family automatically creates a Amazon CloudWatch metric called DaysUntilExpiry that tracks the number of days until the certificate expires. The metric is based on the InactiveDate parameter and is published daily in the AWS/Transfer namespace. It can take up to a full day after importing a certificate for Transfer Family to emit the DaysUntilExpiry metric to your account. If you use the Certificate parameter to upload both the certificate and its chain, don't use the CertificateChain parameter. CloudWatch monitoring The DaysUntilExpiry metric includes the following specifications:
+    ///
+    /// * Units: Count (days)
+    ///
+    /// * Dimensions: CertificateId (always present), Description (if provided during certificate import)
+    ///
+    /// * Statistics: Minimum, Maximum, Average
+    ///
+    /// * Frequency: Published daily
     ///
     /// - Parameter ImportCertificateInput : [no documentation found]
     ///

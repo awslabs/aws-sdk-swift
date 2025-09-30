@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RDSClient: ClientRuntime.Client {
     public static let clientName = "RDSClient"
-    public static let version = "1.5.52"
+    public static let version = "1.5.53"
     let client: ClientRuntime.SdkHttpClient
     let config: RDSClient.RDSClientConfiguration
     let serviceName = "RDS"
@@ -590,11 +590,16 @@ extension RDSClient {
     /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBProxyEndpointNotFoundFault` : The DB proxy endpoint doesn't exist.
     /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBShardGroupNotFoundFault` : The specified DB shard group name wasn't found.
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
     /// - `DBSnapshotTenantDatabaseNotFoundFault` : The specified snapshot tenant database wasn't found.
     /// - `IntegrationNotFoundFault` : The specified integration could not be found.
+    /// - `InvalidDBClusterEndpointStateFault` : The requested operation can't be performed on the endpoint while the endpoint is in this state.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `TenantDatabaseNotFoundFault` : The specified tenant database wasn't found in the DB instance.
     public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -1308,6 +1313,7 @@ extension RDSClient {
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `SourceClusterNotSupportedFault` : The source DB cluster isn't supported for a blue/green deployment.
     /// - `SourceDatabaseNotSupportedFault` : The source DB instance isn't supported for a blue/green deployment.
+    /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     public func createBlueGreenDeployment(input: CreateBlueGreenDeploymentInput) async throws -> CreateBlueGreenDeploymentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1376,8 +1382,10 @@ extension RDSClient {
     /// __Possible Exceptions:__
     /// - `CreateCustomDBEngineVersionFault` : An error occurred while trying to create the CEV.
     /// - `CustomDBEngineVersionAlreadyExistsFault` : A CEV with the specified name already exists.
+    /// - `CustomDBEngineVersionNotFoundFault` : The specified CEV was not found.
     /// - `CustomDBEngineVersionQuotaExceededFault` : You have exceeded your CEV quota.
     /// - `Ec2ImagePropertiesNotSupportedFault` : The AMI configuration prerequisite has not been met.
+    /// - `InvalidCustomDBEngineVersionStateFault` : You can't delete the CEV.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     public func createCustomDBEngineVersion(input: CreateCustomDBEngineVersionInput) async throws -> CreateCustomDBEngineVersionOutput {
         let context = Smithy.ContextBuilder()
@@ -1464,8 +1472,10 @@ extension RDSClient {
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
+    /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     public func createDBCluster(input: CreateDBClusterInput) async throws -> CreateDBClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2500,6 +2510,8 @@ extension RDSClient {
     /// - `GlobalClusterAlreadyExistsFault` : The GlobalClusterIdentifier already exists. Specify a new global database identifier (unique name) to create a new global database cluster or to rename an existing one.
     /// - `GlobalClusterQuotaExceededFault` : The number of global database clusters for this account is already at the maximum allowed.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBShardGroupStateFault` : The DB shard group must be in the available state.
+    /// - `ResourceNotFoundFault` : The specified resource ID was not found.
     public func createGlobalCluster(input: CreateGlobalClusterInput) async throws -> CreateGlobalClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2928,6 +2940,8 @@ extension RDSClient {
     /// - `DBClusterSnapshotAlreadyExistsFault` : The user already has a DB cluster snapshot with the given identifier.
     /// - `InvalidDBClusterSnapshotStateFault` : The supplied value isn't a valid DB cluster snapshot state.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
     public func deleteDBCluster(input: DeleteDBClusterInput) async throws -> DeleteDBClusterOutput {
         let context = Smithy.ContextBuilder()
@@ -3291,6 +3305,7 @@ extension RDSClient {
     /// - `DBSnapshotAlreadyExistsFault` : DBSnapshotIdentifier is already used by an existing snapshot.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.
     public func deleteDBInstance(input: DeleteDBInstanceInput) async throws -> DeleteDBInstanceOutput {
         let context = Smithy.ContextBuilder()
@@ -4178,6 +4193,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBSnapshotAlreadyExistsFault` : DBSnapshotIdentifier is already used by an existing snapshot.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `TenantDatabaseNotFoundFault` : The specified tenant database wasn't found in the DB instance.
     public func deleteTenantDatabase(input: DeleteTenantDatabaseInput) async throws -> DeleteTenantDatabaseOutput {
@@ -7711,8 +7727,10 @@ extension RDSClient {
     /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBProxyEndpointNotFoundFault` : The DB proxy endpoint doesn't exist.
     /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBShardGroupNotFoundFault` : The specified DB shard group name wasn't found.
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
     /// - `DBSnapshotTenantDatabaseNotFoundFault` : The specified snapshot tenant database wasn't found.
     /// - `IntegrationNotFoundFault` : The specified integration could not be found.
@@ -8067,17 +8085,22 @@ extension RDSClient {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `DBClusterParameterGroupNotFoundFault` : DBClusterParameterGroupName doesn't refer to an existing DB cluster parameter group.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
+    /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
     /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `InvalidDBSecurityGroupStateFault` : The state of the DB security group doesn't allow deletion.
     /// - `InvalidDBSubnetGroupStateFault` : The DB subnet group cannot be deleted because it's in use.
+    /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotAvailableFault` : The aurora-iopt1 storage type isn't available, because you modified the DB cluster to use this storage type less than one month ago.
+    /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     public func modifyDBCluster(input: ModifyDBClusterInput) async throws -> ModifyDBClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8858,6 +8881,8 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
+    /// - `InvalidDBSnapshotStateFault` : The state of the DB snapshot doesn't allow deletion.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     public func modifyDBSnapshot(input: ModifyDBSnapshotInput) async throws -> ModifyDBSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8996,6 +9021,7 @@ extension RDSClient {
     /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
     /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
     /// - `DBSubnetQuotaExceededFault` : The request would result in the user exceeding the allowed number of subnets in a DB subnet groups.
+    /// - `InvalidDBSubnetGroupStateFault` : The DB subnet group cannot be deleted because it's in use.
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `SubnetAlreadyInUse` : The DB subnet is already in use in the Availability Zone.
     public func modifyDBSubnetGroup(input: ModifyDBSubnetGroupInput) async throws -> ModifyDBSubnetGroupOutput {
@@ -9698,6 +9724,7 @@ extension RDSClient {
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     public func rebootDBInstance(input: RebootDBInstanceInput) async throws -> RebootDBInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9909,6 +9936,7 @@ extension RDSClient {
     /// __Possible Exceptions:__
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidGlobalClusterStateFault` : The global cluster is in an invalid state and can't perform the requested operation.
     public func removeFromGlobalCluster(input: RemoveFromGlobalClusterInput) async throws -> RemoveFromGlobalClusterOutput {
         let context = Smithy.ContextBuilder()
@@ -10185,11 +10213,16 @@ extension RDSClient {
     /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBProxyEndpointNotFoundFault` : The DB proxy endpoint doesn't exist.
     /// - `DBProxyNotFoundFault` : The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// - `DBShardGroupNotFoundFault` : The specified DB shard group name wasn't found.
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
     /// - `DBSnapshotTenantDatabaseNotFoundFault` : The specified snapshot tenant database wasn't found.
     /// - `IntegrationNotFoundFault` : The specified integration could not be found.
+    /// - `InvalidDBClusterEndpointStateFault` : The requested operation can't be performed on the endpoint while the endpoint is in this state.
+    /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
+    /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `TenantDatabaseNotFoundFault` : The specified tenant database wasn't found in the DB instance.
     public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -10406,6 +10439,7 @@ extension RDSClient {
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     public func restoreDBClusterFromS3(input: RestoreDBClusterFromS3Input) async throws -> RestoreDBClusterFromS3Output {
@@ -10492,8 +10526,10 @@ extension RDSClient {
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
+    /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInput) async throws -> RestoreDBClusterFromSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10578,8 +10614,10 @@ extension RDSClient {
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
     /// - `OptionGroupNotFoundFault` : The specified option group could not be found.
     /// - `StorageQuotaExceededFault` : The request would result in the user exceeding the allowed amount of storage available across all DB instances.
+    /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.
     public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeInput) async throws -> RestoreDBClusterToPointInTimeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11057,6 +11095,7 @@ extension RDSClient {
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `InvalidDBShardGroupStateFault` : The DB shard group must be in the available state.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     public func startDBCluster(input: StartDBClusterInput) async throws -> StartDBClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11202,6 +11241,7 @@ extension RDSClient {
     /// __Possible Exceptions:__
     /// - `DBInstanceAutomatedBackupQuotaExceededFault` : The quota for retained automated backups was exceeded. This prevents you from retaining any additional automated backups. The retained automated backups quota is the same as your DB instance quota.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `InvalidDBInstanceAutomatedBackupStateFault` : The automated backup is in an invalid state. For example, this automated backup is associated with an active instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     /// - `StorageTypeNotSupportedFault` : The specified StorageType can't be associated with the DB instance.

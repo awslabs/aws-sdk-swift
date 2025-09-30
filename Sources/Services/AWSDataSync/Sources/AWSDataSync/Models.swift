@@ -2723,6 +2723,7 @@ extension DataSyncClientTypes {
 
     public enum EndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fips
+        case fipsPrivateLink
         case privateLink
         case `public`
         case sdkUnknown(Swift.String)
@@ -2730,6 +2731,7 @@ extension DataSyncClientTypes {
         public static var allCases: [EndpointType] {
             return [
                 .fips,
+                .fipsPrivateLink,
                 .privateLink,
                 .public
             ]
@@ -2743,6 +2745,7 @@ extension DataSyncClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .fips: return "FIPS"
+            case .fipsPrivateLink: return "FIPS_PRIVATE_LINK"
             case .privateLink: return "PRIVATE_LINK"
             case .public: return "PUBLIC"
             case let .sdkUnknown(s): return s
