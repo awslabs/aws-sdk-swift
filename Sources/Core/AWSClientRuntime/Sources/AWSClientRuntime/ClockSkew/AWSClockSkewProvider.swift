@@ -6,59 +6,74 @@
 //
 
 import struct Foundation.Date
+import class Foundation.DateFormatter
+import struct Foundation.Locale
 import struct Foundation.TimeInterval
+import struct Foundation.TimeZone
+import protocol ClientRuntime.ServiceError
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public enum AWSClockSkewProvider {
 
-    // Any clock skew less than this threshold will not be compensated.
-    private static var clockSkewThreshold: TimeInterval { 300.0 }  // five minutes
-
     @Sendable
     public static func clockSkew(
         request: HTTPRequest,
         response: HTTPResponse,
-        error: Error, now: Date
+        error: Error
     ) -> TimeInterval? {
-        // Need a server Date and an error code to calculate clock skew.
-        // If either of these aren't available, return no clock skew.
-        guard let httpDateString = response.headers.value(for: "Date") else { return nil }
-        guard let serverDate = httpDate(httpDateString: httpDateString) else { return nil }
-        guard let code = (error as? AWSServiceError)?.errorCode else { return nil }
+        // Get the error code, which is a cue that clock skew is the cause of the error
+        guard let code = (error as? ServiceError)?.errorCode else { return nil }
 
-        if definiteClockSkewError(code: code) || probableClockSkewError(code: code, request: request) {
-            let clockSkew = serverDate.timeIntervalSince(now)
-            if abs(clockSkew) > clockSkewThreshold {
-                return clockSkew
-            }
+        // Check the error code to see if this error could be due to clock skew
+        // If not, fail fast to prevent having to parse server datetime (slow)
+        guard isDefiniteClockSkewError(code: code) || isProbableClockSkewError(code: code, request: request) else {
+            return nil
         }
-        return nil
+
+        // Get the datetime that the request was signed at.  If not available, clock skew can't be determined.
+        guard let clientDate = clientDate(request: request) else { return nil }
+
+        // Need a server Date (from the HTTP response headers) to calculate clock skew.
+        // If not available, return no clock skew.
+        guard let serverDate = serverDate(response: response) else { return nil }
+
+        // Calculate & return clock skew if more than the threshold
+        let threshold: TimeInterval = 60.0  // clock skew of less than 1 minute is discarded
+        let clockSkew = serverDate.timeIntervalSince(clientDate)
+        return abs(clockSkew) > threshold ? clockSkew : nil
     }
 
-    private static func definiteClockSkewError(code: String) -> Bool {
+    private static func isDefiniteClockSkewError(code: String) -> Bool {
         definiteClockSkewErrorCodes.contains(code)
     }
 
-    private static func probableClockSkewError(code: String, request: HTTPRequest) -> Bool {
-        probableClockSkewErrorCodes.contains(code) // && request.method == .head
+    private static func isProbableClockSkewError(code: String, request: HTTPRequest) -> Bool {
+        // Certain S3 HEAD methods will return generic HTTP 403 errors when the cause of the
+        // failure is clock skew.  To accommodate, check clock skew when the method is HEAD
+        probableClockSkewErrorCodes.contains(code) || request.method == .head
     }
 
-    private static func httpDate(httpDateString: String) -> Date? {
-        TimestampFormatter(format: .httpDate).date(from: httpDateString)
+    private static func clientDate(request: HTTPRequest) -> Date? {
+        request.signedAt
+    }
+
+    private static func serverDate(response: HTTPResponse) -> Date? {
+        guard let httpDateString = response.headers.value(for: "Date") else { return nil }
+        return TimestampFormatter(format: .httpDate).date(from: httpDateString)
     }
 }
 
-// These error codes indicate it's likely that the cause of the failure was clock skew.
+// These error codes indicate that the cause of the failure was clock skew.
 private let definiteClockSkewErrorCodes = Set([
     "RequestTimeTooSkewed",
     "RequestExpired",
     "RequestInTheFuture",
 ])
 
-// Some S3 HEAD operations will return these codes instead of the definite codes when the
-// operation fails due to clock skew.
+// These error codes indicate that a possible cause of the failure was clock skew.
+// So, when these are received, check/set clock skew & retry to see if that helps.
 private let probableClockSkewErrorCodes = Set([
     "InvalidSignatureException",
     "AuthFailure",

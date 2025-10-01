@@ -56,7 +56,13 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
             )
         }
 
-        var signingConfig = try constructSigningConfig(identity: identity, signingProperties: signingProperties)
+        let signedAt = Date().addingTimeInterval(1800)
+
+        var signingConfig = try constructSigningConfig(
+            identity: identity,
+            signingProperties: signingProperties,
+            signedAt: signedAt
+        )
 
         // Used to fix signingConfig.date for testing signRequest().
         if let date = signingProperties.get(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests")) {
@@ -75,7 +81,11 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
             config: crtSigningConfig
         )
 
-        let sdkSignedRequest = requestBuilder.update(from: crtSignedRequest, originalRequest: unsignedRequest)
+        let sdkSignedRequest = requestBuilder.update(
+            from: crtSignedRequest,
+            originalRequest: unsignedRequest,
+            signedAt: signedAt
+        )
 
         if crtSigningConfig.useAwsChunkedEncoding {
             guard let requestSignature = crtSignedRequest.signature else {
@@ -102,7 +112,8 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
 
     private func constructSigningConfig(
         identity: AWSCredentialIdentity,
-        signingProperties: Smithy.Attributes
+        signingProperties: Smithy.Attributes,
+        signedAt: Date
     ) throws -> AWSSigningConfig {
         guard let unsignedBody = signingProperties.get(key: SigningPropertyKeys.unsignedBody) else {
             throw Smithy.ClientError.authError(
@@ -125,10 +136,9 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
             )
         }
 
-        let clockSkew: TimeInterval = signingProperties.get(key: SigningPropertyKeys.clockSkew) ?? 0.0
-        let expiration: TimeInterval = signingProperties.get(key: SigningPropertyKeys.expiration) ?? 0
-        let signedBodyHeader: AWSSignedBodyHeader =
-            signingProperties.get(key: SigningPropertyKeys.signedBodyHeader) ?? .none
+        let clockSkew = signingProperties.get(key: SigningPropertyKeys.clockSkew) ?? 0.0
+        let expiration = signingProperties.get(key: SigningPropertyKeys.expiration) ?? 0.0
+        let signedBodyHeader = signingProperties.get(key: SigningPropertyKeys.signedBodyHeader) ?? .none
 
         // Determine signed body value
         let checksumIsPresent = signingProperties.get(key: SigningPropertyKeys.checksum) != nil
@@ -157,7 +167,7 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
             signedBodyHeader: signedBodyHeader,
             signedBodyValue: signedBodyValue,
             flags: flags,
-            date: Date().addingTimeInterval(clockSkew),
+            date: signedAt.addingTimeInterval(clockSkew),
             service: signingName,
             region: signingRegion,
             signatureType: signatureType,
@@ -197,7 +207,11 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
                 signatureType: .requestQueryParams,
                 signingAlgorithm: signingAlgorithm
             )
-            let builtRequest = await sigV4SignedRequest(requestBuilder: requestBuilder, signingConfig: signingConfig)
+            let builtRequest = await sigV4SignedRequest(
+                requestBuilder: requestBuilder,
+                signingConfig: signingConfig,
+                signedAt: date
+            )
             guard let presignedURL = builtRequest?.destination.url else {
                 logger.error("Failed to generate presigend url")
                 return nil
@@ -211,7 +225,8 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
 
     public func sigV4SignedRequest(
         requestBuilder: SmithyHTTPAPI.HTTPRequestBuilder,
-        signingConfig: AWSSigningConfig
+        signingConfig: AWSSigningConfig,
+        signedAt: Date
     ) async -> SmithyHTTPAPI.HTTPRequest? {
         let originalRequest = requestBuilder.build()
         do {
@@ -221,7 +236,11 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
                 request: crtUnsignedRequest,
                 config: signingConfig.toCRTType()
             )
-            let sdkSignedRequest = requestBuilder.update(from: crtSignedRequest, originalRequest: originalRequest)
+            let sdkSignedRequest = requestBuilder.update(
+                from: crtSignedRequest,
+                originalRequest: originalRequest,
+                signedAt: signedAt
+            )
             return sdkSignedRequest.build()
         } catch CommonRunTimeError.crtError(let crtError) {
             logger.error("Failed to sign request (CRT): \(crtError)")
