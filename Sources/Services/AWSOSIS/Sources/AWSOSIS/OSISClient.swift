@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OSISClient: ClientRuntime.Client {
     public static let clientName = "OSISClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.54"
     let client: ClientRuntime.SdkHttpClient
     let config: OSISClient.OSISClientConfiguration
     let serviceName = "OSIS"

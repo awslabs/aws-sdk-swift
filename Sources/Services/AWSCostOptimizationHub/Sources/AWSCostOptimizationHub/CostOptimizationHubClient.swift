@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CostOptimizationHubClient: ClientRuntime.Client {
     public static let clientName = "CostOptimizationHubClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.54"
     let client: ClientRuntime.SdkHttpClient
     let config: CostOptimizationHubClient.CostOptimizationHubClientConfiguration
     let serviceName = "Cost Optimization Hub"

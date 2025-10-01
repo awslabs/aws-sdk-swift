@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PCSClient: ClientRuntime.Client {
     public static let clientName = "PCSClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.54"
     let client: ClientRuntime.SdkHttpClient
     let config: PCSClient.PCSClientConfiguration
     let serviceName = "PCS"
@@ -1835,6 +1835,104 @@ extension PCSClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PCS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateCluster` operation on the `PCS` service.
+    ///
+    /// Updates a cluster configuration. You can modify Slurm scheduler settings, accounting configuration, and security groups for an existing cluster. You can only update clusters that are in ACTIVE, UPDATE_FAILED, or SUSPENDED state. All associated resources (queues and compute node groups) must be in ACTIVE state before you can update the cluster.
+    ///
+    /// - Parameter UpdateClusterInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateClusterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action. Examples
+    ///
+    /// * The launch template instance profile doesn't pass iam:PassRole verification.
+    ///
+    /// * There is a mismatch between the account ID and cluster ID.
+    ///
+    /// * The cluster ID doesn't exist.
+    ///
+    /// * The EC2 instance isn't present.
+    /// - `ConflictException` : Your request has conflicting operations. This can occur if you're trying to perform more than 1 operation on the same resource at the same time. Examples
+    ///
+    /// * A cluster with the same name already exists.
+    ///
+    /// * A cluster isn't in ACTIVE status.
+    ///
+    /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
+    ///
+    /// * A queue already exists in a cluster.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
+    /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
+    /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
+    /// - `ValidationException` : The request isn't valid. Examples
+    ///
+    /// * Your request contains malformed JSON or unsupported characters.
+    ///
+    /// * The scheduler version isn't supported.
+    ///
+    /// * There are networking related errors, such as network validation failure.
+    ///
+    /// * AMI type is CUSTOM and the launch template doesn't define the AMI ID, or the AMI type is AL2 and the launch template defines the AMI.
+    public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCluster")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "pcs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateClusterInput, UpdateClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateClusterInput, UpdateClusterOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateClusterInput, UpdateClusterOutput>(UpdateClusterInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateClusterInput, UpdateClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterInput, UpdateClusterOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(UpdateClusterOutput.httpOutput(from:), UpdateClusterOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterInput, UpdateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PCS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateClusterInput, UpdateClusterOutput>(xAmzTarget: "AWSParallelComputingService.UpdateCluster"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateClusterInput, UpdateClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateClusterInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateClusterInput, UpdateClusterOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateClusterInput, UpdateClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateClusterInput, UpdateClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateClusterInput, UpdateClusterOutput>(serviceID: serviceName, version: PCSClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PCS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCluster")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

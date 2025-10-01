@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaStoreDataClient: ClientRuntime.Client {
     public static let clientName = "MediaStoreDataClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.54"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaStoreDataClient.MediaStoreDataClientConfiguration
     let serviceName = "MediaStore Data"

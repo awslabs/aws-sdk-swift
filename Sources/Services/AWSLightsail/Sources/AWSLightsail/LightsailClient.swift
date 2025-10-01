@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LightsailClient: ClientRuntime.Client {
     public static let clientName = "LightsailClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.54"
     let client: ClientRuntime.SdkHttpClient
     let config: LightsailClient.LightsailClientConfiguration
     let serviceName = "Lightsail"
