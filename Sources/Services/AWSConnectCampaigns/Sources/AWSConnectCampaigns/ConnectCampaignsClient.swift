@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectCampaignsClient: ClientRuntime.Client {
     public static let clientName = "ConnectCampaignsClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.53"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectCampaignsClient.ConnectCampaignsClientConfiguration
     let serviceName = "ConnectCampaigns"

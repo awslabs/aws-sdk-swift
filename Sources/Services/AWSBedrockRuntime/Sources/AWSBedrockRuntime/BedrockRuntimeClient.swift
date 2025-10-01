@@ -75,7 +75,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockRuntimeClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.53"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockRuntimeClient.BedrockRuntimeClientConfiguration
     let serviceName = "Bedrock Runtime"
@@ -392,6 +392,7 @@ extension BedrockRuntimeClient {
     /// - `InternalServerException` : An internal server error occurred. For troubleshooting this error, see [InternalFailure](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-internal-failure) in the Amazon Bedrock User Guide
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. For troubleshooting this error, see [ResourceNotFound](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-resource-not-found) in the Amazon Bedrock User Guide
     /// - `ServiceQuotaExceededException` : Your request exceeds the service quota for your account. You can view your quotas at [Viewing service quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/gs-request-quota.html). You can resubmit your request later.
+    /// - `ServiceUnavailableException` : The service isn't currently available. For troubleshooting this error, see [ServiceUnavailable](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-service-unavailable) in the Amazon Bedrock User Guide
     /// - `ThrottlingException` : Your request was denied due to exceeding the account quotas for Amazon Bedrock. For troubleshooting this error, see [ThrottlingException](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-throttling-exception) in the Amazon Bedrock User Guide
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Amazon Bedrock. For troubleshooting this error, see [ValidationError](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-validation-error) in the Amazon Bedrock User Guide
     public func applyGuardrail(input: ApplyGuardrailInput) async throws -> ApplyGuardrailOutput {

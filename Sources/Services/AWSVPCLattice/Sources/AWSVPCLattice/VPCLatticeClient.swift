@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class VPCLatticeClient: ClientRuntime.Client {
     public static let clientName = "VPCLatticeClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.53"
     let client: ClientRuntime.SdkHttpClient
     let config: VPCLatticeClient.VPCLatticeClientConfiguration
     let serviceName = "VPC Lattice"
@@ -665,7 +665,7 @@ extension VPCLatticeClient {
 
     /// Performs the `CreateResourceGateway` operation on the `VPCLattice` service.
     ///
-    /// Creates a resource gateway.
+    /// A resource gateway is a point of ingress into the VPC where a resource resides. It spans multiple Availability Zones. For your resource to be accessible from all Availability Zones, you should create your resource gateways to span as many Availability Zones as possible. A VPC can have multiple resource gateways.
     ///
     /// - Parameter CreateResourceGatewayInput : [no documentation found]
     ///
@@ -4780,6 +4780,7 @@ extension VPCLatticeClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with the current state of the resource. Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.

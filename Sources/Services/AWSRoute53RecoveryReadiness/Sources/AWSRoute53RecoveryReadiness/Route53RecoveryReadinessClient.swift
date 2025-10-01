@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Route53RecoveryReadinessClient: ClientRuntime.Client {
     public static let clientName = "Route53RecoveryReadinessClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.53"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53RecoveryReadinessClient.Route53RecoveryReadinessClientConfiguration
     let serviceName = "Route53 Recovery Readiness"

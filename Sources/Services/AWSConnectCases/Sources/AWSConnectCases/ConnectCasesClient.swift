@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectCasesClient: ClientRuntime.Client {
     public static let clientName = "ConnectCasesClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.53"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectCasesClient.ConnectCasesClientConfiguration
     let serviceName = "ConnectCases"
@@ -1129,7 +1129,7 @@ extension ConnectCasesClient {
     /// * Perform any operations that require the CaseID
     ///
     ///
-    /// This action is irreversible. Once you delete a case, you cannot recover its data.
+    /// This action is irreversible. After you delete a case, you cannot recover its data.
     ///
     /// - Parameter DeleteCaseInput : [no documentation found]
     ///

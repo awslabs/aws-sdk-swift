@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentCoreControlClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentCoreControlClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.53"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentCoreControlClient.BedrockAgentCoreControlClientConfiguration
     let serviceName = "Bedrock AgentCore Control"
@@ -3277,7 +3277,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `ListTagsForResource` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Lists the tags associated with the specified resource.
+    /// Lists the tags associated with the specified resource. This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -3490,7 +3490,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `TagResource` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
+    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -3562,7 +3562,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `UntagResource` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Removes the specified tags from the specified resource.
+    /// Removes the specified tags from the specified resource. This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///

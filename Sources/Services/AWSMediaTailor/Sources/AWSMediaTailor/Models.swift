@@ -1594,13 +1594,34 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    /// The configuration for TPS-based traffic shaping. This approach limits requests to the ad decision server (ADS) based on transactions per second and concurrent users, providing more intuitive capacity management compared to time-window based traffic shaping.
+    public struct TrafficShapingTpsConfiguration: Swift.Sendable {
+        /// The expected peak number of concurrent viewers for your content. MediaTailor uses this value along with peak TPS to determine how to distribute prefetch requests across the available capacity without exceeding your ADS limits.
+        public var peakConcurrentUsers: Swift.Int?
+        /// The maximum number of transactions per second (TPS) that your ad decision server (ADS) can handle. MediaTailor uses this value along with concurrent users and headroom multiplier to calculate optimal traffic distribution and prevent ADS overload.
+        public var peakTps: Swift.Int?
+
+        public init(
+            peakConcurrentUsers: Swift.Int? = nil,
+            peakTps: Swift.Int? = nil
+        ) {
+            self.peakConcurrentUsers = peakConcurrentUsers
+            self.peakTps = peakTps
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     public enum TrafficShapingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case retrievalWindow
+        case tps
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TrafficShapingType] {
             return [
-                .retrievalWindow
+                .retrievalWindow,
+                .tps
             ]
         }
 
@@ -1612,6 +1633,7 @@ extension MediaTailorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .retrievalWindow: return "RETRIEVAL_WINDOW"
+            case .tps: return "TPS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1628,18 +1650,22 @@ extension MediaTailorClientTypes {
         public var dynamicVariables: [Swift.String: Swift.String]?
         /// Configuration for spreading ADS traffic across a set window instead of sending ADS requests for all sessions at the same time.
         public var trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow?
-        /// Indicates if this configuration uses a retrieval window for traffic shaping and limiting the number of requests to the ADS at one time.
+        /// The configuration for TPS-based traffic shaping that limits the number of requests to the ad decision server (ADS) based on transactions per second instead of time windows.
+        public var trafficShapingTpsConfiguration: MediaTailorClientTypes.TrafficShapingTpsConfiguration?
+        /// Indicates the type of traffic shaping used for traffic shaping and limiting the number of requests to the ADS at one time.
         public var trafficShapingType: MediaTailorClientTypes.TrafficShapingType?
 
         public init(
             delayAfterAvailEndSeconds: Swift.Int? = nil,
             dynamicVariables: [Swift.String: Swift.String]? = nil,
             trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow? = nil,
+            trafficShapingTpsConfiguration: MediaTailorClientTypes.TrafficShapingTpsConfiguration? = nil,
             trafficShapingType: MediaTailorClientTypes.TrafficShapingType? = nil
         ) {
             self.delayAfterAvailEndSeconds = delayAfterAvailEndSeconds
             self.dynamicVariables = dynamicVariables
             self.trafficShapingRetrievalWindow = trafficShapingRetrievalWindow
+            self.trafficShapingTpsConfiguration = trafficShapingTpsConfiguration
             self.trafficShapingType = trafficShapingType
         }
     }
@@ -1688,7 +1714,9 @@ extension MediaTailorClientTypes {
         public var startTime: Foundation.Date?
         /// Configuration for spreading ADS traffic across a set window instead of sending ADS requests for all sessions at the same time.
         public var trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow?
-        /// Indicates if this configuration uses a retrieval window for traffic shaping and limiting the number of requests to the ADS at one time.
+        /// The configuration for TPS-based traffic shaping that limits the number of requests to the ad decision server (ADS) based on transactions per second instead of time windows.
+        public var trafficShapingTpsConfiguration: MediaTailorClientTypes.TrafficShapingTpsConfiguration?
+        /// Indicates the type of traffic shaping used for prefetch traffic shaping and limiting the number of requests to the ADS at one time.
         public var trafficShapingType: MediaTailorClientTypes.TrafficShapingType?
 
         public init(
@@ -1696,12 +1724,14 @@ extension MediaTailorClientTypes {
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil,
             trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow? = nil,
+            trafficShapingTpsConfiguration: MediaTailorClientTypes.TrafficShapingTpsConfiguration? = nil,
             trafficShapingType: MediaTailorClientTypes.TrafficShapingType? = nil
         ) {
             self.dynamicVariables = dynamicVariables
             self.endTime = endTime
             self.startTime = startTime
             self.trafficShapingRetrievalWindow = trafficShapingRetrievalWindow
+            self.trafficShapingTpsConfiguration = trafficShapingTpsConfiguration
             self.trafficShapingType = trafficShapingType
         }
     }
@@ -2612,9 +2642,9 @@ public struct GetChannelScheduleOutput: Swift.Sendable {
 }
 
 public struct ListChannelsInput: Swift.Sendable {
-    /// The maximum number of channels that you want MediaTailor to return in response to the current request. If there are more than MaxResults channels, use the value of NextToken in the response to get the next page of results.
+    /// The maximum number of channels that you want MediaTailor to return in response to the current request. If there are more than MaxResults channels, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     public var maxResults: Swift.Int?
-    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListChannels request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     public var nextToken: Swift.String?
 
     public init(
@@ -3930,9 +3960,9 @@ public struct GetPrefetchScheduleOutput: Swift.Sendable {
 }
 
 public struct ListAlertsInput: Swift.Sendable {
-    /// The maximum number of alerts that you want MediaTailor to return in response to the current request. If there are more than MaxResults alerts, use the value of NextToken in the response to get the next page of results.
+    /// The maximum number of alerts that you want MediaTailor to return in response to the current request. If there are more than MaxResults alerts, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     public var maxResults: Swift.Int?
-    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListAlerts request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
@@ -3965,9 +3995,9 @@ public struct ListAlertsOutput: Swift.Sendable {
 }
 
 public struct ListLiveSourcesInput: Swift.Sendable {
-    /// The maximum number of live sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults live sources, use the value of NextToken in the response to get the next page of results.
+    /// The maximum number of live sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults live sources, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     public var maxResults: Swift.Int?
-    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListLiveSources request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     public var nextToken: Swift.String?
     /// The name of the source location associated with this Live Sources list.
     /// This member is required.
@@ -4000,9 +4030,9 @@ public struct ListLiveSourcesOutput: Swift.Sendable {
 }
 
 public struct ListPlaybackConfigurationsInput: Swift.Sendable {
-    /// The maximum number of playback configurations that you want MediaTailor to return in response to the current request. If there are more than MaxResults playback configurations, use the value of NextToken in the response to get the next page of results.
+    /// The maximum number of playback configurations that you want MediaTailor to return in response to the current request. If there are more than MaxResults playback configurations, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     public var maxResults: Swift.Int?
-    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListPlaybackConfigurations request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     public var nextToken: Swift.String?
 
     public init(
@@ -4062,9 +4092,9 @@ extension MediaTailorClientTypes {
 }
 
 public struct ListPrefetchSchedulesInput: Swift.Sendable {
-    /// The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results.
+    /// The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     public var maxResults: Swift.Int?
-    /// (Optional) If the playback configuration has more than MaxResults prefetch schedules, use NextToken to get the second and subsequent pages of results. For the first ListPrefetchSchedulesRequest request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. If the previous response didn't include a NextToken element, there are no more prefetch schedules to get.
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListPrefetchSchedules request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     public var nextToken: Swift.String?
     /// Retrieves the prefetch schedule(s) for a specific playback configuration.
     /// This member is required.
@@ -4105,9 +4135,9 @@ public struct ListPrefetchSchedulesOutput: Swift.Sendable {
 }
 
 public struct ListSourceLocationsInput: Swift.Sendable {
-    /// The maximum number of source locations that you want MediaTailor to return in response to the current request. If there are more than MaxResults source locations, use the value of NextToken in the response to get the next page of results.
+    /// The maximum number of source locations that you want MediaTailor to return in response to the current request. If there are more than MaxResults source locations, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     public var maxResults: Swift.Int?
-    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListSourceLocations request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     public var nextToken: Swift.String?
 
     public init(
@@ -4158,9 +4188,9 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct ListVodSourcesInput: Swift.Sendable {
-    /// The maximum number of VOD sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults VOD sources, use the value of NextToken in the response to get the next page of results.
+    /// The maximum number of VOD sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults VOD sources, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     public var maxResults: Swift.Int?
-    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListVodSources request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     public var nextToken: Swift.String?
     /// The name of the source location associated with this VOD Source list.
     /// This member is required.
@@ -6794,6 +6824,7 @@ extension MediaTailorClientTypes.PrefetchRetrieval {
         try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["TrafficShapingRetrievalWindow"].write(value.trafficShapingRetrievalWindow, with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.write(value:to:))
+        try writer["TrafficShapingTpsConfiguration"].write(value.trafficShapingTpsConfiguration, with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.write(value:to:))
         try writer["TrafficShapingType"].write(value.trafficShapingType)
     }
 
@@ -6805,6 +6836,24 @@ extension MediaTailorClientTypes.PrefetchRetrieval {
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.trafficShapingType = try reader["TrafficShapingType"].readIfPresent()
         value.trafficShapingRetrievalWindow = try reader["TrafficShapingRetrievalWindow"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.read(from:))
+        value.trafficShapingTpsConfiguration = try reader["TrafficShapingTpsConfiguration"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.TrafficShapingTpsConfiguration {
+
+    static func write(value: MediaTailorClientTypes.TrafficShapingTpsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PeakConcurrentUsers"].write(value.peakConcurrentUsers)
+        try writer["PeakTps"].write(value.peakTps)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.TrafficShapingTpsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.TrafficShapingTpsConfiguration()
+        value.peakTps = try reader["PeakTps"].readIfPresent()
+        value.peakConcurrentUsers = try reader["PeakConcurrentUsers"].readIfPresent()
         return value
     }
 }
@@ -6852,6 +6901,7 @@ extension MediaTailorClientTypes.RecurringRetrieval {
         try writer["DelayAfterAvailEndSeconds"].write(value.delayAfterAvailEndSeconds)
         try writer["DynamicVariables"].writeMap(value.dynamicVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TrafficShapingRetrievalWindow"].write(value.trafficShapingRetrievalWindow, with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.write(value:to:))
+        try writer["TrafficShapingTpsConfiguration"].write(value.trafficShapingTpsConfiguration, with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.write(value:to:))
         try writer["TrafficShapingType"].write(value.trafficShapingType)
     }
 
@@ -6862,6 +6912,7 @@ extension MediaTailorClientTypes.RecurringRetrieval {
         value.delayAfterAvailEndSeconds = try reader["DelayAfterAvailEndSeconds"].readIfPresent()
         value.trafficShapingType = try reader["TrafficShapingType"].readIfPresent()
         value.trafficShapingRetrievalWindow = try reader["TrafficShapingRetrievalWindow"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.read(from:))
+        value.trafficShapingTpsConfiguration = try reader["TrafficShapingTpsConfiguration"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.read(from:))
         return value
     }
 }

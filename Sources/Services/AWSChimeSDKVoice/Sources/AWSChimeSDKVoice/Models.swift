@@ -1819,6 +1819,35 @@ extension ChimeSDKVoiceClientTypes {
     }
 }
 
+extension ChimeSDKVoiceClientTypes {
+
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualStack
+        case ipv4Only
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dualStack,
+                .ipv4Only
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualStack: return "DUAL_STACK"
+            case .ipv4Only: return "IPV4_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateVoiceConnectorInput: Swift.Sendable {
     /// The AWS Region in which the Amazon Chime SDK Voice Connector is created. Default value: us-east-1 .
     public var awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion?
@@ -1831,6 +1860,8 @@ public struct CreateVoiceConnectorInput: Swift.Sendable {
     /// The name of the Voice Connector.
     /// This member is required.
     public var name: Swift.String?
+    /// The type of network for the Voice Connector. Either IPv4 only or dual-stack (IPv4 and IPv6).
+    public var networkType: ChimeSDKVoiceClientTypes.NetworkType?
     /// Enables or disables encryption for the Voice Connector.
     /// This member is required.
     public var requireEncryption: Swift.Bool?
@@ -1841,12 +1872,14 @@ public struct CreateVoiceConnectorInput: Swift.Sendable {
         awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion? = nil,
         integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType? = nil,
         name: Swift.String? = nil,
+        networkType: ChimeSDKVoiceClientTypes.NetworkType? = nil,
         requireEncryption: Swift.Bool? = nil,
         tags: [ChimeSDKVoiceClientTypes.Tag]? = nil
     ) {
         self.awsRegion = awsRegion
         self.integrationType = integrationType
         self.name = name
+        self.networkType = networkType
         self.requireEncryption = requireEncryption
         self.tags = tags
     }
@@ -1864,6 +1897,8 @@ extension ChimeSDKVoiceClientTypes {
         public var integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType?
         /// The Voice Connector's name.
         public var name: Swift.String?
+        /// The type of network of the Voice Connector. Either IPv4 only or dual-stack (IPv4 and IPv6).
+        public var networkType: ChimeSDKVoiceClientTypes.NetworkType?
         /// The outbound host name for the Voice Connector.
         public var outboundHostName: Swift.String?
         /// Enables or disables encryption for the Voice Connector.
@@ -1880,6 +1915,7 @@ extension ChimeSDKVoiceClientTypes {
             createdTimestamp: Foundation.Date? = nil,
             integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType? = nil,
             name: Swift.String? = nil,
+            networkType: ChimeSDKVoiceClientTypes.NetworkType? = nil,
             outboundHostName: Swift.String? = nil,
             requireEncryption: Swift.Bool? = nil,
             updatedTimestamp: Foundation.Date? = nil,
@@ -1890,6 +1926,7 @@ extension ChimeSDKVoiceClientTypes {
             self.createdTimestamp = createdTimestamp
             self.integrationType = integrationType
             self.name = name
+            self.networkType = networkType
             self.outboundHostName = outboundHostName
             self.requireEncryption = requireEncryption
             self.updatedTimestamp = updatedTimestamp
@@ -6724,6 +6761,7 @@ extension CreateVoiceConnectorInput {
         try writer["AwsRegion"].write(value.awsRegion)
         try writer["IntegrationType"].write(value.integrationType)
         try writer["Name"].write(value.name)
+        try writer["NetworkType"].write(value.networkType)
         try writer["RequireEncryption"].write(value.requireEncryption)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: ChimeSDKVoiceClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -10390,6 +10428,7 @@ extension ChimeSDKVoiceClientTypes.VoiceConnector {
         value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.voiceConnectorArn = try reader["VoiceConnectorArn"].readIfPresent()
         value.integrationType = try reader["IntegrationType"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
         return value
     }
 }

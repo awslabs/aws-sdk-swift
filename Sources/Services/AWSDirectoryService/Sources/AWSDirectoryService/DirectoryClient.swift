@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DirectoryClient: ClientRuntime.Client {
     public static let clientName = "DirectoryClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.53"
     let client: ClientRuntime.SdkHttpClient
     let config: DirectoryClient.DirectoryClientConfiguration
     let serviceName = "Directory"
@@ -5676,7 +5676,7 @@ extension DirectoryClient {
 
     /// Performs the `UpdateDirectorySetup` operation on the `Directory` service.
     ///
-    /// Updates the directory for a particular update type.
+    /// Updates directory configuration for the specified update type.
     ///
     /// - Parameter UpdateDirectorySetupInput : [no documentation found]
     ///

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMQuickSetupClient: ClientRuntime.Client {
     public static let clientName = "SSMQuickSetupClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.53"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMQuickSetupClient.SSMQuickSetupClientConfiguration
     let serviceName = "SSM QuickSetup"

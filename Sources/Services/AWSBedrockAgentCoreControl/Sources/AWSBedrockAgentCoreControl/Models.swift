@@ -2614,6 +2614,8 @@ public struct CreateGatewayInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the gateway to access Amazon Web Services services.
     /// This member is required.
     public var roleArn: Swift.String?
+    /// A map of key-value pairs to associate with the gateway as metadata tags.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil,
@@ -2625,7 +2627,8 @@ public struct CreateGatewayInput: Swift.Sendable {
         name: Swift.String? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration? = nil,
         protocolType: BedrockAgentCoreControlClientTypes.GatewayProtocolType? = nil,
-        roleArn: Swift.String? = nil
+        roleArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.authorizerConfiguration = authorizerConfiguration
         self.authorizerType = authorizerType
@@ -2637,12 +2640,13 @@ public struct CreateGatewayInput: Swift.Sendable {
         self.protocolConfiguration = protocolConfiguration
         self.protocolType = protocolType
         self.roleArn = roleArn
+        self.tags = tags
     }
 }
 
 extension CreateGatewayInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGatewayInput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), clientToken: \(Swift.String(describing: clientToken)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGatewayInput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), clientToken: \(Swift.String(describing: clientToken)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -6926,6 +6930,7 @@ extension CreateGatewayInput {
         try writer["protocolConfiguration"].write(value.protocolConfiguration, with: BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration.write(value:to:))
         try writer["protocolType"].write(value.protocolType)
         try writer["roleArn"].write(value.roleArn)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 

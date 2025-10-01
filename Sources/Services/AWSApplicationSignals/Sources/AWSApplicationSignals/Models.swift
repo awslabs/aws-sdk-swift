@@ -30,6 +30,12 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
+
+public struct DeleteGroupingConfigurationInput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// You don't have sufficient permissions to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1053,6 +1059,11 @@ public struct BatchUpdateExclusionWindowsOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteGroupingConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct GetServiceInput: Swift.Sendable {
     /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.
     /// This member is required.
@@ -1115,6 +1126,37 @@ extension ApplicationSignalsClientTypes {
             self.metricName = metricName
             self.metricType = metricType
             self.namespace = namespace
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that represents a logical grouping of services based on shared attributes such as business unit, environment, or entry point.
+    public struct ServiceGroup: Swift.Sendable {
+        /// A unique identifier for this grouping attribute value, used for filtering and API operations.
+        /// This member is required.
+        public var groupIdentifier: Swift.String?
+        /// The name of the grouping attribute, such as BusinessUnit or Environment.
+        /// This member is required.
+        public var groupName: Swift.String?
+        /// The source of the grouping attribute, such as TAG, OTEL, or DEFAULT.
+        /// This member is required.
+        public var groupSource: Swift.String?
+        /// The value of the grouping attribute for this service, such as Payments or Production.
+        /// This member is required.
+        public var groupValue: Swift.String?
+
+        public init(
+            groupIdentifier: Swift.String? = nil,
+            groupName: Swift.String? = nil,
+            groupSource: Swift.String? = nil,
+            groupValue: Swift.String? = nil
+        ) {
+            self.groupIdentifier = groupIdentifier
+            self.groupName = groupName
+            self.groupSource = groupSource
+            self.groupValue = groupValue
         }
     }
 }
@@ -1185,17 +1227,21 @@ extension ApplicationSignalsClientTypes {
         /// An array of structures that each contain information about one metric associated with this service.
         /// This member is required.
         public var metricReferences: [ApplicationSignalsClientTypes.MetricReference]?
+        /// An array of service groups that this service belongs to, based on the configured grouping attributes.
+        public var serviceGroups: [ApplicationSignalsClientTypes.ServiceGroup]?
 
         public init(
             attributeMaps: [[Swift.String: Swift.String]]? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
             logGroupReferences: [[Swift.String: Swift.String]]? = nil,
-            metricReferences: [ApplicationSignalsClientTypes.MetricReference]? = nil
+            metricReferences: [ApplicationSignalsClientTypes.MetricReference]? = nil,
+            serviceGroups: [ApplicationSignalsClientTypes.ServiceGroup]? = nil
         ) {
             self.attributeMaps = attributeMaps
             self.keyAttributes = keyAttributes
             self.logGroupReferences = logGroupReferences
             self.metricReferences = metricReferences
+            self.serviceGroups = serviceGroups
         }
     }
 }
@@ -1229,6 +1275,469 @@ public struct GetServiceOutput: Swift.Sendable {
         self.logGroupReferences = logGroupReferences
         self.service = service
         self.startTime = startTime
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that contains identifying information for a service entity.
+    public struct ServiceEntity: Swift.Sendable {
+        /// The Amazon Web Services account ID where the service is located. Provide this value only for cross-account access.
+        public var awsAccountId: Swift.String?
+        /// The environment where the service is deployed.
+        public var environment: Swift.String?
+        /// The name of the service.
+        public var name: Swift.String?
+        /// The type of the service entity.
+        public var type: Swift.String?
+
+        public init(
+            awsAccountId: Swift.String? = nil,
+            environment: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.awsAccountId = awsAccountId
+            self.environment = environment
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that contains identifying information for a service operation entity.
+    public struct ServiceOperationEntity: Swift.Sendable {
+        /// The type of metric associated with this service operation.
+        public var metricType: Swift.String?
+        /// The name of the operation.
+        public var operation: Swift.String?
+        /// The service entity that contains this operation.
+        public var service: ApplicationSignalsClientTypes.ServiceEntity?
+
+        public init(
+            metricType: Swift.String? = nil,
+            operation: Swift.String? = nil,
+            service: ApplicationSignalsClientTypes.ServiceEntity? = nil
+        ) {
+            self.metricType = metricType
+            self.operation = operation
+            self.service = service
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that contains identifying information for a service level objective entity.
+    public struct ServiceLevelObjectiveEntity: Swift.Sendable {
+        /// The ARN of the service level objective. The SLO must be provided with ARN for cross-account access.
+        public var sloArn: Swift.String?
+        /// The name of the service level objective.
+        public var sloName: Swift.String?
+
+        public init(
+            sloArn: Swift.String? = nil,
+            sloName: Swift.String? = nil
+        ) {
+            self.sloArn = sloArn
+            self.sloName = sloName
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A union structure that contains the specific entity information for different types of audit targets.
+    public enum AuditTargetEntity: Swift.Sendable {
+        /// Service entity information when the audit target is a service.
+        case service(ApplicationSignalsClientTypes.ServiceEntity)
+        /// SLO entity information when the audit target is a service level objective.
+        case slo(ApplicationSignalsClientTypes.ServiceLevelObjectiveEntity)
+        /// Service operation entity information when the audit target is a specific service operation.
+        case serviceoperation(ApplicationSignalsClientTypes.ServiceOperationEntity)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that specifies the target entity for audit analysis, such as a service, SLO, or service_operation.
+    public struct AuditTarget: Swift.Sendable {
+        /// The specific data identifying the audit target entity.
+        /// This member is required.
+        public var data: ApplicationSignalsClientTypes.AuditTargetEntity?
+        /// The type of entity being audited, such as Service, SLO, or ServiceOperation.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            data: ApplicationSignalsClientTypes.AuditTargetEntity? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.data = data
+            self.type = type
+        }
+    }
+}
+
+public struct ListAuditFindingsInput: Swift.Sendable {
+    /// A list of audit targets to filter the findings by. You can specify services, SLOs, or service operations to limit the audit findings to specific entities.
+    /// This member is required.
+    public var auditTargets: [ApplicationSignalsClientTypes.AuditTarget]?
+    /// A list of auditor names to filter the findings by. Only findings generated by the specified auditors will be returned. The following auditors are available for configuration:
+    ///
+    /// * slo - SloAuditor: Identifies SLO violations and detects breached thresholds during the Assessment phase.
+    ///
+    /// * operation_metric - OperationMetricAuditor: Detects anomalies in service operation metrics from Application Signals RED metrics during the Assessment phase
+    ///
+    /// * service_quota - ServiceQuotaAuditor: Monitors resource utilization against service quotas during the Assessment phase
+    ///
+    /// * trace - TraceAuditor: Performs deep-dive analysis of distributed traces, correlating traces with breached SLOs or abnormal RED metrics during the Analysis phase
+    ///
+    /// * dependency_metric - CriticalPathAuditor: Analyzes service dependency impacts and maps dependency relationships from Application Signals RED metrics during the Analysis phase
+    ///
+    /// * top_contributor - TopContributorAuditor: Identifies infrastructure-level contributors to issues by analyzing EMF logs of Application Signals RED metrics during the Analysis phase
+    ///
+    /// * log - LogAuditor: Extracts insights from application logs, categorizing error types and ranking severity by frequency during the Analysis phase
+    ///
+    ///
+    /// InitAuditor and Summarizer auditors are not configurable as they are automatically triggered during the audit process.
+    public var auditors: [Swift.String]?
+    /// The end of the time period to retrieve audit findings for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057
+    /// This member is required.
+    public var endTime: Foundation.Date?
+    /// The maximum number of audit findings to return in one operation. If you omit this parameter, the default of 10 is used.
+    public var maxResults: Swift.Int?
+    /// Include this value, if it was returned by the previous operation, to get the next set of audit findings.
+    public var nextToken: Swift.String?
+    /// The start of the time period to retrieve audit findings for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057
+    /// This member is required.
+    public var startTime: Foundation.Date?
+
+    public init(
+        auditTargets: [ApplicationSignalsClientTypes.AuditTarget]? = nil,
+        auditors: [Swift.String]? = nil,
+        endTime: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        startTime: Foundation.Date? = nil
+    ) {
+        self.auditTargets = auditTargets
+        self.auditors = auditors
+        self.endTime = endTime
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.startTime = startTime
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    public enum Severity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case low
+        case medium
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Severity] {
+            return [
+                .critical,
+                .high,
+                .low,
+                .medium,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that contains the result of an automated audit analysis, including the auditor name, description of findings, and severity level.
+    public struct AuditorResult: Swift.Sendable {
+        /// The name of the auditor algorithm that generated this result.
+        public var auditor: Swift.String?
+        /// A detailed description of the audit finding, explaining what was observed and potential implications.
+        public var description: Swift.String?
+        /// The severity level of this audit finding, indicating the importance and potential impact of the issue.
+        public var severity: ApplicationSignalsClientTypes.Severity?
+
+        public init(
+            auditor: Swift.String? = nil,
+            description: Swift.String? = nil,
+            severity: ApplicationSignalsClientTypes.Severity? = nil
+        ) {
+            self.auditor = auditor
+            self.description = description
+            self.severity = severity
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    public enum ConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case direct
+        case `indirect`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionType] {
+            return [
+                .direct,
+                .indirect
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .direct: return "DIRECT"
+            case .indirect: return "INDIRECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that represents a connection between two nodes in a dependency graph, showing the relationship and characteristics of the connection.
+    public struct Edge: Swift.Sendable {
+        /// The type of connection between the nodes, indicating the nature of the relationship.
+        public var connectionType: ApplicationSignalsClientTypes.ConnectionType?
+        /// The identifier of the destination node in this edge connection.
+        public var destinationNodeId: Swift.String?
+        /// The duration or latency associated with this connection, if applicable.
+        public var duration: Swift.Double?
+        /// The identifier of the source node in this edge connection.
+        public var sourceNodeId: Swift.String?
+
+        public init(
+            connectionType: ApplicationSignalsClientTypes.ConnectionType? = nil,
+            destinationNodeId: Swift.String? = nil,
+            duration: Swift.Double? = nil,
+            sourceNodeId: Swift.String? = nil
+        ) {
+            self.connectionType = connectionType
+            self.destinationNodeId = destinationNodeId
+            self.duration = duration
+            self.sourceNodeId = sourceNodeId
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that represents a node in a dependency graph, containing information about a service, resource, or other entity and its characteristics.
+    public struct Node: Swift.Sendable {
+        /// The duration or processing time associated with this node, if applicable.
+        public var duration: Swift.Double?
+        /// The key attributes that identify this node, including Type, Name, and Environment information.
+        /// This member is required.
+        public var keyAttributes: [Swift.String: Swift.String]?
+        /// The name of the entity represented by this node.
+        /// This member is required.
+        public var name: Swift.String?
+        /// A unique identifier for this node within the dependency graph.
+        /// This member is required.
+        public var nodeId: Swift.String?
+        /// The operation associated with this node, if applicable.
+        public var operation: Swift.String?
+        /// The status of the entity represented by this node.
+        public var status: Swift.String?
+        /// The type of entity represented by this node, such as Service or Resource.
+        public var type: Swift.String?
+
+        public init(
+            duration: Swift.Double? = nil,
+            keyAttributes: [Swift.String: Swift.String]? = nil,
+            name: Swift.String? = nil,
+            nodeId: Swift.String? = nil,
+            operation: Swift.String? = nil,
+            status: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.duration = duration
+            self.keyAttributes = keyAttributes
+            self.name = name
+            self.nodeId = nodeId
+            self.operation = operation
+            self.status = status
+            self.type = type
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that represents the dependency relationships relevant to an audit finding, containing nodes and edges that show how services and resources are connected.
+    public struct DependencyGraph: Swift.Sendable {
+        /// An array of edges representing the connections and relationships between the nodes in the dependency graph.
+        public var edges: [ApplicationSignalsClientTypes.Edge]?
+        /// An array of nodes representing the services, resources, or other entities in the dependency graph.
+        public var nodes: [ApplicationSignalsClientTypes.Node]?
+
+        public init(
+            edges: [ApplicationSignalsClientTypes.Edge]? = nil,
+            nodes: [ApplicationSignalsClientTypes.Node]? = nil
+        ) {
+            self.edges = edges
+            self.nodes = nodes
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that contains metric data queries and time range information that provides context for audit findings through relevant performance metrics.
+    public struct MetricGraph: Swift.Sendable {
+        /// The end time for the metric data included in this graph. When used in a raw HTTP Query API, it is formatted as epoch time in seconds.
+        public var endTime: Foundation.Date?
+        /// An array of metric data queries that define the metrics to be retrieved and analyzed as part of the audit finding context.
+        public var metricDataQueries: [ApplicationSignalsClientTypes.MetricDataQuery]?
+        /// The start time for the metric data included in this graph. When used in a raw HTTP Query API, it is formatted as epoch time in seconds.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            metricDataQueries: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.metricDataQueries = metricDataQueries
+            self.startTime = startTime
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that contains information about an audit finding, which represents an automated analysis result about service behavior, performance issues, or potential problems identified through heuristic algorithms.
+    public struct AuditFinding: Swift.Sendable {
+        /// An array of auditor results that contain the specific findings, descriptions, and severity levels identified by different auditing algorithms.
+        public var auditorResults: [ApplicationSignalsClientTypes.AuditorResult]?
+        /// A structure containing nodes and edges that represent the dependency relationships relevant to this audit finding, helping to understand the context and potential impact.
+        public var dependencyGraph: ApplicationSignalsClientTypes.DependencyGraph?
+        /// The key attributes that identify the service or entity this audit finding relates to. This is a string-to-string map that includes fields like Type, Name, and Environment.
+        /// This member is required.
+        public var keyAttributes: [Swift.String: Swift.String]?
+        /// A structure containing metric data queries and time range information that provides context for the audit finding through relevant performance metrics.
+        public var metricGraph: ApplicationSignalsClientTypes.MetricGraph?
+        /// The name of the operation associated with this audit finding, if the finding is specific to a particular service operation.
+        public var operation: Swift.String?
+        /// The type of audit finding.
+        public var type: Swift.String?
+
+        public init(
+            auditorResults: [ApplicationSignalsClientTypes.AuditorResult]? = nil,
+            dependencyGraph: ApplicationSignalsClientTypes.DependencyGraph? = nil,
+            keyAttributes: [Swift.String: Swift.String]? = nil,
+            metricGraph: ApplicationSignalsClientTypes.MetricGraph? = nil,
+            operation: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.auditorResults = auditorResults
+            self.dependencyGraph = dependencyGraph
+            self.keyAttributes = keyAttributes
+            self.metricGraph = metricGraph
+            self.operation = operation
+            self.type = type
+        }
+    }
+}
+
+public struct ListAuditFindingsOutput: Swift.Sendable {
+    /// An array of structures, where each structure contains information about one audit finding, including the auditor results, severity, and associated metric and dependency graphs.
+    /// This member is required.
+    public var auditFindings: [ApplicationSignalsClientTypes.AuditFinding]?
+    /// Include this value in your next use of this API to get the next set of audit findings.
+    public var nextToken: Swift.String?
+
+    public init(
+        auditFindings: [ApplicationSignalsClientTypes.AuditFinding]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.auditFindings = auditFindings
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListGroupingAttributeDefinitionsInput: Swift.Sendable {
+    /// Include this value, if it was returned by the previous operation, to get the next set of grouping attribute definitions.
+    public var nextToken: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil
+    ) {
+        self.nextToken = nextToken
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that defines how services should be grouped based on specific attributes. This includes the friendly name for the grouping, the source keys to derive values from, and an optional default value.
+    public struct GroupingAttributeDefinition: Swift.Sendable {
+        /// The default value to use for this grouping attribute when no value can be derived from the source keys. This ensures all services have a grouping value even if the source data is missing.
+        public var defaultGroupingValue: Swift.String?
+        /// The friendly name for this grouping attribute, such as BusinessUnit or Environment. This name is used to identify the grouping in the console and APIs.
+        /// This member is required.
+        public var groupingName: Swift.String?
+        /// An array of source keys used to derive the grouping attribute value from telemetry data, Amazon Web Services tags, or other sources. For example, ["business_unit", "team"] would look for values in those fields.
+        public var groupingSourceKeys: [Swift.String]?
+
+        public init(
+            defaultGroupingValue: Swift.String? = nil,
+            groupingName: Swift.String? = nil,
+            groupingSourceKeys: [Swift.String]? = nil
+        ) {
+            self.defaultGroupingValue = defaultGroupingValue
+            self.groupingName = groupingName
+            self.groupingSourceKeys = groupingSourceKeys
+        }
+    }
+}
+
+public struct ListGroupingAttributeDefinitionsOutput: Swift.Sendable {
+    /// An array of structures, where each structure contains information about one grouping attribute definition, including the grouping name, source keys, and default values.
+    /// This member is required.
+    public var groupingAttributeDefinitions: [ApplicationSignalsClientTypes.GroupingAttributeDefinition]?
+    /// Include this value in your next use of this API to get the next set of grouping attribute definitions.
+    public var nextToken: Swift.String?
+    /// The timestamp when the grouping configuration was last updated. When used in a raw HTTP Query API, it is formatted as epoch time in seconds.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        groupingAttributeDefinitions: [ApplicationSignalsClientTypes.GroupingAttributeDefinition]? = nil,
+        nextToken: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.groupingAttributeDefinitions = groupingAttributeDefinitions
+        self.nextToken = nextToken
+        self.updatedAt = updatedAt
     }
 }
 
@@ -1658,15 +2167,19 @@ extension ApplicationSignalsClientTypes {
         /// An array of structures that each contain information about one metric associated with this service.
         /// This member is required.
         public var metricReferences: [ApplicationSignalsClientTypes.MetricReference]?
+        /// An array of service groups that this service belongs to, based on the configured grouping attributes.
+        public var serviceGroups: [ApplicationSignalsClientTypes.ServiceGroup]?
 
         public init(
             attributeMaps: [[Swift.String: Swift.String]]? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
-            metricReferences: [ApplicationSignalsClientTypes.MetricReference]? = nil
+            metricReferences: [ApplicationSignalsClientTypes.MetricReference]? = nil,
+            serviceGroups: [ApplicationSignalsClientTypes.ServiceGroup]? = nil
         ) {
             self.attributeMaps = attributeMaps
             self.keyAttributes = keyAttributes
             self.metricReferences = metricReferences
+            self.serviceGroups = serviceGroups
         }
     }
 }
@@ -1693,6 +2206,190 @@ public struct ListServicesOutput: Swift.Sendable {
         self.endTime = endTime
         self.nextToken = nextToken
         self.serviceSummaries = serviceSummaries
+        self.startTime = startTime
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that defines a filter for narrowing down results based on specific attribute values. This can be used to filter services by platform, environment, or other service characteristics.
+    public struct AttributeFilter: Swift.Sendable {
+        /// The name of the attribute to filter by, such as Platform, Environment, or BusinessUnit.
+        /// This member is required.
+        public var attributeFilterName: Swift.String?
+        /// An array of values to match for the specified attribute. Services that have any of these values for the attribute will be included in the results.
+        /// This member is required.
+        public var attributeFilterValues: [Swift.String]?
+
+        public init(
+            attributeFilterName: Swift.String? = nil,
+            attributeFilterValues: [Swift.String]? = nil
+        ) {
+            self.attributeFilterName = attributeFilterName
+            self.attributeFilterValues = attributeFilterValues
+        }
+    }
+}
+
+public struct ListServiceStatesInput: Swift.Sendable {
+    /// A list of attribute filters to narrow down the services. You can filter by platform, environment, or other service attributes.
+    public var attributeFilters: [ApplicationSignalsClientTypes.AttributeFilter]?
+    /// The Amazon Web Services account ID to filter service states by. Use this to limit results to services from a specific account.
+    public var awsAccountId: Swift.String?
+    /// The end of the time period to retrieve service state information for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057.
+    /// This member is required.
+    public var endTime: Foundation.Date?
+    /// If you are using this operation in a monitoring account, specify true to include service states from source accounts in the returned data.
+    public var includeLinkedAccounts: Swift.Bool?
+    /// The maximum number of service states to return in one operation. If you omit this parameter, the default of 20 is used.
+    public var maxResults: Swift.Int?
+    /// Include this value, if it was returned by the previous operation, to get the next set of service states.
+    public var nextToken: Swift.String?
+    /// The start of the time period to retrieve service state information for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057.
+    /// This member is required.
+    public var startTime: Foundation.Date?
+
+    public init(
+        attributeFilters: [ApplicationSignalsClientTypes.AttributeFilter]? = nil,
+        awsAccountId: Swift.String? = nil,
+        endTime: Foundation.Date? = nil,
+        includeLinkedAccounts: Swift.Bool? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        startTime: Foundation.Date? = nil
+    ) {
+        self.attributeFilters = attributeFilters
+        self.awsAccountId = awsAccountId
+        self.endTime = endTime
+        self.includeLinkedAccounts = includeLinkedAccounts
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.startTime = startTime
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    public enum ChangeEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deployment
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChangeEventType] {
+            return [
+                .deployment
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deployment: return "DEPLOYMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that contains information about a change event that occurred for a service, such as a deployment or configuration change.
+    public struct ChangeEvent: Swift.Sendable {
+        /// The Amazon Web Services account ID where this change event occurred.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The type of change event that occurred, such as DEPLOYMENT.
+        /// This member is required.
+        public var changeEventType: ApplicationSignalsClientTypes.ChangeEventType?
+        /// The entity (service or resource) that was affected by this change event, including its key attributes.
+        /// This member is required.
+        public var entity: [Swift.String: Swift.String]?
+        /// A unique identifier for this change event.
+        /// This member is required.
+        public var eventId: Swift.String?
+        /// The name or description of this change event.
+        public var eventName: Swift.String?
+        /// The Amazon Web Services region where this change event occurred.
+        /// This member is required.
+        public var region: Swift.String?
+        /// The timestamp when this change event occurred. When used in a raw HTTP Query API, it is formatted as epoch time in seconds.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+        /// The name of the user who initiated this change event, if available.
+        public var userName: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            changeEventType: ApplicationSignalsClientTypes.ChangeEventType? = nil,
+            entity: [Swift.String: Swift.String]? = nil,
+            eventId: Swift.String? = nil,
+            eventName: Swift.String? = nil,
+            region: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil,
+            userName: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.changeEventType = changeEventType
+            self.entity = entity
+            self.eventId = eventId
+            self.eventName = eventName
+            self.region = region
+            self.timestamp = timestamp
+            self.userName = userName
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that contains information about the current state of a service, including its latest change events such as deployments and other state-changing activities.
+    public struct ServiceState: Swift.Sendable {
+        /// The attribute filters that were applied when retrieving this service state information.
+        public var attributeFilters: [ApplicationSignalsClientTypes.AttributeFilter]?
+        /// An array containing the most recent change events for this service, such as deployments, with information about when they occurred and who initiated them.
+        /// This member is required.
+        public var latestChangeEvents: [ApplicationSignalsClientTypes.ChangeEvent]?
+        /// The key attributes that identify this service, including Type, Name, and Environment information.
+        /// This member is required.
+        public var service: [Swift.String: Swift.String]?
+
+        public init(
+            attributeFilters: [ApplicationSignalsClientTypes.AttributeFilter]? = nil,
+            latestChangeEvents: [ApplicationSignalsClientTypes.ChangeEvent]? = nil,
+            service: [Swift.String: Swift.String]? = nil
+        ) {
+            self.attributeFilters = attributeFilters
+            self.latestChangeEvents = latestChangeEvents
+            self.service = service
+        }
+    }
+}
+
+public struct ListServiceStatesOutput: Swift.Sendable {
+    /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057.
+    /// This member is required.
+    public var endTime: Foundation.Date?
+    /// Include this value in your next use of this API to get the next set of service states.
+    public var nextToken: Swift.String?
+    /// An array of structures, where each structure contains information about the state of one service, including its latest change events such as deployments.
+    /// This member is required.
+    public var serviceStates: [ApplicationSignalsClientTypes.ServiceState]?
+    /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057.
+    /// This member is required.
+    public var startTime: Foundation.Date?
+
+    public init(
+        endTime: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil,
+        serviceStates: [ApplicationSignalsClientTypes.ServiceState]? = nil,
+        startTime: Foundation.Date? = nil
+    ) {
+        self.endTime = endTime
+        self.nextToken = nextToken
+        self.serviceStates = serviceStates
         self.startTime = startTime
     }
 }
@@ -1738,6 +2435,51 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         tags: [ApplicationSignalsClientTypes.Tag]? = nil
     ) {
         self.tags = tags
+    }
+}
+
+public struct PutGroupingConfigurationInput: Swift.Sendable {
+    /// An array of grouping attribute definitions that specify how services should be grouped. Each definition includes a friendly name, source keys to derive the grouping value from, and an optional default value.
+    /// This member is required.
+    public var groupingAttributeDefinitions: [ApplicationSignalsClientTypes.GroupingAttributeDefinition]?
+
+    public init(
+        groupingAttributeDefinitions: [ApplicationSignalsClientTypes.GroupingAttributeDefinition]? = nil
+    ) {
+        self.groupingAttributeDefinitions = groupingAttributeDefinitions
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A structure that contains the complete grouping configuration for an account, including all defined grouping attributes and metadata about when it was last updated.
+    public struct GroupingConfiguration: Swift.Sendable {
+        /// An array of grouping attribute definitions that specify how services should be grouped based on various attributes and source keys.
+        /// This member is required.
+        public var groupingAttributeDefinitions: [ApplicationSignalsClientTypes.GroupingAttributeDefinition]?
+        /// The timestamp when this grouping configuration was last updated. When used in a raw HTTP Query API, it is formatted as epoch time in seconds.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            groupingAttributeDefinitions: [ApplicationSignalsClientTypes.GroupingAttributeDefinition]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.groupingAttributeDefinitions = groupingAttributeDefinitions
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct PutGroupingConfigurationOutput: Swift.Sendable {
+    /// A structure containing the updated grouping configuration, including all grouping attribute definitions and the timestamp when it was last updated.
+    /// This member is required.
+    public var groupingConfiguration: ApplicationSignalsClientTypes.GroupingConfiguration?
+
+    public init(
+        groupingConfiguration: ApplicationSignalsClientTypes.GroupingConfiguration? = nil
+    ) {
+        self.groupingConfiguration = groupingConfiguration
     }
 }
 
@@ -1894,6 +2636,8 @@ extension ApplicationSignalsClientTypes {
         public var keyAttributes: [Swift.String: Swift.String]?
         /// If this SLO monitors a CloudWatch metric or the result of a CloudWatch metric math expression, use this structure to specify that metric or expression.
         public var metricDataQueries: [ApplicationSignalsClientTypes.MetricDataQuery]?
+        /// The name of the CloudWatch metric to use for the SLO, when using a custom metric rather than Application Signals standard metrics.
+        public var metricName: Swift.String?
         /// If the SLO is to monitor either the LATENCY or AVAILABILITY metric that Application Signals collects, use this field to specify which of those metrics is used.
         public var metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType?
         /// If the SLO is to monitor a specific operation of the service, use this field to specify the name of that operation.
@@ -1907,6 +2651,7 @@ extension ApplicationSignalsClientTypes {
             dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
             metricDataQueries: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil,
+            metricName: Swift.String? = nil,
             metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType? = nil,
             operationName: Swift.String? = nil,
             periodSeconds: Swift.Int? = nil,
@@ -1915,6 +2660,7 @@ extension ApplicationSignalsClientTypes {
             self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
+            self.metricName = metricName
             self.metricType = metricType
             self.operationName = operationName
             self.periodSeconds = periodSeconds
@@ -2386,6 +3132,13 @@ extension CreateServiceLevelObjectiveInput {
     }
 }
 
+extension DeleteGroupingConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteGroupingConfigurationInput) -> Swift.String? {
+        return "/grouping-configuration"
+    }
+}
+
 extension DeleteServiceLevelObjectiveInput {
 
     static func urlPathProvider(_ value: DeleteServiceLevelObjectiveInput) -> Swift.String? {
@@ -2430,6 +3183,52 @@ extension GetServiceLevelObjectiveInput {
             return nil
         }
         return "/slo/\(id.urlPercentEncoding())"
+    }
+}
+
+extension ListAuditFindingsInput {
+
+    static func urlPathProvider(_ value: ListAuditFindingsInput) -> Swift.String? {
+        return "/auditFindings"
+    }
+}
+
+extension ListAuditFindingsInput {
+
+    static func queryItemProvider(_ value: ListAuditFindingsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let endTime = value.endTime else {
+            let message = "Creating a URL Query Item failed. endTime is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let endTimeQueryItem = Smithy.URIQueryItem(name: "EndTime".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+        items.append(endTimeQueryItem)
+        guard let startTime = value.startTime else {
+            let message = "Creating a URL Query Item failed. startTime is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let startTimeQueryItem = Smithy.URIQueryItem(name: "StartTime".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+        items.append(startTimeQueryItem)
+        return items
+    }
+}
+
+extension ListGroupingAttributeDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListGroupingAttributeDefinitionsInput) -> Swift.String? {
+        return "/grouping-attribute-definitions"
+    }
+}
+
+extension ListGroupingAttributeDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListGroupingAttributeDefinitionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -2642,6 +3441,13 @@ extension ListServicesInput {
     }
 }
 
+extension ListServiceStatesInput {
+
+    static func urlPathProvider(_ value: ListServiceStatesInput) -> Swift.String? {
+        return "/service/states"
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -2660,6 +3466,13 @@ extension ListTagsForResourceInput {
         let resourceArnQueryItem = Smithy.URIQueryItem(name: "ResourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
         items.append(resourceArnQueryItem)
         return items
+    }
+}
+
+extension PutGroupingConfigurationInput {
+
+    static func urlPathProvider(_ value: PutGroupingConfigurationInput) -> Swift.String? {
+        return "/grouping-configuration"
     }
 }
 
@@ -2735,6 +3548,17 @@ extension GetServiceInput {
     }
 }
 
+extension ListAuditFindingsInput {
+
+    static func write(value: ListAuditFindingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuditTargets"].writeList(value.auditTargets, memberWritingClosure: ApplicationSignalsClientTypes.AuditTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Auditors"].writeList(value.auditors, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListServiceDependenciesInput {
 
     static func write(value: ListServiceDependenciesInput?, to writer: SmithyJSON.Writer) throws {
@@ -2766,6 +3590,28 @@ extension ListServiceOperationsInput {
     static func write(value: ListServiceOperationsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension ListServiceStatesInput {
+
+    static func write(value: ListServiceStatesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeFilters"].writeList(value.attributeFilters, memberWritingClosure: ApplicationSignalsClientTypes.AttributeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AwsAccountId"].write(value.awsAccountId)
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["IncludeLinkedAccounts"].write(value.includeLinkedAccounts)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension PutGroupingConfigurationInput {
+
+    static func write(value: PutGroupingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GroupingAttributeDefinitions"].writeList(value.groupingAttributeDefinitions, memberWritingClosure: ApplicationSignalsClientTypes.GroupingAttributeDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -2838,6 +3684,13 @@ extension CreateServiceLevelObjectiveOutput {
     }
 }
 
+extension DeleteGroupingConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteGroupingConfigurationOutput {
+        return DeleteGroupingConfigurationOutput()
+    }
+}
+
 extension DeleteServiceLevelObjectiveOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteServiceLevelObjectiveOutput {
@@ -2868,6 +3721,33 @@ extension GetServiceLevelObjectiveOutput {
         let reader = responseReader
         var value = GetServiceLevelObjectiveOutput()
         value.slo = try reader["Slo"].readIfPresent(with: ApplicationSignalsClientTypes.ServiceLevelObjective.read(from:))
+        return value
+    }
+}
+
+extension ListAuditFindingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAuditFindingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAuditFindingsOutput()
+        value.auditFindings = try reader["AuditFindings"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.AuditFinding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListGroupingAttributeDefinitionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListGroupingAttributeDefinitionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListGroupingAttributeDefinitionsOutput()
+        value.groupingAttributeDefinitions = try reader["GroupingAttributeDefinitions"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.GroupingAttributeDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -2958,6 +3838,21 @@ extension ListServicesOutput {
     }
 }
 
+extension ListServiceStatesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListServiceStatesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListServiceStatesOutput()
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.serviceStates = try reader["ServiceStates"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceState.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
@@ -2966,6 +3861,18 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PutGroupingConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutGroupingConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutGroupingConfigurationOutput()
+        value.groupingConfiguration = try reader["GroupingConfiguration"].readIfPresent(with: ApplicationSignalsClientTypes.GroupingConfiguration.read(from:))
         return value
     }
 }
@@ -3052,6 +3959,22 @@ enum CreateServiceLevelObjectiveOutputError {
     }
 }
 
+enum DeleteGroupingConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteServiceLevelObjectiveOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3092,6 +4015,37 @@ enum GetServiceLevelObjectiveOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAuditFindingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListGroupingAttributeDefinitionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationError": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3190,6 +4144,21 @@ enum ListServicesOutputError {
     }
 }
 
+enum ListServiceStatesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTagsForResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3200,6 +4169,22 @@ enum ListTagsForResourceOutputError {
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutGroupingConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -3701,6 +4686,7 @@ extension ApplicationSignalsClientTypes.Service {
         var value = ApplicationSignalsClientTypes.Service()
         value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.attributeMaps = try reader["AttributeMaps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.serviceGroups = try reader["ServiceGroups"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.logGroupReferences = try reader["LogGroupReferences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -3717,6 +4703,117 @@ extension ApplicationSignalsClientTypes.MetricReference {
         value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.metricName = try reader["MetricName"].readIfPresent() ?? ""
         value.accountId = try reader["AccountId"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.ServiceGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.ServiceGroup()
+        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
+        value.groupValue = try reader["GroupValue"].readIfPresent() ?? ""
+        value.groupSource = try reader["GroupSource"].readIfPresent() ?? ""
+        value.groupIdentifier = try reader["GroupIdentifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.AuditFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.AuditFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.AuditFinding()
+        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.auditorResults = try reader["AuditorResults"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.AuditorResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.operation = try reader["Operation"].readIfPresent()
+        value.metricGraph = try reader["MetricGraph"].readIfPresent(with: ApplicationSignalsClientTypes.MetricGraph.read(from:))
+        value.dependencyGraph = try reader["DependencyGraph"].readIfPresent(with: ApplicationSignalsClientTypes.DependencyGraph.read(from:))
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.DependencyGraph {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.DependencyGraph {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.DependencyGraph()
+        value.nodes = try reader["Nodes"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Node.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.edges = try reader["Edges"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Edge.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.Edge {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Edge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.Edge()
+        value.sourceNodeId = try reader["SourceNodeId"].readIfPresent()
+        value.destinationNodeId = try reader["DestinationNodeId"].readIfPresent()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.Node {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Node {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.Node()
+        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.nodeId = try reader["NodeId"].readIfPresent() ?? ""
+        value.operation = try reader["Operation"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.MetricGraph {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.MetricGraph {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.MetricGraph()
+        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.AuditorResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.AuditorResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.AuditorResult()
+        value.auditor = try reader["Auditor"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.severity = try reader["Severity"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.GroupingAttributeDefinition {
+
+    static func write(value: ApplicationSignalsClientTypes.GroupingAttributeDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultGroupingValue"].write(value.defaultGroupingValue)
+        try writer["GroupingName"].write(value.groupingName)
+        try writer["GroupingSourceKeys"].writeList(value.groupingSourceKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.GroupingAttributeDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.GroupingAttributeDefinition()
+        value.groupingName = try reader["GroupingName"].readIfPresent() ?? ""
+        value.groupingSourceKeys = try reader["GroupingSourceKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultGroupingValue = try reader["DefaultGroupingValue"].readIfPresent()
         return value
     }
 }
@@ -3836,6 +4933,53 @@ extension ApplicationSignalsClientTypes.ServiceSummary {
         value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.attributeMaps = try reader["AttributeMaps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.serviceGroups = try reader["ServiceGroups"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.ServiceState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.ServiceState()
+        value.attributeFilters = try reader["AttributeFilters"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.AttributeFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.service = try reader["Service"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.latestChangeEvents = try reader["LatestChangeEvents"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ChangeEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.ChangeEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ChangeEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.ChangeEvent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        value.entity = try reader["Entity"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.changeEventType = try reader["ChangeEventType"].readIfPresent() ?? .sdkUnknown("")
+        value.eventId = try reader["EventId"].readIfPresent() ?? ""
+        value.userName = try reader["UserName"].readIfPresent()
+        value.eventName = try reader["EventName"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.AttributeFilter {
+
+    static func write(value: ApplicationSignalsClientTypes.AttributeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeFilterName"].write(value.attributeFilterName)
+        try writer["AttributeFilterValues"].writeList(value.attributeFilterValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.AttributeFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.AttributeFilter()
+        value.attributeFilterName = try reader["AttributeFilterName"].readIfPresent() ?? ""
+        value.attributeFilterValues = try reader["AttributeFilterValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -3857,6 +5001,17 @@ extension ApplicationSignalsClientTypes.Tag {
     }
 }
 
+extension ApplicationSignalsClientTypes.GroupingConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.GroupingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.GroupingConfiguration()
+        value.groupingAttributeDefinitions = try reader["GroupingAttributeDefinitions"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.GroupingAttributeDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension ApplicationSignalsClientTypes.ServiceLevelIndicatorConfig {
 
     static func write(value: ApplicationSignalsClientTypes.ServiceLevelIndicatorConfig?, to writer: SmithyJSON.Writer) throws {
@@ -3874,6 +5029,7 @@ extension ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig {
         try writer["DependencyConfig"].write(value.dependencyConfig, with: ApplicationSignalsClientTypes.DependencyConfig.write(value:to:))
         try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: ApplicationSignalsClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetricName"].write(value.metricName)
         try writer["MetricType"].write(value.metricType)
         try writer["OperationName"].write(value.operationName)
         try writer["PeriodSeconds"].write(value.periodSeconds)
@@ -3901,6 +5057,62 @@ extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetricC
         try writer["MonitoredRequestCountMetric"].write(value.monitoredRequestCountMetric, with: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries.write(value:to:))
         try writer["OperationName"].write(value.operationName)
         try writer["TotalRequestCountMetric"].writeList(value.totalRequestCountMetric, memberWritingClosure: ApplicationSignalsClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ApplicationSignalsClientTypes.AuditTarget {
+
+    static func write(value: ApplicationSignalsClientTypes.AuditTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Data"].write(value.data, with: ApplicationSignalsClientTypes.AuditTargetEntity.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension ApplicationSignalsClientTypes.AuditTargetEntity {
+
+    static func write(value: ApplicationSignalsClientTypes.AuditTargetEntity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .service(service):
+                try writer["Service"].write(service, with: ApplicationSignalsClientTypes.ServiceEntity.write(value:to:))
+            case let .serviceoperation(serviceoperation):
+                try writer["ServiceOperation"].write(serviceoperation, with: ApplicationSignalsClientTypes.ServiceOperationEntity.write(value:to:))
+            case let .slo(slo):
+                try writer["Slo"].write(slo, with: ApplicationSignalsClientTypes.ServiceLevelObjectiveEntity.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes.ServiceOperationEntity {
+
+    static func write(value: ApplicationSignalsClientTypes.ServiceOperationEntity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MetricType"].write(value.metricType)
+        try writer["Operation"].write(value.operation)
+        try writer["Service"].write(value.service, with: ApplicationSignalsClientTypes.ServiceEntity.write(value:to:))
+    }
+}
+
+extension ApplicationSignalsClientTypes.ServiceEntity {
+
+    static func write(value: ApplicationSignalsClientTypes.ServiceEntity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AwsAccountId"].write(value.awsAccountId)
+        try writer["Environment"].write(value.environment)
+        try writer["Name"].write(value.name)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension ApplicationSignalsClientTypes.ServiceLevelObjectiveEntity {
+
+    static func write(value: ApplicationSignalsClientTypes.ServiceLevelObjectiveEntity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SloArn"].write(value.sloArn)
+        try writer["SloName"].write(value.sloName)
     }
 }
 
