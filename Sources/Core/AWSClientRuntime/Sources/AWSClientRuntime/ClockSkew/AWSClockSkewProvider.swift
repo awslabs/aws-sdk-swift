@@ -5,11 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct Foundation.Date
-import class Foundation.DateFormatter
-import struct Foundation.Locale
 import struct Foundation.TimeInterval
-import struct Foundation.TimeZone
 import typealias ClientRuntime.ClockSkewProvider
 import protocol ClientRuntime.ServiceError
 import class SmithyHTTPAPI.HTTPRequest
@@ -70,21 +66,6 @@ public enum AWSClockSkewProvider {
         probableClockSkewErrorCodes.contains(code) || request.method == .head
     }
 
-    // These error codes indicate that the cause of the failure was clock skew.
-    private static var definiteClockSkewErrorCodes = Set([
-        "RequestTimeTooSkewed",
-        "RequestExpired",
-        "RequestInTheFuture",
-    ])
-
-    // These error codes indicate that a possible cause of the failure was clock skew.
-    // So, when these are received, check/set clock skew & retry to see if that helps.
-    private static var probableClockSkewErrorCodes = Set([
-        "InvalidSignatureException",
-        "AuthFailure",
-        "SignatureDoesNotMatch",
-    ])
-
     private static func newClockSkew(
         request: HTTPRequest,
         response: HTTPResponse,
@@ -106,3 +87,18 @@ public enum AWSClockSkewProvider {
         return abs(clockSkew) > absoluteThreshold ? clockSkew : nil
     }
 }
+
+// These error codes indicate that the cause of the failure was clock skew.
+private let definiteClockSkewErrorCodes: Set = [
+    "RequestTimeTooSkewed",
+    "RequestExpired",
+    "RequestInTheFuture",
+]
+
+// These error codes indicate that a possible cause of the failure was clock skew.
+// So, when these are received, check/set clock skew & retry to see if that helps.
+private let probableClockSkewErrorCodes: Set = [
+    "InvalidSignatureException",
+    "AuthFailure",
+    "SignatureDoesNotMatch",
+]
