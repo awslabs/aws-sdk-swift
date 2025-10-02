@@ -58,7 +58,7 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
 
         // Freeze the point in time to be used for signing.
         // It will be passed into the signer, and set on the signed HTTPRequest as the signedAt property.
-        let signedAt = Date().addingTimeInterval(-1800.0)
+        let signedAt = Date()
 
         var signingConfig = try constructSigningConfig(
             identity: identity,
