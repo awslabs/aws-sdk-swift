@@ -13,8 +13,8 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 public enum AWSClockSkewProvider {
-    private static var absoluteThreshold: TimeInterval = 300.0  // clock skew of < 5 minutes is not compensated
-    private static var changeThreshold: TimeInterval = 60.0  // changes to clock skew of < 1 minute are ignored
+    private static var absoluteThreshold: TimeInterval { 300.0 }  // clock skew of < 5 minutes is not compensated
+    private static var changeThreshold: TimeInterval { 60.0 }  // changes to clock skew of < 1 minute are ignored
 
     public static func provider() -> ClockSkewProvider<HTTPRequest, HTTPResponse> {
         return clockSkew(request:response:error:previous:)
