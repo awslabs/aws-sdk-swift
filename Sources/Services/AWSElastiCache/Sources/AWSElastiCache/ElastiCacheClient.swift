@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElastiCacheClient: ClientRuntime.Client {
     public static let clientName = "ElastiCacheClient"
-    public static let version = "1.5.54"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: ElastiCacheClient.ElastiCacheClientConfiguration
     let serviceName = "ElastiCache"
